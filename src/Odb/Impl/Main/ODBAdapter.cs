@@ -8,6 +8,7 @@ using NDatabase.Odb.Core.Trigger;
 using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NDatabase.Odb.Impl.Core.Query.Values;
 using NDatabase.Tool;
+using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Impl.Main
 {
@@ -137,7 +138,8 @@ namespace NDatabase.Odb.Impl.Main
 
         public virtual IClassRepresentation GetClassRepresentation(Type clazz)
         {
-            return GetClassRepresentation(clazz.FullName);
+            var fullName = OdbClassUtil.GetFullName(clazz);
+            return GetClassRepresentation(fullName);
         }
 
         public virtual IClassRepresentation GetClassRepresentation(string fullClassName)

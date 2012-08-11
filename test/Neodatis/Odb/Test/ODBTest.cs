@@ -22,7 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.IO;
 using NDatabase.Odb;
-using NDatabase.Tool;
 using NDatabase.Tool.Wrappers.IO;
 
 namespace Test.Odb.Test
@@ -38,7 +37,8 @@ namespace Test.Odb.Test
 
         public string GetBaseName()
         {
-            return GetName() + DateTime.Now.Ticks + ".neodatis";
+            var guid = Guid.NewGuid();
+            return string.Format("{0}{1}.neodatis", GetName(), guid.ToString());
         }
 
         public virtual IOdb Open(String fileName, String user, String password)

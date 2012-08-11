@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
+using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Instance
