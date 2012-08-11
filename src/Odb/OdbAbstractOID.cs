@@ -21,21 +21,6 @@ namespace NDatabase.Odb
 
         public abstract int CompareTo(object obj);
 
-        public abstract string GetTypeName();
-
-        /// <summary>
-        ///   To retrieve a string representation of an OID
-        /// </summary>
-        /// <returns> </returns>
-        public virtual string OidToString()
-        {
-            var buffer =
-                new StringBuilder(GetTypeName()).Append(":").Append(
-                    ObjectId.ToString(CultureInfo.InvariantCulture));
-
-            return buffer.ToString();
-        }
-
         protected long UrShift(long number, int bits)
         {
             if (number >= 0)

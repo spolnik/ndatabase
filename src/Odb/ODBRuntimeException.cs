@@ -1,21 +1,16 @@
 using System;
 using System.Threading;
 using NDatabase.Odb.Core;
-using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb
 {
     /// <summary>
     ///   Generic ODB Runtime exception : Used to report all problems.
     /// </summary>
-    /// <remarks>
-    ///   Generic ODB Runtime exception : Used to report all problems.
-    /// </remarks>
-    /// <author>osmadja</author>
     [Serializable]
     public class OdbRuntimeException : Exception
     {
-        private const string Url = "https://sourceforge.net/tracker/?func=add&group_id=179124&atid=887885";
+        private const string Url = "http://ndatabase.codeplex.com/workitem/list/basic";
 
         private static readonly string Message1 =
             string.Format(
@@ -53,10 +48,6 @@ namespace NDatabase.Odb
                 string.Format("{0}\nVersion={1} , Build={2}, Date={3}, Thread={4}\nStackTrace:{5}", Message1,
                               Release.ReleaseNumber, Release.ReleaseBuild, Release.ReleaseDate,
                               Thread.CurrentThread.Name, message), e)
-        {
-        }
-
-        public virtual void AddMessageHeader(string @string)
         {
         }
     }

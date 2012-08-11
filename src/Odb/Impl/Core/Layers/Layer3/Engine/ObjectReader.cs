@@ -156,15 +156,8 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             while (iterator.MoveNext())
             {
                 var tempCi = (ClassInfo) iterator.Current;
-                try
-                {
-                    classInfo = ReadClassInfoBody(tempCi);
-                }
-                catch (OdbRuntimeException e)
-                {
-                    e.AddMessageHeader(string.Format("Error while reading the class info body of {0}", tempCi));
-                    throw;
-                }
+                classInfo = ReadClassInfoBody(tempCi);
+
                 if (OdbConfiguration.IsDebugEnabled(LogId))
                     DLogger.Debug(DepthToSpaces() + "Reading class body for " + classInfo.GetFullClassName());
             }

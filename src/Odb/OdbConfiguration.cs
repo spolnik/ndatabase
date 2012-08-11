@@ -4,7 +4,6 @@ using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Query.Execution;
 using NDatabase.Odb.Impl;
 using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
-using NDatabase.Tool.Wrappers.IO;
 using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb
@@ -21,7 +20,7 @@ namespace NDatabase.Odb
         private const int NbIdsPerBlock = 1000;
 
         private const int IdBlockRepetitionSize = 18;
-        private const string DefaultDatabaseCharacterEncoding = "ISO8859-1";
+        private const string DefaultDatabaseCharacterEncoding = "UTF8";
         private static bool _coreProviderInit;
 
         private static bool _debugEnabled;
@@ -101,10 +100,6 @@ namespace NDatabase.Odb
 
         private static bool _useCache = true;
 
-        private static bool _logServerStartupAndShutdown = true;
-
-        private static bool _logServerConnections;
-
         /// <summary>
         ///   The default btree size for index btrees
         /// </summary>
@@ -126,16 +121,6 @@ namespace NDatabase.Odb
         ///   Round Type used for the average division
         /// </summary>
         private static int _roundTypeForAverageDivision;
-
-        /// <summary>
-        ///   for IO atomic writing & reading
-        /// </summary>
-        private static Type _ioClass = typeof (OdbFileIO);
-
-        /// <summary>
-        ///   for IO atomic : password for encryption
-        /// </summary>
-        private static string _encryptionPassword;
 
         /// <summary>
         ///   The core provider is the provider of core object implementation for ODB
@@ -453,16 +438,6 @@ namespace NDatabase.Odb
             _logAll = logAll;
         }
 
-        public static bool LogServerConnections()
-        {
-            return _logServerConnections;
-        }
-
-        public static void SetLogServerConnections(bool logServerConnections)
-        {
-            _logServerConnections = logServerConnections;
-        }
-
         public static int GetDefaultIndexBTreeDegree()
         {
             return _defaultIndexBTreeDegree;
@@ -557,22 +532,6 @@ namespace NDatabase.Odb
             _enableEmptyConstructorCreation = enableEmptyConstructorCreation;
         }
 
-        public static Type GetIOClass()
-        {
-            return _ioClass;
-        }
-
-        public static void SetIOClass(Type ioClass, string password)
-        {
-            _ioClass = ioClass;
-            _encryptionPassword = password;
-        }
-
-        public static string GetEncryptionPassword()
-        {
-            return _encryptionPassword;
-        }
-
         public static ICoreProvider GetCoreProvider()
         {
             if (!_coreProviderInit)
@@ -618,16 +577,6 @@ namespace NDatabase.Odb
         {
             return _databaseCharacterEncoding != null &&
                    !_databaseCharacterEncoding.Equals(StorageEngineConstant.NoEncoding);
-        }
-
-        public static bool LogServerStartupAndShutdown()
-        {
-            return _logServerStartupAndShutdown;
-        }
-
-        public static void SetLogServerStartupAndShutdown(bool logServerStartup)
-        {
-            _logServerStartupAndShutdown = logServerStartup;
         }
 
         public static bool UseIndex()

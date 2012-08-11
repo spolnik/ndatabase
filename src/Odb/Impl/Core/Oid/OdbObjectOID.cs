@@ -1,6 +1,4 @@
 using System;
-using NDatabase.Odb.Core;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
 namespace NDatabase.Odb.Impl.Core.Oid
 {
@@ -29,22 +27,6 @@ namespace NDatabase.Odb.Impl.Core.Oid
         {
             // Copy of the Long hashcode algorithm
             return (int) (ObjectId ^ (UrShift(ObjectId, 32)));
-        }
-
-        public override string GetTypeName()
-        {
-            return OdbType.TypeNameObjectOid;
-        }
-
-        public static OdbObjectOID OidFromString(string oidString)
-        {
-            var tokens = oidString.Split(':');
-
-            if (tokens.Length != 2 || !(tokens[0].Equals(OdbType.TypeNameObjectOid)))
-                throw new OdbRuntimeException(NDatabaseError.InvalidOidRepresentation.AddParameter(oidString));
-
-            var oid = long.Parse(tokens[1]);
-            return new OdbObjectOID(oid);
         }
     }
 }

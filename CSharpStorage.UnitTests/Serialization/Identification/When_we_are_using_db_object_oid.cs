@@ -30,29 +30,5 @@ namespace NDatabase.UnitTests.Serialization.Identification
         {
             Assert.That(_returnValue, Is.EqualTo(_oid));
         }
-
-        [Test]
-        public void It_should_return_class_oid_type_name()
-        {
-            Assert.That(SubjectUnderTest.GetTypeName(), Is.EqualTo(OdbType.TypeNameObjectOid));
-        }
-
-        [Test]
-        public void It_should_return_correct_string_representation_of_state()
-        {
-            var oidStringRepresentation = SubjectUnderTest.OidToString();
-
-            Assert.That(oidStringRepresentation, Is.EqualTo("object-oid:12345678"));
-        }
-
-        [Test]
-        public void It_should_create_string_which_will_help_to_create_equal_second_instance()
-        {
-            var oidStringRepresentation = SubjectUnderTest.OidToString();
-            var secondInstance = OdbObjectOID.OidFromString(oidStringRepresentation);
-
-            Assert.That(secondInstance, Is.EqualTo(SubjectUnderTest));
-            Assert.That(secondInstance.GetHashCode(), Is.EqualTo(SubjectUnderTest.GetHashCode()));
-        }
     }
 }
