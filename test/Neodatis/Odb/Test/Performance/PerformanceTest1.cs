@@ -146,33 +146,40 @@ namespace Test.Odb.Test.Performance
         private void DisplayResult(string @string, long t1, long t2, long t3, long t4, long t5, long t6, long t7,
                                    long t77, long t8)
         {
-            var s1 = " total=" + (t8 - t1);
-            var s2 = " total insert=" + (t3 - t1) + " -- " + "insert=" + (t2 - t1) + " commit=" + (t3 - t2) + " o/s=" +
-                     TestSize / (float) ((t3 - t1)) * 1000;
-            var s3 = " total select=" + (t5 - t3) + " -- " + "select=" + (t4 - t3) + " get=" + (t5 - t4) + " o/s=" +
-                     TestSize / (float) ((t5 - t3)) * 1000;
-            var s4 = " total update=" + (t7 - t5) + " -- " + "update=" + (t6 - t5) + " commit=" + (t7 - t6) + " o/s=" +
-                     TestSize / (float) ((t7 - t5)) * 1000;
-            var s5 = " total delete=" + (t8 - t7) + " -- " + "select=" + (t77 - t7) + " - delete=" + (t8 - t77) +
-                     " o/s=" + TestSize / (float) ((t8 - t7)) * 1000;
+            var s1 = string.Format(" total={0}", (t8 - t1));
+            var s2 = string.Format(" total insert={0} -- " + "insert={1} commit={2} o/s={3}", (t3 - t1), (t2 - t1),
+                                   (t3 - t2), TestSize / (float) ((t3 - t1)) * 1000);
+
+            var s3 = string.Format(" total select={0} -- " + "select={1} get={2} o/s={3}", (t5 - t3), (t4 - t3),
+                                   (t5 - t4), TestSize / (float) ((t5 - t3)) * 1000);
+
+            var s4 = string.Format(" total update={0} -- " + "update={1} commit={2} o/s={3}", (t7 - t5), (t6 - t5),
+                                   (t7 - t6), TestSize / (float) ((t7 - t5)) * 1000);
+
+            var s5 = string.Format(" total delete={0} -- " + "select={1} - delete={2} o/s={3}", (t8 - t7), (t77 - t7),
+                                   (t8 - t77), TestSize / (float) ((t8 - t7)) * 1000);
+
             Println(@string + s1 + " | " + s2 + " | " + s3 + " | " + s4 + " | " + s5);
             var tinsert = t3 - t1;
             var tselect = t5 - t3;
             var tupdate = t7 - t5;
             var tdelete = t8 - t7;
+
             Println("Nb buffers ok = " + MultiBufferedIO.NbBufferOk + "   /   nb not ok = " +
                     MultiBufferedIO.NbBufferNotOk);
+
             Println("Nb flushs= " + MultiBufferedIO.NumberOfFlush + "   /   flush size = " +
                     MultiBufferedIO.TotalFlushSize + " / NbFlushForOverlap=" + MultiBufferedIO.NbFlushForOverlap);
+
             // println("Same position write = "+
             // MultiBufferedIO.nbSamePositionForWrite+
             // "   /   same pos for read = "+
             // MultiBufferedIO.nbSamePositionForRead);
             Println("Nb  =" + OdbType.Number);
-            AssertTrue("Performance", tinsert < 1050);
-            AssertTrue("Performance", tselect < 535);
-            AssertTrue("Performance", tupdate < 582);
-            AssertTrue("Performance", tdelete < 740);
+            Assert.That(tinsert, Is.LessThan(6500));
+            Assert.That(tselect, Is.LessThan(3500));
+            Assert.That(tupdate, Is.LessThan(9000));
+            Assert.That(tdelete, Is.LessThan(6000));
         }
 
         /// <exception cref="System.Exception"></exception>
