@@ -11,14 +11,9 @@ namespace NDatabase.Odb.Impl.Core.Oid
         {
         }
 
-        public override int GetType()
-        {
-            return OdbType.ClassOidId;
-        }
-
         public override string GetTypeName()
         {
-            return OIDTypes.TypeNameClassOid;
+            return OdbType.TypeNameClassOid;
         }
 
         public override int CompareTo(object @object)
@@ -45,7 +40,7 @@ namespace NDatabase.Odb.Impl.Core.Oid
         {
             var tokens = oidString.Split(':');
 
-            if (tokens.Length != 2 || !(tokens[0].Equals(OIDTypes.TypeNameClassOid)))
+            if (tokens.Length != 2 || !(tokens[0].Equals(OdbType.TypeNameClassOid)))
                 throw new OdbRuntimeException(NDatabaseError.InvalidOidRepresentation.AddParameter(oidString));
 
             var oid = long.Parse(tokens[1]);

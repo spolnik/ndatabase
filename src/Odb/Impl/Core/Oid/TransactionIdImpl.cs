@@ -5,7 +5,7 @@ using System.Text;
 namespace NDatabase.Odb.Impl.Core.Oid
 {
     [Serializable]
-    public class TransactionIdImpl : ITransactionId
+    public sealed class TransactionIdImpl : ITransactionId
     {
         private readonly IDatabaseId _databaseId;
         private readonly long _id1;
@@ -20,32 +20,54 @@ namespace NDatabase.Odb.Impl.Core.Oid
 
         #region ITransactionId Members
 
-        public virtual long GetId1()
+        public long GetId1()
         {
             return _id1;
         }
 
-        public virtual IDatabaseId GetDatabaseId()
+        public IDatabaseId GetDatabaseId()
         {
             return _databaseId;
         }
 
-        public virtual long GetId2()
+        public long GetId2()
         {
             return _id2;
         }
 
-        public virtual ITransactionId Next()
+        public ITransactionId Next()
         {
             return new TransactionIdImpl(_databaseId, _id1, _id2 + 1);
         }
 
-        public virtual ITransactionId Prev()
+        #endregion
+
+        private bool Equals(TransactionIdImpl other)
         {
-            return new TransactionIdImpl(_databaseId, _id1, _id2 - 1);
+            return _databaseId.Equals(other._databaseId) && _id1 == other._id1 && _id2 == other._id2;
         }
 
-        #endregion
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+                return false;
+            if (ReferenceEquals(this, obj))
+                return true;
+            return obj is TransactionIdImpl && Equals((TransactionIdImpl) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = (_databaseId != null
+                                    ? _databaseId.GetHashCode()
+                                    : 0);
+                hashCode = (hashCode * 397) ^ _id1.GetHashCode();
+                hashCode = (hashCode * 397) ^ _id2.GetHashCode();
+                return hashCode;
+            }
+        }
 
         public override string ToString()
         {
@@ -55,15 +77,6 @@ namespace NDatabase.Odb.Impl.Core.Oid
 
             buffer.Append(" - dbid=").Append(_databaseId);
             return buffer.ToString();
-        }
-
-        public override bool Equals(object @object)
-        {
-            if (@object == null || @object.GetType() != typeof (TransactionIdImpl))
-                return false;
-
-            var tid = (TransactionIdImpl) @object;
-            return _id1 == tid._id1 && _id2 == tid._id2 && _databaseId.Equals(tid._databaseId);
         }
     }
 }

@@ -4,7 +4,7 @@ using NDatabase.Odb.Core;
 
 namespace NDatabase.Tool.Wrappers.IO
 {
-    public class OdbFileIO : Odb.Core.Layers.Layer3.IO
+    public sealed class OdbFileIO : Odb.Core.Layers.Layer3.IO
     {
         private FileStream _fileAccess;
 
@@ -78,7 +78,9 @@ namespace NDatabase.Tool.Wrappers.IO
             return _fileAccess != null;
         }
 
-        public void Init(string fileName, bool canWrite, string password)
+        #endregion
+
+        private void Init(string fileName, bool canWrite, string password)
         {
             try
             {
@@ -91,7 +93,5 @@ namespace NDatabase.Tool.Wrappers.IO
                 throw new OdbRuntimeException(NDatabaseError.FileNotFound.AddParameter(fileName), e);
             }
         }
-
-        #endregion
     }
 }

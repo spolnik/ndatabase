@@ -9,7 +9,5 @@ namespace NDatabase.Odb
         IDatabaseId GetDatabaseId();
 
         ITransactionId Next();
-
-        ITransactionId Prev();
     }
 }

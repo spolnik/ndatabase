@@ -5,7 +5,6 @@ namespace NDatabase.Odb
     public interface OID : IComparable
     {
         long ObjectId { get; }
-        int GetType();
         string GetTypeName();
 
         /// <summary>

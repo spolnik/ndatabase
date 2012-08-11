@@ -127,7 +127,6 @@
     <Compile Include="Neodatis\Odb\Test\Oid\TestGetObjectByOid.cs" />
     <Compile Include="Neodatis\Odb\Test\Oid\TestOid.cs" />
     <Compile Include="Neodatis\Odb\Test\Oid\TestOidAsNativeObject.cs" />
-    <Compile Include="Neodatis\Odb\Test\Oid\TestOIDToString.cs" />
     <Compile Include="Neodatis\Odb\Test\Oid\TestStoreWithOID.cs" />
     <Compile Include="Neodatis\Odb\Test\Other\ObjectWithOid.cs" />
     <Compile Include="Neodatis\Odb\Test\Other\Person1.cs" />

@@ -11,11 +11,6 @@ namespace NDatabase.Odb.Impl.Core.Oid
         {
         }
 
-        public override int GetType()
-        {
-            return OdbType.ObjectOidId;
-        }
-
         public override int CompareTo(object @object)
         {
             if (@object == null || !(@object is OdbObjectOID))
@@ -38,14 +33,14 @@ namespace NDatabase.Odb.Impl.Core.Oid
 
         public override string GetTypeName()
         {
-            return OIDTypes.TypeNameObjectOid;
+            return OdbType.TypeNameObjectOid;
         }
 
         public static OdbObjectOID OidFromString(string oidString)
         {
             var tokens = oidString.Split(':');
 
-            if (tokens.Length != 2 || !(tokens[0].Equals(OIDTypes.TypeNameObjectOid)))
+            if (tokens.Length != 2 || !(tokens[0].Equals(OdbType.TypeNameObjectOid)))
                 throw new OdbRuntimeException(NDatabaseError.InvalidOidRepresentation.AddParameter(oidString));
 
             var oid = long.Parse(tokens[1]);

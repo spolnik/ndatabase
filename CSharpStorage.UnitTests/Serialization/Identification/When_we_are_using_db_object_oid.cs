@@ -32,15 +32,9 @@ namespace NDatabase.UnitTests.Serialization.Identification
         }
 
         [Test]
-        public void It_should_return_class_oid_type()
-        {
-            Assert.That(SubjectUnderTest.GetType(), Is.EqualTo(OdbType.ObjectOidId));
-        }
-
-        [Test]
         public void It_should_return_class_oid_type_name()
         {
-            Assert.That(SubjectUnderTest.GetTypeName(), Is.EqualTo(OIDTypes.TypeNameObjectOid));
+            Assert.That(SubjectUnderTest.GetTypeName(), Is.EqualTo(OdbType.TypeNameObjectOid));
         }
 
         [Test]

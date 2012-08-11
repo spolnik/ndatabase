@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using System.Text;
 using NDatabase.Odb.Core;
+using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
 namespace NDatabase.Odb.Impl.Core.Oid
 {
@@ -23,12 +24,7 @@ namespace NDatabase.Odb.Impl.Core.Oid
 
         public override string GetTypeName()
         {
-            return OIDTypes.TypeNameExternalObjectOid;
-        }
-
-        public override int GetType()
-        {
-            return OIDTypes.TypeExternalObjectOid;
+            return OdbType.TypeNameExternalObjectOid;
         }
 
         /// <summary>
@@ -49,7 +45,7 @@ namespace NDatabase.Odb.Impl.Core.Oid
         {
             var tokens = oidString.Split(':');
 
-            if (tokens.Length != 3 || !(tokens[0].Equals(OIDTypes.TypeNameExternalObjectOid)))
+            if (tokens.Length != 3 || !(tokens[0].Equals(OdbType.TypeNameExternalObjectOid)))
                 throw new OdbRuntimeException(NDatabaseError.InvalidOidRepresentation.AddParameter(oidString));
 
             var oid = long.Parse(tokens[2]);

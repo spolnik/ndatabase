@@ -332,7 +332,6 @@
     <Compile Include="Odb\ODBFactory.cs" />
     <Compile Include="Odb\ODBRuntimeException.cs" />
     <Compile Include="Odb\OID.cs" />
-    <Compile Include="Odb\OIDTypes.cs" />
     <Compile Include="Odb\Tool\ObjectInfoHeaderListDisplay.cs" />
     <Compile Include="Odb\TransactionId.cs" />
     <Compile Include="Odb\Values.cs" />

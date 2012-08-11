@@ -19,8 +19,6 @@ namespace NDatabase.Odb
 
         public long ObjectId { get; protected set; }
 
-        public new abstract int GetType();
-
         public abstract int CompareTo(object obj);
 
         public abstract string GetTypeName();

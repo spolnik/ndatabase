@@ -2,22 +2,22 @@ using System;
 
 namespace NDatabase.Tool.Wrappers.IO
 {
-    public class MultiBufferVO
+    public sealed class MultiBufferVO
     {
         ///<summary>
-        ///  The buffer size///
+        ///  The buffer size.
         ///</summary>
         private readonly int _bufferSize;
 
         private readonly long[] _creations;
 
         ///<summary>
-        ///  The number of buffers///
+        ///  The number of buffers.
         ///</summary>
         private readonly int _numberOfBuffers;
 
         ///<summary>
-        ///  To know if buffer has been used for write - to speedup flush ///
+        ///  To know if buffer has been used for write - to speedup flush.
         ///</summary>
         private bool[] _bufferHasBeenUsedForWrite;
 
@@ -38,12 +38,12 @@ namespace NDatabase.Tool.Wrappers.IO
         }
 
         ///<summary>
-        ///  The current end position of the buffer ///
+        ///  The current end position of the buffer
         ///</summary>
         public long[] BufferEndPosition { get; set; }
 
         ///<summary>
-        ///  The current start position of the buffer ///
+        ///  The current start position of the buffer
         ///</summary>
         public long[] BufferStartPosition { get; set; }
 
@@ -53,11 +53,6 @@ namespace NDatabase.Tool.Wrappers.IO
         ///  The max position in the buffer, used to optimize the flush - to flush only new data and not all the buffer
         ///</summary>
         public int[] MaxPositionInBuffer { get; set; }
-
-        public byte[] GetBuffer2(int index)
-        {
-            return Buffers[index];
-        }
 
         public byte GetByte(int bufferIndex, int byteIndex)
         {

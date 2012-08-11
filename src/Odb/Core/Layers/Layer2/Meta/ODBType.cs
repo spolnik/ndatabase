@@ -518,7 +518,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public override string ToString()
         {
-            return string.Format("{0} - {1}", _id, _name);
+            return System.String.Format("{0} - {1}", _id, _name);
         }
 
         public void SetSubType(OdbType subType)
@@ -673,5 +673,12 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         {
             return _id == DateId || _id == DateSqlId || _id == DateTimestampId;
         }
+
+        public const int TypeExternalClassOid = 4;
+        public const int TypeExternalObjectOid = 5;
+        public static readonly string TypeNameClassOid = "class-oid";
+        public static readonly string TypeNameObjectOid = "object-oid";
+        public static readonly string TypeNameExternalClassOid = "ext-class-oid";
+        public static readonly string TypeNameExternalObjectOid = "ext-object-oid";
     }
 }
