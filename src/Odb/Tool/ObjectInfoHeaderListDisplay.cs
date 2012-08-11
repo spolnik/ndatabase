@@ -8,7 +8,7 @@ namespace NDatabase.Odb.Tool
     ///   An utility class to build a string description from a list of ObjectInfoHeader
     /// </summary>
     /// <author>osmadja</author>
-    public class ObjectInfoHeaderListDisplay
+    public static class ObjectInfoHeaderListDisplay
     {
         public static string Build(IList objectInfoHeaderList, bool withDetail)
         {
