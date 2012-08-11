@@ -13,7 +13,7 @@ namespace Test.Odb.Test.Query.Criteria
 		[Test]
         public virtual void Test1()
 		{
-			string baseName = GetBaseName();
+			string baseName = "testqueryorderby1.db";
 			IOdb odb = Open(baseName);
 			odb.Store(new Class1("c1"));
 			odb.Store(new Class1("c1"));
@@ -38,7 +38,7 @@ namespace Test.Odb.Test.Query.Criteria
 		[Test]
         public virtual void Test2()
 		{
-			string baseName = GetBaseName();
+            string baseName = "testqueryorderby2.db";
 			IOdb odb = Open(baseName);
 			odb.Store(new Class1("c1"));
 			odb.Store(new Class1("c1"));
@@ -59,7 +59,7 @@ namespace Test.Odb.Test.Query.Criteria
 		[Test]
         public virtual void Test3()
 		{
-			string baseName = GetBaseName();
+            string baseName = "testqueryorderby3.db";
 			IOdb odb = Open(baseName);
 			int size = 500;
 			for (int i = 0; i < size; i++)
@@ -94,7 +94,7 @@ namespace Test.Odb.Test.Query.Criteria
 		[Test]
         public virtual void Test4()
 		{
-			string baseName = GetBaseName();
+            string baseName = "testqueryorderby4.db";
 			IOdb odb = Open(baseName);
 			int size = 5;
 			for (int i = 0; i < size; i++)
@@ -125,7 +125,7 @@ namespace Test.Odb.Test.Query.Criteria
 		[Test]
         public virtual void Test51()
 		{
-			string baseName = GetBaseName();
+            string baseName = "testqueryorderby51.db";
 			IOdb odb = Open(baseName);
 			odb.Store(new VO.Login.Function("Not Null"));
 			odb.Store(new VO.Login.Function(null));
@@ -141,7 +141,7 @@ namespace Test.Odb.Test.Query.Criteria
 		[Test]
         public virtual void Test5()
 		{
-			string baseName = GetBaseName();
+            string baseName = "testqueryorderby5.db";
 			IOdb odb = Open(baseName);
 			int size = 5;
 			for (int i = 0; i < size; i++)
@@ -173,7 +173,7 @@ namespace Test.Odb.Test.Query.Criteria
 		[Test]
         public virtual void Test6()
 		{
-			string baseName = GetBaseName();
+            string baseName = "testqueryorderby6.db";
 			IOdb odb = Open(baseName);
 			int size = 5;
 			for (int i = 0; i < size; i++)

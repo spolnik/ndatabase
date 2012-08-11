@@ -674,8 +674,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return _id == DateId || _id == DateSqlId || _id == DateTimestampId;
         }
 
-        public const int TypeExternalClassOid = 4;
-        public const int TypeExternalObjectOid = 5;
         public static readonly string TypeNameClassOid = "class-oid";
         public static readonly string TypeNameObjectOid = "object-oid";
         public static readonly string TypeNameExternalClassOid = "ext-class-oid";
