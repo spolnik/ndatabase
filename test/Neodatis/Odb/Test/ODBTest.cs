@@ -23,6 +23,7 @@ using System;
 using System.IO;
 using NDatabase.Odb;
 using NDatabase.Tool;
+using NDatabase.Tool.Wrappers.IO;
 
 namespace Test.Odb.Test
 {
@@ -68,7 +69,7 @@ namespace Test.Odb.Test
         protected internal virtual void DeleteBase(String baseName)
         {
             if (File.Exists(baseName))
-                IOUtil.DeleteFile(baseName);
+                OdbFile.DeleteFile(baseName);
         }
 
         public void Println(object o)

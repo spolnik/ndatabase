@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using NDatabase.Tool.Wrappers;
+using System.Threading;
 using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
@@ -71,7 +71,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                 {
                     try
                     {
-                        OdbThreadUtil.Sleep(OdbConfiguration.GetRetryTimeout());
+                        Thread.Sleep((int) OdbConfiguration.GetRetryTimeout());
                     }
                     catch
                     {

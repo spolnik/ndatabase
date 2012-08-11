@@ -59,7 +59,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
             }
 
             _sublist = new LazySimpleListOfAoi<object>(GetInstanceBuilder(), ReturnInstance());
-            _sublist.AddAll(NDatabaseCollectionUtil.SublistGeneric(l, localFromIndex, localEndIndex));
+            _sublist.AddAll(OdbCollectionUtil.SublistGeneric(l, localFromIndex, localEndIndex));
         }
 
         public override object GetValue()

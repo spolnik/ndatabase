@@ -19,7 +19,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
         public override void Execute(OID oid, AttributeValuesMap values)
         {
             var number = (Decimal) values[AttributeName];
-            _sum = NDatabaseNumber.Add(_sum, ValuesUtil.Convert(number));
+            _sum = Decimal.Add(_sum, ValuesUtil.Convert(number));
         }
 
         public virtual Decimal GetSum()

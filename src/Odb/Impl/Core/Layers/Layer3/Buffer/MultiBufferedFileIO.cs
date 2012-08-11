@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using System.IO;
+using System.Threading;
 using NDatabase.Odb.Core;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
@@ -36,7 +37,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
             try
             {
                 if (OdbConfiguration.IsDebugEnabled(MultiBufLogId))
-                    DLogger.Info(string.Format("Opening datatbase file : {0}", new OdbFile(_wholeFileName).GetFullPath()));
+                    DLogger.Info(string.Format("Opening datatbase file : {0}", Path.GetFullPath(_wholeFileName)));
 
                 _fileWriter = BuildFileWriter(canWrite);
                 SetIoDeviceLength(_fileWriter.Length());
@@ -56,14 +57,14 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
                     // The file region is already locked
                     throw new OdbRuntimeException(
                         NDatabaseError.OdbFileIsLockedByCurrentVirtualMachine.AddParameter(_wholeFileName).AddParameter(
-                            OdbThreadUtil.GetCurrentThreadName()).AddParameter(
+                            Thread.CurrentThread.Name).AddParameter(
                                 OdbConfiguration.IsMultiThread().ToString(CultureInfo.InvariantCulture)));
                 }
                 if (!_fileWriter.IsLocked())
                 {
                     throw new OdbRuntimeException(
                         NDatabaseError.OdbFileIsLockedByExternalProgram.AddParameter(_wholeFileName).AddParameter(
-                            OdbThreadUtil.GetCurrentThreadName()).AddParameter(
+                            Thread.CurrentThread.Name).AddParameter(
                                 OdbConfiguration.IsMultiThread().ToString(CultureInfo.InvariantCulture)));
                 }
             }
@@ -173,7 +174,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
             _fileWriter = null;
             if (IsForTransaction() && AutomaticDeleteIsEnabled())
             {
-                var b = IOUtil.DeleteFile(_wholeFileName);
+                var b = OdbFile.DeleteFile(_wholeFileName);
                 if (!b)
                     throw new OdbRuntimeException(NDatabaseError.CanNotDeleteFile.AddParameter(_wholeFileName));
             }
@@ -181,7 +182,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
 
         public override bool Delete()
         {
-            return IOUtil.DeleteFile(_wholeFileName);
+            return OdbFile.DeleteFile(_wholeFileName);
         }
     }
 }

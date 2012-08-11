@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using NDatabase.Odb.Core;
 using NDatabase.Tool.Wrappers;
 
@@ -25,7 +26,7 @@ namespace NDatabase.Odb
             : base(
                 string.Format("{0}\nVersion={1} , Build={2}, Date={3}, Thread={4}\nError:{5}", Message1,
                               Release.ReleaseNumber, Release.ReleaseBuild, Release.ReleaseDate,
-                              OdbThreadUtil.GetCurrentThreadName(), error), t)
+                              Thread.CurrentThread.Name, error), t)
         {
         }
 
@@ -33,7 +34,7 @@ namespace NDatabase.Odb
             : base(
                 string.Format("{0}\nVersion={1} , Build={2}, Date={3}, Thread={4}\nError:{5}", Message1,
                               Release.ReleaseNumber, Release.ReleaseBuild, Release.ReleaseDate,
-                              OdbThreadUtil.GetCurrentThreadName(), error))
+                              Thread.CurrentThread.Name, error))
         {
         }
 
@@ -41,7 +42,7 @@ namespace NDatabase.Odb
             : base(
                 string.Format("{0}\nVersion={1} , Build={2}, Date={3}, Thread={4}\nError:{5}\nStackTrace:{6}", Message1,
                               Release.ReleaseNumber, Release.ReleaseBuild, Release.ReleaseDate,
-                              OdbThreadUtil.GetCurrentThreadName(), error, message))
+                              Thread.CurrentThread.Name, error, message))
         {
         }
 
@@ -51,7 +52,7 @@ namespace NDatabase.Odb
             : base(
                 string.Format("{0}\nVersion={1} , Build={2}, Date={3}, Thread={4}\nStackTrace:{5}", Message1,
                               Release.ReleaseNumber, Release.ReleaseBuild, Release.ReleaseDate,
-                              OdbThreadUtil.GetCurrentThreadName(), message), e)
+                              Thread.CurrentThread.Name, message), e)
         {
         }
 

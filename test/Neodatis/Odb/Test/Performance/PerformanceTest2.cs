@@ -3,6 +3,7 @@ using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
+using NDatabase.Tool.Wrappers.IO;
 using NUnit.Framework;
 using Test.Odb.Test.VO.Login;
 
@@ -20,7 +21,7 @@ namespace Test.Odb.Test.Performance
 		{
 			bool inMemory = true;
 			// Deletes the database file
-			IOUtil.DeleteFile(OdbFileName);
+			OdbFile.DeleteFile(OdbFileName);
 			long t1 = 0;
 			long t2 = 0;
 			long t3 = 0;

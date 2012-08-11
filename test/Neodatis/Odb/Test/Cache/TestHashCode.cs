@@ -1,5 +1,6 @@
 using NDatabase.Odb;
 using NDatabase.Tool;
+using NDatabase.Tool.Wrappers.IO;
 using NUnit.Framework;
 
 namespace Test.Odb.Test.Cache
@@ -35,7 +36,7 @@ namespace Test.Odb.Test.Cache
 			odb = Open(baseName);
             objects = odb.GetObjects<MyObjectWithMyHashCode>();
 			odb.Close();
-			IOUtil.DeleteFile(baseName);
+			OdbFile.DeleteFile(baseName);
 			AssertEquals(0, objects.Count);
 		}
 
@@ -67,7 +68,7 @@ namespace Test.Odb.Test.Cache
 			odb = Open(baseName);
 			objects = odb.GetObjects<MyObjectWithMyHashCode2>();
 			odb.Close();
-			IOUtil.DeleteFile(baseName);
+			OdbFile.DeleteFile(baseName);
 			AssertEquals(0, objects.Count);
 		}
 	}

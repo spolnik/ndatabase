@@ -156,10 +156,10 @@ namespace NDatabase.Odb.Impl.Core.Query.Criteria
 
         private bool CheckIfArrayContainsValue(object valueToMatch)
         {
-            var arrayLength = OdbReflection.GetArrayLength(valueToMatch);
+            var arrayLength = OdbArray.GetArrayLength(valueToMatch);
             for (var i = 0; i < arrayLength; i++)
             {
-                var element = OdbReflection.GetArrayElement(valueToMatch, i);
+                var element = OdbArray.GetArrayElement(valueToMatch, i);
                 if (element == null && _criterionValue == null)
                     return true;
 

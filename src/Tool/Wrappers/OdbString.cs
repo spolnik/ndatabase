@@ -4,12 +4,9 @@ using System.Text.RegularExpressions;
 
 namespace NDatabase.Tool.Wrappers
 {
-    /**   
-   * @author olivier
-   */
-
     public static class OdbString
     {
+        //TODO: there is no standard way to do that?
         /// <summary>
         ///   Replace a string within a string
         /// </summary>
@@ -29,6 +26,7 @@ namespace NDatabase.Tool.Wrappers
             var nOldTokenLength = inTokenToReplace.Length;
             var nTimes = 0;
 
+            //TODO: NDatabase error
             // To prevent from replace the token with a token containg Token to replace
             if (inNbTimes == -1 && inNewToken.IndexOf(inTokenToReplace, StringComparison.Ordinal) != -1)
                 throw new Exception("Can not replace by this new token because it contains token to be replaced");
@@ -65,6 +63,7 @@ namespace NDatabase.Tool.Wrappers
 
         public static bool Matches(string regExp, string valueToCheck)
         {
+            //TODO: regex ctor is expensive, try to create a cache for that based on regExp
             return new Regex(regExp).IsMatch(valueToCheck);
         }
     }

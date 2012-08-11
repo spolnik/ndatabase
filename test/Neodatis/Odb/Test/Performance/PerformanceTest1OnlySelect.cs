@@ -1,10 +1,12 @@
 using System;
+using System.Threading;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer;
 using NDatabase.Odb.Impl.Tool;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
+using NDatabase.Tool.Wrappers.IO;
 using NUnit.Framework;
 
 namespace Test.Odb.Test.Performance
@@ -20,7 +22,7 @@ namespace Test.Odb.Test.Performance
         {
             var inMemory = true;
             // Deletes the database file
-            IOUtil.DeleteFile(OdbFileName);
+            OdbFile.DeleteFile(OdbFileName);
             long t1 = 0;
             long t2 = 0;
             long t3 = 0;
@@ -104,7 +106,7 @@ namespace Test.Odb.Test.Performance
         public static void Main2(string[] args)
         {
             var pt = new PerformanceTest1OnlySelect();
-            OdbThreadUtil.Sleep(20000);
+            Thread.Sleep(20000);
             pt.TestSelectSimpleObjectODB();
         }
     }

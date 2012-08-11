@@ -4,7 +4,6 @@ using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Query.Execution;
 using NDatabase.Odb.Impl;
 using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
-using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.IO;
 using NDatabase.Tool.Wrappers.Map;
 
@@ -88,7 +87,7 @@ namespace NDatabase.Odb
         /// <summary>
         ///   How much time (in ms) ODBFactory waits between each retry
         /// </summary>
-        private static long _retryTimeout = 100;
+        private static int _retryTimeout = 100;
 
         /// <summary>
         ///   How much time (in ms) ODBFactory waits to be sure a file has been created
@@ -126,7 +125,7 @@ namespace NDatabase.Odb
         /// <summary>
         ///   Round Type used for the average division
         /// </summary>
-        private static int _roundTypeForAverageDivision = ConstantWrapper.RoundTypeForAverageDivision;
+        private static int _roundTypeForAverageDivision;
 
         /// <summary>
         ///   for IO atomic writing & reading
@@ -275,7 +274,7 @@ namespace NDatabase.Odb
             return _retryTimeout;
         }
 
-        public static void SetRetryTimeout(long retryTimeout)
+        public static void SetRetryTimeout(int retryTimeout)
         {
             _retryTimeout = retryTimeout;
         }

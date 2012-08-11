@@ -31,7 +31,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
         public override void Execute(OID oid, AttributeValuesMap values)
         {
             var n = (Decimal) values[AttributeName];
-            _totalValue = NDatabaseNumber.Add(_totalValue, ValuesUtil.Convert(n));
+            _totalValue = Decimal.Add(_totalValue, ValuesUtil.Convert(n));
             _nbValues++;
         }
 
@@ -42,7 +42,10 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
 
         public override void End()
         {
-            _average = NDatabaseNumber.Divide(_totalValue, _nbValues, _roundType, _scale);
+            var result = Decimal.Divide(_totalValue, _nbValues);
+            _average = Decimal.Round(result, _scale, MidpointRounding.ToEven);
+            //TODO: should we use _roundType here?
+//            _average = Decimal.Round(result, _scale, _roundType);
         }
 
         public override void Start()

@@ -1,6 +1,7 @@
 using NDatabase.Odb.Core.Oid;
 using NDatabase.Odb.Impl.Core.Oid;
 using NDatabase.Tool;
+using NDatabase.Tool.Wrappers.IO;
 using NUnit.Framework;
 
 namespace Test.Odb.Test.Oid
@@ -16,7 +17,7 @@ namespace Test.Odb.Test.Oid
             var odb = Open(baseName);
             var oid = odb.Store(new VO.Login.Function("My Function"));
             odb.Close();
-            IOUtil.DeleteFile(baseName);
+            OdbFile.DeleteFile(baseName);
             var soid = oid.OidToString();
             var oid2 = OIDFactory.OidFromString(soid);
             AssertEquals(oid, oid2);
@@ -39,7 +40,7 @@ namespace Test.Odb.Test.Oid
             var oid = odb.Store(new VO.Login.Function("My Function"));
             oid = odb.Ext().ConvertToExternalOID(oid);
             odb.Close();
-            IOUtil.DeleteFile(baseName);
+            OdbFile.DeleteFile(baseName);
             var soid = oid.OidToString();
             Println(soid);
             var oid2 = OIDFactory.OidFromString(soid);

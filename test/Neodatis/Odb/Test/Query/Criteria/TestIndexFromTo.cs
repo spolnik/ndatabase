@@ -50,9 +50,9 @@ namespace Test.Odb.Test.Query.Criteria
 			l.Add("s3");
 			l.Add("s4");
 			l.Add("s5");
-            AssertEquals(1, NDatabaseCollectionUtil.SublistGeneric(l,0, 1).Count);
-            AssertEquals(2, NDatabaseCollectionUtil.SublistGeneric(l, 0, 2).Count);
-            AssertEquals(3, NDatabaseCollectionUtil.SublistGeneric(l, 0, 3).Count);
+            AssertEquals(1, OdbCollectionUtil.SublistGeneric(l,0, 1).Count);
+            AssertEquals(2, OdbCollectionUtil.SublistGeneric(l, 0, 2).Count);
+            AssertEquals(3, OdbCollectionUtil.SublistGeneric(l, 0, 3).Count);
 		}
 
 		/// <exception cref="System.Exception"></exception>

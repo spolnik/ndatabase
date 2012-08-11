@@ -8,7 +8,6 @@ namespace NDatabase.Btree
     /// <remarks>
     ///   The interface for btree node.
     /// </remarks>
-    /// <author>olivier</author>
     public interface IBTreeNode
     {
         bool IsFull();

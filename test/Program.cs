@@ -3,6 +3,7 @@ using NDatabase.Odb;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NDatabase.Tool;
+using NDatabase.Tool.Wrappers.IO;
 
 namespace Test
 {
@@ -16,7 +17,7 @@ namespace Test
             try
             {
                 string file = "Test.NDatabase";
-                IOUtil.DeleteFile(file);
+                OdbFile.DeleteFile(file);
                 IOdb odb = OdbFactory.Open(file);
                 OID oid = odb.Store(new Function("f1"));
                 odb.Close();
@@ -45,7 +46,7 @@ namespace Test
             {
                 int size = 1000;
                 string file = "Test.NDatabase";
-                IOUtil.DeleteFile(file);
+                OdbFile.DeleteFile(file);
                 IOdb odb = OdbFactory.Open(file);
                 for (int i = 0; i < size; i++)
                 {
@@ -76,7 +77,7 @@ namespace Test
                 int size = 1000;
                 string file = "Test.NDatabase";
                 Console.WriteLine("Oi");
-                IOUtil.DeleteFile(file);
+                OdbFile.DeleteFile(file);
                 IOdb odb = OdbFactory.Open(file);
                 for (int i = 0; i < size; i++)
                 {

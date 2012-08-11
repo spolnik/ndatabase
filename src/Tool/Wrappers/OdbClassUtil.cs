@@ -2,11 +2,6 @@ using System;
 
 namespace NDatabase.Tool.Wrappers
 {
-    /**
-     * @author olivier
-     *
-     */
-
     public static class OdbClassUtil
     {
         public static string GetClassName(string fullClassName)

@@ -2,7 +2,6 @@ using System.Collections.Generic;
 
 namespace NDatabase.Tool.Wrappers.List
 {
-    /// <author>olivier</author>
     public interface IOdbList<TItem> : IList<TItem>
     {
         bool AddAll(ICollection<TItem> collection);

@@ -3,15 +3,13 @@ using System.IO;
 
 namespace NDatabase.Tool.Wrappers.IO
 {
-    public class OdbFile
+    public sealed class OdbFile
     {
         private readonly string _fileName;
 
         public OdbFile(String fileName)
         {
-            _fileName = fileName;
-            // Converts path (with directory info)
-            _fileName = GetFullPath();
+            _fileName = Path.GetFullPath(fileName);
         }
 
         public String GetDirectory()
@@ -19,29 +17,16 @@ namespace NDatabase.Tool.Wrappers.IO
             return Path.GetDirectoryName(_fileName);
         }
 
-        public String GetCleanFileName()
-        {
-            return Path.GetFileName(_fileName);
-        }
-
-        public String GetFullPath()
-        {
-            return Path.GetFullPath(_fileName);
-        }
-
         public bool Exists()
         {
             return File.Exists(_fileName);
-        }
-
-        public void Clear()
-        {
         }
 
         public OdbFile GetParentFile()
         {
             var di = new DirectoryInfo(GetDirectory());
 
+            //TODO: to NDatabase error
             if (di.Parent == null)
                 throw new Exception("OdbFile Error. Parent file is null!");
 
@@ -55,7 +40,7 @@ namespace NDatabase.Tool.Wrappers.IO
             di.Create();
         }
 
-        public bool Delete()
+        private bool Delete()
         {
             var fileExists = Exists();
             if (!fileExists)
@@ -65,13 +50,10 @@ namespace NDatabase.Tool.Wrappers.IO
             return !Exists();
         }
 
-        public void Create()
+        public static bool DeleteFile(string fileName)
         {
-            File.Create(_fileName);
-        }
-
-        public void Release()
-        {
+            var file = new OdbFile(fileName);
+            return file.Delete();
         }
     }
 }

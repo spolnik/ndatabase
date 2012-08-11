@@ -1,4 +1,4 @@
-using NDatabase.Tool;
+using System.IO;
 using NDatabase.Tool.Wrappers.IO;
 
 namespace NDatabase.Odb.Core.Layers.Layer3
@@ -37,7 +37,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         public bool IsNew()
         {
-            return !IOUtil.ExistFile(_fileName);
+            return !File.Exists(_fileName);
         }
 
         #endregion
@@ -64,7 +64,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         public string GetCleanFileName()
         {
-            return new OdbFile(_fileName).GetCleanFileName();
+            return Path.GetFileName(_fileName);
         }
     }
 }

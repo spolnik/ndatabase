@@ -13,18 +13,18 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
     [Serializable]
     public class CountAction : AbstractQueryFieldAction
     {
-        private static readonly Decimal One = NDatabaseNumber.NewBigInteger(1);
+        private static readonly Decimal One = new decimal(1);
 
         private Decimal _count;
 
         public CountAction(string alias) : base(alias, alias, false)
         {
-            _count = NDatabaseNumber.NewBigInteger(0);
+            _count = new decimal(0);
         }
 
         public override void Execute(OID oid, AttributeValuesMap values)
         {
-            _count = NDatabaseNumber.Add(_count, One);
+            _count = Decimal.Add(_count, One);
         }
 
         public virtual Decimal GetCount()

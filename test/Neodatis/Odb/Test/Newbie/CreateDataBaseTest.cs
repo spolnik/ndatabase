@@ -1,4 +1,6 @@
+using System.IO;
 using NDatabase.Tool;
+using NDatabase.Tool.Wrappers.IO;
 using NUnit.Framework;
 
 namespace Test.Odb.Test.Newbie
@@ -16,7 +18,7 @@ namespace Test.Odb.Test.Newbie
 		    DeleteBase(NewbieOdb);
 		    using (Open(NewbieOdb)) {}
 
-		    var existFile = IOUtil.ExistFile(NewbieOdb);
+            var existFile = File.Exists(NewbieOdb);
 		    AssertTrue("ODB data file couldn't created", existFile);
 		    DeleteBase(NewbieOdb);
 		}

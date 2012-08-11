@@ -17,7 +17,7 @@ namespace NDatabase.Odb.Impl.Tool
     /// <author>osmadja</author>
     public class ObjectTool
     {
-        private static readonly OdbDateFormat Format = new OdbDateFormat("dd/MM/yyyy HH:mm:ss:SSS");
+        private const string DateTimeFormatPattern = "dd/MM/yyyy HH:mm:ss:SSS";
 
         private const int IdCallerIsOdbExplorer = 1;
         private const int IdCallerIsXml = 2;
@@ -57,7 +57,7 @@ namespace NDatabase.Odb.Impl.Tool
 
                 case OdbType.BigDecimalId:
                 {
-                    theObject = NDatabaseNumber.CreateDecimalFromString(value);
+                    theObject = Convert.ToDecimal(value);
                     break;
                 }
 
@@ -78,7 +78,7 @@ namespace NDatabase.Odb.Impl.Tool
                 case OdbType.DateTimestampId:
                 {
                     if (CallerIsOdbExplorer(caller))
-                        theObject = Format.Parse(value);
+                        theObject = DateTime.ParseExact(value, DateTimeFormatPattern, CultureInfo.InvariantCulture);
 
                     if (CallerIsXml(caller) || CallerIsSerializer(caller))
                         theObject = new DateTime(long.Parse(value));
@@ -177,7 +177,7 @@ namespace NDatabase.Odb.Impl.Tool
             if (anoi.GetObject() is DateTime)
             {
                 if (CallerIsOdbExplorer(caller))
-                    return Format.Format((DateTime) anoi.GetObject());
+                    return ((DateTime) anoi.GetObject()).ToString(DateTimeFormatPattern);
 
                 return ((DateTime) anoi.GetObject()).Millisecond.ToString(CultureInfo.InvariantCulture);
             }

@@ -57,7 +57,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Criteria
             var clazz = valueToMatch.GetType();
             if (clazz.IsArray)
             {
-                var arrayLength = OdbReflection.GetArrayLength(valueToMatch);
+                var arrayLength = OdbArray.GetArrayLength(valueToMatch);
                 return MatchSize(arrayLength, _size, _sizeType);
             }
 
