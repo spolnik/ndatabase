@@ -91,8 +91,8 @@ namespace NDatabase.Odb.Impl.Core.Trigger
             {
                 foreach (InsertTrigger trigger in GetListOfInsertTriggersFor(className))
                 {
-                    if (trigger.GetOdb() == null)
-                        trigger.SetOdb(new OdbForTrigger(_storageEngine));
+                    if (trigger.Odb == null)
+                        trigger.Odb = new OdbForTrigger(_storageEngine);
 
                     try
                     {
@@ -121,8 +121,8 @@ namespace NDatabase.Odb.Impl.Core.Trigger
 
             foreach (InsertTrigger trigger in GetListOfInsertTriggersFor(className))
             {
-                if (trigger.GetOdb() == null)
-                    trigger.SetOdb(new OdbForTrigger(_storageEngine));
+                if (trigger.Odb == null)
+                    trigger.Odb = new OdbForTrigger(_storageEngine);
 
                 try
                 {
@@ -147,8 +147,8 @@ namespace NDatabase.Odb.Impl.Core.Trigger
             {
                 foreach (UpdateTrigger trigger in GetListOfUpdateTriggersFor(className))
                 {
-                    if (trigger.GetOdb() == null)
-                        trigger.SetOdb(new OdbForTrigger(_storageEngine));
+                    if (trigger.Odb == null)
+                        trigger.Odb = new OdbForTrigger(_storageEngine);
 
                     try
                     {
@@ -176,8 +176,8 @@ namespace NDatabase.Odb.Impl.Core.Trigger
 
             foreach (UpdateTrigger trigger in GetListOfUpdateTriggersFor(className))
             {
-                if (trigger.GetOdb() == null)
-                    trigger.SetOdb(new OdbForTrigger(_storageEngine));
+                if (trigger.Odb == null)
+                    trigger.Odb = new OdbForTrigger(_storageEngine);
 
                 try
                 {
@@ -201,8 +201,8 @@ namespace NDatabase.Odb.Impl.Core.Trigger
             {
                 foreach (DeleteTrigger trigger in GetListOfDeleteTriggersFor(className))
                 {
-                    if (trigger.GetOdb() == null)
-                        trigger.SetOdb(new OdbForTrigger(_storageEngine));
+                    if (trigger.Odb == null)
+                        trigger.Odb = new OdbForTrigger(_storageEngine);
 
                     try
                     {
@@ -229,8 +229,8 @@ namespace NDatabase.Odb.Impl.Core.Trigger
 
             foreach (DeleteTrigger trigger in GetListOfDeleteTriggersFor(className))
             {
-                if (trigger.GetOdb() == null)
-                    trigger.SetOdb(new OdbForTrigger(_storageEngine));
+                if (trigger.Odb == null)
+                    trigger.Odb = new OdbForTrigger(_storageEngine);
 
                 try
                 {
@@ -255,8 +255,8 @@ namespace NDatabase.Odb.Impl.Core.Trigger
 
             foreach (SelectTrigger trigger in GetListOfSelectTriggersFor(className))
             {
-                if (trigger.GetOdb() == null)
-                    trigger.SetOdb(new OdbForTrigger(_storageEngine));
+                if (trigger.Odb == null)
+                    trigger.Odb = new OdbForTrigger(_storageEngine);
 
                 if (!IsNull(@object))
                     trigger.AfterSelect(Transform(@object), oid);

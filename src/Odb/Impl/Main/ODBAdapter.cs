@@ -159,22 +159,26 @@ namespace NDatabase.Odb.Impl.Main
 
         public virtual void AddUpdateTrigger(Type clazz, UpdateTrigger trigger)
         {
-            _storageEngine.AddUpdateTriggerFor(clazz.FullName, trigger);
+            var classFullName = OdbClassUtil.GetFullName(clazz);
+            _storageEngine.AddUpdateTriggerFor(classFullName, trigger);
         }
 
         public virtual void AddInsertTrigger(Type clazz, InsertTrigger trigger)
         {
-            _storageEngine.AddInsertTriggerFor(clazz.FullName, trigger);
+            var classFullName = OdbClassUtil.GetFullName(clazz);
+            _storageEngine.AddInsertTriggerFor(classFullName, trigger);
         }
 
         public virtual void AddDeleteTrigger(Type clazz, DeleteTrigger trigger)
         {
-            _storageEngine.AddDeleteTriggerFor(clazz.FullName, trigger);
+            var classFullName = OdbClassUtil.GetFullName(clazz);
+            _storageEngine.AddDeleteTriggerFor(classFullName, trigger);
         }
 
         public virtual void AddSelectTrigger(Type clazz, SelectTrigger trigger)
         {
-            _storageEngine.AddSelectTriggerFor(clazz.FullName, trigger);
+            var classFullName = OdbClassUtil.GetFullName(clazz);
+            _storageEngine.AddSelectTriggerFor(classFullName, trigger);
         }
 
         public virtual IRefactorManager GetRefactorManager()

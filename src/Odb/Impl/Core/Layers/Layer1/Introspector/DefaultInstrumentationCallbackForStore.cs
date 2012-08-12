@@ -3,6 +3,7 @@ using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Odb.Core.Trigger;
 using NDatabase.Odb.Impl.Core.Transaction;
+using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
 {
@@ -33,7 +34,10 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
             if (!_isUpdate)
             {
                 if (_triggerManager != null)
-                    _triggerManager.ManageInsertTriggerBefore(@object.GetType().FullName, @object);
+                {
+                    var type = @object.GetType();
+                    _triggerManager.ManageInsertTriggerBefore(OdbClassUtil.GetFullName(type), @object);
+                }
             }
 
             if (OdbConfiguration.ReconnectObjectsToSession())

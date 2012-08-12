@@ -828,7 +828,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             {
                 try
                 {
-                    index.GetBTree().Insert(index.ComputeKey(nnoi), oid);
+                    index.BTree.Insert(index.ComputeKey(nnoi), oid);
                 }
                 catch (DuplicatedKeyException e)
                 {
@@ -836,14 +836,14 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                     // bug #2510966
                     GetSession().Rollback();
                     throw new OdbRuntimeException(
-                        NDatabaseError.DuplicatedKeyInIndex.AddParameter(index.GetName()).AddParameter(e.Message));
+                        NDatabaseError.DuplicatedKeyInIndex.AddParameter(index.Name).AddParameter(e.Message));
                 }
                 // Check consistency : index should have size equal to the class
                 // info element number
-                if (index.GetBTree().GetSize() != nnoi.GetClassInfo().GetNumberOfObjects())
+                if (index.BTree.GetSize() != nnoi.GetClassInfo().GetNumberOfObjects())
                 {
                     throw new OdbRuntimeException(
-                        NDatabaseError.BtreeSizeDiffersFromClassElementNumber.AddParameter(index.GetBTree().GetSize()).
+                        NDatabaseError.BtreeSizeDiffersFromClassElementNumber.AddParameter(index.BTree.GetSize()).
                             AddParameter(nnoi.GetClassInfo().GetNumberOfObjects()));
                 }
             }
@@ -864,13 +864,13 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             foreach (var index in indexes)
             {
                 // TODO manage collision!
-                index.GetBTree().Delete(index.ComputeKey(nnoi), oid);
+                index.BTree.Delete(index.ComputeKey(nnoi), oid);
                 // Check consistency : index should have size equal to the class
                 // info element number
-                if (index.GetBTree().GetSize() != nnoi.GetClassInfo().GetNumberOfObjects())
+                if (index.BTree.GetSize() != nnoi.GetClassInfo().GetNumberOfObjects())
                 {
                     throw new OdbRuntimeException(
-                        NDatabaseError.BtreeSizeDiffersFromClassElementNumber.AddParameter(index.GetBTree().GetSize()).
+                        NDatabaseError.BtreeSizeDiffersFromClassElementNumber.AddParameter(index.BTree.GetSize()).
                             AddParameter(nnoi.GetClassInfo().GetNumberOfObjects()));
                 }
             }
@@ -893,17 +893,17 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                 // Only update index if key has changed!
                 if (oldKey.CompareTo(newKey) != 0)
                 {
-                    var btree = index.GetBTree();
+                    var btree = index.BTree;
                     // TODO manage collision!
                     var old = btree.Delete(oldKey, oid);
                     // TODO check if old is equal to oldKey
                     btree.Insert(newKey, oid);
                     // Check consistency : index should have size equal to the class
                     // info element number
-                    if (index.GetBTree().GetSize() != nnoi.GetClassInfo().GetNumberOfObjects())
+                    if (index.BTree.GetSize() != nnoi.GetClassInfo().GetNumberOfObjects())
                     {
                         throw new OdbRuntimeException(
-                            NDatabaseError.BtreeSizeDiffersFromClassElementNumber.AddParameter(index.GetBTree().GetSize())
+                            NDatabaseError.BtreeSizeDiffersFromClassElementNumber.AddParameter(index.BTree.GetSize())
                                 .AddParameter(nnoi.GetClassInfo().GetNumberOfObjects()));
                     }
                 }
@@ -1724,16 +1724,16 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                                DefaultWriteAction.PointerWriteAction);
                 // The next position is only know at the end of the write
                 _fsi.WriteLong(-1, true, "next index pos", DefaultWriteAction.PointerWriteAction);
-                _fsi.WriteString(classInfoIndex.GetName(), false, true);
-                _fsi.WriteBoolean(classInfoIndex.IsUnique(), true, "index is unique");
-                _fsi.WriteByte(classInfoIndex.GetStatus(), true, "index status");
-                _fsi.WriteLong(classInfoIndex.GetCreationDate(), true, "creation date",
+                _fsi.WriteString(classInfoIndex.Name, false, true);
+                _fsi.WriteBoolean(classInfoIndex.IsUnique, true, "index is unique");
+                _fsi.WriteByte(classInfoIndex.Status, true, "index status");
+                _fsi.WriteLong(classInfoIndex.CreationDate, true, "creation date",
                                DefaultWriteAction.DataWriteAction);
-                _fsi.WriteLong(classInfoIndex.GetLastRebuild(), true, "last rebuild",
+                _fsi.WriteLong(classInfoIndex.LastRebuild, true, "last rebuild",
                                DefaultWriteAction.DataWriteAction);
-                _fsi.WriteInt(classInfoIndex.GetAttributeIds().Length, true, "number of fields");
-                for (var j = 0; j < classInfoIndex.GetAttributeIds().Length; j++)
-                    _fsi.WriteInt(classInfoIndex.GetAttributeIds()[j], true, "attr id");
+                _fsi.WriteInt(classInfoIndex.AttributeIds.Length, true, "number of fields");
+                for (var j = 0; j < classInfoIndex.AttributeIds.Length; j++)
+                    _fsi.WriteInt(classInfoIndex.AttributeIds[j], true, "attr id");
                 var currentPosition = _fsi.GetPosition();
                 // Write the block size
                 var blockSize = (int) (_fsi.GetPosition() - currentIndexPosition);

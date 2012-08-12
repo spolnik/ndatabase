@@ -131,6 +131,12 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         protected ClassInfo(string fullClassName, string extraInfo, IOdbList<ClassAttributeInfo> attributes) : this()
         {
+            var type = Type.GetType(fullClassName);
+
+            if (type == null)
+                throw new ArgumentException(
+                    string.Format("Given full class name is not enough to create the Type from that: {0}", fullClassName));
+
             _fullClassName = fullClassName;
             _extraInfo = extraInfo;
             _attributes = attributes;
@@ -427,17 +433,23 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         {
             if (_indexes == null)
                 _indexes = new OdbArrayList<ClassInfoIndex>();
-            var cii = new ClassInfoIndex();
-            cii.SetClassInfoId(_id);
-            cii.SetCreationDate(OdbTime.GetCurrentTimeInTicks());
-            cii.SetLastRebuild(cii.GetCreationDate());
-            cii.SetName(name);
-            cii.SetStatus(ClassInfoIndex.Enabled);
-            cii.SetUnique(!acceptMultipleValuesForSameKey);
+
+            var cii = new ClassInfoIndex
+                {
+                    ClassInfoId = _id,
+                    CreationDate = OdbTime.GetCurrentTimeInTicks(),
+                    Name = name,
+                    Status = ClassInfoIndex.Enabled,
+                    IsUnique = !acceptMultipleValuesForSameKey
+                };
+
+            cii.LastRebuild = cii.CreationDate;
             var attributeIds = new int[indexFields.Length];
+
             for (var i = 0; i < indexFields.Length; i++)
                 attributeIds[i] = GetAttributeId(indexFields[i]);
-            cii.SetAttributeIds(attributeIds);
+
+            cii.AttributeIds = attributeIds;
             _indexes.Add(cii);
             return cii;
         }
@@ -558,7 +570,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             for (var i = 0; i < _indexes.Count; i++)
             {
                 var classInfoIndex = _indexes[i];
-                if (classInfoIndex.GetName().Equals(name))
+                if (classInfoIndex.Name.Equals(name))
                     return classInfoIndex;
             }
             return null;
@@ -571,7 +583,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             for (var i = 0; i < _indexes.Count; i++)
             {
                 var classInfoIndex = _indexes[i];
-                if (classInfoIndex.GetAttributeIds().Length == 1 && classInfoIndex.GetAttributeId(0) == attributeId)
+                if (classInfoIndex.AttributeIds.Length == 1 && classInfoIndex.AttributeIds[0] == attributeId)
                     return classInfoIndex;
             }
             return null;
@@ -657,7 +669,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             for (var i = 0; i < _indexes.Count; i++)
             {
                 var classInfoIndex = _indexes[i];
-                if (indexName.Equals(classInfoIndex.GetName()))
+                if (indexName.Equals(classInfoIndex.Name))
                     return true;
             }
 

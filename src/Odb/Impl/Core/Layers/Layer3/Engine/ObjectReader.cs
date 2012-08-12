@@ -205,7 +205,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                 foreach (var classInfoIndex in indexes)
                 {
                     IBTreePersister persister = new LazyOdbBtreePersister(_storageEngine);
-                    var btree = classInfoIndex.GetBTree();
+                    var btree = classInfoIndex.BTree;
                     btree.SetPersister(persister);
                     btree.GetRoot().SetBTree(btree);
                 }
@@ -246,16 +246,16 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                 }
                 var previousIndexPosition = _fsi.ReadLong("prev index pos");
                 nextIndexPosition = _fsi.ReadLong("next index pos");
-                classInfoIndex.SetName(_fsi.ReadString(false, "Index name"));
-                classInfoIndex.SetUnique(_fsi.ReadBoolean("index is unique"));
-                classInfoIndex.SetStatus(_fsi.ReadByte("index status"));
-                classInfoIndex.SetCreationDate(_fsi.ReadLong("creation date"));
-                classInfoIndex.SetLastRebuild(_fsi.ReadLong("last rebuild"));
+                classInfoIndex.Name = _fsi.ReadString(false, "Index name");
+                classInfoIndex.IsUnique = _fsi.ReadBoolean("index is unique");
+                classInfoIndex.Status = _fsi.ReadByte("index status");
+                classInfoIndex.CreationDate = _fsi.ReadLong("creation date");
+                classInfoIndex.LastRebuild = _fsi.ReadLong("last rebuild");
                 var nbAttributes = _fsi.ReadInt("number of fields");
                 var attributeIds = new int[nbAttributes];
                 for (var j = 0; j < nbAttributes; j++)
                     attributeIds[j] = _fsi.ReadInt("attr id");
-                classInfoIndex.SetAttributeIds(attributeIds);
+                classInfoIndex.AttributeIds = attributeIds;
                 indexes.Add(classInfoIndex);
             } while (nextIndexPosition != -1);
             return indexes;

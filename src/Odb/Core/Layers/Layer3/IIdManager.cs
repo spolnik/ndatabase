@@ -22,8 +22,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         void UpdateIdStatus(OID id, byte newStatus);
 
-        void ReserveIds(long nbIds);
-
         long GetObjectPositionWithOid(OID oid, bool useCache);
 
         void Clear();
@@ -33,7 +31,5 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         /// </summary>
         /// <returns> a boolean value to check if block of id is full </returns>
         bool MustShift();
-
-        OID ConsultNextOid();
     }
 }

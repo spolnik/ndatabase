@@ -341,19 +341,19 @@ namespace NDatabase.Odb.Core.Query.Execution
                                                  bool returnObjects, IMatchingObjectAction queryResultAction)
         {
             // Index that have not been used yet do not have persister!
-            if (index.GetBTree().GetPersister() == null)
-                index.GetBTree().SetPersister(new LazyOdbBtreePersister(StorageEngine));
+            if (index.BTree.GetPersister() == null)
+                index.BTree.SetPersister(new LazyOdbBtreePersister(StorageEngine));
 
             var nbObjects = ClassInfo.GetNumberOfObjects();
-            var btreeSize = index.GetBTree().GetSize();
+            var btreeSize = index.BTree.GetSize();
 
             // the two values should be equal
             if (nbObjects != btreeSize)
             {
-                var classInfo = StorageEngine.GetSession(true).GetMetaModel().GetClassInfoFromId(index.GetClassInfoId());
+                var classInfo = StorageEngine.GetSession(true).GetMetaModel().GetClassInfoFromId(index.ClassInfoId);
 
                 throw new OdbRuntimeException(
-                    NDatabaseError.IndexIsCorrupted.AddParameter(index.GetName()).AddParameter(classInfo.GetFullClassName()).
+                    NDatabaseError.IndexIsCorrupted.AddParameter(index.Name).AddParameter(classInfo.GetFullClassName()).
                         AddParameter(nbObjects).AddParameter(btreeSize));
             }
 
@@ -367,8 +367,8 @@ namespace NDatabase.Odb.Core.Query.Execution
             if (Query != null)
                 _queryHasOrderBy = Query.HasOrderBy();
 
-            var tree = index.GetBTree();
-            var isUnique = index.IsUnique();
+            var tree = index.BTree;
+            var isUnique = index.IsUnique;
 
             // Iterator iterator = new BTreeIterator(tree,
             // OrderByConstants.ORDER_BY_ASC);

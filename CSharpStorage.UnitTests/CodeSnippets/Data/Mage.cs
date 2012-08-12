@@ -12,8 +12,8 @@
         #region Implementation of IHero
 
         public string Name { get; private set; }
-        public double Attack { get; private set; }
-        public double Defense { get; private set; }
+        public double Attack { get; set; }
+        public double Defense { get; set; }
 
         #endregion
 

@@ -78,7 +78,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Criteria
             }
 
             return
-                buffer.Append("Following indexes have been used : ").Append(_classInfoIndex.GetName()).Append(
+                buffer.Append("Following indexes have been used : ").Append(_classInfoIndex.Name).Append(
                     ", Execution time=").Append(GetDuration()).Append("ms").ToString();
         }
 

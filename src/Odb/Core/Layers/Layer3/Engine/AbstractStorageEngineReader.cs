@@ -177,8 +177,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var classInfoIndex = classInfo.GetIndexWithName(indexName);
             DeleteIndex(className, indexName, verbose);
 
-            AddIndexOn(className, indexName, classInfo.GetAttributeNames(classInfoIndex.GetAttributeIds()), verbose,
-                       !classInfoIndex.IsUnique());
+            AddIndexOn(className, indexName, classInfo.GetAttributeNames(classInfoIndex.AttributeIds), verbose,
+                       !classInfoIndex.IsUnique);
         }
 
         public virtual void AddIndexOn(string className, string indexName, string[] indexFields, bool verbose,
@@ -205,7 +205,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                                            new LazyOdbBtreePersister(this));
             }
 
-            classInfoIndex.SetBTree(btree);
+            classInfoIndex.BTree = btree;
             Store(classInfoIndex);
 
             // Now The index must be updated with all existing objects.

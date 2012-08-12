@@ -5,9 +5,6 @@ namespace NDatabase.Btree
     /// <summary>
     ///   The interface for btree node.
     /// </summary>
-    /// <remarks>
-    ///   The interface for btree node.
-    /// </remarks>
     public interface IBTreeNode
     {
         bool IsFull();
@@ -60,10 +57,13 @@ namespace NDatabase.Btree
         ///   Returns the position of the key.
         /// </summary>
         /// <remarks>
-        ///   Returns the position of the key. If the key does not exist in node, returns the position where this key should be,multiplied by -1 <pre>or example for node of degree 3 : [1 89 452 789 - ],
-        ///                                                                                                                                        calling getPositionOfKey(89) returns 2 (starts with 1)
-        ///                                                                                                                                        calling getPositionOfKey(99) returns -2 (starts with 1),because the position should be done, but it does not exist so multiply by -1
-        ///                                                                                                                                        his is used to know the child we should descend to!in this case the getChild(2).</pre>
+        ///   Returns the position of the key. If the key does not exist in node, returns the position where this key should be,multiplied by -1 
+        ///                                                                                                                                      
+        ///  <pre>or example for node of degree 3 : [1 89 452 789 - ],    
+        ///    calling getPositionOfKey(89) returns 2 (starts with 1)    
+        ///    calling getPositionOfKey(99) returns -2 (starts with 1),because the position should be done, but it does not exist so multiply by -1
+        ///    his is used to know the child we should descend to!in this case the getChild(2).</pre>
+        /// 
         /// </remarks>
         /// <param name="key"> </param>
         /// <returns> The position of the key,as a negative number if key does not exist, warning, the position starts with 1and not 0! </returns>

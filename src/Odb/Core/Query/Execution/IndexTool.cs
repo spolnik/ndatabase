@@ -78,9 +78,9 @@ namespace NDatabase.Odb.Core.Query.Execution
         /// <returns> The key of the index </returns>
         public static IOdbComparable ComputeKey(ClassInfo ci, ClassInfoIndex index, CriteriaQuery query)
         {
-            var attributesNames = ci.GetAttributeNames(index.GetAttributeIds());
+            var attributesNames = ci.GetAttributeNames(index.AttributeIds);
             var values = query.GetCriteria().GetValues();
-            return BuildIndexKey(index.GetName(), values, attributesNames);
+            return BuildIndexKey(index.Name, values, attributesNames);
         }
     }
 }
