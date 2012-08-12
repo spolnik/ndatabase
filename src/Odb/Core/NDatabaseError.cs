@@ -146,16 +146,6 @@ namespace NDatabase.Odb.Core
         public static readonly NDatabaseError QueryTypeNotImplemented = new NDatabaseError(242,
                                                                                          "Query type @1 not implemented");
 
-        public static readonly NDatabaseError CryptoAlgorithNotFound = new NDatabaseError(243,
-                                                                                        "Could not get the MD5 algorithm to encrypt the password");
-
-        public static readonly NDatabaseError XmlHeader = new NDatabaseError(244, "Error while creating XML Header");
-
-        public static readonly NDatabaseError XmlReservingIds = new NDatabaseError(245, "Error while reserving @1 ids");
-
-        public static readonly NDatabaseError XmlSettingMetaModel = new NDatabaseError(246,
-                                                                                     "Error while setting meta model");
-
         public static readonly NDatabaseError SerializationFromString = new NDatabaseError(247,
                                                                                          "Error while deserializing: expecting classId @1 and received @2");
 
@@ -167,22 +157,11 @@ namespace NDatabase.Odb.Core
 
         public static readonly NDatabaseError CacheNegativeOid = new NDatabaseError(250, "Negative oid set in cache @1");
 
-        public static readonly NDatabaseError ClientServerSynchronizeIds = new NDatabaseError(251,
-                                                                                            "Error while synchronizing oids,length are <>, local=@1, client=@2");
-
-        public static readonly NDatabaseError ClientServerCanNotOpenOdbServerOnPort = new NDatabaseError(252,
-                                                                                                       "Can not start ODB server on port @1");
-
-        public static readonly NDatabaseError ClientServerCanNotAssociateOids = new NDatabaseError(253,
-                                                                                                 "Can not associate server and client oids : server oid=@1 and client oid=@2");
-
         public static readonly NDatabaseError SessionDoesNotExistForConnection = new NDatabaseError(254,
                                                                                                   "Connection @1 for base @2 does not have any associated session");
 
         public static readonly NDatabaseError SessionDoesNotExistForConnectionId = new NDatabaseError(255,
                                                                                                     "Connection ID @1 does not have any associated session");
-
-        public static readonly NDatabaseError ClientServerError = new NDatabaseError(256, "ServerSide Error : @1");
 
         public static readonly NDatabaseError ObjectReaderDirectCall = new NDatabaseError(257,
                                                                                         "Generic readObjectInfo called for non native object info");
@@ -201,15 +180,6 @@ namespace NDatabase.Odb.Core
 
         public static readonly NDatabaseError ImportError = new NDatabaseError(263, "Import error: @1");
 
-        public static readonly NDatabaseError ClientServerCanNotCreateClassInfo = new NDatabaseError(264,
-                                                                                                   "ServerSide Error : Can not create class info @1");
-
-        public static readonly NDatabaseError ClientServerMetaModelInconsistency = new NDatabaseError(265,
-                                                                                                    "ServerSide Error : Meta model on server and client are inconsistent : class @1 exist on server and does not exist on the client!");
-
-        public static readonly NDatabaseError ClientServerMetaModelInconsistencyDifferentOid = new NDatabaseError(266,
-                                                                                                                "ServerSide Error : Meta model on server and client are inconsistent : class @1 have different OIDs on server (@2) and client(@3)!");
-
         public static readonly NDatabaseError MethodShouldNotBeCalled = new NDatabaseError(267,
                                                                                          "Method @1 should not be called on @2");
 
@@ -224,12 +194,6 @@ namespace NDatabase.Odb.Core
 
         public static readonly NDatabaseError BtreeSizeDiffersFromClassElementNumber = new NDatabaseError(271,
                                                                                                         "The Index has @1 element(s) whereas the Class has @2 objects. The two values should be equal");
-
-        public static readonly NDatabaseError ClientServerConnectionIsNull = new NDatabaseError(272,
-                                                                                              "The connection ID @1 does not exist in connection manager (@2)");
-
-        public static readonly NDatabaseError ClientServerPortIsBusy = new NDatabaseError(273,
-                                                                                        "Can not start ODB server on port @1: The port is busy. Check if another server is not already running of this port");
 
         public static readonly NDatabaseError InstanceBuilderNativeType = new NDatabaseError(274,
                                                                                            "Native object of type @1 can not be instanciated");
@@ -249,13 +213,7 @@ namespace NDatabase.Odb.Core
         public static readonly IError InstanciationError = new NDatabaseError(279,
                                                                              "Error while creating instance of type @1");
 
-        public static readonly IError ServerSideError = new NDatabaseError(280, "Server side error @1 : @2");
-
         public static readonly IError NetSerialisationError = new NDatabaseError(281, "Net Serialization Error : @1 \n@2");
-
-        public static readonly IError ClientNetError = new NDatabaseError(282, "Client Net Error");
-
-        public static readonly IError ServerNetError = new NDatabaseError(283, "Server Net Error");
 
         public static readonly IError ErrorWhileGettingConstrctorsOfClass = new NDatabaseError(284,
                                                                                               "Error while getting constructor of @1");
@@ -265,8 +223,6 @@ namespace NDatabase.Odb.Core
         public static readonly NDatabaseError CacheNullObject = new NDatabaseError(286, "Null Object : @1");
 
         public static readonly NDatabaseError LookupKeyNotFound = new NDatabaseError(287, "Lookup key not found : @1");
-
-        public static readonly NDatabaseError ServerError = new NDatabaseError(288, "Server error : @1");
 
         public static readonly NDatabaseError ReflectionErrorWhileGettingField = new NDatabaseError(289,
                                                                                                   "Error while getting field @1 on class @2");
@@ -280,9 +236,6 @@ namespace NDatabase.Odb.Core
 
         public static readonly NDatabaseError ErrorWhileCreatingMessageStreamer = new NDatabaseError(293,
                                                                                                    "Error while creating message streamer '@1'");
-
-        public static readonly NDatabaseError ClientServerUnknownCommand = new NDatabaseError(294,
-                                                                                            "Unknown server command : @1");
 
         public static readonly NDatabaseError ContainsQueryWithNoQuery = new NDatabaseError(295,
                                                                                           "Contains criteria with no query!");
@@ -444,9 +397,6 @@ namespace NDatabase.Odb.Core
         public static readonly NDatabaseError CacheIsFull = new NDatabaseError(1050,
                                                                              "Cache is full! ( it has @1 object(s). The maximum size is @2. Please increase the size of the cache using Configuration.setMaxNumberOfObjectInCache, or call the Configuration.setAutomaticallyIncreaseCacheSize(true)");
 
-        public static readonly NDatabaseError UnregisteredBaseOnServer = new NDatabaseError(1051,
-                                                                                          "Base @1 must be added on server before configuring it");
-
         public static readonly IError UnsupportedEncoding = new NDatabaseError(1052, "Unsupported encoding @1");
 
         public static readonly IError ReconnectOnlyWithByteCodeAgentConfigured = new NDatabaseError(1053,
@@ -469,9 +419,6 @@ namespace NDatabase.Odb.Core
 
         public static readonly IError OperationNotAllowedInTrigger = new NDatabaseError(1056,
                                                                                        "Operation not allowed in trigger");
-
-        public static readonly IError CanNotAssociateServerTriggerToLocalOrClientOdb = new NDatabaseError(1057,
-                                                                                                         "Can not associate server trigger @1 to local or client ODB");
 
         public static readonly IError TriggerCalledOnNullObject = new NDatabaseError(1058,
                                                                                     "Trigger has been called on class @1 on a null object so it cannot retrieve the value of the '@2' attribute");

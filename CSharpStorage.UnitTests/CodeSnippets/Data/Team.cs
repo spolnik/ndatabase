@@ -22,7 +22,11 @@ namespace NDatabase.UnitTests.CodeSnippets.Data
         public override string ToString()
         {
             var buffer = new StringBuilder();
-            buffer.Append("Team ").Append(Name).Append(" ").Append(Players);
+            buffer.Append("Team ").Append(Name).AppendLine();
+
+            foreach (var player in Players)
+                buffer.AppendLine(string.Format("\t{0}", player));
+
             return buffer.ToString();
         }
     }
