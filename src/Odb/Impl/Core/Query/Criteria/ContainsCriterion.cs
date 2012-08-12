@@ -138,6 +138,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Criteria
                 if (abstractObjectInfo.IsNull() && _criterionValue == null && _oid == null)
                     return true;
 
+                Ready();
                 if (_oid == null)
                     continue;
 
@@ -178,19 +179,18 @@ namespace NDatabase.Odb.Impl.Core.Query.Criteria
 
         public override void Ready()
         {
-            if (!_objectIsNative)
-            {
-                if (GetQuery() == null)
-                    throw new OdbRuntimeException(NDatabaseError.ContainsQueryWithNoQuery);
+            if (_objectIsNative)
+                return;
 
-                var engine = GetQuery().GetStorageEngine();
-                if (engine == null)
-                    throw new OdbRuntimeException(NDatabaseError.ContainsQueryWithNoStorageEngine);
+            if (GetQuery() == null)
+                throw new OdbRuntimeException(NDatabaseError.ContainsQueryWithNoQuery);
 
-                // For non native object, we just need the oid of it
-                _oid = engine.GetObjectId(_criterionValue, false);
-                _criterionValue = null;
-            }
+            var engine = GetQuery().GetStorageEngine();
+            if (engine == null)
+                throw new OdbRuntimeException(NDatabaseError.ContainsQueryWithNoStorageEngine);
+
+            // For non native object, we just need the oid of it
+            _oid = engine.GetObjectId(_criterionValue, false);
         }
     }
 }

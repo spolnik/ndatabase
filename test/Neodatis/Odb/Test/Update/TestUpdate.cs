@@ -42,11 +42,11 @@ namespace Test.Odb.Test.Update
 
         public static string FileName = "update.neodatis";
 
-        private sealed class _SimpleNativeQuery_134 : SimpleNativeQuery
+        internal sealed class SimpleNativeQuery134 : SimpleNativeQuery
         {
             private readonly string newName;
 
-            public _SimpleNativeQuery_134(string newName)
+            public SimpleNativeQuery134(string newName)
             {
                 this.newName = newName;
             }
@@ -55,22 +55,13 @@ namespace Test.Odb.Test.Update
             {
                 return user.GetProfile().GetName().Equals(newName);
             }
-
-            #region Overrides of AbstractQuery
-
-            public override void SetFullClassName(Type type)
-            {
-                // nothing
-            }
-
-            #endregion
         }
 
-        private sealed class _SimpleNativeQuery_179 : SimpleNativeQuery
+        internal sealed class SimpleNativeQuery179 : SimpleNativeQuery
         {
             private readonly string newName;
 
-            public _SimpleNativeQuery_179(string newName)
+            public SimpleNativeQuery179(string newName)
             {
                 this.newName = newName;
             }
@@ -79,15 +70,6 @@ namespace Test.Odb.Test.Update
             {
                 return user.GetProfile().GetName().Equals(newName);
             }
-
-            #region Overrides of AbstractQuery
-
-            public override void SetFullClassName(Type type)
-            {
-                // nothing
-            }
-
-            #endregion
         }
 
         [TearDown]
@@ -144,7 +126,7 @@ namespace Test.Odb.Test.Update
             odb = Open(FileName);
             l = odb.GetObjects<User>(query);
             AssertTrue(l.Count == size - 1);
-            query = new _SimpleNativeQuery_134(newName);
+            query = new SimpleNativeQuery134(newName);
             l = odb.GetObjects<User>(query);
             AssertFalse(l.Count == 0);
             var l2 = odb.GetObjects<Profile>(false);
@@ -175,7 +157,7 @@ namespace Test.Odb.Test.Update
             l = odb.GetObjects<User>(query);
             AssertEquals(l.Count + 1, size);
             AssertEquals(nbProfiles10, odb.GetObjects<Profile>(pquery).Count + 1);
-            query = new _SimpleNativeQuery_179(newName);
+            query = new SimpleNativeQuery179(newName);
             l = odb.GetObjects<User>(query);
             AssertEquals(1, l.Count);
             var l2 = odb.GetObjects<Profile>(false);

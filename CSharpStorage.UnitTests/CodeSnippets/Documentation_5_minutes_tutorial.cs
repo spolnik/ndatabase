@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Globalization;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.Criteria;
+using NDatabase.Odb.Core.Query.NQ;
 using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NDatabase.Tool.Wrappers.IO;
 using NDatabase.UnitTests.CodeSnippets.Data;
@@ -135,27 +137,112 @@ namespace NDatabase.UnitTests.CodeSnippets
 
         private static void Step6()
         {
-            throw new NotImplementedException();
+            using (var odb = OdbFactory.Open(TutorialDb5MinName))
+            {
+                IQuery query = new CriteriaQuery(typeof(Player), Where.Or().Add(Where.Equal("FavoriteSport._name", "volley-ball"))
+                    .Add(Where.Like("FavoriteSport._name", "%nnis")));
+ 
+                var players = odb.GetObjects<Player>(query);
+ 
+                Console.WriteLine("\nStep 6 : Volley-ball and Tennis Players");
+ 
+                foreach (var player in players)
+                    Console.WriteLine("\t{0}", player);
+
+                Assert.That(players, Has.Count.EqualTo(5));
+            }
         }
 
         private static void Step7()
         {
-            throw new NotImplementedException();
+            using (var odb = OdbFactory.Open(TutorialDb5MinName))
+            {
+                IQuery query = new CriteriaQuery(typeof(Player), Where.Not(Where.Equal("FavoriteSport._name", "volley-ball")));
+ 
+                var players = odb.GetObjects<Player>(query);
+ 
+                Console.WriteLine("\nStep 7 : Players that don't play Volley-ball");
+
+                foreach (var player in players)
+                    Console.WriteLine("\t{0}", player);
+
+                Assert.That(players, Has.Count.EqualTo(1));
+            }
+        }
+
+        internal sealed class VolleySimpleNativeQuery : SimpleNativeQuery
+        {
+            public bool Match(Player player)
+            {
+                return player.FavoriteSport.Name.ToLower(CultureInfo.InvariantCulture).StartsWith("volley");
+            }
         }
 
         private static void Step8()
         {
-            throw new NotImplementedException();
+            // Open the database
+            using (var odb = OdbFactory.Open(TutorialDb5MinName))
+            {
+                IQuery query = new VolleySimpleNativeQuery();
+ 
+                var players = odb.GetObjects<Player>(query);
+ 
+                Console.WriteLine("\nStep 8 bis: Players that play Volley-ball");
+
+                foreach (var player in players)
+                    Console.WriteLine("\t{0}", player);
+
+                Assert.That(players, Has.Count.EqualTo(4));
+            }
         }
 
         private static void Step9()
         {
-            throw new NotImplementedException();
+            using (var odb = OdbFactory.Open(TutorialDb5MinName))
+            {
+                IQuery query = new CriteriaQuery(typeof(Player), Where.Equal("Name", "magdalena"));
+                var players = odb.GetObjects<Player>(query);
+                var magdalena = players.GetFirst();
+ 
+                // builds a query to get all teams where mihn plays
+                query = new CriteriaQuery(typeof(Team), Where.Contain("Players", magdalena));
+                var teams = odb.GetObjects<Team>(query);
+
+                Console.WriteLine("\nStep 9: Team where magdalena plays");
+
+                foreach (var team in teams)
+                    Console.WriteLine("\t{0}", team);
+
+                Assert.That(teams, Has.Count.EqualTo(1));
+            }
         }
 
         private static void Step10()
         {
-            throw new NotImplementedException();
+            using (var odb = OdbFactory.Open(TutorialDb5MinName))
+            {
+                IQuery query = new CriteriaQuery(typeof (Player));
+                query.OrderByAsc("Name");
+
+                var players = odb.GetObjects<Player>(query);
+
+                Console.WriteLine("\nStep 10: Players ordered by name asc");
+
+                foreach (var player in players)
+                    Console.WriteLine("\t{0}", player);
+
+                Assert.That(players, Has.Count.EqualTo(5));
+
+                query.OrderByDesc("Name");
+                players = odb.GetObjects<Player>(query);
+
+                Console.WriteLine("\nStep 10: Players ordered by name desc");
+
+                foreach (var player in players)
+                    Console.WriteLine("\t{0}", player);
+
+                Assert.That(players, Has.Count.EqualTo(5));
+            }
         }
     }
 }
