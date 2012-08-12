@@ -37,7 +37,7 @@ namespace Test.Odb.Test.Performance
 			// Insert TEST_SIZE objects
 			System.Console.Out.WriteLine("Inserting " + TestSize + " objects");
 			t1 = OdbTime.GetCurrentTimeInTicks();
-			odb = OdbFactory.Open(OdbFileName);
+			odb = NDatabase.Odb.OdbFactory.Open(OdbFileName);
 			odb.GetClassRepresentation(typeof(User)).AddFullInstantiationHelper
 				(new UserFullInstantiationHelper());
 			for (int i = 0; i < TestSize; i++)
@@ -51,7 +51,7 @@ namespace Test.Odb.Test.Performance
 			t3 = OdbTime.GetCurrentTimeInTicks();
 			System.Console.Out.WriteLine("Retrieving " + TestSize + " objects");
 			// Reopen the database
-			odb = OdbFactory.Open(OdbFileName);
+			odb = NDatabase.Odb.OdbFactory.Open(OdbFileName);
 			// Gets retrieve the TEST_SIZE objects
 			l = odb.GetObjects<User>(inMemory);
 			t4 = OdbTime.GetCurrentTimeInTicks();
@@ -77,7 +77,7 @@ namespace Test.Odb.Test.Performance
 			odb.Close();
 			t7 = OdbTime.GetCurrentTimeInTicks();
 			System.Console.Out.WriteLine("Deleting " + TestSize + " objects");
-			odb = OdbFactory.Open(OdbFileName);
+			odb = NDatabase.Odb.OdbFactory.Open(OdbFileName);
 			l = odb.GetObjects<User>(inMemory);
 			t77 = OdbTime.GetCurrentTimeInTicks();
 			// Actually get objects
@@ -88,7 +88,7 @@ namespace Test.Odb.Test.Performance
 			}
 			odb.Close();
 			t8 = OdbTime.GetCurrentTimeInTicks();
-			odb = OdbFactory.Open(OdbFileName);
+			odb = NDatabase.Odb.OdbFactory.Open(OdbFileName);
 			odb.Close();
 			DisplayResult("ODB " + TestSize + " User objects ", t1, t2, t3, t4, t5, t6, t7, t77
 				, t8);

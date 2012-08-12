@@ -43,17 +43,17 @@ namespace Test.Odb.Test
 
         public virtual IOdb Open(String fileName, String user, String password)
         {
-            return OdbFactory.Open(fileName);
+            return NDatabase.Odb.OdbFactory.Open(fileName);
         }
 
         public virtual IOdb Open(String fileName)
         {
-            return OdbFactory.Open(fileName);
+            return NDatabase.Odb.OdbFactory.Open(fileName);
         }
 
         public virtual IOdb OpenLocal(String fileName)
         {
-            return OdbFactory.Open(fileName);
+            return NDatabase.Odb.OdbFactory.Open(fileName);
         }
 
         public virtual void failCS()

@@ -329,7 +329,7 @@
     <Compile Include="Odb\OdbAbstractOID.cs" />
     <Compile Include="Odb\OdbConfiguration.cs" />
     <Compile Include="Odb\ODBExt.cs" />
-    <Compile Include="Odb\ODBFactory.cs" />
+    <Compile Include="Odb\OdbFactory.cs" />
     <Compile Include="Odb\ODBRuntimeException.cs" />
     <Compile Include="Odb\OID.cs" />
     <Compile Include="Odb\Tool\ObjectInfoHeaderListDisplay.cs" />

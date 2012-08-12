@@ -3,16 +3,12 @@ using NDatabase.Odb.Impl.Main;
 namespace NDatabase.Odb
 {
     /// <summary>
-    ///   The ODBFactory to obtain the right ODB implementation.
+    ///   The NDatabase Factory to open new instance of local odb.
     /// </summary>
-    /// <remarks>
-    ///   The ODBFactory to obtain the right ODB implementation.
-    /// </remarks>
-    /// <author>osmadja</author>
     public static class OdbFactory
     {
         /// <summary>
-        ///   Open a non password protected ODB database
+        ///   Open a ODB database instance with a given name
         /// </summary>
         /// <param name="fileName"> The ODB database name </param>
         /// <returns> A local ODB implementation </returns>

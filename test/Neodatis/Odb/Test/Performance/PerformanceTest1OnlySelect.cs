@@ -37,7 +37,7 @@ namespace Test.Odb.Test.Performance
             // Insert TEST_SIZE objects
             Console.Out.WriteLine("Inserting " + TestSize + " objects");
             t1 = OdbTime.GetCurrentTimeInTicks();
-            odb = OdbFactory.Open(OdbFileName);
+            odb = NDatabase.Odb.OdbFactory.Open(OdbFileName);
             for (var i = 0; i < TestSize; i++)
             {
                 object o = GetSimpleObjectInstance(i);
@@ -62,7 +62,7 @@ namespace Test.Odb.Test.Performance
             var inMemory = true;
             Console.Out.WriteLine("Retrieving " + TestSize + " objects");
             // Reopen the database
-            var odb = OdbFactory.Open(OdbFileName);
+            var odb = NDatabase.Odb.OdbFactory.Open(OdbFileName);
             // Gets the TEST_SIZE objects
             var l = odb.GetObjects<SimpleObject>(inMemory);
             Console.Out.WriteLine(l.GetType().FullName);

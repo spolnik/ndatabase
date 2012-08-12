@@ -22,7 +22,7 @@ namespace NDatabase.UnitTests.Base
 
         protected override IOdb Create_subject_under_test()
         {
-            return OdbFactory.Open(_dbFileName);
+            return Odb.OdbFactory.Open(_dbFileName);
         }
 
         protected override void Because()
@@ -35,7 +35,7 @@ namespace NDatabase.UnitTests.Base
         {
             SubjectUnderTest.Dispose();
 
-            using (var db = OdbFactory.Open(_dbFileName))
+            using (var db = Odb.OdbFactory.Open(_dbFileName))
             {
                 var restoredPerson = db.GetObjects<Person>().First();
                 Assert.That(restoredPerson.Name, Is.EqualTo(_person.Name));
