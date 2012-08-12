@@ -177,32 +177,10 @@ namespace Test.Odb.Test.Performance
             // "   /   same pos for read = "+
             // MultiBufferedIO.nbSamePositionForRead);
             Println("Nb  =" + OdbType.Number);
-            Assert.That(tinsert, Is.LessThan(6500));
-            Assert.That(tselect, Is.LessThan(3500));
+            Assert.That(tinsert, Is.LessThan(7500));
+            Assert.That(tselect, Is.LessThan(4000));
             Assert.That(tupdate, Is.LessThan(9000));
             Assert.That(tdelete, Is.LessThan(6000));
         }
-
-        /// <exception cref="System.Exception"></exception>
-        public static void Main2(string[] args)
-        {
-            // Thread.sleep(15000);
-            // OdbConfiguration.setMessageStreamerClass(HessianMessageStreamer.class);
-            var pt = new PerformanceTest1();
-            pt.TestInsertSimpleObjectODB();
-        }
-    }
-
-    internal class SimpleObjectFullInstantiationHelper : IFullInstantiationHelper
-    {
-        #region IFullInstantiationHelper Members
-
-        public virtual object Instantiate(NonNativeObjectInfo nnoi)
-        {
-            var so = new SimpleObject();
-            return so;
-        }
-
-        #endregion
     }
 }
