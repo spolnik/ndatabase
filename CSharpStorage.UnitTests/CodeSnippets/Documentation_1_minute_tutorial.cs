@@ -1,5 +1,7 @@
 ﻿using System;
 using NDatabase.Odb;
+using NDatabase.Odb.Core.Query;
+using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NDatabase.Tool.Wrappers.IO;
 using NDatabase.UnitTests.CodeSnippets.Data;
 using NUnit.Framework;
@@ -59,7 +61,9 @@ namespace NDatabase.UnitTests.CodeSnippets
                 Assert.That(warriors.GetFirst().Defense, Is.EqualTo(warriorDefenseValue));
 
                 // work with heroes
-                var heroes = odb.GetObjects<IHero>();
+                var query = CriteriaQuery.New<IHero>().SetPolymorphic(true);
+
+                var heroes = odb.GetObjects<IHero>(query);
                 foreach (var hero in heroes)
                     Console.WriteLine(hero);
 

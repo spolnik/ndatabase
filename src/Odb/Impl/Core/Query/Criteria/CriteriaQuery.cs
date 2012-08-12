@@ -15,11 +15,11 @@ namespace NDatabase.Odb.Impl.Core.Query.Criteria
         private ICriterion _criterion;
         private string _fullClassName;
 
-        public CriteriaQuery(Type aClass, ICriterion criteria) : this((string) OdbClassUtil.GetFullName(aClass), criteria)
+        public CriteriaQuery(Type aClass, ICriterion criteria) : this(OdbClassUtil.GetFullName(aClass), criteria)
         {
         }
 
-        public CriteriaQuery(Type aClass) : this((string) OdbClassUtil.GetFullName(aClass))
+        public CriteriaQuery(Type aClass) : this(OdbClassUtil.GetFullName(aClass))
         {
         }
 
@@ -46,6 +46,11 @@ namespace NDatabase.Odb.Impl.Core.Query.Criteria
                 _criterion = criteria;
                 _criterion.SetQuery(this);
             }
+        }
+
+        public static CriteriaQuery New<T>()
+        {
+            return new CriteriaQuery(typeof (T));
         }
 
         public virtual bool HasCriteria()
