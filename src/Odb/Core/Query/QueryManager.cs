@@ -99,11 +99,11 @@ namespace NDatabase.Odb.Core.Query
         protected static IQueryExecutor GetSingleClassQueryExecutor(IQuery query, IStorageEngine engine,
                                                                     IInstanceBuilder instanceBuilder)
         {
-            if (typeof (CriteriaQuery) == query.GetType())
-                return new CriteriaQueryExecutor(query, engine);
-
-            if (typeof (ValuesCriteriaQuery) == query.GetType())
+            if (query is ValuesCriteriaQuery)
                 return new ValuesCriteriaQueryExecutor(query, engine);
+
+            if (query is CriteriaQuery)
+                return new CriteriaQueryExecutor(query, engine);
 
             if (query is NativeQuery)
                 return new NativeQueryExecutor(query, engine, instanceBuilder);

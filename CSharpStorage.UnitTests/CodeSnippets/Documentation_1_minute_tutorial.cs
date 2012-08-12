@@ -60,6 +60,8 @@ namespace NDatabase.UnitTests.CodeSnippets
                 Assert.That(warriors.GetFirst().Attack, Is.EqualTo(warriorAttackValue));
                 Assert.That(warriors.GetFirst().Defense, Is.EqualTo(warriorDefenseValue));
 
+                Console.WriteLine("Start working with IHero interface.");
+
                 // work with heroes
                 var query = CriteriaQuery.New<IHero>().SetPolymorphic(true);
 

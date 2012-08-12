@@ -55,6 +55,15 @@ namespace Test.Odb.Test.Update
             {
                 return user.GetProfile().GetName().Equals(newName);
             }
+
+            #region Overrides of AbstractQuery
+
+            public override void SetFullClassName(Type type)
+            {
+                // nothing
+            }
+
+            #endregion
         }
 
         private sealed class _SimpleNativeQuery_179 : SimpleNativeQuery
@@ -70,6 +79,15 @@ namespace Test.Odb.Test.Update
             {
                 return user.GetProfile().GetName().Equals(newName);
             }
+
+            #region Overrides of AbstractQuery
+
+            public override void SetFullClassName(Type type)
+            {
+                // nothing
+            }
+
+            #endregion
         }
 
         [TearDown]

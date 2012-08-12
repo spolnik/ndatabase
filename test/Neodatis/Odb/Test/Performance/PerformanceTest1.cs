@@ -127,9 +127,10 @@ namespace Test.Odb.Test.Performance
                 }
                 odb.Close();
             }
+            t8 = OdbTime.GetCurrentTimeInMs();
+
             Thread.Sleep(500);
 
-            t8 = OdbTime.GetCurrentTimeInMs();
             OdbConfiguration.SetReconnectObjectsToSession(reconnectStatus);
             DisplayResult("ODB " + TestSize + " SimpleObject objects ", t1, t2, t3, t4, t5, t6, t7, t77, t8);
         }
