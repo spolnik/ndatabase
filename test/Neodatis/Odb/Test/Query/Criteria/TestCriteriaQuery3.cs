@@ -5,14 +5,16 @@ using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 using Test.Odb.Test.VO.Login;
+using System.Linq;
 
 namespace Test.Odb.Test.Query.Criteria
 {
     [TestFixture]
     public class TestCriteriaQuery3 : ODBTest
     {
-        public void SetUp(string baseName)
+        private void Init(string baseName)
         {
+            DeleteBase(baseName);
             var odb = Open(baseName);
             var start = OdbTime.GetCurrentTimeInTicks();
             var size = 10;
@@ -33,12 +35,11 @@ namespace Test.Odb.Test.Query.Criteria
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
         [Test]
         public virtual void Test1()
         {
             var baseName = GetBaseName();
-            SetUp(baseName);
+            Init(baseName);
             var odb = Open(baseName);
             var query = new CriteriaQuery(Where.Equal("profile.name", "profile2"));
             var l = odb.GetObjects<User>(query);
@@ -46,18 +47,17 @@ namespace Test.Odb.Test.Query.Criteria
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
         [Test]
         public virtual void TestCriteriaQueryQueryWithObject()
         {
             var baseName = GetBaseName();
-            SetUp(baseName);
+            Init(baseName);
             var odb = Open(baseName);
-            var p0 = new Profile("profile0");
+            var p0 = new Profile("profileCust0");
             p0.AddFunction(null);
             p0.AddFunction(new VO.Login.Function("f1"));
             p0.AddFunction(new VO.Login.Function("f2"));
-            var p1 = new Profile("profile1");
+            var p1 = new Profile("profileCust1");
             p1.AddFunction(null);
             p1.AddFunction(new VO.Login.Function("f12"));
             p1.AddFunction(new VO.Login.Function("f22"));
@@ -67,7 +67,9 @@ namespace Test.Odb.Test.Query.Criteria
             odb.Store(user2);
             odb.Close();
             odb = Open(baseName);
-            var pp = odb.GetObjects<Profile>(new CriteriaQuery(Where.Equal("name", "profile0"))).GetFirst();
+            var criteriaQuery = new CriteriaQuery(Where.Equal("name", "profileCust0"));
+            var pp = odb.GetObjects<Profile>(criteriaQuery).GetFirst();
+
             var query = new CriteriaQuery(Where.Equal("profile", pp));
             var l = odb.GetObjects<User>(query);
             AssertEquals(1, l.Count);
@@ -81,7 +83,7 @@ namespace Test.Odb.Test.Query.Criteria
         public virtual void TestCriteriaQueryQueryWithValueInList()
         {
             var baseName = GetBaseName();
-            SetUp(baseName);
+            Init(baseName);
             var odb = Open(baseName);
             var p0 = new Profile("profile0");
             p0.AddFunction(null);
@@ -111,7 +113,7 @@ namespace Test.Odb.Test.Query.Criteria
         public virtual void TestCriteriaQueryQueryWithValueInList2()
         {
             var baseName = GetBaseName();
-            SetUp(baseName);
+            Init(baseName);
             var odb = Open(baseName);
             var p0 = new Profile("profile0");
             p0.AddFunction(new VO.Login.Function("f1"));
@@ -139,14 +141,16 @@ namespace Test.Odb.Test.Query.Criteria
         public virtual void TestCriteriaQueryQueryWithValueInList2_with_null_object()
         {
             var baseName = GetBaseName();
-            SetUp(baseName);
+            Init(baseName);
             var odb = Open(baseName);
             var p0 = new Profile("profile0");
             p0.AddFunction(new VO.Login.Function("f1"));
             p0.AddFunction(new VO.Login.Function("f2"));
-            var p1 = new Profile("profile1");
             p0.AddFunction(new VO.Login.Function("f12"));
             p0.AddFunction(new VO.Login.Function("f22"));
+
+            var p1 = new Profile("profile1");
+
             var user = new User("The user", "themail", p0);
             var user2 = new User("The user2", "themail2", p1);
             odb.Store(user);
@@ -156,8 +160,9 @@ namespace Test.Odb.Test.Query.Criteria
             var f2bis = new VO.Login.Function("f2");
             var query = new CriteriaQuery(typeof (Profile), Where.Contain("functions", null));
             var l = odb.GetObjects<Profile>(query);
-            AssertEquals(1, l.Count);
-            p1 = l.GetFirst();
+            //One from test, one from init
+            AssertEquals(2, l.Count);
+            p1 = l.First(x => x.GetName().Equals("profile1"));
             AssertEquals("profile1", p1.GetName());
             odb.Close();
         }
@@ -167,7 +172,7 @@ namespace Test.Odb.Test.Query.Criteria
         public virtual void TestCriteriaQueryQueryWithValueInList3()
         {
             var baseName = GetBaseName();
-            SetUp(baseName);
+            Init(baseName);
             var odb = Open(baseName);
             var p0 = new Profile("profile0");
             p0.AddFunction(null);
@@ -197,7 +202,7 @@ namespace Test.Odb.Test.Query.Criteria
         public virtual void TestCriteriaQueryQueryWithValueInList4()
         {
             var baseName = GetBaseName();
-            SetUp(baseName);
+            Init(baseName);
             var odb = Open(baseName);
             IList<string> strings = new List<string>();
             var c = new ClassWithListOfString("name", strings);
@@ -224,7 +229,7 @@ namespace Test.Odb.Test.Query.Criteria
         public virtual void TestCriteriaQueryQueryWithValueInList5()
         {
             var baseName = GetBaseName();
-            SetUp(baseName);
+            Init(baseName);
             var odb = Open(baseName);
             IList<string> strings = new List<string>();
             var c = new ClassWithListOfString("name", strings);
@@ -248,7 +253,7 @@ namespace Test.Odb.Test.Query.Criteria
         public virtual void TestCriteriaQueryQueryWithValueInList6()
         {
             var baseName = GetBaseName();
-            SetUp(baseName);
+            Init(baseName);
             var odb = Open(baseName);
             IList<string> strings = new List<string>();
             var c = new ClassWithListOfString("name", strings);
@@ -272,7 +277,7 @@ namespace Test.Odb.Test.Query.Criteria
         public virtual void TestListSize0()
         {
             var baseName = GetBaseName();
-            SetUp(baseName);
+            Init(baseName);
             IOdb odb = null;
             try
             {
@@ -298,7 +303,7 @@ namespace Test.Odb.Test.Query.Criteria
             try
             {
                 var baseName = GetBaseName();
-                SetUp(baseName);
+                Init(baseName);
                 odb = Open(baseName);
                 var query = new CriteriaQuery(typeof (User), Where.SizeEq("profile.functions", 1));
                 var l = odb.GetObjects<User>(query);
@@ -319,7 +324,7 @@ namespace Test.Odb.Test.Query.Criteria
             try
             {
                 var baseName = GetBaseName();
-                SetUp(baseName);
+                Init(baseName);
                 odb = Open(baseName);
                 var query = new CriteriaQuery(Where.SizeEq("profile.functions", 4));
                 var l = odb.GetObjects<User>(query);
@@ -343,7 +348,7 @@ namespace Test.Odb.Test.Query.Criteria
             try
             {
                 var baseName = GetBaseName();
-                SetUp(baseName);
+                Init(baseName);
                 odb = Open(baseName);
                 var query = new CriteriaQuery(Where.SizeGt("profile.functions", 2));
                 var l = odb.GetObjects<User>(query);
@@ -364,7 +369,7 @@ namespace Test.Odb.Test.Query.Criteria
             try
             {
                 var baseName = GetBaseName();
-                SetUp(baseName);
+                Init(baseName);
                 odb = Open(baseName);
                 var query = new CriteriaQuery(Where.SizeNe("profile.functions", 1));
                 var l = odb.GetObjects<User>(query);

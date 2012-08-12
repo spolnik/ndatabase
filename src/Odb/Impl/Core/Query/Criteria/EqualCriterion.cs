@@ -120,9 +120,14 @@ namespace NDatabase.Odb.Impl.Core.Query.Criteria
                 var objectOid = (OID) valueToMatch;
                 if (_oid == null)
                 {
-                    // TODO Should we return false or thrown exception?
-                    // See junit TestCriteriaQuery6.test1
-                    return false;
+                    Ready();
+
+                    if (_oid == null)
+                    {
+                        // TODO Should we return false or thrown exception?
+                        // See junit TestCriteriaQuery6.test1
+                        return false;    
+                    }
                 }
 
                 // throw new

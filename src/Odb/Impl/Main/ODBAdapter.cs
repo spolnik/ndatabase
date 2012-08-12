@@ -84,6 +84,7 @@ namespace NDatabase.Odb.Impl.Main
         public virtual IObjects<T> GetObjects<T>(IQuery query)
         {
             query.SetFullClassName(typeof (T));
+            query.SetStorageEngine(_storageEngine);
             return _storageEngine.GetObjects<T>(query, true, -1, -1);
         }
 

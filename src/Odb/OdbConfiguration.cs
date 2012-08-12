@@ -20,7 +20,7 @@ namespace NDatabase.Odb
         private const int NbIdsPerBlock = 1000;
 
         private const int IdBlockRepetitionSize = 18;
-        private const string DefaultDatabaseCharacterEncoding = "UTF8";
+        private const string DefaultDatabaseCharacterEncoding = "UTF-8";
         private static bool _coreProviderInit;
 
         private static bool _debugEnabled;
