@@ -23,6 +23,7 @@ namespace Resistance
         /// </summary>
         /// <exception cref="System.Exception">System.Exception</exception>
         [Test]
+        [Ignore("Long running test")]
         public virtual void Test1WithCommit()
         {
             var stopWatch = new StopWatch();
@@ -306,6 +307,7 @@ namespace Resistance
         /// </summary>
         /// <exception cref="System.Exception">System.Exception</exception>
         [Test]
+        [Ignore("Long running test")]
         public virtual void Test1WithoutCommit()
         {
             var stopWatch = new StopWatch();

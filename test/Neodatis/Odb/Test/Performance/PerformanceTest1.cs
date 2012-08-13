@@ -11,7 +11,8 @@ namespace Test.Odb.Test.Performance
 {
     public class PerformanceTest1 : ODBTest
     {
-        public static int TestSize = 50000;
+//        public static int TestSize = 50000;
+        public static int TestSize = 5000;
 
         public static readonly string OdbFileName = "perf.neodatis";
 

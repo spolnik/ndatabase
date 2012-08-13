@@ -12,8 +12,8 @@ namespace Resistance
         [Test]
         public virtual void Test8()
         {
-            var size1 = 1000;
-            var size2 = 1000;
+            var size1 = 10;
+            var size2 = 100;
 
             var baseName = GetBaseName();
             IOdb odb = null;

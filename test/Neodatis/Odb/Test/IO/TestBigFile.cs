@@ -48,6 +48,7 @@ namespace IO
 		}
 
 		[Test]
+        [Ignore("Test big file, long test")]
 		public virtual void T2estBigFileWithOdb()
 		{
 			int size1 = 10000;
@@ -71,12 +72,12 @@ namespace IO
 		}
 
 		[Test]
+        [Ignore("Test big file, long test")]
 		public virtual void T2estBigFileWithOdbSelect()
 		{
-			// OdbConfiguration.setUseIndex(false);
 			string baseName = "big-file.neodatis";
 			IOdb odb = null;
-			// Thread.sleep(20000);
+			
 			try
 			{
 				long start = OdbTime.GetCurrentTimeInMs();
