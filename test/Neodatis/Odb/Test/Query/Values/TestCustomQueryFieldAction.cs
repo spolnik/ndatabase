@@ -1,44 +1,43 @@
-using NUnit.Framework;
-namespace NeoDatis.Odb.Test.Query.Values
+using System;
+using NDatabase.Odb;
+using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Impl.Core.Query.Values;
+
+namespace Query.Values
 {
-	[System.Serializable]
-	[TestFixture]
-    public class TestCustomQueryFieldAction : NeoDatis.Odb.Impl.Core.Query.Values.CustomQueryFieldAction
-	{
-		private System.Decimal myValue;
+    [Serializable]
+    public class TestCustomQueryFieldAction : CustomQueryFieldAction
+    {
+        private Decimal myValue;
 
-		public TestCustomQueryFieldAction()
-		{
-			this.myValue = new System.Decimal(0);
-		}
+        public TestCustomQueryFieldAction()
+        {
+            myValue = new Decimal(0);
+        }
 
-		public override void Execute(NeoDatis.Odb.OID oid, NeoDatis.Odb.Core.Layers.Layer2.Meta.AttributeValuesMap
-			 values)
-		{
-			System.Decimal n = NeoDatis.Odb.Impl.Core.Query.Values.ValuesUtil.Convert((System.Decimal
-				)values[attributeName]);
-			myValue = myValue.Add(new System.Decimal(n.ToString()).Multiply(new System.Decimal
-				(2)));
-		}
+        public override void Execute(OID oid, AttributeValuesMap values)
+        {
+            var n = ValuesUtil.Convert((Decimal) values[oid]);
+            var multiply = decimal.Multiply(new Decimal(2), Convert.ToDecimal(n.ToString()));
+            myValue = decimal.Add(multiply, myValue);
+        }
 
-		public override object GetValue()
-		{
-			return myValue;
-		}
+        public override object GetValue()
+        {
+            return myValue;
+        }
 
-		public override bool IsMultiRow()
-		{
-			return false;
-		}
+        public override bool IsMultiRow()
+        {
+            return false;
+        }
 
-		public override void Start()
-		{
-		}
+        public override void Start()
+        {
+        }
 
-		// Nothing to do
-		public override void End()
-		{
-		}
-		// Nothing to do
-	}
+        public override void End()
+        {
+        }
+    }
 }

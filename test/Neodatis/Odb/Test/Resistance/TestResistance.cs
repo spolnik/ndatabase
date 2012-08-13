@@ -1,80 +1,73 @@
+using NDatabase.Odb;
 using NUnit.Framework;
-namespace NeoDatis.Odb.Test.Resistance
+using Test.Odb.Test;
+using Test.Odb.Test.VO.Login;
+
+namespace Resistance
 {
-	[TestFixture]
-    public class TestResistance : NeoDatis.Odb.Test.ODBTest
-	{
-		/// <exception cref="System.Exception"></exception>
-		[Test]
+    [TestFixture]
+    public class TestResistance : ODBTest
+    {
+        /// <exception cref="System.Exception"></exception>
+        [Test]
         public virtual void Test8()
-		{
-			int size1 = 1000;
-			int size2 = 1000;
-			if (!runAll)
-			{
-				return;
-			}
-			string baseName = GetBaseName();
-			NeoDatis.Odb.ODB odb = null;
-			NeoDatis.Odb.Objects os = null;
-			for (int i = 0; i < size1; i++)
-			{
-				odb = Open(baseName);
-				for (int j = 0; j < size2; j++)
-				{
-					NeoDatis.Odb.Test.VO.Login.Function f = new NeoDatis.Odb.Test.VO.Login.Function("function "
-						 + j);
-					odb.Store(f);
-				}
-				odb.Close();
-				odb = Open(baseName);
-				os = odb.GetObjects(typeof(NeoDatis.Odb.Test.VO.Login.Function));
-				while (os.HasNext())
-				{
-					NeoDatis.Odb.Test.VO.Login.Function f = (NeoDatis.Odb.Test.VO.Login.Function)os.Next
-						();
-					odb.Delete(f);
-				}
-				odb.Close();
-				if (i % 100 == 0)
-				{
-					Println(i + "/" + size1);
-				}
-			}
-			odb = Open(baseName);
-			os = odb.GetObjects(typeof(NeoDatis.Odb.Test.VO.Login.Function));
-			AssertEquals(0, os.Count);
-			odb.Close();
-			Println("step2");
-			for (int i = 0; i < size1; i++)
-			{
-				odb = Open(baseName);
-				os = odb.GetObjects(typeof(NeoDatis.Odb.Test.VO.Login.Function));
-				while (os.HasNext())
-				{
-					NeoDatis.Odb.Test.VO.Login.Function f = (NeoDatis.Odb.Test.VO.Login.Function)os.Next
-						();
-					odb.Delete(f);
-				}
-				odb.Close();
-				odb = Open(baseName);
-				for (int j = 0; j < size2; j++)
-				{
-					NeoDatis.Odb.Test.VO.Login.Function f = new NeoDatis.Odb.Test.VO.Login.Function("function "
-						 + j);
-					odb.Store(f);
-				}
-				odb.Close();
-				if (i % 100 == 0)
-				{
-					Println(i + "/" + size1);
-				}
-			}
-			odb = Open(baseName);
-			os = odb.GetObjects(typeof(NeoDatis.Odb.Test.VO.Login.Function));
-			AssertEquals(size2, os.Count);
-			odb.Close();
-			DeleteBase(baseName);
-		}
-	}
+        {
+            var size1 = 1000;
+            var size2 = 1000;
+
+            var baseName = GetBaseName();
+            IOdb odb = null;
+            IObjects<Function> os = null;
+            for (var i = 0; i < size1; i++)
+            {
+                odb = Open(baseName);
+                for (var j = 0; j < size2; j++)
+                {
+                    var f = new Function("function " + j);
+                    odb.Store(f);
+                }
+                odb.Close();
+                odb = Open(baseName);
+                os = odb.GetObjects<Function>();
+                while (os.HasNext())
+                {
+                    var f = os.Next();
+                    odb.Delete(f);
+                }
+                odb.Close();
+                if (i % 100 == 0)
+                    Println(i + "/" + size1);
+            }
+            odb = Open(baseName);
+            os = odb.GetObjects<Function>();
+            AssertEquals(0, os.Count);
+            odb.Close();
+            Println("step2");
+            for (var i = 0; i < size1; i++)
+            {
+                odb = Open(baseName);
+                os = odb.GetObjects<Function>();
+                while (os.HasNext())
+                {
+                    var f = os.Next();
+                    odb.Delete(f);
+                }
+                odb.Close();
+                odb = Open(baseName);
+                for (var j = 0; j < size2; j++)
+                {
+                    var f = new Function("function " + j);
+                    odb.Store(f);
+                }
+                odb.Close();
+                if (i % 100 == 0)
+                    Println(i + "/" + size1);
+            }
+            odb = Open(baseName);
+            os = odb.GetObjects<Function>();
+            AssertEquals(size2, os.Count);
+            odb.Close();
+            DeleteBase(baseName);
+        }
+    }
 }

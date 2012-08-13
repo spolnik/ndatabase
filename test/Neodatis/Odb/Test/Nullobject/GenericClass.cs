@@ -1,5 +1,5 @@
 using NUnit.Framework;
-namespace NeoDatis.Odb.Test.Nullobject
+namespace Nullobject
 {
 	public class GenericClass
 	{

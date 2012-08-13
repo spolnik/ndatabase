@@ -1,35 +1,32 @@
-using NUnit.Framework;
-namespace NeoDatis.Odb.Test.Trigger
+using NDatabase.Odb;
+using NDatabase.Odb.Core.Trigger;
+
+namespace Trigger
 {
-	public class MyUpdateTriggerBefore : NeoDatis.Odb.Core.Trigger.UpdateTrigger
-	{
-		public virtual void AfterInsert(object @object, NeoDatis.Odb.OID oid)
-		{
-		}
+    public class MyUpdateTriggerBefore : UpdateTrigger
+    {
+        public virtual void AfterInsert(object @object, OID oid)
+        {
+        }
 
-		public virtual bool BeforeInsert(object @object)
-		{
-			NeoDatis.Odb.Test.Trigger.SimpleObject so = (NeoDatis.Odb.Test.Trigger.SimpleObject
-				)@object;
-			// just add 1
-			so.SetId(so.GetId() + 1);
-			return true;
-		}
+        public virtual bool BeforeInsert(object @object)
+        {
+            var so = (SimpleObject) @object;
+            // just add 1
+            so.SetId(so.GetId() + 1);
+            return true;
+        }
 
-		public override void AfterUpdate(NeoDatis.Odb.ObjectRepresentation oldObjectRepresentation
-			, object newObject, NeoDatis.Odb.OID oid)
-		{
-		}
+        public override void AfterUpdate(IObjectRepresentation oldObjectRepresentation, object newObject, OID oid)
+        {
+        }
 
-		// TODO Auto-generated method stub
-		public override bool BeforeUpdate(NeoDatis.Odb.ObjectRepresentation oldObjectRepresentation
-			, object newObject, NeoDatis.Odb.OID oid)
-		{
-			NeoDatis.Odb.Test.Trigger.SimpleObject so = (NeoDatis.Odb.Test.Trigger.SimpleObject
-				)newObject;
-			// just add 1
-			so.SetId(so.GetId() + 1);
-			return true;
-		}
-	}
+        public override bool BeforeUpdate(IObjectRepresentation oldObjectRepresentation, object newObject, OID oid)
+        {
+            var so = (SimpleObject) newObject;
+            // just add 1
+            so.SetId(so.GetId() + 1);
+            return true;
+        }
+    }
 }

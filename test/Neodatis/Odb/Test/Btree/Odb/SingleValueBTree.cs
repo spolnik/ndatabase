@@ -1,15 +1,18 @@
+using NDatabase.Btree;
+using NDatabase.Odb.Impl.Core.Btree;
 using NUnit.Framework;
-namespace NeoDatis.Odb.Test.Btree.Odb
+using Test.Odb.Test;
+
+namespace Btree.Odb
 {
 	/// <author>olivier</author>
-	public class SingleValueBTree : NeoDatis.Odb.Test.ODBTest
+	public class SingleValueBTree : ODBTest
 	{
 		[Test]
         public virtual void Test2SameKeySingleBTree()
 		{
 			int size = 1000;
-			NeoDatis.Btree.IBTree tree = new NeoDatis.Btree.Impl.Singlevalue.InMemoryBTreeSingleValuePerKey
-				("test1", 50);
+            IBTree tree = new OdbBtreeSingle();
 			for (int i = 0; i < size; i++)
 			{
 				if (i % 10000 == 0)
@@ -32,8 +35,8 @@ namespace NeoDatis.Odb.Test.Btree.Odb
 			}
 			catch (System.Exception)
 			{
+                Assert.Pass();
 			}
 		}
-		// TODO: handle exception
 	}
 }

@@ -2,16 +2,16 @@ using System;
 
 namespace NDatabase.Tool.Wrappers
 {
-    internal static class OdbRandom
+    public static class OdbRandom
     {
         private static readonly Random Random = new Random();
 
-        internal static int GetRandomInteger()
+        public static int GetRandomInteger()
         {
             return Random.Next();
         }
 
-        internal static double GetRandomDouble()
+        public static double GetRandomDouble()
         {
             return Random.NextDouble();
         }

@@ -7,6 +7,8 @@ namespace NDatabase.Btree
     /// </summary>
     public interface IBTreeNode
     {
+        int GetNbKeys();
+
         bool IsFull();
 
         bool IsLeaf();
@@ -74,8 +76,6 @@ namespace NDatabase.Btree
         void MergeWith(IBTreeNode node);
 
         void RemoveKeyAndValueAt(int index);
-
-        int GetNbKeys();
 
         void SetNbKeys(int nbKeys);
 

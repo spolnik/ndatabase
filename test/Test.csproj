@@ -57,6 +57,7 @@
       <HintPath>..\External-Lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -68,10 +69,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Function.cs" />
-    <Compile Include="Neodatis\Btree\MockBTree.cs" />
-    <Compile Include="Neodatis\Btree\MockBTreeNodeFactory.cs" />
     <Compile Include="Neodatis\Odb\Test\Acid\TestConsistency.cs" />
     <Compile Include="Neodatis\Odb\Test\Acid\TestStopEngineWithoutCommit.cs" />
+    <Compile Include="Neodatis\Odb\Test\Acid\TestTransactionPersistence.cs" />
+    <Compile Include="Neodatis\Odb\Test\Arraycollectionmap\ClassWithNonGenericMap.cs" />
     <Compile Include="Neodatis\Odb\Test\Arraycollectionmap\MyList.cs" />
     <Compile Include="Neodatis\Odb\Test\Arraycollectionmap\MyObject.cs" />
     <Compile Include="Neodatis\Odb\Test\Arraycollectionmap\ObjectWithListOfInteger.cs" />
@@ -83,6 +84,14 @@
     <Compile Include="Neodatis\Odb\Test\Arraycollectionmap\TestList.cs" />
     <Compile Include="Neodatis\Odb\Test\Arraycollectionmap\TestMap.cs" />
     <Compile Include="Neodatis\Odb\Test\Arraycollectionmap\TestMapContainingCollection.cs" />
+    <Compile Include="Neodatis\Odb\Test\Btree\Odb\BigBTree.cs" />
+    <Compile Include="Neodatis\Odb\Test\Btree\Odb\MultipleKeyBTree.cs" />
+    <Compile Include="Neodatis\Odb\Test\Btree\Odb\SingleValueBTree.cs" />
+    <Compile Include="Neodatis\Odb\Test\Btree\Odb\TestBTreeInsertAndSearch.cs" />
+    <Compile Include="Neodatis\Odb\Test\Btree\Odb\TestLazyBTree.cs" />
+    <Compile Include="Neodatis\Odb\Test\Btree\Odb\TestNativeBTree.cs" />
+    <Compile Include="Neodatis\Odb\Test\Btree\Odb\TestODBLazyBTree.cs" />
+    <Compile Include="Neodatis\Odb\Test\Btree\Odb\TestPersister.cs" />
     <Compile Include="Neodatis\Odb\Test\Buffer\TestBigData.cs" />
     <Compile Include="Neodatis\Odb\Test\Cache\MyObjectWithMyHashCode.cs" />
     <Compile Include="Neodatis\Odb\Test\Cache\MyObjectWithMyHashCode2.cs" />
@@ -91,17 +100,58 @@
     <Compile Include="Neodatis\Odb\Test\Cache\TestInsertingObject.cs" />
     <Compile Include="Neodatis\Odb\Test\Commit\TestCommit.cs" />
     <Compile Include="Neodatis\Odb\Test\Conversion\TestNumberConversion.cs" />
+    <Compile Include="Neodatis\Odb\Test\Cyclic\ClassA.cs" />
+    <Compile Include="Neodatis\Odb\Test\Cyclic\ClassB.cs" />
+    <Compile Include="Neodatis\Odb\Test\Cyclic\TestCyclicReference.cs" />
+    <Compile Include="Neodatis\Odb\Test\Cyclic\TestCyclicReference2.cs" />
+    <Compile Include="Neodatis\Odb\Test\Defragment\TestDefragment.cs" />
     <Compile Include="Neodatis\Odb\Test\Delete\TestDelete.cs" />
     <Compile Include="Neodatis\Odb\Test\Delete\TestDelete2.cs" />
+    <Compile Include="Neodatis\Odb\Test\Dotnet\TestBTree.cs" />
     <Compile Include="Neodatis\Odb\Test\Encoding\TestEncoding.cs" />
+    <Compile Include="Neodatis\Odb\Test\Enum\ClassWithEnum.cs" />
+    <Compile Include="Neodatis\Odb\Test\Enum\TestEnum.cs" />
     <Compile Include="Neodatis\Odb\Test\Error\TestError.cs" />
+    <Compile Include="Neodatis\Odb\Test\Explorer\CreateDataToTestOdbExplorer.cs" />
+    <Compile Include="Neodatis\Odb\Test\Ext\TestExt.cs" />
+    <Compile Include="Neodatis\Odb\Test\Index\IndexedObject.cs" />
+    <Compile Include="Neodatis\Odb\Test\Index\IndexedObject2.cs" />
+    <Compile Include="Neodatis\Odb\Test\Index\IndexedObject3.cs" />
+    <Compile Include="Neodatis\Odb\Test\Index\TestCreateObjectAfterInsert.cs" />
+    <Compile Include="Neodatis\Odb\Test\Index\TestIndex.cs" />
+    <Compile Include="Neodatis\Odb\Test\Index\TestIndex2.cs" />
+    <Compile Include="Neodatis\Odb\Test\Index\TestIndexesWithValueQueries.cs" />
+    <Compile Include="Neodatis\Odb\Test\Index\TestIndexingByObject.cs" />
     <Compile Include="Neodatis\Odb\Test\Inheritance\Class1.cs" />
     <Compile Include="Neodatis\Odb\Test\Inheritance\Class2.cs" />
     <Compile Include="Neodatis\Odb\Test\Inheritance\Class3.cs" />
     <Compile Include="Neodatis\Odb\Test\Inheritance\IInterface.cs" />
     <Compile Include="Neodatis\Odb\Test\Inheritance\SubClassOfClass1.cs" />
     <Compile Include="Neodatis\Odb\Test\Inheritance\TestInheritance.cs" />
+    <Compile Include="Neodatis\Odb\Test\Insert\StorageEngineTest.cs" />
     <Compile Include="Neodatis\Odb\Test\Insert\TestInsert.cs" />
+    <Compile Include="Neodatis\Odb\Test\Insert\TestJavaObjects.cs" />
+    <Compile Include="Neodatis\Odb\Test\Instantiationhelper\Car.cs" />
+    <Compile Include="Neodatis\Odb\Test\Instantiationhelper\TestInstanceHelper.cs" />
+    <Compile Include="Neodatis\Odb\Test\Interfaces\TestObjectWithInterfaces.cs" />
+    <Compile Include="Neodatis\Odb\Test\Intropector\Class1.cs" />
+    <Compile Include="Neodatis\Odb\Test\Intropector\Class2.cs" />
+    <Compile Include="Neodatis\Odb\Test\Intropector\Class3.cs" />
+    <Compile Include="Neodatis\Odb\Test\Intropector\InstrospectorTest.cs" />
+    <Compile Include="Neodatis\Odb\Test\Intropector\IntrospectorWithNestedClasses.cs" />
+    <Compile Include="Neodatis\Odb\Test\Intropector\TestArray.cs" />
+    <Compile Include="Neodatis\Odb\Test\IO\MockBaseIdentification.cs" />
+    <Compile Include="Neodatis\Odb\Test\IO\MockObjectReader.cs" />
+    <Compile Include="Neodatis\Odb\Test\IO\MockObjectWriter.cs" />
+    <Compile Include="Neodatis\Odb\Test\IO\MockSession.cs" />
+    <Compile Include="Neodatis\Odb\Test\IO\MockStorageEngine.cs" />
+    <Compile Include="Neodatis\Odb\Test\IO\TestBigFile.cs" />
+    <Compile Include="Neodatis\Odb\Test\IO\TestFileLock.cs" />
+    <Compile Include="Neodatis\Odb\Test\IO\TestFileSystemInterface1.cs" />
+    <Compile Include="Neodatis\Odb\Test\IO\TestFileSystemInterface2.cs" />
+    <Compile Include="Neodatis\Odb\Test\IO\TestReservingSpace.cs" />
+    <Compile Include="Neodatis\Odb\Test\IO\TestUseAfterClose.cs" />
+    <Compile Include="Neodatis\Odb\Test\Jdk15\Generics\TestGenerics.cs" />
     <Compile Include="Neodatis\Odb\Test\List\MyInt.cs" />
     <Compile Include="Neodatis\Odb\Test\List\MyLong.cs" />
     <Compile Include="Neodatis\Odb\Test\List\TestFieldComparatorSort.cs" />
@@ -119,6 +169,8 @@
     <Compile Include="Neodatis\Odb\Test\Newbie\UpdateTest.cs" />
     <Compile Include="Neodatis\Odb\Test\Newbie\VO\Car.cs" />
     <Compile Include="Neodatis\Odb\Test\Newbie\VO\Driver.cs" />
+    <Compile Include="Neodatis\Odb\Test\Nullobject\GenericClass.cs" />
+    <Compile Include="Neodatis\Odb\Test\Nullobject\TestNullObject.cs" />
     <Compile Include="Neodatis\Odb\Test\ODBTest.cs" />
     <Compile Include="Neodatis\Odb\Test\Oid\A.cs" />
     <Compile Include="Neodatis\Odb\Test\Oid\AllIDs.cs" />
@@ -154,6 +206,8 @@
     <Compile Include="Neodatis\Odb\Test\Performance\TestGetWithStartIndex.cs" />
     <Compile Include="Neodatis\Odb\Test\Performance\TestInstanceOf.cs" />
     <Compile Include="Neodatis\Odb\Test\Performance\TestLazy.cs" />
+    <Compile Include="Neodatis\Odb\Test\Performance\TestMapPerf.cs" />
+    <Compile Include="Neodatis\Odb\Test\Performance\TestWeakReference.cs" />
     <Compile Include="Neodatis\Odb\Test\Query\Criteria\Class1.cs" />
     <Compile Include="Neodatis\Odb\Test\Query\Criteria\Class2.cs" />
     <Compile Include="Neodatis\Odb\Test\Query\Criteria\ClassB.cs" />
@@ -171,13 +225,46 @@
     <Compile Include="Neodatis\Odb\Test\Query\Criteria\TestPolyMorphic.cs" />
     <Compile Include="Neodatis\Odb\Test\Query\Criteria\TestQueryOrderBy.cs" />
     <Compile Include="Neodatis\Odb\Test\Query\Criteria\TestRelation.cs" />
+    <Compile Include="Neodatis\Odb\Test\Query\NQ\TestNativeQuery.cs" />
+    <Compile Include="Neodatis\Odb\Test\Query\NQ\TestNQQuery.cs" />
+    <Compile Include="Neodatis\Odb\Test\Query\NQ\TestNQQuery2.cs" />
+    <Compile Include="Neodatis\Odb\Test\Query\NQ\TestPolyMorphic.cs" />
+    <Compile Include="Neodatis\Odb\Test\Query\Values\Handler.cs" />
+    <Compile Include="Neodatis\Odb\Test\Query\Values\Parameter.cs" />
+    <Compile Include="Neodatis\Odb\Test\Query\Values\TestCustomQueryFieldAction.cs" />
+    <Compile Include="Neodatis\Odb\Test\Query\Values\TestCustomQueryFieldAction2.cs" />
+    <Compile Include="Neodatis\Odb\Test\Query\Values\TestGetValues.cs" />
+    <Compile Include="Neodatis\Odb\Test\Query\Values\TestGetValuesGroupBy.cs" />
+    <Compile Include="Neodatis\Odb\Test\Query\Values\TestGetValuesHandlerParameter.cs" />
+    <Compile Include="Neodatis\Odb\Test\Query\Values\TestPerfObjectValuesVsCriteriaQuery.cs" />
+    <Compile Include="Neodatis\Odb\Test\Query\Values\TestPerfObjectValuesVsCriteriaQueryWithIndexes.cs" />
+    <Compile Include="Neodatis\Odb\Test\Query\Values\TestSubList.cs" />
+    <Compile Include="Neodatis\Odb\Test\Query\Values\TestValuesQueryWithOid.cs" />
+    <Compile Include="Neodatis\Odb\Test\Resistance\TestResistance.cs" />
+    <Compile Include="Neodatis\Odb\Test\Resistance\TestResistance1.cs" />
     <Compile Include="Neodatis\Odb\Test\Rollback\TestRollBack.cs" />
+    <Compile Include="Neodatis\Odb\Test\School\SchoolNativeQueryStudent.cs" />
+    <Compile Include="Neodatis\Odb\Test\School\SchoolNativeQueryTeacher.cs" />
+    <Compile Include="Neodatis\Odb\Test\School\SchoolSimpleNativeQueryStudent.cs" />
+    <Compile Include="Neodatis\Odb\Test\School\TestQuerySchool.cs" />
+    <Compile Include="Neodatis\Odb\Test\Serialization\TestSerialization.cs" />
     <Compile Include="Neodatis\Odb\Test\Session\TestSession.cs" />
     <Compile Include="Neodatis\Odb\Test\TestTypeConverter.cs" />
     <Compile Include="Neodatis\Odb\Test\Tools\TestString.cs" />
     <Compile Include="Neodatis\Odb\Test\Transaction\TestInTransaction.cs" />
     <Compile Include="Neodatis\Odb\Test\Transient_attributes\TestTransient.cs" />
     <Compile Include="Neodatis\Odb\Test\Transient_attributes\VoWithTransientAttribute.cs" />
+    <Compile Include="Neodatis\Odb\Test\Trigger\ID.cs" />
+    <Compile Include="Neodatis\Odb\Test\Trigger\LocalAutoIncrementTrigger.cs" />
+    <Compile Include="Neodatis\Odb\Test\Trigger\MySelectTrigger.cs" />
+    <Compile Include="Neodatis\Odb\Test\Trigger\MyTrigger.cs" />
+    <Compile Include="Neodatis\Odb\Test\Trigger\MyTriggerBefore.cs" />
+    <Compile Include="Neodatis\Odb\Test\Trigger\MyUpdateTriggerBefore.cs" />
+    <Compile Include="Neodatis\Odb\Test\Trigger\ObjectWithAutoIncrementId.cs" />
+    <Compile Include="Neodatis\Odb\Test\Trigger\SimpleObject.cs" />
+    <Compile Include="Neodatis\Odb\Test\Trigger\TestAutoIncrementTrigger.cs" />
+    <Compile Include="Neodatis\Odb\Test\Trigger\TestTrigger.cs" />
+    <Compile Include="Neodatis\Odb\Test\Trigger\TestTriggerBefore.cs" />
     <Compile Include="Neodatis\Odb\Test\Tutorial\Game.cs" />
     <Compile Include="Neodatis\Odb\Test\Tutorial\Player.cs" />
     <Compile Include="Neodatis\Odb\Test\Tutorial\Sport.cs" />
@@ -238,6 +325,9 @@
     <Compile Include="Neodatis\Odb\Test\VO\Sport\Player.cs" />
     <Compile Include="Neodatis\Odb\Test\VO\Sport\Sport.cs" />
     <Compile Include="Neodatis\Odb\Test\VO\Sport\Team.cs" />
+    <Compile Include="Neodatis\Test\Btree\Impl\Singlevalue\MockBTreeNodeSingleValue.cs" />
+    <Compile Include="Neodatis\Test\Btree\Impl\Singlevalue\TestBTree2.cs" />
+    <Compile Include="Neodatis\Test\Btree\Impl\Singlevalue\TestBTreeSingleValue.cs" />
     <Compile Include="Neodatis\Tool\StopWatch.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -248,9 +338,7 @@
       <Name>NDatabase</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Neodatis\Tool\mutex\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
@@ -270,7 +358,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Neodatis\Odb\Test\Arraycollectionmap\ObjectWith2DimensionsArrayOfInteger.java" />
-    <Content Include="Neodatis\Odb\Test\StorageEngineTest.java" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

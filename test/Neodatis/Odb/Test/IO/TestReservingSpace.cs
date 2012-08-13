@@ -1,8 +1,13 @@
+using NDatabase.Odb;
+using NDatabase.Odb.Core.Layers.Layer3;
+using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NUnit.Framework;
-namespace NeoDatis.Odb.Test.IO
+using Test.Odb.Test;
+
+namespace IO
 {
 	[TestFixture]
-    public class TestReservingSpace : NeoDatis.Odb.Test.ODBTest
+    public class TestReservingSpace : ODBTest
 	{
 		/// <exception cref="System.Exception"></exception>
 		[Test]
@@ -12,15 +17,13 @@ namespace NeoDatis.Odb.Test.IO
 			DeleteBase("writing");
 			DeleteBase("reserving.neodatis");
 			DeleteBase("reserving");
-			NeoDatis.Odb.Core.Layers.Layer3.IStorageEngine engine1 = NeoDatis.Odb.OdbConfiguration
-				.GetCoreProvider().GetClientStorageEngine(new NeoDatis.Odb.Core.Layers.Layer3.IOFileParameter
-				(NeoDatis.Odb.Test.ODBTest.Directory + "writing.neodatis", true, null, null));
-			NeoDatis.Odb.Core.Layers.Layer3.IStorageEngine engine2 = NeoDatis.Odb.OdbConfiguration
-				.GetCoreProvider().GetClientStorageEngine(new NeoDatis.Odb.Core.Layers.Layer3.IOFileParameter
-				(NeoDatis.Odb.Test.ODBTest.Directory + "reserving.neodatis", true, null, null));
-			NeoDatis.Odb.Core.Layers.Layer3.Engine.IFileSystemInterface writingFsi = engine1.
+			IStorageEngine engine1 = OdbConfiguration
+				.GetCoreProvider().GetStorageEngine(new IOFileParameter(ODBTest.Directory + "writing.neodatis", true));
+			IStorageEngine engine2 = OdbConfiguration
+				.GetCoreProvider().GetStorageEngine(new IOFileParameter(ODBTest.Directory + "reserving.neodatis", true));
+			IFileSystemInterface writingFsi = engine1.
 				GetObjectWriter().GetFsi();
-			NeoDatis.Odb.Core.Layers.Layer3.Engine.IFileSystemInterface reservingFsi = engine2
+			IFileSystemInterface reservingFsi = engine2
 				.GetObjectWriter().GetFsi();
 			AssertEquals(writingFsi.GetLength(), reservingFsi.GetLength());
 			Write(writingFsi, false);
@@ -35,8 +38,7 @@ namespace NeoDatis.Odb.Test.IO
 		}
 
 		/// <exception cref="System.IO.IOException"></exception>
-		public virtual void Write(NeoDatis.Odb.Core.Layers.Layer3.Engine.IFileSystemInterface
-			 fsi, bool writeInTransaction)
+		public virtual void Write(IFileSystemInterface fsi, bool writeInTransaction)
 		{
 			fsi.WriteInt(1, writeInTransaction, "1");
 		}

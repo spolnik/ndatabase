@@ -4,7 +4,6 @@ using NDatabase.Odb.Core;
 
 namespace NDatabase.Btree
 {
-    
     public abstract class AbstractBTreeIterator<T> : IterarorAdapter, IEnumerator<T>
     {
         private readonly IBTree _btree;

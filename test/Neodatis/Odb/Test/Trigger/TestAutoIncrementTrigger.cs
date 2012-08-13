@@ -1,8 +1,11 @@
+using NDatabase.Odb;
 using NUnit.Framework;
-namespace NeoDatis.Odb.Test.Trigger
+using Test.Odb.Test;
+
+namespace Trigger
 {
 	[TestFixture]
-    public class TestAutoIncrementTrigger : NeoDatis.Odb.Test.ODBTest
+    public class TestAutoIncrementTrigger : ODBTest
 	{
 		public static readonly string Base = "trigger-auto-increment.neodatis";
 
@@ -10,18 +13,13 @@ namespace NeoDatis.Odb.Test.Trigger
 		[Test]
         public virtual void Test1()
 		{
-			if (!isLocal)
-			{
-				return;
-			}
-			NeoDatis.Odb.ODB odb = null;
+			IOdb odb = null;
 			DeleteBase(Base);
 			try
 			{
 				odb = Open(Base);
-				odb.AddInsertTrigger(typeof(NeoDatis.Odb.Test.Trigger.ObjectWithAutoIncrementId), 
-					new NeoDatis.Odb.Test.Trigger.LocalAutoIncrementTrigger());
-				NeoDatis.Odb.Test.Trigger.ObjectWithAutoIncrementId o = new NeoDatis.Odb.Test.Trigger.ObjectWithAutoIncrementId
+				odb.AddInsertTrigger(typeof(Trigger.ObjectWithAutoIncrementId), new LocalAutoIncrementTrigger());
+				Trigger.ObjectWithAutoIncrementId o = new Trigger.ObjectWithAutoIncrementId
 					("Object 1");
 				odb.Store(o);
 				AssertEquals(1, o.GetId());
@@ -39,26 +37,22 @@ namespace NeoDatis.Odb.Test.Trigger
 		[Test]
         public virtual void Test2Objects()
 		{
-			if (!isLocal)
-			{
-				return;
-			}
-			NeoDatis.Odb.ODB odb = null;
+			IOdb odb = null;
 			DeleteBase(Base);
 			try
 			{
 				odb = Open(Base);
-				odb.AddInsertTrigger(typeof(NeoDatis.Odb.Test.Trigger.ObjectWithAutoIncrementId), 
-					new NeoDatis.Odb.Test.Trigger.LocalAutoIncrementTrigger());
-				NeoDatis.Odb.Test.Trigger.ObjectWithAutoIncrementId o = new NeoDatis.Odb.Test.Trigger.ObjectWithAutoIncrementId
+				odb.AddInsertTrigger(typeof(Trigger.ObjectWithAutoIncrementId), 
+					new Trigger.LocalAutoIncrementTrigger());
+				Trigger.ObjectWithAutoIncrementId o = new Trigger.ObjectWithAutoIncrementId
 					("Object 1");
 				odb.Store(o);
 				AssertEquals(1, o.GetId());
 				odb.Close();
 				odb = Open(Base);
-				odb.AddInsertTrigger(typeof(NeoDatis.Odb.Test.Trigger.ObjectWithAutoIncrementId), 
-					new NeoDatis.Odb.Test.Trigger.LocalAutoIncrementTrigger());
-				o = new NeoDatis.Odb.Test.Trigger.ObjectWithAutoIncrementId("Object 2");
+				odb.AddInsertTrigger(typeof(Trigger.ObjectWithAutoIncrementId), 
+					new Trigger.LocalAutoIncrementTrigger());
+				o = new Trigger.ObjectWithAutoIncrementId("Object 2");
 				odb.Store(o);
 				AssertEquals(2, o.GetId());
 			}
@@ -75,31 +69,27 @@ namespace NeoDatis.Odb.Test.Trigger
 		[Test]
         public virtual void Test1000Objects()
 		{
-			if (!isLocal)
-			{
-				return;
-			}
-			NeoDatis.Odb.ODB odb = null;
+			IOdb odb = null;
 			DeleteBase(Base);
 			try
 			{
 				odb = Open(Base);
-				odb.AddInsertTrigger(typeof(NeoDatis.Odb.Test.Trigger.ObjectWithAutoIncrementId), 
-					new NeoDatis.Odb.Test.Trigger.LocalAutoIncrementTrigger());
+				odb.AddInsertTrigger(typeof(Trigger.ObjectWithAutoIncrementId), 
+					new Trigger.LocalAutoIncrementTrigger());
 				for (int i = 0; i < 1000; i++)
 				{
-					NeoDatis.Odb.Test.Trigger.ObjectWithAutoIncrementId o = new NeoDatis.Odb.Test.Trigger.ObjectWithAutoIncrementId
+					Trigger.ObjectWithAutoIncrementId o = new Trigger.ObjectWithAutoIncrementId
 						("Object " + (i + 1));
 					odb.Store(o);
 					AssertEquals(i + 1, o.GetId());
 				}
 				odb.Close();
 				odb = Open(Base);
-				odb.AddInsertTrigger(typeof(NeoDatis.Odb.Test.Trigger.ObjectWithAutoIncrementId), 
-					new NeoDatis.Odb.Test.Trigger.LocalAutoIncrementTrigger());
+				odb.AddInsertTrigger(typeof(Trigger.ObjectWithAutoIncrementId), 
+					new Trigger.LocalAutoIncrementTrigger());
 				for (int i = 0; i < 1000; i++)
 				{
-					NeoDatis.Odb.Test.Trigger.ObjectWithAutoIncrementId o = new NeoDatis.Odb.Test.Trigger.ObjectWithAutoIncrementId
+					Trigger.ObjectWithAutoIncrementId o = new Trigger.ObjectWithAutoIncrementId
 						("Object - bis - " + (i + 1));
 					odb.Store(o);
 					AssertEquals(1000 + i + 1, o.GetId());

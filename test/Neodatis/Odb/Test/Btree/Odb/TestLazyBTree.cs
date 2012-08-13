@@ -1,86 +1,75 @@
+using NDatabase.Btree;
+using NDatabase.Btree.Impl.Multiplevalue;
+using NDatabase.Odb.Core;
 using NUnit.Framework;
-namespace NeoDatis.Odb.Test.Btree.Odb
+using Test.Odb.Test;
+
+namespace Btree.Odb
 {
-	[TestFixture]
-    public class TestLazyBTree : NeoDatis.Odb.Test.ODBTest
-	{
-		[Test]
+    [TestFixture]
+    public class TestLazyBTree : ODBTest
+    {
+        [Test]
         public virtual void Test1()
-		{
-			int size = 100000;
-			NeoDatis.Btree.IBTree tree = new NeoDatis.Btree.Impl.Multiplevalue.InMemoryBTreeMultipleValuesPerKey
-				("test1", 2);
-			for (int i = 0; i < size; i++)
-			{
-				tree.Insert(i + 1, "value " + (i + 1));
-			}
-			AssertEquals(size, tree.GetSize());
-			System.Collections.IEnumerator iterator = tree.Iterator(NeoDatis.Odb.Core.OrderByConstants
-				.OrderByAsc);
-			int j = 0;
-			while (iterator.MoveNext())
-			{
-				object o = iterator.Current;
-				// println(o);
-				j++;
-				if (j == size)
-				{
-					AssertEquals("value " + size, o);
-				}
-			}
-		}
+        {
+            var size = 100000;
+            IBTree tree = new InMemoryBTreeMultipleValuesPerKey("test1", 2);
+            for (var i = 0; i < size; i++)
+                tree.Insert(i + 1, "value " + (i + 1));
+            AssertEquals(size, tree.GetSize());
+            var iterator = tree.Iterator<object>(OrderByConstants.OrderByAsc);
+            var j = 0;
+            while (iterator.MoveNext())
+            {
+                var o = iterator.Current;
+                // println(o);
+                j++;
+                if (j == size)
+                    AssertEquals("value " + size, o);
+            }
+        }
 
-		[Test]
+        [Test]
         public virtual void Test2()
-		{
-			int size = 100000;
-			NeoDatis.Btree.IBTree tree = new NeoDatis.Btree.Impl.Multiplevalue.InMemoryBTreeMultipleValuesPerKey
-				("test2", 2);
-			for (int i = 0; i < size; i++)
-			{
-				tree.Insert(i + 1, "value " + (i + 1));
-			}
-			AssertEquals(size, tree.GetSize());
-			System.Collections.IEnumerator iterator = tree.Iterator(NeoDatis.Odb.Core.OrderByConstants
-				.OrderByDesc);
-			int j = 0;
-			while (iterator.MoveNext())
-			{
-				object o = iterator.Current;
-				// println(o);
-				j++;
-				if (j == size)
-				{
-					AssertEquals("value " + 1, o);
-				}
-			}
-		}
+        {
+            var size = 100000;
+            IBTree tree = new InMemoryBTreeMultipleValuesPerKey("test2", 2);
+            for (var i = 0; i < size; i++)
+                tree.Insert(i + 1, "value " + (i + 1));
+            AssertEquals(size, tree.GetSize());
+            var iterator = tree.Iterator<object>(OrderByConstants.OrderByDesc);
+            var j = 0;
+            while (iterator.MoveNext())
+            {
+                var o = iterator.Current;
+                // println(o);
+                j++;
+                if (j == size)
+                    AssertEquals("value " + 1, o);
+            }
+        }
 
-		[Test]
+        [Test]
         public virtual void Test3()
-		{
-			int size = 100000;
-			NeoDatis.Btree.IBTree tree = new NeoDatis.Btree.Impl.Multiplevalue.InMemoryBTreeMultipleValuesPerKey
-				("test1", 2);
-			for (int i = 0; i < size; i++)
-			{
-				// println(i);
-				tree.Insert((i + 1).ToString(), "value " + (i + 1));
-			}
-			AssertEquals(size, tree.GetSize());
-			System.Collections.IEnumerator iterator = tree.Iterator(NeoDatis.Odb.Core.OrderByConstants
-				.OrderByAsc);
-			int j = 0;
-			while (iterator.MoveNext())
-			{
-				object o = iterator.Current;
-				// println(o);
-				j++;
-				if (j == size)
-				{
-					AssertEquals("value " + (size - 1), o);
-				}
-			}
-		}
-	}
+        {
+            var size = 100000;
+            IBTree tree = new InMemoryBTreeMultipleValuesPerKey("test1", 2);
+            for (var i = 0; i < size; i++)
+            {
+                // println(i);
+                tree.Insert((i + 1).ToString(), "value " + (i + 1));
+            }
+            AssertEquals(size, tree.GetSize());
+            var iterator = tree.Iterator<object>(OrderByConstants.OrderByAsc);
+            var j = 0;
+            while (iterator.MoveNext())
+            {
+                var o = iterator.Current;
+                // println(o);
+                j++;
+                if (j == size)
+                    AssertEquals("value " + (size - 1), o);
+            }
+        }
+    }
 }

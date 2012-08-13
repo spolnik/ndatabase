@@ -568,11 +568,6 @@ namespace NDatabase.Odb
                 _databaseCharacterEncoding = StorageEngineConstant.NoEncoding;
         }
 
-        public static void SetLatinDatabaseCharacterEncoding()
-        {
-            _databaseCharacterEncoding = DefaultDatabaseCharacterEncoding;
-        }
-
         public static bool HasEncoding()
         {
             return _databaseCharacterEncoding != null &&

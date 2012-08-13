@@ -1,5 +1,4 @@
-using NUnit.Framework;
-namespace NeoDatis.Odb.Test.Query.Values
+namespace Query.Values
 {
 	/// <author>olivier</author>
 	public class Parameter

@@ -1,8 +1,10 @@
-using NUnit.Framework;
-namespace NeoDatis.Odb.Test.School
+using NDatabase.Odb.Core.Query.NQ;
+using Test.Odb.Test.VO.School;
+
+namespace School
 {
 	[System.Serializable]
-	public class SchoolSimpleNativeQueryStudent : NeoDatis.Odb.Core.Query.NQ.SimpleNativeQuery
+	public class SchoolSimpleNativeQueryStudent : SimpleNativeQuery
 	{
 		private string name;
 
@@ -11,7 +13,7 @@ namespace NeoDatis.Odb.Test.School
 			this.name = name;
 		}
 
-		public virtual bool Match(NeoDatis.Odb.Test.VO.School.Student @object)
+		public virtual bool Match(Student @object)
 		{
 			return @object.GetName().Equals(name);
 		}

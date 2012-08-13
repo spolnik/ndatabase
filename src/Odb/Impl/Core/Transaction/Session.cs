@@ -27,7 +27,7 @@ namespace NDatabase.Odb.Impl.Core.Transaction
 
         private string _id;
 
-        private MetaModel _metaModel;
+        protected MetaModel MetaModel;
         private bool _rollbacked;
 
         protected Session(string id, string baseIdentification)
@@ -87,8 +87,8 @@ namespace NDatabase.Odb.Impl.Core.Transaction
         public virtual void Clear()
         {
             _cache.Clear(true);
-            if (_metaModel != null)
-                _metaModel.Clear();
+            if (MetaModel != null)
+                MetaModel.Clear();
         }
 
         public virtual string GetId()
@@ -118,7 +118,7 @@ namespace NDatabase.Odb.Impl.Core.Transaction
 
         public virtual MetaModel GetMetaModel()
         {
-            if (_metaModel == null)
+            if (MetaModel == null)
             {
                 // MetaModel can be null (this happens at the end of the
                 // Transaction.commitMetaModel() method)when the user commited the
@@ -126,22 +126,22 @@ namespace NDatabase.Odb.Impl.Core.Transaction
                 // And continue using it. In this case, after the commit, the
                 // metamodel is set to null
                 // and lazy-reloaded when the user use the odb again.
-                _metaModel = new SessionMetaModel();
+                MetaModel = new SessionMetaModel();
                 try
                 {
-                    GetStorageEngine().GetObjectReader().ReadMetaModel(_metaModel, true);
+                    GetStorageEngine().GetObjectReader().ReadMetaModel(MetaModel, true);
                 }
                 catch (Exception e)
                 {
                     throw new OdbRuntimeException(NDatabaseError.InternalError.AddParameter("Session.getMetaModel"), e);
                 }
             }
-            return _metaModel;
+            return MetaModel;
         }
 
         public virtual void SetMetaModel(MetaModel metaModel2)
         {
-            _metaModel = metaModel2;
+            MetaModel = metaModel2;
         }
 
         public virtual void RemoveObjectFromCache(object @object)
@@ -165,7 +165,7 @@ namespace NDatabase.Odb.Impl.Core.Transaction
 
         #endregion
 
-        public ICache BuildCache()
+        public virtual ICache BuildCache()
         {
             return CacheFactory.GetLocalCache("permanent");
         }

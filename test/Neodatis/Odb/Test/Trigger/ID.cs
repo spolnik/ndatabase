@@ -1,5 +1,5 @@
 using NUnit.Framework;
-namespace NeoDatis.Odb.Test.Trigger
+namespace Trigger
 {
 	public class ID
 	{

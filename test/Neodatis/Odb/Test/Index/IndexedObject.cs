@@ -1,5 +1,5 @@
 using NUnit.Framework;
-namespace NeoDatis.Odb.Test.Index
+namespace Index
 {
 	[System.Serializable]
 	public class IndexedObject : System.IComparable
@@ -54,11 +54,11 @@ namespace NeoDatis.Odb.Test.Index
 
 		public virtual int CompareTo(object @object)
 		{
-			if (@object == null || !(@object is NeoDatis.Odb.Test.Index.IndexedObject))
+			if (@object == null || !(@object is Index.IndexedObject))
 			{
 				return -1000;
 			}
-			NeoDatis.Odb.Test.Index.IndexedObject io = (NeoDatis.Odb.Test.Index.IndexedObject
+			Index.IndexedObject io = (Index.IndexedObject
 				)@object;
 			return name.CompareTo(io.name);
 		}

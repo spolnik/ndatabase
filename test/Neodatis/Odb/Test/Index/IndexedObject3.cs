@@ -1,5 +1,5 @@
 using NUnit.Framework;
-namespace NeoDatis.Odb.Test.Index
+namespace Index
 {
 	/// <author>olivier</author>
 	public class IndexedObject3

@@ -1,18 +1,18 @@
 using NUnit.Framework;
-namespace NeoDatis.Odb.Test.Cyclic
+namespace Cyclic
 {
 	/// <author>olivier</author>
 	public class ClassA
 	{
 		internal string name;
 
-		internal NeoDatis.Odb.Test.Cyclic.ClassB classb;
+		internal Cyclic.ClassB classb;
 
 		public ClassA() : base()
 		{
 		}
 
-		public ClassA(NeoDatis.Odb.Test.Cyclic.ClassB classb, string name) : base()
+		public ClassA(Cyclic.ClassB classb, string name) : base()
 		{
 			this.classb = classb;
 			this.name = name;
@@ -28,12 +28,12 @@ namespace NeoDatis.Odb.Test.Cyclic
 			this.name = name;
 		}
 
-		public virtual NeoDatis.Odb.Test.Cyclic.ClassB GetClassb()
+		public virtual Cyclic.ClassB GetClassb()
 		{
 			return classb;
 		}
 
-		public virtual void SetClassb(NeoDatis.Odb.Test.Cyclic.ClassB classb)
+		public virtual void SetClassb(Cyclic.ClassB classb)
 		{
 			this.classb = classb;
 		}

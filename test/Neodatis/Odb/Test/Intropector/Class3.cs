@@ -1,5 +1,5 @@
 using NUnit.Framework;
-namespace NeoDatis.Odb.Test.Intropector
+namespace Intropector
 {
 	public class Class3
 	{

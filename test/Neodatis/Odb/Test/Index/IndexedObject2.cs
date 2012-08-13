@@ -1,17 +1,17 @@
 using NUnit.Framework;
-namespace NeoDatis.Odb.Test.Index
+namespace Index
 {
 	public class IndexedObject2
 	{
 		private string name;
 
-		private NeoDatis.Odb.Test.Index.IndexedObject @object;
+		private Index.IndexedObject @object;
 
 		public IndexedObject2() : base()
 		{
 		}
 
-		public IndexedObject2(string name, NeoDatis.Odb.Test.Index.IndexedObject @object)
+		public IndexedObject2(string name, Index.IndexedObject @object)
 			 : base()
 		{
 			this.name = name;
@@ -28,12 +28,12 @@ namespace NeoDatis.Odb.Test.Index
 			this.name = name;
 		}
 
-		public virtual NeoDatis.Odb.Test.Index.IndexedObject GetObject()
+		public virtual Index.IndexedObject GetObject()
 		{
 			return @object;
 		}
 
-		public virtual void SetObject(NeoDatis.Odb.Test.Index.IndexedObject @object)
+		public virtual void SetObject(Index.IndexedObject @object)
 		{
 			this.@object = @object;
 		}

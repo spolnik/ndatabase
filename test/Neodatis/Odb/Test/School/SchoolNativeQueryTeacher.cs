@@ -1,41 +1,40 @@
-using NUnit.Framework;
-namespace NeoDatis.Odb.Test.School
+using System;
+using NDatabase.Odb.Core.Query.NQ;
+using Test.Odb.Test.VO.School;
+
+namespace School
 {
-	[System.Serializable]
-	public class SchoolNativeQueryTeacher : NeoDatis.Odb.Core.Query.NQ.NativeQuery
-	{
-		private string name;
+    [Serializable]
+    public class SchoolNativeQueryTeacher : NativeQuery
+    {
+        private readonly string name;
 
-		public SchoolNativeQueryTeacher(string name)
-		{
-			this.name = name;
-		}
+        public SchoolNativeQueryTeacher(string name)
+        {
+            this.name = name;
+        }
 
-		public override bool Match(object @object)
-		{
-			NeoDatis.Odb.Test.VO.School.History s = (NeoDatis.Odb.Test.VO.School.History)@object;
-			Java.Util.Calendar c = Java.Util.Calendar.GetInstance();
-			c.Set(Java.Util.Calendar.Month, 6);
-			c.Set(Java.Util.Calendar.Year, 2005);
-			return s.GetTeacher().GetName().Equals(name) && s.GetDate().Millisecond > (c.GetTime
-				().Millisecond);
-		}
+        public override bool Match(object @object)
+        {
+            var s = (History) @object;
+            var dateTime = new DateTime(2005, 6, 1);
 
-		public override System.Type GetObjectType()
-		{
-			return typeof(NeoDatis.Odb.Test.VO.School.History);
-		}
+            return s.GetTeacher().GetName().Equals(name) && s.GetDate().Millisecond > (dateTime.Millisecond);
+        }
 
-		public override System.Type[] GetObjectTypes()
-		{
-			// TODO Auto-generated method stub
-			return null;
-		}
+        public override Type GetObjectType()
+        {
+            return typeof (History);
+        }
 
-		public override string[] GetIndexFields()
-		{
-			// TODO Auto-generated method stub
-			return null;
-		}
-	}
+        public override Type[] GetObjectTypes()
+        {
+            return null;
+        }
+
+        public override string[] GetIndexFields()
+        {
+            return null;
+        }
+    }
 }

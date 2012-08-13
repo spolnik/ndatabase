@@ -1,16 +1,17 @@
-using NeoDatis.Tool.Wrappers;
-using NeoDatis.Odb.Impl.Core.Layers.Layer1.Introspector;
 using System;
+using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
-namespace NeoDatis.Odb.Test.Intropector
+using Test.Odb.Test;
+
+namespace Intropector
 {
 	[TestFixture]
-    public class TestArray : NeoDatis.Odb.Test.ODBTest
+    public class TestArray : ODBTest
 	{
 		[Test]
         public virtual void Test1()
 		{
-			string[] array = new string[] { "Ola", "chico" };
+			string[] array = new[] { "Ola", "chico" };
 			AssertEquals(true, array.GetType().IsArray);
 			AssertEquals("[Ljava.lang.String;", array.GetType().FullName);
 			AssertEquals("java.lang.String", array.GetType().GetElementType().FullName);
@@ -34,9 +35,6 @@ namespace NeoDatis.Odb.Test.Intropector
 			AssertEquals("double", array.GetType().GetElementType().FullName);
 		}
 
-		/// <exception cref="System.TypeLoadException"></exception>
-		/// <exception cref="Java.Lang.InstantiationException"></exception>
-		/// <exception cref="System.MemberAccessException"></exception>
 		[Test]
         public virtual void Test4()
 		{
@@ -45,8 +43,8 @@ namespace NeoDatis.Odb.Test.Intropector
             o.SetValue(1, 2);
 			AssertEquals(true, o.GetType().IsArray);
 			AssertEquals("int", o.GetType().GetElementType().FullName);
-			AssertEquals(1, OdbReflection.GetArrayElement(o, 0));
-			AssertEquals(2, OdbReflection.GetArrayElement(o, 1));
+			AssertEquals(1, OdbArray.GetArrayElement(o, 0));
+            AssertEquals(2, OdbArray.GetArrayElement(o, 1));
             
 		}
 	}

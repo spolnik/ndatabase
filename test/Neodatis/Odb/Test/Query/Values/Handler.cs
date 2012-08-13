@@ -1,5 +1,5 @@
 using NUnit.Framework;
-namespace NeoDatis.Odb.Test.Query.Values
+namespace Query.Values
 {
 	/// <author>olivier</author>
 	public class Handler
@@ -23,7 +23,7 @@ namespace NeoDatis.Odb.Test.Query.Values
 		}
 
 		/// <param name="parameter"></param>
-		public virtual void AddParameter(NeoDatis.Odb.Test.Query.Values.Parameter parameter
+		public virtual void AddParameter(Query.Values.Parameter parameter
 			)
 		{
 			parameters.Add(parameter);

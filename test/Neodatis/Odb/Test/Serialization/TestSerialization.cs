@@ -1,110 +1,97 @@
+using System;
+using System.Text.RegularExpressions;
+using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Serialization;
 using NUnit.Framework;
-namespace NeoDatis.Odb.Test.Serialization
+using Test.Odb.Test;
+
+namespace Serialization
 {
-	[TestFixture]
-    public class TestSerialization : NeoDatis.Odb.Test.ODBTest
-	{
-		/// <exception cref="System.Exception"></exception>
-		[Test]
-        public virtual void TestAtomicNativeCollectionString()
-		{
-			string s1 = "ol√° chico";
-			NeoDatis.Odb.Core.Layers.Layer2.Meta.AtomicNativeObjectInfo anoi = null;
-			anoi = new NeoDatis.Odb.Core.Layers.Layer2.Meta.AtomicNativeObjectInfo(s1, NeoDatis.Odb.Core.Layers.Layer2.Meta.ODBType
-				.StringId);
-			string s = NeoDatis.Odb.Impl.Core.Layers.Layer2.Meta.Serialization.Serializer.GetInstance
-				().ToString(anoi);
-			// println(s);
-			NeoDatis.Odb.Core.Layers.Layer2.Meta.AtomicNativeObjectInfo anoi2 = (NeoDatis.Odb.Core.Layers.Layer2.Meta.AtomicNativeObjectInfo
-				)NeoDatis.Odb.Impl.Core.Layers.Layer2.Meta.Serialization.Serializer.GetInstance(
-				).FromOneString(s);
-			AssertEquals(anoi, anoi2);
-		}
-
-		/// <exception cref="System.Exception"></exception>
-		[Test]
-        public virtual void TestAtomicNativeCollectionDate()
-		{
-			System.DateTime date = new System.DateTime();
-			NeoDatis.Odb.Core.Layers.Layer2.Meta.AtomicNativeObjectInfo anoi = null;
-			anoi = new NeoDatis.Odb.Core.Layers.Layer2.Meta.AtomicNativeObjectInfo(date, NeoDatis.Odb.Core.Layers.Layer2.Meta.ODBType
-				.DateId);
-			string s = NeoDatis.Odb.Impl.Core.Layers.Layer2.Meta.Serialization.Serializer.GetInstance
-				().ToString(anoi);
-			// println(s);
-			NeoDatis.Odb.Core.Layers.Layer2.Meta.AtomicNativeObjectInfo anoi2 = (NeoDatis.Odb.Core.Layers.Layer2.Meta.AtomicNativeObjectInfo
-				)NeoDatis.Odb.Impl.Core.Layers.Layer2.Meta.Serialization.Serializer.GetInstance(
-				).FromOneString(s);
-			AssertEquals(anoi, anoi2);
-		}
-
-		/// <exception cref="System.Exception"></exception>
-		[Test]
+    [TestFixture]
+    public class TestSerialization : ODBTest
+    {
+        /// <exception cref="System.Exception"></exception>
+        [Test]
         public virtual void TestAtomicNativeCollectionBigDecimal()
-		{
-			System.Decimal bd = new System.Decimal("123456789.987654321");
-			NeoDatis.Odb.Core.Layers.Layer2.Meta.AtomicNativeObjectInfo anoi = null;
-			anoi = new NeoDatis.Odb.Core.Layers.Layer2.Meta.AtomicNativeObjectInfo(bd, NeoDatis.Odb.Core.Layers.Layer2.Meta.ODBType
-				.BigDecimalId);
-			string s = NeoDatis.Odb.Impl.Core.Layers.Layer2.Meta.Serialization.Serializer.GetInstance
-				().ToString(anoi);
-			// println(s);
-			NeoDatis.Odb.Core.Layers.Layer2.Meta.AtomicNativeObjectInfo anoi2 = (NeoDatis.Odb.Core.Layers.Layer2.Meta.AtomicNativeObjectInfo
-				)NeoDatis.Odb.Impl.Core.Layers.Layer2.Meta.Serialization.Serializer.GetInstance(
-				).FromOneString(s);
-			AssertEquals(anoi, anoi2);
-		}
+        {
+            var bd = Convert.ToDecimal("123456789.987654321");
+            AtomicNativeObjectInfo anoi = null;
+            anoi = new AtomicNativeObjectInfo(bd, OdbType.BigDecimalId);
+            var s = Serializer.GetInstance().ToString(anoi);
+            // println(s);
+            var anoi2 = (AtomicNativeObjectInfo) Serializer.GetInstance().FromOneString(s);
+            AssertEquals(anoi, anoi2);
+        }
 
-		/// <exception cref="System.Exception"></exception>
-		[Test]
-        public virtual void TestAtomicNativeCollectionInt()
-		{
-			int i = 123456789;
-			NeoDatis.Odb.Core.Layers.Layer2.Meta.AtomicNativeObjectInfo anoi = null;
-			anoi = new NeoDatis.Odb.Core.Layers.Layer2.Meta.AtomicNativeObjectInfo(i, NeoDatis.Odb.Core.Layers.Layer2.Meta.ODBType
-				.IntegerId);
-			string s = NeoDatis.Odb.Impl.Core.Layers.Layer2.Meta.Serialization.Serializer.GetInstance
-				().ToString(anoi);
-			// println(s);
-			NeoDatis.Odb.Core.Layers.Layer2.Meta.AtomicNativeObjectInfo anoi2 = (NeoDatis.Odb.Core.Layers.Layer2.Meta.AtomicNativeObjectInfo
-				)NeoDatis.Odb.Impl.Core.Layers.Layer2.Meta.Serialization.Serializer.GetInstance(
-				).FromOneString(s);
-			AssertEquals(anoi, anoi2);
-		}
+        /// <exception cref="System.Exception"></exception>
+        [Test]
+        public virtual void TestAtomicNativeCollectionDate()
+        {
+            var date = new DateTime();
+            AtomicNativeObjectInfo anoi = null;
+            anoi = new AtomicNativeObjectInfo(date, OdbType.DateId);
+            var s = Serializer.GetInstance().ToString(anoi);
+            // println(s);
+            var anoi2 = (AtomicNativeObjectInfo) Serializer.GetInstance().FromOneString(s);
+            AssertEquals(anoi, anoi2);
+        }
 
-		/// <exception cref="System.Exception"></exception>
-		[Test]
+        /// <exception cref="System.Exception"></exception>
+        [Test]
         public virtual void TestAtomicNativeCollectionDouble()
-		{
-			double d = 123456789.789456123;
-			NeoDatis.Odb.Core.Layers.Layer2.Meta.AtomicNativeObjectInfo anoi = null;
-			anoi = new NeoDatis.Odb.Core.Layers.Layer2.Meta.AtomicNativeObjectInfo(d, NeoDatis.Odb.Core.Layers.Layer2.Meta.ODBType
-				.DoubleId);
-			string s = NeoDatis.Odb.Impl.Core.Layers.Layer2.Meta.Serialization.Serializer.GetInstance
-				().ToString(anoi);
-			// println(s);
-			NeoDatis.Odb.Core.Layers.Layer2.Meta.AtomicNativeObjectInfo anoi2 = (NeoDatis.Odb.Core.Layers.Layer2.Meta.AtomicNativeObjectInfo
-				)NeoDatis.Odb.Impl.Core.Layers.Layer2.Meta.Serialization.Serializer.GetInstance(
-				).FromOneString(s);
-			AssertEquals(anoi, anoi2);
-		}
+        {
+            var d = 123456789.789456123;
+            AtomicNativeObjectInfo anoi = null;
+            anoi = new AtomicNativeObjectInfo(d, OdbType.DoubleId);
+            var s = Serializer.GetInstance().ToString(anoi);
+            // println(s);
+            var anoi2 = (AtomicNativeObjectInfo) Serializer.GetInstance().FromOneString(s);
+            AssertEquals(anoi, anoi2);
+        }
 
-		[Test]
+        /// <exception cref="System.Exception"></exception>
+        [Test]
+        public virtual void TestAtomicNativeCollectionInt()
+        {
+            var i = 123456789;
+            AtomicNativeObjectInfo anoi = null;
+            anoi = new AtomicNativeObjectInfo(i, OdbType.IntegerId);
+            var s = Serializer.GetInstance().ToString(anoi);
+            // println(s);
+            var anoi2 = (AtomicNativeObjectInfo) Serializer.GetInstance().FromOneString(s);
+            AssertEquals(anoi, anoi2);
+        }
+
+        /// <exception cref="System.Exception"></exception>
+        [Test]
+        public virtual void TestAtomicNativeCollectionString()
+        {
+            var s1 = "ol√° chico";
+            AtomicNativeObjectInfo anoi = null;
+            anoi = new AtomicNativeObjectInfo(s1, OdbType.StringId);
+            var s = Serializer.GetInstance().ToString(anoi);
+            // println(s);
+            var anoi2 = (AtomicNativeObjectInfo) Serializer.GetInstance().FromOneString(s);
+            AssertEquals(anoi, anoi2);
+        }
+
+        [Test]
         public virtual void TestRegExp()
-		{
-			// println("start");
-			string token = "A;B;[C;D];E";
-			// (*)&&^(*^)
-			string pattern = "[\\[*\\]]";
-			Java.Util.Regex.Pattern p = Java.Util.Regex.Pattern.Compile(pattern);
-			string[] array = token.Split(pattern);
-			Java.Util.Regex.Matcher m = p.Matcher(token);
-			// println(token);
-			// println(m.groupCount());
-			for (int i = 0; i < array.Length; i++)
-			{
-			}
-		}
-		// println((i+1)+"="+array[i]);
-	}
+        {
+            // println("start");
+            var token = "A;B;[C;D];E";
+            // (*)&&^(*^)
+            var pattern = "[\\[*\\]]";
+            Regex p = new Regex(pattern);
+            var array = p.Split(token);
+            var m = p.Match(token);
+            Console.WriteLine(token);
+            Console.WriteLine(m.Groups.Count);
+
+            foreach (var item in array)
+                Console.WriteLine(item);
+
+            Assert.Fail("TODO");
+        }
+    }
 }

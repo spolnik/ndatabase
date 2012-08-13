@@ -1,22 +1,20 @@
-
-using NeoDatis.Odb.Test.VO.Login;
+using NDatabase.Odb;
+using Test.Odb.Test;
 using NUnit.Framework;
-namespace NeoDatis.Odb.Test.Trigger
+using Test.Odb.Test.VO.Login;
+
+namespace Trigger
 {
 	[TestFixture]
-    public class TestTrigger : NeoDatis.Odb.Test.ODBTest
+    public class TestTrigger : ODBTest
 	{
 		/// <exception cref="System.Exception"></exception>
 		[Test]
         public virtual void Test1()
 		{
-			if (!isLocal)
-			{
-				return;
-			}
-			NeoDatis.Odb.ODB odb = null;
+			IOdb odb = null;
 			DeleteBase("trigger.neodatis");
-			NeoDatis.Odb.Test.Trigger.MyTrigger myTrigger = new NeoDatis.Odb.Test.Trigger.MyTrigger
+			Trigger.MyTrigger myTrigger = new Trigger.MyTrigger
 				();
 			try
 			{
@@ -51,13 +49,9 @@ namespace NeoDatis.Odb.Test.Trigger
 		[Test]
         public virtual void Test2()
 		{
-			if (!isLocal)
-			{
-				return;
-			}
-			NeoDatis.Odb.ODB odb = null;
+			IOdb odb = null;
 			DeleteBase("trigger.neodatis");
-			NeoDatis.Odb.Test.Trigger.MyTrigger myTrigger = new NeoDatis.Odb.Test.Trigger.MyTrigger
+			Trigger.MyTrigger myTrigger = new Trigger.MyTrigger
 				();
 			try
 			{
@@ -93,13 +87,9 @@ namespace NeoDatis.Odb.Test.Trigger
 		[Test]
         public virtual void TestSelectTrigger()
 		{
-			if (!isLocal)
-			{
-				return;
-			}
-			NeoDatis.Odb.ODB odb = null;
+			IOdb odb = null;
 			DeleteBase("trigger.neodatis");
-			NeoDatis.Odb.Test.Trigger.MySelectTrigger myTrigger = new NeoDatis.Odb.Test.Trigger.MySelectTrigger
+			Trigger.MySelectTrigger myTrigger = new Trigger.MySelectTrigger
 				();
 			try
 			{
@@ -124,7 +114,7 @@ namespace NeoDatis.Odb.Test.Trigger
 			}
 			odb = Open("trigger.neodatis");
 			odb.AddSelectTrigger(typeof(Function), myTrigger);
-			NeoDatis.Odb.Objects<Function> functions = odb.GetObjects<Function>();
+			var functions = odb.GetObjects<Function>();
 			odb.Close();
 			DeleteBase("trigger.neodatis");
 			AssertEquals(2, functions.Count);

@@ -1,11 +1,13 @@
-using NUnit.Framework;
-namespace NeoDatis.Odb.Test.Trigger
+using NDatabase.Odb;
+using NDatabase.Odb.Core.Trigger;
+
+namespace Trigger
 {
-	public class MySelectTrigger : NeoDatis.Odb.Core.Trigger.SelectTrigger
+	public class MySelectTrigger : SelectTrigger
 	{
 		public int nbCalls;
 
-		public override void AfterSelect(object @object, NeoDatis.Odb.OID oid)
+		public override void AfterSelect(object @object, OID oid)
 		{
 			nbCalls++;
 			System.Console.Out.WriteLine("Select on object with oid " + oid);

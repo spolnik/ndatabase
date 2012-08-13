@@ -1,15 +1,17 @@
-using NUnit.Framework;
+using System;
+using NDatabase.Btree;
+using NDatabase.Odb.Impl.Core.Btree;
+
 namespace NeoDatis.Test.Btree.Impl.Singlevalue
 {
-	[System.Serializable]
-	public class MockBTreeNodeSingleValue : NeoDatis.Btree.Impl.Singlevalue.InMemoryBTreeNodeSingleValuePerkey
-	{
-		private string name;
+    [Serializable]
+    public class MockBTreeNodeSingleValue : OdbBtreeNodeSingle
+    {
+        private string name;
 
-		public MockBTreeNodeSingleValue(NeoDatis.Btree.IBTree btree, string name) : base(
-			btree)
-		{
-			this.name = name;
-		}
-	}
+        public MockBTreeNodeSingleValue(IBTree btree, string name) : base(btree)
+        {
+            this.name = name;
+        }
+    }
 }

@@ -1,110 +1,102 @@
+using NDatabase.Odb.Core.Query;
+using NDatabase.Odb.Core.Query.NQ;
 using NUnit.Framework;
-using NeoDatis.Odb.Test.VO.Human;
-namespace NeoDatis.Odb.Test.Query.NQ
+using Test.Odb.Test;
+using Test.Odb.Test.VO.Human;
+
+namespace Query.NQ
 {
-	[TestFixture]
-    public class TestPolyMorphic : NeoDatis.Odb.Test.ODBTest
-	{
-		/// <exception cref="System.Exception"></exception>
-		[Test]
+    [TestFixture]
+    public class TestPolyMorphic : ODBTest
+    {
+        internal sealed class _SimpleNativeQuery_31 : SimpleNativeQuery
+        {
+            public bool Match(Animal animal)
+            {
+                return true;
+            }
+        }
+
+        internal sealed class _SimpleNativeQuery_60 : SimpleNativeQuery
+        {
+            public bool Match(Human human)
+            {
+                return true;
+            }
+        }
+
+        internal sealed class _SimpleNativeQuery_91 : SimpleNativeQuery
+        {
+            public bool Match(Animal @object)
+            {
+                return @object.GetName().StartsWith("my ");
+            }
+        }
+
+        /// <exception cref="System.Exception"></exception>
+        [Test]
         public virtual void Test1()
-		{
-			if (!isLocal)
-			{
-				return;
-			}
-			DeleteBase("multi");
-			NeoDatis.Odb.ODB odb = Open("multi");
-			odb.Store(new NeoDatis.Odb.Test.VO.Human.Animal("dog", "M", "my dog"));
-			odb.Store(new NeoDatis.Odb.Test.VO.Human.Animal("cat", "F", "my cat"));
-			odb.Store(new NeoDatis.Odb.Test.VO.Human.Man("Joe"));
-			odb.Store(new NeoDatis.Odb.Test.VO.Human.Woman("Karine"));
-			odb.Close();
-			odb = Open("multi");
-			NeoDatis.Odb.Core.Query.IQuery q = new _SimpleNativeQuery_31();
-			q.SetPolymorphic(true);
-			NeoDatis.Odb.Objects<Animal> os = odb.GetObjects<Animal>(q);
-			Println(os);
-			odb.Close();
-			AssertEquals(4, os.Count);
-			DeleteBase("multi");
-		}
+        {
+            DeleteBase("multi");
+            var odb = Open("multi");
+            odb.Store(new Animal("dog", "M", "my dog"));
+            odb.Store(new Animal("cat", "F", "my cat"));
+            odb.Store(new Man("Joe"));
+            odb.Store(new Woman("Karine"));
+            odb.Close();
+            odb = Open("multi");
+            IQuery q = new _SimpleNativeQuery_31();
+            q.SetPolymorphic(true);
+            var os = odb.GetObjects<Animal>(q);
+            Println(os);
+            odb.Close();
+            AssertEquals(4, os.Count);
+            DeleteBase("multi");
+        }
 
-		private sealed class _SimpleNativeQuery_31 : NeoDatis.Odb.Core.Query.NQ.SimpleNativeQuery
-		{
-			public bool Match(NeoDatis.Odb.Test.VO.Human.Animal animal)
-			{
-				return true;
-			}
-		}
-
-		/// <exception cref="System.Exception"></exception>
-		[Test]
+        /// <exception cref="System.Exception"></exception>
+        [Test]
         public virtual void Test2()
-		{
-			if (!isLocal)
-			{
-				return;
-			}
-			DeleteBase("multi");
-			NeoDatis.Odb.ODB odb = Open("multi");
-			odb.Store(new NeoDatis.Odb.Test.VO.Human.Animal("dog", "M", "my dog"));
-			odb.Store(new NeoDatis.Odb.Test.VO.Human.Animal("cat", "F", "my cat"));
-			odb.Store(new NeoDatis.Odb.Test.VO.Human.Man("Joe"));
-			odb.Store(new NeoDatis.Odb.Test.VO.Human.Woman("Karine"));
-			odb.Close();
-			odb = Open("multi");
-			NeoDatis.Odb.Core.Query.IQuery q = new _SimpleNativeQuery_60();
-			q.SetPolymorphic(true);
-			NeoDatis.Odb.Objects<Human> os = odb.GetObjects<Human>(q);
-			Println(os);
-			odb.Close();
-			AssertEquals(2, os.Count);
-			DeleteBase("multi");
-		}
+        {
+            DeleteBase("multi");
+            var odb = Open("multi");
+            odb.Store(new Animal("dog", "M", "my dog"));
+            odb.Store(new Animal("cat", "F", "my cat"));
+            odb.Store(new Man("Joe"));
+            odb.Store(new Woman("Karine"));
+            odb.Close();
+            odb = Open("multi");
+            IQuery q = new _SimpleNativeQuery_60();
+            q.SetPolymorphic(true);
+            var os = odb.GetObjects<Human>(q);
+            Println(os);
+            odb.Close();
+            AssertEquals(2, os.Count);
+            DeleteBase("multi");
+        }
 
-		private sealed class _SimpleNativeQuery_60 : NeoDatis.Odb.Core.Query.NQ.SimpleNativeQuery
-		{
-			public bool Match(NeoDatis.Odb.Test.VO.Human.Human human)
-			{
-				return true;
-			}
-		}
-
-		/// <exception cref="System.Exception"></exception>
-		[Test]
+        /// <exception cref="System.Exception"></exception>
+        [Test]
         public virtual void Test8()
-		{
-			if (!isLocal)
-			{
-				return;
-			}
-			int size = isLocal ? 3000 : 300;
-			DeleteBase("multi");
-			NeoDatis.Odb.ODB odb = Open("multi");
-			for (int i = 0; i < size; i++)
-			{
-				odb.Store(new NeoDatis.Odb.Test.VO.Human.Animal("dog", "M", "my dog" + i));
-				odb.Store(new NeoDatis.Odb.Test.VO.Human.Animal("cat", "F", "my cat" + i));
-				odb.Store(new NeoDatis.Odb.Test.VO.Human.Man("Joe" + i));
-				odb.Store(new NeoDatis.Odb.Test.VO.Human.Woman("my Karine" + i));
-			}
-			odb.Close();
-			odb = Open("multi");
-			NeoDatis.Odb.Core.Query.IQuery q = new _SimpleNativeQuery_91();
-			q.SetPolymorphic(true);
-			NeoDatis.Odb.Objects<Animal> objects = odb.GetObjects<Animal>(q);
-			odb.Close();
-			DeleteBase("multi");
-			AssertEquals(size * 3, objects.Count);
-		}
-
-		private sealed class _SimpleNativeQuery_91 : NeoDatis.Odb.Core.Query.NQ.SimpleNativeQuery
-		{
-			public bool Match(NeoDatis.Odb.Test.VO.Human.Animal @object)
-			{
-				return @object.GetName().StartsWith("my ");
-			}
-		}
-	}
+        {
+            var size = 3000;
+            DeleteBase("multi");
+            var odb = Open("multi");
+            for (var i = 0; i < size; i++)
+            {
+                odb.Store(new Animal("dog", "M", "my dog" + i));
+                odb.Store(new Animal("cat", "F", "my cat" + i));
+                odb.Store(new Man("Joe" + i));
+                odb.Store(new Woman("my Karine" + i));
+            }
+            odb.Close();
+            odb = Open("multi");
+            IQuery q = new _SimpleNativeQuery_91();
+            q.SetPolymorphic(true);
+            var objects = odb.GetObjects<Animal>(q);
+            odb.Close();
+            DeleteBase("multi");
+            AssertEquals(size * 3, objects.Count);
+        }
+    }
 }

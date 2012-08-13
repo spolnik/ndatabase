@@ -1,8 +1,12 @@
+using System;
+using NDatabase.Odb.Core.Query.NQ;
 using NUnit.Framework;
-namespace NeoDatis.Odb.Test.School
+using Test.Odb.Test.VO.School;
+
+namespace School
 {
-	[System.Serializable]
-	public class SchoolNativeQueryStudent : NeoDatis.Odb.Core.Query.NQ.NativeQuery
+	[Serializable]
+	public class SchoolNativeQueryStudent : NativeQuery
 	{
 		private string name;
 
@@ -16,24 +20,22 @@ namespace NeoDatis.Odb.Test.School
 
 		public override bool Match(object @object)
 		{
-			NeoDatis.Odb.Test.VO.School.Student s = (NeoDatis.Odb.Test.VO.School.Student)@object;
+			Student s = (Student)@object;
 			return s.GetName().Equals(name);
 		}
 
 		public override System.Type GetObjectType()
 		{
-			return typeof(NeoDatis.Odb.Test.VO.School.Student);
+			return typeof(Student);
 		}
 
 		public override System.Type[] GetObjectTypes()
 		{
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		public override string[] GetIndexFields()
 		{
-			// TODO Auto-generated method stub
 			return null;
 		}
 	}

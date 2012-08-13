@@ -1,65 +1,59 @@
+using System;
+using System.Collections;
+using NDatabase.Odb.Impl.Core.Query.Values;
 using NUnit.Framework;
-namespace NeoDatis.Odb.Test.Query.Values
-{
-	[TestFixture]
-    public class TestGetValuesHandlerParameter : NeoDatis.Odb.Test.ODBTest
-	{
-		/// <exception cref="System.IO.IOException"></exception>
-		/// <exception cref="System.Exception"></exception>
-		[Test]
-        public virtual void Test1()
-		{
-			DeleteBase("valuesA1");
-			NeoDatis.Odb.ODB odb = Open("valuesA1");
-			NeoDatis.Odb.Test.Query.Values.Handler handler = new NeoDatis.Odb.Test.Query.Values.Handler
-				();
-			for (int i = 0; i < 10; i++)
-			{
-				handler.AddParameter(new NeoDatis.Odb.Test.Query.Values.Parameter("test " + i, "value"
-					 + i));
-			}
-			odb.Store(handler);
-			odb.Close();
-			odb = Open("valuesA1");
-			NeoDatis.Odb.Values values = odb.GetValues(new NeoDatis.Odb.Impl.Core.Query.Values.ValuesCriteriaQuery
-				(typeof(NeoDatis.Odb.Test.Query.Values.Handler)).Field("parameters"));
-			Println(values);
-			NeoDatis.Odb.ObjectValues ov = values.NextValues();
-			System.Collections.IList l = (System.Collections.IList)ov.GetByAlias("parameters"
-				);
-			AssertEquals(10, l.Count);
-			odb.Close();
-		}
+using Test.Odb.Test;
 
-		/// <exception cref="System.IO.IOException"></exception>
-		/// <exception cref="System.Exception"></exception>
-		[Test]
+namespace Query.Values
+{
+    [TestFixture]
+    public class TestGetValuesHandlerParameter : ODBTest
+    {
+        /// <exception cref="System.IO.IOException"></exception>
+        /// <exception cref="System.Exception"></exception>
+        [Test]
+        public virtual void Test1()
+        {
+            DeleteBase("valuesA1");
+            var odb = Open("valuesA1");
+            var handler = new Handler();
+            for (var i = 0; i < 10; i++)
+                handler.AddParameter(new Parameter("test " + i, "value" + i));
+            odb.Store(handler);
+            odb.Close();
+            odb = Open("valuesA1");
+            var values = odb.GetValues(new ValuesCriteriaQuery(typeof (Handler)).Field("parameters"));
+            Println(values);
+            var ov = values.NextValues();
+            var l = (IList) ov.GetByAlias("parameters");
+            AssertEquals(10, l.Count);
+            odb.Close();
+        }
+
+        /// <exception cref="System.IO.IOException"></exception>
+        /// <exception cref="System.Exception"></exception>
+        [Test]
         public virtual void Test2()
-		{
-			DeleteBase("valuesA1");
-			NeoDatis.Odb.ODB odb = Open("valuesA1");
-			NeoDatis.Odb.Test.Query.Values.Handler handler = new NeoDatis.Odb.Test.Query.Values.Handler
-				();
-			for (int i = 0; i < 10; i++)
-			{
-				handler.AddParameter(new NeoDatis.Odb.Test.Query.Values.Parameter("test " + i, "value"
-					 + i));
-			}
-			odb.Store(handler);
-			odb.Close();
-			odb = Open("valuesA1");
-			// ValuesQuery in getObjects
-			try
-			{
-				NeoDatis.Odb.Objects objects = odb.GetObjects(new NeoDatis.Odb.Impl.Core.Query.Values.ValuesCriteriaQuery
-					(typeof(NeoDatis.Odb.Test.Query.Values.Handler)).Field("parameters"));
-				Fail("Should throw exception");
-			}
-			catch (System.Exception)
-			{
-			}
-			// TODO: handle exception
-			odb.Close();
-		}
-	}
+        {
+            DeleteBase("valuesA1");
+            var odb = Open("valuesA1");
+            var handler = new Handler();
+            for (var i = 0; i < 10; i++)
+                handler.AddParameter(new Parameter("test " + i, "value" + i));
+            odb.Store(handler);
+            odb.Close();
+            odb = Open("valuesA1");
+            // ValuesQuery in getObjects
+            try
+            {
+                var objects = odb.GetObjects<Handler>(new ValuesCriteriaQuery(typeof (Handler)).Field("parameters"));
+                Fail("Should throw exception");
+            }
+            catch (Exception)
+            {
+            }
+            // TODO: handle exception
+            odb.Close();
+        }
+    }
 }

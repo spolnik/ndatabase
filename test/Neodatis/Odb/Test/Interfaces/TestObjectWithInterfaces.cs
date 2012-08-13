@@ -1,16 +1,19 @@
-using NeoDatis.Odb.Test.VO.Interfaces;
+using NDatabase.Odb;
+using Test.Odb.Test;
+using Test.Odb.Test.VO.Interfaces;
 using NUnit.Framework;
-namespace NeoDatis.Odb.Test.Interfaces
+
+namespace Interfaces
 {
 	[TestFixture]
-    public class TestObjectWithInterfaces : NeoDatis.Odb.Test.ODBTest
+    public class TestObjectWithInterfaces : ODBTest
 	{
 		/// <exception cref="System.Exception"></exception>
 		[Test]
         public virtual void TestInsert()
 		{
 			DeleteBase("tinterfaces.neodatis");
-			NeoDatis.Odb.ODB odb = Open("tinterfaces.neodatis");
+			IOdb odb = Open("tinterfaces.neodatis");
 			ObjectWithInterfaces owi = new ObjectWithInterfaces("Ol√° chico");
 			odb.Store(owi);
 			odb.Commit();
@@ -22,12 +25,12 @@ namespace NeoDatis.Odb.Test.Interfaces
         public virtual void TestInsertAndSelect()
 		{
 			DeleteBase("tinterfaces.neodatis");
-			NeoDatis.Odb.ODB odb = Open("tinterfaces.neodatis");
+			IOdb odb = Open("tinterfaces.neodatis");
 			ObjectWithInterfaces owi = new ObjectWithInterfaces("Ol√° chico");
 			odb.Store(owi);
 			odb.Close();
 			odb = Open("tinterfaces.neodatis");
-			NeoDatis.Odb.Objects<ObjectWithInterfaces> os = odb.GetObjects<ObjectWithInterfaces>();
+			var os = odb.GetObjects<ObjectWithInterfaces>();
 			AssertEquals(1, os.Count);
 			odb.Close();
 		}
@@ -37,12 +40,12 @@ namespace NeoDatis.Odb.Test.Interfaces
         public virtual void TestStoreObjectByInterfaces()
 		{
 			string baseName = GetBaseName();
-			NeoDatis.Odb.ODB odb = Open(baseName);
+			IOdb odb = Open(baseName);
 			object o = new MyObject("f");
 			odb.Store(o);
 			odb.Close();
 			odb = Open(baseName);
-			NeoDatis.Odb.Objects<MyObject> os = odb.GetObjects<MyObject>();
+			var os = odb.GetObjects<MyObject>();
 			AssertEquals(1, os.Count);
 			odb.Close();
 			// deleteBase(baseName);

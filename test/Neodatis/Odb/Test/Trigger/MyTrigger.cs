@@ -1,21 +1,24 @@
-using NUnit.Framework;
-namespace NeoDatis.Odb.Test.Trigger
+using System;
+using NDatabase.Odb;
+using NDatabase.Odb.Core.Trigger;
+
+namespace Trigger
 {
-	public class MyTrigger : NeoDatis.Odb.Core.Trigger.InsertTrigger
+	public class MyTrigger : InsertTrigger
 	{
 		public int nbInsertsBefore;
 
 		public int nbInsertsAfter;
 
-		public override void AfterInsert(object @object, NeoDatis.Odb.OID oid)
+		public override void AfterInsert(object @object, OID oid)
 		{
-			// println("after insert object with id "+oid+"("+object.getClass().getName()+")");
+		    Console.WriteLine("after insert object with id " + oid + "(" + @object.GetType().Name + ")");
 			nbInsertsAfter++;
 		}
 
 		public override bool BeforeInsert(object @object)
 		{
-			// System.out.println("trigger before inserting " + object);
+		    Console.WriteLine("trigger before inserting " + @object);
 			nbInsertsBefore++;
 			return true;
 		}
