@@ -30,7 +30,6 @@ namespace Test.Odb.Test
     {
         public static String HOST = "localhost";
         public static int PORT = 10000;
-        public static string Directory = ".";
         public static bool useSameVmOptimization;
         public static bool testNewFeature;
         public static bool testPerformance;

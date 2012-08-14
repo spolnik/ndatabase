@@ -116,13 +116,6 @@ namespace NDatabase.Odb.Impl.Core.Transaction
             Init(session);
         }
 
-        /// <exception cref="System.IO.IOException"></exception>
-        public DefaultTransaction(ISession session, string overrideTransactionName)
-        {
-            Init(session);
-            _readOnlyMode = true;
-        }
-
         public DefaultTransaction(ISession session, IFileSystemInterface fsiToApplyTransaction)
         {
             _fsiToApplyWriteActions = fsiToApplyTransaction;
@@ -505,12 +498,8 @@ namespace NDatabase.Odb.Impl.Core.Transaction
             if (listeners == null || listeners.IsEmpty())
                 return;
 
-            var iterator = listeners.GetEnumerator();
-            while (iterator.MoveNext())
-            {
-                var commitListener = iterator.Current;
+            foreach (var commitListener in listeners)
                 commitListener.BeforeCommit();
-            }
         }
 
         /// <summary>
@@ -653,23 +642,6 @@ namespace NDatabase.Odb.Impl.Core.Transaction
             return classInfo;
         }
 
-        public static DefaultTransaction Read(string fileName)
-        {
-            var file = new OdbFile(fileName);
-            if (!file.Exists())
-                throw new OdbRuntimeException(NDatabaseError.FileNotFound.AddParameter(fileName));
-
-            // @TODO check this
-            var transaction = new DefaultTransaction(null, fileName);
-            transaction.LoadWriteActions(fileName, false);
-            return transaction;
-        }
-
-        public void LoadWriteActions(bool apply)
-        {
-            LoadWriteActions(GetName(), apply);
-        }
-
         public void LoadWriteActions(string filename, bool apply)
         {
             if (OdbConfiguration.IsDebugEnabled(LogId))
@@ -804,7 +776,7 @@ namespace NDatabase.Odb.Impl.Core.Transaction
             }
             else
             {
-                LoadWriteActions(true);
+                LoadWriteActions(GetName(), true);
                 _fsiToApplyWriteActions.Flush();
             }
         }

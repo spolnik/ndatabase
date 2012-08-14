@@ -18,8 +18,7 @@ namespace IO
 		[Test]
         public virtual void Test1()
 		{
-			System.IO.FileStream raf = new System.IO.FileStream(ODBTest.Directory
-				 + "testBigFile", FileMode.OpenOrCreate);
+			System.IO.FileStream raf = new System.IO.FileStream("testBigFile", FileMode.OpenOrCreate);
 			long l = 2 * 1024000;
 			Println(l);
 			raf.Seek(l, SeekOrigin.Begin);

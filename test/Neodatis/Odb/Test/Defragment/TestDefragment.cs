@@ -28,7 +28,7 @@ namespace Defragment
             odb.Store(user);
             odb.Close();
             odb = Open(OdbFileName1);
-            odb.DefragmentTo(Directory + OdbFileName2);
+            odb.DefragmentTo(OdbFileName2);
             var newOdb = Open(OdbFileName2);
             // int n = odb.getObjects(User.class).size();
             // println("n="+n);
@@ -58,7 +58,7 @@ namespace Defragment
             }
             odb.Close();
             odb = Open(OdbFileName1);
-            odb.DefragmentTo(Directory + OdbFileName2);
+            odb.DefragmentTo(OdbFileName2);
             var newOdb = Open(OdbFileName2);
             AssertEquals(odb.Count(new CriteriaQuery(typeof (User))), newOdb.Count(new CriteriaQuery(typeof (User))));
             AssertEquals(odb.Count(new CriteriaQuery(typeof (Profile))),
@@ -84,7 +84,7 @@ namespace Defragment
             }
             odb.Close();
             odb = Open(OdbFileName1);
-            odb.DefragmentTo(Directory + OdbFileName2);
+            odb.DefragmentTo(OdbFileName2);
             var newOdb = Open(OdbFileName2);
             AssertEquals(odb.Count(new CriteriaQuery(typeof (User))), newOdb.Count(new CriteriaQuery(typeof (User))));
             odb.Close();

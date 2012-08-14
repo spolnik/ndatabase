@@ -12,7 +12,7 @@ namespace IO
         [Test]
         public virtual void Test1()
         {
-            var raf = new FileStream(Directory + "testLock1", FileMode.OpenOrCreate);
+            var raf = new FileStream("testLock1", FileMode.OpenOrCreate);
             raf.Seek(1024, SeekOrigin.Begin);
             raf.Write(new byte[] {10}, 0, 1);
             //Java.Nio.Channels.FileLock fileLock = raf.GetChannel().Lock(0, 1024, false);
@@ -25,7 +25,7 @@ namespace IO
         [Test]
         public virtual void Test2NoWrite()
         {
-            var raf = new FileStream(Directory + "testLock1", FileMode.OpenOrCreate);
+            var raf = new FileStream("testLock1", FileMode.OpenOrCreate);
             raf.Seek(1024, SeekOrigin.Begin);
             //Java.Nio.Channels.FileLock fileLock = raf.GetChannel().Lock(0, 1, false);
             //AssertEquals(true, fileLock != null);
@@ -39,7 +39,7 @@ namespace IO
         [Test]
         public virtual void TestOdbFileIo()
         {
-            var fileIO = new OdbFileIO(Directory + "testLock1", true, null);
+            var fileIO = new OdbFileIO("testLock1", true, null);
             fileIO.Seek(1024);
             fileIO.Write(10);
             fileIO.LockFile();
@@ -54,12 +54,12 @@ namespace IO
         [Test]
         public virtual void TestOdbFileIo2()
         {
-            var fileIO = new OdbFileIO(Directory + "testLock2", true, null);
+            var fileIO = new OdbFileIO("testLock2", true, null);
             fileIO.Seek(1024);
             fileIO.Write(10);
             var isLocked = fileIO.LockFile();
             AssertTrue(isLocked);
-            var fileIO2 = new OdbFileIO(Directory + "testLock2", true, null);
+            var fileIO2 = new OdbFileIO("testLock2", true, null);
             fileIO2.LockFile();
             AssertEquals(true, fileIO2.IsLocked());
             fileIO.Close();

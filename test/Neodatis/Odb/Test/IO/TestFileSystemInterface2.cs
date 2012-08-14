@@ -16,7 +16,7 @@ namespace IO
         {
             DeleteBase("testReadWrite.neodatis");
             IFileSystemInterface fsi = new LocalFileSystemInterface("data", new MockSession("test"),
-                                                                    Directory + "testReadWrite.neodatis", true, true,
+                                                                    "testReadWrite.neodatis", true, true,
                                                                     OdbConfiguration.GetDefaultBufferSizeForData());
             fsi.SetWritePosition(fsi.GetLength(), false);
             for (var i = 0; i < 10000; i++)
