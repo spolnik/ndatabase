@@ -46,34 +46,12 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
             {
                 throw new OdbRuntimeException(NDatabaseError.InternalError, e);
             }
-            if (canWrite)
-            {
-                try
-                {
-                    _fileWriter.LockFile();
-                }
-                catch (Exception)
-                {
-                    // The file region is already locked
-                    throw new OdbRuntimeException(
-                        NDatabaseError.OdbFileIsLockedByCurrentVirtualMachine.AddParameter(_wholeFileName).AddParameter(
-                            Thread.CurrentThread.Name).AddParameter(
-                                OdbConfiguration.IsMultiThread().ToString(CultureInfo.InvariantCulture)));
-                }
-                if (!_fileWriter.IsLocked())
-                {
-                    throw new OdbRuntimeException(
-                        NDatabaseError.OdbFileIsLockedByExternalProgram.AddParameter(_wholeFileName).AddParameter(
-                            Thread.CurrentThread.Name).AddParameter(
-                                OdbConfiguration.IsMultiThread().ToString(CultureInfo.InvariantCulture)));
-                }
-            }
         }
 
         /// <exception cref="System.IO.IOException"></exception>
         protected virtual OdbFileIO BuildFileWriter(bool canWrite)
         {
-            return new OdbFileIO(_wholeFileName, canWrite, null);
+            return new OdbFileIO(_wholeFileName, canWrite);
         }
 
         public override void GoToPosition(long position)
@@ -162,9 +140,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
             {
                 if (OdbConfiguration.IsDebugEnabled(MultiBufLogId))
                     DLogger.Debug("Closing file with size " + _fileWriter.Length());
-                // Problem found by mayworm : necessary for MacOSX
-                if (_fileWriter.IsLocked())
-                    _fileWriter.UnlockFile();
+                
                 _fileWriter.Close();
             }
             catch (IOException e)

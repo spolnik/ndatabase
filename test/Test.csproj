@@ -145,7 +145,6 @@
     <Compile Include="Neodatis\Odb\Test\IO\MockSession.cs" />
     <Compile Include="Neodatis\Odb\Test\IO\MockStorageEngine.cs" />
     <Compile Include="Neodatis\Odb\Test\IO\TestBigFile.cs" />
-    <Compile Include="Neodatis\Odb\Test\IO\TestFileLock.cs" />
     <Compile Include="Neodatis\Odb\Test\IO\TestFileSystemInterface1.cs" />
     <Compile Include="Neodatis\Odb\Test\IO\TestFileSystemInterface2.cs" />
     <Compile Include="Neodatis\Odb\Test\IO\TestReservingSpace.cs" />

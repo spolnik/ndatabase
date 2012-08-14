@@ -18,11 +18,5 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         int Read();
 
         long Length();
-
-        bool LockFile();
-
-        bool UnlockFile();
-
-        bool IsLocked();
     }
 }

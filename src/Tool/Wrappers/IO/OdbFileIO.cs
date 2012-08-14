@@ -7,10 +7,10 @@ namespace NDatabase.Tool.Wrappers.IO
     public sealed class OdbFileIO : Odb.Core.Layers.Layer3.IO
     {
         private FileStream _fileAccess;
-
-        public OdbFileIO(string wholeFileName, bool canWrite, string password)
+        
+        public OdbFileIO(string wholeFileName, bool canWrite)
         {
-            Init(wholeFileName, canWrite, password);
+            Init(wholeFileName, canWrite);
         }
 
         #region IO Members
@@ -61,26 +61,9 @@ namespace NDatabase.Tool.Wrappers.IO
             _fileAccess.Close();
         }
 
-        public bool LockFile()
-        {
-            _fileAccess.Lock(0, 1);
-            return true;
-        }
-
-        public bool UnlockFile()
-        {
-            _fileAccess.Unlock(0, 1);
-            return true;
-        }
-
-        public bool IsLocked()
-        {
-            return _fileAccess != null;
-        }
-
         #endregion
 
-        private void Init(string fileName, bool canWrite, string password)
+        private void Init(string fileName, bool canWrite)
         {
             try
             {
