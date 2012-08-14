@@ -49,7 +49,7 @@ namespace Test.Odb.Test.Performance
             SimpleObject so = null;
             // Insert TEST_SIZE objects
             Println("Inserting " + TestSize + " objects");
-            t1 = OdbTime.GetCurrentTimeInTicks();
+            t1 = OdbTime.GetCurrentTimeInMs();
             odb = Open(OdbFileName);
             var fields = new[] {"name"};
             odb.GetClassRepresentation(typeof (SimpleObject)).AddUniqueIndexOn("index1", fields, true);
@@ -64,23 +64,22 @@ namespace Test.Odb.Test.Performance
                 }
             }
             // println("Cache="+Dummy.getEngine(odb).getSession().getCache().toString());
-            t2 = OdbTime.GetCurrentTimeInTicks();
+            t2 = OdbTime.GetCurrentTimeInMs();
             // Closes the database
             odb.Close();
             // if(true)return;
-            t3 = OdbTime.GetCurrentTimeInTicks();
+            t3 = OdbTime.GetCurrentTimeInMs();
             Println("Retrieving " + TestSize + " objects");
             // Reopen the database
             odb = Open(OdbFileName);
             // Gets the TEST_SIZE objects
-            t4 = OdbTime.GetCurrentTimeInTicks();
+            t4 = OdbTime.GetCurrentTimeInMs();
             IQuery q = null;
             for (var j = 0; j < TestSize; j++)
             {
                 // println("Bonjour, comment allez vous?" + j);
                 q = new CriteriaQuery(Where.Equal("name", "Bonjour, comment allez vous?" + j));
                 var objects = odb.GetObjects<SimpleObject>(q);
-                AssertTrue(q.GetExecutionPlan().UseIndex());
                 so = objects.GetFirst();
                 if (!so.GetName().Equals("Bonjour, comment allez vous?" + j))
                 {
@@ -90,7 +89,7 @@ namespace Test.Odb.Test.Performance
                 if (j % 1000 == 0)
                     Println("got " + j + " objects");
             }
-            t5 = OdbTime.GetCurrentTimeInTicks();
+            t5 = OdbTime.GetCurrentTimeInMs();
             odb.Close();
             odb = Open(OdbFileName);
             if (doUpdate)
@@ -105,17 +104,17 @@ namespace Test.Odb.Test.Performance
                     odb.Store(so);
                 }
             }
-            t6 = OdbTime.GetCurrentTimeInTicks();
+            t6 = OdbTime.GetCurrentTimeInMs();
             odb.Close();
             // if(true)return;
-            t7 = OdbTime.GetCurrentTimeInTicks();
+            t7 = OdbTime.GetCurrentTimeInMs();
             if (doDelete)
             {
                 Println("Deleting " + TestSize + " objects");
                 odb = Open(OdbFileName);
                 Println("After open - before delete");
                 l = odb.GetObjects<SimpleObject>(inMemory);
-                t77 = OdbTime.GetCurrentTimeInTicks();
+                t77 = OdbTime.GetCurrentTimeInMs();
                 Println("After getting objects - before delete");
                 var i = 0;
                 while (l.HasNext())
@@ -131,7 +130,7 @@ namespace Test.Odb.Test.Performance
                 }
                 odb.Close();
             }
-            t8 = OdbTime.GetCurrentTimeInTicks();
+            t8 = OdbTime.GetCurrentTimeInMs();
             // t4 2 times
             DisplayResult("ODB " + TestSize + " SimpleObject objects ", t1, t2, t4, t4, t5, t6, t7, t77, t8);
         }
@@ -163,10 +162,10 @@ namespace Test.Odb.Test.Performance
             var tupdate = t7 - t5;
             var tdelete = t8 - t7;
 
-            AssertTrue("Performance", tinsert < 1050);
-            AssertTrue("Performance", tselect < 535);
-            AssertTrue("Performance", tupdate < 582);
-            AssertTrue("Performance", tdelete < 740);
+            Assert.That(tinsert, Is.LessThan(7500));
+            Assert.That(tselect, Is.LessThan(4000));
+            Assert.That(tupdate, Is.LessThan(9000));
+            Assert.That(tdelete, Is.LessThan(6000));
         }
 
         /// <exception cref="System.Exception"></exception>

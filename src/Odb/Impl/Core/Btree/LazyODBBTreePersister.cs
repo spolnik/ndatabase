@@ -259,7 +259,7 @@ namespace NDatabase.Odb.Impl.Core.Btree
 
             // Just replace the element by null, to not modify all the other
             // positions
-            _modifiedObjectOidList.Set(position, null);
+            _modifiedObjectOidList[position] = null;
             return o;
         }
 

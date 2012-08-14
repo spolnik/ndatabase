@@ -69,7 +69,7 @@ namespace Query.Values
         }
 
         [Test]
-        public virtual void T1est1()
+        public virtual void T1estA()
         {
             var odb = Open("perfOValuesVsCriteriaIndex1");
             OdbConfiguration.MonitorMemory(true);
@@ -81,7 +81,7 @@ namespace Query.Values
         }
 
         [Test]
-        public virtual void T1estA()
+        public virtual void T1est1()
         {
             var odb = Open("perfOValuesVsCriteriaIndex1");
             OdbConfiguration.MonitorMemory(true);
