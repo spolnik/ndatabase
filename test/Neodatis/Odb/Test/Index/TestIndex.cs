@@ -219,7 +219,7 @@ namespace Index
 
         /// <exception cref="System.Exception"></exception>
         [Test]
-        public void TestInsertAndDeleteWithIndexWith10000()
+        public void TestInsertAndDeleteWithIndexWith1000()
         {
             var baseName = GetBaseName();
 
@@ -231,13 +231,13 @@ namespace Index
             clazz.AddUniqueIndexOn("index1", indexFields, true);
             @base.Close();
             @base = Open(baseName);
-            var size = 10000;
+            var size = 1000;
             var start0 = OdbTime.GetCurrentTimeInMs();
             for (var i = 0; i < size; i++)
             {
                 var io1 = new IndexedObject("olivier" + (i + 1), 15 + i, new DateTime());
                 @base.Store(io1);
-                if (i % 1000 == 0)
+                if (i % 100 == 0)
                     Println(i);
             }
             var tt0 = OdbTime.GetCurrentTimeInMs();
@@ -579,7 +579,7 @@ namespace Index
             clazz.AddIndexOn("index3", indexFields3, true);
             @base.Close();
             @base = Open(baseName);
-            var size = 1300;
+            var size = 130;
             var commitInterval = 10;
             var start0 = OdbTime.GetCurrentTimeInMs();
             for (var i = 0; i < size; i++)
@@ -644,7 +644,7 @@ namespace Index
             clazz.AddUniqueIndexOn("index", indexFields, true);
             @base.Close();
             @base = Open(baseName);
-            var size = 5000;
+            var size = 500;
             var commitInterval = 10000;
             var start0 = OdbTime.GetCurrentTimeInMs();
             for (var i = 0; i < size; i++)
@@ -720,7 +720,7 @@ namespace Index
             clazz.AddUniqueIndexOn("inde4", indexField4, true);
             @base.Close();
             @base = Open(baseName);
-            var size = 1000;
+            var size = 100;
             var commitInterval = 10;
             var start0 = OdbTime.GetCurrentTimeInMs();
             for (var i = 0; i < size; i++)
@@ -728,7 +728,7 @@ namespace Index
                 // println(i);
                 var io1 = new IndexedObject("olivier" + (i + 1), i, new DateTime());
                 @base.Store(io1);
-                if (i % 100 == 0)
+                if (i % 10 == 0)
                     Println(i);
                 if (i % commitInterval == 0)
                     @base.Commit();
@@ -921,13 +921,13 @@ namespace Index
             var clazz = @base.GetClassRepresentation(typeof (IndexedObject));
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("index1", indexFields, true);
-            var size = 10000;
+            var size = 1000;
             var start0 = OdbTime.GetCurrentTimeInMs();
             for (var i = 0; i < size; i++)
             {
                 var io1 = new IndexedObject("olivier" + (i + 1), 15 + i, new DateTime());
                 @base.Store(io1);
-                if (i % 1000 == 0)
+                if (i % 100 == 0)
                     Println(i);
             }
             var tt0 = OdbTime.GetCurrentTimeInMs();
@@ -961,7 +961,7 @@ namespace Index
                     maxTime = d;
                 if (d < minTime)
                     minTime = d;
-                if (i % 1000 == 0)
+                if (i % 100 == 0)
                 {
                     t1 = OdbTime.GetCurrentTimeInMs();
                     Println("i=" + i + " - time=" + (t1 - t0));
@@ -1158,7 +1158,7 @@ namespace Index
             clazz.AddUniqueIndexOn("inde3", indexField4, true);
             @base.Close();
             @base = Open(baseName);
-            var size = 5000;
+            var size = 500;
             var commitInterval = 1000;
             var start0 = OdbTime.GetCurrentTimeInMs();
             for (var i = 0; i < size; i++)

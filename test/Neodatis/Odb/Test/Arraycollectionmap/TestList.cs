@@ -16,7 +16,7 @@ namespace Test.Odb.Test.Arraycollectionmap
         {
             var baseName = GetBaseName();
             var odb = Open(baseName);
-            var size = 10000;
+            var size = 1000;
             var size2 = 4;
             var t0 = DateTime.Now.Ticks;
             for (var i = 0; i < size; i++)
@@ -28,13 +28,13 @@ namespace Test.Odb.Test.Arraycollectionmap
             }
             odb.Close();
             var t1 = DateTime.Now.Ticks;
-            Console.WriteLine("insert : " + (t1 - t0) / 10000);
+            Console.WriteLine("insert : " + (t1 - t0) / 1000);
 
             var odb2 = Open(baseName);
             var l = odb2.GetObjects<PlayerWithList>(false);
             var t2 = DateTime.Now.Ticks;
             AssertEquals(size, l.Count);
-            Console.WriteLine("get objects " + l.Count + " : " + (t2 - t1) / 10000);
+            Console.WriteLine("get objects " + l.Count + " : " + (t2 - t1) / 1000);
             odb2.Close();
             DeleteBase(baseName);
         }
@@ -319,7 +319,7 @@ namespace Test.Odb.Test.Arraycollectionmap
             o.GetListOfIntegers().Add(Convert.ToInt32("100"));
             odb.Store(o);
             odb.Close();
-            var size = 1000;
+            var size = 100;
             for (var i = 0; i < size; i++)
             {
                 var odb2 = Open("list5.neodatis");
@@ -363,7 +363,7 @@ namespace Test.Odb.Test.Arraycollectionmap
             o.GetListOfIntegers().Add(Convert.ToInt32("103"));
             odb.Store(o);
             odb.Close();
-            var size = 1000;
+            var size = 100;
             for (var i = 0; i < size; i++)
             {
                 var odb2 = Open("list5.neodatis");
@@ -407,7 +407,7 @@ namespace Test.Odb.Test.Arraycollectionmap
             o.GetListOfIntegers().Add(Convert.ToInt32("103"));
             odb.Store(o);
             odb.Close();
-            var size = 1000;
+            var size = 100;
             for (var i = 0; i < size; i++)
             {
                 var odb2 = Open("list5.neodatis");
@@ -443,7 +443,7 @@ namespace Test.Odb.Test.Arraycollectionmap
             o.GetListOfIntegers().Add(Convert.ToInt32("100"));
             odb.Store(o);
             odb.Close();
-            var size = 1000;
+            var size = 100;
             for (var i = 0; i < size; i++)
             {
                 var odb2 = Open("list5.neodatis");

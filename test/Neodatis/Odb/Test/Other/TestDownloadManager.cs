@@ -98,7 +98,7 @@ namespace Test.Odb.Test.Other
         public virtual void Test2()
         {
             var tdm = new TestDownloadManager();
-            var size = 1000;
+            var size = 100;
             for (var i = 0; i < size; i++)
             {
                 tdm.NewDownload("olivier", "olivier@neodatis.com", "knowledger", "knowledger1.1");

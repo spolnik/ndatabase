@@ -12,7 +12,7 @@ namespace Btree.Odb
     [TestFixture]
     public class TestODBLazyBTree : ODBTest
     {
-        private const int Size = 10000;
+        private const int Size = 200;
 
         /// <exception cref="System.Exception"></exception>
         private IBTreePersister GetPersister(string baseName)
@@ -68,7 +68,7 @@ namespace Btree.Odb
                 var o = iterator.Current;
                 AssertEquals("value " + (j + 1), o);
                 j++;
-                if (j % 1000 == 0)
+                if (j % 10 == 0)
                     Println(j);
             }
             persister.Close();
@@ -101,7 +101,7 @@ namespace Btree.Odb
                 var o = iterator.Current;
                 AssertEquals("value " + (j + 1), o);
                 j++;
-                if (j % 1000 == 0)
+                if (j % 10 == 0)
                     Println(j);
             }
             persister.Close();

@@ -37,12 +37,12 @@ namespace Ext
         {
             DeleteBase("extc");
             var odb = Open("extc");
-            var size = 1000;
+            var size = 100;
             long updateDate = 0;
             long creationDate = 0;
             var oid = odb.Store(new Function("f"));
             odb.Close();
-            Thread.Sleep(100);
+            Thread.Sleep(20);
             // LogUtil.allOn(true);
             for (var i = 0; i < size; i++)
             {
@@ -71,13 +71,13 @@ namespace Ext
         {
             DeleteBase("extd");
             var odb = Open("extd");
-            var size = 1000;
+            var size = 100;
             long updateDate = 0;
             long creationDate = 0;
             var oid = odb.Store(new Function("f"));
             odb.Close();
             odb = Open("extd");
-            Thread.Sleep(100);
+            Thread.Sleep(20);
             for (var i = 0; i < size; i++)
             {
                 // odb = open("ext");
@@ -99,14 +99,14 @@ namespace Ext
         {
             DeleteBase("ext2");
             var odb = Open("ext2");
-            var size = 1000;
+            var size = 100;
             long updateDate = 0;
             long creationDate = 0;
             // LogUtil.allOn(true);
             var oid = odb.Store(new Function("f"));
             odb.Close();
             odb = Open("ext2");
-            Thread.Sleep(100);
+            Thread.Sleep(20);
             // LogUtil.allOn(true);
             for (var i = 0; i < size; i++)
             {
@@ -143,7 +143,7 @@ namespace Ext
             DeleteBase("exta");
             IOdb odb = null;
             ITransactionId transactionId = null;
-            var size = 20000;
+            var size = 200;
             for (var i = 0; i < size; i++)
             {
                 odb = Open("exta");
@@ -151,7 +151,7 @@ namespace Ext
                 // println(transactionId);
                 AssertTrue(transactionId.ToString().StartsWith("tid=0" + (i + 1)));
                 odb.Close();
-                if (i % 1000 == 0)
+                if (i % 10 == 0)
                     Println("Transaction " + i);
             }
         }

@@ -57,7 +57,7 @@ namespace Index
             var odb = Open("index-object");
             var fields = new[] {"object"};
             odb.GetClassRepresentation(typeof (IndexedObject2)).AddUniqueIndexOn("index1", fields, true);
-            var size = 5000;
+            var size = 500;
             for (var i = 0; i < size; i++)
                 odb.Store(new IndexedObject2("Object " + i, new IndexedObject("Inner Object " + i, i, new DateTime())));
             odb.Close();
@@ -121,7 +121,7 @@ namespace Index
             odb.GetClassRepresentation(typeof (IndexedObject2)).AddUniqueIndexOn("index1", fields, true);
             var fields2 = new[] {"name"};
             odb.GetClassRepresentation(typeof (IndexedObject)).AddUniqueIndexOn("index2", fields2, true);
-            var size = 5000;
+            var size = 500;
             for (var i = 0; i < size; i++)
                 odb.Store(new IndexedObject2("Object " + i, new IndexedObject("Inner Object " + i, i, new DateTime())));
             odb.Close();

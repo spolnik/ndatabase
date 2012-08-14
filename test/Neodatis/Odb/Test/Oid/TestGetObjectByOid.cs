@@ -205,7 +205,7 @@ namespace Test.Odb.Test.Oid
         public virtual void Test7()
         {
             DeleteBase("getid.neodatis");
-            var size = 10001;
+            var size = 1001;
             var odb = Open("getid.neodatis");
             var oids = new OID[size];
             for (var i = 0; i < size; i++)

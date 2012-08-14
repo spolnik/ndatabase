@@ -18,7 +18,7 @@ namespace Test.Odb.Test.Performance
 				// Open the database
 				odb = Open("mydb.neodatis");
 				long t0 = OdbTime.GetCurrentTimeInTicks();
-				int nRecords = 100000;
+				int nRecords = 10000;
 				for (int i = 0; i < nRecords; i++)
 				{
 					Class1 ao = new Class1

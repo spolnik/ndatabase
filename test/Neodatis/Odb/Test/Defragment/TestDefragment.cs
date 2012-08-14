@@ -77,7 +77,7 @@ namespace Defragment
             DeleteBase(OdbFileName2);
             OdbConfiguration.SetAutomaticallyIncreaseCacheSize(true);
             var odb = Open(OdbFileName1);
-            for (var i = 0; i < 15000; i++)
+            for (var i = 0; i < 1500; i++)
             {
                 var user = new User("olivier " + i, "olivier@neodatis.com " + i, new Profile("profile" + i));
                 odb.Store(user);

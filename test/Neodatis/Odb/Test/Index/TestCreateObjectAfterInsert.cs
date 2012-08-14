@@ -21,11 +21,11 @@ namespace Index
         /// </remarks>
         /// <exception cref="System.Exception">System.Exception</exception>
         [Test]
-        public virtual void Test100000Objects()
+        public virtual void Test1000Objects()
         {
             var OdbFileName = "index2.test1.odb";
             IOdb odb = null;
-            var size = 100000;
+            var size = 1000;
             var start = OdbTime.GetCurrentTimeInMs();
             OdbConfiguration.MonitorMemory(true);
             OdbConfiguration.SetReconnectObjectsToSession(false);
@@ -38,7 +38,7 @@ namespace Index
                 {
                     var io = new IndexedObject("name" + i, i, new DateTime());
                     odb.Store(io);
-                    if (i % 10000 == 0)
+                    if (i % 100 == 0)
                         MemoryMonitor.DisplayCurrentMemory(i + " objects created", true);
                 }
                 odb.Close();
@@ -59,10 +59,6 @@ namespace Index
                 objects = odb.GetObjects<IndexedObject>(new CriteriaQuery(typeof (IndexedObject)), true);
                 AssertEquals(size, objects.Count);
             }
-            catch (Exception e)
-            {
-                throw;
-            }
             finally
             {
                 var end = OdbTime.GetCurrentTimeInMs();
@@ -81,11 +77,11 @@ namespace Index
         /// </remarks>
         /// <exception cref="System.Exception">System.Exception</exception>
         [Test]
-        public virtual void Test100000ObjectsIntiNdex()
+        public virtual void Test100ObjectsIntiNdex()
         {
             var OdbFileName = "index2.test2.odb";
             IOdb odb = null;
-            var size = 90000;
+            var size = 100;
             var start = OdbTime.GetCurrentTimeInMs();
             OdbConfiguration.MonitorMemory(true);
             try
@@ -96,7 +92,7 @@ namespace Index
                 {
                     var io = new IndexedObject("name" + i, i, new DateTime());
                     odb.Store(io);
-                    if (i % 10000 == 0)
+                    if (i % 10 == 0)
                         MemoryMonitor.DisplayCurrentMemory(i + " objects created", true);
                 }
                 odb.Close();
@@ -112,14 +108,10 @@ namespace Index
                 AssertEquals(1, objects.Count);
                 objects =
                     odb.GetObjects<IndexedObject>(
-                        new CriteriaQuery(typeof (IndexedObject), Where.Equal("duration", 10000)), true);
+                        new CriteriaQuery(typeof (IndexedObject), Where.Equal("duration", 10)), true);
                 AssertEquals(1, objects.Count);
                 objects = odb.GetObjects<IndexedObject>(new CriteriaQuery(typeof (IndexedObject)), true);
                 AssertEquals(size, objects.Count);
-            }
-            catch (Exception e)
-            {
-                throw;
             }
             finally
             {
@@ -169,12 +161,12 @@ namespace Index
         /// </remarks>
         /// <exception cref="System.Exception">System.Exception</exception>
         [Test]
-        public virtual void Test20000Objects()
+        public virtual void Test2000Objects()
         {
             var OdbFileName = "index2.test4.odb";
             var start = OdbTime.GetCurrentTimeInMs();
             IOdb odb = null;
-            var size = 20000;
+            var size = 2000;
             try
             {
                 DeleteBase(OdbFileName);

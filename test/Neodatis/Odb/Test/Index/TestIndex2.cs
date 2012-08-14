@@ -186,7 +186,7 @@ namespace Index
             var baseName = GetBaseName();
             DeleteBase(baseName);
             var @base = Open(baseName);
-            for (var i = 0; i < 2500; i++)
+            for (var i = 0; i < 250; i++)
             {
                 var io = new IndexedObject3(1 + i, 2, 3, "1" + i, "2", "3", new DateTime(2009, (i % 12) + 1, 1), new DateTime(),
                                             new DateTime());
@@ -265,7 +265,7 @@ namespace Index
             var baseName = GetBaseName();
             DeleteBase(baseName);
             var @base = Open(baseName);
-            for (var i = 0; i < 2500; i++)
+            for (var i = 0; i < 250; i++)
             {
                 var io = new IndexedObject3(1 + i, 2, 3, "1" + i, "2", "3", new DateTime(2009, (i%12)+1, 1), new DateTime(),
                                             new DateTime());

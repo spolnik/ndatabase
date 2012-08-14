@@ -50,14 +50,14 @@ namespace NeoDatis.Test.Btree.Impl.Singlevalue
         public virtual void TestDelete1()
         {
             IBTree btree = GetBTree(10);
-            var size = 50000;
+            var size = 5000;
             var t0 = OdbTime.GetCurrentTimeInMs();
             for (var i = 0; i < size; i++)
                 btree.Insert(i, "key " + i);
             var t1 = OdbTime.GetCurrentTimeInMs();
             Console.WriteLine("insert time=" + (t1 - t0));
             AssertEquals(size, btree.GetSize());
-            AssertEquals("key 49999", btree.Delete(49999, "key 49999"));
+            AssertEquals("key 4999", btree.Delete(4999, "key 4999"));
         }
 
         /// <exception cref="System.Exception"></exception>
@@ -97,78 +97,61 @@ namespace NeoDatis.Test.Btree.Impl.Singlevalue
         /// <exception cref="System.Exception"></exception>
         [Test]
         [Ignore("Long running test")]
-        public virtual void TestDelete100000Alpha_2()
+        public virtual void TestDelete1000Alpha_2()
         {
             var btree = GetBTree(2);
-            var size = 100000;
-            for (var i = 0; i < size; i++)
-                btree.Insert("key" + i, "value " + i);
-            var o = btree.Search("key71");
-            AssertEquals(size, btree.GetSize());
-            for (var i = size - 1; i >= 0; i--)
-            {
-                // println(new BTreeDisplay().build(btree));
-                AssertEquals("value " + i, btree.Delete("key" + i, "value " + i));
-            }
-            AssertEquals(0, btree.GetSize());
-            AssertEquals(1, btree.GetHeight());
-            AssertEquals(0, btree.GetRoot().GetNbKeys());
-            AssertEquals(0, btree.GetRoot().GetNbChildren());
-        }
-
-        /// <exception cref="System.Exception"></exception>
-        [Test]
-        public virtual void TestDelete10000Alpha_2()
-        {
-            var btree = GetBTree(2);
-            var size = 10000;
-            for (var i = 0; i < size; i++)
-                btree.Insert("key" + i, "value " + i);
-            var o = btree.Search("key71");
-            AssertEquals(size, btree.GetSize());
-            for (var i = size - 1; i >= 0; i--)
-            {
-                // println(new BTreeDisplay().build(btree));
-                AssertEquals("value " + i, btree.Delete("key" + i, "value " + i));
-            }
-            AssertEquals(0, btree.GetSize());
-            AssertEquals(1, btree.GetHeight());
-            AssertEquals(0, btree.GetRoot().GetNbKeys());
-            AssertEquals(0, btree.GetRoot().GetNbChildren());
-        }
-
-        /// <exception cref="System.Exception"></exception>
-        [Test]
-        public virtual void TestDelete10000Alpha_3()
-        {
-            var btree = GetBTree(3);
-            var size = 10000;
-            for (var i = 0; i < size; i++)
-                btree.Insert("key" + i, "value " + i);
-            var o = btree.Search("key71");
-            AssertEquals(size, btree.GetSize());
-            for (var i = size - 1; i >= 0; i--)
-            {
-                // println(new BTreeDisplay().build(btree));
-                AssertEquals("value " + i, btree.Delete("key" + i, "value " + i));
-            }
-            AssertEquals(0, btree.GetSize());
-            AssertEquals(1, btree.GetHeight());
-            AssertEquals(0, btree.GetRoot().GetNbKeys());
-            AssertEquals(0, btree.GetRoot().GetNbChildren());
-        }
-
-        /// <exception cref="System.Exception"></exception>
-        [Test]
-        public virtual void TestDelete1000_3()
-        {
-            IBTree btree = GetBTree(3);
             var size = 1000;
             for (var i = 0; i < size; i++)
-                btree.Insert(i, "value " + i);
+                btree.Insert("key" + i, "value " + i);
+            var o = btree.Search("key71");
             AssertEquals(size, btree.GetSize());
             for (var i = size - 1; i >= 0; i--)
-                AssertEquals("value " + i, btree.Delete(i, "value " + i));
+            {
+                // println(new BTreeDisplay().build(btree));
+                AssertEquals("value " + i, btree.Delete("key" + i, "value " + i));
+            }
+            AssertEquals(0, btree.GetSize());
+            AssertEquals(1, btree.GetHeight());
+            AssertEquals(0, btree.GetRoot().GetNbKeys());
+            AssertEquals(0, btree.GetRoot().GetNbChildren());
+        }
+
+        /// <exception cref="System.Exception"></exception>
+        [Test]
+        public virtual void TestDelete100Alpha_2()
+        {
+            var btree = GetBTree(2);
+            var size = 100;
+            for (var i = 0; i < size; i++)
+                btree.Insert("key" + i, "value " + i);
+            var o = btree.Search("key71");
+            AssertEquals(size, btree.GetSize());
+            for (var i = size - 1; i >= 0; i--)
+            {
+                // println(new BTreeDisplay().build(btree));
+                AssertEquals("value " + i, btree.Delete("key" + i, "value " + i));
+            }
+            AssertEquals(0, btree.GetSize());
+            AssertEquals(1, btree.GetHeight());
+            AssertEquals(0, btree.GetRoot().GetNbKeys());
+            AssertEquals(0, btree.GetRoot().GetNbChildren());
+        }
+
+        /// <exception cref="System.Exception"></exception>
+        [Test]
+        public virtual void TestDelete1000Alpha_3()
+        {
+            var btree = GetBTree(3);
+            var size = 1000;
+            for (var i = 0; i < size; i++)
+                btree.Insert("key" + i, "value " + i);
+            var o = btree.Search("key71");
+            AssertEquals(size, btree.GetSize());
+            for (var i = size - 1; i >= 0; i--)
+            {
+                // println(new BTreeDisplay().build(btree));
+                AssertEquals("value " + i, btree.Delete("key" + i, "value " + i));
+            }
             AssertEquals(0, btree.GetSize());
             AssertEquals(1, btree.GetHeight());
             AssertEquals(0, btree.GetRoot().GetNbKeys());
@@ -655,7 +638,7 @@ namespace NeoDatis.Test.Btree.Impl.Singlevalue
         public virtual void Testsearch10000()
         {
             var btree = GetBTree(10);
-            var size = 110000;
+            var size = 10000;
             for (var i = 0; i < size; i++)
                 btree.Insert(i, "key " + i);
             AssertEquals(size, btree.GetSize());
@@ -675,7 +658,7 @@ namespace NeoDatis.Test.Btree.Impl.Singlevalue
         }
 
         [Test]
-        public virtual void Testsearch500000()
+        public virtual void Testsearch5000()
         {
             var btree = GetBTree(10);
             var size = 5000;

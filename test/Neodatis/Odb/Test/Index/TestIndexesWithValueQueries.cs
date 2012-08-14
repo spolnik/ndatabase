@@ -16,7 +16,7 @@ namespace Index
         {
             var baseName = GetBaseName();
             IOdb odb = null;
-            var size = 10000;
+            var size = 1000;
             odb = Open(baseName);
             odb.GetClassRepresentation(typeof (Function)).AddIndexOn("index1", new[] {"name"}, true);
             for (var i = 0; i < size; i++)

@@ -661,7 +661,7 @@ namespace Test.Odb.Test.Delete
         public virtual void Test4()
         {
             var baseName = GetBaseName();
-            var n = 1000;
+            var n = 100;
             var odb = Open(baseName);
             var size = odb.Count(new CriteriaQuery(typeof (VO.Login.Function)));
             for (var i = 0; i < n; i++)
