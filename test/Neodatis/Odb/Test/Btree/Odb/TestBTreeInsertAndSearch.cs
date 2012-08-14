@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using NDatabase.Btree;
 using NDatabase.Btree.Impl.Multiplevalue;
@@ -23,14 +24,17 @@ namespace Btree.Odb
             AssertEquals(5, tree.GetRoot().GetNbKeys());
             AssertEquals(0, tree.GetRoot().GetNbChildren());
             AssertEquals(21, tree.GetRoot().GetMedian().GetKey());
-            AssertEquals("[Value 21]", tree.GetRoot().GetMedian().GetValue().ToString());
+            var values = tree.GetRoot().GetMedian().GetValue() as ArrayList;
+            Assert.That(values, Is.Not.Null);
+            AssertEquals("Value 21", values[0].ToString());
             AssertEquals(0, tree.GetRoot().GetNbChildren());
             // println(tree.getRoot());
             tree.Insert(45, "Value 45");
             AssertEquals(2, tree.GetRoot().GetNbChildren());
             AssertEquals(1, tree.GetRoot().GetNbKeys());
             AssertEquals(21, tree.GetRoot().GetKeyAt(0));
-            AssertEquals("[Value 21]", tree.GetRoot().GetValueAsObjectAt(0).ToString());
+            var valuesAsObjectAt = tree.GetRoot().GetValueAsObjectAt(0) as ArrayList;
+            AssertEquals("Value 21", valuesAsObjectAt[0].ToString());
             // println(tree.getRoot());
             var o = tree.Search(20);
             AssertEquals("Value 20", o[0]);
@@ -139,39 +143,53 @@ namespace Btree.Odb
             tree6.GetRoot().SetNbChildren(5);
             // println("Test 4");
             tree6.Insert(2, "B");
-            // println(tree6.getRoot().getChild(0).keysToString(true));
-            AssertEquals("[B]", tree6.GetRoot().GetChildAt(0, true).GetValueAsObjectAt(1).ToString());
+            
+            var valuesAsObjectAt1 = tree6.GetRoot().GetChildAt(0, true).GetValueAsObjectAt(1) as ArrayList;
+            AssertEquals("B", valuesAsObjectAt1[0].ToString());
             tree6.Insert(17, "Q");
-            // println(tree6.getRoot().keysToString(true));
+            
             AssertEquals(5, tree6.GetRoot().GetNbKeys());
-            // println(tree6.getRoot().getChild(3).keysToString(true));
-            AssertEquals("[Q]", tree6.GetRoot().GetChildAt(3, true).GetValueAsObjectAt(0).ToString());
-            AssertEquals("[R]", tree6.GetRoot().GetChildAt(3, true).GetValueAsObjectAt(1).ToString());
-            AssertEquals("[S]", tree6.GetRoot().GetChildAt(3, true).GetValueAsObjectAt(2).ToString());
-            // println(tree6.getRoot().getChild(4).keysToString(true));
-            AssertEquals("[U]", tree6.GetRoot().GetChildAt(4, true).GetValueAsObjectAt(0).ToString());
-            AssertEquals("[V]", tree6.GetRoot().GetChildAt(4, true).GetValueAsObjectAt(1).ToString());
+            
+            var valuesAsObjectAt2 = tree6.GetRoot().GetChildAt(3, true).GetValueAsObjectAt(0) as ArrayList;
+            AssertEquals("Q", valuesAsObjectAt2[0].ToString());
+            var valuesAsObjectAt3 = tree6.GetRoot().GetChildAt(3, true).GetValueAsObjectAt(1) as ArrayList;
+            AssertEquals("R", valuesAsObjectAt3[0].ToString());
+            var valuesAsObjectAt4 = tree6.GetRoot().GetChildAt(3, true).GetValueAsObjectAt(2) as ArrayList;
+            AssertEquals("S", valuesAsObjectAt4[0].ToString());
+
+            var valuesAsObjectAt5 = tree6.GetRoot().GetChildAt(4, true).GetValueAsObjectAt(0) as ArrayList;
+            AssertEquals("U", valuesAsObjectAt5[0].ToString());
+            var valuesAsObjectAt6 = tree6.GetRoot().GetChildAt(4, true).GetValueAsObjectAt(1) as ArrayList;
+            AssertEquals("V", valuesAsObjectAt6[0].ToString());
             tree6.Insert(12, "L");
-            // println(tree6.getRoot().keysToString(true));
+            
             AssertEquals(1, tree6.GetRoot().GetNbKeys());
             AssertEquals(2, tree6.GetRoot().GetChildAt(0, true).GetNbKeys());
-            // println(tree6.getRoot().getChild(0).keysToString(true));
-            AssertEquals("[G]", tree6.GetRoot().GetChildAt(0, true).GetValueAsObjectAt(0).ToString());
-            AssertEquals("[M]", tree6.GetRoot().GetChildAt(0, true).GetValueAsObjectAt(1).ToString());
-            // println(tree6.getRoot().getChild(0).getChild(1).keysToString(true));
-            AssertEquals("[J]", tree6.GetRoot().GetChildAt(0, true).GetChildAt(1, true).GetValueAsObjectAt(0).ToString());
-            AssertEquals("[K]", tree6.GetRoot().GetChildAt(0, true).GetChildAt(1, true).GetValueAsObjectAt(1).ToString());
-            AssertEquals("[L]", tree6.GetRoot().GetChildAt(0, true).GetChildAt(1, true).GetValueAsObjectAt(2).ToString());
+
+            var valuesAsObjectAt7 = tree6.GetRoot().GetChildAt(0, true).GetValueAsObjectAt(0) as ArrayList;
+            AssertEquals("G", valuesAsObjectAt7[0].ToString());
+            var valuesAsObjectAt8 = tree6.GetRoot().GetChildAt(0, true).GetValueAsObjectAt(1) as ArrayList;
+            AssertEquals("M", valuesAsObjectAt8[0].ToString());
+            
+            var valuesAsObjectAt9 = tree6.GetRoot().GetChildAt(0, true).GetChildAt(1, true).GetValueAsObjectAt(0) as ArrayList;
+            AssertEquals("J", valuesAsObjectAt9[0].ToString());
+            var valuesAsObjectAt10 = tree6.GetRoot().GetChildAt(0, true).GetChildAt(1, true).GetValueAsObjectAt(1) as ArrayList;
+            AssertEquals("K", valuesAsObjectAt10[0].ToString());
+            var valuesAsObjectAt11 = tree6.GetRoot().GetChildAt(0, true).GetChildAt(1, true).GetValueAsObjectAt(2) as ArrayList;
+            AssertEquals("L", valuesAsObjectAt11[0].ToString());
             tree6.Insert(6, "F");
-            // println(tree6.getRoot().keysToString(true));
+            
             AssertEquals(1, tree6.GetRoot().GetNbKeys());
             AssertEquals(3, tree6.GetRoot().GetChildAt(0, true).GetNbKeys());
             AssertEquals(2, tree6.GetRoot().GetChildAt(0, true).GetChildAt(0, true).GetNbKeys());
-            // println(tree6.getRoot().getChild(0).getChild(0).keysToString(true));
-            AssertEquals("[A]", tree6.GetRoot().GetChildAt(0, true).GetChildAt(0, true).GetValueAsObjectAt(0).ToString());
-            AssertEquals("[B]", tree6.GetRoot().GetChildAt(0, true).GetChildAt(0, true).GetValueAsObjectAt(1).ToString());
-            // println(tree6.getRoot().getChild(1).getChild(2).keysToString(true));
-            AssertEquals("[Z]", tree6.GetRoot().GetChildAt(1, true).GetChildAt(2, true).GetValueAsObjectAt(1).ToString());
+            
+            var valuesAsObjectAt12 = tree6.GetRoot().GetChildAt(0, true).GetChildAt(0, true).GetValueAsObjectAt(0) as ArrayList;
+            AssertEquals("A", valuesAsObjectAt12[0].ToString());
+            var valuesAsObjectAt13 = tree6.GetRoot().GetChildAt(0, true).GetChildAt(0, true).GetValueAsObjectAt(1) as ArrayList;
+            AssertEquals("B", valuesAsObjectAt13[0].ToString());
+            
+            var valuesAsObjectAt14 = tree6.GetRoot().GetChildAt(1, true).GetChildAt(2, true).GetValueAsObjectAt(1) as ArrayList;
+            AssertEquals("Z", valuesAsObjectAt14[0].ToString());
         }
 
         [Test]
@@ -183,18 +201,20 @@ namespace Btree.Odb
             for (var i = 0; i < 500000; i++)
                 tree.Insert(i, "Value " + i);
             var a1 = OdbTime.GetCurrentTimeInMs();
-            // println("insert time = " + (a1 - a0));
-            AssertEquals("[Value 0]", tree.Search(0).ToString());
-            AssertEquals("[Value 1000]", tree.Search(1000).ToString());
-            AssertEquals("[Value 2000]", tree.Search(2000).ToString());
-            AssertEquals("[Value 48000]", tree.Search(48000).ToString());
+            Console.WriteLine("insert time = {0}", (a1 - a0));
+            AssertEquals("Value 0", tree.Search(0)[0].ToString());
+            AssertEquals("Value 1000", tree.Search(1000)[0].ToString());
+            AssertEquals("Value 2000", tree.Search(2000)[0].ToString());
+            AssertEquals("Value 48000", tree.Search(48000)[0].ToString());
             // tree.resetNbRead();
             var t0 = OdbTime.GetCurrentTimeInMs();
             for (var i = 0; i < 100000; i++)
-                AssertEquals("[Value 490000]", tree.Search(490000).ToString());
+                AssertEquals("Value 490000", tree.Search(490000)[0].ToString());
             var t1 = OdbTime.GetCurrentTimeInMs();
             // tree.resetNbRead();
-            AssertEquals("[Value 490000]", tree.Search(490000).ToString());
+            AssertEquals("Value 490000", tree.Search(490000)[0].ToString());
+
+            Console.WriteLine("Search in {0} ms", t1 - t0);
         }
 
         [Test]
@@ -224,7 +244,7 @@ namespace Btree.Odb
             for (var i = 1; i < size; i++)
                 tree.Insert(i, i.ToString());
             var l = tree.Search(1);
-            AssertEquals("[1]", l.ToString());
+            AssertEquals("1", l[0].ToString());
             l = tree.Search(1000);
             AssertEquals("1000", l[0]);
             l = tree.Search(2000);
@@ -246,7 +266,9 @@ namespace Btree.Odb
             tree1.Insert(1, "AA");
             tree1.Insert(1, "AAA");
             AssertEquals(3, tree1.Search(1).Count);
-            AssertEquals("[A, AA, AAA]", tree1.Search(1).ToString());
+            AssertEquals("A", tree1.Search(1)[0].ToString());
+            AssertEquals("AA", tree1.Search(1)[1].ToString());
+            AssertEquals("AAA", tree1.Search(1)[2].ToString());
             AssertEquals(3, tree1.GetSize());
         }
 
@@ -259,13 +281,18 @@ namespace Btree.Odb
             tree1.Insert(1, "AA");
             tree1.Insert(1, "AAA");
             tree1.Insert(1, "BBB");
-            ICollection c = tree1.Search(1);
+            IList c = tree1.Search(1);
             AssertEquals(4, c.Count);
             var iterator = c.GetEnumerator();
+            iterator.MoveNext();
             AssertEquals("A", iterator.Current);
+            iterator.MoveNext();
             AssertEquals("AA", iterator.Current);
             AssertEquals(4, tree1.GetSize());
-            AssertEquals("[A, AA, AAA, BBB]", c.ToString());
+            AssertEquals("A", c[0].ToString());
+            AssertEquals("AA", c[1].ToString());
+            AssertEquals("AAA", c[2].ToString());
+            AssertEquals("BBB", c[3].ToString());
         }
 
         [Test]

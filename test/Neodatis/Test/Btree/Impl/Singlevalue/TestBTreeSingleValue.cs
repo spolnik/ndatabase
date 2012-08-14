@@ -1,6 +1,7 @@
 using System;
 using NDatabase.Btree;
 using NDatabase.Btree.Tool;
+using NDatabase.Odb;
 using NDatabase.Odb.Impl.Core.Btree;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
@@ -11,9 +12,20 @@ namespace NeoDatis.Test.Btree.Impl.Singlevalue
     [TestFixture]
     public class TestBTreeSingleValue : ODBTest
     {
+        private const string DbName = "testBTreeSingleValue.test.odb";
+
         private IBTreeSingleValuePerKey GetBTree(int degree)
         {
-            return new OdbBtreeSingle();
+            using (var odb = OdbFactory.Open(DbName))
+            {
+                return new OdbBtreeSingle("test1", degree, new LazyOdbBtreePersister(odb));
+            }
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            DeleteBase(DbName);
         }
 
         private IBTreeNodeOneValuePerKey GetBTreeNode(IBTree tree, string name)
@@ -53,10 +65,10 @@ namespace NeoDatis.Test.Btree.Impl.Singlevalue
 
         /// <exception cref="System.Exception"></exception>
         [Test]
-        public virtual void TestDelete10000()
+        public virtual void TestDelete1000()
         {
             IBTree btree = GetBTree(20);
-            var size = 100000;
+            var size = 1000;
             for (var i = 0; i < size; i++)
                 btree.Insert(i, "key " + i);
             AssertEquals(size, btree.GetSize());
@@ -70,7 +82,7 @@ namespace NeoDatis.Test.Btree.Impl.Singlevalue
 
         /// <exception cref="System.Exception"></exception>
         [Test]
-        public virtual void TestDelete100000()
+        public virtual void TestDelete10000()
         {
             IBTree btree = GetBTree(3);
             var size = 10000;

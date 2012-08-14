@@ -16,10 +16,6 @@ namespace NDatabase.Odb.Impl.Core.Btree
     {
         private OID _oid;
 
-        public OdbBtreeSingle()
-        {
-        }
-
         public OdbBtreeSingle(string name, int degree, IBTreePersister persister) : base(name, degree, persister)
         {
         }

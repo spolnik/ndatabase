@@ -72,7 +72,7 @@ namespace NDatabase.Odb.Impl.Core.Btree
             // test/org.neodatis.odb.test.performance.TestMapPerf
             // TODO create a boolean value to know if data must be saved on update or
             // only at the end
-            _oids = new Dictionary<OID, object>();
+            _oids = new OdbHashMap<OID, object>();
             _modifiedObjectOids = new OdbHashMap<object, int>();
             _modifiedObjectOidList = new OdbArrayList<OID>(500);
             _engine = engine;
@@ -233,7 +233,7 @@ namespace NDatabase.Odb.Impl.Core.Btree
 
                     if (_tree == null)
                         _tree = treeToSave;
-
+                    
                     _oids.Add(oid, treeToSave);
                 }
                 else

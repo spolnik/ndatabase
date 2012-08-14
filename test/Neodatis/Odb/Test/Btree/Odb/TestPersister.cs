@@ -1,3 +1,4 @@
+using System.Collections;
 using NDatabase.Btree;
 using NDatabase.Btree.Impl;
 using NDatabase.Odb.Impl.Core.Btree;
@@ -27,14 +28,16 @@ namespace Btree.Odb
             AssertEquals(5, tree.GetRoot().GetNbKeys());
             AssertEquals(0, tree.GetRoot().GetNbChildren());
             AssertEquals(21, tree.GetRoot().GetMedian().GetKey());
-            AssertEquals("[Value 21]", tree.GetRoot().GetMedian().GetValue().ToString());
+            var values = tree.GetRoot().GetMedian().GetValue() as ArrayList;
+            AssertEquals("Value 21", values[0].ToString());
             AssertEquals(0, tree.GetRoot().GetNbChildren());
             // println(tree.getRoot());
             tree.Insert(45, new MyObject("Value 45"));
             AssertEquals(2, tree.GetRoot().GetNbChildren());
             AssertEquals(1, tree.GetRoot().GetNbKeys());
             AssertEquals(21, tree.GetRoot().GetKeyAt(0));
-            AssertEquals("[Value 21]", tree.GetRoot().GetValueAsObjectAt(0).ToString());
+            var valuesAsObjectAt = tree.GetRoot().GetValueAsObjectAt(0) as ArrayList;
+            AssertEquals("Value 21", valuesAsObjectAt[0].ToString());
             persister.Close();
             odb = Open("btree45.neodatis");
             storageEngine = Dummy.GetEngine(odb);

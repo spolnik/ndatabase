@@ -68,8 +68,7 @@ namespace Cyclic
                 ca.SetClassb(cb);
                 ca.SetName("a");
                 odb.Store(ca);
-                var ci = Dummy.GetEngine(odb).GetSession(true).GetMetaModel().GetClassInfo(typeof (ClassA).FullName,
-                                                                                           true);
+                var ci = Dummy.GetEngine(odb).GetSession(true).GetMetaModel().GetClassInfo(typeof (ClassA), true);
                 AssertTrue(ci.HasCyclicReference());
             }
             finally
@@ -87,7 +86,7 @@ namespace Cyclic
             try
             {
                 odb = Open("cyclic.neodatis");
-                var ci = Dummy.GetEngine(odb).GetSession(true).GetMetaModel().GetClassInfo(typeof (User).FullName, true);
+                var ci = Dummy.GetEngine(odb).GetSession(true).GetMetaModel().GetClassInfo(typeof (User), true);
                 AssertFalse(ci.HasCyclicReference());
             }
             finally

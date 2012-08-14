@@ -13,9 +13,9 @@ namespace Defragment
         /// <summary>
         ///   The name of the database file
         /// </summary>
-        public static readonly string OdbFileName1 = "defrag1.neodatis";
+        public static readonly string OdbFileName1 = "defrag3.neodatis";
 
-        public static readonly string OdbFileName2 = "defrag1-bis.neodatis";
+        public static readonly string OdbFileName2 = "defrag3-bis.neodatis";
 
         /// <exception cref="System.Exception"></exception>
         [Test]
@@ -27,11 +27,11 @@ namespace Defragment
             var user = new User("olivier", "olivier@neodatis.com", null);
             odb.Store(user);
             odb.Close();
+
             odb = Open(OdbFileName1);
             odb.DefragmentTo(OdbFileName2);
             var newOdb = Open(OdbFileName2);
-            // int n = odb.getObjects(User.class).size();
-            // println("n="+n);
+            
             Decimal nbUser = odb.Count(new CriteriaQuery(typeof (User)));
             Decimal nbNewUser = newOdb.Count(new CriteriaQuery(typeof (User)));
             AssertEquals(nbUser, nbNewUser);

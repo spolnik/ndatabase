@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
+using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
 using NDatabase.Tool.Wrappers.Map;
 
@@ -122,6 +123,12 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         public virtual ClassInfo GetClassInfoFromId(OID id)
         {
             return _rapidAccessForClassesByOid[id];
+        }
+
+        public ClassInfo GetClassInfo(Type type, bool throwExceptionIfDoesNotExist)
+        {
+            var fullName = OdbClassUtil.GetFullName(type);
+            return GetClassInfo(fullName, throwExceptionIfDoesNotExist);
         }
 
         public ClassInfo GetClassInfo(string fullClassName, bool throwExceptionIfDoesNotExist)

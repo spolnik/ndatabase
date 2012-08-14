@@ -74,7 +74,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                                                 classInfo.GetFullClassName()));
                 }
 
-                defragObjects = GetObjects<object>(new CriteriaQuery(classInfo.GetFullClassName()), true, -1, -1);
+                var criteriaQuery = new CriteriaQuery(classInfo.GetFullClassName());
+                criteriaQuery.SetPolymorphic(true);
+                defragObjects = GetObjects<object>(criteriaQuery, true, -1, -1);
 
                 while (defragObjects.HasNext())
                 {

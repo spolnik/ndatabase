@@ -326,7 +326,6 @@
     <Compile Include="Neodatis\Odb\Test\VO\Sport\Sport.cs" />
     <Compile Include="Neodatis\Odb\Test\VO\Sport\Team.cs" />
     <Compile Include="Neodatis\Test\Btree\Impl\Singlevalue\MockBTreeNodeSingleValue.cs" />
-    <Compile Include="Neodatis\Test\Btree\Impl\Singlevalue\TestBTree2.cs" />
     <Compile Include="Neodatis\Test\Btree\Impl\Singlevalue\TestBTreeSingleValue.cs" />
     <Compile Include="Neodatis\Tool\StopWatch.cs" />
     <Compile Include="Program.cs" />
