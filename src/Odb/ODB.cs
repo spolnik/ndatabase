@@ -10,10 +10,6 @@ namespace NDatabase.Odb
     /// <summary>
     ///   The main ODB public interface: It is what the user sees.
     /// </summary>
-    /// <remarks>
-    ///   The main ODB public interface: It is what the user sees.
-    /// </remarks>
-    /// <author>osmadja</author>
     public interface IOdb : IDisposable
     {
         /// <summary>
@@ -62,7 +58,6 @@ namespace NDatabase.Odb
         /// <summary>
         ///   Delete an object from database
         /// </summary>
-        /// <param name="object"> </param>
         OID Delete(object @object);
 
         /// <summary>
@@ -74,31 +69,18 @@ namespace NDatabase.Odb
         /// <summary>
         ///   Search for objects that matches the query.
         /// </summary>
-        /// <remarks>
-        ///   Search for objects that matches the query.
-        /// </remarks>
-        /// <param name="query"> </param>
         /// <returns> The list of values </returns>
         IValues GetValues(IValuesQuery query);
 
         /// <summary>
         ///   Search for objects that matches the query.
         /// </summary>
-        /// <remarks>
-        ///   Search for objects that matches the query.
-        /// </remarks>
-        /// <param name="query"> </param>
         /// <returns> The list of objects </returns>
         IObjects<T> GetObjects<T>(IQuery query);
 
         /// <summary>
         ///   Search for objects that matches the native query.
         /// </summary>
-        /// <remarks>
-        ///   Search for objects that matches the native query.
-        /// </remarks>
-        /// <param name="query"> </param>
-        /// <param name="inMemory"> </param>
         /// <returns> The list of objects </returns>
         IObjects<T> GetObjects<T>(IQuery query, bool inMemory);
 
@@ -109,7 +91,8 @@ namespace NDatabase.Odb
         /// <param name="inMemory"> if true, preload all objects,if false,load on demand </param>
         /// <param name="startIndex"> The index of the first object </param>
         /// <param name="endIndex"> The index of the last object that must be returned </param>
-        /// <returns> A List of objects, if start index and end index are -1, they are ignored. If not, the length of the sublist is endIndex - startIndex </returns>
+        /// <returns> A List of objects, if start index and end index are -1, they are ignored. 
+        /// If not, the length of the sublist is endIndex - startIndex </returns>
         IObjects<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex);
 
         /// <summary>
@@ -136,7 +119,6 @@ namespace NDatabase.Odb
         /// <summary>
         ///   Defragment ODB Database
         /// </summary>
-        /// <param name="newFileName"> </param>
         void DefragmentTo(string newFileName);
 
         /// <summary>
@@ -156,29 +138,21 @@ namespace NDatabase.Odb
         /// <summary>
         ///   Used to add an update trigger callback for the specific class
         /// </summary>
-        /// <param name="clazz"> </param>
-        /// <param name="trigger"> </param>
         void AddUpdateTrigger(Type clazz, UpdateTrigger trigger);
 
         /// <summary>
         ///   Used to add an insert trigger callback for the specific class
         /// </summary>
-        /// <param name="clazz"> </param>
-        /// <param name="trigger"> </param>
         void AddInsertTrigger(Type clazz, InsertTrigger trigger);
 
         /// <summary>
         ///   USed to add a delete trigger callback for the specific class
         /// </summary>
-        /// <param name="clazz"> </param>
-        /// <param name="trigger"> </param>
         void AddDeleteTrigger(Type clazz, DeleteTrigger trigger);
 
         /// <summary>
         ///   Used to add a select trigger callback for the specific class
         /// </summary>
-        /// <param name="clazz"> </param>
-        /// <param name="trigger"> </param>
         void AddSelectTrigger(Type clazz, SelectTrigger trigger);
 
         /// <summary>
@@ -199,7 +173,6 @@ namespace NDatabase.Odb
         /// </remarks>
         void Disconnect(object @object);
 
-        /// <returns> </returns>
         bool IsClosed();
 
         CriteriaQuery CriteriaQuery(Type clazz, ICriterion criterio);
