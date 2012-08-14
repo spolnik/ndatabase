@@ -96,6 +96,7 @@ namespace NeoDatis.Test.Btree.Impl.Singlevalue
 
         /// <exception cref="System.Exception"></exception>
         [Test]
+        [Ignore("Long running test")]
         public virtual void TestDelete100000Alpha_2()
         {
             var btree = GetBTree(2);
@@ -418,7 +419,7 @@ namespace NeoDatis.Test.Btree.Impl.Singlevalue
         public virtual void TestDeleteInsert100000()
         {
             IBTree btree = GetBTree(3);
-            var size = 200000;
+            var size = 2000;
             for (var i = 0; i < size; i++)
                 btree.Insert(i, "key " + i);
             AssertEquals(size, btree.GetSize());
@@ -622,14 +623,14 @@ namespace NeoDatis.Test.Btree.Impl.Singlevalue
         public virtual void TestgetBiggestSmallest1WithDelete2()
         {
             var btree = GetBTree(10);
-            var size = 500000;
+            var size = 5000;
             for (var i = 0; i < size; i++)
                 btree.Insert(i, "key " + i);
             AssertEquals(size, btree.GetSize());
-            AssertEquals("key 499999", btree.GetBiggest(btree.GetRoot(), true).GetValue());
+            AssertEquals("key 4999", btree.GetBiggest(btree.GetRoot(), true).GetValue());
             AssertEquals("key 0", btree.GetSmallest(btree.GetRoot(), true).GetValue());
             AssertEquals(null, btree.Search(0));
-            AssertEquals(null, btree.Search(499999));
+            AssertEquals(null, btree.Search(4999));
         }
 
         [Test]
@@ -677,7 +678,7 @@ namespace NeoDatis.Test.Btree.Impl.Singlevalue
         public virtual void Testsearch500000()
         {
             var btree = GetBTree(10);
-            var size = 500000;
+            var size = 5000;
             for (var i = 0; i < size; i++)
                 btree.Insert(i, "key " + i);
             AssertEquals(size, btree.GetSize());
