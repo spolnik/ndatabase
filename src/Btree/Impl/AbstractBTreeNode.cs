@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Text;
 using NDatabase.Btree.Exception;
 using NDatabase.Btree.Tool;
@@ -452,12 +453,32 @@ namespace NDatabase.Btree.Impl
                 if (i > 0)
                     buffer.Append(",");
 
-                buffer.Append(Keys[i]).Append("/").Append(Values[i]);
+                var value = BuildValueRepresentation(Values[i]);
+
+                buffer.Append("[").Append(Keys[i]).Append("/").Append(value).Append("]");
             }
 
             buffer.Append("), child(").Append(NbChildren).Append(")}");
 
             return buffer.ToString();
+        }
+
+        private static string BuildValueRepresentation(object o)
+        {
+            var result = new StringBuilder();
+
+            if (o is ArrayList)
+            {
+                foreach (var item in (ArrayList)o)
+                    result.AppendFormat("{0},", item);
+                result = result.Remove(result.Length - 1, 1);
+            }
+            else
+            {
+                result.Append(o);
+            }
+
+            return result.ToString();
         }
     }
 }

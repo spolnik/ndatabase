@@ -147,7 +147,7 @@ namespace NDatabase.Btree
         {
             for (var i = 0; i < parent.GetNbChildren(); i++)
             {
-                if (parent.GetChildAt(i, true).GetId() == child.GetId())
+                if (parent.GetChildAt(i, true).GetId().Equals(child.GetId()))
                     return i;
             }
 

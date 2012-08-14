@@ -68,5 +68,29 @@ namespace Btree.Odb
                     AssertEquals("value " + size, o);
             }
         }
+
+        [Test]
+        public virtual void Test3()
+        {
+            var size = 10;
+            IBTree tree = new InMemoryBTreeMultipleValuesPerKey("test1", 5);
+            for (var i = 0; i < size; i++)
+            {
+                Println(i);
+                tree.Insert(i + 1, "value " + (i + 1));
+            }
+            AssertEquals(size, tree.GetSize());
+            IEnumerator iterator = new BTreeIteratorMultipleValuesPerKey<object>(tree, OrderByConstants.OrderByAsc);
+
+            var j = 0;
+            while (iterator.MoveNext())
+            {
+                var o = iterator.Current;
+                Console.WriteLine(o);
+                j++;
+                if (j == size)
+                    AssertEquals("value " + size, o);
+            }
+        }
     }
 }

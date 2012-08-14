@@ -39,7 +39,6 @@ namespace Btree.Odb
             }
         }
 
-        // return new InMemoryBTreePersister();
         /// <exception cref="System.Exception"></exception>
         [Test]
         public virtual void Test01()
@@ -51,15 +50,12 @@ namespace Btree.Odb
             var start = OdbTime.GetCurrentTimeInMs();
             for (var i = 0; i < Size; i++)
                 tree.Insert(i + 1, "value " + (i + 1));
-            // println(i);
-            // println(new BTreeDisplay().build(tree,true));
+            
             var end = OdbTime.GetCurrentTimeInMs();
             Println("time/object=" + (end - start) / (float) Size);
-            AssertTrue((end - start) < 0.34 * Size);
-            // println("insert of "+SIZE+" elements in BTREE = " +
-            // (end-start)+"ms");
-            // persister.close();
-            // persister = getPersister();
+
+            AssertTrue((end - start) < 3000);
+
             AssertEquals(Size, tree.GetSize());
             var iterator = tree.Iterator<object>(OrderByConstants.OrderByAsc);
             var j = 0;
