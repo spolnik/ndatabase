@@ -3,6 +3,7 @@ using NDatabase.Btree;
 using NDatabase.Btree.Tool;
 using NDatabase.Odb;
 using NDatabase.Odb.Impl.Core.Btree;
+using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 using Test.Odb.Test;
@@ -16,16 +17,12 @@ namespace NeoDatis.Test.Btree.Impl.Singlevalue
 
         private IBTreeSingleValuePerKey GetBTree(int degree)
         {
-            using (var odb = OdbFactory.Open(DbName))
-            {
-                return new OdbBtreeSingle("test1", degree, new LazyOdbBtreePersister(odb));
-            }
-        }
+            var odb = OdbFactory.Open(GetBaseName());
 
-        [TearDown]
-        public void TearDown()
-        {
-            DeleteBase(DbName);
+            var storageEngine = Dummy.GetEngine(odb);
+            storageEngine.GetObjectWriter().GetFsi().GetIo().EnableAutomaticDelete(true);
+            return new OdbBtreeSingle("test1", degree, new LazyOdbBtreePersister(storageEngine));
+            
         }
 
         private IBTreeNodeOneValuePerKey GetBTreeNode(IBTree tree, string name)
@@ -53,14 +50,14 @@ namespace NeoDatis.Test.Btree.Impl.Singlevalue
         public virtual void TestDelete1()
         {
             IBTree btree = GetBTree(10);
-            var size = 500000;
+            var size = 50000;
             var t0 = OdbTime.GetCurrentTimeInMs();
             for (var i = 0; i < size; i++)
                 btree.Insert(i, "key " + i);
             var t1 = OdbTime.GetCurrentTimeInMs();
             Console.WriteLine("insert time=" + (t1 - t0));
             AssertEquals(size, btree.GetSize());
-            AssertEquals("key 499999", btree.Delete(499999, "key 499999"));
+            AssertEquals("key 49999", btree.Delete(49999, "key 49999"));
         }
 
         /// <exception cref="System.Exception"></exception>

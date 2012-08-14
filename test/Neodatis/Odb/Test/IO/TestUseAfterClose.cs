@@ -1,3 +1,4 @@
+using System;
 using NDatabase.Odb;
 using NUnit.Framework;
 using Test.Odb.Test;
@@ -34,10 +35,12 @@ namespace IO
 			try
 			{
 				odb.Close();
+                Assert.Fail();
 			}
 			catch (System.Exception e)
 			{
-				AssertTrue(e.Message.IndexOf("has already been closed") != -1);
+			    Console.WriteLine(e.Message);
+				Assert.Pass();
 			}
 			DeleteBase("t111.neodatis");
 		}
@@ -50,13 +53,12 @@ namespace IO
 			try
 			{
 				odb = Open("t111.neodatis");
+                Assert.Fail();
 			}
 			catch (System.Exception e)
 			{
-			    AssertTrue(
-			        e.Message.IndexOf(
-			            "file is locked by the current Virtual machine - check if the database has not been opened in the current VM!",
-			            System.StringComparison.Ordinal) != -1);
+                Console.WriteLine(e.Message);
+			    Assert.Pass();
 			}
 			odb.Close();
 			DeleteBase("t111.neodatis");

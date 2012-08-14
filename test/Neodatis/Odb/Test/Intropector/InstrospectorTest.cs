@@ -9,6 +9,7 @@ using NDatabase.Odb.Core.Layers.Layer2.Meta.Compare;
 using NDatabase.Odb.Core.Oid;
 using NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Compare;
+using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
 using NUnit.Framework;
 using Test.Odb.Test;
@@ -34,7 +35,7 @@ namespace Intropector
         {
             var user = new User("olivier smadja", "olivier@neodatis.com", new Profile("operator", new Function("login")));
             var classInfoList = classIntrospector.Introspect(user.GetType(), true);
-            AssertEquals(user.GetType().FullName, classInfoList.GetMainClassInfo().GetFullClassName());
+            AssertEquals(OdbClassUtil.GetFullName(user.GetType()), classInfoList.GetMainClassInfo().GetFullClassName());
             AssertEquals(3, classInfoList.GetMainClassInfo().GetAttributes().Count);
             AssertEquals(2, classInfoList.GetClassInfos().Count);
         }
