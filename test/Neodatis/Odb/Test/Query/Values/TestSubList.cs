@@ -2,8 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using NDatabase.Odb;
+using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Query;
+using NDatabase.Odb.Impl.Core.Layers.Layer2.Instance;
+using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NDatabase.Odb.Impl.Core.Query.Values;
 using NDatabase.Tool.Wrappers;
@@ -17,6 +20,11 @@ namespace Query.Values
     [TestFixture]
     public class TestSubList : ODBTest
     {
+        private static Parameter GetParameterInstance(IInstanceBuilder instanceBuilder, object nonNativeObjectInfo)
+        {
+            return (Parameter)instanceBuilder.BuildOneInstance((NonNativeObjectInfo)nonNativeObjectInfo);
+        }
+
         /// <exception cref="System.IO.IOException"></exception>
         /// <exception cref="System.Exception"></exception>
         [Test]
@@ -36,21 +44,25 @@ namespace Query.Values
                                                                                           true).Sublist("parameters",
                                                                                                         "sub2", 1, 10).
                         Size("parameters", "size"));
+
             Println(values);
             var ov = values.NextValues();
             var fulllist = (IList) ov.GetByAlias("parameters");
             AssertEquals(10, fulllist.Count);
             var size = (long) ov.GetByAlias("size");
             AssertEquals(10, size);
-            var p = (Parameter) fulllist[0];
+
+            var instanceBuilder = new LocalInstanceBuilder(Dummy.GetEngine(odb));
+
+            var p = GetParameterInstance(instanceBuilder, fulllist[0]);
             AssertEquals("value 0", p.GetValue());
-            var p2 = (Parameter) fulllist[9];
+            var p2 = GetParameterInstance(instanceBuilder, fulllist[9]);
             AssertEquals("value 9", p2.GetValue());
             var sublist = (IList) ov.GetByAlias("sub1");
             AssertEquals(5, sublist.Count);
-            p = (Parameter) sublist[0];
+            p = GetParameterInstance(instanceBuilder, sublist[0]);
             AssertEquals("value 1", p.GetValue());
-            p2 = (Parameter) sublist[4];
+            p2 = GetParameterInstance(instanceBuilder, sublist[4]);
             AssertEquals("value 5", p2.GetValue());
             var sublist2 = (IList) ov.GetByAlias("sub2");
             AssertEquals(9, sublist2.Count);
@@ -111,9 +123,12 @@ namespace Query.Values
             AssertEquals(5, sublist.Count);
             var size = (long) ov.GetByAlias("size");
             AssertEquals(500, size);
-            var p = (Parameter) sublist[0];
+
+            var instanceBuilder = new LocalInstanceBuilder(Dummy.GetEngine(odb));
+
+            var p = GetParameterInstance(instanceBuilder, sublist[0]);
             AssertEquals("value 490", p.GetValue());
-            var p2 = (Parameter) sublist[4];
+            var p2 = GetParameterInstance(instanceBuilder, sublist[4]);
             AssertEquals("value 494", p2.GetValue());
             odb.Close();
         }
@@ -225,7 +240,10 @@ namespace Query.Values
             var ov = values.NextValues();
             var sublist = (IList) ov.GetByAlias("sub");
             AssertEquals(2, sublist.Count);
-            var parameter = (Parameter) sublist[1];
+
+            var instanceBuilder = new LocalInstanceBuilder(Dummy.GetEngine(odb));
+
+            var parameter = GetParameterInstance(instanceBuilder, sublist[1]);
             AssertEquals("value 1", parameter.GetValue());
             var oid = odb.GetObjectId(parameter);
             Println(oid);

@@ -18,7 +18,7 @@ namespace School
         // Listar alunos com nota abaixo de x
         // Listar disciplinas que um professor ministrou no semestre
 
-        /// <exception cref="System.Exception"></exception>
+        [SetUp]
         public override void SetUp()
         {
             base.SetUp();
@@ -82,7 +82,7 @@ namespace School
                 odb = Open("t-school.neodatis");
                 ClassInfo ci =
                     Dummy.GetEngine(odb).GetSession(true).GetMetaModel().
-                        GetClassInfo(typeof (Student).FullName, true);
+                        GetClassInfo(typeof (Student), true);
 
                 AssertFalse(ci.HasCyclicReference());
             }

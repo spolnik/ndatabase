@@ -30,7 +30,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
 
         public override void Execute(OID oid, AttributeValuesMap values)
         {
-            var n = (Decimal) values[AttributeName];
+            var n = Convert.ToDecimal(values[AttributeName]);
             _totalValue = Decimal.Add(_totalValue, ValuesUtil.Convert(n));
             _nbValues++;
         }

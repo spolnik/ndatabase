@@ -45,7 +45,7 @@ namespace Query.Values
             var odb = Open("valuesA2");
             var t = new StopWatch();
             t.Start();
-            var size = 1000;
+            var size = 100;
             long sum = 0;
             for (var i = 0; i < size; i++)
             {
@@ -77,14 +77,14 @@ namespace Query.Values
         [Test]
         public virtual void Test16()
         {
-            DeleteBase("valuesA2");
+            DeleteBase("valuesA3");
             IOdb odb = null;
             var t = new StopWatch();
-            var size = 10000;
+            var size = 100;
             for (var j = 0; j < 10; j++)
             {
                 t.Start();
-                odb = Open("valuesA2");
+                odb = Open("valuesA3");
                 for (var i = 0; i < size; i++)
                 {
                     var tc1 = new TestClass();
@@ -95,7 +95,7 @@ namespace Query.Values
                 t.End();
                 Println(" time for insert = " + t.GetDurationInMiliseconds());
             }
-            odb = Open("valuesA2");
+            odb = Open("valuesA3");
             t.Start();
             var values = odb.GetValues(new ValuesCriteriaQuery(typeof (TestClass)).Count("nb objects"));
             t.End();
@@ -112,11 +112,11 @@ namespace Query.Values
         [Test]
         public virtual void Test17()
         {
-            DeleteBase("valuesA2");
-            var odb = Open("valuesA2");
+            DeleteBase("valuesA4");
+            var odb = Open("valuesA4");
             odb.Store(new User("user1", "email1", new Profile("profile name", new Function("f111"))));
             odb.Close();
-            odb = Open("valuesA2");
+            odb = Open("valuesA4");
             var values = odb.GetValues(new ValuesCriteriaQuery(typeof (User)).Field("name").Field("profile"));
             Println(values);
             var ov = values.NextValues();
@@ -132,11 +132,11 @@ namespace Query.Values
         [Test]
         public virtual void Test2()
         {
-            DeleteBase("valuesA");
-            var odb = Open("valuesA");
+            DeleteBase("valuesA21");
+            var odb = Open("valuesA21");
             odb.Store(new Function("f1"));
             odb.Close();
-            odb = Open("valuesA");
+            odb = Open("valuesA21");
             var values = odb.GetValues(new ValuesCriteriaQuery(typeof (Function)).Field("name", "Alias of the field"));
             Println(values);
             var ov = values.NextValues();
@@ -150,11 +150,11 @@ namespace Query.Values
         [Test]
         public virtual void Test3()
         {
-            DeleteBase("valuesA2");
-            var odb = Open("valuesA2");
+            DeleteBase("valuesA3");
+            var odb = Open("valuesA3");
             odb.Store(new User("user1", "email1", new Profile("profile name", new Function("f111"))));
             odb.Close();
-            odb = Open("valuesA2");
+            odb = Open("valuesA3");
             var values = odb.GetValues(new ValuesCriteriaQuery(typeof (User)).Field("name").Field("profile.name"));
             Println(values);
             var ov = values.NextValues();
@@ -170,8 +170,8 @@ namespace Query.Values
         [Test]
         public virtual void Test4()
         {
-            DeleteBase("valuesA2");
-            var odb = Open("valuesA2");
+            DeleteBase("valuesA4");
+            var odb = Open("valuesA4");
             var tc1 = new TestClass();
             tc1.SetInt1(45);
             odb.Store(tc1);
@@ -179,7 +179,7 @@ namespace Query.Values
             tc2.SetInt1(5);
             odb.Store(tc2);
             odb.Close();
-            odb = Open("valuesA2");
+            odb = Open("valuesA4");
             var values =
                 odb.GetValues(new ValuesCriteriaQuery(typeof (TestClass)).Sum("int1", "sum of int1").Count("nb objects"));
             Println(values);
@@ -195,9 +195,9 @@ namespace Query.Values
         [Test]
         public virtual void Test5()
         {
-            DeleteBase("valuesA2");
-            var odb = Open("valuesA2");
-            var size = 100000;
+            DeleteBase("valuesA5");
+            var odb = Open("valuesA5");
+            var size = 1000;
             for (var i = 0; i < size; i++)
             {
                 var tc1 = new TestClass();
@@ -205,7 +205,7 @@ namespace Query.Values
                 odb.Store(tc1);
             }
             odb.Close();
-            odb = Open("valuesA2");
+            odb = Open("valuesA5");
             var values = odb.GetValues(new ValuesCriteriaQuery(typeof (TestClass)).Count("nb objects"));
             Println(values);
             var ov = values.NextValues();
@@ -219,9 +219,9 @@ namespace Query.Values
         [Test]
         public virtual void Test6()
         {
-            DeleteBase("valuesA2");
-            var odb = Open("valuesA2");
-            var size = 100000;
+            DeleteBase("valuesA6");
+            var odb = Open("valuesA6");
+            var size = 1000;
             for (var i = 0; i < size; i++)
             {
                 var tc1 = new TestClass();
@@ -229,7 +229,7 @@ namespace Query.Values
                 odb.Store(tc1);
             }
             odb.Close();
-            odb = Open("valuesA2");
+            odb = Open("valuesA6");
             var values =
                 odb.GetValues(new ValuesCriteriaQuery(typeof (TestClass), Where.Equal("int1", 2)).Count("nb objects"));
             Println(values);
@@ -244,9 +244,9 @@ namespace Query.Values
         [Test]
         public virtual void Test7()
         {
-            DeleteBase("valuesA2");
-            var odb = Open("valuesA2");
-            var size = 100000;
+            DeleteBase("valuesA7");
+            var odb = Open("valuesA7");
+            var size = 1000;
             for (var i = 0; i < size; i++)
             {
                 var tc1 = new TestClass();
@@ -254,7 +254,7 @@ namespace Query.Values
                 odb.Store(tc1);
             }
             odb.Close();
-            odb = Open("valuesA2");
+            odb = Open("valuesA7");
             decimal nb = odb.Count(new CriteriaQuery(typeof (TestClass), Where.Equal("int1", 2)));
             Println(nb);
             odb.Close();
@@ -269,9 +269,9 @@ namespace Query.Values
         [Test]
         public virtual void Test8()
         {
-            DeleteBase("valuesA2");
-            var odb = Open("valuesA2");
-            var size = 100000;
+            DeleteBase("valuesA8");
+            var odb = Open("valuesA8");
+            var size = 1000;
             long sum = 0;
             for (var i = 0; i < size; i++)
             {
@@ -281,7 +281,7 @@ namespace Query.Values
                 sum += i;
             }
             odb.Close();
-            odb = Open("valuesA2");
+            odb = Open("valuesA8");
             var values =
                 odb.GetValues(
                     new ValuesCriteriaQuery(typeof (TestClass)).Max("int1", "max of int1").Avg("int1", "avg of int1").
@@ -307,9 +307,9 @@ namespace Query.Values
         [Test]
         public virtual void Test9()
         {
-            DeleteBase("valuesA2");
-            var odb = Open("valuesA2");
-            var size = 100000;
+            DeleteBase("valuesA9");
+            var odb = Open("valuesA9");
+            var size = 1000;
             long sum = 0;
             for (var i = 0; i < size; i++)
             {
@@ -319,7 +319,7 @@ namespace Query.Values
                 sum += i;
             }
             odb.Close();
-            odb = Open("valuesA2");
+            odb = Open("valuesA9");
             var values =
                 odb.GetValues(
                     new ValuesCriteriaQuery(typeof (TestClass)).Min("int1", "min of int1").Avg("int1", "avg of int1").

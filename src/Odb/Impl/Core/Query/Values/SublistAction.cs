@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Query.Execution;
 using NDatabase.Odb.Core.Query.Values;
@@ -41,7 +43,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
 
         public override void Execute(OID oid, AttributeValuesMap values)
         {
-            var l = (IList<object>) values[AttributeName];
+            var l = ((IEnumerable)values[AttributeName]).Cast<object>().ToList();
             var localFromIndex = _fromIndex;
             var localEndIndex = _fromIndex + _size;
 

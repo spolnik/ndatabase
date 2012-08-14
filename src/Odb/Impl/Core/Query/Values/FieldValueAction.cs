@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Query.Execution;
@@ -31,7 +33,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
             if (OdbType.IsCollection(_value.GetType()))
             {
                 // For collection,we encapsulate it in an lazy load list that will create objects on demand
-                var c = (ICollection<object>) _value;
+                var c = ((IEnumerable) _value).Cast<object>().ToList();
                 var l = new LazySimpleListOfAoi<object>(GetInstanceBuilder(), ReturnInstance());
                 l.AddAll(c);
                 _value = l;

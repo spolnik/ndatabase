@@ -24,7 +24,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
 
         public override void Execute(OID oid, AttributeValuesMap values)
         {
-            var number = (Decimal) values[AttributeName];
+            var number = Convert.ToDecimal(values[AttributeName]);
             var bd = ValuesUtil.Convert(number);
             if (bd.CompareTo(_maxValue) > 0)
             {

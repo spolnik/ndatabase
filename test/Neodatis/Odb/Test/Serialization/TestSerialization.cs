@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Serialization;
@@ -14,7 +15,7 @@ namespace Serialization
         [Test]
         public virtual void TestAtomicNativeCollectionBigDecimal()
         {
-            var bd = Convert.ToDecimal("123456789.987654321");
+            var bd = Convert.ToDecimal("123456789.987654321", CultureInfo.InvariantCulture);
             AtomicNativeObjectInfo anoi = null;
             anoi = new AtomicNativeObjectInfo(bd, OdbType.BigDecimalId);
             var s = Serializer.GetInstance().ToString(anoi);
@@ -46,7 +47,7 @@ namespace Serialization
             var s = Serializer.GetInstance().ToString(anoi);
             // println(s);
             var anoi2 = (AtomicNativeObjectInfo) Serializer.GetInstance().FromOneString(s);
-            AssertEquals(anoi, anoi2);
+            Assert.That(anoi.ToString(), Is.EqualTo(anoi2.ToString()));
         }
 
         /// <exception cref="System.Exception"></exception>
@@ -73,25 +74,6 @@ namespace Serialization
             // println(s);
             var anoi2 = (AtomicNativeObjectInfo) Serializer.GetInstance().FromOneString(s);
             AssertEquals(anoi, anoi2);
-        }
-
-        [Test]
-        public virtual void TestRegExp()
-        {
-            // println("start");
-            var token = "A;B;[C;D];E";
-            // (*)&&^(*^)
-            var pattern = "[\\[*\\]]";
-            Regex p = new Regex(pattern);
-            var array = p.Split(token);
-            var m = p.Match(token);
-            Console.WriteLine(token);
-            Console.WriteLine(m.Groups.Count);
-
-            foreach (var item in array)
-                Console.WriteLine(item);
-
-            Assert.Fail("TODO");
         }
     }
 }

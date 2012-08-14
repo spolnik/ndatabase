@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using NDatabase.Odb.Impl.Core.Query.Values;
 using NUnit.Framework;
 using Test.Odb.Test;
@@ -15,8 +16,8 @@ namespace Query.Values
         [Test]
         public virtual void Test1()
         {
-            DeleteBase("values2");
-            var odb = Open("values2");
+            DeleteBase("values2.test1.odb");
+            var odb = Open("values2.test1.odb");
             var tc1 = new TestClass();
             tc1.SetInt1(45);
             odb.Store(tc1);
@@ -27,7 +28,7 @@ namespace Query.Values
             tc3.SetInt1(46);
             odb.Store(tc3);
             odb.Close();
-            odb = Open("values2");
+            odb = Open("values2.test1.odb");
             var vq = new ValuesCriteriaQuery(typeof (TestClass)).Sum("int1", "sum of int1").GroupBy("int1");
             vq.OrderByAsc("int1");
             var values = odb.GetValues(vq);
@@ -46,8 +47,8 @@ namespace Query.Values
         [Test]
         public virtual void Test2()
         {
-            DeleteBase("values2");
-            var odb = Open("values2");
+            DeleteBase("values2.test2.odb");
+            var odb = Open("values2.test2.odb");
             var tc1 = new TestClass();
             tc1.SetInt1(45);
             odb.Store(tc1);
@@ -58,7 +59,7 @@ namespace Query.Values
             tc3.SetInt1(46);
             odb.Store(tc3);
             odb.Close();
-            odb = Open("values2");
+            odb = Open("values2.test2.odb");
             var vq =
                 new ValuesCriteriaQuery(typeof (TestClass)).Sum("int1", "sum of int1").Count("count").GroupBy("int1");
             vq.OrderByAsc("int1");
@@ -83,8 +84,8 @@ namespace Query.Values
         [Test]
         public virtual void Test3()
         {
-            DeleteBase("values2");
-            var odb = Open("values2");
+            DeleteBase("values2.test3.odb");
+            var odb = Open("values2.test3.odb");
             var p1 = new Profile("profile1", new Function("f1"));
             var p2 = new Profile("profile2", new Function("f2"));
             User u1 = new User2("user1", "user@neodatis.org", p1, 1);
@@ -98,7 +99,7 @@ namespace Query.Values
             odb.Store(u4);
             odb.Store(u5);
             odb.Close();
-            odb = Open("values2");
+            odb = Open("values2.test3.odb");
             var q =
                 new ValuesCriteriaQuery(typeof (User2)).Field("profile.name").Count("count").Avg("nbLogins", "avg").
                     GroupBy("profile.name");
@@ -109,7 +110,7 @@ namespace Query.Values
             AssertEquals(2, values.Count);
             AssertEquals("profile1", ov.GetByAlias("profile.name"));
             AssertEquals(Convert.ToDecimal("3"), ov.GetByAlias("count"));
-            AssertEquals(Convert.ToDecimal("2.00"), ov.GetByAlias("avg"));
+            AssertEquals(Convert.ToDecimal("2.00", CultureInfo.InvariantCulture), ov.GetByAlias("avg"));
             odb.Close();
             AssertEquals(2, values.Count);
         }

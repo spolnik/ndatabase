@@ -18,7 +18,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
 
         public override void Execute(OID oid, AttributeValuesMap values)
         {
-            var number = (Decimal) values[AttributeName];
+            var number = Convert.ToDecimal(values[AttributeName]);
             _sum = Decimal.Add(_sum, ValuesUtil.Convert(number));
         }
 

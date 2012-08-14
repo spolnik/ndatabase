@@ -17,7 +17,7 @@ namespace Query.Values
 
         public override void Execute(OID oid, AttributeValuesMap values)
         {
-            var n = ValuesUtil.Convert((Decimal) values[oid]);
+            var n = ValuesUtil.Convert(Convert.ToDecimal(values[oid]));
             var multiply = decimal.Multiply(new Decimal(2), Convert.ToDecimal(n.ToString()));
             myValue = decimal.Add(multiply, myValue);
         }
