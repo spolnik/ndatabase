@@ -124,11 +124,11 @@ namespace NDatabase.Odb.Core.Query
         protected static IQueryExecutor GetMultiClassQueryExecutor(IQuery query, IStorageEngine engine,
                                                                    IInstanceBuilder instanceBuilder)
         {
-            if (typeof (CriteriaQuery) == query.GetType())
-                return new MultiClassGenericQueryExecutor(new CriteriaQueryExecutor(query, engine));
-
-            if (typeof (ValuesCriteriaQuery) == query.GetType())
+            if (query is ValuesCriteriaQuery)
                 return new MultiClassGenericQueryExecutor(new ValuesCriteriaQueryExecutor(query, engine));
+
+            if (query is CriteriaQuery)
+                return new MultiClassGenericQueryExecutor(new CriteriaQueryExecutor(query, engine));
 
             if (query is NativeQuery)
                 return new MultiClassGenericQueryExecutor(new NativeQueryExecutor(query, engine, instanceBuilder));

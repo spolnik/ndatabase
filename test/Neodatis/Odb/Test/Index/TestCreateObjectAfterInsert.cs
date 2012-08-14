@@ -23,7 +23,7 @@ namespace Index
         [Test]
         public virtual void Test100000Objects()
         {
-            var OdbFileName = "index2";
+            var OdbFileName = "index2.test1.odb";
             IOdb odb = null;
             var size = 100000;
             var start = OdbTime.GetCurrentTimeInMs();
@@ -83,7 +83,7 @@ namespace Index
         [Test]
         public virtual void Test100000ObjectsIntiNdex()
         {
-            var OdbFileName = "index2";
+            var OdbFileName = "index2.test2.odb";
             IOdb odb = null;
             var size = 90000;
             var start = OdbTime.GetCurrentTimeInMs();
@@ -140,7 +140,7 @@ namespace Index
         [Test]
         public virtual void Test1Object()
         {
-            const string odbFileName = "index2";
+            const string odbFileName = "index2.test3.odb";
             
             DeleteBase(odbFileName);
             using (var odb = Open(odbFileName))
@@ -171,7 +171,7 @@ namespace Index
         [Test]
         public virtual void Test20000Objects()
         {
-            var OdbFileName = "index2";
+            var OdbFileName = "index2.test4.odb";
             var start = OdbTime.GetCurrentTimeInMs();
             IOdb odb = null;
             var size = 20000;
@@ -203,16 +203,6 @@ namespace Index
                 var end = OdbTime.GetCurrentTimeInMs();
                 Println((end - start) + "ms");
             }
-        }
-
-        [Test]
-        public virtual void TestLong()
-        {
-            Println(string.Empty + long.MaxValue);
-            var l = long.MaxValue - 1;
-            l = l + 1;
-            Println(string.Empty + l);
-            Println(string.Empty + l + 1);
         }
     }
 }

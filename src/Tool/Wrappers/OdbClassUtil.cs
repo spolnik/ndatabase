@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 
 namespace NDatabase.Tool.Wrappers
 {
@@ -29,8 +30,15 @@ namespace NDatabase.Tool.Wrappers
 
         public static String GetFullName(Type type)
         {
+            var name = type.Assembly.GetName();
+            var publicKey = name.GetPublicKey();
+            var isSignedAsm = publicKey.Length > 0;
+
             var index = type.Assembly.FullName.IndexOf(',');
-            return string.Format("{0},{1}", type.FullName, type.Assembly.FullName.Substring(0, index));
+            
+            return string.Format("{0},{1}", type.FullName, isSignedAsm
+                                                               ? type.Assembly.FullName
+                                                               : type.Assembly.FullName.Substring(0, index));
         }
     }
 }

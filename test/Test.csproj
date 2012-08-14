@@ -129,7 +129,7 @@
     <Compile Include="Neodatis\Odb\Test\Inheritance\TestInheritance.cs" />
     <Compile Include="Neodatis\Odb\Test\Insert\StorageEngineTest.cs" />
     <Compile Include="Neodatis\Odb\Test\Insert\TestInsert.cs" />
-    <Compile Include="Neodatis\Odb\Test\Insert\TestJavaObjects.cs" />
+    <Compile Include="Neodatis\Odb\Test\Insert\TestDotNetObjects.cs" />
     <Compile Include="Neodatis\Odb\Test\Instantiationhelper\Car.cs" />
     <Compile Include="Neodatis\Odb\Test\Instantiationhelper\TestInstanceHelper.cs" />
     <Compile Include="Neodatis\Odb\Test\Interfaces\TestObjectWithInterfaces.cs" />

@@ -7,42 +7,18 @@ using Test.Odb.Test;
 namespace Insert
 {
     [TestFixture]
-    public class TestJavaObjects : ODBTest
+    public class TestDotNetObjects : ODBTest
     {
-        #region Setup/Teardown
-
-        [TearDown]
-        public override void TearDown()
-        {
-            DeleteBase(Name);
-        }
-
-        [SetUp]
-        public override void SetUp()
-        {
-            try
-            {
-                DeleteBase(Name);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-        }
-
-        #endregion
-
-        public static readonly string Name = "test.neodatis";
-
         /// <exception cref="System.Exception"></exception>
         [Test]
-        public virtual void Test22StrignBuffer()
+        public virtual void Test22StringBuffer()
         {
+            DeleteBase("test.stringbuffer.odb");
             var buffer = new StringBuilder("Ol√° chico");
-            var odb = Open(Name);
+            var odb = Open("test.stringbuffer.odb");
             odb.Store(buffer);
             odb.Close();
-            odb = Open(Name);
+            odb = Open("test.stringbuffer.odb");
             var l = odb.GetObjects<StringBuilder>();
             odb.Close();
             var b2 = l.GetFirst();
@@ -53,13 +29,13 @@ namespace Insert
         [Test]
         public virtual void Test22TextBox()
         {
-            var textBox = new TextBox();
-            textBox.Text = "Ol\u00E1 chico";
+            DeleteBase("test.textbox.odb");
+            var textBox = new TextBox {Text = "Ol\u00E1 chico"};
 
-            var odb = Open(Name);
+            var odb = Open("test.textbox.odb");
             odb.Store(textBox);
             odb.Close();
-            odb = Open(Name);
+            odb = Open("test.textbox.odb");
             var l = odb.GetObjects<TextBox>();
             odb.Close();
             var textBox2 = l.GetFirst();
@@ -75,6 +51,8 @@ namespace Insert
         [Test]
         public virtual void Test22URL()
         {
+            DeleteBase("test.url.odb");
+
             var url1 = new Uri("http://wiki.neodatis.org");
             var url2 = new Uri("http://www.neodatis.org");
 
@@ -84,11 +62,11 @@ namespace Insert
             Println(url1.Host + " - " + url1.Port);
             Println(url2.Host + " - " + url2.Port);
 
-            var odb = Open(Name);
+            var odb = Open("test.url.odb");
             odb.Store(url1);
             odb.Store(url2);
             odb.Close();
-            odb = Open(Name);
+            odb = Open("test.url.odb");
             var l = odb.GetObjects<Uri>();
             odb.Close();
 
