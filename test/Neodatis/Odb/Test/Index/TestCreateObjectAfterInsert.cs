@@ -140,31 +140,23 @@ namespace Index
         [Test]
         public virtual void Test1Object()
         {
-            var OdbFileName = "index2";
-            IOdb odb = null;
-            try
+            const string odbFileName = "index2";
+            
+            DeleteBase(odbFileName);
+            using (var odb = Open(odbFileName))
             {
-                DeleteBase(OdbFileName);
-                odb = Open(OdbFileName);
                 var io = new IndexedObject("name", 5, new DateTime());
                 odb.Store(io);
-                odb.Close();
-                odb = Open(OdbFileName);
+            }
+
+            using (var odb = Open(odbFileName))
+            {
                 var names = new[] {"name"};
                 odb.GetClassRepresentation(typeof (IndexedObject)).AddUniqueIndexOn("index1", names, true);
                 var objects =
                     odb.GetObjects<IndexedObject>(
                         new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", "name")), true);
                 AssertEquals(1, objects.Count);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-            finally
-            {
-                if (odb != null)
-                    odb.Close();
             }
         }
 

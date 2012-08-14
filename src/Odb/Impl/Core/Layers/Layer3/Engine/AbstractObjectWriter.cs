@@ -830,13 +830,12 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                 {
                     index.BTree.Insert(index.ComputeKey(nnoi), oid);
                 }
-                catch (DuplicatedKeyException e)
+                catch (DuplicatedKeyException)
                 {
                     // rollback what has been done
                     // bug #2510966
                     GetSession().Rollback();
-                    throw new OdbRuntimeException(
-                        NDatabaseError.DuplicatedKeyInIndex.AddParameter(index.Name).AddParameter(e.Message));
+                    throw;
                 }
                 // Check consistency : index should have size equal to the class
                 // info element number

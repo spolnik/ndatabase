@@ -1,4 +1,5 @@
 using System;
+using NDatabase.Btree.Exception;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Query;
@@ -16,16 +17,8 @@ namespace Index
     [TestFixture]
     public class TestIndex : ODBTest
     {
-        // deleteBase(baseName);
-        /// <exception cref="System.Exception"></exception>
-        public static void Main2(string[] args)
-        {
-            var ti = new TestIndex();
-            ti.TestInsertWithIndex3Part2();
-        }
-
         [Test]
-        public virtual void SimpleUniqueIndex()
+        public void SimpleUniqueIndex()
         {
             var baseName = GetBaseName();
             DeleteBase(baseName);
@@ -48,14 +41,16 @@ namespace Index
                 odb.Store(new Function("function1"));
                 Fail("Should have thrown Exception");
             }
-            catch (Exception e)
+            catch (DuplicatedKeyException)
             {
-                Console.WriteLine(e);
+                Assert.Pass();
+                odb.Close();
+                DeleteBase(baseName);
             }
         }
 
         [Test]
-        public virtual void TestIndexExist1()
+        public void TestIndexExist1()
         {
             var baseName = GetBaseName();
             DeleteBase(baseName);
@@ -72,7 +67,7 @@ namespace Index
         }
 
         [Test]
-        public virtual void TestIndexExist2()
+        public void TestIndexExist2()
         {
             var baseName = GetBaseName();
             DeleteBase(baseName);
@@ -89,7 +84,7 @@ namespace Index
 
         /// <exception cref="System.Exception"></exception>
         [Test]
-        public virtual void TestIndexWithOneFieldAndQueryWithTwoFields()
+        public void TestIndexWithOneFieldAndQueryWithTwoFields()
         {
             var baseName = GetBaseName();
             DeleteBase(baseName);
@@ -115,7 +110,7 @@ namespace Index
 
         /// <exception cref="System.Exception"></exception>
         [Test]
-        public virtual void TestInsertAndDeleteWithIndex()
+        public void TestInsertAndDeleteWithIndex()
         {
             var baseName = GetBaseName();
             DeleteBase(baseName);
@@ -191,7 +186,7 @@ namespace Index
 
         /// <exception cref="System.Exception"></exception>
         [Test]
-        public virtual void TestInsertAndDeleteWithIndex1()
+        public void TestInsertAndDeleteWithIndex1()
         {
             var baseName = GetBaseName();
             DeleteBase(baseName);
@@ -224,7 +219,7 @@ namespace Index
 
         /// <exception cref="System.Exception"></exception>
         [Test]
-        public virtual void TestInsertAndDeleteWithIndexWith10000()
+        public void TestInsertAndDeleteWithIndexWith10000()
         {
             var baseName = GetBaseName();
 
@@ -324,7 +319,7 @@ namespace Index
 
         /// <exception cref="System.Exception"></exception>
         [Test]
-        public virtual void TestInsertAndDeleteWithIndexWith40Elements()
+        public void TestInsertAndDeleteWithIndexWith40Elements()
         {
             var baseName = GetBaseName();
             OdbConfiguration.SetDefaultIndexBTreeDegree(3);
@@ -414,7 +409,7 @@ namespace Index
 
         /// <exception cref="System.Exception"></exception>
         [Test]
-        public virtual void TestInsertAndDeleteWithIndexWith4Elements()
+        public void TestInsertAndDeleteWithIndexWith4Elements()
         {
             var baseName = GetBaseName();
             DeleteBase(baseName);
@@ -504,7 +499,7 @@ namespace Index
         /// </summary>
         /// <exception cref="System.Exception"></exception>
         [Test]
-        public virtual void TestInsertWith3Indexes()
+        public void TestInsertWith3Indexes()
         {
             var baseName = GetBaseName();
             DeleteBase(baseName);
@@ -520,7 +515,7 @@ namespace Index
             clazz.AddUniqueIndexOn("inde3", indexField4, true);
             @base.Close();
             @base = Open(baseName);
-            var size = 10000;
+            var size = 1000;
             var start0 = OdbTime.GetCurrentTimeInMs();
             var dates = new DateTime[size];
             for (var i = 0; i < size; i++)
@@ -556,7 +551,7 @@ namespace Index
             DeleteBase(baseName);
 
             Println(duration);
-            var d = 0.11;
+            var d = 1.1;
 
             if (duration > d)
                 Fail("Time of search in index is greater than " + d + " ms : " + duration);
@@ -567,7 +562,7 @@ namespace Index
         /// </summary>
         /// <exception cref="System.Exception"></exception>
         [Test]
-        public virtual void TestInsertWith3IndexesCheckAll()
+        public void TestInsertWith3IndexesCheckAll()
         {
             var baseName = GetBaseName();
             // LogUtil.logOn(LazyOdbBtreePersister.LOG_ID, true);
@@ -638,7 +633,7 @@ namespace Index
         /// </remarks>
         /// <exception cref="System.Exception"></exception>
         [Test]
-        public virtual void TestInsertWith3Keys()
+        public void TestInsertWith3Keys()
         {
             var baseName = GetBaseName();
             DeleteBase(baseName);
@@ -649,7 +644,7 @@ namespace Index
             clazz.AddUniqueIndexOn("index", indexFields, true);
             @base.Close();
             @base = Open(baseName);
-            var size = 50000;
+            var size = 5000;
             var commitInterval = 10000;
             var start0 = OdbTime.GetCurrentTimeInMs();
             for (var i = 0; i < size; i++)
@@ -706,7 +701,7 @@ namespace Index
         /// </summary>
         /// <exception cref="System.Exception"></exception>
         [Test]
-        public virtual void TestInsertWith4IndexesAndCommits()
+        public void TestInsertWith4IndexesAndCommits()
         {
             var baseName = GetBaseName();
 
@@ -725,7 +720,7 @@ namespace Index
             clazz.AddUniqueIndexOn("inde4", indexField4, true);
             @base.Close();
             @base = Open(baseName);
-            var size = 10000;
+            var size = 1000;
             var commitInterval = 10;
             var start0 = OdbTime.GetCurrentTimeInMs();
             for (var i = 0; i < size; i++)
@@ -733,7 +728,7 @@ namespace Index
                 // println(i);
                 var io1 = new IndexedObject("olivier" + (i + 1), i, new DateTime());
                 @base.Store(io1);
-                if (i % 1000 == 0)
+                if (i % 100 == 0)
                     Println(i);
                 if (i % commitInterval == 0)
                     @base.Commit();
@@ -767,7 +762,7 @@ namespace Index
         /// </summary>
         /// <exception cref="System.Exception"></exception>
         [Test]
-        public virtual void TestInsertWithDateIndex3CheckAll()
+        public void TestInsertWithDateIndex3CheckAll()
         {
             var baseName = GetBaseName();
             // LogUtil.logOn(LazyOdbBtreePersister.LOG_ID, true);
@@ -824,7 +819,7 @@ namespace Index
 
         /// <exception cref="System.Exception"></exception>
         [Test]
-        public virtual void TestInsertWithIndex()
+        public void TestInsertWithIndex()
         {
             var baseName = GetBaseName();
             DeleteBase(baseName);
@@ -850,7 +845,7 @@ namespace Index
 
         /// <exception cref="System.Exception"></exception>
         [Test]
-        public virtual void TestInsertWithIndex1()
+        public void TestInsertWithIndex1()
         {
             var baseName = GetBaseName();
             DeleteBase(baseName);
@@ -867,7 +862,7 @@ namespace Index
             {
                 var io1 = new IndexedObject("olivier" + (i + 1), 15 + i, new DateTime());
                 @base.Store(io1);
-                if (i % 1000 == 0)
+                if (i % 100 == 0)
                     Println(i);
             }
             var tt0 = OdbTime.GetCurrentTimeInMs();
@@ -916,7 +911,7 @@ namespace Index
 
         /// <exception cref="System.Exception"></exception>
         [Test]
-        public virtual void TestInsertWithIndex2()
+        public void TestInsertWithIndex2()
         {
             var baseName = GetBaseName();
 
@@ -993,7 +988,7 @@ namespace Index
         /// </summary>
         /// <exception cref="System.Exception"></exception>
         [Test]
-        public virtual void TestInsertWithIndex3()
+        public void TestInsertWithIndex3()
         {
             var baseName = GetBaseName();
             // LogUtil.logOn(LazyOdbBtreePersister.LOG_ID, true);
@@ -1072,7 +1067,7 @@ namespace Index
 
         /// <exception cref="System.Exception"></exception>
         [Test]
-        public virtual void TestInsertWithIndex3Part1()
+        public void TestInsertWithIndex3Part1()
         {
             var baseName = "index.neodatis";
             // LogUtil.logOn(LazyOdbBtreePersister.LOG_ID, true);
@@ -1113,7 +1108,7 @@ namespace Index
 
         /// <exception cref="System.Exception"></exception>
         [Test]
-        public virtual void TestInsertWithIndex3Part2()
+        public void TestInsertWithIndex3Part2()
         {
             var baseName = "index.neodatis";
             var size = 1300;
@@ -1148,7 +1143,7 @@ namespace Index
         /// </summary>
         /// <exception cref="System.Exception"></exception>
         [Test]
-        public virtual void TestInsertWithIndex4()
+        public void TestInsertWithIndex4()
         {
             var baseName = GetBaseName();
             DeleteBase(baseName);
@@ -1163,7 +1158,7 @@ namespace Index
             clazz.AddUniqueIndexOn("inde3", indexField4, true);
             @base.Close();
             @base = Open(baseName);
-            var size = 50000;
+            var size = 5000;
             var commitInterval = 1000;
             var start0 = OdbTime.GetCurrentTimeInMs();
             for (var i = 0; i < size; i++)
@@ -1219,7 +1214,7 @@ namespace Index
         /// </summary>
         /// <exception cref="System.Exception"></exception>
         [Test]
-        public virtual void TestInsertWithIntIndex3CheckAll()
+        public void TestInsertWithIntIndex3CheckAll()
         {
             var baseName = GetBaseName();
             // LogUtil.logOn(LazyOdbBtreePersister.LOG_ID, true);
@@ -1276,13 +1271,13 @@ namespace Index
         /// </summary>
         /// <exception cref="System.Exception"></exception>
         [Test]
-        public virtual void TestInsertWithoutIndex3()
+        public void TestInsertWithoutIndex3()
         {
             var baseName = GetBaseName();
 
             DeleteBase(baseName);
             var @base = Open(baseName);
-            var size = 30000;
+            var size = 3000;
             var commitInterval = 1000;
             var start0 = OdbTime.GetCurrentTimeInMs();
             for (var i = 0; i < size; i++)
@@ -1321,7 +1316,7 @@ namespace Index
 
         /// <exception cref="System.Exception"></exception>
         [Test]
-        public virtual void TestSaveIndex()
+        public void TestSaveIndex()
         {
             var baseName = GetBaseName();
             DeleteBase(baseName);
@@ -1337,7 +1332,7 @@ namespace Index
             @base = Open(baseName);
             var session = Dummy.GetEngine(@base).GetSession(true);
             var metaModel = session.GetStorageEngine().GetSession(true).GetMetaModel();
-            var ci = metaModel.GetClassInfo(typeof (IndexedObject).FullName, true);
+            var ci = metaModel.GetClassInfo(typeof (IndexedObject), true);
             AssertEquals(3, ci.GetNumberOfIndexes());
             AssertEquals(ci.GetIndex(0).Name, "index1");
             AssertEquals(1, ci.GetIndex(0).AttributeIds[0]);
@@ -1354,7 +1349,7 @@ namespace Index
 
         /// <exception cref="System.Exception"></exception>
         [Test]
-        public virtual void TestSizeBTree()
+        public void TestSizeBTree()
         {
             var baseName = GetBaseName();
             DeleteBase(baseName);
@@ -1376,7 +1371,7 @@ namespace Index
             @base.Close();
             @base = Open(baseName);
             var e = Dummy.GetEngine(@base);
-            var cii = e.GetSession(true).GetMetaModel().GetClassInfo(typeof (IndexedObject).FullName, true).GetIndex(0);
+            var cii = e.GetSession(true).GetMetaModel().GetClassInfo(typeof (IndexedObject), true).GetIndex(0);
             @base.Close();
             DeleteBase(baseName);
             AssertEquals(size, cii.BTree.GetSize());
@@ -1391,85 +1386,79 @@ namespace Index
         /// </remarks>
         /// <exception cref="System.Exception"></exception>
         [Test]
-        public virtual void TestXUpdatesWithIndex()
+        public void TestXUpdatesWithIndex()
         {
             var baseName = GetBaseName();
-            try
+            DeleteBase(baseName);
+            var @base = Open(baseName);
+            // base.store(new IndexedObject());
+            var clazz = @base.GetClassRepresentation(typeof (IndexedObject));
+            var indexFields = new[] {"name"};
+            clazz.AddUniqueIndexOn("index", indexFields, true);
+            @base.Close();
+            @base = Open(baseName);
+            var start = OdbTime.GetCurrentTimeInMs();
+            var size = 100;
+            var nbObjects = 10;
+            var nbUpdates = 10;
+            for (var i = 0; i < size; i++)
             {
-                DeleteBase(baseName);
-                var @base = Open(baseName);
-                // base.store(new IndexedObject());
-                var clazz = @base.GetClassRepresentation(typeof (IndexedObject));
-                var indexFields = new[] {"name"};
-                clazz.AddUniqueIndexOn("index", indexFields, true);
-                @base.Close();
-                @base = Open(baseName);
-                var start = OdbTime.GetCurrentTimeInMs();
-                var size = 1000;
-                var nbObjects = 10;
-                var nbUpdates = 100;
-                for (var i = 0; i < size; i++)
-                {
-                    var io1 = new IndexedObject("IO-" + i + "-0", i + 15 + size, new DateTime());
-                    @base.Store(io1);
-                }
-                @base.Close();
-                Println("Time of insert " + size + " objects = " + size);
-                var indexes = new[]
-                    {
-                        "IO-0-0", "IO-100-0", "IO-200-0", "IO-300-0", "IO-400-0", "IO-500-0", "IO-600-0", "IO-700-0",
-                        "IO-800-0", "IO-900-0"
-                    };
-                long t1 = 0;
-                long t2 = 0;
-                long t3 = 0;
-                long t4 = 0;
-                long t5 = 0;
-                long t6 = 0;
-                for (var i = 0; i < nbUpdates; i++)
-                {
-                    start = OdbTime.GetCurrentTimeInMs();
-                    for (var j = 0; j < nbObjects; j++)
-                    {
-                        t1 = OdbTime.GetCurrentTimeInMs();
-                        @base = Open(baseName);
-                        t2 = OdbTime.GetCurrentTimeInMs();
-                        IQuery q = new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", indexes[j]));
-                        var os = @base.GetObjects<IndexedObject>(q);
-                        t3 = OdbTime.GetCurrentTimeInMs();
-                        AssertTrue(q.GetExecutionPlan().UseIndex());
-                        AssertEquals(1, os.Count);
-                        // check if index has been used
-                        AssertTrue(q.GetExecutionPlan().UseIndex());
-                        var io = os.GetFirst();
-                        if (i > 0)
-                            AssertTrue(io.GetName().EndsWith(("-" + (i - 1))));
-                        io.SetName(io.GetName() + "-updated-" + i);
-                        @base.Store(io);
-                        t4 = OdbTime.GetCurrentTimeInMs();
-                        if (j == 0)
-                        {
-                            var engine = Dummy.GetEngine(@base);
-                            var ci = engine.GetSession(true).GetMetaModel().GetClassInfo(
-                                typeof (IndexedObject).FullName, true);
-                            var cii = ci.GetIndex(0);
-                            AssertEquals(size, cii.BTree.GetSize());
-                        }
-                        indexes[j] = io.GetName();
-                        AssertEquals(new Decimal(size), @base.Count(new CriteriaQuery(typeof (IndexedObject))));
-                        t5 = OdbTime.GetCurrentTimeInMs();
-                        @base.Commit();
-                        @base.Close();
-                        t6 = OdbTime.GetCurrentTimeInMs();
-                    }
-                    var end = OdbTime.GetCurrentTimeInMs();
-                    Console.Out.WriteLine("Nb Updates of " + nbObjects + " =" + i + " - " + (end - start) +
-                                          "ms  -- open=" + (t2 - t1) + " - getObjects=" + (t3 - t2) + " - update=" +
-                                          (t4 - t3) + " - count=" + (t5 - t4) + " - close=" + (t6 - t5));
-                }
+                var io1 = new IndexedObject("IO-" + i + "-0", i + 15 + size, new DateTime());
+                @base.Store(io1);
             }
-            finally
+            @base.Close();
+            Println("Time of insert " + size + " objects = " + size);
+            var indexes = new[]
+                {
+                    "IO-0-0", "IO-10-0", "IO-20-0", "IO-30-0", "IO-40-0", "IO-50-0", "IO-60-0", "IO-70-0",
+                    "IO-80-0", "IO-90-0"
+                };
+            long t1 = 0;
+            long t2 = 0;
+            long t3 = 0;
+            long t4 = 0;
+            long t5 = 0;
+            long t6 = 0;
+            for (var i = 0; i < nbUpdates; i++)
             {
+                start = OdbTime.GetCurrentTimeInMs();
+                for (var j = 0; j < nbObjects; j++)
+                {
+                    t1 = OdbTime.GetCurrentTimeInMs();
+                    @base = Open(baseName);
+                    t2 = OdbTime.GetCurrentTimeInMs();
+                    IQuery q = new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", indexes[j]));
+                    var os = @base.GetObjects<IndexedObject>(q);
+                    t3 = OdbTime.GetCurrentTimeInMs();
+                    AssertTrue(q.GetExecutionPlan().UseIndex());
+                    AssertEquals(1, os.Count);
+                    // check if index has been used
+                    AssertTrue(q.GetExecutionPlan().UseIndex());
+                    var io = os.GetFirst();
+                    if (i > 0)
+                        AssertTrue(io.GetName().EndsWith(("-" + (i - 1))));
+                    io.SetName(io.GetName() + "-updated-" + i);
+                    @base.Store(io);
+                    t4 = OdbTime.GetCurrentTimeInMs();
+                    if (j == 0)
+                    {
+                        var engine = Dummy.GetEngine(@base);
+                        var ci = engine.GetSession(true).GetMetaModel().GetClassInfo(
+                            typeof (IndexedObject), true);
+                        var cii = ci.GetIndex(0);
+                        AssertEquals(size, cii.BTree.GetSize());
+                    }
+                    indexes[j] = io.GetName();
+                    AssertEquals(new Decimal(size), @base.Count(new CriteriaQuery(typeof (IndexedObject))));
+                    t5 = OdbTime.GetCurrentTimeInMs();
+                    @base.Commit();
+                    @base.Close();
+                    t6 = OdbTime.GetCurrentTimeInMs();
+                }
+                var end = OdbTime.GetCurrentTimeInMs();
+                Console.Out.WriteLine("Nb Updates of " + nbObjects + " =" + i + " - " + (end - start) +
+                                      "ms  -- open=" + (t2 - t1) + " - getObjects=" + (t3 - t2) + " - update=" +
+                                      (t4 - t3) + " - count=" + (t5 - t4) + " - close=" + (t6 - t5));
             }
         }
     }

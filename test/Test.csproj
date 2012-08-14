@@ -107,7 +107,6 @@
     <Compile Include="Neodatis\Odb\Test\Defragment\TestDefragment.cs" />
     <Compile Include="Neodatis\Odb\Test\Delete\TestDelete.cs" />
     <Compile Include="Neodatis\Odb\Test\Delete\TestDelete2.cs" />
-    <Compile Include="Neodatis\Odb\Test\Dotnet\TestBTree.cs" />
     <Compile Include="Neodatis\Odb\Test\Encoding\TestEncoding.cs" />
     <Compile Include="Neodatis\Odb\Test\Enum\ClassWithEnum.cs" />
     <Compile Include="Neodatis\Odb\Test\Enum\TestEnum.cs" />
