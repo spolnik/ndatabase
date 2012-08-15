@@ -2,6 +2,7 @@ using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
 namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
 {
+    //TODO: Think about some buffer in the header block -> future purposes (255?)
     /// <summary>
     ///   Some Storage engine constants about offset position for object writing/reading.
     /// </summary>
@@ -112,27 +113,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         public static readonly int DatabaseHeaderDatabaseCharacterEncodingPosition =
             DatabaseHeaderLastCloseStatusPosition + OdbType.Byte.GetSize();
 
-//        //TODO: remove it
-//        /// <summary>
-//        ///   To indicate if database is password protected : 1 byte
-//        /// </summary>
-//        public static readonly int DatabaseHeaderDatabaseIsUserProtected =
-//            DatabaseHeaderDatabaseCharacterEncodingPosition + 58 * OdbType.Byte.GetSize();
-
-//        //TODO: remove it
-//        /// <summary>
-//        ///   The database user name : 50 bytes
-//        /// </summary>
-//        public static readonly int DatabaseHeaderDatabaseUserName = DatabaseHeaderDatabaseIsUserProtected +
-//                                                                    OdbType.Byte.GetSize();
-
-//        //TODO: remove it
-//        /// <summary>
-//        ///   The database password : 50 bytes
-//        /// </summary>
-//        public static readonly int DatabaseHeaderDatabasePassword = DatabaseHeaderDatabaseUserName +
-//                                                                    58 * OdbType.Byte.GetSize();
-
         /// <summary>
         ///   The position of the current id block: 1 long
         /// </summary>
@@ -151,9 +131,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             {
                 DatabaseHeaderVersionPosition, DatabaseHeaderDatabaseIdPosition, DatabaseHeaderLastTransactionId,
                 DatabaseHeaderNumberOfClassesPosition, DatabaseHeaderFirstClassOid,
-                DatabaseHeaderLastCloseStatusPosition, DatabaseHeaderDatabaseCharacterEncodingPosition,
-//                DatabaseHeaderDatabaseIsUserProtected, DatabaseHeaderDatabasePassword,
-//                DatabaseHeaderCurrentIdBlockPosition
+                DatabaseHeaderLastCloseStatusPosition, DatabaseHeaderDatabaseCharacterEncodingPosition
             };
 
         public static readonly long ClassOffsetBlockType = ClassOffsetBlockSize + OdbType.Integer.GetSize();
@@ -251,7 +229,5 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         // *********************************************************
         // CLASS OFFSETS
         // OBJECT OFFSETS - update this section when modifying the odb file format 
-        // Encryption flag
-        // Replication flag
     }
 }

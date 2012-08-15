@@ -1,0 +1,23 @@
+﻿using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
+using NUnit.Framework;
+
+namespace NDatabase.UnitTests.Base
+{
+    public class When_we_use_storage_positions
+    {
+        //TODO: Think about some buffer in the header block -> future purposes
+        [Test] 
+        public void They_should_be_constants()
+        {
+            Assert.That(StorageEngineConstant.DatabaseHeaderVersionPosition, Is.EqualTo(0));
+            Assert.That(StorageEngineConstant.DatabaseHeaderDatabaseIdPosition, Is.EqualTo(4));
+            Assert.That(StorageEngineConstant.DatabaseHeaderLastTransactionId, Is.EqualTo(36));
+            Assert.That(StorageEngineConstant.DatabaseHeaderNumberOfClassesPosition, Is.EqualTo(52));
+            Assert.That(StorageEngineConstant.DatabaseHeaderFirstClassOid, Is.EqualTo(60));
+            Assert.That(StorageEngineConstant.DatabaseHeaderLastCloseStatusPosition, Is.EqualTo(68));
+            Assert.That(StorageEngineConstant.DatabaseHeaderDatabaseCharacterEncodingPosition, Is.EqualTo(69));
+            Assert.That(StorageEngineConstant.DatabaseHeaderCurrentIdBlockPosition, Is.EqualTo(127));
+            Assert.That(StorageEngineConstant.DatabaseHeaderFirstIdBlockPosition, Is.EqualTo(135));
+        }
+    }
+}

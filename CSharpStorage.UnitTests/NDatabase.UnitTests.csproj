@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\When_we_use_storage_positions.cs" />
     <Compile Include="CodeSnippets\Data\Game.cs" />
     <Compile Include="CodeSnippets\Data\IHero.cs" />
     <Compile Include="CodeSnippets\Data\Mage.cs" />
