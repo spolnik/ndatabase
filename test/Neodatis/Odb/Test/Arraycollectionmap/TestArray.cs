@@ -137,6 +137,7 @@ namespace Test.Odb.Test.Arraycollectionmap
         [Test]
         public virtual void TestArray4()
         {
+            DeleteBase("array5.neodatis");
             IOdb odb = null;
             var size = 50;
             try

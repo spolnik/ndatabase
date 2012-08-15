@@ -107,17 +107,21 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         public static readonly int DatabaseHeaderLastCloseStatusPosition = DatabaseHeaderFirstClassOid +
                                                                            OdbType.Long.GetSize();
 
+        public static readonly int DatabaseHeaderEmptySpaceWhichCouldBeUsedInTheFuture =
+            DatabaseHeaderLastCloseStatusPosition + OdbType.Byte.GetSize();
+
         /// <summary>
         ///   The Database character encoding : 50 bytes
         /// </summary>
         public static readonly int DatabaseHeaderDatabaseCharacterEncodingPosition =
-            DatabaseHeaderLastCloseStatusPosition + OdbType.Byte.GetSize();
+            DatabaseHeaderEmptySpaceWhichCouldBeUsedInTheFuture + 120 * OdbType.Byte.GetSize();
 
         /// <summary>
         ///   The position of the current id block: 1 long
         /// </summary>
         public static readonly int DatabaseHeaderCurrentIdBlockPosition =
             DatabaseHeaderDatabaseCharacterEncodingPosition + 58 * OdbType.Byte.GetSize();
+            
 
         /// <summary>
         ///   First ID Block position
@@ -131,7 +135,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             {
                 DatabaseHeaderVersionPosition, DatabaseHeaderDatabaseIdPosition, DatabaseHeaderLastTransactionId,
                 DatabaseHeaderNumberOfClassesPosition, DatabaseHeaderFirstClassOid,
-                DatabaseHeaderLastCloseStatusPosition, DatabaseHeaderDatabaseCharacterEncodingPosition
+                DatabaseHeaderLastCloseStatusPosition, DatabaseHeaderDatabaseCharacterEncodingPosition, DatabaseHeaderEmptySpaceWhichCouldBeUsedInTheFuture
             };
 
         public static readonly long ClassOffsetBlockType = ClassOffsetBlockSize + OdbType.Integer.GetSize();

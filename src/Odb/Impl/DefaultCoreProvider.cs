@@ -60,7 +60,8 @@ namespace NDatabase.Odb.Impl
         }
 
         /// <summary>
-        ///   TODO Return a list of IO to enable replication or other IO mechanism Used by the FileSystemInterface to actual write/read byte to underlying storage
+        ///   TODO Return a list of IO to enable replication or other IO mechanism Used by the 
+        ///   TODO FileSystemInterface to actual write/read byte to underlying storage
         /// </summary>
         /// <param name="name"> The name of the buffered io </param>
         /// <param name="parameters"> The parameters that define the buffer </param>

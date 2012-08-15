@@ -13,7 +13,8 @@ namespace IO
 		[Test]
         public virtual void Test()
 		{
-			IOdb odb = Open("t111.neodatis");
+            DeleteBase("t111A.neodatis");
+			IOdb odb = Open("t111A.neodatis");
 			odb.Close();
 			try
 			{
@@ -23,14 +24,14 @@ namespace IO
 			{
 				AssertTrue(e.Message.IndexOf("has already been closed") != -1);
 			}
-			DeleteBase("t111.neodatis");
 		}
 
 		/// <exception cref="System.Exception"></exception>
 		[Test]
         public virtual void TestTwoCloses()
-		{
-			IOdb odb = Open("t111.neodatis");
+        {
+            DeleteBase("t111B.neodatis");
+			IOdb odb = Open("t111B.neodatis");
 			odb.Close();
 			try
 			{
@@ -42,17 +43,17 @@ namespace IO
 			    Console.WriteLine(e.Message);
 				Assert.Pass();
 			}
-			DeleteBase("t111.neodatis");
 		}
 
 		/// <exception cref="System.Exception"></exception>
 		[Test]
         public virtual void TestReOpenWithoutClose()
 		{
-			IOdb odb = Open("t111.neodatis");
+            DeleteBase("t111C.neodatis");
+			IOdb odb = Open("t111C.neodatis");
 			try
 			{
-				odb = Open("t111.neodatis");
+				odb = Open("t111C.neodatis");
                 Assert.Fail();
 			}
 			catch (System.Exception e)
@@ -61,7 +62,6 @@ namespace IO
 			    Assert.Pass();
 			}
 			odb.Close();
-			DeleteBase("t111.neodatis");
 		}
 	}
 }
