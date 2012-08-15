@@ -3,11 +3,8 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Oid
     /// <summary>
     ///   Status of ID.
     /// </summary>
-    /// <remarks>
-    ///   Status of ID.
-    /// </remarks>
     /// <author>osmadja</author>
-    public class IDStatus
+    public static class IDStatus
     {
         public const byte Unknown = 0;
 

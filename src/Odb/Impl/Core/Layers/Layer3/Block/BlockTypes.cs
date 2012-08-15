@@ -7,7 +7,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Block
     ///   All Block Types of the ODB database format.
     /// </remarks>
     /// <author>osmadja</author>
-    public class BlockTypes
+    public static class BlockTypes
     {
         public const byte BlockTypeClassHeader = 1;
 
