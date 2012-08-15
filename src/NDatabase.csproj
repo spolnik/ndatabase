@@ -377,7 +377,12 @@
  
 xcopy "$(TargetPath)" "$(SolutionDir)Artifacts" /i /d /y
 if errorlevel 1 goto BuildEventFailed
+
+xcopy "$(TargetPath)" "$(SolutionDir)UnitTests" /i /d /y
+if errorlevel 1 goto BuildEventFailed
 xcopy "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)Artifacts" /i /d /y
+if errorlevel 1 goto BuildEventFailed
+xcopy "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)UnitTests" /i /d /y
 if errorlevel 1 goto BuildEventFailed
  
 REM Exit properly because the build will not fail 
