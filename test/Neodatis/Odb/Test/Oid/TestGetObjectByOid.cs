@@ -76,7 +76,7 @@ namespace Test.Odb.Test.Oid
         }
 
         /// <summary>
-        ///   Getting object by id after an in place update in the same transaction
+        ///   Getting object by id after an update in the same transaction
         ///   than the insert
         /// </summary>
         /// <exception cref="System.Exception">System.Exception</exception>
@@ -100,7 +100,7 @@ namespace Test.Odb.Test.Oid
         }
 
         /// <summary>
-        ///   Getting object by id after an update(not in place) in the same
+        ///   Getting object by id after an update in the same
         ///   transaction than the insert
         /// </summary>
         /// <exception cref="System.Exception">System.Exception</exception>

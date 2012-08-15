@@ -60,8 +60,6 @@ namespace NDatabase.Odb
         /// </summary>
         private static int _idBlockSize = 34 + NbIdsPerBlock * IdBlockRepetitionSize;
 
-        private static bool _inPlaceUpdate;
-
         private static int _stringSpaceReserveFactor = 1;
 
         private static bool _checkModelCompatibility = true;
@@ -342,16 +340,6 @@ namespace NDatabase.Odb
         public static int GetIdBlockRepetitionSize()
         {
             return IdBlockRepetitionSize;
-        }
-
-        public static void SetInPlaceUpdate(bool value)
-        {
-            _inPlaceUpdate = value;
-        }
-
-        public static bool InPlaceUpdate()
-        {
-            return _inPlaceUpdate;
         }
 
         /// <returns> Returns the stringSpaceReserveFactor. </returns>

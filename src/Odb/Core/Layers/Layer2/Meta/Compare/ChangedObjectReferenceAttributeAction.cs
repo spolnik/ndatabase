@@ -45,11 +45,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
             return _updatePosition;
         }
 
-        public virtual bool CanUpdateInPlace()
-        {
-            return true;
-        }
-
         public virtual bool IsString()
         {
             return false;

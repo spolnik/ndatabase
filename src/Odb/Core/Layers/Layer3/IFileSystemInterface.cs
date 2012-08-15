@@ -1,7 +1,7 @@
 using System;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
-namespace NDatabase.Odb.Core.Layers.Layer3.Engine
+namespace NDatabase.Odb.Core.Layers.Layer3
 {
     public interface IFileSystemInterface
     {

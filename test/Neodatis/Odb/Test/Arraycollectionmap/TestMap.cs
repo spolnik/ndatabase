@@ -168,7 +168,7 @@ namespace Test.Odb.Test.Arraycollectionmap
 		[Test]
         public virtual void Test6updateChangingKeyValue()
 		{
-			// to monitor in place updates
+			// to monitor updates
 			IOdb odb = Open("map.neodatis");
 			long n = odb.Count(new CriteriaQuery(typeof(Dictionnary)));
 			IQuery query = new CriteriaQuery(typeof(Dictionnary), Where.Equal("name", "test2"));

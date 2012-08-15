@@ -22,7 +22,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Instance
     ///   Class used to build instance from Meta Object representation. Layer 2 to Layer 1 conversion.
     /// </remarks>
     /// <author>osmadja</author>
-    public abstract class InstanceBuilder : IInstanceBuilder
+    public abstract class AbstractInstanceBuilder : IInstanceBuilder
     {
         private const string LogIdDebug = "InstanceBuilder.debug";
 
@@ -33,7 +33,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Instance
         private readonly IStorageEngine _engine;
         private readonly ITriggerManager _triggerManager;
 
-        protected InstanceBuilder(IStorageEngine engine)
+        protected AbstractInstanceBuilder(IStorageEngine engine)
         {
             _triggerManager = OdbConfiguration.GetCoreProvider().GetLocalTriggerManager(engine);
             _classIntrospector = OdbConfiguration.GetCoreProvider().GetClassIntrospector();

@@ -38,7 +38,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                                                             OdbType.Integer.GetSize() + OdbType.Boolean.GetSize();
 
         private static byte[] _nativeHeaderBlockSizeByte;
-        private static int _nbInPlaceUpdates;
         private static int _nbNormalUpdates;
 
         private readonly IByteArrayConverter _byteArrayConverter;
@@ -1086,20 +1085,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                         DLogger.Debug("\tattribute actions are : " +
                                       _comparator.GetChangedAttributeActions());
                         DLogger.Debug("\tnew objects are : " + _comparator.GetNewObjects());
-                    }
-                    if (OdbConfiguration.InPlaceUpdate() && _comparator.SupportInPlaceUpdate())
-                    {
-                        var nbAppliedChanges = ManageInPlaceUpdate(_comparator, @object, oid, lastHeader, cache,
-                                                                   objectIsInConnectedZone);
-                        // if number of applied changes is equal to the number of
-                        // detected change
-                        if (nbAppliedChanges == _comparator.GetNbChanges())
-                        {
-                            _nbInPlaceUpdates++;
-                            UpdateUpdateTimeAndObjectVersionNumber(lastHeader, true);
-                            cache.AddObject(oid, @object, lastHeader);
-                            return oid;
-                        }
                     }
                 }
                 // If we reach this update, In Place Update was not possible. Do a
@@ -2267,20 +2252,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                 NDatabaseError.AbstractObjectInfoTypeNotSupported.AddParameter(aoi.GetType().FullName));
         }
 
-        /// <summary>
-        ///   Upate the version number of the object
-        /// </summary>
-        /// <param name="header"> </param>
-        /// <param name="writeInTransaction"> </param>
-        private void UpdateUpdateTimeAndObjectVersionNumber(ObjectInfoHeader header, bool writeInTransaction)
-        {
-            var objectPosition = header.GetPosition();
-            _fsi.SetWritePosition(objectPosition + StorageEngineConstant.ObjectOffsetUpdateDate, writeInTransaction);
-            _fsi.WriteLong(header.GetUpdateDate(), writeInTransaction, "update date time",
-                           DefaultWriteAction.DataWriteAction);
-            _fsi.WriteInt(header.GetObjectVersion(), writeInTransaction, "object version");
-        }
-
         protected virtual ObjectInfoHeader GetObjectInfoHeader(OID oid, ICache cache)
         {
             var oih = cache.GetObjectInfoHeaderFromOid(oid, false) ??
@@ -2315,140 +2286,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             }
             oip.SetNextObjectOID(nextObjectOID);
             return oip;
-        }
-
-        /// <summary>
-        ///   Manage in place update.
-        /// </summary>
-        /// <remarks>
-        ///   Manage in place update. Just write the value at the exact position if possible.
-        /// </remarks>
-        /// <param name="objectComparator"> Contains all infos about differences between all version objects and new version </param>
-        /// <param name="object"> The object being modified (new version) </param>
-        /// <param name="oid"> The oid of the object being modified </param>
-        /// <param name="header"> The header of the object meta representation (Comes from the cache) </param>
-        /// <param name="cache"> The cache it self </param>
-        /// <param name="objectIsInConnectedZone"> A boolean value to indicate if object is in connected zone. I true, change must be made in transaction. If false, changes can be made in the database file directly. </param>
-        /// <returns> The number of in place update successfully executed </returns>
-        /// <exception cref="System.Exception">System.Exception</exception>
-        private int ManageInPlaceUpdate(IObjectInfoComparator objectComparator, object @object, OID oid,
-                                        ObjectInfoHeader header, ICache cache, bool objectIsInConnectedZone)
-        {
-            var canUpdateInPlace = true;
-            // If object is is connected zone, changes must be done in transaction,
-            // if not in connected zone, changes can be made out of
-            // transaction, directly to the database
-            var writeInTransaction = objectIsInConnectedZone;
-            var nbAppliedChanges = 0;
-            // if 0, only direct attribute have been changed
-            // if (objectComparator.getMaxObjectRecursionLevel() == 0) {
-            // if some direct native attribute have changed
-            if (objectComparator.GetChangedAttributeActions().Count > 0)
-            {
-                // Check if in place update is possible
-                var actions = objectComparator.GetChangedAttributeActions();
-                foreach (var attribute in actions)
-                {
-                    if (attribute is ChangedNativeAttributeAction)
-                    {
-                        var changedNativeAttributeAction = (ChangedNativeAttributeAction) attribute;
-                        if (changedNativeAttributeAction.ReallyCantDoInPlaceUpdate())
-                        {
-                            canUpdateInPlace = false;
-                            break;
-                        }
-                        if (!changedNativeAttributeAction.InPlaceUpdateIsGuaranteed())
-                        {
-                            if (changedNativeAttributeAction.IsString() && changedNativeAttributeAction.GetUpdatePosition() != StorageEngineConstant.NullObjectPosition)
-                            {
-                                var position = SafeOverWriteAtomicNativeObject(changedNativeAttributeAction.GetUpdatePosition(),
-                                                                               (AtomicNativeObjectInfo)
-                                                                               changedNativeAttributeAction.GetNoiWithNewValue(),
-                                                                               writeInTransaction);
-                                canUpdateInPlace = position != -1;
-                                if (!canUpdateInPlace)
-                                    break;
-                            }
-                            else
-                            {
-                                canUpdateInPlace = false;
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            _fsi.SetWritePosition(changedNativeAttributeAction.GetUpdatePosition(), true);
-                            WriteAtomicNativeObject((AtomicNativeObjectInfo) changedNativeAttributeAction.GetNoiWithNewValue(),
-                                                    writeInTransaction);
-                        }
-                    }
-                    else
-                    {
-                        var changedObjectReferenceAttributeAction = attribute as ChangedObjectReferenceAttributeAction;
-                        if (changedObjectReferenceAttributeAction != null)
-                        {
-                            UpdateObjectReference(changedObjectReferenceAttributeAction.GetUpdatePosition(), changedObjectReferenceAttributeAction.GetNewId(), writeInTransaction);
-                        }
-                    }
-                    nbAppliedChanges++;
-                }
-                if (canUpdateInPlace)
-                {
-                    if (OdbConfiguration.IsDebugEnabled(LogId))
-                        DLogger.Debug("Sucessfull in place updating");
-                }
-            }
-            // if canUpdateInplace is false, a full update (writing
-            // object elsewhere) is necessary so
-            // there is no need to try to update object references.
-            if (canUpdateInPlace)
-            {
-                // For non native attribute that have been replaced!
-                for (var i = 0; i < objectComparator.GetNewObjectMetaRepresentations().Count; i++)
-                {
-                    // to avoid stackOverFlow, check if the object is
-                    // already beeing inserted
-                    var newNonNativeObjectAction = objectComparator.GetNewObjectMetaRepresentation(i);
-                    if (cache.IdOfInsertingObject(newNonNativeObjectAction) == null)
-                    {
-                        // If Meta representation have an id == null, then
-                        // this is a new object
-                        // it must be inserted, else just update
-                        // reference
-                        var ooid = newNonNativeObjectAction.GetNnoi().GetOid() ??
-                                   InsertNonNativeObject(null, newNonNativeObjectAction.GetNnoi(), true);
-                        UpdateObjectReference(newNonNativeObjectAction.GetUpdatePosition(), ooid, writeInTransaction);
-                        nbAppliedChanges++;
-                    }
-                }
-                // For attribute that have been set to null
-                for (var i = 0; i < objectComparator.GetAttributeToSetToNull().Count; i++)
-                {
-                    var setAttributeToNullAction = objectComparator.GetAttributeToSetToNull()[i];
-                    UpdateObjectReference(setAttributeToNullAction.GetUpdatePosition(),
-                                          StorageEngineConstant.NullObjectId,
-                                          writeInTransaction);
-                    nbAppliedChanges++;
-                }
-                // For attribute that have been set to null
-                for (var i = 0; i < objectComparator.GetArrayChanges().Count; i++)
-                {
-                    var arrayModifyElement = objectComparator.GetArrayChanges()[i];
-                    if (!arrayModifyElement.SupportInPlaceUpdate())
-                        break;
-                    _fsi.SetReadPosition(arrayModifyElement.GetArrayPositionDefinition());
-                    var arrayPosition = _fsi.ReadLong();
-                    // If we reach this line,the ArrayModifyElement
-                    // suuports In Place Update so it must be a Native
-                    // Object Info!
-                    // The cast is safe :-)
-                    UpdateArrayElement(arrayPosition, arrayModifyElement.GetArrayElementIndexToChange(),
-                                       (NativeObjectInfo) arrayModifyElement.GetNewValue(), writeInTransaction);
-                    nbAppliedChanges++;
-                }
-            }
-            // }// only direct attribute have been changed
-            return nbAppliedChanges;
         }
 
         private void WriteBlockSizeAt(long writePosition, int blockSize, bool writeInTransaction, object @object)
@@ -2893,71 +2730,13 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             _fsi.WriteLong(oid, writeInTransaction, "object reference", DefaultWriteAction.PointerWriteAction);
         }
 
-        /// <summary>
-        ///   In place update for array element, only do in place update for atomic native fixed size elements
-        /// </summary>
-        /// <returns> true if in place update has been done,false if not </returns>
-        private bool UpdateArrayElement(long arrayPosition, int arrayElementIndexToChange, NativeObjectInfo newValue,
-                                        bool writeInTransaction)
-        {
-            // block size, block type, odb typeid,is null?
-            long offset = OdbType.Integer.GetSize() + OdbType.Byte.GetSize() + OdbType.Integer.GetSize() +
-                          OdbType.Boolean.GetSize();
-            _fsi.SetReadPosition(arrayPosition + offset);
-            // read class name of array elements
-            var arrayElementClassName = _fsi.ReadString(false);
-            // TODO try to get array element type from the ArrayObjectInfo
-            // Check if the class has fixed size : array support in place update
-            // only for fixed size class like int, long, date,...
-            // String array,for example do not support in place update
-            var arrayElementType = OdbType.GetFromName(arrayElementClassName);
-            if (!arrayElementType.IsAtomicNative() || !arrayElementType.HasFixSize())
-                return false;
-
-            // reads the size of the array
-            var arraySize = _fsi.ReadInt();
-            if (arrayElementIndexToChange >= arraySize)
-            {
-                throw new OdbRuntimeException(
-                    NDatabaseError.InplaceUpdateNotPossibleForArray.AddParameter(arraySize).AddParameter(
-                        arrayElementIndexToChange));
-            }
-            // Gets the position where to write the object
-            // Skip the positions where we have the pointers to each array element
-            // then
-            // jump to the right position
-            long skip = arrayElementIndexToChange*OdbType.Long.GetSize();
-            _fsi.SetReadPosition(_fsi.GetPosition() + skip);
-            var elementArrayPosition = _fsi.ReadLong();
-            _fsi.SetWritePosition(elementArrayPosition, writeInTransaction);
-            // Actually update the array element
-            WriteNativeObjectInfo(newValue, elementArrayPosition, writeInTransaction);
-            return true;
-        }
-
-        public static int GetNbInPlaceUpdates()
-        {
-            return _nbInPlaceUpdates;
-        }
-
-        public static void SetNbInPlaceUpdates(int nbInPlaceUpdates)
-        {
-            _nbInPlaceUpdates = nbInPlaceUpdates;
-        }
-
         public static int GetNbNormalUpdates()
         {
             return _nbNormalUpdates;
         }
 
-        public static void SetNbNormalUpdates(int nbNormalUpdates)
-        {
-            _nbNormalUpdates = nbNormalUpdates;
-        }
-
         public static void ResetNbUpdates()
         {
-            _nbInPlaceUpdates = 0;
             _nbNormalUpdates = 0;
         }
     }

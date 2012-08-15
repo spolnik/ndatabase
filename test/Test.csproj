@@ -279,7 +279,7 @@
     <Compile Include="Neodatis\Odb\Test\Update\Nullobject\SensorMeteo.cs" />
     <Compile Include="Neodatis\Odb\Test\Update\Nullobject\TestNullObject.cs" />
     <Compile Include="Neodatis\Odb\Test\Update\Nullobject\User.cs" />
-    <Compile Include="Neodatis\Odb\Test\Update\TestInPlaceUpdate.cs" />
+    <Compile Include="Neodatis\Odb\Test\Update\TestUpdate2.cs" />
     <Compile Include="Neodatis\Odb\Test\Update\TestSimpleUpdateObject.cs" />
     <Compile Include="Neodatis\Odb\Test\Update\TestUnconnectedZone.cs" />
     <Compile Include="Neodatis\Odb\Test\Update\TestUpdate.cs" />

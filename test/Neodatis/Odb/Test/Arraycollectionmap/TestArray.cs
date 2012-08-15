@@ -170,7 +170,7 @@ namespace Test.Odb.Test.Arraycollectionmap
         }
 
         /// <summary>
-        ///   Test in place update for array when the number of elements remains the
+        ///   Test update for array when the number of elements remains the
         ///   same
         /// </summary>
         /// <exception cref="System.Exception">System.Exception</exception>
@@ -201,9 +201,6 @@ namespace Test.Odb.Test.Arraycollectionmap
                 var o = l.GetFirst();
                 AssertEquals(owna2.GetNumber(0), o.GetNumber(0));
                 AssertEquals(owna2.GetNumber(1), o.GetNumber(1));
-                // check that it was in place update and not normal update (by
-                // creatig now object)
-                AssertEquals(0, AbstractObjectWriter.GetNbInPlaceUpdates());
                 AssertEquals(1, AbstractObjectWriter.GetNbNormalUpdates());
 
                 odb.Close();
@@ -221,7 +218,7 @@ namespace Test.Odb.Test.Arraycollectionmap
         }
 
         /// <summary>
-        ///   Test in place update for array when the number of elements remains the
+        ///   Test update for array when the number of elements remains the
         ///   same
         /// </summary>
         /// <exception cref="System.Exception">System.Exception</exception>
@@ -271,7 +268,7 @@ namespace Test.Odb.Test.Arraycollectionmap
         }
 
         /// <summary>
-        ///   Test in place update for array when the number of elements remains the
+        ///   Test update for array when the number of elements remains the
         ///   same,but updating the second array element
         /// </summary>
         /// <exception cref="System.Exception">System.Exception</exception>

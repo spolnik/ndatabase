@@ -8,12 +8,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// <summary>
     ///   Some basic info about an object info like position, its class info,...
     /// </summary>
-    /// <remarks>
-    ///   Some basic info about an object info like position, its class info,...
-    /// </remarks>
-    /// <author>osmadja</author>
     [Serializable]
-    public class ObjectInfoHeader
+    public sealed class ObjectInfoHeader
     {
         private int[] _attributeIds;
 
@@ -53,27 +49,27 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             _creationDate = OdbTime.GetCurrentTimeInTicks();
         }
 
-        public virtual int GetNbAttributes()
+        public int GetNbAttributes()
         {
             return _attributesIdentification.Length;
         }
 
-        public virtual OID GetNextObjectOID()
+        public OID GetNextObjectOID()
         {
             return _nextObjectOID;
         }
 
-        public virtual void SetNextObjectOID(OID nextObjectOID)
+        public void SetNextObjectOID(OID nextObjectOID)
         {
             _nextObjectOID = nextObjectOID;
         }
 
-        public virtual long GetPosition()
+        public long GetPosition()
         {
             return _position;
         }
 
-        public virtual void SetPosition(long position)
+        public void SetPosition(long position)
         {
             _position = position;
         }
@@ -90,17 +86,17 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         //    public void setClassInfoId(long classInfoId) {
         //        this.classInfoId = classInfoId;
         //    }
-        public virtual OID GetPreviousObjectOID()
+        public OID GetPreviousObjectOID()
         {
             return _previousObjectOID;
         }
 
-        public virtual void SetPreviousObjectOID(OID previousObjectOID)
+        public void SetPreviousObjectOID(OID previousObjectOID)
         {
             _previousObjectOID = previousObjectOID;
         }
 
-        public virtual OID GetClassInfoId()
+        public OID GetClassInfoId()
         {
             return _classInfoId;
         }
@@ -127,42 +123,42 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return buffer.ToString();
         }
 
-        public virtual long[] GetAttributesIdentification()
+        public long[] GetAttributesIdentification()
         {
             return _attributesIdentification;
         }
 
-        public virtual void SetAttributesIdentification(long[] attributesIdentification)
+        public void SetAttributesIdentification(long[] attributesIdentification)
         {
             _attributesIdentification = attributesIdentification;
         }
 
-        public virtual OID GetOid()
+        public OID GetOid()
         {
             return _oid;
         }
 
-        public virtual void SetOid(OID oid)
+        public void SetOid(OID oid)
         {
             _oid = oid;
         }
 
-        public virtual long GetCreationDate()
+        public long GetCreationDate()
         {
             return _creationDate;
         }
 
-        public virtual void SetCreationDate(long creationDate)
+        public void SetCreationDate(long creationDate)
         {
             _creationDate = creationDate;
         }
 
-        public virtual long GetUpdateDate()
+        public long GetUpdateDate()
         {
             return _updateDate;
         }
 
-        public virtual void SetUpdateDate(long updateDate)
+        public void SetUpdateDate(long updateDate)
         {
             _updateDate = updateDate;
         }
@@ -172,7 +168,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// </summary>
         /// <param name="attributeId"> </param>
         /// <returns> -1 if attribute with this id does not exist </returns>
-        public virtual long GetAttributeIdentificationFromId(int attributeId)
+        public long GetAttributeIdentificationFromId(int attributeId)
         {
             if (_attributeIds == null)
                 return StorageEngineConstant.NullObjectIdId;
@@ -186,32 +182,32 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return StorageEngineConstant.NullObjectIdId;
         }
 
-        public virtual long GetAttributeId(int attributeIndex)
+        public long GetAttributeId(int attributeIndex)
         {
             return _attributeIds[attributeIndex];
         }
 
-        public virtual void SetAttributesIds(int[] ids)
+        public void SetAttributesIds(int[] ids)
         {
             _attributeIds = ids;
         }
 
-        public virtual int[] GetAttributeIds()
+        public int[] GetAttributeIds()
         {
             return _attributeIds;
         }
 
-        public virtual void SetClassInfoId(OID classInfoId2)
+        public void SetClassInfoId(OID classInfoId2)
         {
             _classInfoId = classInfoId2;
         }
 
-        public virtual int GetObjectVersion()
+        public int GetObjectVersion()
         {
             return _objectVersion;
         }
 
-        public virtual void SetObjectVersion(int objectVersion)
+        public void SetObjectVersion(int objectVersion)
         {
             _objectVersion = objectVersion;
         }
@@ -241,13 +237,13 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return true;
         }
 
-        public virtual void IncrementVersionAndUpdateDate()
+        public void IncrementVersionAndUpdateDate()
         {
             _objectVersion++;
             _updateDate = OdbTime.GetCurrentTimeInTicks();
         }
 
-        public virtual ObjectInfoHeader Duplicate()
+        public ObjectInfoHeader Duplicate()
         {
             var objectInfoHeader = new ObjectInfoHeader();
 

@@ -81,9 +81,6 @@ namespace NDatabase.Odb.Core
         public static readonly NDatabaseError NegativeBlockSize = new NDatabaseError(220,
                                                                                    "Negative block size at @1 : size = @2, object=@3");
 
-        public static readonly NDatabaseError InplaceUpdateNotPossibleForArray = new NDatabaseError(221,
-                                                                                                  "Array in place update with array smaller than element array index to update : array size=@1, element index=@2");
-
         public static readonly NDatabaseError OperationNotImplemented = new NDatabaseError(222,
                                                                                          "Operation not supported : @1");
 

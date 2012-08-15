@@ -1,5 +1,4 @@
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Odb.Core.Trigger;
 
@@ -23,8 +22,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         ///   Updates an object.
         /// </summary>
         /// <remarks>
-        ///   Updates an object. Try to update in place. Only change what has changed. This is restricted to particular types (fixed size types). If in place update is
-        ///                        not possible, then deletes the current object and creates a new at the end of the database file and updates
+        ///   Updates an object. Deletes the current object and creates a new at the end of the database file and updates
         ///                        OID object position.
         /// </remarks>
         /// <param name="nnoi"> The meta representation of the object to be updated </param>

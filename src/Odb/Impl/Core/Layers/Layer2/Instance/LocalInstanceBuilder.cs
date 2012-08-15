@@ -3,7 +3,7 @@ using NDatabase.Odb.Core.Transaction;
 
 namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Instance
 {
-    public class LocalInstanceBuilder : InstanceBuilder
+    public class LocalInstanceBuilder : AbstractInstanceBuilder
     {
         private readonly ISession _session;
 

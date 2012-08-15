@@ -277,12 +277,8 @@ namespace Test.Odb.Test.Update
         // println("after:" + mo3.getDate().getTime() + " - " + mo3.getSize());
         /// <summary>
         ///   When an object an a collection attribute, and this colllection is changed
-        ///   (adding one object),no update in place is possible for instance.
+        ///   (adding one object)
         /// </summary>
-        /// <remarks>
-        ///   When an object an a collection attribute, and this colllection is changed
-        ///   (adding one object),no update in place is possible for instance.
-        /// </remarks>
         /// <exception cref="System.Exception">System.Exception</exception>
         [Test]
         public virtual void Test7()

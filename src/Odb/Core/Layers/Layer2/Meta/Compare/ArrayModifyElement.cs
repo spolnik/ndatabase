@@ -6,8 +6,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
 
         private readonly AbstractObjectInfo _newValue;
 
-        private readonly bool _supportInPlaceUpdate;
-
         /// <summary>
         ///   The array id
         /// </summary>
@@ -15,12 +13,10 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
 
         private NonNativeObjectInfo _nnoi;
 
-        public ArrayModifyElement(NonNativeObjectInfo nnoi, int attributeId, int index, AbstractObjectInfo newValue,
-                                  bool supportInPlaceUpdate)
+        public ArrayModifyElement(NonNativeObjectInfo nnoi, int attributeId, int index, AbstractObjectInfo newValue)
         {
             _nnoi = nnoi;
             _attributeId = attributeId;
-            _supportInPlaceUpdate = supportInPlaceUpdate;
             _newValue = newValue;
             _arrayElementIndexToChange = index;
         }
@@ -67,11 +63,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
         public virtual long GetArrayPositionDefinition()
         {
             return _nnoi.GetAttributeDefinitionPosition(_attributeId);
-        }
-
-        public virtual bool SupportInPlaceUpdate()
-        {
-            return _supportInPlaceUpdate;
         }
     }
 }

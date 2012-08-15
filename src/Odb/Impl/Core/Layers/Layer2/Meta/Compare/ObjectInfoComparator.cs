@@ -34,8 +34,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Compare
 
         private int _nbChanges;
 
-        private bool _supportInPlaceUpdate;
-
         public ObjectInfoComparator()
         {
             _changedObjectMetaRepresentations = new List<NonNativeObjectInfo>(Size);
@@ -47,7 +45,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Compare
             _changedAttributeActions = new List<IChangedAttribute>(Size);
             _arrayChanges = new List<ArrayModifyElement>();
             _maxObjectRecursionLevel = 0;
-            _supportInPlaceUpdate = false;
         }
 
         #region IObjectInfoComparator Members
@@ -109,7 +106,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Compare
             _arrayChanges.Clear();
             _maxObjectRecursionLevel = 0;
             _nbChanges = 0;
-            _supportInPlaceUpdate = false;
         }
 
         public virtual int GetNbChanges()
@@ -120,11 +116,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Compare
         public virtual IList<ArrayModifyElement> GetArrayChanges()
         {
             return _arrayChanges;
-        }
-
-        public virtual bool SupportInPlaceUpdate()
-        {
-            return _supportInPlaceUpdate;
         }
 
         #endregion
@@ -185,7 +176,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Compare
                     // This happens when this object was created with an version of ClassInfo (which has been refactored).
                     // In this case,we simply tell that in place update is not supported so that the object will be rewritten with 
                     // new metamodel
-                    _supportInPlaceUpdate = false;
                     continue;
                 }
                 // If both are null, no effect
@@ -193,7 +183,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Compare
                     continue;
                 if (value1.IsNull() || value2.IsNull())
                 {
-                    _supportInPlaceUpdate = false;
                     hasChanged = true;
                     StoreActionSetAttributetoNull(nnoi1, id);
                     continue;
@@ -208,7 +197,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Compare
                                                                                      nnoi1.GetHeader().
                                                                                          GetAttributeIdentificationFromId
                                                                                          (id), nativeObjectInfo,
-                                                                                     objectRecursionLevel, false,
+                                                                                     objectRecursionLevel,
                                                                                      nnoi1.GetClassInfo().
                                                                                          GetAttributeInfoFromId(id).
                                                                                          GetName()));
@@ -246,7 +235,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Compare
                                                                                      nnoi1.GetHeader().
                                                                                          GetAttributeIdentificationFromId
                                                                                          (id), (NativeObjectInfo) value2,
-                                                                                     objectRecursionLevel, false,
+                                                                                     objectRecursionLevel,
                                                                                      nnoi1.GetClassInfo().
                                                                                          GetAttributeInfoFromId(id).
                                                                                          GetName()));
@@ -306,8 +295,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Compare
                         StoreNewObjectReference(positionToUpdateReference, oi2, objectRecursionLevel,
                                                 nnoi1.GetClassInfo().GetAttributeInfoFromId(id).GetName());
                         objectRecursionLevel++;
-                        // Value2 may have change too
-                        AddPendingVerification();
                     }
                 }
             }
@@ -326,14 +313,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Compare
             return hasChanged;
         }
 
-        /// <summary>
-        ///   An object reference has changed and the new object has not been checked, so disabled in place update TODO this is not good =&gt; all reference update will be done by full update and not in place update
-        /// </summary>
-        private void AddPendingVerification()
-        {
-            _supportInPlaceUpdate = false;
-        }
-
         private void StoreNewObjectReference(long positionToUpdateReference, NonNativeObjectInfo oi2,
                                              int objectRecursionLevel, string attributeName)
         {
@@ -350,10 +329,10 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Compare
         }
 
         private void StoreArrayChange(NonNativeObjectInfo nnoi, int arrayAttributeId, int arrayIndex,
-                                      AbstractObjectInfo value, bool supportInPlaceUpdate)
+                                      AbstractObjectInfo value)
         {
             _nbChanges++;
-            var ame = new ArrayModifyElement(nnoi, arrayAttributeId, arrayIndex, value, supportInPlaceUpdate);
+            var ame = new ArrayModifyElement(nnoi, arrayAttributeId, arrayIndex, value);
             _arrayChanges.Add(ame);
         }
 
@@ -467,7 +446,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Compare
                     }
                     else
                     {
-                        _supportInPlaceUpdate = false;
                         _nbChanges++;
                     }
                     //storeChangedObject(nnoi1, nnoi2, fieldId, value1, value2, "List element index " + index + " has changed", objectRecursionLevel);
@@ -499,39 +477,21 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Compare
                 buffer.Append("Array size has changed oldsize=").Append(array1.Length).Append("/newsize=").Append(
                     array2.Length);
                 StoreChangedObject(nnoi1, nnoi2, fieldId, aoi1, aoi2, buffer.ToString(), objectRecursionLevel);
-                _supportInPlaceUpdate = false;
                 return true;
             }
-            // check if this array supports in place update
-            var localSupportInPlaceUpdate = OdbType.HasFixSize(aoi2.GetComponentTypeId());
             
-            var hasChanged = false;
-            try
+            for (var i = 0; i < array1.Length; i++)
             {
-                for (var i = 0; i < array1.Length; i++)
+                var value1 = (AbstractObjectInfo) array1[i];
+                var value2 = (AbstractObjectInfo) array2[i];
+                var localHasChanged = HasChanged(value1, value2, objectRecursionLevel);
+                if (localHasChanged)
                 {
-                    var value1 = (AbstractObjectInfo) array1[i];
-                    var value2 = (AbstractObjectInfo) array2[i];
-                    var localHasChanged = HasChanged(value1, value2, objectRecursionLevel);
-                    if (localHasChanged)
-                    {
-                        StoreArrayChange(nnoi1, fieldId, i, value2, localSupportInPlaceUpdate);
-                        if (localSupportInPlaceUpdate)
-                            hasChanged = true;
-                        else
-                        {
-                            hasChanged = true;
-                            return true;
-                        }
-                    }
+                    StoreArrayChange(nnoi1, fieldId, i, value2);
+                    return true;
                 }
             }
-            finally
-            {
-                if (hasChanged && !localSupportInPlaceUpdate)
-                    _supportInPlaceUpdate = false;
-            }
-            return hasChanged;
+            return false;
         }
 
         /// <summary>

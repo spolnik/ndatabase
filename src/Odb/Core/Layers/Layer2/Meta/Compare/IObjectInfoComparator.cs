@@ -10,8 +10,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
 
         int GetNbChanges();
 
-        bool SupportInPlaceUpdate();
-
         IList<ChangedObjectInfo> GetChanges();
 
         IList<NewNonNativeObjectAction> GetNewObjectMetaRepresentations();

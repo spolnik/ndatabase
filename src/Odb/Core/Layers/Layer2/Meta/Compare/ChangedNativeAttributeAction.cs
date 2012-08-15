@@ -11,27 +11,22 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
         private readonly string _attributeName;
 
         /// <summary>
-        ///   The new object meta representation: is case of no in place update
+        ///   The new object meta representation
         /// </summary>
         private readonly NonNativeObjectInfo _newNoi;
 
         private readonly NativeObjectInfo _noiWithNewValue;
 
         /// <summary>
-        ///   The old object meta representation: is case of no in place update
+        ///   The old object meta representation
         /// </summary>
         private readonly NonNativeObjectInfo _oldNnoi;
-
-        /// <summary>
-        ///   This boolean value is set to true when original object is null, is this case there is no way to do in place update
-        /// </summary>
-        private readonly bool _reallyCantDoInPlaceUpdate;
 
         private readonly int _recursionLevel;
         private readonly long _updatePosition;
 
         public ChangedNativeAttributeAction(NonNativeObjectInfo oldNnoi, NonNativeObjectInfo newNnoi, long position,
-                                            NativeObjectInfo newNoi, int recursionLevel, bool canDoInPlaceUpdate,
+                                            NativeObjectInfo newNoi, int recursionLevel,
                                             string attributeName)
         {
             _oldNnoi = oldNnoi;
@@ -39,7 +34,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
             _updatePosition = position;
             _noiWithNewValue = newNoi;
             _recursionLevel = recursionLevel;
-            _reallyCantDoInPlaceUpdate = canDoInPlaceUpdate;
             _attributeName = attributeName;
         }
 
@@ -65,17 +59,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
         public virtual long GetUpdatePosition()
         {
             return _updatePosition;
-        }
-
-        public virtual bool ReallyCantDoInPlaceUpdate()
-        {
-            return _reallyCantDoInPlaceUpdate;
-        }
-
-        public virtual bool InPlaceUpdateIsGuaranteed()
-        {
-            return !_reallyCantDoInPlaceUpdate && _noiWithNewValue.IsAtomicNativeObject() &&
-                   _noiWithNewValue.GetOdbTypeId() != OdbType.StringId;
         }
 
         public virtual bool IsString()

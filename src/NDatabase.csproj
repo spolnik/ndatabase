@@ -141,7 +141,7 @@
     <Compile Include="Odb\Core\Layers\Layer3\Engine\CheckMetaModelResult.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\FileSystemInterface.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\IByteArrayConverter.cs" />
-    <Compile Include="Odb\Core\Layers\Layer3\Engine\IFileSystemInterface.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IFileSystemInterface.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IBaseIdentification.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IBufferedIO.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\ICommitListener.cs" />
@@ -224,7 +224,7 @@
     <Compile Include="Odb\Impl\Core\Layers\Layer1\Introspector\GetDependentObjectIntrospectingCallback.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer1\Introspector\LocalObjectIntrospector.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer1\Introspector\NonPersistentAttribute.cs" />
-    <Compile Include="Odb\Impl\Core\Layers\Layer2\Instance\InstanceBuilder.cs" />
+    <Compile Include="Odb\Impl\Core\Layers\Layer2\Instance\AbstractInstanceBuilder.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer2\Instance\LocalInstanceBuilder.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer2\Instance\ODBClassPool.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer2\Meta\Compare\AttributeValueComparator.cs" />
@@ -249,7 +249,6 @@
     <Compile Include="Odb\Impl\Core\Layers\Layer3\Engine\LocalObjectWriter.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer3\Engine\LocalStorageEngine.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer3\Engine\ObjectReader.cs" />
-    <Compile Include="Odb\Impl\Core\Layers\Layer3\Engine\ObjectWriterNew.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer3\Engine\PendingReading.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer3\Engine\StorageEngineConstant.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer3\Oid\DefaultIdManager.cs" />

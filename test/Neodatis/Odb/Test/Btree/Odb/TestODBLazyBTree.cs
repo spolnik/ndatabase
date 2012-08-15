@@ -109,7 +109,7 @@ namespace Btree.Odb
         public virtual void Test1a()
         {
             var baseName = GetBaseName();
-            // Configuration.setInPlaceUpdate(true);
+            
             var persister = GetPersister(baseName);
             IBTree tree = new OdbBtreeMultiple("test1a", 2, persister);
             for (var i = 0; i < Size; i++)
@@ -177,10 +177,8 @@ namespace Btree.Odb
             // println("insert of "+SIZE+" elements in BTREE = " +
             // (end0-start0)+"ms");
             // println("end Commiting");
-            // println("updates : IP="+ObjectWriter.getNbInPlaceUpdates()+" , N="+ObjectWriter.getNbNormalUpdates());
-            // ODB odb = open(baseName);
-            // odb.getObjects(LazyNode.class);
-            // odb.close();
+            Println(string.Format("NU={0}", AbstractObjectWriter.GetNbNormalUpdates()));
+            
             persister = GetPersister(baseName);
             // println("reloading btree");
             tree = (IBTreeMultipleValuesPerKey) persister.LoadBTree(tree.GetId());
