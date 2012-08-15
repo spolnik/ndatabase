@@ -1,3 +1,4 @@
+using System.Runtime.Serialization;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Query.Criteria;
@@ -143,9 +144,22 @@ namespace Instantiationhelper
             var car = new Car("Ranger", 2006);
             odb.Store(car);
             CloseAndReopenDb();
-            IObjects<Car> cars;
             CheckCarRetrieval();
             odb.Close();
+        }
+
+        
+    }
+
+    public class When_creating_object_without_invocation_of_constructor
+    {
+        [Test]
+        public virtual void It_should_have_the_default_state()
+        {
+            var car = (Car)FormatterServices.GetUninitializedObject(typeof(Car));
+
+            Assert.That(car.GetModel(), Is.Null);
+            Assert.That(car.GetYear(), Is.EqualTo(0));
         }
     }
 }

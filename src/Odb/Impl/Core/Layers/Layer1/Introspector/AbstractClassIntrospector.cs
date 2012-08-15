@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 using NDatabase.Btree;
 using NDatabase.Btree.Impl;
 using NDatabase.Odb.Core;
@@ -368,7 +369,17 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
 
         public Object NewInstanceOf(Type clazz)
         {
-            var constructor = _classPool.GetConstrutor(OdbClassUtil.GetFullName(clazz));
+            var fullClassName = OdbClassUtil.GetFullName(clazz);
+
+            var helper = _instantiationHelpers[fullClassName];
+            if (helper != null)
+            {
+                var newInstance = helper.Instantiate();
+                if (newInstance != null)
+                    return newInstance;
+            }
+
+            var constructor = _classPool.GetConstrutor(fullClassName);
 
             if (constructor == null)
             {
@@ -378,7 +389,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
                 //c by cristi
                 //constructor.setAccessible(true);
                 if (constructor != null)
-                    _classPool.AddConstrutor(OdbClassUtil.GetFullName(clazz), constructor);
+                    _classPool.AddConstrutor(fullClassName, constructor);
             }
             if (constructor != null)
             {
@@ -401,6 +412,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
                         clazz));
             }
 
+            //TODO: do we really need that?
             var constructors =
                 clazz.GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public |
                                       BindingFlags.DeclaredOnly);
@@ -414,86 +426,15 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
             if (constructors.Length == 0)
                 throw new OdbRuntimeException(
                     NDatabaseError.ClassWithoutConstructor.AddParameter(clazz.AssemblyQualifiedName));
-            const int numberOfParameters = 1000;
-            var bestConstructorIndex = 0;
+            
+            if (OdbConfiguration.EnableEmptyConstructorCreation())
+                return FormatterServices.GetUninitializedObject(clazz);
 
-            for (var i = 0; i < constructors.Length; i++)
-            {
-                //UPGRADE_TODO: The equivalent in .NET for method 'java.lang.reflect.Constructor.getParameterTypes' may return a different value. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1043'"
-                if (constructors[i].GetParameters().Length < numberOfParameters)
-                    bestConstructorIndex = i;
-            }
-            constructor = constructors[bestConstructorIndex];
-            //UPGRADE_TODO: The equivalent in .NET for method 'java.lang.reflect.Constructor.getParameterTypes' may return a different value. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1043'"
-            var nulls = new Object[constructor.GetParameters().Length];
-            for (var i = 0; i < nulls.Length; i++)
-            {
-                //UPGRADE_TODO: The equivalent in .NET for method 'java.lang.reflect.Constructor.getParameterTypes' may return a different value. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1043'"
-                //m by cristi
-                if (constructor.GetParameters()[i].ParameterType == Type.GetType("System.Int32"))
-                    nulls[i] = 0;
-                else
-                {
-                    //UPGRADE_TODO: The equivalent in .NET for method 'java.lang.reflect.Constructor.getParameterTypes' may return a different value. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1043'"
-                    if (constructor.GetParameters()[i].ParameterType == Type.GetType("System.Int64"))
-                        nulls[i] = 0;
-                    else
-                    {
-                        //UPGRADE_TODO: The equivalent in .NET for method 'java.lang.reflect.Constructor.getParameterTypes' may return a different value. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1043'"
-                        if (constructor.GetParameters()[i].ParameterType == Type.GetType("System.Int16"))
-                            nulls[i] = Int16.Parse("0");
-                        else
-                        {
-                            //UPGRADE_TODO: The equivalent in .NET for method 'java.lang.reflect.Constructor.getParameterTypes' may return a different value. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1043'"
-                            //main by cristi
-                            if (constructor.GetParameters()[i].ParameterType == Type.GetType("System.SByte"))
-                                nulls[i] = SByte.Parse("0");
-                            else
-                            {
-                                //UPGRADE_TODO: The equivalent in .NET for method 'java.lang.reflect.Constructor.getParameterTypes' may return a different value. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1043'"
-                                //m by cristi
-                                if (constructor.GetParameters()[i].ParameterType == Type.GetType("System.Single"))
-                                {
-                                    //UPGRADE_WARNING: Data types in Visual C# might be different.  Verify the accuracy of narrowing conversions. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1042'"
-                                    nulls[i] = Single.Parse("0");
-                                }
-                                else
-                                {
-                                    //UPGRADE_TODO: The equivalent in .NET for method 'java.lang.reflect.Constructor.getParameterTypes' may return a different value. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1043'"
-                                    //m by cristi
-                                    if (constructor.GetParameters()[i].ParameterType == Type.GetType("System.Double"))
-                                    {
-                                        //UPGRADE_TODO: The differences in the format  of parameters for constructor 'java.lang.Double.Double'  may cause compilation errors.  "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1092'"
-                                        nulls[i] = Double.Parse("0");
-                                    }
-                                    else
-                                        nulls[i] = null;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            Object objectRenamed;
-
-            //UPGRADE_ISSUE: Method 'java.lang.reflect.AccessibleObject.setAccessible' was not converted. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1000_javalangreflectAccessibleObject'"
-            //c by cristi
-            //constructor.setAccessible(true);
-            try
-            {
-                objectRenamed = constructor.Invoke(nulls);
-            }
-            catch (Exception e2)
-            {
-                throw new OdbRuntimeException(
-                    NDatabaseError.NoNullableConstructor.AddParameter(string.Format("[{0}]",
-                                                                                   DisplayUtility.ObjectArrayToString(
-                                                                                       constructor.GetParameters()))).
-                        AddParameter(clazz.AssemblyQualifiedName), e2);
-            }
-
-            return objectRenamed;
+            throw new OdbRuntimeException(
+                NDatabaseError.NoNullableConstructor.AddParameter(string.Format("[{0}]",
+                                                                                DisplayUtility.ObjectArrayToString(
+                                                                                    constructors.Last().GetParameters()))).
+                    AddParameter(clazz.AssemblyQualifiedName));
         }
 
         // FIXME put the list of the classes elsewhere!

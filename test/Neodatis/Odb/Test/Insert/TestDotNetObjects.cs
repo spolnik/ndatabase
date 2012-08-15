@@ -3,6 +3,7 @@ using System.Text;
 using System.Windows.Forms;
 using NUnit.Framework;
 using Test.Odb.Test;
+using System.Linq;
 
 namespace Insert
 {
@@ -33,6 +34,7 @@ namespace Insert
             var textBox = new TextBox {Text = "Ol\u00E1 chico"};
 
             var odb = Open("test.textbox.odb");
+
             odb.Store(textBox);
             odb.Close();
             odb = Open("test.textbox.odb");
@@ -53,8 +55,8 @@ namespace Insert
         {
             DeleteBase("test.url.odb");
 
-            var url1 = new Uri("http://wiki.neodatis.org");
-            var url2 = new Uri("http://www.neodatis.org");
+            var url1 = new Uri("http://google.com");
+            var url2 = new Uri("http://nprogramming.wordpress.com");
 
             var h1 = url1.GetHashCode();
             var h2 = url2.GetHashCode();
@@ -63,11 +65,19 @@ namespace Insert
             Println(url2.Host + " - " + url2.Port);
 
             var odb = Open("test.url.odb");
+
             odb.Store(url1);
             odb.Store(url2);
             odb.Close();
             odb = Open("test.url.odb");
             var l = odb.GetObjects<Uri>();
+
+            var first = l.FirstOrDefault(x => x.AbsoluteUri == "http://google.com/");
+            Assert.That(first, Is.Not.Null);
+
+            var second = l.FirstOrDefault(x => x.AbsoluteUri == "http://nprogramming.wordpress.com/");
+            Assert.That(second, Is.Not.Null);
+
             odb.Close();
 
             AssertEquals("Same HashCode Problem", 2, l.Count);
