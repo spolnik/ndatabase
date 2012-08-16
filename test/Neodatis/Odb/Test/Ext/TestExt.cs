@@ -14,8 +14,7 @@ namespace Ext
         public virtual void TestGetObjectId()
         {
             DeleteBase("extb");
-            IOdb odb = null;
-            odb = Open("extb");
+            var odb = OdbFactory.Open("extb");
             var f = new Function("Test Function");
             var oid = odb.Store(f);
             var extOid = odb.Ext().GetObjectExternalOID(f);
