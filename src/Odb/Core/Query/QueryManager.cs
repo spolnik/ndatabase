@@ -38,7 +38,7 @@ namespace NDatabase.Odb.Core.Query
             if (simpleNativeQuery != null)
                 return NativeQueryManager.GetFullClassName(simpleNativeQuery);
 
-            if (typeof (CriteriaQuery) == query.GetType() || typeof (ValuesCriteriaQuery) == query.GetType())
+            if (typeof (CriteriaQuery) == query.GetType() || query is ValuesCriteriaQuery)
                 return CriteriaQueryManager.GetFullClassName((CriteriaQuery) query);
 
             throw new OdbRuntimeException(NDatabaseError.QueryTypeNotImplemented.AddParameter(query.GetType().FullName));

@@ -33,18 +33,18 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
         /// </summary>
         private bool _returnInstance;
 
-        public ValuesCriteriaQuery(Type aClass, OID oid) : base((string) OdbClassUtil.GetFullName(aClass))
+        public ValuesCriteriaQuery(Type aClass, OID oid) : base(OdbClassUtil.GetFullName(aClass))
         {
             SetOidOfObjectToQuery(oid);
             Init();
         }
 
-        public ValuesCriteriaQuery(Type aClass, ICriterion criteria) : base(aClass.FullName, criteria)
+        public ValuesCriteriaQuery(Type aClass, ICriterion criteria) : base(OdbClassUtil.GetFullName(aClass), criteria)
         {
             Init();
         }
 
-        public ValuesCriteriaQuery(Type aClass) : base((string) OdbClassUtil.GetFullName(aClass))
+        public ValuesCriteriaQuery(Type aClass) : base(OdbClassUtil.GetFullName(aClass))
         {
             Init();
         }
@@ -87,8 +87,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
             return Sublist(attributeName, attributeName, fromIndex, size, throwException);
         }
 
-        public IValuesQuery Sublist(string attributeName, string alias, int fromIndex, int size,
-                                            bool throwException)
+        public IValuesQuery Sublist(string attributeName, string alias, int fromIndex, int size, bool throwException)
         {
             _objectActions.Add(new SublistAction(attributeName, alias, fromIndex, size, throwException));
             return this;
@@ -238,7 +237,8 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
                 while (iterator.MoveNext())
                 {
                     queryFieldAction = iterator.Current;
-                    if (queryFieldAction is FieldValueAction && queryFieldAction.GetAttributeName().Equals(oneGroupByField))
+                    if (queryFieldAction is FieldValueAction &&
+                        queryFieldAction.GetAttributeName().Equals(oneGroupByField))
                         queryFieldAction.SetMultiRow(false);
                 }
             }

@@ -289,7 +289,7 @@ namespace Intropector
 
             var function = new Function("login");
             var user = new User("olivier smadja", "olivier@neodatis.com", new Profile("operator", function));
-            IObjectInfoComparator comparator = new ObjectInfoComparator();
+            
             var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
             var storageEngine = Dummy.GetEngine(odb);
@@ -318,6 +318,8 @@ namespace Intropector
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
             nnoiProfile = (NonNativeObjectInfo) instanceInfo3.GetAttributeValueFromId(2);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
+
+            IObjectInfoComparator comparator = new ObjectInfoComparator();
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
             AssertEquals(1, comparator.GetNbChanges());
             var cnaa = (ChangedNativeAttributeAction) comparator.GetChangedAttributeActions()[0];

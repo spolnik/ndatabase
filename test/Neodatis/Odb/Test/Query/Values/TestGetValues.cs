@@ -334,7 +334,7 @@ namespace Query.Values
             odb.Close();
             AssertEquals(new Decimal(sum), bsum);
             AssertEquals(new Decimal(0), min);
-            AssertEquals(bsum / 2, avg);
+            AssertEquals(bsum / 1000, avg);
         }
     }
 }
