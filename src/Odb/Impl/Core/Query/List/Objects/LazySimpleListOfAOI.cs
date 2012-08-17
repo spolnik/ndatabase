@@ -6,7 +6,6 @@ using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Lookup;
 using NDatabase.Odb.Impl.Core.Layers.Layer2.Instance;
-using NDatabase.Odb.Impl.Core.Lookup;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
 
