@@ -331,7 +331,9 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                 newAttributeValues[i] = _attributeValues[i].CreateCopy(cache, onlyData);
 
             nnoi._attributeValues = newAttributeValues;
-            cache.Add(_objectHeader.GetOid(), nnoi);
+            
+            if (_objectHeader.GetOid() != null)
+                cache.Add(_objectHeader.GetOid(), nnoi);
 
             return nnoi;
         }
