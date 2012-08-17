@@ -5,6 +5,7 @@ using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Lookup;
+using NDatabase.Odb.Impl.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Impl.Core.Lookup;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
@@ -133,11 +134,11 @@ namespace NDatabase.Odb.Impl.Core.Query.List.Objects
                     if (_instanceBuilder == null)
                     {
                         // Lookup the instance builder
-                        _instanceBuilder = (IInstanceBuilder) LookupFactory.Get(_sessionId).Get(Lookups.InstanceBuilder);
+                        _instanceBuilder = (IInstanceBuilder) LookupFactory.Get(_sessionId).Get(LocalInstanceBuilder.InstanceBuilder);
 
                         if (_instanceBuilder == null)
                             throw new OdbRuntimeException(
-                                NDatabaseError.LookupKeyNotFound.AddParameter(Lookups.InstanceBuilder));
+                                NDatabaseError.LookupKeyNotFound.AddParameter(LocalInstanceBuilder.InstanceBuilder));
                     }
 
                     return (T) _instanceBuilder.BuildOneInstance((NonNativeObjectInfo) aoi);

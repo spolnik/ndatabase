@@ -254,7 +254,6 @@
     <Compile Include="Odb\Impl\Core\Layers\Layer3\Oid\FullIDInfo.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer3\Oid\IDStatus.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer3\Refactor\DefaultRefactorManager.cs" />
-    <Compile Include="Odb\Impl\Core\Lookup\Lookups.cs" />
     <Compile Include="Odb\Impl\Core\Oid\DatabaseIdImpl.cs" />
     <Compile Include="Odb\Impl\Core\Oid\ExternalClassOID.cs" />
     <Compile Include="Odb\Impl\Core\Oid\ExternalObjectOID.cs" />
@@ -330,7 +329,6 @@
     <Compile Include="Odb\OdbFactory.cs" />
     <Compile Include="Odb\ODBRuntimeException.cs" />
     <Compile Include="Odb\OID.cs" />
-    <Compile Include="Odb\Tool\ObjectInfoHeaderListDisplay.cs" />
     <Compile Include="Odb\TransactionId.cs" />
     <Compile Include="Odb\Values.cs" />
     <Compile Include="Tool\DisplayUtility.cs" />

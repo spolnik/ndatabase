@@ -104,8 +104,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         public override string ToString()
         {
             var buffer = new StringBuilder();
-            buffer.Append("oid=").Append(_oid).Append(" - ");
-            //.append("class info id=").append(classInfoId);
+            buffer.Append("oid=").Append(_oid);
+            buffer.Append(" - class info id=").Append(_classInfoId);
             buffer.Append(" - position=").Append(_position).Append(" | prev=").Append(_previousObjectOID);
             buffer.Append(" | next=").Append(_nextObjectOID);
             buffer.Append(" attrs =[");

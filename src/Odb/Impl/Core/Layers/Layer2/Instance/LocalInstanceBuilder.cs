@@ -16,5 +16,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Instance
         {
             return _session;
         }
+
+        public static readonly string InstanceBuilder = "InstanceBuilder";
     }
 }
