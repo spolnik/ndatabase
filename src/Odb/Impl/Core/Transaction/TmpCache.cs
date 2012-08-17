@@ -85,7 +85,6 @@ namespace NDatabase.Odb.Impl.Core.Transaction
 
         public int Size()
         {
-            // TODO Auto-generated method stub
             return _readingObjectInfo.Count;
         }
 

@@ -305,78 +305,46 @@ namespace NDatabase.Odb.Impl.Core.Trigger
         /// <returns> </returns>
         public virtual IOdbList<Odb.Core.Trigger.Trigger> GetListOfDeleteTriggersFor(string className)
         {
-            var l1 = _listOfDeleteTriggers[className];
-            var l2 = _listOfDeleteTriggers[AllClassTrigger];
-
-            if (l2 != null)
-            {
-                var size = l2.Count;
-                if (l1 != null)
-                    size = size + l1.Count;
-
-                IOdbList<Odb.Core.Trigger.Trigger> r = new OdbArrayList<Odb.Core.Trigger.Trigger>(size);
-
-                if (l1 != null)
-                    r.AddAll(l1);
-
-                r.AddAll(l2);
-                return r;
-            }
-            return l1;
+            return GetListOfTriggersFor(className, _listOfDeleteTriggers);
         }
 
         public virtual IOdbList<Odb.Core.Trigger.Trigger> GetListOfInsertTriggersFor(string className)
         {
-            var l1 = _listOfInsertTriggers[className];
-            var l2 = _listOfInsertTriggers[AllClassTrigger];
-            if (l2 != null)
-            {
-                var size = l2.Count;
-                if (l1 != null)
-                    size = size + l1.Count;
-                IOdbList<Odb.Core.Trigger.Trigger> r = new OdbArrayList<Odb.Core.Trigger.Trigger>(size);
-                if (l1 != null)
-                    r.AddAll(l1);
-                r.AddAll(l2);
-                return r;
-            }
-            return l1;
+            return GetListOfTriggersFor(className, _listOfInsertTriggers);
         }
 
         public virtual IOdbList<Odb.Core.Trigger.Trigger> GetListOfSelectTriggersFor(string className)
         {
-            var l1 = _listOfSelectTriggers[className];
-            var l2 = _listOfSelectTriggers[AllClassTrigger];
-            if (l2 != null)
-            {
-                var size = l2.Count;
-                if (l1 != null)
-                    size = size + l1.Count;
-                IOdbList<Odb.Core.Trigger.Trigger> r = new OdbArrayList<Odb.Core.Trigger.Trigger>(size);
-                if (l1 != null)
-                    r.AddAll(l1);
-                r.AddAll(l2);
-                return r;
-            }
-            return l1;
+            return GetListOfTriggersFor(className, _listOfSelectTriggers);
         }
 
         public virtual IOdbList<Odb.Core.Trigger.Trigger> GetListOfUpdateTriggersFor(string className)
         {
-            var l1 = _listOfUpdateTriggers[className];
-            var l2 = _listOfUpdateTriggers[AllClassTrigger];
-            if (l2 != null)
+            return GetListOfTriggersFor(className, _listOfUpdateTriggers);
+        }
+
+        private static IOdbList<Odb.Core.Trigger.Trigger> GetListOfTriggersFor(string className,
+                                                                               IDictionary<string, IOdbList<Odb.Core.Trigger.Trigger>> listOfTriggers)
+        {
+            var listOfTriggersBuClassName = listOfTriggers[className];
+            var listOfTriggersByAllClassTrigger = listOfTriggers[AllClassTrigger];
+
+            if (listOfTriggersByAllClassTrigger != null)
             {
-                var size = l2.Count;
-                if (l1 != null)
-                    size = size + l1.Count;
-                IOdbList<Odb.Core.Trigger.Trigger> r = new OdbArrayList<Odb.Core.Trigger.Trigger>(size);
-                if (l1 != null)
-                    r.AddAll(l1);
-                r.AddAll(l2);
-                return r;
+                var size = listOfTriggersByAllClassTrigger.Count;
+                if (listOfTriggersBuClassName != null)
+                    size = size + listOfTriggersBuClassName.Count;
+
+                IOdbList<Odb.Core.Trigger.Trigger> listOfTriggersToReturn = new OdbArrayList<Odb.Core.Trigger.Trigger>(size);
+
+                if (listOfTriggersBuClassName != null)
+                    listOfTriggersToReturn.AddAll(listOfTriggersBuClassName);
+
+                listOfTriggersToReturn.AddAll(listOfTriggersByAllClassTrigger);
+                return listOfTriggersToReturn;
             }
-            return l1;
+
+            return listOfTriggersBuClassName;
         }
 
         protected virtual bool IsNull(object @object)

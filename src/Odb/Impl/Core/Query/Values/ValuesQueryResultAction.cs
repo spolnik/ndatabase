@@ -90,20 +90,9 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
             {
                 var queryFieldAction = _queryFieldActions[i];
                 queryFieldAction.End();
+                
                 if (!_query.IsMultiRow())
-                {
-                    var value = queryFieldAction.GetValue();
-                    // When Values queries return objects, they actually return the oid of the object
-                    // So we must load it here
-                    if (value is OID)
-                    {
-                        var oid = (OdbObjectOID) value;
-                        value = _engine.GetObjectFromOid(oid);
-                    }
-
-                    // Sets the values now
-                    dov.Set(i, queryFieldAction.GetAlias(), value);
-                }
+                    SetValue(i, dov, queryFieldAction);
             }
             if (!_query.IsMultiRow())
                 _result.Add(dov);
@@ -130,19 +119,24 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
                 var queryFieldAction = _queryFieldActions[i];
                 queryFieldAction.Execute(values.GetObjectInfoHeader().GetOid(), values);
 
-                var value = queryFieldAction.GetValue();
-
-                // When Values queries return objects, they actually return the oid of the object
-                // So we must load it here
-                if (value is OID)
-                {
-                    var oid = (OdbObjectOID) value;
-                    value = _engine.GetObjectFromOid(oid);
-                }
-
-                dov.Set(i, queryFieldAction.GetAlias(), value);
+                SetValue(i, dov, queryFieldAction);
             }
             return dov;
+        }
+
+        private void SetValue(int i, DefaultObjectValues dov, IQueryFieldAction queryFieldAction)
+        {
+            var value = queryFieldAction.GetValue();
+
+            // When Values queries return objects, they actually return the oid of the object
+            // So we must load it here
+            if (value is OID)
+            {
+                var oid = (OdbObjectOID) value;
+                value = _engine.GetObjectFromOid(oid);
+            }
+
+            dov.Set(i, queryFieldAction.GetAlias(), value);
         }
 
         public virtual IValues GetValues()
