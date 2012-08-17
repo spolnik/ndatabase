@@ -46,32 +46,50 @@ namespace Intropector
         [Test]
         public virtual void TestInstanceInfo()
         {
+            var dbName = "TestInstanceInfo.odb";
+            DeleteBase(dbName);
+            var odb = OdbFactory.Open(dbName);
+
             var user = new User("olivier smadja", "olivier@neodatis.com", new Profile("operator", new Function("login")));
             var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
+
+            var storageEngine = Dummy.GetEngine(odb);
+
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(new MockStorageEngine()).GetMetaRepresentation(user, ci, true, null,
+                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
-            AssertEquals(user.GetType().FullName, instanceInfo.GetClassInfo().GetFullClassName());
+            AssertEquals(OdbClassUtil.GetFullName(user.GetType()), instanceInfo.GetClassInfo().GetFullClassName());
             AssertEquals("olivier smadja", instanceInfo.GetAttributeValueFromId(ci.GetAttributeId("name")).ToString());
             AssertEquals(typeof (AtomicNativeObjectInfo),
                          instanceInfo.GetAttributeValueFromId(ci.GetAttributeId("name")).GetType());
+
+            odb.Close();
         }
 
         /// <exception cref="System.Exception"></exception>
         [Test]
         public virtual void TestInstanceInfo2()
         {
+            var dbName = "TestInstanceInfo2.odb";
+            DeleteBase(dbName);
+            var odb = OdbFactory.Open(dbName);
+
             var user = new User("olivier smadja", "olivier@neodatis.com", new Profile("operator", new Function("login")));
             var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
+
+            var storageEngine = Dummy.GetEngine(odb);
+
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(new MockStorageEngine()).GetMetaRepresentation(user, ci, true, null,
+                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
-            AssertEquals(instanceInfo.GetClassInfo().GetFullClassName(), user.GetType().FullName);
+            AssertEquals(instanceInfo.GetClassInfo().GetFullClassName(), OdbClassUtil.GetFullName(user.GetType()));
             AssertEquals(instanceInfo.GetAttributeValueFromId(ci.GetAttributeId("name")).ToString(), "olivier smadja");
+
+            odb.Close();
         }
 
         /// <exception cref="System.Exception"></exception>
@@ -181,6 +199,7 @@ namespace Intropector
             var odb = OdbFactory.Open(dbName);
 
             var user = new User("olivier smadja", "olivier@neodatis.com", new Profile("operator", new Function("login")));
+
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
@@ -199,22 +218,29 @@ namespace Intropector
             instanceInfo.GetHeader().SetAttributesIdentification(offsets);
             instanceInfo.GetHeader().SetAttributesIds(ids);
             instanceInfo.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
+
             var nnoiProfile = (NonNativeObjectInfo) instanceInfo.GetAttributeValueFromId(2);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
+
             user.SetName(null);
+
             var instanceInfo3 =
                 (NonNativeObjectInfo)
                 new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
+            instanceInfo3.GetHeader().SetAttributesIdentification(offsets);
+            instanceInfo3.GetHeader().SetAttributesIds(ids);
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
+
             nnoiProfile = (NonNativeObjectInfo) instanceInfo3.GetAttributeValueFromId(2);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
+
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
             AssertEquals(1, comparator.GetNbChanges());
-            AssertEquals(1, comparator.GetChangedAttributeActions().Count);
-            var cnaa = (ChangedNativeAttributeAction) comparator.GetChangedAttributeActions()[0];
-            AssertEquals(null, cnaa.GetNoiWithNewValue().GetObject());
+            AssertEquals(1, comparator.GetAttributeToSetToNull().Count);
+            var cnaa = (SetAttributeToNullAction)comparator.GetAttributeToSetToNull()[0];
+            AssertEquals(1, cnaa.GetAttributeId());
 
             odb.Close();
         }
@@ -309,22 +335,27 @@ namespace Intropector
             instanceInfo.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
             var nnoiProfile = (NonNativeObjectInfo) instanceInfo.GetAttributeValueFromId(2);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
+            
             function.SetName(null);
+
             var instanceInfo3 =
                 (NonNativeObjectInfo)
                 new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
+            instanceInfo3.GetHeader().SetAttributesIdentification(offsets);
+            instanceInfo3.GetHeader().SetAttributesIds(ids);
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
+
             nnoiProfile = (NonNativeObjectInfo) instanceInfo3.GetAttributeValueFromId(2);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
 
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
             AssertEquals(1, comparator.GetNbChanges());
-            var cnaa = (ChangedNativeAttributeAction) comparator.GetChangedAttributeActions()[0];
-            AssertEquals(1, comparator.GetChangedAttributeActions().Count);
-            AssertEquals(function.GetName(), cnaa.GetNoiWithNewValue().GetObject());
+            AssertEquals(1, comparator.GetAttributeToSetToNull().Count);
+            var cnaa = comparator.GetAttributeToSetToNull()[0];
+            AssertEquals(function.GetName(), ((Function) cnaa.GetNnoi().GetObject()).GetName());
 
             odb.Close();
         }
@@ -583,7 +614,7 @@ namespace Intropector
         [Test]
         public virtual void TestGetAllFields()
         {
-            IOdbList<FieldInfo> allFields = classIntrospector.GetAllFields(typeof (FootballPlayer).FullName);
+            IOdbList<FieldInfo> allFields = classIntrospector.GetAllFields(OdbClassUtil.GetFullName(typeof(FootballPlayer)));
             AssertEquals(3, allFields.Count);
             AssertEquals("role", ((FieldInfo) allFields[0]).Name);
             AssertEquals("groundName", ((FieldInfo) allFields[1]).Name);
@@ -594,12 +625,19 @@ namespace Intropector
         [Test]
         public virtual void TestIntrospectWithNull()
         {
+            var dbName = "TestIntrospectWithNull.odb";
+            DeleteBase(dbName);
+            var odb = OdbFactory.Open(dbName);
+
             var user = new User("olivier smadja", "olivier@neodatis.com", null);
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
+
+            var storageEngine = Dummy.GetEngine(odb);
+
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(new MockStorageEngine()).GetMetaRepresentation(user, ci, true, null,
+                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -618,7 +656,7 @@ namespace Intropector
             user.SetProfile(new Profile("pname"));
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(new MockStorageEngine()).GetMetaRepresentation(user, ci, true, null,
+                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
@@ -631,18 +669,27 @@ namespace Intropector
             AssertEquals("Olivier Smadja", cnaa.GetNoiWithNewValue().GetObject());
             cnaa = (ChangedNativeAttributeAction) comparator.GetChangedAttributeActions()[1];
             AssertEquals("olivier@neodatis.org", cnaa.GetNoiWithNewValue().GetObject());
+
+            odb.Close();
         }
 
         /// <exception cref="System.Exception"></exception>
         [Test]
         public virtual void TestIntrospectWithNull2()
         {
+            var dbName = "TestIntrospectWithNull2.odb";
+            DeleteBase(dbName);
+            var odb = OdbFactory.Open(dbName);
+
             var user = new User("olivier smadja", "olivier@neodatis.com", null);
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
+
+            var storageEngine = Dummy.GetEngine(odb);
+
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(new MockStorageEngine()).GetMetaRepresentation(user, ci, true, null,
+                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -653,44 +700,59 @@ namespace Intropector
             instanceInfo.GetHeader().SetAttributesIdentification(offsets);
             instanceInfo.GetHeader().SetAttributesIds(ids);
             instanceInfo.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
-            object o = instanceInfo.GetAttributeValueFromId(2);
-            var nnoiProfile = (NonNativeObjectInfo) o;
+            var nnoiProfile = (NonNativeObjectInfo) instanceInfo.GetAttributeValueFromId(2);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
+
             user.SetProfile(new Profile("pname"));
+
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(new MockStorageEngine()).GetMetaRepresentation(user, ci, true, null,
+                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
+            instanceInfo3.GetHeader().SetAttributesIdentification(offsets);
+            instanceInfo3.GetHeader().SetAttributesIds(ids);
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
             nnoiProfile = (NonNativeObjectInfo) instanceInfo3.GetAttributeValueFromId(2);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
-            bool b = comparator.HasChanged(instanceInfo, instanceInfo3);
-            AssertTrue(b);
+
+            AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
             AssertEquals(1, comparator.GetNbChanges());
             AssertEquals(0, comparator.GetChangedAttributeActions().Count);
             AssertEquals(1, comparator.GetNewObjectMetaRepresentations().Count);
+
+            odb.Close();
         }
 
         /// <exception cref="System.Exception"></exception>
         [Test]
         public virtual void TestGetDependentObjects()
         {
+            var dbName = "TestGetDependentObjects.odb";
+            DeleteBase(dbName);
+            var odb = OdbFactory.Open(dbName);
+
             var user = new User("olivier smadja", "olivier@neodatis.com", new Profile("operator", new Function("login")));
             var callback = new GetDependentObjectIntrospectingCallback();
             var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
+
+            var storageEngine = Dummy.GetEngine(odb);
+
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(new MockStorageEngine()).GetMetaRepresentation(user, ci, true, null,
+                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            callback);
-            AssertEquals(user.GetType().FullName, instanceInfo.GetClassInfo().GetFullClassName());
+
+            AssertEquals(OdbClassUtil.GetFullName(user.GetType()), instanceInfo.GetClassInfo().GetFullClassName());
             AssertEquals("olivier smadja", instanceInfo.GetAttributeValueFromId(ci.GetAttributeId("name")).ToString());
             AssertEquals(typeof (AtomicNativeObjectInfo),
                          instanceInfo.GetAttributeValueFromId(ci.GetAttributeId("name")).GetType());
             var objects = callback.GetObjects();
-            AssertEquals(2, objects.Count);
+            AssertEquals(3, objects.Count);
             AssertTrue(objects.Contains(user.GetProfile()));
             AssertTrue(objects.Contains(user.GetProfile().GetFunctions()[0]));
+
+            odb.Close();
         }
 
         /// <exception cref="System.Exception"></exception>

@@ -181,10 +181,19 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Compare
                 // If both are null, no effect
                 if (value1.IsNull() && value2.IsNull())
                     continue;
-                if (value1.IsNull() || value2.IsNull())
+                if (value2.IsNull())
                 {
                     hasChanged = true;
                     StoreActionSetAttributetoNull(nnoi1, id);
+                    continue;
+                }
+                if (value1.IsNull() && value2.IsNonNativeObject())
+                {
+                    hasChanged = true;
+                    var oi2 = (NonNativeObjectInfo)value2;
+                    var positionToUpdateReference = nnoi1.GetAttributeDefinitionPosition(id);
+                    StoreNewObjectReference(positionToUpdateReference, oi2, objectRecursionLevel,
+                                            nnoi1.GetClassInfo().GetAttributeInfoFromId(id).GetName());
                     continue;
                 }
                 if (!ClassAreCompatible(value1, value2))

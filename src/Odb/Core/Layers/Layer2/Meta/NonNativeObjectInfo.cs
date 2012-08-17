@@ -302,9 +302,14 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// <returns> </returns>
         public override AbstractObjectInfo CreateCopy(IDictionary<OID, AbstractObjectInfo> cache, bool onlyData)
         {
-            var nnoi = (NonNativeObjectInfo) cache[_objectHeader.GetOid()];
-            if (nnoi != null)
-                return nnoi;
+            NonNativeObjectInfo nnoi;
+
+            if (_objectHeader.GetOid() != null && cache.ContainsKey(_objectHeader.GetOid()))
+            {
+                nnoi = (NonNativeObjectInfo) cache[_objectHeader.GetOid()];
+                if (nnoi != null)
+                    return nnoi;
+            }
 
             if (onlyData)
             {
