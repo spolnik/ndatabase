@@ -19,13 +19,13 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Serialization
 
         public static readonly string CollectionEnd = ")";
 
-        private static IDictionary<string, ISerializer> _serializers;
+        private static readonly IDictionary<string, ISerializer> Serializers;
 
         private static Serializer _instance;
 
-        private Serializer()
+        static Serializer()
         {
-            _serializers = new OdbHashMap<string, ISerializer>
+            Serializers = new OdbHashMap<string, ISerializer>
                                {
                                    {GetClassId(typeof (AtomicNativeObjectInfo)), new AtomicNativeObjectSerializer()},
                                    {GetClassId(typeof (CollectionObjectInfo)), new CollectionObjectInfoSerializer()}
@@ -53,7 +53,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Serialization
         public static string ToString(object @object)
         {
             var classId = GetClassId(@object.GetType());
-            var serializer = _serializers[classId];
+            var serializer = Serializers[classId];
 
             if (serializer != null)
                 return serializer.ToString(@object);
@@ -69,7 +69,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Serialization
                 return null;
 
             var type = data.Substring(0, index);
-            var serializer = _serializers[type];
+            var serializer = Serializers[type];
 
             if (serializer != null)
                 return serializer.FromString(data);
