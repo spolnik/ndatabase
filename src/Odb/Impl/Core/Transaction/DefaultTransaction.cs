@@ -6,10 +6,8 @@ using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Transaction;
-using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
-using NDatabase.Tool.Wrappers.IO;
 using NDatabase.Tool.Wrappers.List;
 using NDatabase.Tool.Wrappers.Map;
 
@@ -417,8 +415,8 @@ namespace NDatabase.Odb.Impl.Core.Transaction
                                          ? new IOFileParameter(fileName, canWrite)
                                          : GetParameters(canWrite);
 
-                    _fsi = new LocalFileSystemInterface("transaction", _session, parameters, false,
-                                                        OdbConfiguration.GetDefaultBufferSizeForTransaction());
+                    _fsi = new FileSystemInterface("transaction", parameters, false,
+                                                        OdbConfiguration.GetDefaultBufferSizeForTransaction(), _session);
                 }
             }
         }

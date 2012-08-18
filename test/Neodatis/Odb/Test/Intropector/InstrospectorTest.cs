@@ -57,7 +57,7 @@ namespace Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
             AssertEquals(OdbClassUtil.GetFullName(user.GetType()), instanceInfo.GetClassInfo().GetFullClassName());
@@ -83,7 +83,7 @@ namespace Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
             AssertEquals(instanceInfo.GetClassInfo().GetFullClassName(), OdbClassUtil.GetFullName(user.GetType()));
@@ -108,7 +108,7 @@ namespace Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -124,7 +124,7 @@ namespace Intropector
             user.SetName("Olivier Smadja");
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
@@ -155,7 +155,7 @@ namespace Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -173,7 +173,7 @@ namespace Intropector
             user.SetEmail("olivier@neodatis.org");
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
@@ -207,7 +207,7 @@ namespace Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
             // Sets attributes offsets - this is normally done by reading them from
@@ -226,7 +226,7 @@ namespace Intropector
 
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
             instanceInfo3.GetHeader().SetAttributesIdentification(offsets);
@@ -262,7 +262,7 @@ namespace Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -290,7 +290,7 @@ namespace Intropector
             function.SetName("login function");
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
@@ -322,7 +322,7 @@ namespace Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -340,7 +340,7 @@ namespace Intropector
 
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
             instanceInfo3.GetHeader().SetAttributesIdentification(offsets);
@@ -378,7 +378,7 @@ namespace Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -394,7 +394,7 @@ namespace Intropector
             profile.GetFunctions().Add(new Function("logout"));
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
@@ -426,7 +426,7 @@ namespace Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -445,7 +445,7 @@ namespace Intropector
             profile.SetName("ope");
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
@@ -478,7 +478,7 @@ namespace Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -495,7 +495,7 @@ namespace Intropector
             profile.SetName("operator");
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
@@ -525,7 +525,7 @@ namespace Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -538,7 +538,7 @@ namespace Intropector
             user.SetProfile(null);
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
@@ -569,7 +569,7 @@ namespace Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -585,7 +585,7 @@ namespace Intropector
             user.SetName("Kiko");
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
@@ -637,7 +637,7 @@ namespace Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -656,7 +656,7 @@ namespace Intropector
             user.SetProfile(new Profile("pname"));
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
@@ -689,7 +689,7 @@ namespace Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -707,7 +707,7 @@ namespace Intropector
 
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
             instanceInfo3.GetHeader().SetAttributesIdentification(offsets);
@@ -740,7 +740,7 @@ namespace Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            callback);
 
             AssertEquals(OdbClassUtil.GetFullName(user.GetType()), instanceInfo.GetClassInfo().GetFullClassName());
@@ -772,7 +772,7 @@ namespace Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new LocalObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
                                                                                            new DefaultInstrumentationCallbackForStore
                                                                                                (null, null, false));
             var copy = (NonNativeObjectInfo) instanceInfo.CreateCopy(new OdbHashMap<OID, AbstractObjectInfo>(), true);

@@ -134,7 +134,7 @@ namespace Index
             @base.Close();
             var tt1 = OdbTime.GetCurrentTimeInMs();
             var end0 = OdbTime.GetCurrentTimeInMs();
-            Println(string.Format("NU={0}", AbstractObjectWriter.GetNbNormalUpdates()));
+            Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
             Println("inserting time with index=" + (end0 - start0));
             Println("commit time=" + (tt1 - tt0));
             Println(LazyOdbBtreePersister.Counters());
@@ -243,7 +243,7 @@ namespace Index
             @base.Close();
             var tt1 = OdbTime.GetCurrentTimeInMs();
             var end0 = OdbTime.GetCurrentTimeInMs();
-            Println(string.Format("NU={0}", AbstractObjectWriter.GetNbNormalUpdates()));
+            Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
             Println("inserting time with index=" + (end0 - start0));
             Println("commit time=" + (tt1 - tt0));
             Println(LazyOdbBtreePersister.Counters());
@@ -342,7 +342,7 @@ namespace Index
             @base.Close();
             var tt1 = OdbTime.GetCurrentTimeInMs();
             var end0 = OdbTime.GetCurrentTimeInMs();
-            Println(string.Format("NU={0}", AbstractObjectWriter.GetNbNormalUpdates()));
+            Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
             Println("inserting time with index=" + (end0 - start0));
             Println("commit time=" + (tt1 - tt0));
             Println(LazyOdbBtreePersister.Counters());
@@ -430,7 +430,7 @@ namespace Index
             @base.Close();
             var tt1 = OdbTime.GetCurrentTimeInMs();
             var end0 = OdbTime.GetCurrentTimeInMs();
-            Println(string.Format("NU={0}", AbstractObjectWriter.GetNbNormalUpdates()));
+            Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
             Println("inserting time with index=" + (end0 - start0));
             Println("commit time=" + (tt1 - tt0));
             Println(LazyOdbBtreePersister.Counters());
@@ -525,7 +525,7 @@ namespace Index
             }
             @base.Close();
             var end0 = OdbTime.GetCurrentTimeInMs();
-            Println(string.Format("NU={0}", AbstractObjectWriter.GetNbNormalUpdates()));
+            Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
             Println("inserting time with index=" + (end0 - start0));
             @base = Open(baseName);
             var start = OdbTime.GetCurrentTimeInMs();
@@ -589,7 +589,7 @@ namespace Index
             }
             @base.Close();
             var end0 = OdbTime.GetCurrentTimeInMs();
-            Println(string.Format("NU={0}", AbstractObjectWriter.GetNbNormalUpdates()));
+            Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
             // ObjectWriter.getNbNormalUpdates());
             // println("inserting time with index=" + (end0 - start0));
             @base = Open(baseName);
@@ -730,7 +730,7 @@ namespace Index
             }
             @base.Close();
             var end0 = OdbTime.GetCurrentTimeInMs();
-            Println(string.Format("NU={0}", AbstractObjectWriter.GetNbNormalUpdates()));
+            Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
             Println("inserting time with index=" + (end0 - start0));
             @base = Open(baseName);
             var start = OdbTime.GetCurrentTimeInMs();
@@ -782,7 +782,7 @@ namespace Index
             // println(i+" : commit / " + size);
             @base.Close();
             var end0 = OdbTime.GetCurrentTimeInMs();
-            Println(string.Format("NU={0}", AbstractObjectWriter.GetNbNormalUpdates()));
+            Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
             // ObjectWriter.getNbNormalUpdates());
             // println("inserting time with index=" + (end0 - start0));
             @base = Open(baseName);
@@ -863,7 +863,7 @@ namespace Index
             @base.Close();
             var tt1 = OdbTime.GetCurrentTimeInMs();
             var end0 = OdbTime.GetCurrentTimeInMs();
-            Println(string.Format("NU={0}", AbstractObjectWriter.GetNbNormalUpdates()));
+            Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
             Println("inserting time with index=" + (end0 - start0));
             Println("commit time=" + (tt1 - tt0));
             Println(LazyOdbBtreePersister.Counters());
@@ -927,7 +927,7 @@ namespace Index
             @base.Close();
             var tt1 = OdbTime.GetCurrentTimeInMs();
             var end0 = OdbTime.GetCurrentTimeInMs();
-            Println(string.Format("NU={0}", AbstractObjectWriter.GetNbNormalUpdates()));
+            Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
             Println("inserting time with index=" + (end0 - start0));
             Println("commit time=" + (tt1 - tt0));
             Println(LazyOdbBtreePersister.Counters());
@@ -1017,7 +1017,7 @@ namespace Index
             // true).getIndex(0).getBTree(), true));
             @base.Close();
             var end0 = OdbTime.GetCurrentTimeInMs();
-            Println(string.Format("NU={0}", AbstractObjectWriter.GetNbNormalUpdates()));
+            Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
             // ObjectWriter.getNbNormalUpdates());
             Console.WriteLine("inserting time with index=" + (end0 - start0));
             @base = Open(baseName);
@@ -1174,7 +1174,7 @@ namespace Index
             @base.Store(io1);
             @base.Close();
             var end0 = OdbTime.GetCurrentTimeInMs();
-            Println(string.Format("NU={0}", AbstractObjectWriter.GetNbNormalUpdates()));
+            Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
             Println("inserting time with index=" + (end0 - start0));
             @base = Open(baseName);
             // IQuery q = new
@@ -1231,7 +1231,7 @@ namespace Index
             // println(i+" : commit / " + size);
             @base.Close();
             var end0 = OdbTime.GetCurrentTimeInMs();
-            Println(string.Format("NU={0}", AbstractObjectWriter.GetNbNormalUpdates()));
+            Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
             Console.WriteLine("inserting time with index=" + (end0 - start0));
             @base = Open(baseName);
             var start = OdbTime.GetCurrentTimeInMs();
@@ -1280,7 +1280,7 @@ namespace Index
             // println(i+" : commit");
             @base.Close();
             var end0 = OdbTime.GetCurrentTimeInMs();
-            Println(string.Format("NU={0}", AbstractObjectWriter.GetNbNormalUpdates()));
+            Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
             Println("inserting time with index=" + (end0 - start0));
             @base = Open(baseName);
             IQuery q = new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", "olivier" + size));

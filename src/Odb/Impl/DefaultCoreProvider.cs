@@ -26,8 +26,7 @@ namespace NDatabase.Odb.Impl
     /// <summary>
     ///   The is the default implementation of ODB
     /// </summary>
-    /// <author>olivier</author>
-    public class DefaultCoreProvider : ICoreProvider
+    public sealed class DefaultCoreProvider : ICoreProvider
     {
         private static readonly IClassPool ClassPool = new OdbClassPool();
 
@@ -40,7 +39,7 @@ namespace NDatabase.Odb.Impl
 
         #region ICoreProvider Members
 
-        public virtual void Init2()
+        public void Init2()
         {
             ByteArrayConverter.Init2();
 
@@ -48,13 +47,13 @@ namespace NDatabase.Odb.Impl
             _classIntrospector.Init2();
         }
 
-        public virtual void ResetClassDefinitions()
+        public void ResetClassDefinitions()
         {
             _classIntrospector.Reset();
             ClassPool.Reset();
         }
 
-        public virtual IByteArrayConverter GetByteArrayConverter()
+        public IByteArrayConverter GetByteArrayConverter()
         {
             return ByteArrayConverter;
         }
@@ -67,7 +66,7 @@ namespace NDatabase.Odb.Impl
         /// <param name="parameters"> The parameters that define the buffer </param>
         /// <param name="bufferSize"> The size of the buffers </param>
         /// <returns> The buffer implementation @ </returns>
-        public virtual IBufferedIO GetIO(string name, IBaseIdentification parameters, int bufferSize)
+        public IBufferedIO GetIO(string name, IBaseIdentification parameters, int bufferSize)
         {
             var fileParameters = parameters as IOFileParameter;
 
@@ -87,42 +86,42 @@ namespace NDatabase.Odb.Impl
             throw new OdbRuntimeException(NDatabaseError.UnsupportedIoType.AddParameter(parameters.ToString()));
         }
 
-        public virtual IIdManager GetIdManager(IStorageEngine engine)
+        public IIdManager GetIdManager(IStorageEngine engine)
         {
             return new DefaultIdManager(engine.GetObjectWriter(), engine.GetObjectReader(),
                                         engine.GetCurrentIdBlockPosition(), engine.GetCurrentIdBlockNumber(),
                                         engine.GetCurrentIdBlockMaxOid());
         }
 
-        public virtual IObjectWriter GetObjectWriter(IStorageEngine engine)
+        public IObjectWriter GetObjectWriter(IStorageEngine engine)
         {
-            return new LocalObjectWriter(engine);
+            return new ObjectWriter(engine, ByteArrayConverter, _classIntrospector);
         }
 
-        public virtual IObjectReader GetObjectReader(IStorageEngine engine)
+        public IObjectReader GetObjectReader(IStorageEngine engine)
         {
             return new ObjectReader(engine);
         }
 
-        public virtual IStorageEngine GetStorageEngine(IBaseIdentification baseIdentification)
+        public IStorageEngine GetStorageEngine(IBaseIdentification baseIdentification)
         {
-            return new LocalStorageEngine(baseIdentification);
+            return new StorageEngine(baseIdentification);
         }
 
         /// <summary>
         ///   Returns the Local Instance Builder
         /// </summary>
-        public virtual IInstanceBuilder GetLocalInstanceBuilder(IStorageEngine engine)
+        public IInstanceBuilder GetInstanceBuilder(IStorageEngine engine)
         {
-            return new LocalInstanceBuilder(engine);
+            return new InstanceBuilder(engine);
         }
 
-        public virtual IObjectIntrospector GetLocalObjectIntrospector(IStorageEngine engine)
+        public IObjectIntrospector GetLocalObjectIntrospector(IStorageEngine engine)
         {
-            return new LocalObjectIntrospector(engine);
+            return new ObjectIntrospector(engine);
         }
 
-        public virtual ITriggerManager GetLocalTriggerManager(IStorageEngine engine)
+        public ITriggerManager GetLocalTriggerManager(IStorageEngine engine)
         {
             // First check if trigger manager has already been built for the engine
             ITriggerManager triggerManager;
@@ -135,38 +134,38 @@ namespace NDatabase.Odb.Impl
             return triggerManager;
         }
 
-        public virtual void RemoveLocalTriggerManager(IStorageEngine engine)
+        public void RemoveLocalTriggerManager(IStorageEngine engine)
         {
             TriggerManagers.Remove(engine);
         }
 
-        public virtual IClassIntrospector GetClassIntrospector()
+        public IClassIntrospector GetClassIntrospector()
         {
             return _classIntrospector;
         }
 
-        public virtual IWriteAction GetWriteAction(long position, byte[] bytes)
+        public IWriteAction GetWriteAction(long position, byte[] bytes)
         {
             return new DefaultWriteAction(position, bytes);
         }
 
-        public virtual ITransaction GetTransaction(ISession session, IFileSystemInterface fsi)
+        public ITransaction GetTransaction(ISession session, IFileSystemInterface fsi)
         {
             return new DefaultTransaction(session, fsi);
         }
 
-        public virtual ISession GetLocalSession(IStorageEngine engine)
+        public ISession GetLocalSession(IStorageEngine engine)
         {
             return new LocalSession(engine);
         }
 
-        public virtual IRefactorManager GetRefactorManager(IStorageEngine engine)
+        public IRefactorManager GetRefactorManager(IStorageEngine engine)
         {
             return new DefaultRefactorManager(engine);
         }
 
         // For query result handler
-        public virtual IMatchingObjectAction GetCollectionQueryResultAction(IStorageEngine engine, IQuery query,
+        public IMatchingObjectAction GetCollectionQueryResultAction(IStorageEngine engine, IQuery query,
                                                                             bool inMemory, bool returnObjects)
         {
             return new CollectionQueryResultAction<object>(query, inMemory, engine, returnObjects,
@@ -174,27 +173,27 @@ namespace NDatabase.Odb.Impl
         }
 
         // OIDs
-        public virtual OID GetObjectOID(long objectOid, long classOid)
+        public OID GetObjectOID(long objectOid, long classOid)
         {
             return new OdbObjectOID(objectOid);
         }
 
-        public virtual OID GetClassOID(long oid)
+        public OID GetClassOID(long oid)
         {
             return new OdbClassOID(oid);
         }
 
-        public virtual OID GetExternalObjectOID(long objectOid, long classOid)
+        public OID GetExternalObjectOID(long objectOid, long classOid)
         {
             return new OdbObjectOID(objectOid);
         }
 
-        public virtual OID GetExternalClassOID(long oid)
+        public OID GetExternalClassOID(long oid)
         {
             return new OdbClassOID(oid);
         }
 
-        public virtual IClassPool GetClassPool()
+        public IClassPool GetClassPool()
         {
             return ClassPool;
         }

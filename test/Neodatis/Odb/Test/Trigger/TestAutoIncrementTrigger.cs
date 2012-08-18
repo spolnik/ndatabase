@@ -1,5 +1,6 @@
 using NDatabase.Odb;
 using NUnit.Framework;
+using Test.Neodatis.Odb.Test.Trigger;
 using Test.Odb.Test;
 
 namespace Trigger
@@ -43,7 +44,7 @@ namespace Trigger
 			{
 				odb = Open(Base);
 				odb.AddInsertTrigger(typeof(Trigger.ObjectWithAutoIncrementId), 
-					new Trigger.LocalAutoIncrementTrigger());
+					new LocalAutoIncrementTrigger());
 				Trigger.ObjectWithAutoIncrementId o = new Trigger.ObjectWithAutoIncrementId
 					("Object 1");
 				odb.Store(o);
@@ -51,7 +52,7 @@ namespace Trigger
 				odb.Close();
 				odb = Open(Base);
 				odb.AddInsertTrigger(typeof(Trigger.ObjectWithAutoIncrementId), 
-					new Trigger.LocalAutoIncrementTrigger());
+					new LocalAutoIncrementTrigger());
 				o = new Trigger.ObjectWithAutoIncrementId("Object 2");
 				odb.Store(o);
 				AssertEquals(2, o.GetId());
@@ -75,7 +76,7 @@ namespace Trigger
 			{
 				odb = Open(Base);
 				odb.AddInsertTrigger(typeof(Trigger.ObjectWithAutoIncrementId), 
-					new Trigger.LocalAutoIncrementTrigger());
+					new LocalAutoIncrementTrigger());
 				for (int i = 0; i < 1000; i++)
 				{
 					Trigger.ObjectWithAutoIncrementId o = new Trigger.ObjectWithAutoIncrementId
@@ -86,7 +87,7 @@ namespace Trigger
 				odb.Close();
 				odb = Open(Base);
 				odb.AddInsertTrigger(typeof(Trigger.ObjectWithAutoIncrementId), 
-					new Trigger.LocalAutoIncrementTrigger());
+					new LocalAutoIncrementTrigger());
 				for (int i = 0; i < 1000; i++)
 				{
 					Trigger.ObjectWithAutoIncrementId o = new Trigger.ObjectWithAutoIncrementId

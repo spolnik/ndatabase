@@ -52,7 +52,7 @@ namespace Query.Values
             var size = (long) ov.GetByAlias("size");
             AssertEquals(10, size);
 
-            var instanceBuilder = new LocalInstanceBuilder(Dummy.GetEngine(odb));
+            var instanceBuilder = new InstanceBuilder(Dummy.GetEngine(odb));
 
             var p = GetParameterInstance(instanceBuilder, fulllist[0]);
             AssertEquals("value 0", p.GetValue());
@@ -92,6 +92,8 @@ namespace Query.Values
             var fulllist = (IList) ov.GetByAlias("parameters");
             var size = (long) ov.GetByAlias("size");
             var sublist = (IList) ov.GetByAlias("sub1");
+
+            //TODO: asserts!
             odb.Close();
         }
 
@@ -124,7 +126,7 @@ namespace Query.Values
             var size = (long) ov.GetByAlias("size");
             AssertEquals(500, size);
 
-            var instanceBuilder = new LocalInstanceBuilder(Dummy.GetEngine(odb));
+            var instanceBuilder = new InstanceBuilder(Dummy.GetEngine(odb));
 
             var p = GetParameterInstance(instanceBuilder, sublist[0]);
             AssertEquals("value 490", p.GetValue());
@@ -241,7 +243,7 @@ namespace Query.Values
             var sublist = (IList) ov.GetByAlias("sub");
             AssertEquals(2, sublist.Count);
 
-            var instanceBuilder = new LocalInstanceBuilder(Dummy.GetEngine(odb));
+            var instanceBuilder = new InstanceBuilder(Dummy.GetEngine(odb));
 
             var parameter = GetParameterInstance(instanceBuilder, sublist[1]);
             AssertEquals("value 1", parameter.GetValue());
@@ -258,7 +260,7 @@ namespace Query.Values
         [Test]
         public virtual void Test6()
         {
-            var sublistSize = 400;
+            const int sublistSize = 400;
 
             var baseName = GetBaseName();
             DeleteBase(baseName);
@@ -273,6 +275,8 @@ namespace Query.Values
             IQuery q = new CriteriaQuery(typeof (Handler));
             var objects = odb.GetObjects<Handler>(q);
             var end = OdbTime.GetCurrentTimeInMs();
+
+            Console.WriteLine("Query time: {0} ms", end - start);
             var h = objects.GetFirst();
             var parameter = (Parameter) h.GetListOfParameters()[0];
             AssertEquals("value 0", parameter.GetValue());

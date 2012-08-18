@@ -49,7 +49,7 @@ namespace Test.Odb.Test.Update
         public virtual void Test8()
         {
             // reset counter to checks update type (normal or updates)
-            AbstractObjectWriter.ResetNbUpdates();
+            ObjectWriter.ResetNbUpdates();
 
             DeleteBase(Name);
             var odb = Open(Name);
@@ -92,7 +92,7 @@ namespace Test.Odb.Test.Update
         public virtual void Test9()
         {
             // reset counter to checks update type (normal or updates)
-            AbstractObjectWriter.ResetNbUpdates();
+            ObjectWriter.ResetNbUpdates();
             DeleteBase(Name);
             var odb = Open(Name);
             var user = new User("name", "email", new Profile("p1", new VO.Login.Function("function")));

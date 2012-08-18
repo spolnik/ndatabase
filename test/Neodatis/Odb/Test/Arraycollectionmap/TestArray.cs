@@ -182,7 +182,7 @@ namespace Test.Odb.Test.Arraycollectionmap
             var size = 50;
             try
             {
-                AbstractObjectWriter.ResetNbUpdates();
+                ObjectWriter.ResetNbUpdates();
                 DeleteBase("array7.neodatis");
                 odb = Open("array7.neodatis");
                 var array = new Decimal[size];
@@ -202,7 +202,7 @@ namespace Test.Odb.Test.Arraycollectionmap
                 var o = l.GetFirst();
                 AssertEquals(owna2.GetNumber(0), o.GetNumber(0));
                 AssertEquals(owna2.GetNumber(1), o.GetNumber(1));
-                AssertEquals(1, AbstractObjectWriter.GetNbNormalUpdates());
+                AssertEquals(1, ObjectWriter.GetNbNormalUpdates());
 
                 odb.Close();
                 DeleteBase("array7.neodatis");
@@ -230,7 +230,7 @@ namespace Test.Odb.Test.Arraycollectionmap
             var size = 2;
             try
             {
-                AbstractObjectWriter.ResetNbUpdates();
+                ObjectWriter.ResetNbUpdates();
                 DeleteBase("array8.neodatis");
                 odb = Open("array8.neodatis");
                 var array = new int[size];
@@ -280,7 +280,7 @@ namespace Test.Odb.Test.Arraycollectionmap
             var size = 50;
             try
             {
-                AbstractObjectWriter.ResetNbUpdates();
+                ObjectWriter.ResetNbUpdates();
                 DeleteBase("array9.neodatis");
                 odb = Open("array9.neodatis");
                 var array = new int[size];

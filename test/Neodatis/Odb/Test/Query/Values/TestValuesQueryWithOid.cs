@@ -39,7 +39,7 @@ namespace Query.Values
             var size = (long) ov.GetByAlias("size");
             AssertEquals(10, size);
 
-            var instanceBuilder = new LocalInstanceBuilder(Dummy.GetEngine(odb));
+            var instanceBuilder = new InstanceBuilder(Dummy.GetEngine(odb));
 
             var p = GetParameterInstance(instanceBuilder, fulllist[0]);
             AssertEquals("value 0", p.GetValue());

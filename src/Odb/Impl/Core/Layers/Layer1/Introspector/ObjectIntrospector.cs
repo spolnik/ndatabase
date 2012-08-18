@@ -14,19 +14,14 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
     /// <summary>
     ///   The local implementation of the Object Instrospector.
     /// </summary>
-    /// <remarks>
-    ///   The local implementation of the Object Instrospector.
-    /// </remarks>
-    /// <author>osmadja</author>
-    public sealed class LocalObjectIntrospector : IObjectIntrospector
+    public sealed class ObjectIntrospector : IObjectIntrospector
     {
         private readonly IClassIntrospector _classIntrospector;
         private readonly IClassPool _classPool;
         private IStorageEngine _storageEngine;
 
-        public LocalObjectIntrospector(IStorageEngine storageEngine)
+        public ObjectIntrospector(IStorageEngine storageEngine)
         {
-            // private MetaModel localMetaModel;
             _storageEngine = storageEngine;
             _classIntrospector = OdbConfiguration.GetCoreProvider().GetClassIntrospector();
             _classPool = OdbConfiguration.GetCoreProvider().GetClassPool();
@@ -202,7 +197,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
             // It happens when the attribute is an interface or superclass of the
             // real attribute class
             // In this case, ci must be updated to the real class info
-            if (classInfo != null && !clazz.FullName.Equals(classInfo.GetFullClassName()))
+            if (classInfo != null && !classInfo.GetFullClassName().Equals(clazz.FullName))
             {
                 classInfo = GetClassInfo(className);
                 nnoi = null;

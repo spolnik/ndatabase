@@ -163,7 +163,7 @@ namespace Btree.Odb
         public virtual void Test2a()
         {
             var baseName = GetBaseName();
-            AbstractObjectWriter.ResetNbUpdates();
+            ObjectWriter.ResetNbUpdates();
             // LogUtil.allOn(true);
             DeleteBase(baseName);
             var persister = GetPersister(baseName);
@@ -177,7 +177,7 @@ namespace Btree.Odb
             // println("insert of "+SIZE+" elements in BTREE = " +
             // (end0-start0)+"ms");
             // println("end Commiting");
-            Println(string.Format("NU={0}", AbstractObjectWriter.GetNbNormalUpdates()));
+            Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
             
             persister = GetPersister(baseName);
             // println("reloading btree");

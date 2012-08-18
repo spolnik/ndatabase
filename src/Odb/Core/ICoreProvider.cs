@@ -32,7 +32,7 @@ namespace NDatabase.Odb.Core
         /// <summary>
         ///   Returns the Local Instance Builder
         /// </summary>
-        IInstanceBuilder GetLocalInstanceBuilder(IStorageEngine engine);
+        IInstanceBuilder GetInstanceBuilder(IStorageEngine engine);
 
         IObjectIntrospector GetLocalObjectIntrospector(IStorageEngine engine);
 

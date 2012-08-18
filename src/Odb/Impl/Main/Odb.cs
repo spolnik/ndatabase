@@ -5,23 +5,19 @@ namespace NDatabase.Odb.Impl.Main
     /// <summary>
     ///   The Local ODB implementation.
     /// </summary>
-    /// <remarks>
-    ///   The Local ODB implementation.
-    /// </remarks>
-    /// <author>osmadja</author>
-    internal class LocalOdb : OdbAdapter
+    internal class Odb : OdbAdapter
     {
         /// <summary>
-        ///   protected Constructor with user and password
+        ///   protected Constructor
         /// </summary>
-        protected LocalOdb(string fileName)
+        protected Odb(string fileName)
             : base(OdbConfiguration.GetCoreProvider().GetStorageEngine(new IOFileParameter(fileName, true)))
         {
         }
 
-        internal static LocalOdb GetInstance(string fileName)
+        internal static Odb GetInstance(string fileName)
         {
-            return new LocalOdb(fileName);
+            return new Odb(fileName);
         }
     }
 }

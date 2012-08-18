@@ -151,12 +151,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
 
         public static readonly long ClassOffsetClassNbObjects = ClassOffsetNextClassPosition + OdbType.Long.GetSize();
 
-        public static readonly long ClassOffsetClassFirstObjectPosition = ClassOffsetClassNbObjects +
-                                                                          OdbType.Long.GetSize();
-
-        public static readonly long ClassOffsetClassLastObjectPosition = ClassOffsetClassFirstObjectPosition +
-                                                                         OdbType.Long.GetSize();
-
         public static readonly long ClassOffsetFullClassNameSize = ClassOffsetNextClassPosition + OdbType.Long.GetSize();
 
         public static readonly long ObjectOffsetBlockType = ObjectOffsetBlockSize + OdbType.Integer.GetSize();

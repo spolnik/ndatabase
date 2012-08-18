@@ -5,8 +5,9 @@ using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Core.Trigger;
 using NDatabase.Odb.Impl.Core.Query.Criteria;
+using Trigger;
 
-namespace Trigger
+namespace Test.Neodatis.Odb.Test.Trigger
 {
     public class LocalAutoIncrementTrigger : InsertTrigger
     {

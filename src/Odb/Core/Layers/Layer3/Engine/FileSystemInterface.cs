@@ -9,11 +9,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
     /// <summary>
     ///   Class that knows how to read/write all language native types : byte, char, String, int, long,....
     /// </summary>
-    /// <remarks>
-    ///   Class that knows how to read/write all language native types : byte, char, String, int, long,....
-    /// </remarks>
-    /// <author>osmadja</author>
-    public abstract class FileSystemInterface : IFileSystemInterface
+    public sealed class FileSystemInterface : IFileSystemInterface
     {
         private const byte ReservedSpace = 128;
 
@@ -26,16 +22,17 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         private readonly IByteArrayConverter _byteArrayConverter;
         private readonly bool _canLog;
         private readonly IBaseIdentification _parameters;
+        private readonly ISession _session;
 
         private IBufferedIO _io;
         private readonly string _name;
 
-        protected FileSystemInterface(string name, string fileName, bool canWrite, bool canLog, int bufferSize)
-            : this(name, new IOFileParameter(fileName, canWrite), canLog, bufferSize)
+        public FileSystemInterface(string name, string fileName, bool canWrite, bool canLog, int bufferSize, ISession session)
+            : this(name, new IOFileParameter(fileName, canWrite), canLog, bufferSize, session)
         {
         }
 
-        protected FileSystemInterface(string name, IBaseIdentification parameters, bool canLog, int bufferSize)
+        public FileSystemInterface(string name, IBaseIdentification parameters, bool canLog, int bufferSize, ISession session)
         {
             _name = name;
             _parameters = parameters;
@@ -43,6 +40,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var coreProvider = OdbConfiguration.GetCoreProvider();
             _io = coreProvider.GetIO(name, parameters, bufferSize);
             _byteArrayConverter = coreProvider.GetByteArrayConverter();
+            _session = session;
         }
 
         public static int NbCall1 { get; private set; }
@@ -710,7 +708,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         #endregion
 
-        public abstract ISession GetSession();
+        public ISession GetSession()
+        {
+            return _session;
+        }
 
         /// <summary>
         ///   Writing at position &lt; DATABASE_HEADER_PROTECTED_ZONE_SIZE is writing in ODB Header place.

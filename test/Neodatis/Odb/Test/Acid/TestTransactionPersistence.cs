@@ -1,10 +1,9 @@
-using System;
+﻿using System;
 using IO;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Transaction;
-using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Impl.Core.Transaction;
 using NUnit.Framework;
 using Test.Odb.Test;
@@ -41,10 +40,10 @@ namespace Acid
             var byteArrayConverter = OdbConfiguration.GetCoreProvider().GetByteArrayConverter();
             var size = 1000;
             ISession session = new MockSession("test2.neodatis");
-            IFileSystemInterface fsi = new LocalFileSystemInterface("test", session,
+            IFileSystemInterface fsi = new FileSystemInterface("test",
                                                                     new IOFileParameter("test2.neodatis",
                                                                                         true), false,
-                                                                    OdbConfiguration.GetDefaultBufferSizeForData());
+                                                                    OdbConfiguration.GetDefaultBufferSizeForData(), session);
             var transaction = new DefaultTransaction(session, fsi);
             transaction.SetArchiveLog(true);
             for (var i = 0; i < size; i++)

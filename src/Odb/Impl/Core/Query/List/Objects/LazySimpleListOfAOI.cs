@@ -133,11 +133,11 @@ namespace NDatabase.Odb.Impl.Core.Query.List.Objects
                     if (_instanceBuilder == null)
                     {
                         // Lookup the instance builder
-                        _instanceBuilder = (IInstanceBuilder) LookupFactory.Get(_sessionId).Get(LocalInstanceBuilder.InstanceBuilder);
+                        _instanceBuilder = (IInstanceBuilder) LookupFactory.Get(_sessionId).Get(InstanceBuilder.InstanceBuilderKey);
 
                         if (_instanceBuilder == null)
                             throw new OdbRuntimeException(
-                                NDatabaseError.LookupKeyNotFound.AddParameter(LocalInstanceBuilder.InstanceBuilder));
+                                NDatabaseError.LookupKeyNotFound.AddParameter(InstanceBuilder.InstanceBuilderKey));
                     }
 
                     return (T) _instanceBuilder.BuildOneInstance((NonNativeObjectInfo) aoi);

@@ -14,7 +14,7 @@ namespace NDatabase.Odb
         /// <returns> A local ODB implementation </returns>
         public static IOdb Open(string fileName)
         {
-            return LocalOdb.GetInstance(fileName);
+            return Impl.Main.Odb.GetInstance(fileName);
         }
     }
 }

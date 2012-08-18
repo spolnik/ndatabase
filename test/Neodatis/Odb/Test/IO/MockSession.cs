@@ -27,7 +27,7 @@ namespace IO
         {
             try
             {
-                return new MockStorageEngine();
+                return new StorageEngine(new MockBaseIdentification());
             }
             catch (Exception e)
             {

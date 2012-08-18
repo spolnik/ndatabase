@@ -850,7 +850,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
 
         private IInstanceBuilder BuildInstanceBuilder()
         {
-            return OdbConfiguration.GetCoreProvider().GetLocalInstanceBuilder(_storageEngine);
+            return OdbConfiguration.GetCoreProvider().GetInstanceBuilder(_storageEngine);
         }
 
         /// <summary>
