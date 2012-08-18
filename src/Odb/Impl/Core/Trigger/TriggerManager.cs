@@ -11,7 +11,7 @@ using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb.Impl.Core.Trigger
 {
-    public class DefaultTriggerManager : ITriggerManager
+    public sealed class TriggerManager : ITriggerManager
     {
         private const string AllClassTrigger = "__all_class_";
 
@@ -37,7 +37,7 @@ namespace NDatabase.Odb.Impl.Core.Trigger
         /// </summary>
         private IDictionary<string, IOdbList<Odb.Core.Trigger.Trigger>> _listOfUpdateTriggers;
 
-        public DefaultTriggerManager(IStorageEngine engine)
+        public TriggerManager(IStorageEngine engine)
         {
             _storageEngine = engine;
             Init();
@@ -45,47 +45,47 @@ namespace NDatabase.Odb.Impl.Core.Trigger
 
         #region ITriggerManager Members
 
-        public virtual void AddUpdateTriggerFor(string className, UpdateTrigger trigger)
+        public void AddUpdateTriggerFor(string className, UpdateTrigger trigger)
         {
             AddTriggerFor(className, trigger, _listOfUpdateTriggers);
         }
 
-        public virtual void AddInsertTriggerFor(string className, InsertTrigger trigger)
+        public void AddInsertTriggerFor(string className, InsertTrigger trigger)
         {
             AddTriggerFor(className, trigger, _listOfInsertTriggers);
         }
 
-        public virtual void AddDeleteTriggerFor(string className, DeleteTrigger trigger)
+        public void AddDeleteTriggerFor(string className, DeleteTrigger trigger)
         {
             AddTriggerFor(className, trigger, _listOfDeleteTriggers);
         }
 
-        public virtual void AddSelectTriggerFor(string className, SelectTrigger trigger)
+        public void AddSelectTriggerFor(string className, SelectTrigger trigger)
         {
             AddTriggerFor(className, trigger, _listOfSelectTriggers);
         }
 
-        public virtual bool HasDeleteTriggersFor(string classsName)
+        public bool HasDeleteTriggersFor(string classsName)
         {
             return _listOfDeleteTriggers.ContainsKey(classsName) || _listOfDeleteTriggers.ContainsKey(AllClassTrigger);
         }
 
-        public virtual bool HasInsertTriggersFor(string className)
+        public bool HasInsertTriggersFor(string className)
         {
             return _listOfInsertTriggers.ContainsKey(className) || _listOfInsertTriggers.ContainsKey(AllClassTrigger);
         }
 
-        public virtual bool HasSelectTriggersFor(string className)
+        public bool HasSelectTriggersFor(string className)
         {
             return _listOfSelectTriggers.ContainsKey(className) || _listOfSelectTriggers.ContainsKey(AllClassTrigger);
         }
 
-        public virtual bool HasUpdateTriggersFor(string className)
+        public bool HasUpdateTriggersFor(string className)
         {
             return _listOfUpdateTriggers.ContainsKey(className) || _listOfUpdateTriggers.ContainsKey(AllClassTrigger);
         }
 
-        public virtual bool ManageInsertTriggerBefore(string className, object @object)
+        public bool ManageInsertTriggerBefore(string className, object @object)
         {
             if (HasInsertTriggersFor(className))
             {
@@ -96,7 +96,7 @@ namespace NDatabase.Odb.Impl.Core.Trigger
 
                     try
                     {
-                        if (!IsNull(@object))
+                        if (@object != null)
                             trigger.BeforeInsert(Transform(@object));
                     }
                     catch (Exception e)
@@ -114,7 +114,7 @@ namespace NDatabase.Odb.Impl.Core.Trigger
             return true;
         }
 
-        public virtual void ManageInsertTriggerAfter(string className, object @object, OID oid)
+        public void ManageInsertTriggerAfter(string className, object @object, OID oid)
         {
             if (!HasInsertTriggersFor(className))
                 return;
@@ -140,7 +140,7 @@ namespace NDatabase.Odb.Impl.Core.Trigger
             }
         }
 
-        public virtual bool ManageUpdateTriggerBefore(string className, NonNativeObjectInfo oldNnoi, object newObject,
+        public bool ManageUpdateTriggerBefore(string className, NonNativeObjectInfo oldNnoi, object newObject,
                                                       OID oid)
         {
             if (HasUpdateTriggersFor(className))
@@ -152,7 +152,7 @@ namespace NDatabase.Odb.Impl.Core.Trigger
 
                     try
                     {
-                        trigger.BeforeUpdate(new DefaultObjectRepresentation(oldNnoi), Transform(newObject), oid);
+                        trigger.BeforeUpdate(new ObjectRepresentation(oldNnoi), Transform(newObject), oid);
                     }
                     catch (Exception e)
                     {
@@ -168,7 +168,7 @@ namespace NDatabase.Odb.Impl.Core.Trigger
             return true;
         }
 
-        public virtual void ManageUpdateTriggerAfter(string className, NonNativeObjectInfo oldNnoi, object newObject,
+        public void ManageUpdateTriggerAfter(string className, NonNativeObjectInfo oldNnoi, object newObject,
                                                      OID oid)
         {
             if (!HasUpdateTriggersFor(className))
@@ -181,7 +181,7 @@ namespace NDatabase.Odb.Impl.Core.Trigger
 
                 try
                 {
-                    trigger.AfterUpdate(new DefaultObjectRepresentation(oldNnoi), Transform(newObject), oid);
+                    trigger.AfterUpdate(new ObjectRepresentation(oldNnoi), Transform(newObject), oid);
                 }
                 catch (Exception e)
                 {
@@ -195,7 +195,7 @@ namespace NDatabase.Odb.Impl.Core.Trigger
             }
         }
 
-        public virtual bool ManageDeleteTriggerBefore(string className, object @object, OID oid)
+        public bool ManageDeleteTriggerBefore(string className, object @object, OID oid)
         {
             if (HasDeleteTriggersFor(className))
             {
@@ -222,7 +222,7 @@ namespace NDatabase.Odb.Impl.Core.Trigger
             return true;
         }
 
-        public virtual void ManageDeleteTriggerAfter(string className, object @object, OID oid)
+        public void ManageDeleteTriggerAfter(string className, object @object, OID oid)
         {
             if (!HasDeleteTriggersFor(className))
                 return;
@@ -248,7 +248,7 @@ namespace NDatabase.Odb.Impl.Core.Trigger
             }
         }
 
-        public virtual void ManageSelectTriggerAfter(string className, object @object, OID oid)
+        public void ManageSelectTriggerAfter(string className, object @object, OID oid)
         {
             if (!HasSelectTriggersFor(className))
                 return;
@@ -258,7 +258,7 @@ namespace NDatabase.Odb.Impl.Core.Trigger
                 if (trigger.Odb == null)
                     trigger.Odb = new OdbForTrigger(_storageEngine);
 
-                if (!IsNull(@object))
+                if (@object != null)
                     trigger.AfterSelect(Transform(@object), oid);
             }
         }
@@ -266,7 +266,7 @@ namespace NDatabase.Odb.Impl.Core.Trigger
         /// <summary>
         ///   For the default object trigger, no transformation is needed
         /// </summary>
-        public virtual object Transform(object @object)
+        public object Transform(object @object)
         {
             return @object;
         }
@@ -303,22 +303,22 @@ namespace NDatabase.Odb.Impl.Core.Trigger
         /// </summary>
         /// <param name="className"> </param>
         /// <returns> </returns>
-        public virtual IOdbList<Odb.Core.Trigger.Trigger> GetListOfDeleteTriggersFor(string className)
+        public IOdbList<Odb.Core.Trigger.Trigger> GetListOfDeleteTriggersFor(string className)
         {
             return GetListOfTriggersFor(className, _listOfDeleteTriggers);
         }
 
-        public virtual IOdbList<Odb.Core.Trigger.Trigger> GetListOfInsertTriggersFor(string className)
+        public IOdbList<Odb.Core.Trigger.Trigger> GetListOfInsertTriggersFor(string className)
         {
             return GetListOfTriggersFor(className, _listOfInsertTriggers);
         }
 
-        public virtual IOdbList<Odb.Core.Trigger.Trigger> GetListOfSelectTriggersFor(string className)
+        public IOdbList<Odb.Core.Trigger.Trigger> GetListOfSelectTriggersFor(string className)
         {
             return GetListOfTriggersFor(className, _listOfSelectTriggers);
         }
 
-        public virtual IOdbList<Odb.Core.Trigger.Trigger> GetListOfUpdateTriggersFor(string className)
+        public IOdbList<Odb.Core.Trigger.Trigger> GetListOfUpdateTriggersFor(string className)
         {
             return GetListOfTriggersFor(className, _listOfUpdateTriggers);
         }
@@ -345,11 +345,6 @@ namespace NDatabase.Odb.Impl.Core.Trigger
             }
 
             return listOfTriggersBuClassName;
-        }
-
-        protected virtual bool IsNull(object @object)
-        {
-            return @object == null;
         }
     }
 }

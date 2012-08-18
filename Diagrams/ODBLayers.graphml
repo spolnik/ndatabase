@@ -16,7 +16,6 @@
     <data key="d7"/>
     <node id="n0" yfiles.foldertype="group">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -46,7 +45,6 @@
       <graph edgedefault="directed" id="n0:">
         <node id="n0::n0">
           <data key="d4"/>
-          <data key="d5"/>
           <data key="d6">
             <y:UMLClassNode>
               <y:Geometry height="28.0" width="264.0" x="324.5999999999998" y="477.37646484375"/>
@@ -67,13 +65,12 @@
           </data>
         </node>
         <node id="n0::n1">
-          <data key="d5"/>
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.loopLimit">
               <y:Geometry height="76.19999999999993" width="121.60000000000014" x="618.5999999999998" y="477.37646484374994"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="48.103515625" modelName="custom" textColor="#000000" visible="true" width="112.01171875" x="4.794140625000068" y="14.048242187499909">ClassInfo
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="48.103515625" modelName="custom" textColor="#000000" visible="true" width="112.01171875" x="4.794140625000068" y="14.048242187499966">ClassInfo
 AbstractObjectInfo
 ClassInfoIndex
 <y:LabelModel>
@@ -90,7 +87,6 @@ ClassInfoIndex
           </data>
         </node>
         <node id="n0::n2">
-          <data key="d5"/>
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.loopLimit">
               <y:Geometry height="76.19999999999982" width="121.60000000000014" x="770.1999999999999" y="477.37646484375"/>
@@ -114,7 +110,6 @@ ObjectInfoHeader<y:LabelModel>
       </graph>
     </node>
     <node id="n1">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="BevelNode2">
           <y:Geometry height="59.0" width="224.0" x="491.5" y="173.0"/>
@@ -131,7 +126,6 @@ ObjectInfoHeader<y:LabelModel>
       </data>
     </node>
     <node id="n2">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="BevelNode2">
           <y:Geometry height="59.0" width="224.0" x="491.5" y="262.0"/>
@@ -148,7 +142,6 @@ ObjectInfoHeader<y:LabelModel>
       </data>
     </node>
     <node id="n3">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="BevelNode2">
           <y:Geometry height="59.0" width="224.0" x="491.5" y="351.0"/>
@@ -166,7 +159,6 @@ ObjectInfoHeader<y:LabelModel>
     </node>
     <node id="n4">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="28.0" width="176.0" x="285.5" y="173.0"/>
@@ -187,14 +179,12 @@ ObjectInfoHeader<y:LabelModel>
       </data>
     </node>
     <node id="n5">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.userMessage">
           <y:Geometry height="65.0" width="176.0" x="285.5" y="216.0"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="48.103515625" modelName="custom" textColor="#000000" visible="true" width="141.384765625" x="17.3076171875" y="8.4482421875">IClassIntrospector
-AbstractClassIntrospector
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" modelName="custom" textColor="#000000" visible="true" width="105.37890625" x="35.310546875" y="15.798828125">IClassIntrospector
 IObjectIntrospector
 <y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
@@ -211,7 +201,6 @@ IObjectIntrospector
     </node>
     <node id="n6">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="28.0" width="176.0" x="285.5" y="382.0"/>
@@ -233,7 +222,6 @@ IObjectIntrospector
     </node>
     <node id="n7">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="28.0" width="171.0" x="745.5" y="382.0"/>
@@ -254,7 +242,6 @@ IObjectIntrospector
       </data>
     </node>
     <node id="n8">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.userMessage">
           <y:Geometry height="65.0" width="176.0" x="285.5" y="300.5"/>
@@ -277,14 +264,12 @@ IIdManager<y:LabelModel>
       </data>
     </node>
     <node id="n9">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.networkMessage">
           <y:Geometry height="65.0" width="171.0" x="745.5" y="216.0"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" modelName="custom" textColor="#000000" visible="true" width="130.732421875" x="20.1337890625" y="15.798828125">IInstanceBuilder
-AbstractInstanceBuilder<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="custom" textColor="#000000" visible="true" width="90.05078125" x="40.474609375" y="23.1494140625">IInstanceBuilder<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -298,7 +283,6 @@ AbstractInstanceBuilder<y:LabelModel>
       </data>
     </node>
     <node id="n10">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.networkMessage">
           <y:Geometry height="65.0" width="171.0" x="745.5" y="303.5"/>
@@ -321,7 +305,6 @@ IFileSystemInterface<y:LabelModel>
     </node>
     <node id="n11">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="28.0" width="171.0" x="745.5" y="173.0"/>
@@ -343,7 +326,6 @@ IFileSystemInterface<y:LabelModel>
     </node>
     <node id="n12">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="28.0" width="631.0" x="285.5" y="115.0"/>
@@ -364,7 +346,6 @@ IFileSystemInterface<y:LabelModel>
       </data>
     </node>
     <edge id="e0" source="n1" target="n2">
-      <data key="d9"/>
       <data key="d10">
         <y:ArcEdge>
           <y:Path sx="-112.02197265625" sy="0.0" tx="-112.02197265625" ty="0.0">
@@ -377,7 +358,6 @@ IFileSystemInterface<y:LabelModel>
       </data>
     </edge>
     <edge id="e1" source="n2" target="n3">
-      <data key="d9"/>
       <data key="d10">
         <y:ArcEdge>
           <y:Path sx="-112.02197265625" sy="0.0" tx="-112.02197265625" ty="0.0">
@@ -390,7 +370,6 @@ IFileSystemInterface<y:LabelModel>
       </data>
     </edge>
     <edge id="e2" source="n3" target="n2">
-      <data key="d9"/>
       <data key="d10">
         <y:ArcEdge>
           <y:Path sx="112.02197265625" sy="0.0" tx="112.02197265625" ty="0.0">
@@ -403,7 +382,6 @@ IFileSystemInterface<y:LabelModel>
       </data>
     </edge>
     <edge id="e3" source="n2" target="n1">
-      <data key="d9"/>
       <data key="d10">
         <y:ArcEdge>
           <y:Path sx="112.02197265625" sy="0.0" tx="112.02197265625" ty="0.0">

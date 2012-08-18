@@ -3,28 +3,34 @@ namespace Test.Odb.Test.Update.Nullobject
 	/// <summary>Profile</summary>
 	public class Profile
 	{
-		private string name;
+	    protected bool Equals(Profile other)
+	    {
+	        return string.Equals(_name, other._name);
+	    }
+
+	    public override int GetHashCode()
+	    {
+	        return (_name != null
+	                    ? _name.GetHashCode()
+	                    : 0);
+	    }
+
+	    private readonly string _name;
 
 		public Profile(string name)
 		{
-			this.name = name;
+			this._name = name;
 		}
 
 		public override string ToString()
 		{
-			return "[" + name + "]";
+			return "[" + _name + "]";
 		}
 
 		/// <returns>Returns the name.</returns>
 		public virtual string GetName()
 		{
-			return name;
-		}
-
-		/// <param name="name">The name to set.</param>
-		public virtual void SetName(string name)
-		{
-			this.name = name;
+			return _name;
 		}
 
 		/// <summary>return boolean</summary>
@@ -42,7 +48,7 @@ namespace Test.Odb.Test.Update.Nullobject
 				}
 				else
 				{
-					return name.Equals(((Profile)obj).GetName());
+					return _name.Equals(((Profile)obj).GetName());
 				}
 			}
 		}

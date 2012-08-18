@@ -154,7 +154,7 @@ namespace NDatabase.Odb.Impl.Main
                 classInfo = classInfoList.GetMainClassInfo();
             }
 
-            return new DefaultClassRepresentation(_storageEngine, classInfo);
+            return new ClassRepresentation(_storageEngine, classInfo);
         }
 
         public virtual void AddUpdateTrigger(Type clazz, UpdateTrigger trigger)

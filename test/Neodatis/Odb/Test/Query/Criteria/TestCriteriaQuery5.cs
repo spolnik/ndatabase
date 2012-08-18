@@ -1,4 +1,3 @@
-using System;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NUnit.Framework;
@@ -9,8 +8,6 @@ namespace Test.Odb.Test.Query.Criteria
     [TestFixture]
     public class TestCriteriaQuery5 : ODBTest
     {
-        private DateTime correctDate;
-
         /// <exception cref="System.Exception"></exception>
         [Test]
         public virtual void TestCriteriaWithDate()

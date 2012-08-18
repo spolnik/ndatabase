@@ -17,7 +17,7 @@ namespace NDatabase.Odb.Impl.Core.Transaction
     ///   The WriteAction class is the description of a Write operation that will be applied to the main database file when committing. All operations(writes) that can not be written to the database file before committing , pointers (for example) are stored in WriteAction objects. The transaction keeps track of all these WriteActions. When committing, the transaction apply each WriteAction to the engine database file.
     /// </remarks>
     /// <author>osmadja</author>
-    public class DefaultWriteAction : IWriteAction
+    public sealed class WriteAction : IWriteAction
     {
         public const int UnknownWriteAction = 0;
         public const int DataWriteAction = 1;
@@ -33,19 +33,15 @@ namespace NDatabase.Odb.Impl.Core.Transaction
 
         private int _size;
 
-        public DefaultWriteAction(long position) : this(position, null)
+        public WriteAction(long position) : this(position, null)
         {
         }
 
-        public DefaultWriteAction(long position, byte[] bytes) : this(position, bytes, null)
-        {
-        }
-
-        public DefaultWriteAction(long position, byte[] bytes, string label)
+        public WriteAction(long position, byte[] bytes)
         {
             _byteArrayConverter = OdbConfiguration.GetCoreProvider().GetByteArrayConverter();
             _position = position;
-            //TODO:perf should init with no default size?
+
             _listOfBytes = new OdbArrayList<byte[]>(20);
             if (bytes != null)
             {
@@ -56,23 +52,23 @@ namespace NDatabase.Odb.Impl.Core.Transaction
 
         #region IWriteAction Members
 
-        public virtual long GetPosition()
+        public long GetPosition()
         {
             return _position;
         }
 
-        public virtual byte[] GetBytes(int index)
+        public byte[] GetBytes(int index)
         {
             return _listOfBytes[index];
         }
 
-        public virtual void AddBytes(byte[] bytes)
+        public void AddBytes(byte[] bytes)
         {
             _listOfBytes.Add(bytes);
             _size += bytes.Length;
         }
 
-        public virtual void Persist(IFileSystemInterface fsi, int index)
+        public void Persist(IFileSystemInterface fsi, int index)
         {
             var currentPosition = fsi.GetPosition();
             
@@ -112,7 +108,7 @@ namespace NDatabase.Odb.Impl.Core.Transaction
                     NDatabaseError.DifferentSizeInWriteAction.AddParameter(_size).AddParameter(writeSize));
         }
 
-        public virtual void ApplyTo(IFileSystemInterface fsi, int index)
+        public void ApplyTo(IFileSystemInterface fsi, int index)
         {
             if (OdbConfiguration.IsDebugEnabled(LogId))
                 DLogger.Debug(string.Format("Applying WriteAction #{0} : {1}", index, ToString()));
@@ -122,26 +118,26 @@ namespace NDatabase.Odb.Impl.Core.Transaction
                 fsi.WriteBytes(GetBytes(i), false, "WriteAction");
         }
 
-        public virtual bool IsEmpty()
+        public bool IsEmpty()
         {
             return _listOfBytes == null || _listOfBytes.IsEmpty();
         }
 
         #endregion
 
-        public virtual void SetPosition(long position)
+        public void SetPosition(long position)
         {
             _position = position;
         }
 
-        public static DefaultWriteAction Read(IFileSystemInterface fsi, int index)
+        public static WriteAction Read(IFileSystemInterface fsi, int index)
         {
             try
             {
                 var position = fsi.ReadLong();
                 var size = fsi.ReadInt();
                 var bytes = fsi.ReadBytes(size);
-                var writeAction = new DefaultWriteAction(position, bytes);
+                var writeAction = new WriteAction(position, bytes);
 
                 if (OdbConfiguration.IsDebugEnabled(LogId))
                     DLogger.Debug(string.Format("Loading Write Action # {0} at {1} => {2}", index, fsi.GetPosition(), writeAction));
@@ -174,7 +170,7 @@ namespace NDatabase.Odb.Impl.Core.Transaction
             return buffer.ToString();
         }
 
-        public virtual void Clear()
+        public void Clear()
         {
             _listOfBytes.Clear();
             _listOfBytes = null;

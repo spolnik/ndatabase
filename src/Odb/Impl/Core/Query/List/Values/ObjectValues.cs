@@ -5,9 +5,8 @@ using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb.Impl.Core.Query.List.Values
 {
-    /// <author>osmadja</author>
     [Serializable]
-    public class DefaultObjectValues : IObjectValues
+    public sealed class ObjectValues : IObjectValues
     {
         /// <summary>
         ///   key=alias,value=value
@@ -16,7 +15,7 @@ namespace NDatabase.Odb.Impl.Core.Query.List.Values
 
         private readonly object[] _valuesByIndex;
 
-        public DefaultObjectValues(int size)
+        public ObjectValues(int size)
         {
             _valuesByIndex = new object[size];
             _valuesByAlias = new OdbHashMap<string, object>();
@@ -24,7 +23,7 @@ namespace NDatabase.Odb.Impl.Core.Query.List.Values
 
         #region IObjectValues Members
 
-        public virtual object GetByAlias(string alias)
+        public object GetByAlias(string alias)
         {
             var valueByAlias = _valuesByAlias[alias];
 
@@ -37,19 +36,19 @@ namespace NDatabase.Odb.Impl.Core.Query.List.Values
             return valueByAlias;
         }
 
-        public virtual object GetByIndex(int index)
+        public object GetByIndex(int index)
         {
             return _valuesByIndex[index];
         }
 
-        public virtual object[] GetValues()
+        public object[] GetValues()
         {
             return _valuesByIndex;
         }
 
         #endregion
 
-        public virtual void Set(int index, string alias, object value)
+        public void Set(int index, string alias, object value)
         {
             _valuesByIndex[index] = value;
             _valuesByAlias.Add(alias, value);

@@ -71,8 +71,6 @@ namespace Ext
             DeleteBase("extd");
             var odb = Open("extd");
             var size = 100;
-            long updateDate = 0;
-            long creationDate = 0;
             var oid = odb.Store(new Function("f"));
             odb.Close();
             odb = Open("extd");
@@ -99,9 +97,7 @@ namespace Ext
             DeleteBase("ext2");
             var odb = Open("ext2");
             var size = 100;
-            long updateDate = 0;
-            long creationDate = 0;
-            // LogUtil.allOn(true);
+            
             var oid = odb.Store(new Function("f"));
             odb.Close();
             odb = Open("ext2");

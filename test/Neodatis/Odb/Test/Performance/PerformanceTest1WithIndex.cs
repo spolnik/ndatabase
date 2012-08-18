@@ -28,11 +28,9 @@ namespace Test.Odb.Test.Performance
             TestSize = size;
             var doUpdate = true;
             var doDelete = true;
-            var commitInterval = 100;
-            // Configuration.setUseLazyCache(true);
+            
             var inMemory = true;
-            // Configuration.monitorMemory(true);
-            // Configuration.setUseModifiedClass(true);
+            
             // Deletes the database file
             DeleteBase(OdbFileName);
             long t1 = 0;

@@ -76,7 +76,7 @@ namespace Test.Odb.Test.Arraycollectionmap
                 odb.Close();
                 odb = null;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 if (odb != null)
                 {
@@ -117,7 +117,7 @@ namespace Test.Odb.Test.Arraycollectionmap
                 odb.Close();
                 odb = null;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 if (odb != null)
                 {
@@ -159,7 +159,7 @@ namespace Test.Odb.Test.Arraycollectionmap
                 odb = null;
                 DeleteBase("array5.neodatis");
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 if (odb != null)
                 {
@@ -207,12 +207,11 @@ namespace Test.Odb.Test.Arraycollectionmap
                 odb.Close();
                 DeleteBase("array7.neodatis");
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 if (odb != null)
                 {
                     odb.Rollback();
-                    odb = null;
                 }
                 throw;
             }
@@ -251,7 +250,7 @@ namespace Test.Odb.Test.Arraycollectionmap
                 AssertEquals(1, o.GetNumber(0));
                 AssertEquals(1, o.GetNumber(1));
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 if (odb != null)
                 {
@@ -301,7 +300,7 @@ namespace Test.Odb.Test.Arraycollectionmap
                 AssertEquals(0, o.GetNumber(0));
                 AssertEquals(78, o.GetNumber(1));
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 if (odb != null)
                 {
@@ -357,12 +356,11 @@ namespace Test.Odb.Test.Arraycollectionmap
                 odb.Close();
                 DeleteBase("array10.neodatis");
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 if (odb != null)
                 {
                     odb.Rollback();
-                    odb = null;
                 }
                 throw;
             }
@@ -395,12 +393,11 @@ namespace Test.Odb.Test.Arraycollectionmap
 
                 DeleteBase("array6.neodatis");
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 if (odb != null)
                 {
                     odb.Rollback();
-                    odb = null;
                 }
                 throw;
             }
@@ -426,7 +423,7 @@ namespace Test.Odb.Test.Arraycollectionmap
                 var l = odb.GetObjects<PlayerWithArray>(new CriteriaQuery(Where.Contain("games", "tennis")));
                 AssertEquals(nb + 1, l.Count);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 if (odb != null)
                 {

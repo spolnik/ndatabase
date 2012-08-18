@@ -20,20 +20,11 @@ namespace Test.Odb.Test.Performance
         [SetUp]
         public virtual void BuildBase()
         {
-            var inMemory = true;
             // Deletes the database file
             OdbFile.DeleteFile(OdbFileName);
             long t1 = 0;
             long t2 = 0;
-            long t3 = 0;
-            long t4 = 0;
-            long t5 = 0;
-            long t6 = 0;
-            long t7 = 0;
-            long t77 = 0;
-            long t8 = 0;
-            IOdb odb = null;
-            SimpleObject so = null;
+            IOdb odb;
             // Insert TEST_SIZE objects
             Console.Out.WriteLine("Inserting " + TestSize + " objects");
             t1 = OdbTime.GetCurrentTimeInTicks();

@@ -2,8 +2,6 @@ namespace Test.Odb.Test.Nativemap
 {
 	public class NativeLongMap
 	{
-		internal int initialCapacity;
-
 		internal int size;
 
 		internal int secondSize;

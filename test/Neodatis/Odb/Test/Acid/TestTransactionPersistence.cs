@@ -19,17 +19,16 @@ namespace Acid
         public virtual void Test4()
         {
             var byteArrayConverter = OdbConfiguration.GetCoreProvider().GetByteArrayConverter();
-            IWriteAction wa1 = new DefaultWriteAction(1, byteArrayConverter.IntToByteArray(1), "size");
+            IWriteAction wa1 = new WriteAction(1, byteArrayConverter.IntToByteArray(1));
             AssertEquals(wa1.GetBytes(0).Length, 4);
 
-            IWriteAction wa2 = new DefaultWriteAction(1,
-                                                      byteArrayConverter.StringToByteArray("ol√° chico", true, -1, true),
-                                                      "size");
+            IWriteAction wa2 = new WriteAction(1,
+                                                      byteArrayConverter.StringToByteArray("ol√° chico", true, -1, true));
             AssertEquals(wa2.GetBytes(0).Length, 29);
 
-            IWriteAction wa3 = new DefaultWriteAction(1,
+            IWriteAction wa3 = new WriteAction(1,
                                                       byteArrayConverter.BigDecimalToByteArray(
-                                                          new Decimal(1.123456789), true), "size");
+                                                          new Decimal(1.123456789), true));
             AssertEquals(wa3.GetBytes(0).Length, 27);
         }
 
@@ -45,7 +44,7 @@ namespace Acid
                                                                     new IOFileParameter("test2.neodatis",
                                                                                         true), false,
                                                                     OdbConfiguration.GetDefaultBufferSizeForData(), session);
-            var transaction = new DefaultTransaction(session, fsi);
+            var transaction = new OdbTransaction(session, fsi);
             transaction.SetArchiveLog(true);
             for (var i = 0; i < size; i++)
             {

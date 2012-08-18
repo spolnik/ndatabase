@@ -136,7 +136,7 @@ namespace Test.Odb.Test.Delete
                 odb.Close();
                 AssertEquals(1, l.Count);
             }
-            catch (OdbRuntimeException e)
+            catch (OdbRuntimeException)
             {
                 DeleteBase(baseName);
                 throw;
@@ -182,7 +182,7 @@ namespace Test.Odb.Test.Delete
                 odb.Close();
                 AssertEquals(1, l.Count);
             }
-            catch (OdbRuntimeException e)
+            catch (OdbRuntimeException)
             {
                 DeleteBase(baseName);
                 throw;
@@ -242,7 +242,7 @@ namespace Test.Odb.Test.Delete
                 AssertEquals("function7", (objects.Next()).GetName());
                 odb.Close();
             }
-            catch (OdbRuntimeException e)
+            catch (OdbRuntimeException)
             {
                 DeleteBase(baseName);
                 throw;

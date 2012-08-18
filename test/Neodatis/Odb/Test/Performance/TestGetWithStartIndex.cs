@@ -30,7 +30,6 @@ namespace Test.Odb.Test.Performance
         public virtual void Test1()
         {
             var odb = Open("start-index.neodatis");
-            string s = null;
             var l = odb.GetObjects<VO.Login.Function>(false, 4, 7);
             AssertEquals(3, l.Count);
             AssertEquals("function 4", l.GetFirst().ToString());

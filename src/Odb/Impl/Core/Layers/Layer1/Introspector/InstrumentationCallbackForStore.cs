@@ -8,14 +8,14 @@ using NDatabase.Tool.Wrappers;
 namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
 {
     /// <author>olivier</author>
-    public sealed class DefaultInstrumentationCallbackForStore : IIntrospectionCallback
+    public sealed class InstrumentationCallbackForStore : IIntrospectionCallback
     {
         private readonly ICrossSessionCache _crossSessionCache;
         private readonly IStorageEngine _engine;
         private readonly bool _isUpdate;
         private readonly ITriggerManager _triggerManager;
 
-        public DefaultInstrumentationCallbackForStore(IStorageEngine engine, ITriggerManager triggerManager,
+        public InstrumentationCallbackForStore(IStorageEngine engine, ITriggerManager triggerManager,
                                                       bool isUpdate)
         {
             _engine = engine;

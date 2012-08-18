@@ -4,11 +4,11 @@ using NDatabase.Odb.Core.Layers.Layer3;
 
 namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Refactor
 {
-    public sealed class DefaultRefactorManager : IRefactorManager
+    public sealed class RefactorManager : IRefactorManager
     {
         private readonly IStorageEngine _storageEngine;
 
-        public DefaultRefactorManager(IStorageEngine storageEngine)
+        public RefactorManager(IStorageEngine storageEngine)
         {
             _storageEngine = storageEngine;
         }

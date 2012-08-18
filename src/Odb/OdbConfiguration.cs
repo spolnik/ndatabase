@@ -108,8 +108,6 @@ namespace NDatabase.Odb
         /// </summary>
         private static bool _displayWarnings = true;
 
-        private static IQueryExecutorCallback _queryExecutorCallback;
-
         /// <summary>
         ///   Scale used for average action *
         /// </summary>
@@ -436,18 +434,6 @@ namespace NDatabase.Odb
             _defaultIndexBTreeDegree = defaultIndexBTreeSize;
         }
 
-        /// <returns> the queryExecutorCallback </returns>
-        public static IQueryExecutorCallback GetQueryExecutorCallback()
-        {
-            return _queryExecutorCallback;
-        }
-
-        /// <param name="queryExecutorCallback"> the queryExecutorCallback to set </param>
-        public static void SetQueryExecutorCallback(IQueryExecutorCallback queryExecutorCallback)
-        {
-            _queryExecutorCallback = queryExecutorCallback;
-        }
-
         /// <returns> the useCache </returns>
         public static bool IsUseCache()
         {
@@ -549,7 +535,7 @@ namespace NDatabase.Odb
             {
                 // Checks if encoding is valid, using it in the String.getBytes
                 // method
-                new DefaultByteArrayConverter().TestEncoding(dbCharacterEncoding);
+                new ByteArrayConverter().TestEncoding(dbCharacterEncoding);
                 _databaseCharacterEncoding = dbCharacterEncoding;
             }
             else

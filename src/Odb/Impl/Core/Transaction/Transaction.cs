@@ -25,7 +25,7 @@ namespace NDatabase.Odb.Impl.Core.Transaction
     ///     of very big transaction where all WriteActions can not be stored in memory.</pre>
     /// </remarks>
     /// <author>osmadja</author>
-    public sealed class DefaultTransaction : ITransaction
+    public sealed class OdbTransaction : ITransaction
     {
         /// <summary>
         ///   the log module name
@@ -109,12 +109,12 @@ namespace NDatabase.Odb.Impl.Core.Transaction
         /// </summary>
         /// <param name="session"> The transaction session </param>
         /// <exception cref="System.IO.IOException">System.IO.IOException</exception>
-        public DefaultTransaction(ISession session)
+        public OdbTransaction(ISession session)
         {
             Init(session);
         }
 
-        public DefaultTransaction(ISession session, IFileSystemInterface fsiToApplyTransaction)
+        public OdbTransaction(ISession session, IFileSystemInterface fsiToApplyTransaction)
         {
             _fsiToApplyWriteActions = fsiToApplyTransaction;
             Init(session);
@@ -277,13 +277,13 @@ namespace NDatabase.Odb.Impl.Core.Transaction
                 _currentWritePositionInWa = position;
                 if (_currentWriteAction != null)
                     AddWriteAction(_currentWriteAction);
-                _currentWriteAction = new DefaultWriteAction(position);
+                _currentWriteAction = new WriteAction(position);
             }
             else
             {
                 if (_currentWriteAction == null)
                 {
-                    _currentWriteAction = new DefaultWriteAction(position);
+                    _currentWriteAction = new WriteAction(position);
                     _currentWritePositionInWa = position;
                 }
             }
@@ -366,7 +366,7 @@ namespace NDatabase.Odb.Impl.Core.Transaction
                 IEnumerator iterator = _writeActions.GetEnumerator();
                 while (iterator.MoveNext())
                 {
-                    var defaultWriteAction = (DefaultWriteAction) iterator.Current;
+                    var defaultWriteAction = (WriteAction) iterator.Current;
                     defaultWriteAction.Clear();
                 }
 
@@ -430,10 +430,10 @@ namespace NDatabase.Odb.Impl.Core.Transaction
 
             _fsi.SetWritePosition(0, false);
             _fsi.WriteBoolean(_isCommited, false);
-            _fsi.WriteLong(_creationDateTime, false, "creation date", DefaultWriteAction.DirectWriteAction);
+            _fsi.WriteLong(_creationDateTime, false, "creation date", WriteAction.DirectWriteAction);
 
             // Size
-            _fsi.WriteLong(0, false, "size", DefaultWriteAction.DirectWriteAction);
+            _fsi.WriteLong(0, false, "size", WriteAction.DirectWriteAction);
             _hasBeenPersisted = true;
         }
 
@@ -459,7 +459,7 @@ namespace NDatabase.Odb.Impl.Core.Transaction
             // TODO Check atomicity
             // Writes the number of write actions after the byte and date
             _fsi.SetWritePositionNoVerification(OdbType.Byte.GetSize() + OdbType.Long.GetSize(), false);
-            _fsi.WriteLong(_numberOfWriteActions, false, "nb write actions", DefaultWriteAction.DirectWriteAction);
+            _fsi.WriteLong(_numberOfWriteActions, false, "nb write actions", WriteAction.DirectWriteAction);
             // FIXME The fsi.flush should not be called after the last write?
             _fsi.Flush();
             // Only set useBuffer = false when it is a local database to avoid
@@ -657,7 +657,7 @@ namespace NDatabase.Odb.Impl.Core.Transaction
 
             for (var i = 0; i < totalNumberOfWriteActions; i++)
             {
-                var defaultWriteAction = DefaultWriteAction.Read(_fsi, i + 1);
+                var defaultWriteAction = WriteAction.Read(_fsi, i + 1);
 
                 if (apply)
                 {
@@ -704,7 +704,7 @@ namespace NDatabase.Odb.Impl.Core.Transaction
                 // Then sets the read position to read the write action
                 _fsi.SetReadPosition(previousWriteActionPosition);
 
-                IWriteAction writeAction = DefaultWriteAction.Read(_fsi, i + 1);
+                IWriteAction writeAction = WriteAction.Read(_fsi, i + 1);
 
                 if (apply)
                 {
@@ -766,7 +766,7 @@ namespace NDatabase.Odb.Impl.Core.Transaction
             {
                 for (var i = 0; i < _writeActions.Count; i++)
                 {
-                    var wa = (DefaultWriteAction) _writeActions[i];
+                    var wa = (WriteAction) _writeActions[i];
                     wa.ApplyTo(_fsiToApplyWriteActions, i + 1);
                     wa.Clear();
                 }

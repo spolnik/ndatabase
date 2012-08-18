@@ -30,7 +30,7 @@ namespace NDatabase.Odb.Impl
     {
         private static readonly IClassPool ClassPool = new OdbClassPool();
 
-        private static readonly IByteArrayConverter ByteArrayConverter = new DefaultByteArrayConverter();
+        private static readonly IByteArrayConverter ByteArrayConverter = new ByteArrayConverter();
 
         private static IClassIntrospector _classIntrospector;
 
@@ -43,7 +43,7 @@ namespace NDatabase.Odb.Impl
         {
             ByteArrayConverter.Init2();
 
-            _classIntrospector = new DefaultClassIntrospector();
+            _classIntrospector = new ClassIntrospector();
             _classIntrospector.Init2();
         }
 
@@ -88,7 +88,7 @@ namespace NDatabase.Odb.Impl
 
         public IIdManager GetIdManager(IStorageEngine engine)
         {
-            return new DefaultIdManager(engine.GetObjectWriter(), engine.GetObjectReader(),
+            return new IdManager(engine.GetObjectWriter(), engine.GetObjectReader(),
                                         engine.GetCurrentIdBlockPosition(), engine.GetCurrentIdBlockNumber(),
                                         engine.GetCurrentIdBlockMaxOid());
         }
@@ -129,7 +129,7 @@ namespace NDatabase.Odb.Impl
             if (triggerManager != null)
                 return triggerManager;
 
-            triggerManager = new DefaultTriggerManager(engine);
+            triggerManager = new TriggerManager(engine);
             TriggerManagers[engine] = triggerManager;
             return triggerManager;
         }
@@ -146,12 +146,12 @@ namespace NDatabase.Odb.Impl
 
         public IWriteAction GetWriteAction(long position, byte[] bytes)
         {
-            return new DefaultWriteAction(position, bytes);
+            return new WriteAction(position, bytes);
         }
 
         public ITransaction GetTransaction(ISession session, IFileSystemInterface fsi)
         {
-            return new DefaultTransaction(session, fsi);
+            return new OdbTransaction(session, fsi);
         }
 
         public ISession GetLocalSession(IStorageEngine engine)
@@ -161,7 +161,7 @@ namespace NDatabase.Odb.Impl
 
         public IRefactorManager GetRefactorManager(IStorageEngine engine)
         {
-            return new DefaultRefactorManager(engine);
+            return new RefactorManager(engine);
         }
 
         // For query result handler

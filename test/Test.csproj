@@ -180,7 +180,6 @@
     <Compile Include="Neodatis\Odb\Test\Other\ObjectWithOid.cs" />
     <Compile Include="Neodatis\Odb\Test\Other\Person1.cs" />
     <Compile Include="Neodatis\Odb\Test\Other\Student1.cs" />
-    <Compile Include="Neodatis\Odb\Test\Other\Student2.cs" />
     <Compile Include="Neodatis\Odb\Test\Other\Test2Closes.cs" />
     <Compile Include="Neodatis\Odb\Test\Other\TestAgainstNativeObjects.cs" />
     <Compile Include="Neodatis\Odb\Test\Other\TestDownloadManager.cs" />

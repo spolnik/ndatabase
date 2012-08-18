@@ -7,14 +7,14 @@ using NDatabase.Odb.Core.Layers.Layer3;
 namespace NDatabase.Odb.Impl.Main
 {
     [Serializable]
-    public class DefaultClassRepresentation : IClassRepresentation
+    public sealed class ClassRepresentation : IClassRepresentation
     {
         private readonly ClassInfo _classInfo;
 
         private readonly IClassIntrospector _classIntrospector;
         private readonly IStorageEngine _storageEngine;
 
-        public DefaultClassRepresentation(IStorageEngine storageEngine, ClassInfo classInfo)
+        public ClassRepresentation(IStorageEngine storageEngine, ClassInfo classInfo)
         {
             _storageEngine = storageEngine;
             _classInfo = classInfo;
@@ -23,47 +23,47 @@ namespace NDatabase.Odb.Impl.Main
 
         #region IClassRepresentation Members
 
-        public virtual void AddUniqueIndexOn(string name, string[] indexFields, bool verbose)
+        public void AddUniqueIndexOn(string name, string[] indexFields, bool verbose)
         {
             _storageEngine.AddIndexOn(_classInfo.GetFullClassName(), name, indexFields, verbose, false);
         }
 
-        public virtual void AddIndexOn(string name, string[] indexFields, bool verbose)
+        public void AddIndexOn(string name, string[] indexFields, bool verbose)
         {
             _storageEngine.AddIndexOn(_classInfo.GetFullClassName(), name, indexFields, verbose, true);
         }
 
-        public virtual void AddInstantiationHelper(IInstantiationHelper instantiationHelper)
+        public void AddInstantiationHelper(IInstantiationHelper instantiationHelper)
         {
             _classIntrospector.AddInstantiationHelper(_classInfo.GetFullClassName(), instantiationHelper);
         }
 
-        public virtual void AddFullInstantiationHelper(IFullInstantiationHelper instantiationHelper)
+        public void AddFullInstantiationHelper(IFullInstantiationHelper instantiationHelper)
         {
             _classIntrospector.AddFullInstantiationHelper(_classInfo.GetFullClassName(), instantiationHelper);
         }
 
-        public virtual void AddParameterHelper(IParameterHelper parameterHelper)
+        public void AddParameterHelper(IParameterHelper parameterHelper)
         {
             _classIntrospector.AddParameterHelper(_classInfo.GetFullClassName(), parameterHelper);
         }
 
-        public virtual void RemoveInstantiationHelper()
+        public void RemoveInstantiationHelper()
         {
             _classIntrospector.RemoveInstantiationHelper(_classInfo.GetFullClassName());
         }
 
-        public virtual void RemoveFullInstantiationHelper()
+        public void RemoveFullInstantiationHelper()
         {
             _classIntrospector.RemoveInstantiationHelper(_classInfo.GetFullClassName());
         }
 
-        public virtual void RemoveParameterHelper()
+        public void RemoveParameterHelper()
         {
             _classIntrospector.RemoveParameterHelper(_classInfo.GetFullClassName());
         }
 
-        public virtual bool ExistIndex(string indexName)
+        public bool ExistIndex(string indexName)
         {
             return _classInfo.HasIndex(indexName);
         }
@@ -71,12 +71,12 @@ namespace NDatabase.Odb.Impl.Main
         /// <summary>
         ///   Used to rebuild an index
         /// </summary>
-        public virtual void RebuildIndex(string indexName, bool verbose)
+        public void RebuildIndex(string indexName, bool verbose)
         {
             _storageEngine.RebuildIndex(_classInfo.GetFullClassName(), indexName, verbose);
         }
 
-        public virtual void DeleteIndex(string indexName, bool verbose)
+        public void DeleteIndex(string indexName, bool verbose)
         {
             _storageEngine.DeleteIndex(_classInfo.GetFullClassName(), indexName, verbose);
         }

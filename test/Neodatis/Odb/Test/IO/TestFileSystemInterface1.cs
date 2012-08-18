@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Globalization;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer3;
@@ -174,7 +174,7 @@ namespace IO
                                                                     "testLong.neodatis", true, true,
                                                                     OdbConfiguration.GetDefaultBufferSizeForData(), new MockSession("test"));
             fsi.SetWritePosition(0, false);
-            fsi.WriteLong(i, false, "i", DefaultWriteAction.PointerWriteAction);
+            fsi.WriteLong(i, false, "i", WriteAction.PointerWriteAction);
             fsi.Close();
             fsi = new FileSystemInterface("data", "testLong.neodatis",
                                                false, false, OdbConfiguration.GetDefaultBufferSizeForData(), new MockSession("test"));

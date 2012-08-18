@@ -30,113 +30,113 @@ namespace Test.Odb.Test.Update.Nullobject
 			return "[" + ipAddress + "][" + port + "][" + name + "][" + type + "]";
 		}
 
-		public virtual string GetIpAddress()
+		public string GetIpAddress()
 		{
 			return ipAddress;
 		}
 
-		public virtual string GetType()
+		public new string GetType()
 		{
 			return type;
 		}
 
-		public virtual string GetName()
+		public string GetName()
 		{
 			return name;
 		}
 
-		public virtual int GetPort()
+		public int GetPort()
 		{
 			return port;
 		}
 
-		public virtual Constructor GetConstructor()
+		public Constructor GetConstructor()
 		{
 			return constructor;
 		}
 
-		public virtual System.DateTime GetCreationDate()
+		public System.DateTime GetCreationDate()
 		{
 			return creationDate;
 		}
 
-		public virtual bool GetDeleted()
+		public bool GetDeleted()
 		{
 			return deleted;
 		}
 
-		public virtual bool GetStatus()
+		public bool GetStatus()
 		{
 			return status;
 		}
 
-		public virtual System.DateTime GetUpdateDate()
+		public System.DateTime GetUpdateDate()
 		{
 			return updateDate;
 		}
 
-		public virtual User GetUser()
+		public User GetUser()
 		{
 			return user;
 		}
 
-		public virtual void SetConstructor(Constructor
+		public void SetConstructor(Constructor
 			 constructor)
 		{
 			this.constructor = constructor;
 		}
 
-		public virtual void SetCreationDate(System.DateTime creationDate)
+		public void SetCreationDate(System.DateTime creationDate)
 		{
 			this.creationDate = creationDate;
 		}
 
-		public virtual void SetDeleted(bool deleted)
+		public void SetDeleted(bool deleted)
 		{
 			this.deleted = deleted;
 		}
 
-		public virtual void SetStatus(bool status)
+		public void SetStatus(bool status)
 		{
 			this.status = status;
 		}
 
-		public virtual void SetUpdateDate(System.DateTime updateDate)
+		public void SetUpdateDate(System.DateTime updateDate)
 		{
 			this.updateDate = updateDate;
 		}
 
-		public virtual void SetUser(User user)
+		public void SetUser(User user)
 		{
 			this.user = user;
 		}
 
-		public virtual void SetIpAddress(string ipAddress)
+		public void SetIpAddress(string ipAddress)
 		{
 			this.ipAddress = ipAddress;
 		}
 
-		public virtual void SetType(string type)
+		public void SetType(string type)
 		{
 			this.type = type;
 		}
 
-		public virtual void SetName(string name)
+		public void SetName(string name)
 		{
 			this.name = name;
 		}
 
-		public virtual void SetPort(int port)
+		public void SetPort(int port)
 		{
 			this.port = port;
 		}
 
-		public virtual string GetPhysicalAddress()
+		public string GetPhysicalAddress()
 		{
 			return physicalAddress;
 		}
 
-		public virtual void SetPhysicalAddress(string physicalAddress)
+		public void SetPhysicalAddress(string physicalAddress)
 		{
 			this.physicalAddress = physicalAddress;
 		}

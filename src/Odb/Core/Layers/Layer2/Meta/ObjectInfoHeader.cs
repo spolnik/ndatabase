@@ -74,18 +74,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             _position = position;
         }
 
-        //	/**
-        //     * @return Returns the classInfoId.
-        //     */
-        //    public long getClassInfoId() {
-        //        return classInfoId;
-        //    }
-        //    /**
-        //     * @param classInfoId The classInfoId to set.
-        //     */
-        //    public void setClassInfoId(long classInfoId) {
-        //        this.classInfoId = classInfoId;
-        //    }
         public OID GetPreviousObjectOID()
         {
             return _previousObjectOID;

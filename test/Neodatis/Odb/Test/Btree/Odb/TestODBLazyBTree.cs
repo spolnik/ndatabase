@@ -31,7 +31,7 @@ namespace Btree.Odb
                 {
                     t.Test1a();
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     Console.Out.WriteLine("ERROR On loop " + i);
                     throw;

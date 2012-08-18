@@ -25,7 +25,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
 
         public static NonNativeObjectInfo GetNnoi(IObjectRepresentation objectRepresentation)
         {
-            var defaultObjectRepresentation = objectRepresentation as DefaultObjectRepresentation;
+            var defaultObjectRepresentation = objectRepresentation as ObjectRepresentation;
             if (defaultObjectRepresentation != null)
                 return defaultObjectRepresentation.GetNnoi();
 

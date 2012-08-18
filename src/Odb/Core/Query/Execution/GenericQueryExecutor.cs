@@ -24,8 +24,7 @@ namespace NDatabase.Odb.Core.Query.Execution
     public abstract class GenericQueryExecutor : IMultiClassQueryExecutor
     {
         public static readonly string LogId = "GenericQueryExecutor";
-        private readonly IQueryExecutorCallback _callback;
-
+        
         /// <summary>
         ///   The class of the object being fetched
         /// </summary>
@@ -80,7 +79,6 @@ namespace NDatabase.Odb.Core.Query.Execution
             StorageEngine = engine;
             ObjectReader = StorageEngine.GetObjectReader();
             Session = StorageEngine.GetSession(true);
-            _callback = OdbConfiguration.GetQueryExecutorCallback();
             _executeStartAndEndOfQueryAction = true;
         }
 
@@ -314,9 +312,6 @@ namespace NDatabase.Odb.Core.Query.Execution
                                 _orderByKey = BuildOrderByKey(GetCurrentObjectMetaRepresentation());
 
                             queryResultAction.ObjectMatch(currentOID, GetCurrentObjectMetaRepresentation(), _orderByKey);
-
-                            if (_callback != null)
-                                _callback.ReadingObject(i, -1);
                         }
                     }
                 }

@@ -9,11 +9,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Oid
     /// <summary>
     ///   Class to manage the ids of all the objects of the database.
     /// </summary>
-    /// <remarks>
-    ///   Class to manage the ids of all the objects of the database.
-    /// </remarks>
-    /// <author>osmadja</author>
-    public sealed class DefaultIdManager : IIdManager
+    public sealed class IdManager : IIdManager
     {
         private const int IdBufferSize = 10;
         private const string LogId = "IdManager";
@@ -41,7 +37,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Oid
         /// <param name="currentBlockIdPosition"> The position of the current block </param>
         /// <param name="currentBlockIdNumber"> The number of the current block </param>
         /// <param name="currentMaxId"> Maximum Database id </param>
-        public DefaultIdManager(IObjectWriter objectWriter, IObjectReader objectReader, long currentBlockIdPosition,
+        public IdManager(IObjectWriter objectWriter, IObjectReader objectReader, long currentBlockIdPosition,
                                 int currentBlockIdNumber, OID currentMaxId)
         {
             _provider = OdbConfiguration.GetCoreProvider();

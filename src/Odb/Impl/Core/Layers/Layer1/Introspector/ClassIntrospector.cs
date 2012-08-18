@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -26,8 +25,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
     /// <remarks>
     ///   The ClassIntrospector is used to introspect classes. It uses Reflection to extract class information. It transforms a native Class into a ClassInfo (a meta representation of the class) that contains all informations about the class.
     /// </remarks>
-    /// <author>osmadja</author>
-    public abstract class AbstractClassIntrospector : IClassIntrospector
+    public sealed class ClassIntrospector : IClassIntrospector
     {
         private const string LogId = "ClassIntrospector";
 
@@ -59,62 +57,62 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
             return InternalIntrospect(clazz, recursive, null);
         }
 
-        public virtual void AddInstanciationHelper(Type clazz, IInstantiationHelper helper)
+        public void AddInstanciationHelper(Type clazz, IInstantiationHelper helper)
         {
             AddInstantiationHelper(clazz.FullName, helper);
         }
 
-        public virtual void AddParameterHelper(Type clazz, IParameterHelper helper)
+        public void AddParameterHelper(Type clazz, IParameterHelper helper)
         {
             AddParameterHelper(clazz.FullName, helper);
         }
 
-        public virtual void AddFullInstanciationHelper(Type clazz, IFullInstantiationHelper helper)
+        public void AddFullInstanciationHelper(Type clazz, IFullInstantiationHelper helper)
         {
             AddFullInstantiationHelper(clazz.FullName, helper);
         }
 
-        public virtual void AddInstantiationHelper(string clazz, IInstantiationHelper helper)
+        public void AddInstantiationHelper(string clazz, IInstantiationHelper helper)
         {
             _instantiationHelpers.Add(clazz, helper);
         }
 
-        public virtual void AddParameterHelper(string clazz, IParameterHelper helper)
+        public void AddParameterHelper(string clazz, IParameterHelper helper)
         {
             _parameterHelpers.Add(clazz, helper);
         }
 
-        public virtual void AddFullInstantiationHelper(string clazz, IFullInstantiationHelper helper)
+        public void AddFullInstantiationHelper(string clazz, IFullInstantiationHelper helper)
         {
             _fullInstantiationHelpers.Add(clazz, helper);
         }
 
-        public virtual void RemoveInstantiationHelper(Type clazz)
+        public void RemoveInstantiationHelper(Type clazz)
         {
             RemoveInstantiationHelper(clazz.FullName);
         }
 
-        public virtual void RemoveInstantiationHelper(string canonicalName)
+        public void RemoveInstantiationHelper(string canonicalName)
         {
             _instantiationHelpers.Remove(canonicalName);
         }
 
-        public virtual void RemoveParameterHelper(Type clazz)
+        public void RemoveParameterHelper(Type clazz)
         {
             RemoveParameterHelper(clazz.FullName);
         }
 
-        public virtual void RemoveParameterHelper(string canonicalName)
+        public void RemoveParameterHelper(string canonicalName)
         {
             _parameterHelpers.Remove(canonicalName);
         }
 
-        public virtual void RemoveFullInstantiationHelper(Type clazz)
+        public void RemoveFullInstantiationHelper(Type clazz)
         {
             RemoveFullInstantiationHelper(clazz.FullName);
         }
 
-        public virtual void RemoveFullInstantiationHelper(string canonicalName)
+        public void RemoveFullInstantiationHelper(string canonicalName)
         {
             _fullInstantiationHelpers.Remove(canonicalName);
         }
@@ -270,17 +268,13 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
         /// </remarks>
         /// <returns> </returns>
         /// <returns> A map where the key is the class name and the key is the ClassInfo: the class meta representation </returns>
-        public virtual IDictionary<string, ClassInfo> Instrospect(IOdbList<ClassInfo> classInfos)
+        public IDictionary<string, ClassInfo> Instrospect(IOdbList<ClassInfo> classInfos)
         {
             IDictionary<string, ClassInfo> classInfoSet = new Dictionary<string, ClassInfo>();
+            
             // re introspect classes
-            var iterator = classInfos.GetEnumerator();
-
-            while (iterator.MoveNext())
+            foreach (var persistedClassInfo in classInfos)
             {
-                var persistedClassInfo = iterator.Current;
-                Debug.Assert(persistedClassInfo != null, "persistedClassInfo != null");
-
                 var currentClassInfo = GetClassInfo(persistedClassInfo.GetFullClassName(), persistedClassInfo);
 
                 classInfoSet.Add(currentClassInfo.GetFullClassName(), currentClassInfo);
@@ -334,7 +328,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
             }
         }
 
-        public virtual void Reset()
+        public void Reset()
         {
             _fields.Clear();
             _fullInstantiationHelpers.Clear();
@@ -345,16 +339,15 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
         /// <summary>
         ///   Two phase init method
         /// </summary>
-        public virtual void Init2()
+        public void Init2()
         {
             _classPool = OdbConfiguration.GetCoreProvider().GetClassPool();
         }
 
-        public virtual object NewFullInstanceOf(Type clazz, NonNativeObjectInfo nnoi)
+        public object NewFullInstanceOf(Type clazz, NonNativeObjectInfo nnoi)
         {
             var className = clazz.FullName;
-            Debug.Assert(className != null, "className != null");
-
+            
             var helper = _fullInstantiationHelpers[className];
 
             if (helper != null)
@@ -439,7 +432,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
 
         // FIXME put the list of the classes elsewhere!
 
-        public virtual bool IsSystemClass(string fullClassName)
+        public bool IsSystemClass(string fullClassName)
         {
             return _systemClasses.ContainsKey(fullClassName);
         }
@@ -528,16 +521,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
             _systemClasses.Add(typeof(IBTreeNodeOneValuePerKey).FullName, typeof (IBTreeNodeOneValuePerKey));
             _systemClasses.Add(typeof(IKeyAndValue).FullName, typeof (IKeyAndValue));
             _systemClasses.Add(typeof(KeyAndValue).FullName, typeof (KeyAndValue));
-        }
-
-        protected virtual bool TryToCreateAnEmptyConstructor(Type clazz)
-        {
-            return false;
-        }
-
-        protected virtual void AddConstructor(string className, ConstructorInfo constructor)
-        {
-            _classPool.AddConstrutor(className, constructor);
         }
     }
 }

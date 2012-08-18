@@ -82,9 +82,9 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
 
         public virtual void End()
         {
-            DefaultObjectValues dov = null;
+            ObjectValues dov = null;
             if (!_query.IsMultiRow())
-                dov = new DefaultObjectValues(_returnArraySize);
+                dov = new ObjectValues(_returnArraySize);
 
             for (var i = 0; i < _returnArraySize; i++)
             {
@@ -113,7 +113,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
 
         private IObjectValues ConvertObject(AttributeValuesMap values)
         {
-            var dov = new DefaultObjectValues(_returnArraySize);
+            var dov = new ObjectValues(_returnArraySize);
             for (var i = 0; i < _returnArraySize; i++)
             {
                 var queryFieldAction = _queryFieldActions[i];
@@ -124,7 +124,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
             return dov;
         }
 
-        private void SetValue(int i, DefaultObjectValues dov, IQueryFieldAction queryFieldAction)
+        private void SetValue(int i, ObjectValues dov, IQueryFieldAction queryFieldAction)
         {
             var value = queryFieldAction.GetValue();
 

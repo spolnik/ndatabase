@@ -10,11 +10,7 @@ namespace Test.Odb.Test.VO.Download
 
 		private User user;
 
-		public Download() : base()
-		{
-		}
-
-		public virtual string GetFileName()
+	    public virtual string GetFileName()
 		{
 			return fileName;
 		}
@@ -24,7 +20,7 @@ namespace Test.Odb.Test.VO.Download
 			this.fileName = fileName;
 		}
 
-		public virtual string GetType()
+		public new virtual string GetType()
 		{
 			return type;
 		}

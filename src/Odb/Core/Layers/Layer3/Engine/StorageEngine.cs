@@ -673,8 +673,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             // Updates the Transaction Id in the file
             _objectWriter.WriteLastTransactionId(GetCurrentTransactionId());
             _objectWriter.SetTriggerManager(_triggerManager);
-            _introspectionCallbackForInsert = new DefaultInstrumentationCallbackForStore(this, _triggerManager, false);
-            _introspectionCallbackForUpdate = new DefaultInstrumentationCallbackForStore(this, _triggerManager, true);
+            _introspectionCallbackForInsert = new InstrumentationCallbackForStore(this, _triggerManager, false);
+            _introspectionCallbackForUpdate = new InstrumentationCallbackForStore(this, _triggerManager, true);
         }
 
         public void UpdateMetaModel()

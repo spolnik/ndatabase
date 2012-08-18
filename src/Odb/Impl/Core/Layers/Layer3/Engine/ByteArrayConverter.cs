@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 using NDatabase.Odb.Core;
@@ -11,8 +10,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
     /// <summary>
     ///   Converts array of bytes into native objects and native objects into array of bytes
     /// </summary>
-    /// <author>osmadja</author>
-    public class DefaultByteArrayConverter : IByteArrayConverter
+    public sealed class ByteArrayConverter : IByteArrayConverter
     {
         private const String UtfEncoding = "UTF-8";
 
@@ -39,14 +37,14 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         /// <summary>
         ///   Two Phase Init method
         /// </summary>
-        public virtual void Init2()
+        public void Init2()
         {
             _intSize = OdbType.Integer.GetSize();
             _intSizeX2 = _intSize * 2;
             SetDatabaseCharacterEncoding(OdbConfiguration.GetDatabaseCharacterEncoding());
         }
 
-        public virtual void SetDatabaseCharacterEncoding(string databaseCharacterEncoding)
+        public void SetDatabaseCharacterEncoding(string databaseCharacterEncoding)
         {
             _encoding = databaseCharacterEncoding;
             if (_encoding == null || _encoding.Equals(StorageEngineConstant.NoEncoding))
@@ -183,32 +181,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             }
 
             return Encoding.GetEncoding(UtfEncoding).GetString(bytes);
-
-            /*
-        if (hasSize)
-        {
-            byte[] realStringBytes = new byte[4];
-            for (int i = 0; i < 4; i++)
-            {
-               realStringBytes[i] = bytes[i + 4];
-            }
-            int realSize = ByteArrayToInt(realStringBytes, IntSize);
-            // skip four bytes - which is the size
-            byte[] realBytes = new byte[realSize];
-            
-            for (int i = 0; i < realSize; i++)
-            {
-               realBytes[i] = bytes[i + 8];
-            }
-            bytes = null;
-            //UPGRADE_TODO: The differences in the Format  of parameters for constructor 'java.lang.String.String'  may cause compilation errors.  "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1092'"
-            return System.Text.Encoding.GetEncoding(ENCODING).GetString(realBytes);
-         }
-         //UPGRADE_TODO: The differences in the Format  of parameters for constructor 'java.lang.String.String'  may cause compilation errors.  "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1092'"
-         System.String s = System.Text.Encoding.GetEncoding(ENCODING).GetString(bytes);
-         bytes = null;
-         return s;
-          * */
         }
 
         public byte[] BigDecimalToByteArray(Decimal bigDecimal, bool withSize)
@@ -293,8 +265,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         public void TestEncoding(string encoding)
         {
             var s = "test encoding";
-            var bytes = Encoding.GetEncoding(encoding).GetBytes(s);
-            Debug.Assert(bytes != null);
+            Encoding.GetEncoding(encoding).GetBytes(s);
         }
 
         #endregion

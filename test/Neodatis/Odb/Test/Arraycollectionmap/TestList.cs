@@ -60,7 +60,7 @@ namespace Test.Odb.Test.Arraycollectionmap
                 var l = odb.GetObjects<PlayerWithList>(new CriteriaQuery(Where.Contain("games", "tennis")));
                 AssertEquals(nb + 1, l.Count);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 if (odb != null)
                 {
