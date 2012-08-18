@@ -32,7 +32,7 @@ namespace Acid
             AssertEquals(wa3.GetBytes(0).Length, 27);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         [Ignore("Requires better mocking engine")]
         public virtual void Test5()

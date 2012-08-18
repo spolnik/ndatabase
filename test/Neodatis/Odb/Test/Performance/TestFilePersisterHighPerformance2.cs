@@ -65,13 +65,13 @@ namespace Test.Odb.Test.Performance
             return so;
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public static void Main2(string[] args)
         {
             new TestFilePersisterHighPerformance2().TestInsertSimpleObjectODB();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestInsertSimpleObjectODB()
         {
@@ -175,7 +175,7 @@ namespace Test.Odb.Test.Performance
             DisplayResult("ODB " + TestSize + " SimpleObject objects ", t1, t2, t3, t4, t5, t6, t7, t77, t8);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestInsertUserODB()
         {

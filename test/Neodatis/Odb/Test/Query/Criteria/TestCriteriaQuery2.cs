@@ -10,7 +10,7 @@ namespace Test.Odb.Test.Query.Criteria
 	[TestFixture]
     public class TestCriteriaQuery2 : ODBTest
 	{
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void Test1()
 		{
@@ -27,7 +27,7 @@ namespace Test.Odb.Test.Query.Criteria
 			AssertEquals("test class 1", testClass.GetString1());
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void Test2()
 		{
@@ -42,7 +42,7 @@ namespace Test.Odb.Test.Query.Criteria
 			odb.Close();
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void Test3()
 		{
@@ -60,7 +60,7 @@ namespace Test.Odb.Test.Query.Criteria
 			odb.Close();
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void Test4Sort()
 		{
@@ -77,7 +77,7 @@ namespace Test.Odb.Test.Query.Criteria
 			odb.Close();
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void Test5Sort()
 		{
@@ -97,7 +97,7 @@ namespace Test.Odb.Test.Query.Criteria
 			odb.Close();
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void Test6Sort()
 		{

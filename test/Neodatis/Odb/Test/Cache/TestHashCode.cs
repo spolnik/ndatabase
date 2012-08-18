@@ -9,7 +9,7 @@ namespace Test.Odb.Test.Cache
     public class TestHashCode : ODBTest
 	{
 		/// <summary>a problem reported by glsender - 1875544</summary>
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void Test1()
 		{
@@ -41,7 +41,7 @@ namespace Test.Odb.Test.Cache
 		}
 
 		/// <summary>a problem reported by glsender</summary>
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void Test2()
 		{

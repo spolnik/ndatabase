@@ -45,7 +45,7 @@ namespace Test.Odb.Test.Performance
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestSelectSimpleObjectODB()
         {
@@ -93,7 +93,7 @@ namespace Test.Odb.Test.Performance
             Console.Out.WriteLine(@string + s1 + " | " + s3 + " | " + s4);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public static void Main2(string[] args)
         {
             var pt = new PerformanceTest1OnlySelect();

@@ -27,7 +27,7 @@ namespace Test.Odb.Test.Other
 
         #endregion
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void NewDownload(string name, string email, string downloadType, string fileName)
         {
             IOdb odb = null;
@@ -66,7 +66,7 @@ namespace Test.Odb.Test.Other
             }
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public static void Main2(string[] args)
         {
             var td = new TestDownloadManager();
@@ -80,7 +80,7 @@ namespace Test.Odb.Test.Other
             }
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test1()
         {
@@ -93,7 +93,7 @@ namespace Test.Odb.Test.Other
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test2()
         {

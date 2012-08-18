@@ -9,7 +9,7 @@ namespace Test.Odb.Test.Other
 	{
 		public static readonly string DbName = "class.neodatis";
 
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void Test1()
 		{

@@ -5,11 +5,11 @@ using NDatabase.Odb.Core;
 namespace NDatabase.Btree.Impl.Multiplevalue
 {
     [Serializable]
-    public class InMemoryBTreeMultipleValuesPerKey : AbstractBTree, IBTreeMultipleValuesPerKey
+    public sealed class InMemoryBTreeMultipleValuesPerKey : AbstractBTree, IBTreeMultipleValuesPerKey
     {
-        protected static int NextId = 1;
+        private static int _nextId = 1;
 
-        protected int Id;
+        private int _id;
 
         public InMemoryBTreeMultipleValuesPerKey()
         {
@@ -23,12 +23,12 @@ namespace NDatabase.Btree.Impl.Multiplevalue
         public InMemoryBTreeMultipleValuesPerKey(string name, int degree) 
             : base(name, degree, new InMemoryPersister())
         {
-            Id = NextId++;
+            _id = _nextId++;
         }
 
         #region IBTreeMultipleValuesPerKey Members
 
-        public virtual IList Search(IComparable key)
+        public IList Search(IComparable key)
         {
             var theRoot = (IBTreeNodeMultipleValuesPerKey) GetRoot();
             return theRoot.Search(key);
@@ -41,12 +41,12 @@ namespace NDatabase.Btree.Impl.Multiplevalue
 
         public override object GetId()
         {
-            return Id;
+            return _id;
         }
 
         public override void SetId(object id)
         {
-            Id = (int) id;
+            _id = (int) id;
         }
 
         public override void Clear()

@@ -17,7 +17,7 @@ namespace Test.Odb.Test.Acid
         private readonly ODBTest test = new ODBTest();
 
         // just to avoid junit warning
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estA1()
         {
             test.DeleteBase("acid1");
@@ -25,14 +25,14 @@ namespace Test.Odb.Test.Acid
             odb.Store(GetInstance("f1"));
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estA2()
         {
             var odb = test.Open("acid1");
             AssertEquals(0, odb.GetObjects<VO.Login.Function>().Count);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estB1()
         {
             var odb = test.Open("acid1");
@@ -40,7 +40,7 @@ namespace Test.Odb.Test.Acid
             odb.Commit();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estB2()
         {
             var odb = test.Open("acid1");
@@ -53,7 +53,7 @@ namespace Test.Odb.Test.Acid
                 throw new Exception("Size should be " + 1 + " and it is " + size);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estC1()
         {
             test.DeleteBase("acid1");
@@ -77,14 +77,14 @@ namespace Test.Odb.Test.Acid
             return user;
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estC2()
         {
             var odb = test.Open("acid1");
             AssertEquals(0, odb.GetObjects<VO.Login.Function>().Count);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estD1()
         {
             test.DeleteBase("acid1");
@@ -97,14 +97,14 @@ namespace Test.Odb.Test.Acid
                 odb.DeleteObjectWithId(oids[i]);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estD2()
         {
             var odb = test.Open("acid1");
             AssertEquals(0, odb.GetObjects<VO.Login.Function>().Count);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estE1()
         {
             test.DeleteBase("acid1");
@@ -130,14 +130,14 @@ namespace Test.Odb.Test.Acid
             }
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estE2()
         {
             var odb = test.Open("acid1");
             AssertEquals(0, odb.GetObjects<VO.Login.Function>().Count);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estF1()
         {
             test.DeleteBase("acid1");
@@ -173,7 +173,7 @@ namespace Test.Odb.Test.Acid
             }
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estF2()
         {
             var odb = test.Open("acid1");
@@ -183,7 +183,7 @@ namespace Test.Odb.Test.Acid
                 AssertEquals(0, odb.GetObjects<User>().Count);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estG1()
         {
             test.DeleteBase("acid1");
@@ -215,7 +215,7 @@ namespace Test.Odb.Test.Acid
             odb.Commit();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estG2()
         {
             var odb = test.Open("acid1");
@@ -251,7 +251,7 @@ namespace Test.Odb.Test.Acid
             }
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estG3()
         {
             var odb = test.Open("acid1");
@@ -261,7 +261,7 @@ namespace Test.Odb.Test.Acid
                 AssertEquals(1000, odb.GetObjects<User>().Count);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estH1()
         {
             test.DeleteBase("acid1");
@@ -303,7 +303,7 @@ namespace Test.Odb.Test.Acid
             }
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estH2()
         {
             var odb = test.Open("acid1");
@@ -313,7 +313,7 @@ namespace Test.Odb.Test.Acid
                 AssertEquals(0, odb.GetObjects<User>().Count);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estI1()
         {
             test.DeleteBase("acid1");
@@ -328,7 +328,7 @@ namespace Test.Odb.Test.Acid
             odb.Delete(o);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estI2()
         {
             var odb = test.Open("acid1");
@@ -338,7 +338,7 @@ namespace Test.Odb.Test.Acid
                 AssertEquals(3, odb.GetObjects<User>().Count);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estJ1()
         {
             test.DeleteBase("acid1");
@@ -352,7 +352,7 @@ namespace Test.Odb.Test.Acid
             odb.Delete(o);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estJ2()
         {
             var odb = test.Open("acid1");
@@ -362,7 +362,7 @@ namespace Test.Odb.Test.Acid
                 AssertEquals(3, odb.GetObjects<User>().Count);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estK1()
         {
             test.DeleteBase("acid1");
@@ -376,7 +376,7 @@ namespace Test.Odb.Test.Acid
             odb.Rollback();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estK2()
         {
             var odb = test.Open("acid1");
@@ -386,7 +386,7 @@ namespace Test.Odb.Test.Acid
                 AssertEquals(3, odb.GetObjects<User>().Count);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estL1()
         {
             test.DeleteBase("acid1");
@@ -411,7 +411,7 @@ namespace Test.Odb.Test.Acid
             odb.Rollback();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estL2()
         {
             var odb = test.Open("acid1");
@@ -421,7 +421,7 @@ namespace Test.Odb.Test.Acid
                 AssertEquals(3, odb.GetObjects<User>().Count);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estM1()
         {
             test.DeleteBase("acid1");
@@ -435,7 +435,7 @@ namespace Test.Odb.Test.Acid
             odb.Rollback();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estM2()
         {
             var odb = test.Open("acid1");
@@ -445,7 +445,7 @@ namespace Test.Odb.Test.Acid
                 AssertEquals(0, odb.GetObjects<User>().Count);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estN1()
         {
             test.DeleteBase("acid1");
@@ -458,7 +458,7 @@ namespace Test.Odb.Test.Acid
             odb.Commit();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estN2()
         {
             var odb = test.Open("acid1");
@@ -479,7 +479,7 @@ namespace Test.Odb.Test.Acid
             odb.Commit();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estN3()
         {
             var odb = test.Open("acid1");
@@ -496,7 +496,7 @@ namespace Test.Odb.Test.Acid
             odb.Commit();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estN4()
         {
             var odb = test.Open("acid1");
@@ -515,7 +515,7 @@ namespace Test.Odb.Test.Acid
                 throw new Exception("Object f1000 still exist :-(");
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void Execute(string[] args)
         {
             var step = args[0];
@@ -544,7 +544,7 @@ namespace Test.Odb.Test.Acid
             Println(step + " Ok ");
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public static void Main2(string[] args)
         {
             var tf = new TestStopEngineWithoutCommit();

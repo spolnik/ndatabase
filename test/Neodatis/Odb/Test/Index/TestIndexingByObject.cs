@@ -16,7 +16,7 @@ namespace Index
     [TestFixture]
     public class TestIndexingByObject : ODBTest
     {
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test1()
         {
@@ -48,7 +48,7 @@ namespace Index
             Println("************END OF TEST1***************");
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test2()
         {
@@ -86,7 +86,7 @@ namespace Index
             Println("************END OF TEST2***************");
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test3_BadAttributeInIndex()
         {
@@ -111,7 +111,7 @@ namespace Index
             }
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test4()
         {

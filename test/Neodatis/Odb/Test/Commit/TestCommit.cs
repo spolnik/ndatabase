@@ -9,13 +9,13 @@ namespace Test.Odb.Test.Commit
 	[TestFixture]
     public class TestCommit : ODBTest
 	{
-		/// <exception cref="System.Exception"></exception>
+		
 		public override void SetUp()
 		{
 			base.SetUp();
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void TestInsertWithCommitsSimpleObject()
 		{
@@ -67,7 +67,7 @@ namespace Test.Odb.Test.Commit
 			AssertEquals(size, nbObjects);
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void TestInsertWithCommitsComplexObject()
 		{

@@ -7,7 +7,7 @@ namespace Test.Odb.Test.Oid
 	[TestFixture]
     public class TestOidAsNativeObject : ODBTest
 	{
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void Test1()
 		{

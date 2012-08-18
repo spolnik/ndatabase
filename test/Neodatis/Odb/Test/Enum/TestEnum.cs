@@ -7,7 +7,7 @@ namespace Enum
     [TestFixture]
     public class TestEnum : ODBTest
     {
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestEnum1()
         {

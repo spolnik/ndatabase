@@ -8,7 +8,7 @@ namespace Nullobject
     [TestFixture]
     public class TestNullObject : ODBTest
     {
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test1()
         {
@@ -66,7 +66,7 @@ namespace Nullobject
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test21()
         {
@@ -93,7 +93,7 @@ namespace Nullobject
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test22()
         {
@@ -120,7 +120,7 @@ namespace Nullobject
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test23()
         {
@@ -148,7 +148,7 @@ namespace Nullobject
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test3()
         {
@@ -167,7 +167,7 @@ namespace Nullobject
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test4()
         {
@@ -186,7 +186,7 @@ namespace Nullobject
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test5()
         {

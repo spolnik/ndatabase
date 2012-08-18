@@ -3,7 +3,7 @@ using NDatabase.Btree.Exception;
 
 namespace NDatabase.Btree.Tool
 {
-    public class BTreeValidator
+    public static class BTreeValidator
     {
         private static bool _on;
 

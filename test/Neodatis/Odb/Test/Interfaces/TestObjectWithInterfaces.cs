@@ -8,7 +8,7 @@ namespace Interfaces
 	[TestFixture]
     public class TestObjectWithInterfaces : ODBTest
 	{
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void TestInsert()
 		{
@@ -20,7 +20,7 @@ namespace Interfaces
 			odb.Close();
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void TestInsertAndSelect()
 		{
@@ -35,7 +35,7 @@ namespace Interfaces
 			odb.Close();
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void TestStoreObjectByInterfaces()
 		{

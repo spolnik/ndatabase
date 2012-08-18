@@ -64,7 +64,7 @@ namespace Instantiationhelper
             #endregion
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         private void CheckCarRetrieval()
         {
             var cars = odb.GetObjects<Car>();
@@ -78,7 +78,7 @@ namespace Instantiationhelper
             AssertEquals(car.GetModel(), "Ranger");
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         private void CloseAndReopenDb()
         {
             odb.Close();

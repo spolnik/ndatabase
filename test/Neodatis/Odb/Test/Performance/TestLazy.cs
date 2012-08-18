@@ -14,7 +14,7 @@ namespace Test.Odb.Test.Performance
 		public static readonly string Filename = "lazy.neodatis";
 
 		/// <summary>Test the timeof lazy get</summary>
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void Test1()
 		{

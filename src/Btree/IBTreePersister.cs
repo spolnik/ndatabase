@@ -16,7 +16,7 @@ namespace NDatabase.Btree
 
         IBTree LoadBTree(object id);
 
-        /// <exception cref="System.Exception"></exception>
+        
         void Close();
 
         object DeleteNode(IBTreeNode parent);

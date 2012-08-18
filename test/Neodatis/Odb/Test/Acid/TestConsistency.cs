@@ -10,7 +10,7 @@ namespace Test.Odb.Test.Acid
 	{
 		public static string OdbFileName = "consistency.neodatis";
 
-		/// <exception cref="System.Exception"></exception>
+		
 		public virtual void CreateInconsistentFile()
 		{
 			IOdb odb = Open(OdbFileName);
@@ -64,7 +64,7 @@ namespace Test.Odb.Test.Acid
 			AssertTrue(true);
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
 		public static void Main2(string[] args)
 		{
 			new TestConsistency().CreateInconsistentFile();

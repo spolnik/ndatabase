@@ -6,7 +6,7 @@ namespace Test.Odb.Test.List.Update
 	[TestFixture]
     public class TestUpdateList : ODBTest
 	{
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void Test1()
 		{
@@ -71,7 +71,7 @@ namespace Test.Odb.Test.List.Update
 			}
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void Test2()
 		{

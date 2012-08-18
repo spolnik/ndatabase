@@ -7,7 +7,7 @@ namespace Test.Odb.Test.Other
 	[TestFixture]
     public class Test2Closes : ODBTest
 	{
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void Test1()
 		{

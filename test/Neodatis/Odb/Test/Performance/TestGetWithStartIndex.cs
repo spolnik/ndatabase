@@ -25,7 +25,7 @@ namespace Test.Odb.Test.Performance
 
         #endregion
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test1()
         {

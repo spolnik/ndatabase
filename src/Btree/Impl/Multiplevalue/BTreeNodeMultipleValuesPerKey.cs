@@ -27,7 +27,7 @@ namespace NDatabase.Btree.Impl.Multiplevalue
         {
             var position = GetPositionOfKey(key);
             var addToExistingCollection = false;
-            var realPosition = 0;
+            int realPosition;
 
             if (position >= 0)
             {

@@ -220,7 +220,7 @@ namespace Index
             DeleteBase(baseName);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestIndexFail()
         {
@@ -299,7 +299,7 @@ namespace Index
             DeleteBase(baseName);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestSaveIndex()
         {

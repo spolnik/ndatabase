@@ -9,7 +9,7 @@ namespace Test.Odb.Test.Arraycollectionmap
     [TestFixture]
     public class TestMapContainingCollection : ODBTest
     {
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test1()
         {
@@ -32,7 +32,7 @@ namespace Test.Odb.Test.Arraycollectionmap
             AssertEquals(o.GetMap()["c"], mmo.GetMap()["c"]);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test2()
         {
@@ -60,7 +60,7 @@ namespace Test.Odb.Test.Arraycollectionmap
             AssertEquals(mmo, enumerator.Current);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test3()
         {

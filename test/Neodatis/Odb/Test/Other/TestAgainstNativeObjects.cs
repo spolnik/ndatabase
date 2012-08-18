@@ -6,7 +6,7 @@ namespace Test.Odb.Test.Other
 	[TestFixture]
     public class TestAgainstNativeObjects : ODBTest
 	{
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void Test1()
 		{
@@ -27,7 +27,7 @@ namespace Test.Odb.Test.Other
 			DeleteBase("native.neodatis");
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void Test2()
 		{

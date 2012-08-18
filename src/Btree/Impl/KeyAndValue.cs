@@ -4,7 +4,7 @@ using System.Text;
 namespace NDatabase.Btree.Impl
 {
     [Serializable]
-    public class KeyAndValue : IKeyAndValue
+    public sealed class KeyAndValue : IKeyAndValue
     {
         private IComparable _key;
         private object _value;
@@ -22,22 +22,22 @@ namespace NDatabase.Btree.Impl
             return new StringBuilder("(").Append(_key).Append("=").Append(_value).Append(") ").ToString();
         }
 
-        public virtual IComparable GetKey()
+        public IComparable GetKey()
         {
             return _key;
         }
 
-        public virtual void SetKey(IComparable key)
+        public void SetKey(IComparable key)
         {
             _key = key;
         }
 
-        public virtual object GetValue()
+        public object GetValue()
         {
             return _value;
         }
 
-        public virtual void SetValue(object value)
+        public void SetValue(object value)
         {
             _value = value;
         }

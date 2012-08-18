@@ -29,7 +29,7 @@ namespace Insert
             }
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestComplexInstance()
         {
@@ -58,7 +58,7 @@ namespace Insert
             DeleteBase("t-complex-instance.neodatis");
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestNonNativeAttributes()
         {
@@ -69,7 +69,7 @@ namespace Insert
             AssertEquals(0, classInfo.GetAllNonNativeAttributes().Count);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestSimpleInstance()
         {
@@ -125,7 +125,7 @@ namespace Insert
         }
 
         // deleteBase("t-simple-instance.neodatis");
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestSimpleInstanceRetrievingWithNQ()
         {
@@ -181,7 +181,7 @@ namespace Insert
             DeleteBase("t-simple-instance.neodatis");
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestSimpleInstanceRetrievingWithNQWithNullBoolean()
         {

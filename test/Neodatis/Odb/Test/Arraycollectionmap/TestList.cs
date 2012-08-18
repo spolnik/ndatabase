@@ -39,7 +39,7 @@ namespace Test.Odb.Test.Arraycollectionmap
             DeleteBase(baseName);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestCollectionWithContain()
         {
@@ -108,7 +108,7 @@ namespace Test.Odb.Test.Arraycollectionmap
             AssertEquals(1, team.GetPlayers().Count);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestList1()
         {
@@ -133,7 +133,7 @@ namespace Test.Odb.Test.Arraycollectionmap
             DeleteBase("list1.neodatis");
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestList1WithNull()
         {
@@ -157,7 +157,7 @@ namespace Test.Odb.Test.Arraycollectionmap
             DeleteBase("list1.neodatis");
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestList2()
         {
@@ -175,7 +175,7 @@ namespace Test.Odb.Test.Arraycollectionmap
             DeleteBase("list1.neodatis");
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestList3()
         {
@@ -201,7 +201,7 @@ namespace Test.Odb.Test.Arraycollectionmap
         /// <remarks>
         ///   Test update object list. Removing one, adding other
         /// </remarks>
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestList4Update()
         {
@@ -237,7 +237,7 @@ namespace Test.Odb.Test.Arraycollectionmap
         /// <remarks>
         ///   Test update object list. adding 2 elements
         /// </remarks>
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestList4Update2()
         {
@@ -276,7 +276,7 @@ namespace Test.Odb.Test.Arraycollectionmap
         /// <remarks>
         ///   Test update object list. A list of Integer
         /// </remarks>
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestList4Update3()
         {
@@ -309,7 +309,7 @@ namespace Test.Odb.Test.Arraycollectionmap
         /// <remarks>
         ///   Test update object list. A list of Integer. 1000 updates
         /// </remarks>
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestList4Update4()
         {
@@ -347,7 +347,7 @@ namespace Test.Odb.Test.Arraycollectionmap
         ///   Test update object list. A list of Integer. 1000 updates of an object
         ///   that is the middle of the list
         /// </remarks>
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestList4Update4Middle()
         {
@@ -391,7 +391,7 @@ namespace Test.Odb.Test.Arraycollectionmap
         ///   Test update object list. A list of Integer. 1000 updates of an object
         ///   increasing list nb elements that is the middle of the list
         /// </remarks>
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestList4Update4Middle2()
         {
@@ -433,7 +433,7 @@ namespace Test.Odb.Test.Arraycollectionmap
         ///   Test update object list. A list of Integer. 1000 updates, increasing
         ///   number of elements
         /// </remarks>
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestList4Update5()
         {

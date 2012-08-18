@@ -11,7 +11,7 @@ namespace Btree.Odb
     [TestFixture]
     public class TestPersister : ODBTest
     {
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test1()
         {
@@ -55,7 +55,7 @@ namespace Btree.Odb
             DeleteBase("btree45.neodatis");
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestDirectSave()
         {

@@ -61,7 +61,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Serialization
             throw new Exception(string.Format("toString not implemented for {0}", @object.GetType().FullName));
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual ObjectContainer FromString(string data)
         {
             var container = new ObjectContainer();
@@ -76,7 +76,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Serialization
             return container;
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual object FromOneString(string data)
         {
             var index = data.IndexOf(";", StringComparison.Ordinal);

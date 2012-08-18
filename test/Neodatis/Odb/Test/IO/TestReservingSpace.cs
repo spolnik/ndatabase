@@ -15,7 +15,7 @@ namespace IO
             fsi.WriteInt(1, writeInTransaction, "1");
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestSize()
         {

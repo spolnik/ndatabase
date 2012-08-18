@@ -41,7 +41,7 @@ namespace Cyclic
 
         #endregion
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test1()
         {
@@ -53,7 +53,7 @@ namespace Cyclic
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test10()
         {
@@ -78,7 +78,7 @@ namespace Cyclic
             }
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test11()
         {
@@ -96,7 +96,7 @@ namespace Cyclic
             }
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test15()
         {
@@ -122,7 +122,7 @@ namespace Cyclic
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test2()
         {
@@ -145,7 +145,7 @@ namespace Cyclic
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestUniqueInstance1()
         {
@@ -160,7 +160,7 @@ namespace Cyclic
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestUniqueInstance2()
         {

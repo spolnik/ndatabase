@@ -34,7 +34,7 @@ namespace Cyclic
 
         #endregion
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test1()
         {
@@ -45,7 +45,7 @@ namespace Cyclic
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test2()
         {

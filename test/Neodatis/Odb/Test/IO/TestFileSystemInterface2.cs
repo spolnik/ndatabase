@@ -10,7 +10,7 @@ namespace IO
     [TestFixture]
     public class TestFileSystemInterface2 : ODBTest
     {
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestReadWrite()
         {

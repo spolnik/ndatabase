@@ -19,14 +19,14 @@ namespace Test.Odb.Test.Delete
 
         public static string FileName2 = "test-delete-defrag.neodatis";
 
-        /// <exception cref="System.Exception"></exception>
+        
         public override void TearDown()
         {
             // deleteBase("t-delete12.neodatis");
             DeleteBase("t-delete1.neodatis");
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test1()
         {
@@ -481,7 +481,7 @@ namespace Test.Odb.Test.Delete
             AssertEquals(0, objects.Count);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test2()
         {
@@ -591,7 +591,7 @@ namespace Test.Odb.Test.Delete
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test22Last_toCheckDuration()
         {
@@ -603,7 +603,7 @@ namespace Test.Odb.Test.Delete
                 Fail("Duration is higher than " + d + " : " + duration);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test3()
         {
@@ -636,7 +636,7 @@ namespace Test.Odb.Test.Delete
             DeleteBase(baseName2);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test30()
         {
@@ -657,7 +657,7 @@ namespace Test.Odb.Test.Delete
             AssertEquals("function 2", f.GetName());
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test4()
         {
@@ -690,7 +690,7 @@ namespace Test.Odb.Test.Delete
             DeleteBase(baseName);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test5()
         {
@@ -713,7 +713,7 @@ namespace Test.Odb.Test.Delete
             }
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test5_byOid()
         {
@@ -736,7 +736,7 @@ namespace Test.Odb.Test.Delete
             }
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test5_deleteNullObject()
         {
@@ -762,7 +762,7 @@ namespace Test.Odb.Test.Delete
             }
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test6()
         {
@@ -786,7 +786,7 @@ namespace Test.Odb.Test.Delete
             }
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test7()
         {

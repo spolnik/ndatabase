@@ -12,7 +12,7 @@ namespace IO
     [TestFixture]
     public class TestFileSystemInterface1 : ODBTest
     {
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestBigDecimal()
         {
@@ -35,7 +35,7 @@ namespace IO
             fsi.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestBigInteger()
         {
@@ -56,7 +56,7 @@ namespace IO
             fsi.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestBoolean()
         {
@@ -82,7 +82,7 @@ namespace IO
             fsi.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestByte()
         {
@@ -103,7 +103,7 @@ namespace IO
             fsi.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestChar()
         {
@@ -124,7 +124,7 @@ namespace IO
             fsi.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestFloat()
         {
@@ -144,7 +144,7 @@ namespace IO
             fsi.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestInt()
         {
@@ -164,7 +164,7 @@ namespace IO
             fsi.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestLong()
         {
@@ -184,7 +184,7 @@ namespace IO
             fsi.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestShort()
         {
@@ -204,7 +204,7 @@ namespace IO
             fsi.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestString()
         {

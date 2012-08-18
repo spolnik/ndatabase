@@ -9,7 +9,7 @@ namespace IO
 	[TestFixture]
     public class TestUseAfterClose : ODBTest
 	{
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void Test()
 		{
@@ -26,7 +26,7 @@ namespace IO
 			}
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void TestTwoCloses()
         {
@@ -45,7 +45,7 @@ namespace IO
 			}
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void TestReOpenWithoutClose()
 		{

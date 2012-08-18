@@ -35,7 +35,7 @@ namespace Test.Odb.Test.Arraycollectionmap
 			odb.Close();
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void Test1()
 		{
@@ -47,7 +47,7 @@ namespace Test.Odb.Test.Arraycollectionmap
 			odb.Close();
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void Test2()
 		{
@@ -60,7 +60,7 @@ namespace Test.Odb.Test.Arraycollectionmap
 			odb.Close();
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void Test3()
 		{
@@ -77,7 +77,7 @@ namespace Test.Odb.Test.Arraycollectionmap
 			odb.Close();
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void Test4()
 		{
@@ -102,7 +102,7 @@ namespace Test.Odb.Test.Arraycollectionmap
 			odb.Close();
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void Test5updateIncreasingSize()
 		{
@@ -138,7 +138,7 @@ namespace Test.Odb.Test.Arraycollectionmap
 			odb.Close();
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void Test6updateDecreasingSize()
 		{
@@ -164,7 +164,7 @@ namespace Test.Odb.Test.Arraycollectionmap
 			odb.Close();
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void Test6updateChangingKeyValue()
 		{
@@ -203,7 +203,7 @@ namespace Test.Odb.Test.Arraycollectionmap
 //            odb.Close();
 //        }
 
-		/// <exception cref="System.Exception"></exception>
+		
 		public override void TearDown()
 		{
 			DeleteBase("map.neodatis");

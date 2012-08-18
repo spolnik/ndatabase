@@ -78,7 +78,7 @@ namespace Test.Odb.Test.Query.Criteria
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestCriteriaQueryQueryWithValueInList()
         {
@@ -108,7 +108,7 @@ namespace Test.Odb.Test.Query.Criteria
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestCriteriaQueryQueryWithValueInList2()
         {
@@ -136,7 +136,7 @@ namespace Test.Odb.Test.Query.Criteria
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestCriteriaQueryQueryWithValueInList2_with_null_object()
         {
@@ -167,7 +167,7 @@ namespace Test.Odb.Test.Query.Criteria
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestCriteriaQueryQueryWithValueInList3()
         {
@@ -197,7 +197,7 @@ namespace Test.Odb.Test.Query.Criteria
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestCriteriaQueryQueryWithValueInList4()
         {
@@ -224,7 +224,7 @@ namespace Test.Odb.Test.Query.Criteria
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestCriteriaQueryQueryWithValueInList5()
         {
@@ -248,7 +248,7 @@ namespace Test.Odb.Test.Query.Criteria
             AssertEquals(1, l.Count);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestCriteriaQueryQueryWithValueInList6()
         {
@@ -272,7 +272,7 @@ namespace Test.Odb.Test.Query.Criteria
             AssertEquals(0, l.Count);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestListSize0()
         {
@@ -295,7 +295,7 @@ namespace Test.Odb.Test.Query.Criteria
             }
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestListSize1()
         {
@@ -316,7 +316,7 @@ namespace Test.Odb.Test.Query.Criteria
             }
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestListSize4()
         {
@@ -340,7 +340,7 @@ namespace Test.Odb.Test.Query.Criteria
             }
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestListSizeGt2()
         {
@@ -361,7 +361,7 @@ namespace Test.Odb.Test.Query.Criteria
             }
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestListSizeNotEqulTo1()
         {

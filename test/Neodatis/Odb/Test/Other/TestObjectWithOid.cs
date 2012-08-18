@@ -8,7 +8,7 @@ namespace Test.Odb.Test.Other
 	[TestFixture]
     public class TestObjectWithOid : ODBTest
 	{
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void Test1()
 		{

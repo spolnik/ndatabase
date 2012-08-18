@@ -14,14 +14,14 @@ namespace Btree.Odb
     {
         private const int Size = 200;
 
-        /// <exception cref="System.Exception"></exception>
+        
         private IBTreePersister GetPersister(string baseName)
         {
             var odb = Open(baseName);
             return new LazyOdbBtreePersister(odb);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public static void Main2(string[] args)
         {
             var t = new TestODBLazyBTree();
@@ -39,7 +39,7 @@ namespace Btree.Odb
             }
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test01()
         {
@@ -71,7 +71,7 @@ namespace Btree.Odb
             DeleteBase(baseName);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test1()
         {
@@ -104,7 +104,7 @@ namespace Btree.Odb
             DeleteBase(baseName);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test1a()
         {
@@ -134,7 +134,7 @@ namespace Btree.Odb
             DeleteBase(baseName);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test2()
         {
@@ -158,7 +158,7 @@ namespace Btree.Odb
             DeleteBase(baseName);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test2a()
         {
@@ -211,7 +211,7 @@ namespace Btree.Odb
             AssertTrue(totalSearchTime < 1 * Size);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestLazyCache()
         {

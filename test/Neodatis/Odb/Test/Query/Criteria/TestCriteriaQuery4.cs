@@ -70,7 +70,7 @@ namespace Test.Odb.Test.Query.Criteria
 
         public static readonly string BaseName = "soda-native-object.neodatis";
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestIsNotNull()
         {
@@ -89,7 +89,7 @@ namespace Test.Odb.Test.Query.Criteria
             }
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestIsNull()
         {
@@ -108,7 +108,7 @@ namespace Test.Odb.Test.Query.Criteria
             }
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestSodaWithBoolean()
         {
@@ -122,7 +122,7 @@ namespace Test.Odb.Test.Query.Criteria
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestSodaWithDate()
         {
@@ -154,7 +154,7 @@ namespace Test.Odb.Test.Query.Criteria
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestSodaWithDouble()
         {
@@ -171,7 +171,7 @@ namespace Test.Odb.Test.Query.Criteria
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestSodaWithInt()
         {

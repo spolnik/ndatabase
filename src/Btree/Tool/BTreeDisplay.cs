@@ -5,13 +5,12 @@ namespace NDatabase.Btree.Tool
     /// <summary>
     ///   an utility to display a btree
     /// </summary>
-    /// <author>osmadja</author>
-    public class BTreeDisplay
+    public sealed class BTreeDisplay
     {
         private StringBuilder[] _lines;
         private StringBuilder _result;
 
-        public virtual StringBuilder Build(IBTree btree, bool withIds)
+        public StringBuilder Build(IBTree btree, bool withIds)
         {
             _lines = new StringBuilder[btree.GetHeight()];
             for (var i = 0; i < btree.GetHeight(); i++)
@@ -23,7 +22,7 @@ namespace NDatabase.Btree.Tool
             return _result;
         }
 
-        public virtual StringBuilder Build(IBTreeNode node, int height, bool withIds)
+        public StringBuilder Build(IBTreeNode node, int height, bool withIds)
         {
             _lines = new StringBuilder[height];
             for (var i = 0; i < height; i++)
@@ -44,12 +43,12 @@ namespace NDatabase.Btree.Tool
                 _result.Append(Format(_lines[i], i, maxLineSize)).Append("\n");
         }
 
-        public virtual StringBuilder GetResult()
+        public StringBuilder GetResult()
         {
             return _result;
         }
 
-        private StringBuilder Format(StringBuilder line, int height, int maxLineSize)
+        private static StringBuilder Format(StringBuilder line, int height, int maxLineSize)
         {
             var diff = maxLineSize - line.Length;
             var lineResult = new StringBuilder();

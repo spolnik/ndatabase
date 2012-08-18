@@ -24,7 +24,7 @@ namespace Intropector
     {
         internal static IClassIntrospector classIntrospector = OdbConfiguration.GetCoreProvider().GetClassIntrospector();
 
-        /// <exception cref="System.Exception"></exception>
+        
         public override void SetUp()
         {
             base.SetUp();
@@ -42,7 +42,7 @@ namespace Intropector
             AssertEquals(2, classInfoList.GetClassInfos().Count);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestInstanceInfo()
         {
@@ -68,7 +68,7 @@ namespace Intropector
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestInstanceInfo2()
         {
@@ -92,7 +92,7 @@ namespace Intropector
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestCompareCollection1()
         {
@@ -139,7 +139,7 @@ namespace Intropector
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestCompareCollection11()
         {
@@ -190,7 +190,7 @@ namespace Intropector
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestCompareCollection2()
         {
@@ -245,7 +245,7 @@ namespace Intropector
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestCompareCollection3CollectionContentChange()
         {
@@ -305,7 +305,7 @@ namespace Intropector
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestCompareCollection4CollectionContentChange()
         {
@@ -360,7 +360,7 @@ namespace Intropector
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestCompareCollection5()
         {
@@ -408,7 +408,7 @@ namespace Intropector
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestCompareCollection6()
         {
@@ -460,7 +460,7 @@ namespace Intropector
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestCompareCollection7()
         {
@@ -507,7 +507,7 @@ namespace Intropector
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestCompareCollection8()
         {
@@ -551,7 +551,7 @@ namespace Intropector
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestCompareCollection9()
         {
@@ -621,7 +621,7 @@ namespace Intropector
             AssertEquals("name", ((FieldInfo) allFields[2]).Name);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestIntrospectWithNull()
         {
@@ -673,7 +673,7 @@ namespace Intropector
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestIntrospectWithNull2()
         {
@@ -724,7 +724,7 @@ namespace Intropector
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestGetDependentObjects()
         {
@@ -755,7 +755,7 @@ namespace Intropector
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestCopy()
         {

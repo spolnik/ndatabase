@@ -8,7 +8,7 @@ namespace Test.Odb.Test.Insert
 	[TestFixture]
     public class TestInsert : ODBTest
 	{
-		/// <exception cref="System.Exception"></exception>
+		
         [Test]
         public virtual void TestCompositeCollection2DifferentObjects()
 		{
@@ -50,7 +50,7 @@ namespace Test.Odb.Test.Insert
 			DeleteBase("ti1.neodatis");
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void TestCompositeCollection1()
 		{
@@ -76,7 +76,7 @@ namespace Test.Odb.Test.Insert
 			DeleteBase("t31.neodatis");
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
         [Test]
         public virtual void Test1()
 		{
@@ -104,7 +104,7 @@ namespace Test.Odb.Test.Insert
 			DeleteBase("t1.neodatis");
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
         [Test]
         public virtual void TestCompositeCollection2()
 		{
@@ -145,7 +145,7 @@ namespace Test.Odb.Test.Insert
 			DeleteBase("t3.neodatis");
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
         [Test]
         public virtual void TestCompositeCollection3()
 		{
@@ -185,7 +185,7 @@ namespace Test.Odb.Test.Insert
 			DeleteBase("t4.neodatis");
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
         [Test]
         public virtual void TestCompositeCollection4()
 		{
@@ -221,7 +221,7 @@ namespace Test.Odb.Test.Insert
 		}
 
 		// deleteBase("t5.neodatis");
-		/// <exception cref="System.Exception"></exception>
+		
         [Test]
         public virtual void TestSimple()
 		{
@@ -248,7 +248,7 @@ namespace Test.Odb.Test.Insert
 			DeleteBase("t2.neodatis");
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
         [Test]
         public virtual void TestBufferSize()
 		{
@@ -284,7 +284,7 @@ namespace Test.Odb.Test.Insert
 			OdbConfiguration.SetDefaultBufferSizeForData(size);
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
 
         [Test]
         public virtual void TestDatePersistence()
@@ -317,7 +317,7 @@ namespace Test.Odb.Test.Insert
 			DeleteBase("date.neodatis");
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
         [Test]
         public virtual void TestStringPersistence()
 		{
@@ -349,7 +349,7 @@ namespace Test.Odb.Test.Insert
 			}
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
         [Test]
         public virtual void Test6()
 		{
@@ -381,7 +381,7 @@ namespace Test.Odb.Test.Insert
 			odb.Close();
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
         [Test]
         public virtual void Test7()
 		{

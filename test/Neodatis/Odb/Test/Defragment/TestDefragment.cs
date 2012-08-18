@@ -17,7 +17,7 @@ namespace Defragment
 
         public static readonly string OdbFileName2 = "defrag3-bis.neodatis";
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test1()
         {
@@ -43,7 +43,7 @@ namespace Defragment
             DeleteBase(OdbFileName2);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test2()
         {
@@ -69,7 +69,7 @@ namespace Defragment
             DeleteBase(OdbFileName2);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test3()
         {

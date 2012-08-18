@@ -7,7 +7,7 @@ namespace Test.Odb.Test.Other
 	[TestFixture]
     public class TestShutdownHook : ODBTest
 	{
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void Test1()
 		{

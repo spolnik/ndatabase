@@ -10,7 +10,7 @@ namespace Insert
     [TestFixture]
     public class TestDotNetObjects : ODBTest
     {
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test22StringBuffer()
         {
@@ -26,7 +26,7 @@ namespace Insert
             AssertEquals(buffer.ToString(), b2.ToString());
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void Test22TextBox()
         {

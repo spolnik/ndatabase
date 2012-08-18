@@ -6,7 +6,7 @@ namespace Intropector
 {
 	public class IntrospectorWithNestedClasses : ODBTest
 	{
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void Test1()
 		{

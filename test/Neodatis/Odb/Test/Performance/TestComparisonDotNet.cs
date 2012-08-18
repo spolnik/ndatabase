@@ -7,7 +7,7 @@ namespace Test.Odb.Test.Performance
 	[TestFixture]
     public class TestComparisonDotNet : ODBTest
 	{
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void Test1()
 		{

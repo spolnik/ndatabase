@@ -11,7 +11,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Serialization
 
         #region ISerializer Members
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual object FromString(string data)
         {
             var tokens = data.Split(Serializer.FieldSeparator);

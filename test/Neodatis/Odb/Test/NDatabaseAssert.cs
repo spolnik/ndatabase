@@ -345,12 +345,12 @@ namespace Test.Odb.Test
 			return "my name";
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
 		public virtual void SetUp()
 		{
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
 		public virtual void TearDown()
 		{
 		}

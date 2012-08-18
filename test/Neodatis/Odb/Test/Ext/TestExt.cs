@@ -9,7 +9,7 @@ namespace Ext
     [TestFixture]
     public class TestExt : ODBTest
     {
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestGetObjectId()
         {
@@ -30,7 +30,7 @@ namespace Ext
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestObjectVersion()
         {
@@ -64,7 +64,7 @@ namespace Ext
             }
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestObjectVersionWithoutClose()
         {
@@ -90,7 +90,7 @@ namespace Ext
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestObjectVersionWithoutClose2()
         {
@@ -114,7 +114,7 @@ namespace Ext
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestTransactionId()
         {
@@ -131,7 +131,7 @@ namespace Ext
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         [Test]
         public virtual void TestTransactionId2()
         {

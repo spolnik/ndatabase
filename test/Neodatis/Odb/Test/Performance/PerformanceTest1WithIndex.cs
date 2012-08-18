@@ -21,7 +21,7 @@ namespace Test.Odb.Test.Performance
             T1estInsertSimpleObjectODB(200);
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual void T1estInsertSimpleObjectODB(int size)
         {
             OdbFileName = "perf-" + size + ".neodatis";
@@ -166,7 +166,7 @@ namespace Test.Odb.Test.Performance
             Assert.That(tdelete, Is.LessThan(6000));
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public static void Main2(string[] args)
         {
             var pt = new PerformanceTest1WithIndex();

@@ -15,7 +15,7 @@ namespace Test.Odb.Test.Performance
 
 		public static readonly string OdbFileName = "perf.neodatis";
 
-		/// <exception cref="System.Exception"></exception>
+		
 		[Test]
         public virtual void TestInsertSimpleObjectODB()
 		{
@@ -122,7 +122,7 @@ namespace Test.Odb.Test.Performance
 				+ " | " + s5);
 		}
 
-		/// <exception cref="System.Exception"></exception>
+		
 		public static void Main2(string[] args)
 		{
 			PerformanceTest2 pt = new PerformanceTest2

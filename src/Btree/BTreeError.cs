@@ -9,7 +9,7 @@ namespace NDatabase.Btree
     ///   ODB BTree Errors All @ in error description will be replaced by parameters
     /// </summary>
     /// <author>olivier s</author>
-    public class BTreeError : IError
+    public sealed class BTreeError : IError
     {
         public static readonly BTreeError MergeWithTwoMoreKeys = new BTreeError(500,
                                                                                 "Trying to merge two node with more keys than allowed! @1 // @2");
@@ -42,7 +42,7 @@ namespace NDatabase.Btree
 
         #region IError Members
 
-        public virtual IError AddParameter(object o)
+        public IError AddParameter(object o)
         {
             if (_parameters == null)
                 _parameters = new ArrayList();
@@ -53,7 +53,7 @@ namespace NDatabase.Btree
             return this;
         }
 
-        public virtual IError AddParameter(string s)
+        public IError AddParameter(string s)
         {
             if (_parameters == null)
                 _parameters = new ArrayList();
@@ -62,7 +62,7 @@ namespace NDatabase.Btree
             return this;
         }
 
-        public virtual IError AddParameter(int i)
+        public IError AddParameter(int i)
         {
             if (_parameters == null)
                 _parameters = new ArrayList();
@@ -71,7 +71,7 @@ namespace NDatabase.Btree
             return this;
         }
 
-        public virtual IError AddParameter(byte i)
+        public IError AddParameter(byte i)
         {
             if (_parameters == null)
                 _parameters = new ArrayList();
@@ -80,7 +80,7 @@ namespace NDatabase.Btree
             return this;
         }
 
-        public virtual IError AddParameter(long l)
+        public IError AddParameter(long l)
         {
             if (_parameters == null)
                 _parameters = new ArrayList();

@@ -54,7 +54,7 @@ namespace NDatabase.Odb.Impl.Core.Query.NQ
             return IndexTool.BuildIndexKey("OrderBy", CurrentNnoi, QueryManager.GetOrderByAttributeIds(ClassInfo, Query));
         }
 
-        /// <exception cref="System.Exception"></exception>
+        
         public virtual object GetCurrentInstance()
         {
             return _currentObject;
