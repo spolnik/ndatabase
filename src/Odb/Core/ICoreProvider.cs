@@ -48,13 +48,6 @@ namespace NDatabase.Odb.Core
 
         IRefactorManager GetRefactorManager(IStorageEngine engine);
 
-        // For query result handler
-        /// <summary>
-        ///   Returns the query result handler for normal query result (that return a collection of objects)
-        /// </summary>
-        IMatchingObjectAction GetCollectionQueryResultAction(IStorageEngine engine, IQuery query, bool inMemory,
-                                                             bool returnObjects);
-
         // OIDs
         OID GetObjectOID(long objectOid, long classOid);
 

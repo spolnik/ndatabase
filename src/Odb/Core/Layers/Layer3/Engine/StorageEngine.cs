@@ -35,7 +35,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
     /// </remarks>
     public sealed class StorageEngine : AbstractStorageEngineReader
     {
-        private IOdbList<ICommitListener> _commitListeners;
+        private readonly IOdbList<ICommitListener> _commitListeners;
         private ISession _session;
 
         /// <summary>
@@ -63,16 +63,16 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <summary>
         ///   This is a visitor used to execute some specific action(like calling 'Before Insert Trigger') when introspecting an object
         /// </summary>
-        private IIntrospectionCallback _introspectionCallbackForInsert;
+        private readonly IIntrospectionCallback _introspectionCallbackForInsert;
 
         /// <summary>
         ///   This is a visitor used to execute some specific action when introspecting an object
         /// </summary>
-        private IIntrospectionCallback _introspectionCallbackForUpdate;
+        private readonly IIntrospectionCallback _introspectionCallbackForUpdate;
 
         private IObjectIntrospector _objectIntrospector;
-        private IObjectWriter _objectWriter;
-        private ITriggerManager _triggerManager;
+        private readonly IObjectWriter _objectWriter;
+        private readonly ITriggerManager _triggerManager;
 
         /// <summary>
         ///   The database file name
@@ -81,7 +81,52 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             CoreProvider = OdbConfiguration.GetCoreProvider();
             BaseIdentification = parameters;
-            Init();
+            
+            IsDbClosed = false;
+
+            // The check if it is a new Database must be executed before object
+            // writer initialization. Because Object Writer Init
+            // Creates the file so the check (which is based on the file existence
+            // would always return false*/
+            var isNewDatabase = IsNewDatabase();
+
+            _commitListeners = new OdbArrayList<ICommitListener>();
+            var session = BuildDefaultSession();
+
+            // Object Writer must be created before object Reader
+            _objectWriter = BuildObjectWriter();
+
+            // Object writer is a two Phase init object
+            _objectWriter.Init2();
+
+            ObjectReader = BuildObjectReader();
+            AddSession(session, false);
+
+            // If the file does not exist, then a default header must be created
+            if (isNewDatabase)
+            {
+                _objectWriter.CreateEmptyDatabaseHeader(OdbTime.GetCurrentTimeInTicks());
+            }
+            else
+            {
+                GetObjectReader().ReadDatabaseHeader();
+            }
+            _objectWriter.AfterInit();
+            _objectIntrospector = BuildObjectIntrospector();
+            _triggerManager = BuildTriggerManager();
+            // This forces the initialization of the meta model
+            var metaModel = GetMetaModel();
+
+            if (OdbConfiguration.CheckModelCompatibility())
+                CheckMetaModelCompatibility(CoreProvider.GetClassIntrospector().Instrospect(metaModel.GetAllClasses()));
+
+            // logically locks access to the file (only for this machine)
+            FileMutex.GetInstance().OpenFile(GetStorageDeviceName());
+            // Updates the Transaction Id in the file
+            _objectWriter.WriteLastTransactionId(GetCurrentTransactionId());
+            _objectWriter.SetTriggerManager(_triggerManager);
+            _introspectionCallbackForInsert = new InstrumentationCallbackForStore(this, _triggerManager, false);
+            _introspectionCallbackForUpdate = new InstrumentationCallbackForStore(this, _triggerManager, true);
         }
 
         public override void AddSession(ISession session, bool readMetamodel)
@@ -626,55 +671,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public override ITriggerManager BuildTriggerManager()
         {
             return CoreProvider.GetLocalTriggerManager(this);
-        }
-
-        private void Init()
-        {
-            IsDbClosed = false;
-
-            // The check if it is a new Database must be executed before object
-            // writer initialization. Because Object Writer Init
-            // Creates the file so the check (which is based on the file existence
-            // would always return false*/
-            var isNewDatabase = IsNewDatabase();
-
-            _commitListeners = new OdbArrayList<ICommitListener>();
-            var session = BuildDefaultSession();
-
-            // Object Writer must be created before object Reader
-            _objectWriter = BuildObjectWriter();
-
-            // Object writer is a two Phase init object
-            _objectWriter.Init2();
-
-            ObjectReader = BuildObjectReader();
-            AddSession(session, false);
-
-            // If the file does not exist, then a default header must be created
-            if (isNewDatabase)
-            {
-                _objectWriter.CreateEmptyDatabaseHeader(OdbTime.GetCurrentTimeInTicks());
-            }
-            else
-            {
-                GetObjectReader().ReadDatabaseHeader();
-            }
-            _objectWriter.AfterInit();
-            _objectIntrospector = BuildObjectIntrospector();
-            _triggerManager = BuildTriggerManager();
-            // This forces the initialization of the meta model
-            var metaModel = GetMetaModel();
-
-            if (OdbConfiguration.CheckModelCompatibility())
-                CheckMetaModelCompatibility(CoreProvider.GetClassIntrospector().Instrospect(metaModel.GetAllClasses()));
-
-            // logically locks access to the file (only for this machine)
-            FileMutex.GetInstance().OpenFile(GetStorageDeviceName());
-            // Updates the Transaction Id in the file
-            _objectWriter.WriteLastTransactionId(GetCurrentTransactionId());
-            _objectWriter.SetTriggerManager(_triggerManager);
-            _introspectionCallbackForInsert = new InstrumentationCallbackForStore(this, _triggerManager, false);
-            _introspectionCallbackForUpdate = new InstrumentationCallbackForStore(this, _triggerManager, true);
         }
 
         public void UpdateMetaModel()

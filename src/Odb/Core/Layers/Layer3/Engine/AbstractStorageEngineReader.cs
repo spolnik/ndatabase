@@ -257,8 +257,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public virtual IObjects<T> GetObjectInfos<T>(IQuery query, bool inMemory, int startIndex, int endIndex,
                                                      bool returnObjects)
         {
-            var queryResultAction = CoreProvider.GetCollectionQueryResultAction(this, query, inMemory,
-                                                                                                  returnObjects);
+            // Returns the query result handler for normal query result (that return a collection of objects)
+            var queryResultAction = new CollectionQueryResultAction<object>(query, inMemory, this, returnObjects,
+                                                           GetObjectReader().GetInstanceBuilder());
+            
             return ObjectReader.GetObjectInfos<T>(query, inMemory, startIndex, endIndex, returnObjects,
                                                   queryResultAction);
         }
