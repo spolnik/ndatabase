@@ -35,6 +35,7 @@ namespace Acid
 
         /// <exception cref="System.Exception"></exception>
         [Test]
+        [Ignore("Requires better mocking engine")]
         public virtual void Test5()
         {
             var byteArrayConverter = OdbConfiguration.GetCoreProvider().GetByteArrayConverter();
