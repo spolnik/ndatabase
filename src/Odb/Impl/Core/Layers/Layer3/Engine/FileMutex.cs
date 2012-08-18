@@ -34,7 +34,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             }
         }
 
-        public void LockFile(string fileName)
+        private void LockFile(string fileName)
         {
             lock (_openFiles)
             {

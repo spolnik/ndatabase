@@ -34,7 +34,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Serialization
 
             ICollection<AbstractObjectInfo> l = new List<AbstractObjectInfo>(collectionSize);
             for (var i = 0; i < collectionSize; i++)
-                l.Add((AbstractObjectInfo) Serializer.GetInstance().FromOneString(objects[i]));
+                l.Add((AbstractObjectInfo) Serializer.FromOneString(objects[i]));
 
             var coi = new CollectionObjectInfo(l);
             coi.SetRealCollectionClassName(realCollectionName);
@@ -53,7 +53,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Serialization
             IEnumerator iterator = coi.GetCollection().GetEnumerator();
             while (iterator.MoveNext())
             {
-                buffer.Append(Serializer.GetInstance().ToString(iterator.Current));
+                buffer.Append(Serializer.ToString(iterator.Current));
                 if (iterator.MoveNext())
                     buffer.Append(Serializer.CollectionElementSeparator);
             }

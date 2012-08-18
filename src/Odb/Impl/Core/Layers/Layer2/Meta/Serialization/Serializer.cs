@@ -50,7 +50,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Serialization
             return buffer.ToString();
         }
 
-        public string ToString(object @object)
+        public static string ToString(object @object)
         {
             var classId = GetClassId(@object.GetType());
             var serializer = _serializers[classId];
@@ -61,7 +61,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Serialization
             throw new Exception(string.Format("toString not implemented for {0}", @object.GetType().FullName));
         }
 
-        public object FromOneString(string data)
+        public static object FromOneString(string data)
         {
             var index = data.IndexOf(";", StringComparison.Ordinal);
 

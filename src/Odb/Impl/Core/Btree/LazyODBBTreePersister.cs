@@ -298,7 +298,7 @@ namespace NDatabase.Odb.Impl.Core.Btree
             return _engine.GetObjectWriter().GetIdManager().GetNextObjectId(-1);
         }
 
-        public void Persist()
+        private void Persist()
         {
             _nbPersist++;
 
@@ -368,7 +368,7 @@ namespace NDatabase.Odb.Impl.Core.Btree
             return buffer;
         }
 
-        public void ClearModified()
+        private void ClearModified()
         {
             _modifiedObjectOids.Clear();
             _modifiedObjectOidList.Clear();

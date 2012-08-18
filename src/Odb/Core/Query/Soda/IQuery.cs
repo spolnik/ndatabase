@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NSoda
+namespace NDatabase.Odb.Core.Query.Soda
 {
     /// <summary>
     /// handle to a node in the query graph.

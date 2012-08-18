@@ -237,7 +237,6 @@
     <Compile Include="Odb\Impl\Core\Layers\Layer2\Meta\Serialization\CollectionObjectInfoSerializer.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer2\Meta\Serialization\ISerializer.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer2\Meta\Serialization\NativeObjectSerializer.cs" />
-    <Compile Include="Odb\Impl\Core\Layers\Layer2\Meta\Serialization\ObjectContainer.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer2\Meta\Serialization\Serializer.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer3\Block\BlockStatus.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer3\Block\BlockTypes.cs" />

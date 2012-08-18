@@ -248,7 +248,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Compare
                                                                                          GetAttributeInfoFromId(id).
                                                                                          GetName()));
                         hasChanged = true;
-                        continue;
                     }
                     continue;
                 }
@@ -517,6 +516,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Compare
         {
             if (true)
                 return true;
+            //TODO: implement it!
 /*
             IDictionary<AbstractObjectInfo, AbstractObjectInfo> map1 = moi1.GetMap();
             IDictionary<AbstractObjectInfo, AbstractObjectInfo> map2 = moi2.GetMap();
@@ -561,13 +561,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Compare
 */
         }
 
-        protected void StoreChangedAttributeAction(ChangedNativeAttributeAction caa)
-        {
-            _nbChanges++;
-            _changedAttributeActions.Add(caa);
-        }
-
-        protected void StoreChangedAttributeAction(ChangedObjectReferenceAttributeAction caa)
+        private void StoreChangedAttributeAction(IChangedAttribute caa)
         {
             _nbChanges++;
             _changedAttributeActions.Add(caa);

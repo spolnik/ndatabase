@@ -1,6 +1,6 @@
 ﻿// .net S.O.D.A - Simple Object Database Access
 
-namespace NSoda
+namespace NDatabase.Odb.Core.Query.Soda
 {
     /// <summary>
     /// Set of Constraint objects.

@@ -1,6 +1,4 @@
-using System;
-
-namespace NSoda
+namespace NDatabase.Odb.Core.Query.Soda
 {
     /// <summary>
     /// constraint to limit the objects returned upon

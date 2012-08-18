@@ -1,4 +1,4 @@
-﻿namespace NSoda
+﻿namespace NDatabase.Odb.Core.Query.Soda
 {
     /// <summary>
     /// database engine interface.

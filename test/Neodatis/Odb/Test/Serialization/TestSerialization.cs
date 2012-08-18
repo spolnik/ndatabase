@@ -18,9 +18,9 @@ namespace Serialization
             var bd = Convert.ToDecimal("123456789.987654321", CultureInfo.InvariantCulture);
             AtomicNativeObjectInfo anoi = null;
             anoi = new AtomicNativeObjectInfo(bd, OdbType.BigDecimalId);
-            var s = Serializer.GetInstance().ToString(anoi);
+            var s = Serializer.ToString(anoi);
             // println(s);
-            var anoi2 = (AtomicNativeObjectInfo) Serializer.GetInstance().FromOneString(s);
+            var anoi2 = (AtomicNativeObjectInfo) Serializer.FromOneString(s);
             AssertEquals(anoi, anoi2);
         }
 
@@ -31,9 +31,9 @@ namespace Serialization
             var date = new DateTime();
             AtomicNativeObjectInfo anoi = null;
             anoi = new AtomicNativeObjectInfo(date, OdbType.DateId);
-            var s = Serializer.GetInstance().ToString(anoi);
+            var s = Serializer.ToString(anoi);
             // println(s);
-            var anoi2 = (AtomicNativeObjectInfo) Serializer.GetInstance().FromOneString(s);
+            var anoi2 = (AtomicNativeObjectInfo) Serializer.FromOneString(s);
             AssertEquals(anoi, anoi2);
         }
 
@@ -44,9 +44,9 @@ namespace Serialization
             var d = 123456789.789456123;
             AtomicNativeObjectInfo anoi = null;
             anoi = new AtomicNativeObjectInfo(d, OdbType.DoubleId);
-            var s = Serializer.GetInstance().ToString(anoi);
+            var s = Serializer.ToString(anoi);
             // println(s);
-            var anoi2 = (AtomicNativeObjectInfo) Serializer.GetInstance().FromOneString(s);
+            var anoi2 = (AtomicNativeObjectInfo) Serializer.FromOneString(s);
             Assert.That(anoi.ToString(), Is.EqualTo(anoi2.ToString()));
         }
 
@@ -57,9 +57,9 @@ namespace Serialization
             var i = 123456789;
             AtomicNativeObjectInfo anoi = null;
             anoi = new AtomicNativeObjectInfo(i, OdbType.IntegerId);
-            var s = Serializer.GetInstance().ToString(anoi);
+            var s = Serializer.ToString(anoi);
             // println(s);
-            var anoi2 = (AtomicNativeObjectInfo) Serializer.GetInstance().FromOneString(s);
+            var anoi2 = (AtomicNativeObjectInfo) Serializer.FromOneString(s);
             AssertEquals(anoi, anoi2);
         }
 
@@ -70,9 +70,9 @@ namespace Serialization
             var s1 = "ol√° chico";
             AtomicNativeObjectInfo anoi = null;
             anoi = new AtomicNativeObjectInfo(s1, OdbType.StringId);
-            var s = Serializer.GetInstance().ToString(anoi);
+            var s = Serializer.ToString(anoi);
             // println(s);
-            var anoi2 = (AtomicNativeObjectInfo) Serializer.GetInstance().FromOneString(s);
+            var anoi2 = (AtomicNativeObjectInfo) Serializer.FromOneString(s);
             AssertEquals(anoi, anoi2);
         }
     }

@@ -23,7 +23,7 @@ namespace NDatabase.Odb.Core.Query.Criteria
 
         private readonly string _name;
 
-        protected Operator(string name)
+        private Operator(string name)
         {
             _name = name;
         }
