@@ -7,8 +7,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
     /// <summary>
     ///   A mutex to logically lock ODB database file
     /// </summary>
-    /// <author>osmadja</author>
-    public class FileMutex
+    public sealed class FileMutex
     {
         private static readonly FileMutex Instance = new FileMutex();
 
@@ -27,7 +26,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             }
         }
 
-        public virtual void ReleaseFile(string fileName)
+        public void ReleaseFile(string fileName)
         {
             lock (_openFiles)
             {
@@ -35,7 +34,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             }
         }
 
-        public virtual void LockFile(string fileName)
+        public void LockFile(string fileName)
         {
             lock (_openFiles)
             {
@@ -57,7 +56,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             }
         }
 
-        public virtual bool OpenFile(string fileName)
+        public bool OpenFile(string fileName)
         {
             var canOpenfile = CanOpenFile(fileName);
 

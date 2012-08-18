@@ -4,38 +4,38 @@ using NDatabase.Odb.Impl.Core.Oid;
 
 namespace NDatabase.Odb.Impl.Main
 {
-    public class OdbExtImpl : IOdbExt
+    public sealed class OdbExt : IOdbExt
     {
         private readonly IStorageEngine _storageEngine;
 
-        public OdbExtImpl(IStorageEngine storageEngine)
+        public OdbExt(IStorageEngine storageEngine)
         {
             _storageEngine = storageEngine;
         }
 
         #region IOdbExt Members
 
-        public virtual IExternalOID ConvertToExternalOID(OID oid)
+        public IExternalOID ConvertToExternalOID(OID oid)
         {
             return new ExternalObjectOID(oid, _storageEngine.GetDatabaseId());
         }
 
-        public virtual ITransactionId GetCurrentTransactionId()
+        public ITransactionId GetCurrentTransactionId()
         {
             return _storageEngine.GetCurrentTransactionId();
         }
 
-        public virtual IDatabaseId GetDatabaseId()
+        public IDatabaseId GetDatabaseId()
         {
             return _storageEngine.GetDatabaseId();
         }
 
-        public virtual IExternalOID GetObjectExternalOID(object @object)
+        public IExternalOID GetObjectExternalOID(object @object)
         {
             return ConvertToExternalOID(_storageEngine.GetObjectId(@object, true));
         }
 
-        public virtual int GetObjectVersion(OID oid)
+        public int GetObjectVersion(OID oid)
         {
             var objectInfoHeader = _storageEngine.GetObjectInfoHeaderFromOid(oid);
             if (objectInfoHeader == null)
@@ -44,7 +44,7 @@ namespace NDatabase.Odb.Impl.Main
             return objectInfoHeader.GetObjectVersion();
         }
 
-        public virtual long GetObjectCreationDate(OID oid)
+        public long GetObjectCreationDate(OID oid)
         {
             var objectInfoHeader = _storageEngine.GetObjectInfoHeaderFromOid(oid);
             if (objectInfoHeader == null)
@@ -53,7 +53,7 @@ namespace NDatabase.Odb.Impl.Main
             return objectInfoHeader.GetCreationDate();
         }
 
-        public virtual long GetObjectUpdateDate(OID oid)
+        public long GetObjectUpdateDate(OID oid)
         {
             var objectInfoHeader = _storageEngine.GetObjectInfoHeaderFromOid(oid);
             if (objectInfoHeader == null)

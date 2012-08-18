@@ -17,9 +17,8 @@ namespace NDatabase.Odb.Impl.Core.Query.List.Objects
     /// <remarks>
     ///   A simple list to hold query result. It is used when no index and no order by This collection does not store the objects, it only holds the Abstract Object Info (AOI) of the objects. When user ask an object the object is lazy loaded by the buildInstance method
     /// </remarks>
-    /// <author>osmadja</author>
     [Serializable]
-    public class LazySimpleListOfAoi<T> : OdbArrayList<T>, IObjects<T>
+    public sealed class LazySimpleListOfAoi<T> : OdbArrayList<T>, IObjects<T>
     {
         /// <summary>
         ///   indicate if objects must be returned as instance (true) or as non native objects (false)
@@ -60,17 +59,17 @@ namespace NDatabase.Odb.Impl.Core.Query.List.Objects
 
         #region IObjects<T> Members
 
-        public virtual bool AddWithKey(IOdbComparable key, T @object)
+        public bool AddWithKey(IOdbComparable key, T @object)
         {
             throw new OdbRuntimeException(NDatabaseError.OperationNotImplemented);
         }
 
-        public virtual bool AddWithKey(int key, T @object)
+        public bool AddWithKey(int key, T @object)
         {
             throw new OdbRuntimeException(NDatabaseError.OperationNotImplemented);
         }
 
-        public virtual T GetFirst()
+        public T GetFirst()
         {
             try
             {
@@ -82,17 +81,17 @@ namespace NDatabase.Odb.Impl.Core.Query.List.Objects
             }
         }
 
-        public virtual bool HasNext()
+        public bool HasNext()
         {
             return _currentPosition < Count;
         }
 
-        public virtual IEnumerator<T> Iterator(OrderByConstants orderByType)
+        public IEnumerator<T> Iterator(OrderByConstants orderByType)
         {
             throw new OdbRuntimeException(NDatabaseError.OperationNotImplemented);
         }
 
-        public virtual T Next()
+        public T Next()
         {
             try
             {
@@ -109,7 +108,7 @@ namespace NDatabase.Odb.Impl.Core.Query.List.Objects
             throw new Exception("Add Oid not implemented ");
         }
 
-        public virtual void Reset()
+        public void Reset()
         {
             _currentPosition = 0;
         }

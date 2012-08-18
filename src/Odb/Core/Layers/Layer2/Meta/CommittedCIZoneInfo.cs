@@ -8,9 +8,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// <remarks>
     ///   Used for committed zone info. It has one more attribute than the super class. It is used to keep track of committed deleted objects
     /// </remarks>
-    /// <author>osmadja</author>
     [Serializable]
-    public class CommittedCIZoneInfo : CIZoneInfo
+    public sealed class CommittedCIZoneInfo : CIZoneInfo
     {
         private long _nbDeletedObjects;
 
@@ -24,12 +23,12 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             _nbDeletedObjects++;
         }
 
-        public virtual long GetNbDeletedObjects()
+        public long GetNbDeletedObjects()
         {
             return _nbDeletedObjects;
         }
 
-        public virtual void SetNbDeletedObjects(long nbDeletedObjects)
+        public void SetNbDeletedObjects(long nbDeletedObjects)
         {
             _nbDeletedObjects = nbDeletedObjects;
         }
@@ -45,7 +44,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             _nbDeletedObjects = 0;
         }
 
-        public virtual void SetNbObjects(CommittedCIZoneInfo cizi)
+        public void SetNbObjects(CommittedCIZoneInfo cizi)
         {
             NbObjects = cizi.NbObjects;
             _nbDeletedObjects = cizi._nbDeletedObjects;

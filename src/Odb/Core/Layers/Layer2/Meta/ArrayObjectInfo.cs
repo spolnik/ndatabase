@@ -8,25 +8,24 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// <summary>
     ///   A meta representation of an Array
     /// </summary>
-    /// <author>osmadja</author>
     [Serializable]
-    public class ArrayObjectInfo : GroupObjectInfo
+    public sealed class ArrayObjectInfo : GroupObjectInfo
     {
         private int _componentTypeId;
         private string _realArrayComponentClassName;
 
-        public ArrayObjectInfo(IEnumerable array) : base(array, Meta.OdbType.ArrayId)
+        public ArrayObjectInfo(IEnumerable array) : base(array, OdbType.ArrayId)
         {
-            _realArrayComponentClassName = Meta.OdbType.DefaultArrayComponentClassName;
+            _realArrayComponentClassName = OdbType.DefaultArrayComponentClassName;
         }
 
         public ArrayObjectInfo(IEnumerable array, OdbType type, int componentId) : base(array, type)
         {
-            _realArrayComponentClassName = Meta.OdbType.DefaultArrayComponentClassName;
+            _realArrayComponentClassName = OdbType.DefaultArrayComponentClassName;
             _componentTypeId = componentId;
         }
 
-        public virtual object[] GetArray()
+        public object[] GetArray()
         {
             return (object[]) TheObject;
         }
@@ -62,27 +61,27 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return true;
         }
 
-        public virtual string GetRealArrayComponentClassName()
+        public string GetRealArrayComponentClassName()
         {
             return _realArrayComponentClassName;
         }
 
-        public virtual void SetRealArrayComponentClassName(string realArrayComponentClassName)
+        public void SetRealArrayComponentClassName(string realArrayComponentClassName)
         {
             _realArrayComponentClassName = realArrayComponentClassName;
         }
 
-        public virtual int GetArrayLength()
+        public int GetArrayLength()
         {
             return GetArray().Length;
         }
 
-        public virtual int GetComponentTypeId()
+        public int GetComponentTypeId()
         {
             return _componentTypeId;
         }
 
-        public virtual void SetComponentTypeId(int componentTypeId)
+        public void SetComponentTypeId(int componentTypeId)
         {
             _componentTypeId = componentTypeId;
         }

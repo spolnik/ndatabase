@@ -1,10 +1,7 @@
 using System;
-using System.Globalization;
 using System.IO;
-using System.Threading;
 using NDatabase.Odb.Core;
 using NDatabase.Tool;
-using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.IO;
 
 namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
@@ -15,8 +12,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
     /// <remarks>
     ///   A buffer manager that can manage more than one buffer. Number of buffers can be configured using Configuration.setNbBuffers().
     /// </remarks>
-    /// <author>osmadja</author>
-    public class MultiBufferedFileIO : MultiBufferedIO
+    public sealed class MultiBufferedFileIO : MultiBufferedIO
     {
         private const string MultiBufLogId = "MultiBufferedFileIO";
 
@@ -39,19 +35,13 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
                 if (OdbConfiguration.IsDebugEnabled(MultiBufLogId))
                     DLogger.Info(string.Format("Opening datatbase file : {0}", Path.GetFullPath(_wholeFileName)));
 
-                _fileWriter = BuildFileWriter(canWrite);
+                _fileWriter = new OdbFileIO(_wholeFileName, canWrite);
                 SetIoDeviceLength(_fileWriter.Length());
             }
             catch (Exception e)
             {
                 throw new OdbRuntimeException(NDatabaseError.InternalError, e);
             }
-        }
-
-        /// <exception cref="System.IO.IOException"></exception>
-        protected virtual OdbFileIO BuildFileWriter(bool canWrite)
-        {
-            return new OdbFileIO(_wholeFileName, canWrite);
         }
 
         public override void GoToPosition(long position)

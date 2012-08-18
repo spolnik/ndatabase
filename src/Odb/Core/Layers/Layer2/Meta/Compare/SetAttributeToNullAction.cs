@@ -1,6 +1,6 @@
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
 {
-    public class SetAttributeToNullAction
+    public sealed class SetAttributeToNullAction
     {
         private int _attributeId;
         private NonNativeObjectInfo _nnoi;
@@ -11,27 +11,27 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
             _attributeId = attributeId;
         }
 
-        public virtual int GetAttributeId()
+        public int GetAttributeId()
         {
             return _attributeId;
         }
 
-        public virtual void SetAttributeId(int attributeId)
+        public void SetAttributeId(int attributeId)
         {
             _attributeId = attributeId;
         }
 
-        public virtual NonNativeObjectInfo GetNnoi()
+        public NonNativeObjectInfo GetNnoi()
         {
             return _nnoi;
         }
 
-        public virtual void SetNnoi(NonNativeObjectInfo nnoi)
+        public void SetNnoi(NonNativeObjectInfo nnoi)
         {
             _nnoi = nnoi;
         }
 
-        public virtual long GetUpdatePosition()
+        public long GetUpdatePosition()
         {
             return _nnoi.GetAttributeDefinitionPosition(_attributeId);
         }

@@ -3,7 +3,7 @@ using System;
 namespace NDatabase.Odb.Core.Query.Criteria
 {
     [Serializable]
-    public class Operator
+    public sealed class Operator
     {
         public static readonly Operator Equal = new Operator("=");
 
@@ -28,7 +28,7 @@ namespace NDatabase.Odb.Core.Query.Criteria
             _name = name;
         }
 
-        public virtual string GetName()
+        public string GetName()
         {
             return _name;
         }

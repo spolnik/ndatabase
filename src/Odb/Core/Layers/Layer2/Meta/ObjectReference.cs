@@ -6,12 +6,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// <summary>
     ///   Meta representation of an object reference.
     /// </summary>
-    /// <remarks>
-    ///   Meta representation of an object reference.
-    /// </remarks>
-    /// <author>osmadja</author>
     [Serializable]
-    public class ObjectReference : AbstractObjectInfo
+    public sealed class ObjectReference : AbstractObjectInfo
     {
         private readonly OID _id;
 
@@ -29,7 +25,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         }
 
         /// <returns> Returns the id. </returns>
-        public virtual OID GetOid()
+        public OID GetOid()
         {
             if (_nnoi != null)
                 return _nnoi.GetOid();
@@ -63,7 +59,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                 NDatabaseError.MethodShouldNotBeCalled.AddParameter("setObject").AddParameter(GetType().FullName));
         }
 
-        public virtual NonNativeObjectInfo GetNnoi()
+        public NonNativeObjectInfo GetNnoi()
         {
             return _nnoi;
         }

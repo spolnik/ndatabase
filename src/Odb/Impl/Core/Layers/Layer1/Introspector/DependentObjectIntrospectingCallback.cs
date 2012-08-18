@@ -4,19 +4,18 @@ using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
 {
-    /// <author>olivier</author>
-    public class GetDependentObjectIntrospectingCallback : IIntrospectionCallback
+    public sealed class DependentObjectIntrospectingCallback : IIntrospectionCallback
     {
         private readonly OdbHashMap<object, object> _objects;
 
-        public GetDependentObjectIntrospectingCallback()
+        public DependentObjectIntrospectingCallback()
         {
             _objects = new OdbHashMap<object, object>();
         }
 
         #region IIntrospectionCallback Members
 
-        public virtual bool ObjectFound(object o)
+        public bool ObjectFound(object o)
         {
             if (o == null)
             {
@@ -32,7 +31,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
 
         #endregion
 
-        public virtual ICollection<object> GetObjects()
+        public ICollection<object> GetObjects()
         {
             return _objects.Values;
         }

@@ -224,7 +224,7 @@
     <Compile Include="Odb\Impl\Core\Layers\Layer1\Introspector\ClassIntrospector.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer1\Introspector\DefaultInstrumentationCallback.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer1\Introspector\InstrumentationCallbackForStore.cs" />
-    <Compile Include="Odb\Impl\Core\Layers\Layer1\Introspector\GetDependentObjectIntrospectingCallback.cs" />
+    <Compile Include="Odb\Impl\Core\Layers\Layer1\Introspector\DependentObjectIntrospectingCallback.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer1\Introspector\ObjectIntrospector.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer1\Introspector\NonPersistentAttribute.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer2\Instance\InstanceBuilder.cs" />
@@ -313,7 +313,7 @@
     <Compile Include="Odb\Impl\Main\ClassRepresentation.cs" />
     <Compile Include="Odb\Impl\Main\Odb.cs" />
     <Compile Include="Odb\Impl\Main\ODBAdapter.cs" />
-    <Compile Include="Odb\Impl\Main\ODBExtImpl.cs" />
+    <Compile Include="Odb\Impl\Main\OdbExt.cs" />
     <Compile Include="Odb\Impl\Main\ODBForTrigger.cs" />
     <Compile Include="Odb\Impl\Tool\LogUtil.cs" />
     <Compile Include="Odb\Impl\Tool\MemoryMonitor.cs" />

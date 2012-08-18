@@ -7,7 +7,7 @@ using NDatabase.Odb.Core.Query.Execution;
 
 namespace NDatabase.Odb.Impl.Core.Query.NQ
 {
-    public class NativeQueryExecutor : GenericQueryExecutor
+    public sealed class NativeQueryExecutor : GenericQueryExecutor
     {
         private readonly IInstanceBuilder _instanceBuilder;
         private object _currentObject;
@@ -49,13 +49,13 @@ namespace NDatabase.Odb.Impl.Core.Query.NQ
             return null;
         }
 
-        public virtual IComparable BuildOrderByKey()
+        public IComparable BuildOrderByKey()
         {
             return IndexTool.BuildIndexKey("OrderBy", CurrentNnoi, QueryManager.GetOrderByAttributeIds(ClassInfo, Query));
         }
 
         
-        public virtual object GetCurrentInstance()
+        public object GetCurrentInstance()
         {
             return _currentObject;
         }

@@ -4,34 +4,34 @@ using NDatabase.Odb.Core.Layers.Layer2.Meta;
 namespace NDatabase.Odb.Core.Query.Execution
 {
     [Serializable]
-    public class EmptyExecutionPlan : IQueryExecutionPlan
+    public sealed class EmptyExecutionPlan : IQueryExecutionPlan
     {
         #region IQueryExecutionPlan Members
 
-        public virtual void End()
+        public void End()
         {
         }
 
-        public virtual string GetDetails()
+        public string GetDetails()
         {
             return "empty plan";
         }
 
-        public virtual long GetDuration()
+        public long GetDuration()
         {
             return 0;
         }
 
-        public virtual ClassInfoIndex GetIndex()
+        public ClassInfoIndex GetIndex()
         {
             return null;
         }
 
-        public virtual void Start()
+        public void Start()
         {
         }
 
-        public virtual bool UseIndex()
+        public bool UseIndex()
         {
             return false;
         }

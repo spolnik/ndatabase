@@ -7,14 +7,13 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// <summary>
     ///   Meta representation of a Map
     /// </summary>
-    /// <author>osmadja</author>
     [Serializable]
-    public class MapObjectInfo : GroupObjectInfo
+    public sealed class MapObjectInfo : GroupObjectInfo
     {
         private string _realMapClassName;
 
         public MapObjectInfo(IDictionary<AbstractObjectInfo, AbstractObjectInfo> map, string realMapClassName)
-            : base(map, Meta.OdbType.MapId)
+            : base(map, OdbType.MapId)
         {
             _realMapClassName = realMapClassName;
         }
@@ -25,7 +24,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             _realMapClassName = realMapClassName;
         }
 
-        public virtual IDictionary<AbstractObjectInfo, AbstractObjectInfo> GetMap()
+        public IDictionary<AbstractObjectInfo, AbstractObjectInfo> GetMap()
         {
             return (IDictionary<AbstractObjectInfo, AbstractObjectInfo>) TheObject;
         }
@@ -42,12 +41,12 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return true;
         }
 
-        public virtual string GetRealMapClassName()
+        public string GetRealMapClassName()
         {
             return _realMapClassName;
         }
 
-        public virtual void SetRealMapClassName(string realMapClassName)
+        public void SetRealMapClassName(string realMapClassName)
         {
             _realMapClassName = realMapClassName;
         }

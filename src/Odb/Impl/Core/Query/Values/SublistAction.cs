@@ -16,9 +16,8 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
     /// <remarks>
     ///   An action to retrieve a sublist of list. It is used by the Object Values API. When calling odb.getValues(new ValuesCriteriaQuery(Handler.class, Where .equal("id", id)).sublist("parameters",fromIndex, size); The sublist action will return Returns a view of the portion of this list between the specified fromIndex, inclusive, and toIndex, exclusive. if parameters list contains [param1,param2,param3,param4], sublist("parameters",1,2) will return a sublist containing [param2,param3]
     /// </remarks>
-    /// <author>osmadja</author>
     [Serializable]
-    public class SublistAction : AbstractQueryFieldAction
+    public sealed class SublistAction : AbstractQueryFieldAction
     {
         private readonly int _fromIndex;
         private readonly int _size;
@@ -77,7 +76,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
         {
         }
 
-        public virtual IList<object> GetSubList()
+        public IList<object> GetSubList()
         {
             return _sublist;
         }

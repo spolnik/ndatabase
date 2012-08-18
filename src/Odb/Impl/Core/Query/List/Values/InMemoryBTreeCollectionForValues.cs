@@ -11,9 +11,8 @@ namespace NDatabase.Odb.Impl.Core.Query.List.Values
     /// <remarks>
     ///   An ordered Collection to hold values (not objects) based on a BTree implementation. It holds all values in memory.
     /// </remarks>
-    /// <author>osmadja</author>
     [Serializable]
-    public class InMemoryBTreeCollectionForValues : AbstractBTreeCollection<IObjectValues>, IValues
+    public sealed class InMemoryBTreeCollectionForValues : AbstractBTreeCollection<IObjectValues>, IValues
     {
         public InMemoryBTreeCollectionForValues() : base(OrderByConstants.OrderByAsc)
         {
@@ -25,7 +24,7 @@ namespace NDatabase.Odb.Impl.Core.Query.List.Values
 
         #region IValues Members
 
-        public virtual IObjectValues NextValues()
+        public IObjectValues NextValues()
         {
             return Next();
         }

@@ -188,7 +188,7 @@ namespace NDatabase.Odb.Impl.Main
 
         public virtual IOdbExt Ext()
         {
-            return _ext ?? (_ext = new OdbExtImpl(_storageEngine));
+            return _ext ?? (_ext = new OdbExt(_storageEngine));
         }
 
         public virtual void Disconnect(object @object)

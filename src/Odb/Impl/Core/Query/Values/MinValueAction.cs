@@ -8,9 +8,8 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
     /// <summary>
     ///   An action to compute the max value of a field
     /// </summary>
-    /// <author>osmadja</author>
     [Serializable]
-    public class MinValueAction : AbstractQueryFieldAction
+    public sealed class MinValueAction : AbstractQueryFieldAction
     {
         private Decimal _minValue;
         private OID _oidOfMinValues;
@@ -45,7 +44,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
         {
         }
 
-        public virtual OID GetOidOfMinValues()
+        public OID GetOidOfMinValues()
         {
             return _oidOfMinValues;
         }

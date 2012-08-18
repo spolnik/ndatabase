@@ -6,28 +6,28 @@ using NDatabase.Odb.Core.Trigger;
 
 namespace NDatabase.Odb.Impl.Main
 {
-    public class OdbForTrigger : OdbAdapter
+    public sealed class OdbForTrigger : OdbAdapter
     {
         public OdbForTrigger(IStorageEngine storageEngine) : base(storageEngine)
         {
         }
 
-        public virtual void AddDeleteTrigger(DeleteTrigger trigger)
+        public void AddDeleteTrigger(DeleteTrigger trigger)
         {
             throw new OdbRuntimeException(NDatabaseError.OperationNotAllowedInTrigger);
         }
 
-        public virtual void AddInsertTrigger(InsertTrigger trigger)
+        public void AddInsertTrigger(InsertTrigger trigger)
         {
             throw new OdbRuntimeException(NDatabaseError.OperationNotAllowedInTrigger);
         }
 
-        public virtual void AddSelectTrigger(SelectTrigger trigger)
+        public void AddSelectTrigger(SelectTrigger trigger)
         {
             throw new OdbRuntimeException(NDatabaseError.OperationNotAllowedInTrigger);
         }
 
-        public virtual void AddUpdateTrigger(UpdateTrigger trigger)
+        public void AddUpdateTrigger(UpdateTrigger trigger)
         {
             throw new OdbRuntimeException(NDatabaseError.OperationNotAllowedInTrigger);
         }

@@ -9,9 +9,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// <remarks>
     ///   A Map to contain values of attributes of an object. It is used to optimize a criteria query execution where ODB , while reading an instance data, tries to retrieve only values of attributes involved in the query instead of reading the entire object.
     /// </remarks>
-    /// <author>olivier s</author>
     [Serializable]
-    public class AttributeValuesMap : Hashtable
+    public sealed class AttributeValuesMap : Hashtable
 
     {
         /// <summary>
@@ -27,37 +26,37 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// </remarks>
         private OID _oid;
 
-        public virtual ObjectInfoHeader GetObjectInfoHeader()
+        public ObjectInfoHeader GetObjectInfoHeader()
         {
             return _objectInfoHeader;
         }
 
-        public virtual void SetObjectInfoHeader(ObjectInfoHeader objectInfoHeader)
+        public void SetObjectInfoHeader(ObjectInfoHeader objectInfoHeader)
         {
             _objectInfoHeader = objectInfoHeader;
         }
 
-        public virtual object GetAttributeValue(string attributeName)
+        public object GetAttributeValue(string attributeName)
         {
             return this[attributeName];
         }
 
-        public virtual IComparable GetComparable(string attributeName)
+        public IComparable GetComparable(string attributeName)
         {
             return (IComparable) GetAttributeValue(attributeName);
         }
 
-        public virtual bool HasOid()
+        public bool HasOid()
         {
             return _oid != null;
         }
 
-        public virtual OID GetOid()
+        public OID GetOid()
         {
             return _oid;
         }
 
-        public virtual void SetOid(OID oid)
+        public void SetOid(OID oid)
         {
             _oid = oid;
         }

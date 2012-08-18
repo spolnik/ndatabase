@@ -5,8 +5,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
     /// <summary>
     ///   Used to store informations about object changes at attribute level
     /// </summary>
-    /// <author>osmadja</author>
-    public class ChangedNativeAttributeAction : IChangedAttribute
+    public sealed class ChangedNativeAttributeAction : IChangedAttribute
     {
         private readonly string _attributeName;
 
@@ -46,32 +45,32 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
             return buffer.ToString();
         }
 
-        public virtual NativeObjectInfo GetNoiWithNewValue()
+        public NativeObjectInfo GetNoiWithNewValue()
         {
             return _noiWithNewValue;
         }
 
-        public virtual int GetRecursionLevel()
+        public int GetRecursionLevel()
         {
             return _recursionLevel;
         }
 
-        public virtual long GetUpdatePosition()
+        public long GetUpdatePosition()
         {
             return _updatePosition;
         }
 
-        public virtual bool IsString()
+        public bool IsString()
         {
             return _noiWithNewValue.GetOdbTypeId() == OdbType.StringId;
         }
 
-        public virtual NonNativeObjectInfo GetOldNnoi()
+        public NonNativeObjectInfo GetOldNnoi()
         {
             return _oldNnoi;
         }
 
-        public virtual NonNativeObjectInfo GetNewNoi()
+        public NonNativeObjectInfo GetNewNoi()
         {
             return _newNoi;
         }

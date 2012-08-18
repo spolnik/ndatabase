@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Tool.Wrappers.Map;
@@ -12,8 +13,7 @@ namespace NDatabase.Odb.Impl.Core.Transaction
     /// <remarks>
     ///   A cache that survives the sessions. It is uses to automatically reconnect object to sessions
     /// </remarks>
-    /// <author>mayworm,olivier</author>
-    public class CrossSessionCache : ICrossSessionCache
+    public sealed class CrossSessionCache : ICrossSessionCache
     {
         /// <summary>
         ///   To keep track of all caches
@@ -37,7 +37,7 @@ namespace NDatabase.Odb.Impl.Core.Transaction
         /// <summary>
         ///   Protected constructor for factory-based construction
         /// </summary>
-        protected CrossSessionCache()
+        private CrossSessionCache()
         {
             _objects = new Dictionary<object, OID>();
             _deletedOids = new Dictionary<OID, OID>();
@@ -45,7 +45,7 @@ namespace NDatabase.Odb.Impl.Core.Transaction
 
         #region ICrossSessionCache Members
 
-        public virtual void AddObject(object o, OID oid)
+        public void AddObject(object o, OID oid)
         {
             if (o == null)
                 return;
@@ -67,13 +67,13 @@ namespace NDatabase.Odb.Impl.Core.Transaction
         // exception
         // This is the case of URL that has a transient attribute handler
         // that is used in the URL.equals method
-        public virtual void Clear()
+        public void Clear()
         {
             _objects.Clear();
             _deletedOids.Clear();
         }
 
-        public virtual bool ExistObject(object o)
+        public bool ExistObject(object o)
         {
             if (o == null)
                 return false;
@@ -92,10 +92,10 @@ namespace NDatabase.Odb.Impl.Core.Transaction
             return true;
         }
 
-        public virtual OID GetOid(object o)
+        public OID GetOid(object o)
         {
             if (o == null)
-                throw new OdbRuntimeException(NDatabaseError.CacheNullObject.AddParameter(o));
+                throw new OdbRuntimeException(NDatabaseError.CacheNullObject.AddParameter("o"));
 
             var oid = _objects[o];
 
@@ -114,12 +114,12 @@ namespace NDatabase.Odb.Impl.Core.Transaction
             return null;
         }
 
-        public virtual bool IsEmpty()
+        public bool IsEmpty()
         {
             return _objects.Count == 0;
         }
 
-        public virtual void RemoveObject(object o)
+        public void RemoveObject(object o)
         {
             if (o == null)
                 throw new OdbRuntimeException(
@@ -135,12 +135,12 @@ namespace NDatabase.Odb.Impl.Core.Transaction
             }
         }
 
-        public virtual void RemoveOid(OID oid)
+        public void RemoveOid(OID oid)
         {
             _deletedOids.Add(oid, oid);
         }
 
-        public virtual int Size()
+        public int Size()
         {
             return _objects.Count;
         }
@@ -174,13 +174,8 @@ namespace NDatabase.Odb.Impl.Core.Transaction
 
         public static void ClearAll()
         {
-            var names = Instances.Keys.GetEnumerator();
-            while (names.MoveNext())
-            {
-                var name = names.Current;
-                var cache = Instances[name];
+            foreach (var cache in Instances.Keys.Select(key => Instances[key]))
                 cache.Clear();
-            }
 
             Instances.Clear();
         }

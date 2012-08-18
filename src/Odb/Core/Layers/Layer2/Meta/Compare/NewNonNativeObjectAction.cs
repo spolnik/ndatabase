@@ -5,11 +5,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
     /// <summary>
     ///   Used to store that a new Object was created when comparing to Objects.
     /// </summary>
-    /// <remarks>
-    ///   Used to store that a new Object was created when comparing to Objects.
-    /// </remarks>
-    /// <author>osmadja</author>
-    public class NewNonNativeObjectAction
+    public sealed class NewNonNativeObjectAction
     {
         private readonly string _attributeName;
         private readonly NonNativeObjectInfo _nnoi;
@@ -36,17 +32,17 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
             return buffer.ToString();
         }
 
-        public virtual NonNativeObjectInfo GetNnoi()
+        public NonNativeObjectInfo GetNnoi()
         {
             return _nnoi;
         }
 
-        public virtual int GetRecursionLevel()
+        public int GetRecursionLevel()
         {
             return _recursionLevel;
         }
 
-        public virtual long GetUpdatePosition()
+        public long GetUpdatePosition()
         {
             return _updatePosition;
         }

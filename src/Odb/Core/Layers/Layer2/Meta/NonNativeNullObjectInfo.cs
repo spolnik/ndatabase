@@ -5,9 +5,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// <summary>
     ///   To keep info about a non native null instance
     /// </summary>
-    /// <author>olivier s</author>
     [Serializable]
-    public class NonNativeNullObjectInfo : NonNativeObjectInfo
+    public sealed class NonNativeNullObjectInfo : NonNativeObjectInfo
     {
         public NonNativeNullObjectInfo() : base(null)
         {
@@ -22,12 +21,12 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return "null non native object ";
         }
 
-        public virtual bool HasChanged(AbstractObjectInfo aoi)
+        public bool HasChanged(AbstractObjectInfo aoi)
         {
             return aoi.GetType() != typeof (NonNativeNullObjectInfo);
         }
 
-        public virtual bool IsNonNativeNullObject()
+        public bool IsNonNativeNullObject()
         {
             return true;
         }

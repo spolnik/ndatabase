@@ -525,7 +525,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             GetSession(true).AddObjectToCache(oid, @object, objectInfoHeader);
 
             // Retrieve Dependent Objects
-            var getObjectsCallback = new GetDependentObjectIntrospectingCallback();
+            var getObjectsCallback = new DependentObjectIntrospectingCallback();
             var classInfo = GetSession(true).GetMetaModel().GetClassInfoFromId(objectInfoHeader.GetClassInfoId());
 
             _objectIntrospector.GetMetaRepresentation(@object, classInfo, true, null, getObjectsCallback);

@@ -13,9 +13,8 @@ namespace NDatabase.Odb.Impl.Core.Query.List.Objects
     /// <remarks>
     ///   A simple list to hold query result. It is used when no index and no order by is used and inMemory = false This collection does not store the objects, it only holds the OIDs of the objects. When user ask an object the object is lazy loaded by the getObjectFromId method
     /// </remarks>
-    /// <author>osmadja</author>
     [Serializable]
-    public class LazySimpleListFromOid<T> : OdbArrayList<T>, IObjects<T>
+    public sealed class LazySimpleListFromOid<T> : OdbArrayList<T>, IObjects<T>
     {
         /// <summary>
         ///   The odb engine to lazily get objects
@@ -43,17 +42,17 @@ namespace NDatabase.Odb.Impl.Core.Query.List.Objects
 
         #region IObjects<T> Members
 
-        public virtual bool AddWithKey(IOdbComparable key, T @object)
+        public bool AddWithKey(IOdbComparable key, T @object)
         {
             throw new OdbRuntimeException(NDatabaseError.OperationNotImplemented);
         }
 
-        public virtual bool AddWithKey(int key, T @object)
+        public bool AddWithKey(int key, T @object)
         {
             throw new OdbRuntimeException(NDatabaseError.OperationNotImplemented);
         }
 
-        public virtual T GetFirst()
+        public T GetFirst()
         {
             try
             {
@@ -65,12 +64,12 @@ namespace NDatabase.Odb.Impl.Core.Query.List.Objects
             }
         }
 
-        public virtual bool HasNext()
+        public bool HasNext()
         {
             return _currentPosition < _oids.Count;
         }
 
-        public virtual IEnumerator<T> Iterator(OrderByConstants orderByType)
+        public IEnumerator<T> Iterator(OrderByConstants orderByType)
         {
             throw new OdbRuntimeException(NDatabaseError.OperationNotImplemented);
         }
@@ -80,7 +79,7 @@ namespace NDatabase.Odb.Impl.Core.Query.List.Objects
             get { return _oids.Count; }
         }
 
-        public virtual T Next()
+        public T Next()
         {
             try
             {
@@ -92,7 +91,7 @@ namespace NDatabase.Odb.Impl.Core.Query.List.Objects
             }
         }
 
-        public virtual void Reset()
+        public void Reset()
         {
             _currentPosition = 0;
         }

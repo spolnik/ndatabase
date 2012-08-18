@@ -7,7 +7,7 @@ namespace NDatabase.Odb.Core
     /// </summary>
     /// <author>osmadja</author>
     [Serializable]
-    public class OrderByConstants
+    public sealed class OrderByConstants
     {
         private const int OrderByNoneType = 0;
 
@@ -28,17 +28,17 @@ namespace NDatabase.Odb.Core
             _type = type;
         }
 
-        public virtual bool IsOrderByDesc()
+        public bool IsOrderByDesc()
         {
             return _type == OrderByDescType;
         }
 
-        public virtual bool IsOrderByAsc()
+        public bool IsOrderByAsc()
         {
             return _type == OrderByAscType;
         }
 
-        public virtual bool IsOrderByNone()
+        public bool IsOrderByNone()
         {
             return _type == OrderByNoneType;
         }

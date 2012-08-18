@@ -7,7 +7,7 @@ namespace NDatabase.Odb.Core.Query.Execution
     ///   <p>A class to execute a query on more than one class and then merges the result. It is used when polymophic is set to true because
     ///     in this case, we must execute query on the main class and all its persistent subclasses</p>
     /// </remarks>
-    public class MultiClassGenericQueryExecutor : IQueryExecutor
+    public sealed class MultiClassGenericQueryExecutor : IQueryExecutor
     {
         private readonly IMultiClassQueryExecutor _executor;
 
@@ -29,7 +29,7 @@ namespace NDatabase.Odb.Core.Query.Execution
         /// <param name="endIndex"> </param>
         /// <param name="returnObjects"> </param>
         /// <param name="queryResultAction"> </param>
-        public virtual IObjects<T> Execute<T>(bool inMemory, int startIndex, int endIndex, bool returnObjects,
+        public IObjects<T> Execute<T>(bool inMemory, int startIndex, int endIndex, bool returnObjects,
                                               IMatchingObjectAction queryResultAction)
         {
             if (_executor.GetStorageEngine().IsClosed())
@@ -66,7 +66,7 @@ namespace NDatabase.Odb.Core.Query.Execution
 
         #endregion
 
-        public virtual bool ExecuteStartAndEndOfQueryAction()
+        public bool ExecuteStartAndEndOfQueryAction()
         {
             return false;
         }

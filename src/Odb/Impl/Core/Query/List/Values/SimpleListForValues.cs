@@ -11,9 +11,8 @@ namespace NDatabase.Odb.Impl.Core.Query.List.Values
     /// <remarks>
     ///   A simple list to hold query result for Object Values API. It is used when no index and no order by is used and inMemory = true
     /// </remarks>
-    /// <author>osmadja</author>
     [Serializable]
-    public class SimpleListForValues : SimpleList<IObjectValues>, IValues
+    public sealed class SimpleListForValues : SimpleList<IObjectValues>, IValues
     {
         public SimpleListForValues()
         {
@@ -25,7 +24,7 @@ namespace NDatabase.Odb.Impl.Core.Query.List.Values
 
         #region IValues Members
 
-        public virtual IObjectValues NextValues()
+        public IObjectValues NextValues()
         {
             return Next();
         }

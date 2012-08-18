@@ -1,6 +1,6 @@
 namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.History
 {
-    public class InsertHistoryInfo : IHistoryInfo
+    public sealed class InsertHistoryInfo : IHistoryInfo
     {
         private readonly OID _next;
         private readonly OID _oid;
@@ -18,27 +18,27 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.History
             _prev = prev;
         }
 
-        public virtual OID GetNext()
+        public OID GetNext()
         {
             return _next;
         }
 
-        public virtual long GetPosition()
+        public long GetPosition()
         {
             return _position;
         }
 
-        public virtual OID GetPrev()
+        public OID GetPrev()
         {
             return _prev;
         }
 
-        public new virtual string GetType()
+        public new string GetType()
         {
             return _type;
         }
 
-        public virtual OID GetOid()
+        public OID GetOid()
         {
             return _oid;
         }

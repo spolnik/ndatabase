@@ -5,8 +5,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
     /// <summary>
     ///   Used to store informations about object changes when the change is only a reference change
     /// </summary>
-    /// <author>osmadja</author>
-    public class ChangedObjectReferenceAttributeAction : IChangedAttribute
+    public sealed class ChangedObjectReferenceAttributeAction : IChangedAttribute
     {
         private readonly ObjectReference _objectReference;
 
@@ -30,22 +29,22 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
             return buffer.ToString();
         }
 
-        public virtual OID GetNewId()
+        public OID GetNewId()
         {
             return _objectReference.GetOid();
         }
 
-        public virtual int GetRecursionLevel()
+        public int GetRecursionLevel()
         {
             return _recursionLevel;
         }
 
-        public virtual long GetUpdatePosition()
+        public long GetUpdatePosition()
         {
             return _updatePosition;
         }
 
-        public virtual bool IsString()
+        public bool IsString()
         {
             return false;
         }

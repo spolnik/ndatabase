@@ -8,9 +8,8 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
     /// <summary>
     ///   An action to compute the max value of a field
     /// </summary>
-    /// <author>osmadja</author>
     [Serializable]
-    public class MaxValueAction : AbstractQueryFieldAction
+    public sealed class MaxValueAction : AbstractQueryFieldAction
     {
         private Decimal _maxValue;
 
@@ -46,7 +45,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
         {
         }
 
-        public virtual OID GetOidOfMaxValues()
+        public OID GetOidOfMaxValues()
         {
             return _oidOfMaxValues;
         }

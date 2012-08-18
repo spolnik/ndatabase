@@ -14,8 +14,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Compare
     /// <remarks>
     ///   Manage Object info differences. compares two object info and tells which objects in the object hierarchy has changed. This is used by the update to process to optimize it and actually update what has changed
     /// </remarks>
-    /// <author>olivier s</author>
-    public class ObjectInfoComparator : IObjectInfoComparator
+    public sealed class ObjectInfoComparator : IObjectInfoComparator
     {
         private const int Size = 5;
         private readonly IDictionary<NonNativeObjectInfo, int> _alreadyCheckingObjects;
@@ -49,52 +48,52 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Compare
 
         #region IObjectInfoComparator Members
 
-        public virtual bool HasChanged(AbstractObjectInfo aoi1, AbstractObjectInfo aoi2)
+        public bool HasChanged(AbstractObjectInfo aoi1, AbstractObjectInfo aoi2)
         {
             return HasChanged(aoi1, aoi2, -1);
         }
 
-        public virtual AbstractObjectInfo GetChangedObjectMetaRepresentation(int i)
+        public AbstractObjectInfo GetChangedObjectMetaRepresentation(int i)
         {
             return _changedObjectMetaRepresentations[i];
         }
 
-        public virtual IList<ChangedObjectInfo> GetChanges()
+        public IList<ChangedObjectInfo> GetChanges()
         {
             return _changes;
         }
 
-        public virtual IList<NewNonNativeObjectAction> GetNewObjectMetaRepresentations()
+        public IList<NewNonNativeObjectAction> GetNewObjectMetaRepresentations()
         {
             return _newObjectMetaRepresentations;
         }
 
-        public virtual NewNonNativeObjectAction GetNewObjectMetaRepresentation(int i)
+        public NewNonNativeObjectAction GetNewObjectMetaRepresentation(int i)
         {
             return _newObjectMetaRepresentations[i];
         }
 
-        public virtual IList<object> GetNewObjects()
+        public IList<object> GetNewObjects()
         {
             return _newObjects;
         }
 
-        public virtual int GetMaxObjectRecursionLevel()
+        public int GetMaxObjectRecursionLevel()
         {
             return _maxObjectRecursionLevel;
         }
 
-        public virtual IList<IChangedAttribute> GetChangedAttributeActions()
+        public IList<IChangedAttribute> GetChangedAttributeActions()
         {
             return _changedAttributeActions;
         }
 
-        public virtual IList<SetAttributeToNullAction> GetAttributeToSetToNull()
+        public IList<SetAttributeToNullAction> GetAttributeToSetToNull()
         {
             return _attributeToSetToNull;
         }
 
-        public virtual void Clear()
+        public void Clear()
         {
             _changedObjectMetaRepresentations.Clear();
             _attributeToSetToNull.Clear();
@@ -108,12 +107,12 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Compare
             _nbChanges = 0;
         }
 
-        public virtual int GetNbChanges()
+        public int GetNbChanges()
         {
             return _nbChanges;
         }
 
-        public virtual IList<ArrayModifyElement> GetArrayChanges()
+        public IList<ArrayModifyElement> GetArrayChanges()
         {
             return _arrayChanges;
         }
@@ -562,19 +561,19 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Compare
 */
         }
 
-        protected virtual void StoreChangedAttributeAction(ChangedNativeAttributeAction caa)
+        protected void StoreChangedAttributeAction(ChangedNativeAttributeAction caa)
         {
             _nbChanges++;
             _changedAttributeActions.Add(caa);
         }
 
-        protected virtual void StoreChangedAttributeAction(ChangedObjectReferenceAttributeAction caa)
+        protected void StoreChangedAttributeAction(ChangedObjectReferenceAttributeAction caa)
         {
             _nbChanges++;
             _changedAttributeActions.Add(caa);
         }
 
-        public virtual void SetChangedAttributeActions(IList<IChangedAttribute> changedAttributeActions)
+        public void SetChangedAttributeActions(IList<IChangedAttribute> changedAttributeActions)
         {
             _changedAttributeActions = changedAttributeActions;
         }

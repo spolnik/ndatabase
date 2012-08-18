@@ -733,7 +733,7 @@ namespace Intropector
             var odb = OdbFactory.Open(dbName);
 
             var user = new User("olivier smadja", "olivier@neodatis.com", new Profile("operator", new Function("login")));
-            var callback = new GetDependentObjectIntrospectingCallback();
+            var callback = new DependentObjectIntrospectingCallback();
             var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
             var storageEngine = Dummy.GetEngine(odb);

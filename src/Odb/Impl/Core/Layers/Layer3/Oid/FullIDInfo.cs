@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 
 namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Oid
@@ -6,81 +5,72 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Oid
     /// <summary>
     ///   Used to obtain internal infos about all database ids
     /// </summary>
-    /// <author>osmadja</author>
-    public class FullIDInfo
+    public sealed class FullIDInfo
     {
-        private readonly byte idStatus;
-        private readonly OID nextOID;
+        private readonly byte _idStatus;
+        private readonly OID _nextOID;
 
-        private readonly string objectToString;
-        private readonly long position;
+        private readonly string _objectToString;
+        private readonly long _position;
 
-        private readonly OID prevOID;
-        private long blockId;
-        private long id;
-        private string objectClassName;
+        private readonly OID _prevOID;
+        private long _blockId;
+        private long _id;
+        private string _objectClassName;
 
-        public FullIDInfo(long id, long position, byte idStatus, long blockId, string objectClassName
-                          , string objectToString, OID prevOID, OID nextOID)
+        public FullIDInfo(long id, long position, byte idStatus, long blockId, string objectClassName,
+                          string objectToString, OID prevOID, OID nextOID)
         {
-            this.id = id;
-            this.position = position;
-            this.blockId = blockId;
-            this.objectClassName = objectClassName;
-            this.objectToString = objectToString;
-            this.idStatus = idStatus;
-            this.prevOID = prevOID;
-            this.nextOID = nextOID;
+            _id = id;
+            _position = position;
+            _blockId = blockId;
+            _objectClassName = objectClassName;
+            _objectToString = objectToString;
+            _idStatus = idStatus;
+            _prevOID = prevOID;
+            _nextOID = nextOID;
         }
 
-        public virtual long GetBlockId()
+        public long GetBlockId()
         {
-            return blockId;
+            return _blockId;
         }
 
-        public virtual void SetBlockId(long blockId)
+        public void SetBlockId(long blockId)
         {
-            this.blockId = blockId;
+            _blockId = blockId;
         }
 
-        public virtual long GetId()
+        public long GetId()
         {
-            return id;
+            return _id;
         }
 
-        public virtual void SetId(long id)
+        public void SetId(long id)
         {
-            this.id = id;
+            _id = id;
         }
 
-        public virtual string GetObjectClassName()
+        public string GetObjectClassName()
         {
-            return objectClassName;
+            return _objectClassName;
         }
 
-        public virtual void SetObjectClassName(string objectClassName)
+        public void SetObjectClassName(string objectClassName)
         {
-            this.objectClassName = objectClassName;
+            _objectClassName = objectClassName;
         }
 
         public override string ToString()
         {
             var buffer = new StringBuilder();
-            buffer.Append("Id=").Append(id).Append(" - Posi=").Append(position).Append(" - Status="
-                ).Append(idStatus).Append(" - Block Id=").Append(blockId);
-            buffer.Append(" - Type=").Append(objectClassName);
-            buffer.Append(" - prev inst. pos=").Append(prevOID);
-            buffer.Append(" - next inst. pos=").Append(nextOID);
-            buffer.Append(" - Object=").Append(objectToString);
+            buffer.Append("Id=").Append(_id).Append(" - Posi=").Append(_position).Append(" - Status=").Append(_idStatus)
+                .Append(" - Block Id=").Append(_blockId);
+            buffer.Append(" - Type=").Append(_objectClassName);
+            buffer.Append(" - prev inst. pos=").Append(_prevOID);
+            buffer.Append(" - next inst. pos=").Append(_nextOID);
+            buffer.Append(" - Object=").Append(_objectToString);
             return buffer.ToString();
-        }
-
-        public static void Main2(string[] args)
-        {
-            var ii = new FullIDInfo
-                (1, 1, 1, 1, string.Empty, string.Empty, null, null);
-            ii.SetObjectClassName("ola");
-            Console.Out.WriteLine("ll=" + ii.GetObjectClassName());
         }
     }
 }

@@ -15,18 +15,13 @@ namespace NDatabase.Odb.Impl.Core.Btree
     /// <summary>
     ///   Class that persists the BTree and its node into the NDatabase ODB Database.
     /// </summary>
-    /// <remarks>
-    ///   Class that persists the BTree and its node into the NDatabase ODB Database.
-    /// </remarks>
-    /// <author>osmadja</author>
-    public class LazyOdbBtreePersister : IBTreePersister, ICommitListener
+    public sealed class LazyOdbBtreePersister : IBTreePersister, ICommitListener
     {
         public static readonly string LogId = "LazyOdbBtreePersister";
 
         private static IDictionary<OID, object> _smap;
         private static IDictionary<object, int> _smodifiedObjects;
         private static int _nbSaveNodes;
-        private static int _nbSaveNodesInCache;
         private static int _nbSaveTree;
         private static int _nbLoadNodes;
         private static int _nbLoadTree;
@@ -91,7 +86,7 @@ namespace NDatabase.Odb.Impl.Core.Btree
         /// </remarks>
         /// <param name="id"> The id of the nod </param>
         /// <returns> The node with the specific id </returns>
-        public virtual IBTreeNode LoadNodeById(object id)
+        public IBTreeNode LoadNodeById(object id)
         {
             var oid = (OID) id;
             // Check if node is in memory
@@ -133,7 +128,7 @@ namespace NDatabase.Odb.Impl.Core.Btree
         /// <summary>
         ///   saves the bree node Only puts the current node in an 'modified Node' map to be saved on commit
         /// </summary>
-        public virtual object SaveNode(IBTreeNode node)
+        public object SaveNode(IBTreeNode node)
         {
             OID oid;
             // Here we only save the node if it does not have id,
@@ -167,7 +162,6 @@ namespace NDatabase.Odb.Impl.Core.Btree
                 }
             }
 
-            _nbSaveNodesInCache++;
             oid = (OID) node.GetId();
 
             _oids.Add(oid, node);
@@ -176,14 +170,14 @@ namespace NDatabase.Odb.Impl.Core.Btree
             return oid;
         }
 
-        public virtual void Close()
+        public void Close()
         {
             Persist();
             _engine.Commit();
             _engine.Close();
         }
 
-        public virtual IBTree LoadBTree(object id)
+        public IBTree LoadBTree(object id)
         {
             _nbLoadTree++;
             var oid = (OID) id;
@@ -212,7 +206,7 @@ namespace NDatabase.Odb.Impl.Core.Btree
             }
         }
 
-        public virtual OID SaveBTree(IBTree treeToSave)
+        public OID SaveBTree(IBTree treeToSave)
         {
             _nbSaveTree++;
 
@@ -250,7 +244,7 @@ namespace NDatabase.Odb.Impl.Core.Btree
             }
         }
 
-        public virtual object DeleteNode(IBTreeNode o)
+        public object DeleteNode(IBTreeNode o)
         {
             var oid = _engine.Delete(o);
             _oids.Remove(oid);
@@ -263,19 +257,19 @@ namespace NDatabase.Odb.Impl.Core.Btree
             return o;
         }
 
-        public virtual void SetBTree(IBTree tree)
+        public void SetBTree(IBTree tree)
         {
             _tree = tree;
         }
 
-        public virtual void Clear()
+        public void Clear()
         {
             _oids.Clear();
             _modifiedObjectOids.Clear();
             _modifiedObjectOidList.Clear();
         }
 
-        public virtual void Flush()
+        public void Flush()
         {
             Persist();
             ClearModified();
@@ -285,12 +279,12 @@ namespace NDatabase.Odb.Impl.Core.Btree
 
         #region ICommitListener Members
 
-        public virtual void AfterCommit()
+        public void AfterCommit()
         {
         }
 
         // nothing to do
-        public virtual void BeforeCommit()
+        public void BeforeCommit()
         {
             Persist();
             Clear();
@@ -299,12 +293,12 @@ namespace NDatabase.Odb.Impl.Core.Btree
         #endregion
 
         /// <exception cref="System.IO.IOException"></exception>
-        public virtual OID GetNextNodeId()
+        public OID GetNextNodeId()
         {
             return _engine.GetObjectWriter().GetIdManager().GetNextObjectId(-1);
         }
 
-        public virtual void Persist()
+        public void Persist()
         {
             _nbPersist++;
 
@@ -355,7 +349,6 @@ namespace NDatabase.Odb.Impl.Core.Btree
         {
             _nbSaveNodes = 0;
             _nbSaveTree = 0;
-            _nbSaveNodesInCache = 0;
             _nbLoadNodes = 0;
             _nbLoadTree = 0;
             _nbLoadNodesFromCache = 0;
@@ -375,13 +368,13 @@ namespace NDatabase.Odb.Impl.Core.Btree
             return buffer;
         }
 
-        public virtual void ClearModified()
+        public void ClearModified()
         {
             _modifiedObjectOids.Clear();
             _modifiedObjectOidList.Clear();
         }
 
-        protected virtual void AddModifiedOid(OID oid)
+        private void AddModifiedOid(OID oid)
         {
             if (_modifiedObjectOids.ContainsKey(oid))
             {

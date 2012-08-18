@@ -1,4 +1,3 @@
-using System.Collections;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3;
@@ -10,7 +9,7 @@ using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Impl.Core.Query.Values
 {
-    public class ValuesQueryResultAction : IMatchingObjectAction
+    public sealed class ValuesQueryResultAction : IMatchingObjectAction
     {
         private readonly IStorageEngine _engine;
         private readonly IValuesQuery _query;
@@ -31,14 +30,12 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
             _query = query;
             _queryHasOrderBy = query.HasOrderBy();
             _returnArraySize = query.GetObjectActions().Count;
-            IEnumerator iterator = query.GetObjectActions().GetEnumerator();
             _queryFieldActions = new IQueryFieldAction[_returnArraySize];
-
+            
             var i = 0;
-            while (iterator.MoveNext())
+            foreach (var action in query.GetObjectActions())
             {
-                var queryFieldAction = (IQueryFieldAction) iterator.Current;
-                _queryFieldActions[i] = queryFieldAction.Copy();
+                _queryFieldActions[i] = action.Copy();
                 _queryFieldActions[i].SetReturnInstance(query.ReturnInstance());
                 _queryFieldActions[i].SetInstanceBuilder(instanceBuilder);
                 i++;
@@ -47,12 +44,12 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
 
         #region IMatchingObjectAction Members
 
-        public virtual void ObjectMatch(OID oid, IOdbComparable orderByKey)
+        public void ObjectMatch(OID oid, IOdbComparable orderByKey)
         {
         }
 
         // This method os not used in Values Query API
-        public virtual void ObjectMatch(OID oid, object @object, IOdbComparable orderByKey)
+        public void ObjectMatch(OID oid, object @object, IOdbComparable orderByKey)
         {
             if (_query.IsMultiRow())
             {
@@ -66,7 +63,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
                 Compute((AttributeValuesMap) @object);
         }
 
-        public virtual void Start()
+        public void Start()
         {
             if (_query != null && _query.HasOrderBy())
                 _result = new InMemoryBTreeCollectionForValues(_query.GetOrderByType());
@@ -80,7 +77,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
             }
         }
 
-        public virtual void End()
+        public void End()
         {
             ObjectValues dov = null;
             if (!_query.IsMultiRow())
@@ -98,7 +95,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
                 _result.Add(dov);
         }
 
-        public virtual IObjects<T> GetObjects<T>()
+        public IObjects<T> GetObjects<T>()
         {
             return (IObjects<T>) _result;
         }
@@ -139,7 +136,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
             dov.Set(i, queryFieldAction.GetAlias(), value);
         }
 
-        public virtual IValues GetValues()
+        public IValues GetValues()
         {
             return _result;
         }

@@ -6,13 +6,13 @@ using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
 namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Serialization
 {
-    public class CollectionObjectInfoSerializer : ISerializer
+    public sealed class CollectionObjectInfoSerializer : ISerializer
     {
         public static readonly string ClassId = Serializer.GetClassId(typeof (CollectionObjectInfo));
 
         #region ISerializer Members
 
-        public virtual object FromString(string data)
+        public object FromString(string data)
         {
             var tokens = data.Split(Serializer.FieldSeparator);
 
@@ -41,7 +41,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Serialization
             return coi;
         }
 
-        public virtual string ToString(object @object)
+        public string ToString(object @object)
         {
             var coi = (CollectionObjectInfo) @object;
             var buffer = new StringBuilder();

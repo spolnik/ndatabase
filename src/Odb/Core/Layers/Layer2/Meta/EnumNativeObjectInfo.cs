@@ -9,13 +9,12 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// <remarks>
     ///   Meta representation of an enum. Which is internally represented by a string : Its name
     /// </remarks>
-    /// <author>osmadja</author>
     [Serializable]
-    public class EnumNativeObjectInfo : NativeObjectInfo
+    public sealed class EnumNativeObjectInfo : NativeObjectInfo
     {
         private ClassInfo _enumClassInfo;
 
-        public EnumNativeObjectInfo(ClassInfo classInfo, string enumName) : base(enumName, Meta.OdbType.EnumId)
+        public EnumNativeObjectInfo(ClassInfo classInfo, string enumName) : base(enumName, OdbType.EnumId)
         {
             _enumClassInfo = classInfo;
         }
@@ -47,17 +46,17 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                                                                : GetObject().ToString());
         }
 
-        public virtual string GetEnumName()
+        public string GetEnumName()
         {
             return GetObject().ToString();
         }
 
-        public virtual ClassInfo GetEnumClassInfo()
+        public ClassInfo GetEnumClassInfo()
         {
             return _enumClassInfo;
         }
 
-        public virtual void SetEnumClassInfo(ClassInfo enumClassInfo)
+        public void SetEnumClassInfo(ClassInfo enumClassInfo)
         {
             _enumClassInfo = enumClassInfo;
         }

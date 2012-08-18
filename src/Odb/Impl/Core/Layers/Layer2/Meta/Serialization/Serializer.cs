@@ -7,7 +7,7 @@ using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Serialization
 {
-    public class Serializer
+    public sealed class Serializer
     {
         public static readonly char CollectionElementSeparator = ',';
 
@@ -40,7 +40,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Serialization
             }
         }
 
-        public virtual string ToString(IList objectList)
+        public string ToString(IList objectList)
         {
             var buffer = new StringBuilder();
 
@@ -50,7 +50,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Serialization
             return buffer.ToString();
         }
 
-        public virtual string ToString(object @object)
+        public string ToString(object @object)
         {
             var classId = GetClassId(@object.GetType());
             var serializer = _serializers[classId];
@@ -61,23 +61,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Serialization
             throw new Exception(string.Format("toString not implemented for {0}", @object.GetType().FullName));
         }
 
-        
-        public virtual ObjectContainer FromString(string data)
-        {
-            var container = new ObjectContainer();
-            var lines = data.Split('\n');
-            
-            foreach (var line in lines)
-            {
-                if (line != null && line.Trim().Length > 0)
-                    container.Add(FromOneString(line));
-            }
-
-            return container;
-        }
-
-        
-        public virtual object FromOneString(string data)
+        public object FromOneString(string data)
         {
             var index = data.IndexOf(";", StringComparison.Ordinal);
 

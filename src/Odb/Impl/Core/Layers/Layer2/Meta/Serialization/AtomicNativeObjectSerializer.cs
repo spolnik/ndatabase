@@ -5,14 +5,14 @@ using NDatabase.Odb.Impl.Tool;
 
 namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Serialization
 {
-    public class AtomicNativeObjectSerializer : ISerializer
+    public sealed class AtomicNativeObjectSerializer : ISerializer
     {
         public static readonly string ClassId = Serializer.GetClassId(typeof (AtomicNativeObjectInfo));
 
         #region ISerializer Members
 
         
-        public virtual object FromString(string data)
+        public object FromString(string data)
         {
             var tokens = data.Split(Serializer.FieldSeparator);
 
@@ -24,7 +24,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Serialization
             return ObjectTool.StringToObjectInfo(odbTypeId, tokens[2], ObjectTool.IdCallerIsSerializer, null);
         }
 
-        public virtual string ToString(object @object)
+        public string ToString(object @object)
         {
             var anoi = (AtomicNativeObjectInfo) @object;
             var buffer = new StringBuilder();

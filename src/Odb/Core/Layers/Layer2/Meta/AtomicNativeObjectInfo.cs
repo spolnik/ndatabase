@@ -8,7 +8,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// </summary>
     /// <author>olivier s</author>
     [Serializable]
-    public class AtomicNativeObjectInfo : NativeObjectInfo, IComparable
+    public sealed class AtomicNativeObjectInfo : NativeObjectInfo, IComparable
     {
         public AtomicNativeObjectInfo(object @object, int odbTypeId) : base(@object, odbTypeId)
         {
@@ -16,7 +16,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         #region IComparable Members
 
-        public virtual int CompareTo(object o)
+        public int CompareTo(object o)
         {
             var anoi = (AtomicNativeObjectInfo) o;
             var c2 = (IComparable) anoi.GetObject();

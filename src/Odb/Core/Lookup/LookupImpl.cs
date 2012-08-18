@@ -6,8 +6,7 @@ namespace NDatabase.Odb.Core.Lookup
     /// <summary>
     ///   A simple class to enable direct object lookup by object id
     /// </summary>
-    /// <author>olivier</author>
-    public class LookupImpl : ILookup
+    public sealed class LookupImpl : ILookup
     {
         private readonly IDictionary<string, object> _objects;
 
@@ -18,17 +17,17 @@ namespace NDatabase.Odb.Core.Lookup
 
         #region ILookup Members
 
-        public virtual object Get(string objectId)
+        public object Get(string objectId)
         {
             return _objects[objectId];
         }
 
-        public virtual void Set(string objectId, object @object)
+        public void Set(string objectId, object @object)
         {
             _objects.Add(objectId, @object);
         }
 
-        public virtual int Size()
+        public int Size()
         {
             return _objects.Count;
         }

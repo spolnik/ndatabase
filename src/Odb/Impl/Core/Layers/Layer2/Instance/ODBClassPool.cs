@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
-using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Instance
@@ -11,8 +10,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Instance
     /// <summary>
     ///   A simple class pool, to optimize instance creation
     /// </summary>
-    /// <author>osmadja</author>
-    public class OdbClassPool : IClassPool
+    public sealed class OdbClassPool : IClassPool
     {
         private static readonly IDictionary<string, Type> ClassMap = new OdbHashMap<string, Type>();
 
@@ -21,13 +19,13 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Instance
 
         #region IClassPool Members
 
-        public virtual void Reset()
+        public void Reset()
         {
             ClassMap.Clear();
             ConstrutorsMap.Clear();
         }
 
-        public virtual Type GetClass(string className)
+        public Type GetClass(string className)
         {
             lock (this)
             {
@@ -49,14 +47,14 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Instance
             }
         }
 
-        public virtual ConstructorInfo GetConstrutor(string className)
+        public ConstructorInfo GetConstrutor(string className)
         {
             ConstructorInfo constructorInfo;
             ConstrutorsMap.TryGetValue(className, out constructorInfo);
             return constructorInfo;
         }
 
-        public virtual void AddConstrutor(string className, ConstructorInfo constructor)
+        public void AddConstrutor(string className, ConstructorInfo constructor)
         {
             ConstrutorsMap[className] = constructor;
         }

@@ -1,6 +1,6 @@
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
 {
-    public class ArrayModifyElement
+    public sealed class ArrayModifyElement
     {
         private readonly int _arrayElementIndexToChange;
 
@@ -21,37 +21,37 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
             _arrayElementIndexToChange = index;
         }
 
-        public virtual int GetAttributeId()
+        public int GetAttributeId()
         {
             return _attributeId;
         }
 
-        public virtual void SetAttributeId(int attributeId)
+        public void SetAttributeId(int attributeId)
         {
             _attributeId = attributeId;
         }
 
-        public virtual NonNativeObjectInfo GetNnoi()
+        public NonNativeObjectInfo GetNnoi()
         {
             return _nnoi;
         }
 
-        public virtual void SetNnoi(NonNativeObjectInfo nnoi)
+        public void SetNnoi(NonNativeObjectInfo nnoi)
         {
             _nnoi = nnoi;
         }
 
-        public virtual long GetUpdatePosition()
+        public long GetUpdatePosition()
         {
             return _nnoi.GetAttributeDefinitionPosition(_attributeId);
         }
 
-        public virtual int GetArrayElementIndexToChange()
+        public int GetArrayElementIndexToChange()
         {
             return _arrayElementIndexToChange;
         }
 
-        public virtual AbstractObjectInfo GetNewValue()
+        public AbstractObjectInfo GetNewValue()
         {
             return _newValue;
         }
@@ -60,7 +60,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
         ///   Return the position where the array position is stored
         /// </summary>
         /// <returns> </returns>
-        public virtual long GetArrayPositionDefinition()
+        public long GetArrayPositionDefinition()
         {
             return _nnoi.GetAttributeDefinitionPosition(_attributeId);
         }

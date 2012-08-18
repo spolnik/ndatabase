@@ -4,9 +4,8 @@ using NDatabase.Tool.Wrappers.List;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
-    /// <author>olivier</author>
     [Serializable]
-    public class CheckMetaModelResult
+    public sealed class CheckMetaModelResult
     {
         private bool _modelHasBeenUpdated;
 
@@ -18,32 +17,32 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             _results = new OdbArrayList<ClassInfoCompareResult>();
         }
 
-        public virtual bool IsModelHasBeenUpdated()
+        public bool IsModelHasBeenUpdated()
         {
             return _modelHasBeenUpdated;
         }
 
-        public virtual void SetModelHasBeenUpdated(bool modelHasBeenUpdated)
+        public void SetModelHasBeenUpdated(bool modelHasBeenUpdated)
         {
             _modelHasBeenUpdated = modelHasBeenUpdated;
         }
 
-        public virtual IOdbList<ClassInfoCompareResult> GetResults()
+        public IOdbList<ClassInfoCompareResult> GetResults()
         {
             return _results;
         }
 
-        public virtual void SetResults(IOdbList<ClassInfoCompareResult> results)
+        public void SetResults(IOdbList<ClassInfoCompareResult> results)
         {
             _results = results;
         }
 
-        public virtual void Add(ClassInfoCompareResult result)
+        public void Add(ClassInfoCompareResult result)
         {
             _results.Add(result);
         }
 
-        public virtual int Size()
+        public int Size()
         {
             return _results.Count;
         }

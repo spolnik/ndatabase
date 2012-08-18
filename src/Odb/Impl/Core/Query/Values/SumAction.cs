@@ -2,12 +2,11 @@ using System;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Query.Execution;
 using NDatabase.Odb.Core.Query.Values;
-using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Impl.Core.Query.Values
 {
     [Serializable]
-    public class SumAction : AbstractQueryFieldAction
+    public sealed class SumAction : AbstractQueryFieldAction
     {
         private Decimal _sum;
 
@@ -22,7 +21,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
             _sum = Decimal.Add(_sum, ValuesUtil.Convert(number));
         }
 
-        public virtual Decimal GetSum()
+        public Decimal GetSum()
         {
             return _sum;
         }

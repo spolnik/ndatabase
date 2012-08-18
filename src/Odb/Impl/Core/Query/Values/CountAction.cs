@@ -2,16 +2,14 @@ using System;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Query.Execution;
 using NDatabase.Odb.Core.Query.Values;
-using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Impl.Core.Query.Values
 {
     /// <summary>
     ///   An action to count objects of a query
     /// </summary>
-    /// <author>osmadja</author>
     [Serializable]
-    public class CountAction : AbstractQueryFieldAction
+    public sealed class CountAction : AbstractQueryFieldAction
     {
         private static readonly Decimal One = new decimal(1);
 
@@ -27,7 +25,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
             _count = Decimal.Add(_count, One);
         }
 
-        public virtual Decimal GetCount()
+        public Decimal GetCount()
         {
             return _count;
         }

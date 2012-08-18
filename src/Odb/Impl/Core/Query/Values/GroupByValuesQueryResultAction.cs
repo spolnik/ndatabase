@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Query;
@@ -11,7 +9,7 @@ using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb.Impl.Core.Query.Values
 {
-    public class GroupByValuesQueryResultAction : IMatchingObjectAction
+    public sealed class GroupByValuesQueryResultAction : IMatchingObjectAction
     {
         private readonly string[] _groupByFieldList;
 
@@ -44,12 +42,12 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
 
         #region IMatchingObjectAction Members
 
-        public virtual void ObjectMatch(OID oid, IOdbComparable orderByKey)
+        public void ObjectMatch(OID oid, IOdbComparable orderByKey)
         {
         }
 
         // This method os not used in Values Query API
-        public virtual void ObjectMatch(OID oid, object @object, IOdbComparable orderByKey)
+        public void ObjectMatch(OID oid, object @object, IOdbComparable orderByKey)
         {
             var values = (AttributeValuesMap) @object;
             var groupByKey = IndexTool.BuildIndexKey("GroupBy", values, _groupByFieldList);
@@ -65,31 +63,27 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
             result.ObjectMatch(oid, @object, orderByKey);
         }
 
-        public virtual void Start()
+        public void Start()
         {
         }
 
         // Nothing to do
-        public virtual void End()
+        public void End()
         {
             if (_query != null && _query.HasOrderBy())
                 _result = new InMemoryBTreeCollectionForValues(_query.GetOrderByType());
             else
                 _result = new SimpleListForValues(_returnArraySize);
 
-            IEnumerator iterator = _groupByResult.Keys.GetEnumerator();
-            while (iterator.MoveNext())
+            foreach (var key in _groupByResult.Keys)
             {
-                var key = (IOdbComparable) iterator.Current;
-                Debug.Assert(key != null, "key != null");
-
                 var vqra = _groupByResult[key];
                 vqra.End();
                 Merge(key, vqra.GetValues());
             }
         }
 
-        public virtual IObjects<T> GetObjects<T>()
+        public IObjects<T> GetObjects<T>()
         {
             return (IObjects<T>) _result;
         }

@@ -3,8 +3,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// <summary>
     ///   A class that contain basic information about a native object
     /// </summary>
-    /// <author>osmadja</author>
-    public class NativeAttributeHeader
+    public sealed class NativeAttributeHeader
     {
         private int _blockSize;
         private byte _blockType;
@@ -25,52 +24,52 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             _isNull = isNull;
         }
 
-        public virtual int GetBlockSize()
+        public int GetBlockSize()
         {
             return _blockSize;
         }
 
-        public virtual void SetBlockSize(int blockSize)
+        public void SetBlockSize(int blockSize)
         {
             _blockSize = blockSize;
         }
 
-        public virtual byte GetBlockType()
+        public byte GetBlockType()
         {
             return _blockType;
         }
 
-        public virtual void SetBlockType(byte blockType)
+        public void SetBlockType(byte blockType)
         {
             _blockType = blockType;
         }
 
-        public virtual bool IsNative()
+        public bool IsNative()
         {
             return _isNative;
         }
 
-        public virtual void SetNative(bool isNative)
+        public void SetNative(bool isNative)
         {
             _isNative = isNative;
         }
 
-        public virtual bool IsNull()
+        public bool IsNull()
         {
             return _isNull;
         }
 
-        public virtual void SetNull(bool isNull)
+        public void SetNull(bool isNull)
         {
             _isNull = isNull;
         }
 
-        public virtual int GetOdbTypeId()
+        public int GetOdbTypeId()
         {
             return _odbTypeId;
         }
 
-        public virtual void SetOdbTypeId(int odbTypeId)
+        public void SetOdbTypeId(int odbTypeId)
         {
             _odbTypeId = odbTypeId;
         }
