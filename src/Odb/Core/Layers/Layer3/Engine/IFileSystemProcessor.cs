@@ -115,5 +115,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         void UpdateInstanceFieldsOfClassInfo(ClassInfo classInfo, bool writeInTransaction);
 
         void WriteBlockSizeAt(long writePosition, int blockSize, bool writeInTransaction, object @object);
+
+        /// <summary>
+        ///   Writes a class attribute info, an attribute of a class
+        /// </summary>
+        void WriteClassAttributeInfo(IStorageEngine storageEngine, ClassAttributeInfo cai, bool writeInTransaction);
     }
 }
