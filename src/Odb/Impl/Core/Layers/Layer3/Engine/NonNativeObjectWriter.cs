@@ -59,7 +59,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         {
             _objectWriter = objectWriter;
             _session = storageEngine.GetSession(true);
-            _objectReader = _storageEngine.GetObjectReader();
+            _objectReader = storageEngine.GetObjectReader();
             _storageEngine = storageEngine;
             _byteArrayConverter = byteArrayConverter;
             _comparator = comparator;
