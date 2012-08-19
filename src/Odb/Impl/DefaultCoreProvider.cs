@@ -86,8 +86,7 @@ namespace NDatabase.Odb.Impl
         public IIdManager GetIdManager(IStorageEngine engine)
         {
             return new IdManager(engine.GetObjectWriter(), engine.GetObjectReader(),
-                                        engine.GetCurrentIdBlockPosition(), engine.GetCurrentIdBlockNumber(),
-                                        engine.GetCurrentIdBlockMaxOid());
+                                        engine.GetCurrentIdBlockInfo());
         }
 
         public IObjectWriter GetObjectWriter(IStorageEngine engine)

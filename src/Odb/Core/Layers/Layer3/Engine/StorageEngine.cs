@@ -38,20 +38,22 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         private readonly IOdbList<ICommitListener> _commitListeners;
         private ISession _session;
 
-        /// <summary>
-        ///   The max id already allocated in the current id block
-        /// </summary>
-        private OID _currentIdBlockMaxOid;
+//        /// <summary>
+//        ///   The max id already allocated in the current id block
+//        /// </summary>
+//        private OID _currentIdBlockMaxOid;
+//
+//        /// <summary>
+//        ///   The current id block number
+//        /// </summary>
+//        private int _currentIdBlockNumber;
+//
+//        /// <summary>
+//        ///   The position of the current block where IDs are stored
+//        /// </summary>
+//        private long _currentIdBlockPosition;
 
-        /// <summary>
-        ///   The current id block number
-        /// </summary>
-        private int _currentIdBlockNumber;
-
-        /// <summary>
-        ///   The position of the current block where IDs are stored
-        /// </summary>
-        private long _currentIdBlockPosition;
+        private CurrentIdBlockInfo _currentIdBlockInfo;
 
         /// <summary>
         ///   To keep track of current transaction Id
@@ -79,6 +81,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// </summary>
         public StorageEngine(IBaseIdentification parameters)
         {
+            _currentIdBlockInfo = new CurrentIdBlockInfo();
+
             CoreProvider = OdbConfiguration.GetCoreProvider();
             BaseIdentification = parameters;
             
@@ -448,21 +452,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             _databaseId = databaseId;
         }
 
-        public override void SetCurrentIdBlockInfos(long currentBlockPosition, int currentBlockNumber, OID maxId)
+        public override void SetCurrentIdBlockInfos(CurrentIdBlockInfo currentIdBlockInfo)
         {
-            _currentIdBlockPosition = currentBlockPosition;
-            _currentIdBlockNumber = currentBlockNumber;
-            _currentIdBlockMaxOid = maxId;
-        }
-
-        public override int GetCurrentIdBlockNumber()
-        {
-            return _currentIdBlockNumber;
-        }
-
-        public override long GetCurrentIdBlockPosition()
-        {
-            return _currentIdBlockPosition;
+            _currentIdBlockInfo = currentIdBlockInfo;
         }
 
         public override IDatabaseId GetDatabaseId()
@@ -470,9 +462,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return _databaseId;
         }
 
-        public override OID GetCurrentIdBlockMaxOid()
+        public override CurrentIdBlockInfo GetCurrentIdBlockInfo()
         {
-            return _currentIdBlockMaxOid;
+            return _currentIdBlockInfo;
         }
 
         public override bool IsClosed()

@@ -337,7 +337,6 @@ namespace NeoDatis.Test.Btree.Impl.Singlevalue
             TXNode.SetChildAt(UVNode, 1);
             TXNode.SetChildAt(YZNode, 2);
             TXNode.SetNbChildren(3);
-            var s1 = "h=1:[P]" + "h=2:[C,G,M][T,X]" + "h=3:[A,B][D,E,F][J,K,L][N,O][Q,R,S][U,V][Y,Z]";
             // case 1
             var s2AfterDeleteingF = "h=1:[P]" + "h=2:[C,G,M][T,X]" + "h=3:[A,B][D,E][J,K,L][N,O][Q,R,S][U,V][Y,Z]";
             var F = tree.Delete("F", "F");

@@ -23,9 +23,24 @@ namespace IO
             return _engine.GetSession(true);
         }
 
+        void IObjectWriter.MarkAsDeleted(long currentPosition, OID oid, bool writeInTransaction)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public ClassInfo AddClass(ClassInfo newClassInfo, bool addDependentClasses)
         {
             return null;
+        }
+
+        public void ManageNewObjectPointers(NonNativeObjectInfo objectInfo, ClassInfo classInfo)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public long InternalStoreObject(NativeObjectInfo noi)
+        {
+            throw new System.NotImplementedException();
         }
 
         public ClassInfoList AddClasses(ClassInfoList classInfoList)
@@ -183,6 +198,11 @@ namespace IO
         public OID StoreObject(OID oid, NonNativeObjectInfo nnoi)
         {
             return null;
+        }
+
+        public void Dispose()
+        {
+            Close();
         }
     }
 }

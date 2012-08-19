@@ -1,5 +1,6 @@
 using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Layers.Layer3;
+using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Impl.Core.Layers.Layer3.Block;
 using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NDatabase.Tool;
@@ -34,20 +35,17 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Oid
 
         /// <param name="objectWriter"> The object writer </param>
         /// <param name="objectReader"> The object reader </param>
-        /// <param name="currentBlockIdPosition"> The position of the current block </param>
-        /// <param name="currentBlockIdNumber"> The number of the current block </param>
-        /// <param name="currentMaxId"> Maximum Database id </param>
-        public IdManager(IObjectWriter objectWriter, IObjectReader objectReader, long currentBlockIdPosition,
-                                int currentBlockIdNumber, OID currentMaxId)
+        /// <param name="currentIdBlock">Current Id block data </param>
+        public IdManager(IObjectWriter objectWriter, IObjectReader objectReader, CurrentIdBlockInfo currentIdBlock)
         {
             _provider = OdbConfiguration.GetCoreProvider();
             _objectWriter = objectWriter;
             _objectReader = objectReader;
-            _currentBlockIdPosition = currentBlockIdPosition;
-            _currentBlockIdNumber = currentBlockIdNumber;
-            _maxId = _provider.GetObjectOID((long) currentBlockIdNumber * OdbConfiguration.GetNbIdsPerBlock(), 0);
-            _nextId = _provider.GetObjectOID(currentMaxId.ObjectId + 1, 0);
-            
+            _currentBlockIdPosition = currentIdBlock.CurrentIdBlockPosition;
+            _currentBlockIdNumber = currentIdBlock.CurrentIdBlockNumber;
+            _maxId = _provider.GetObjectOID((long)currentIdBlock.CurrentIdBlockNumber * OdbConfiguration.GetNbIdsPerBlock(), 0);
+            _nextId = _provider.GetObjectOID(currentIdBlock.CurrentIdBlockMaxOid.ObjectId + 1, 0);
+
             _lastIds = new OID[IdBufferSize];
             for (var i = 0; i < IdBufferSize; i++)
                 _lastIds[i] = StorageEngineConstant.NullObjectId;

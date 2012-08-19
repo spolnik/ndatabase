@@ -34,7 +34,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                                                             OdbType.Integer.GetSize() + OdbType.Boolean.GetSize();
 
         private static byte[] _nativeHeaderBlockSizeByte;
-        private static int _nbNormalUpdates;
+        internal static int NbNormalUpdates;
 
         private readonly IByteArrayConverter _byteArrayConverter;
         private readonly IClassIntrospector _classIntrospector;
@@ -45,6 +45,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
 
         private IIdManager _idManager;
         private IObjectReader _objectReader;
+        private readonly INonNativeObjectWriter _nonNativeObjectWriter;
 
         /// <summary>
         ///   To manage triggers
@@ -62,16 +63,13 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             _comparator = new ObjectInfoComparator();
 
             _session = engine.GetSession(true);
+
+            _nonNativeObjectWriter = new NonNativeObjectWriter(this, StorageEngine, _byteArrayConverter, _comparator);
         }
 
         public IStorageEngine StorageEngine { get; set; }
 
         #region IObjectWriter Members
-
-        public ISession GetSession()
-        {
-            return _session;
-        }
 
         /// <summary>
         ///   The init2 method is the two phase init implementation The FileSystemInterface depends on the session creation which is done by subclasses after the ObjectWriter constructor So we can not execute the buildFSI in the constructor as it would result in a non initialized object reference (the session)
@@ -115,8 +113,15 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             // Write an empty id block
             WriteIdBlock(-1, OdbConfiguration.GetIdBlockSize(), BlockStatus.BlockNotFull, 1, -1, false);
             Flush();
-            StorageEngine.SetCurrentIdBlockInfos(StorageEngineConstant.DatabaseHeaderFirstIdBlockPosition, 1,
-                                                 OIDFactory.BuildObjectOID(0));
+
+            var currentBlockInfo = new CurrentIdBlockInfo
+                {
+                    CurrentIdBlockPosition = StorageEngineConstant.DatabaseHeaderFirstIdBlockPosition,
+                    CurrentIdBlockNumber = 1,
+                    CurrentIdBlockMaxOid = OIDFactory.BuildObjectOID(0)
+                };
+
+            StorageEngine.SetCurrentIdBlockInfos(currentBlockInfo);
         }
 
         /// <summary>
@@ -291,10 +296,10 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         /// <remarks>
         ///   Persist a single class info - This method is used by the XML Importer.
         /// </remarks>
-        public ClassInfo PersistClass(ClassInfo newClassInfo, int lastClassInfoIndex, bool addClass,
+        private ClassInfo PersistClass(ClassInfo newClassInfo, int lastClassInfoIndex, bool addClass,
                                               bool addDependentClasses)
         {
-            var metaModel = GetSession().GetMetaModel();
+            var metaModel = _session.GetMetaModel();
             var classInfoId = newClassInfo.GetId();
             if (classInfoId == null)
             {
@@ -388,7 +393,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
 
         public ClassInfo AddClass(ClassInfo newClassInfo, bool addDependentClasses)
         {
-            var classInfo = GetSession().GetMetaModel().GetClassInfo(newClassInfo.GetFullClassName(), false);
+            var classInfo = _session.GetMetaModel().GetClassInfo(newClassInfo.GetFullClassName(), false);
             if (classInfo != null && classInfo.GetPosition() != -1)
                 return classInfo;
 
@@ -404,7 +409,13 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             return classInfoList;
         }
 
-        public void WriteClassInfoHeader(ClassInfo classInfo, long position, bool writeInTransaction)
+        /// <summary>
+        ///   Write the class info header to the database file
+        /// </summary>
+        /// <param name="classInfo"> The class info to be written </param>
+        /// <param name="position"> The position at which it must be written </param>
+        /// <param name="writeInTransaction"> true if the write must be done in transaction, false to write directly </param>
+        private void WriteClassInfoHeader(ClassInfo classInfo, long position, bool writeInTransaction)
         {
             var classId = classInfo.GetId();
             if (classId == null)
@@ -463,7 +474,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         {
             // first check dependent classes
             var dependingAttributes = classInfo.GetAllNonNativeAttributes();
-            var metaModel = GetSession().GetMetaModel();
+            var metaModel = _session.GetMetaModel();
 
             foreach (var classAttributeInfo in dependingAttributes)
             {
@@ -500,316 +511,8 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         public OID WriteNonNativeObjectInfo(OID existingOid, NonNativeObjectInfo objectInfo, long position,
                                                     bool writeDataInTransaction, bool isNewObject)
         {
-            var lsession = GetSession();
-            var cache = lsession.GetCache();
-            var hasObject = objectInfo.GetObject() != null;
-
-            // Checks if object is null,for null objects,there is nothing to do
-            if (objectInfo.IsNull())
-                return StorageEngineConstant.NullObjectId;
-
-            var metaModel = lsession.GetMetaModel();
-            // first checks if the class of this object already exist in the
-            // metamodel
-            if (!metaModel.ExistClass(objectInfo.GetClassInfo().GetFullClassName()))
-                AddClass(objectInfo.GetClassInfo(), true);
-
-            // if position is -1, gets the position where to write the object
-            if (position == -1)
-            {
-                // Write at the end of the file
-                position = _fsi.GetAvailablePosition();
-                // Updates the meta object position
-                objectInfo.SetPosition(position);
-            }
-
-            // Gets the object id
-            var oid = existingOid;
-            if (oid == null)
-            {
-                // If, to get the next id, a new id block must be created, then
-                // there is an extra work
-                // to update the current object position
-                if (_idManager.MustShift())
-                {
-                    oid = _idManager.GetNextObjectId(position);
-                    // The id manager wrote in the file so the position for the
-                    // object must be re-computed
-                    position = _fsi.GetAvailablePosition();
-                    // The oid must be associated to this new position - id
-                    // operations are always out of transaction
-                    // in this case, the update is done out of the transaction as a
-                    // rollback won t need to
-                    // undo this. We are just creating the id
-                    // => third parameter(write in transaction) = false
-                    _idManager.UpdateObjectPositionForOid(oid, position, false);
-                }
-                else
-                    oid = _idManager.GetNextObjectId(position);
-            }
-            else
-            {
-                // If an oid was passed, it is because object already exist and
-                // is being updated. So we
-                // must update the object position
-                // Here the update of the position of the id must be done in
-                // transaction as the object
-                // position of the id is being updated, and a rollback should undo
-                // this
-                // => third parameter(write in transaction) = true
-                _idManager.UpdateObjectPositionForOid(oid, position, true);
-                // Keep the relation of id and position in the cache until the
-                // commit
-                cache.SavePositionOfObjectWithOid(oid, position);
-            }
-
-            // Sets the oid of the object in the inserting cache
-            cache.UpdateIdOfInsertingObject(objectInfo.GetObject(), oid);
-
-            // Only add the oid to unconnected zone if it is a new object
-            if (isNewObject)
-            {
-                cache.AddOIDToUnconnectedZone(oid);
-                if (OdbConfiguration.ReconnectObjectsToSession())
-                {
-                    var crossSessionCache =
-                        CacheFactory.GetCrossSessionCache(StorageEngine.GetBaseIdentification().GetIdentification());
-                    crossSessionCache.AddObject(objectInfo.GetObject(), oid);
-                }
-            }
-
-            objectInfo.SetOid(oid);
-            if (OdbConfiguration.IsDebugEnabled(LogId))
-            {
-                DLogger.Debug(string.Format("Start Writing non native object of type {0} at {1} , oid = {2} : {3}",
-                                            objectInfo.GetClassInfo().GetFullClassName(), position, oid,
-                                            objectInfo));
-            }
-
-            if (objectInfo.GetClassInfo() == null || objectInfo.GetClassInfo().GetId() == null)
-            {
-                if (objectInfo.GetClassInfo() != null)
-                {
-                    var clinfo =
-                        StorageEngine.GetSession(true).GetMetaModel().GetClassInfo(
-                            objectInfo.GetClassInfo().GetFullClassName(), true);
-                    objectInfo.SetClassInfo(clinfo);
-                }
-                else
-                    throw new OdbRuntimeException(NDatabaseError.UndefinedClassInfo.AddParameter(objectInfo.ToString()));
-            }
-
-            // updates the meta model - If class already exist, it returns the
-            // metamodel class, which contains
-            // a bit more informations
-            var classInfo = AddClass(objectInfo.GetClassInfo(), true);
-            objectInfo.SetClassInfo(classInfo);
-            // 
-            if (isNewObject)
-                ManageNewObjectPointers(objectInfo, classInfo);
-
-            if (OdbConfiguration.SaveHistory())
-            {
-                classInfo.AddHistory(new InsertHistoryInfo("insert", oid, position, objectInfo.GetPreviousObjectOID(),
-                                                           objectInfo.GetNextObjectOID()));
-            }
-
-            _fsi.SetWritePosition(position, writeDataInTransaction);
-            objectInfo.SetPosition(position);
-            var nbAttributes = objectInfo.GetClassInfo().GetAttributes().Count;
-            // compute the size of the array of byte needed till the attibute
-            // positions
-            // BlockSize + Block Type + ObjectId + ClassInfoId + Previous + Next +
-            // CreatDate + UpdateDate + VersionNumber + ObjectRef + isSync + NbAttri
-            // + Attributes
-            // Int + Int + Long + Long + Long + Long + Long + Long + int + Long +
-            // Bool + int + variable
-            // 7 Longs + 4Ints + 1Bool + variable
-            var tsize = 7*OdbType.SizeOfLong + 3*OdbType.SizeOfInt + 2*OdbType.SizeOfByte;
-            var bytes = new byte[tsize];
-            // Block size
-            _byteArrayConverter.IntToByteArray(0, bytes, 0);
-            // Block type
-            bytes[4] = BlockTypes.BlockTypeNonNativeObject;
-            // fsi.writeInt(BlockTypes.BLOCK_TYPE_NON_NATIVE_OBJECT,
-            // writeDataInTransaction, "block size");
-            // The object id
-            EncodeOid(oid, bytes, 5);
-            // fsi.writeLong(oid.getObjectId(), writeDataInTransaction, "oid",
-            // WriteAction.DATA_WRITE_ACTION);
-            // Class info id
-            _byteArrayConverter.LongToByteArray(classInfo.GetId().ObjectId, bytes, 13);
-            // fsi.writeLong(classInfo.getId().getObjectId(),
-            // writeDataInTransaction, "class info id",
-            // WriteAction.DATA_WRITE_ACTION);
-            // previous instance
-            EncodeOid(objectInfo.GetPreviousObjectOID(), bytes, 21);
-            // writeOid(objectInfo.getPreviousObjectOID(), writeDataInTransaction,
-            // "prev instance", WriteAction.DATA_WRITE_ACTION);
-            // next instance
-            EncodeOid(objectInfo.GetNextObjectOID(), bytes, 29);
-            // writeOid(objectInfo.getNextObjectOID(), writeDataInTransaction,
-            // "next instance", WriteAction.DATA_WRITE_ACTION);
-            // creation date, for update operation must be the original one
-            _byteArrayConverter.LongToByteArray(objectInfo.GetHeader().GetCreationDate(), bytes, 37);
-            // fsi.writeLong(objectInfo.getHeader().getCreationDate(),
-            // writeDataInTransaction, "creation date",
-            // WriteAction.DATA_WRITE_ACTION);
-            _byteArrayConverter.LongToByteArray(OdbTime.GetCurrentTimeInTicks(), bytes, 45);
-            // fsi.writeLong(OdbTime.getCurrentTimeInMs(), writeDataInTransaction,
-            // "update date", WriteAction.DATA_WRITE_ACTION);
-            // TODO check next version number
-            _byteArrayConverter.IntToByteArray(objectInfo.GetHeader().GetObjectVersion(), bytes, 53);
-            // fsi.writeInt(objectInfo.getHeader().getObjectVersion(),
-            // writeDataInTransaction, "object version number");
-            // not used yet. But it will point to an internal object of type
-            // ObjectReference that will have details on the references:
-            // All the objects that point to it: to enable object integrity
-            _byteArrayConverter.LongToByteArray(-1, bytes, 57);
-            // fsi.writeLong(-1, writeDataInTransaction, "object reference pointer",
-            // WriteAction.DATA_WRITE_ACTION);
-            // True if this object have been synchronized with main database, else
-            // false
-            _byteArrayConverter.BooleanToByteArray(false, bytes, 65);
-            // fsi.writeBoolean(false, writeDataInTransaction,
-            // "is syncronized with external db");
-            // now write the number of attributes and the position of all
-            // attributes, we do not know them yet, so write 00 but at the end
-            // of the write operation
-            // These positions will be updated
-            // The positions that is going to be written are 'int' representing
-            // the offset position of the attribute
-            // first write the number of attributes
-            // fsi.writeInt(nbAttributes, writeDataInTransaction, "nb attr");
-            _byteArrayConverter.IntToByteArray(nbAttributes, bytes, 66);
-            // Then write the array of bytes
-            _fsi.WriteBytes(bytes, writeDataInTransaction, "NonNativeObjectInfoHeader");
-            // Store the position
-            var attributePositionStart = _fsi.GetPosition();
-            var attributeSize = OdbType.SizeOfInt + OdbType.SizeOfLong;
-            var abytes = new byte[nbAttributes*(attributeSize)];
-            // here, just write an empty (0) array, as real values will be set at
-            // the end
-            _fsi.WriteBytes(abytes, writeDataInTransaction, "Empty Attributes");
-            var attributesIdentification = new long[nbAttributes];
-            var attributeIds = new int[nbAttributes];
-            // Puts the object info in the cache
-            // storageEngine.getSession().getCache().addObject(position,
-            // aoi.getObject(), objectInfo.getHeader());
-
-            var maxWritePosition = _fsi.GetPosition();
-            // Loop on all attributes
-            for (var i = 0; i < nbAttributes; i++)
-            {
-                // Gets the attribute meta description
-                var classAttributeInfo = classInfo.GetAttributeInfo(i);
-                // Gets the id of the attribute
-                attributeIds[i] = classAttributeInfo.GetId();
-                // Gets the attribute data
-                var aoi2 = objectInfo.GetAttributeValueFromId(classAttributeInfo.GetId());
-                if (aoi2 == null)
-                {
-                    // This only happens in 1 case : when a class has a field with
-                    // the same name of one of is superclass. In this, the deeper
-                    // attribute is null
-                    if (classAttributeInfo.IsNative())
-                        aoi2 = new NullNativeObjectInfo(classAttributeInfo.GetAttributeType().GetId());
-                    else
-                        aoi2 = new NonNativeNullObjectInfo(classAttributeInfo.GetClassInfo());
-                }
-                if (aoi2.IsNative())
-                {
-                    var nativeAttributePosition = InternalStoreObject((NativeObjectInfo) aoi2);
-                    // For native objects , odb stores their position
-                    attributesIdentification[i] = nativeAttributePosition;
-                }
-                else
-                {
-                    OID nonNativeAttributeOid;
-                    if (aoi2.IsObjectReference())
-                    {
-                        var or = (ObjectReference) aoi2;
-                        nonNativeAttributeOid = or.GetOid();
-                    }
-                    else
-                        nonNativeAttributeOid = StoreObject(null, (NonNativeObjectInfo) aoi2);
-                    // For non native objects , odb stores its oid as a negative
-                    // number!!u
-                    if (nonNativeAttributeOid != null)
-                        attributesIdentification[i] = -nonNativeAttributeOid.ObjectId;
-                    else
-                        attributesIdentification[i] = StorageEngineConstant.NullObjectIdId;
-                }
-                var p = _fsi.GetPosition();
-                if (p > maxWritePosition)
-                    maxWritePosition = p;
-            }
-            // Updates attributes identification in the object info header
-            objectInfo.GetHeader().SetAttributesIdentification(attributesIdentification);
-            objectInfo.GetHeader().SetAttributesIds(attributeIds);
-            var positionAfterWrite = maxWritePosition;
-            // Now writes back the attribute positions
-            _fsi.SetWritePosition(attributePositionStart, writeDataInTransaction);
-            abytes = new byte[attributesIdentification.Length*(attributeSize)];
-            for (var i = 0; i < attributesIdentification.Length; i++)
-            {
-                _byteArrayConverter.IntToByteArray(attributeIds[i], abytes, i*attributeSize);
-                _byteArrayConverter.LongToByteArray(attributesIdentification[i], abytes,
-                                                    i*(attributeSize) + OdbType.SizeOfInt);
-                // fsi.writeInt(attributeIds[i], writeDataInTransaction, "attr id");
-                // fsi.writeLong(attributesIdentification[i],
-                // writeDataInTransaction, "att real pos",
-                // WriteAction.DATA_WRITE_ACTION);
-                // if (classInfo.getAttributeInfo(i).isNonNative() &&
-                // attributesIdentification[i] > 0) {
-                if (objectInfo.GetAttributeValueFromId(attributeIds[i]).IsNonNativeObject() &&
-                    attributesIdentification[i] > 0)
-                {
-                    throw new OdbRuntimeException(
-                        NDatabaseError.NonNativeAttributeStoredByPositionInsteadOfOid.AddParameter(
-                            classInfo.GetAttributeInfo(i).GetName()).AddParameter(classInfo.GetFullClassName()).
-                            AddParameter(attributesIdentification[i]));
-                }
-            }
-            _fsi.WriteBytes(abytes, writeDataInTransaction, "Filled Attributes");
-            _fsi.SetWritePosition(positionAfterWrite, writeDataInTransaction);
-            var blockSize = (int) (positionAfterWrite - position);
-            try
-            {
-                WriteBlockSizeAt(position, blockSize, writeDataInTransaction, objectInfo);
-            }
-            catch (OdbRuntimeException)
-            {
-                DLogger.Debug("Error while writing block size. pos after write " + positionAfterWrite +
-                              " / start pos = " + position);
-                // throw new ODBRuntimeException(storageEngine,"Error while writing
-                // block size. pos after write " + positionAfterWrite + " / start
-                // pos = " + position,e);
-                throw;
-            }
-            if (OdbConfiguration.IsDebugEnabled(LogId))
-            {
-                DLogger.Debug("  Attributes positions of object with oid " + oid + " are " +
-                              DisplayUtility.LongArrayToString(attributesIdentification));
-                DLogger.Debug("End Writing non native object at " + position + " with oid " + oid +
-                              " - prev oid=" + objectInfo.GetPreviousObjectOID() + " / next oid=" +
-                              objectInfo.GetNextObjectOID());
-                if (OdbConfiguration.IsDebugEnabled(LogIdDebug))
-                    DLogger.Debug(" - current buffer : " + _fsi.GetIo());
-            }
-            // Only insert in index for new objects
-            if (isNewObject)
-            {
-                // insert object id in indexes, if exist
-                ManageIndexesForInsert(oid, objectInfo);
-                var value = hasObject
-                                ? objectInfo.GetObject()
-                                : objectInfo;
-
-                _triggerManager.ManageInsertTriggerAfter(objectInfo.GetClassInfo().GetFullClassName(), value, oid);
-            }
-
-            return oid;
+            return _nonNativeObjectWriter.WriteNonNativeObjectInfo(existingOid, objectInfo, position,
+                                                                   writeDataInTransaction, isNewObject);
         }
 
         /// <summary>
@@ -832,7 +535,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                 {
                     // rollback what has been done
                     // bug #2510966
-                    GetSession().Rollback();
+                    _session.Rollback();
                     throw;
                 }
                 // Check consistency : index should have size equal to the class
@@ -853,8 +556,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         /// <param name="oid"> The object id </param>
         /// <param name="nnoi"> The object meta represenation </param>
         /// <returns> The number of indexes </returns>
-        /// <exception cref="System.Exception">System.Exception</exception>
-        public int ManageIndexesForDelete(OID oid, NonNativeObjectInfo nnoi)
+        internal static int ManageIndexesForDelete(OID oid, NonNativeObjectInfo nnoi)
         {
             var indexes = nnoi.GetClassInfo().GetIndexes();
 
@@ -874,69 +576,13 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             return indexes.Count;
         }
 
-        public int ManageIndexesForUpdate(OID oid, NonNativeObjectInfo nnoi,
-                                                  NonNativeObjectInfo oldMetaRepresentation)
-        {
-            // takes the indexes from the oldMetaRepresentation because noi comes
-            // from the client and is not always
-            // in sync with the server meta model (In Client Server mode)
-            var indexes = oldMetaRepresentation.GetClassInfo().GetIndexes();
-
-            foreach (var index in indexes)
-            {
-                var oldKey = index.ComputeKey(oldMetaRepresentation);
-                var newKey = index.ComputeKey(nnoi);
-
-                // Only update index if key has changed!
-                if (oldKey.CompareTo(newKey) != 0)
-                {
-                    var btree = index.BTree;
-                    // TODO manage collision!
-                    var old = btree.Delete(oldKey, oid);
-                    // TODO check if old is equal to oldKey
-                    btree.Insert(newKey, oid);
-                    // Check consistency : index should have size equal to the class
-                    // info element number
-                    if (index.BTree.GetSize() != nnoi.GetClassInfo().GetNumberOfObjects())
-                    {
-                        throw new OdbRuntimeException(
-                            NDatabaseError.BtreeSizeDiffersFromClassElementNumber.AddParameter(index.BTree.GetSize())
-                                .AddParameter(nnoi.GetClassInfo().GetNumberOfObjects()));
-                    }
-                }
-            }
-            return indexes.Count;
-        }
-
         /// <param name="oid"> The Oid of the object to be inserted </param>
         /// <param name="nnoi"> The object meta representation The object to be inserted in the database </param>
         /// <param name="isNewObject"> To indicate if object is new </param>
         /// <returns> The position of the inserted object </returns>
         public OID InsertNonNativeObject(OID oid, NonNativeObjectInfo nnoi, bool isNewObject)
         {
-            var ci = nnoi.GetClassInfo();
-            var @object = nnoi.GetObject();
-            // First check if object is already being inserted
-            // This method returns -1 if object is not being inserted
-            var cachedOid = GetSession().GetCache().IdOfInsertingObject(@object);
-            if (cachedOid != null)
-                return cachedOid;
-            // Then checks if the class of this object already exist in the
-            // meta model
-            ci = AddClass(ci, true);
-            // Resets the ClassInfo in the objectInfo to be sure it contains all
-            // updated class info data
-            nnoi.SetClassInfo(ci);
-            // Mark this object as being inserted. To manage cyclic relations
-            // The oid may be equal to -1
-            // Later in the process the cache will be updated with the right oid
-            GetSession().GetCache().StartInsertingObjectWithOid(@object, oid, nnoi);
-            // false : do not write data in transaction. Data are always written
-            // directly to disk. Pointers are written in transaction
-            var newOid = WriteNonNativeObjectInfo(oid, nnoi, -1, false, isNewObject);
-            if (newOid != StorageEngineConstant.NullObjectId)
-                GetSession().GetCache().AddObject(newOid, @object, nnoi.GetHeader());
-            return newOid;
+            return _nonNativeObjectWriter.InsertNonNativeObject(oid, nnoi, isNewObject);
         }
 
         /// <summary>
@@ -953,221 +599,10 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         /// </remarks>
         public OID UpdateNonNativeObjectInfo(NonNativeObjectInfo nnoi, bool forceUpdate)
         {
-            var hasObject = true;
-            string message;
-            var @object = nnoi.GetObject();
-            var oid = nnoi.GetOid();
-            if (@object == null)
-                hasObject = false;
-            // When there is index,we must *always* load the old meta representation
-            // to compute index keys
-            var withIndex = !nnoi.GetClassInfo().GetIndexes().IsEmpty();
-            NonNativeObjectInfo oldMetaRepresentation = null;
-            // Used to check consistency, at the end, the number of
-            // nbConnectedObjects must and nbUnconnected must remain unchanged
-            var nbConnectedObjects = nnoi.GetClassInfo().GetCommitedZoneInfo().GetNbObjects();
-            var nbNonConnectedObjects = nnoi.GetClassInfo().GetUncommittedZoneInfo().GetNbObjects();
-            var objectHasChanged = false;
-            try
-            {
-                var lsession = GetSession();
-                var positionBeforeWrite = _fsi.GetPosition();
-                var tmpCache = lsession.GetTmpCache();
-                var cache = lsession.GetCache();
-                // Get header of the object (position, previous object position,
-                // next
-                // object position and class info position)
-                // The header must be in the cache.
-                var lastHeader = cache.GetObjectInfoHeaderFromOid(oid, true);
-                if (lastHeader == null)
-                    throw new OdbRuntimeException(
-                        NDatabaseError.UnexpectedSituation.AddParameter("Header is null in update"));
-                if (lastHeader.GetOid() == null)
-                    throw new OdbRuntimeException(
-                        NDatabaseError.InternalError.AddParameter("Header oid is null for oid " + oid));
-                var objectIsInConnectedZone = cache.ObjectWithIdIsInCommitedZone(oid);
-                var currentPosition = lastHeader.GetPosition();
-
-                if (currentPosition == -1)
-                {
-                    throw new OdbRuntimeException(
-                        NDatabaseError.InstancePositionIsNegative.AddParameter(currentPosition).AddParameter(oid).
-                            AddParameter("In Object Info Header"));
-                }
-                if (OdbConfiguration.IsDebugEnabled(LogId))
-                {
-                    message = string.Format("start updating object at {0}, oid={1} : {2}",
-                                            currentPosition, oid, nnoi);
-                    DLogger.Debug(message);
-                }
-                // triggers,FIXME passing null to old object representation
-                StorageEngine.GetTriggerManager().ManageUpdateTriggerBefore(nnoi.GetClassInfo().GetFullClassName(),
-                                                                            null, hasObject ? @object : nnoi, oid);
-                // Use to control if the in place update is ok. The
-                // ObjectInstrospector stores the number of changes
-                // that were detected and here we try to apply them using in place
-                // update.If at the end
-                // of the in place update the number of applied changes is smaller
-                // then the number
-                // of detected changes, then in place update was not successfully,
-                // we
-                // must do a real update,
-                // creating an object elsewhere :-(
-                if (!forceUpdate)
-                {
-                    var cachedOid = cache.IdOfInsertingObject(@object);
-                    if (cachedOid != null)
-                    {
-                        // The object is being inserted (must be a cyclic
-                        // reference), simply returns id id
-                        return cachedOid;
-                    }
-                    // the nnoi (NonNativeObjectInfo is the meta representation of
-                    // the object to update
-                    // To know what must be upated we must get the meta
-                    // representation of this object before
-                    // The modification. Taking this 'old' meta representation from
-                    // the
-                    // cache does not resolve
-                    // : because cache is a reference to the real object and object
-                    // has been changed,
-                    // so the cache is pointing to the reference, that has changed!
-                    // This old meta representation must be re-read from the last
-                    // committed database
-                    // false, = returnInstance (java object) = false
-                    try
-                    {
-                        var useCache = !objectIsInConnectedZone;
-                        oldMetaRepresentation = _objectReader.ReadNonNativeObjectInfoFromPosition(null, oid,
-                                                                                                  currentPosition,
-                                                                                                  useCache, false);
-                        tmpCache.ClearObjectInfos();
-                    }
-                    catch (OdbRuntimeException e)
-                    {
-                        throw new OdbRuntimeException(
-                            NDatabaseError.InternalError.AddParameter("Error while reading old Object Info of oid " + oid +
-                                                                     " at pos " + currentPosition), e);
-                    }
-                    // Make sure we work with the last version of the object
-                    var onDiskVersion = oldMetaRepresentation.GetHeader().GetObjectVersion();
-                    var onDiskUpdateDate = oldMetaRepresentation.GetHeader().GetUpdateDate();
-                    var inCacheVersion = lastHeader.GetObjectVersion();
-                    var inCacheUpdateDate = lastHeader.GetUpdateDate();
-                    if (onDiskUpdateDate > inCacheUpdateDate || onDiskVersion > inCacheVersion)
-                        lastHeader = oldMetaRepresentation.GetHeader();
-                    nnoi.SetHeader(lastHeader);
-                    // increase the object version number from the old meta
-                    // representation
-                    nnoi.GetHeader().IncrementVersionAndUpdateDate();
-                    // Keep the creation date
-                    nnoi.GetHeader().SetCreationDate(oldMetaRepresentation.GetHeader().GetCreationDate());
-                    // Set the object of the old meta to make the object comparator
-                    // understand, they are 2
-                    // meta representation of the same object
-                    // TODO , check if if is the best way to do
-                    oldMetaRepresentation.SetObject(nnoi.GetObject());
-                    // Reset the comparator
-                    _comparator.Clear();
-                    objectHasChanged = _comparator.HasChanged(oldMetaRepresentation, nnoi);
-                    if (!objectHasChanged)
-                    {
-                        _fsi.SetWritePosition(positionBeforeWrite, true);
-                        if (OdbConfiguration.IsDebugEnabled(LogId))
-                            DLogger.Debug("updateObject : Object is unchanged - doing nothing");
-                        return oid;
-                    }
-                    if (OdbConfiguration.IsDebugEnabled(LogId))
-                    {
-                        DLogger.Debug("\tmax recursion level is " +
-                                      _comparator.GetMaxObjectRecursionLevel());
-                        DLogger.Debug("\tattribute actions are : " +
-                                      _comparator.GetChangedAttributeActions());
-                        DLogger.Debug("\tnew objects are : " + _comparator.GetNewObjects());
-                    }
-                }
-                // If we reach this update, In Place Update was not possible. Do a
-                // normal update. Deletes the
-                // current object and creates a new one
-                if (oldMetaRepresentation == null && withIndex)
-                {
-                    // We must load old meta representation to be able to compute
-                    // old index key to update index
-                    oldMetaRepresentation = _objectReader.ReadNonNativeObjectInfoFromPosition(null, oid, currentPosition,
-                                                                                              false, false);
-                }
-                _nbNormalUpdates++;
-                if (hasObject)
-                    cache.StartInsertingObjectWithOid(@object, oid, nnoi);
-                // gets class info from in memory meta model
-                var ci = lsession.GetMetaModel().GetClassInfoFromId(lastHeader.GetClassInfoId());
-                if (hasObject)
-                {
-                    // removes the object from the cache
-                    // cache.removeObjectWithOid(oid, object);
-                    cache.EndInsertingObject(@object);
-                }
-                var previousObjectOID = lastHeader.GetPreviousObjectOID();
-                var nextObjectOid = lastHeader.GetNextObjectOID();
-                if (OdbConfiguration.IsDebugEnabled(LogId))
-                {
-                    DLogger.Debug("Updating object " + nnoi);
-                    DLogger.Debug("position =  " + currentPosition + " | prev instance = " +
-                                  previousObjectOID + " | next instance = " + nextObjectOid);
-                }
-                nnoi.SetPreviousInstanceOID(previousObjectOID);
-                nnoi.SetNextObjectOID(nextObjectOid);
-                // Mark the block of current object as deleted
-                MarkAsDeleted(currentPosition, oid, objectIsInConnectedZone);
-                // Creates the new object
-                oid = InsertNonNativeObject(oid, nnoi, false);
-                // This position after write must be call just after the insert!!
-                var positionAfterWrite = _fsi.GetPosition();
-                if (hasObject)
-                {
-                    // update cache
-                    cache.AddObject(oid, @object, nnoi.GetHeader());
-                }
-                //TODO check if we must update cross session cache
-                _fsi.SetWritePosition(positionAfterWrite, true);
-                var nbConnectedObjectsAfter = nnoi.GetClassInfo().GetCommitedZoneInfo().GetNbObjects();
-                var nbNonConnectedObjectsAfter = nnoi.GetClassInfo().GetUncommittedZoneInfo().GetNbObjects();
-                if (nbConnectedObjectsAfter != nbConnectedObjects || nbNonConnectedObjectsAfter != nbNonConnectedObjects)
-                {
-                }
-                // TODO check this
-                // throw new
-                // ODBRuntimeException(Error.INTERNAL_ERROR.addParameter("Error
-                // in nb connected/unconnected counter"));
-                return oid;
-            }
-            catch (Exception e)
-            {
-                message = "Error updating object " + nnoi + " : " +
-                          e;
-                DLogger.Error(message);
-                throw new OdbRuntimeException(e, message);
-            }
-            finally
-            {
-                if (objectHasChanged)
-                {
-                    if (withIndex)
-                        ManageIndexesForUpdate(oid, nnoi, oldMetaRepresentation);
-                    // triggers,FIXME passing null to old object representation
-                    // (oldMetaRepresentation may be null)
-                    StorageEngine.GetTriggerManager().ManageUpdateTriggerAfter(
-                        nnoi.GetClassInfo().GetFullClassName(), oldMetaRepresentation, hasObject ? @object : nnoi, oid);
-                }
-                if (OdbConfiguration.IsDebugEnabled(LogId))
-                {
-                    DLogger.Debug("end updating object with oid=" + oid + " at pos " +
-                                  nnoi.GetPosition() + " => " + nnoi);
-                }
-            }
+            return _nonNativeObjectWriter.UpdateNonNativeObjectInfo(nnoi, forceUpdate);
         }
 
-        public long WriteAtomicNativeObject(AtomicNativeObjectInfo anoi, bool writeInTransaction,
+        private long WriteAtomicNativeObject(AtomicNativeObjectInfo anoi, bool writeInTransaction,
                                                     int totalSpaceIfString)
         {
             var startPosition = _fsi.GetPosition();
@@ -1314,7 +749,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         ///   Mark a block as deleted
         /// </summary>
         /// <returns> The block size </returns>
-        public int MarkAsDeleted(long currentPosition, OID oid, bool writeInTransaction)
+        public void MarkAsDeleted(long currentPosition, OID oid, bool writeInTransaction)
         {
             _fsi.SetReadPosition(currentPosition);
             var blockSize = _fsi.ReadInt();
@@ -1324,7 +759,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             // space for future use
             _fsi.WriteByte(BlockTypes.BlockTypeDeleted, writeInTransaction);
             StoreFreeSpace(currentPosition, blockSize);
-            return blockSize;
         }
 
         /// <summary>
@@ -1383,13 +817,13 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
 
         public OID Delete(ObjectInfoHeader header)
         {
-            var lsession = GetSession();
+            var lsession = _session;
             var cache = lsession.GetCache();
             var objectPosition = header.GetPosition();
             var classInfoId = header.GetClassInfoId();
             var oid = header.GetOid();
             // gets class info from in memory meta model
-            var ci = GetSession().GetMetaModel().GetClassInfoFromId(classInfoId);
+            var ci = _session.GetMetaModel().GetClassInfoFromId(classInfoId);
             var withIndex = !ci.GetIndexes().IsEmpty();
             NonNativeObjectInfo nnoi = null;
             // When there is index,we must *always* load the old meta representation
@@ -1405,7 +839,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             // triggers
             // FIXME
             _triggerManager.ManageDeleteTriggerBefore(ci.GetFullClassName(), null, header.GetOid());
-            var nbObjects = ci.GetNumberOfObjects();
+            
             var previousObjectOID = header.GetPreviousObjectOID();
             var nextObjectOID = header.GetNextObjectOID();
             if (OdbConfiguration.IsDebugEnabled(LogId))
@@ -1562,6 +996,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         public void SetTriggerManager(ITriggerManager triggerManager)
         {
             _triggerManager = triggerManager;
+            _nonNativeObjectWriter.SetTriggerManager(triggerManager);
         }
 
         #endregion
@@ -1569,7 +1004,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         public IFileSystemInterface BuildFsi()
         {
             return new FileSystemInterface("local-data", StorageEngine.GetBaseIdentification(), true,
-                                                OdbConfiguration.GetDefaultBufferSizeForData(), GetSession());
+                                                OdbConfiguration.GetDefaultBufferSizeForData(), _session);
         }
 
         /// <summary>
@@ -1619,17 +1054,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                 _fsi.WriteString(OdbConfiguration.GetDatabaseCharacterEncoding(), writeInTransaction, true, 50);
             else
                 _fsi.WriteString(StorageEngineConstant.NoEncoding, writeInTransaction, false, 50);
-        }
-
-        public void EncodeOid(OID oid, byte[] bytes, int offset)
-        {
-            if (oid == null)
-                _byteArrayConverter.LongToByteArray(-1, bytes, offset);
-            else
-            {
-                // fsi.writeLong(-1, writeInTransaction, label, writeAction);
-                _byteArrayConverter.LongToByteArray(oid.ObjectId, bytes, offset);
-            }
         }
 
         // fsi.writeLong(oid.getObjectId(), writeInTransaction, label,
@@ -1814,7 +1238,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         public OID WriteNonNativeObjectInfoOld(OID existingOid, NonNativeObjectInfo objectInfo, long position,
                                                        bool writeDataInTransaction, bool isNewObject)
         {
-            var lsession = GetSession();
+            var lsession = _session;
             var cache = lsession.GetCache();
             var hasObject = objectInfo.GetObject() != null;
             if (isNewObject)
@@ -2085,7 +1509,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         /// </summary>
         /// <param name="objectInfo"> The meta representation of the object being inserted </param>
         /// <param name="classInfo"> The class of the object being inserted </param>
-        private void ManageNewObjectPointers(NonNativeObjectInfo objectInfo, ClassInfo classInfo)
+        public void ManageNewObjectPointers(NonNativeObjectInfo objectInfo, ClassInfo classInfo)
         {
             var cache = StorageEngine.GetSession(true).GetCache();
             var isFirstUncommitedObject = !classInfo.GetUncommittedZoneInfo().HasObjects();
@@ -2161,8 +1585,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             _fsi.SetWritePosition(writePosition, true);
             // true,false = update pointers,do not write in transaction, writes
             // directly to hard disk
-            var position = WriteNativeObjectInfo(noi, writePosition, false);
-            return position;
+            return WriteNativeObjectInfo(noi, writePosition, false);
         }
 
         /// <summary>
@@ -2180,7 +1603,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             // If object is in the cache, we must perform an update, else an insert
             var @object = nnoi.GetObject();
             var mustUpdate = false;
-            var cache = GetSession().GetCache();
+            var cache = _session.GetCache();
             if (@object != null)
             {
                 var cacheOid = cache.IdOfInsertingObject(@object);
@@ -2217,7 +1640,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         /// </remarks>
         /// <param name="noi"> The meta representation of an object </param>
         /// <returns> The object position @ </returns>
-        internal long InternalStoreObject(NativeObjectInfo noi)
+        public long InternalStoreObject(NativeObjectInfo noi)
         {
             return InsertNativeObject(noi);
         }
@@ -2633,12 +2056,17 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
 
         public static int GetNbNormalUpdates()
         {
-            return _nbNormalUpdates;
+            return NbNormalUpdates;
         }
 
         public static void ResetNbUpdates()
         {
-            _nbNormalUpdates = 0;
+            NbNormalUpdates = 0;
+        }
+
+        public void Dispose()
+        {
+            Close();
         }
     }
 }

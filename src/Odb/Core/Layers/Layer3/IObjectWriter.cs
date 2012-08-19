@@ -1,22 +1,20 @@
+using System;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Transaction;
 using NDatabase.Odb.Core.Trigger;
 
 namespace NDatabase.Odb.Core.Layers.Layer3
 {
-    public interface IObjectWriter : ITwoPhaseInit
+    public interface IObjectWriter : ITwoPhaseInit, IDisposable
     {
         ClassInfoList AddClasses(ClassInfoList classInfoList);
 
-        /// <summary>
-        ///   Write the class info header to the database file
-        /// </summary>
-        /// <param name="classInfo"> The class info to be written </param>
-        /// <param name="position"> The position at which it must be written </param>
-        /// <param name="writeInTransaction"> true if the write must be done in transaction, false to write directly </param>
-        void WriteClassInfoHeader(ClassInfo classInfo, long position, bool writeInTransaction);
-
         void UpdateClassInfo(ClassInfo classInfo, bool writeInTransaction);
+
+        /// <param name="oid"> The Oid of the object to be inserted </param>
+        /// <param name="nnoi"> The object meta representation The object to be inserted in the database </param>
+        /// <param name="isNewObject"> To indicate if object is new </param>
+        /// <returns> The position of the inserted object </returns>
+        OID InsertNonNativeObject(OID oid, NonNativeObjectInfo nnoi, bool isNewObject);
 
         /// <summary>
         ///   Updates an object.
@@ -43,11 +41,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         OID WriteNonNativeObjectInfo(OID existingOid, NonNativeObjectInfo objectInfo, long position,
                                      bool writeDataInTransaction, bool isNewObject);
 
-        long WriteAtomicNativeObject(AtomicNativeObjectInfo anoi, bool writeInTransaction, int totalSpaceIfString);
-
         IIdManager GetIdManager();
-
-        ISession GetSession();
 
         void Close();
 
@@ -58,34 +52,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         /// </summary>
         /// <param name="creationDate"> The creation date </param>
         void CreateEmptyDatabaseHeader(long creationDate);
-
-        /// <summary>
-        ///   Mark a block as deleted
-        /// </summary>
-        /// <returns> The block size </returns>
-        /// <param name="currentPosition"> </param>
-        /// <param name="oid"> </param>
-        /// <param name="writeInTransaction"> </param>
-        int MarkAsDeleted(long currentPosition, OID oid, bool writeInTransaction);
-
-        /// <summary>
-        ///   Insert the object in the index
-        /// </summary>
-        /// <param name="oid"> The object id </param>
-        /// <param name="nnoi"> The object meta represenation </param>
-        /// <returns> The number of indexes </returns>
-        int ManageIndexesForInsert(OID oid, NonNativeObjectInfo nnoi);
-
-        /// <summary>
-        ///   Insert the object in the index
-        /// </summary>
-        /// <param name="oid"> The object id </param>
-        /// <param name="nnoi"> The object meta represenation </param>
-        /// <returns> The number of indexes </returns>
-        /// <exception cref="System.Exception">System.Exception</exception>
-        int ManageIndexesForDelete(OID oid, NonNativeObjectInfo nnoi);
-
-        int ManageIndexesForUpdate(OID oid, NonNativeObjectInfo nnoi, NonNativeObjectInfo oldMetaRepresentation);
 
         /// <summary>
         ///   Write the status of the last odb close
@@ -174,24 +140,52 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         void AfterInit();
 
-        ClassInfo AddClass(ClassInfo newClassInfo, bool addDependentClasses);
-
-        /// <summary>
-        ///   Persist a single class info - This method is used by the XML Importer.
-        /// </summary>
-        /// <remarks>
-        ///   Persist a single class info - This method is used by the XML Importer.
-        /// </remarks>
-        ClassInfo PersistClass(ClassInfo newClassInfo, int lastClassInfoIndex, bool addClass, bool addDependentClasses);
-
         void WriteLastTransactionId(ITransactionId transactionId);
 
         void SetTriggerManager(ITriggerManager triggerManager);
 
-        /// <param name="oid"> The Oid of the object to be inserted </param>
-        /// <param name="nnoi"> The object meta representation The object to be inserted in the database </param>
-        /// <param name="isNewObject"> To indicate if object is new </param>
-        /// <returns> The position of the inserted object </returns>
-        OID InsertNonNativeObject(OID oid, NonNativeObjectInfo nnoi, bool isNewObject);
+        /// <summary>
+        ///   Mark a block as deleted
+        /// </summary>
+        /// <returns> The block size </returns>
+        void MarkAsDeleted(long currentPosition, OID oid, bool writeInTransaction);
+
+        ClassInfo AddClass(ClassInfo newClassInfo, bool addDependentClasses);
+
+        /// <summary>
+        ///   Updates pointers of objects, Only changes uncommitted info pointers
+        /// </summary>
+        /// <param name="objectInfo"> The meta representation of the object being inserted </param>
+        /// <param name="classInfo"> The class of the object being inserted </param>
+        void ManageNewObjectPointers(NonNativeObjectInfo objectInfo, ClassInfo classInfo);
+
+        /// <summary>
+        ///   Store a meta representation of a native object(already as meta representation)in ODBFactory database.
+        /// </summary>
+        /// <remarks>
+        ///   Store a meta representation of a native object(already as meta representation)in ODBFactory database. A Native object is an object that use native language type, String for example To detect if object must be updated or insert, we use the cache. To update an object, it must be first selected from the database. When an object is to be stored, if it exist in the cache, then it will be updated, else it will be inserted as a new object. If the object is null, the cache will be used to check if the meta representation is in the cache
+        /// </remarks>
+        /// <param name="noi"> The meta representation of an object </param>
+        /// <returns> The object position @ </returns>
+        long InternalStoreObject(NativeObjectInfo noi);
+
+        /// <summary>
+        ///   Insert the object in the index
+        /// </summary>
+        /// <param name="oid"> The object id </param>
+        /// <param name="nnoi"> The object meta represenation </param>
+        /// <returns> The number of indexes </returns>
+        int ManageIndexesForInsert(OID oid, NonNativeObjectInfo nnoi);
+
+        /// <summary>
+        ///   Store a meta representation of an object(already as meta representation)in ODBFactory database.
+        /// </summary>
+        /// <remarks>
+        ///   Store a meta representation of an object(already as meta representation)in ODBFactory database. To detect if object must be updated or insert, we use the cache. To update an object, it must be first selected from the database. When an object is to be stored, if it exist in the cache, then it will be updated, else it will be inserted as a new object. If the object is null, the cache will be used to check if the meta representation is in the cache
+        /// </remarks>
+        /// <param name="oid"> The oid of the object to be inserted/updates </param>
+        /// <param name="nnoi"> The meta representation of an object </param>
+        /// <returns> The object position </returns>
+        OID StoreObject(OID oid, NonNativeObjectInfo nnoi);
     }
 }

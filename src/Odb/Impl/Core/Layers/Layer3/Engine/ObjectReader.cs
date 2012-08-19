@@ -118,7 +118,15 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             var currentBlockNumber = _fsi.ReadInt("current block id number");
             var maxId = OIDFactory.BuildObjectOID(_fsi.ReadLong("Block max id"));
             _storageEngine.SetDatabaseId(databaseId);
-            _storageEngine.SetCurrentIdBlockInfos(currentBlockPosition, currentBlockNumber, maxId);
+
+            var currentBlockInfo = new CurrentIdBlockInfo
+                {
+                    CurrentIdBlockPosition = currentBlockPosition,
+                    CurrentIdBlockNumber = currentBlockNumber,
+                    CurrentIdBlockMaxOid = maxId
+                };
+
+            _storageEngine.SetCurrentIdBlockInfos(currentBlockInfo);
             _storageEngine.SetCurrentTransactionId(lastTransactionId);
         }
 

@@ -81,15 +81,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         IList<FullIDInfo> GetAllObjectIdInfos(string objectType, bool displayObjects);
 
-        /// <returns> Returns the currentIdBlockNumber. </returns>
-        int GetCurrentIdBlockNumber();
-
-        /// <returns> Returns the currentIdBlockPosition. </returns>
-        long GetCurrentIdBlockPosition();
-
-        /// <returns> Returns the currentIdBlockMaxId. </returns>
-        OID GetCurrentIdBlockMaxOid();
-
         bool IsClosed();
 
         void AddUpdateTriggerFor(string className, UpdateTrigger trigger);
@@ -102,7 +93,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         void SetDatabaseId(IDatabaseId databaseId);
 
-        void SetCurrentIdBlockInfos(long currentBlockPosition, int currentBlockNumber, OID maxId);
+        void SetCurrentIdBlockInfos(CurrentIdBlockInfo currentIdBlockInfo);
 
         IBaseIdentification GetBaseIdentification();
 
@@ -198,5 +189,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         /// <param name="clazz"> </param>
         /// <returns> </returns>
         CriteriaQuery CriteriaQuery(Type clazz);
+
+        CurrentIdBlockInfo GetCurrentIdBlockInfo();
     }
 }

@@ -136,6 +136,7 @@
     <Compile Include="Odb\Core\Layers\Layer2\Meta\ObjectReference.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\ODBType.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\SessionMetaModel.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\Engine\CurrentIdBlockInfo.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\StorageEngine.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\AbstractStorageEngineReader.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\CheckMetaModelResult.cs" />
@@ -242,6 +243,7 @@
     <Compile Include="Odb\Impl\Core\Layers\Layer3\Block\BlockTypes.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer3\Buffer\MultiBufferedFileIO.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer3\Buffer\MultiBufferedIO.cs" />
+    <Compile Include="Odb\Impl\Core\Layers\Layer3\Engine\NonNativeObjectWriter.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer3\Engine\ObjectWriter.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer3\Engine\ByteArrayConverter.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer3\Engine\Dummy.cs" />

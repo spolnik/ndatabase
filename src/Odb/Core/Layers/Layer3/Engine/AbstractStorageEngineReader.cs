@@ -327,12 +327,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public abstract IOdbList<ICommitListener> GetCommitListeners();
 
-        public abstract OID GetCurrentIdBlockMaxOid();
-
-        public abstract int GetCurrentIdBlockNumber();
-
-        public abstract long GetCurrentIdBlockPosition();
-
         public abstract ITransactionId GetCurrentTransactionId();
 
         public abstract IDatabaseId GetDatabaseId();
@@ -363,7 +357,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public abstract void Rollback();
 
-        public abstract void SetCurrentIdBlockInfos(long arg1, int arg2, OID arg3);
+        public abstract void SetCurrentIdBlockInfos(CurrentIdBlockInfo currentIdBlockInfo);
 
         public abstract void SetCurrentTransactionId(ITransactionId arg1);
 
@@ -383,5 +377,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             return GetSession(true).GetMetaModel();
         }
+
+        public abstract CurrentIdBlockInfo GetCurrentIdBlockInfo();
     }
 }
