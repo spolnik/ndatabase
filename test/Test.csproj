@@ -141,7 +141,6 @@
     <Compile Include="Neodatis\Odb\Test\Intropector\TestArray.cs" />
     <Compile Include="Neodatis\Odb\Test\IO\MockBaseIdentification.cs" />
     <Compile Include="Neodatis\Odb\Test\IO\MockObjectReader.cs" />
-    <Compile Include="Neodatis\Odb\Test\IO\MockObjectWriter.cs" />
     <Compile Include="Neodatis\Odb\Test\IO\MockSession.cs" />
     <Compile Include="Neodatis\Odb\Test\IO\TestBigFile.cs" />
     <Compile Include="Neodatis\Odb\Test\IO\TestFileSystemInterface1.cs" />

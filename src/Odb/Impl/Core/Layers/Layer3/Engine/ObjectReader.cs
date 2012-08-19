@@ -69,7 +69,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         public ObjectReader(IStorageEngine engine)
         {
             _storageEngine = engine;
-            _fsi = engine.GetObjectWriter().GetFsi();
+            _fsi = engine.GetObjectWriter().FileSystemProcessor.FileSystemInterface;
             _blockPositions = new OdbHashMap<long, long>();
             _instanceBuilder = BuildInstanceBuilder();
             _byteArrayConverter = OdbConfiguration.GetCoreProvider().GetByteArrayConverter();

@@ -7,18 +7,14 @@ using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer2.Meta.Compare;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
-using NDatabase.Odb.Core.Oid;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Odb.Core.Trigger;
 using NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Compare;
-using NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.History;
 using NDatabase.Odb.Impl.Core.Layers.Layer3.Block;
 using NDatabase.Odb.Impl.Core.Layers.Layer3.Oid;
 using NDatabase.Odb.Impl.Core.Oid;
 using NDatabase.Odb.Impl.Core.Transaction;
-using NDatabase.Odb.Impl.Tool;
 using NDatabase.Tool;
-using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
 {
@@ -41,8 +37,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         private readonly IObjectInfoComparator _comparator;
         private readonly ISession _session;
 
-        private IFileSystemInterface _fsi;
-
         private IIdManager _idManager;
         private IObjectReader _objectReader;
         private readonly INonNativeObjectWriter _nonNativeObjectWriter;
@@ -52,10 +46,12 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         /// </summary>
         private ITriggerManager _triggerManager;
 
+        private IStorageEngine _storageEngine;
+
         public ObjectWriter(IStorageEngine engine, IByteArrayConverter byteArrayConverter, IClassIntrospector classIntrospector)
         {
-            StorageEngine = engine;
-            _objectReader = StorageEngine.GetObjectReader();
+            _storageEngine = engine;
+            _objectReader = _storageEngine.GetObjectReader();
 
             _byteArrayConverter = byteArrayConverter;
             _classIntrospector = classIntrospector;
@@ -64,10 +60,8 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
 
             _session = engine.GetSession(true);
 
-            _nonNativeObjectWriter = new NonNativeObjectWriter(this, StorageEngine, _byteArrayConverter, _comparator);
+            _nonNativeObjectWriter = new NonNativeObjectWriter(this, _storageEngine, _byteArrayConverter, _comparator);
         }
-
-        public IStorageEngine StorageEngine { get; set; }
 
         #region IObjectWriter Members
 
@@ -76,13 +70,15 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         /// </summary>
         public void Init2()
         {
-            _fsi = BuildFsi();
+            FileSystemProcessor = new FileSystemProcessor();
+            FileSystemProcessor.BuildFileSystemInterface(_storageEngine, _session);
         }
 
         public void AfterInit()
         {
-            _objectReader = StorageEngine.GetObjectReader();
-            _idManager = OdbConfiguration.GetCoreProvider().GetIdManager(StorageEngine);
+            _objectReader = _storageEngine.GetObjectReader();
+            _nonNativeObjectWriter.AfterInit();
+            _idManager = OdbConfiguration.GetCoreProvider().GetIdManager(_storageEngine);
         }
 
         /// <summary>
@@ -91,204 +87,10 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         /// <param name="creationDate"> The creation date </param>
         public void CreateEmptyDatabaseHeader(long creationDate)
         {
-            WriteVersion(false);
-            var databaseId = WriteDatabaseId(creationDate, false);
-            
-            // Create the first Transaction Id
-            ITransactionId tid = new TransactionIdImpl(databaseId, 0, 1);
-
-            StorageEngine.SetCurrentTransactionId(tid);
-
-            WriteLastTransactionId(tid);
-            WriteNumberOfClasses(0, false);
-            WriteFirstClassInfoOID(StorageEngineConstant.NullObjectId, false);
-            WriteLastOdbCloseStatus(false, false);
-            WriteDatabaseCharacterEncoding(false);
-
-            // This is the position of the first block id. But it will always
-            // contain the position of the current id block
-            _fsi.WriteLong(StorageEngineConstant.DatabaseHeaderFirstIdBlockPosition, false, "current id block position",
-                           WriteAction.DirectWriteAction);
-
-            // Write an empty id block
-            WriteIdBlock(-1, OdbConfiguration.GetIdBlockSize(), BlockStatus.BlockNotFull, 1, -1, false);
-            Flush();
-
-            var currentBlockInfo = new CurrentIdBlockInfo
-                {
-                    CurrentIdBlockPosition = StorageEngineConstant.DatabaseHeaderFirstIdBlockPosition,
-                    CurrentIdBlockNumber = 1,
-                    CurrentIdBlockMaxOid = OIDFactory.BuildObjectOID(0)
-                };
-
-            StorageEngine.SetCurrentIdBlockInfos(currentBlockInfo);
+            FileSystemProcessor.CreateEmptyDatabaseHeader(_storageEngine, creationDate);
         }
 
-        /// <summary>
-        ///   Write the current transaction Id, out of transaction
-        /// </summary>
-        public void WriteLastTransactionId(ITransactionId transactionId)
-        {
-            _fsi.SetWritePosition(StorageEngineConstant.DatabaseHeaderLastTransactionId, false);
-            // FIXME This should always be written directly without transaction
-            _fsi.WriteLong(transactionId.GetId1(), false, "last transaction id 1/2",
-                           WriteAction.DirectWriteAction);
-
-            _fsi.WriteLong(transactionId.GetId2(), false, "last transaction id 2/2",
-                           WriteAction.DirectWriteAction);
-        }
-
-        /// <summary>
-        ///   Write the status of the last odb close
-        /// </summary>
-        public void WriteLastOdbCloseStatus(bool ok, bool writeInTransaction)
-        {
-            _fsi.SetWritePosition(StorageEngineConstant.DatabaseHeaderLastCloseStatusPosition, writeInTransaction);
-            _fsi.WriteBoolean(ok, writeInTransaction, "odb last close status");
-        }
-
-        /// <summary>
-        ///   Writes the header of a block of type ID - a block that contains ids of objects and classes
-        /// </summary>
-        /// <param name="position"> Position at which the block must be written, if -1, take the next available position </param>
-        /// <param name="idBlockSize"> The block size in byte </param>
-        /// <param name="blockStatus"> The block status </param>
-        /// <param name="blockNumber"> The number of the block </param>
-        /// <param name="previousBlockPosition"> The position of the previous block of the same type </param>
-        /// <param name="writeInTransaction"> To indicate if write must be done in transaction </param>
-        /// <returns> The position of the id @ </returns>
-        public long WriteIdBlock(long position, int idBlockSize, byte blockStatus, int blockNumber,
-                                         long previousBlockPosition, bool writeInTransaction)
-        {
-            if (position == -1)
-                position = _fsi.GetAvailablePosition();
-
-            // LogUtil.fileSystemOn(true);
-            // Updates the database header with the current id block position
-            _fsi.SetWritePosition(StorageEngineConstant.DatabaseHeaderCurrentIdBlockPosition, writeInTransaction);
-            _fsi.WriteLong(position, false, "current id block position", WriteAction.DirectWriteAction);
-            _fsi.SetWritePosition(position, writeInTransaction);
-            _fsi.WriteInt(idBlockSize, writeInTransaction, "block size");
-
-            // LogUtil.fileSystemOn(false);
-            _fsi.WriteByte(BlockTypes.BlockTypeIds, writeInTransaction);
-            _fsi.WriteByte(blockStatus, writeInTransaction);
-
-            // prev position
-            _fsi.WriteLong(previousBlockPosition, writeInTransaction, "prev block pos",
-                           WriteAction.DirectWriteAction);
-
-            // next position
-            _fsi.WriteLong(-1, writeInTransaction, "next block pos", WriteAction.DirectWriteAction);
-            _fsi.WriteInt(blockNumber, writeInTransaction, "id block number");
-            _fsi.WriteLong(0, writeInTransaction, "id block max id", WriteAction.DirectWriteAction);
-            _fsi.SetWritePosition(position + OdbConfiguration.GetIdBlockSize() - 1, writeInTransaction);
-            _fsi.WriteByte(0, writeInTransaction);
-
-            if (OdbConfiguration.IsDebugEnabled(LogIdDebug))
-                DLogger.Debug(string.Format("After create block, available position is {0}", _fsi.GetAvailablePosition()));
-
-            return position;
-        }
-
-        /// <summary>
-        ///   Marks a block of type id as full, changes the status and the next block position
-        /// </summary>
-        /// <param name="blockPosition"> </param>
-        /// <param name="nextBlockPosition"> </param>
-        /// <param name="writeInTransaction"> </param>
-        /// <returns> The block position @ </returns>
-        public long MarkIdBlockAsFull(long blockPosition, long nextBlockPosition, bool writeInTransaction)
-        {
-            _fsi.SetWritePosition(blockPosition + StorageEngineConstant.BlockIdOffsetForBlockStatus, writeInTransaction);
-            _fsi.WriteByte(BlockStatus.BlockFull, writeInTransaction);
-            _fsi.SetWritePosition(blockPosition + StorageEngineConstant.BlockIdOffsetForNextBlock, writeInTransaction);
-
-            _fsi.WriteLong(nextBlockPosition, writeInTransaction, "next id block pos",
-                           WriteAction.DirectWriteAction);
-
-            return blockPosition;
-        }
-
-        /// <summary>
-        ///   Associate an object OID to its position
-        /// </summary>
-        /// <param name="idType"> The type : can be object or class </param>
-        /// <param name="idStatus"> The status of the OID </param>
-        /// <param name="currentBlockIdPosition"> The current OID block position </param>
-        /// <param name="oid"> The OID </param>
-        /// <param name="objectPosition"> The position </param>
-        /// <param name="writeInTransaction"> To indicate if write must be executed in transaction </param>
-        /// <returns> @ </returns>
-        public long AssociateIdToObject(byte idType, byte idStatus, long currentBlockIdPosition, OID oid,
-                                                long objectPosition, bool writeInTransaction)
-        {
-            // Update the max id of the current block
-            _fsi.SetWritePosition(currentBlockIdPosition + StorageEngineConstant.BlockIdOffsetForMaxId,
-                                  writeInTransaction);
-
-            _fsi.WriteLong(oid.ObjectId, writeInTransaction, "id block max id update",
-                           WriteAction.PointerWriteAction);
-
-            var l1 = (oid.ObjectId - 1)%OdbConfiguration.GetNbIdsPerBlock();
-
-            var idPosition = currentBlockIdPosition + StorageEngineConstant.BlockIdOffsetForStartOfRepetition +
-                             (l1)*OdbConfiguration.GetIdBlockRepetitionSize();
-
-            // go to the next id position
-            _fsi.SetWritePosition(idPosition, writeInTransaction);
-
-            // id type
-            _fsi.WriteByte(idType, writeInTransaction, "id type");
-
-            // id
-            _fsi.WriteLong(oid.ObjectId, writeInTransaction, "oid", WriteAction.PointerWriteAction);
-
-            // id status
-            _fsi.WriteByte(idStatus, writeInTransaction, "id status");
-
-            // object position
-            _fsi.WriteLong(objectPosition, writeInTransaction, "obj pos", WriteAction.PointerWriteAction);
-
-            return idPosition;
-        }
-
-        /// <summary>
-        ///   Updates the real object position of the object OID
-        /// </summary>
-        /// <param name="idPosition"> The OID position </param>
-        /// <param name="objectPosition"> The real object position </param>
-        /// <param name="writeInTransaction"> indicate if write must be done in transaction @ </param>
-        public void UpdateObjectPositionForObjectOIDWithPosition(long idPosition, long objectPosition,
-                                                                         bool writeInTransaction)
-        {
-            _fsi.SetWritePosition(idPosition, writeInTransaction);
-            _fsi.WriteByte(IdTypes.Object, writeInTransaction, "id type");
-            _fsi.SetWritePosition(idPosition + StorageEngineConstant.BlockIdRepetitionIdStatus, writeInTransaction);
-            _fsi.WriteByte(IDStatus.Active, writeInTransaction);
-            _fsi.WriteLong(objectPosition, writeInTransaction, "Updating object position of id",
-                           WriteAction.PointerWriteAction);
-        }
-
-        /// <summary>
-        ///   Udates the real class positon of the class OID
-        /// </summary>
-        public void UpdateClassPositionForClassOIDWithPosition(long idPosition, long objectPosition,
-                                                                       bool writeInTransaction)
-        {
-            _fsi.SetWritePosition(idPosition, writeInTransaction);
-            _fsi.WriteByte(IdTypes.Class, writeInTransaction, "id type");
-            _fsi.SetWritePosition(idPosition + StorageEngineConstant.BlockIdRepetitionIdStatus, writeInTransaction);
-            _fsi.WriteByte(IDStatus.Active, writeInTransaction);
-            _fsi.WriteLong(objectPosition, writeInTransaction, "Updating class position of id",
-                           WriteAction.PointerWriteAction);
-        }
-
-        public void UpdateStatusForIdWithPosition(long idPosition, byte newStatus, bool writeInTransaction)
-        {
-            _fsi.SetWritePosition(idPosition + StorageEngineConstant.BlockIdRepetitionIdStatus, writeInTransaction);
-            _fsi.WriteByte(newStatus, writeInTransaction, "Updating id status");
-        }
+        public IFileSystemProcessor FileSystemProcessor { get; private set; }
 
         /// <summary>
         ///   Persist a single class info - This method is used by the XML Importer.
@@ -306,7 +108,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                 classInfoId = GetIdManager().GetNextClassId(-1);
                 newClassInfo.SetId(classInfoId);
             }
-            var writePosition = _fsi.GetAvailablePosition();
+            var writePosition = FileSystemProcessor.FileSystemInterface.GetAvailablePosition();
             newClassInfo.SetPosition(writePosition);
             GetIdManager().UpdateClassPositionForId(classInfoId, writePosition, true);
             if (OdbConfiguration.IsDebugEnabled(LogId))
@@ -335,10 +137,10 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                                       newClassInfo.GetFullClassName()));
                 }
 
-                _fsi.SetWritePosition(lastClassinfo.GetPosition() + StorageEngineConstant.ClassOffsetNextClassPosition,
+                FileSystemProcessor.FileSystemInterface.SetWritePosition(lastClassinfo.GetPosition() + StorageEngineConstant.ClassOffsetNextClassPosition,
                                       true);
 
-                _fsi.WriteLong(newClassInfo.GetId().ObjectId, true, "next class oid",
+                FileSystemProcessor.FileSystemInterface.WriteLong(newClassInfo.GetId().ObjectId, true, "next class oid",
                                WriteAction.PointerWriteAction);
 
                 newClassInfo.SetPreviousClassOID(lastClassinfo.GetId());
@@ -348,10 +150,10 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                 metaModel.AddClass(newClassInfo);
 
             // updates number of classes
-            WriteNumberOfClasses(metaModel.GetNumberOfClasses(), true);
+            FileSystemProcessor.WriteNumberOfClasses(metaModel.GetNumberOfClasses(), true);
             // If it is the first class , updates the first class OID
             if (newClassInfo.GetPreviousClassOID() == null)
-                WriteFirstClassInfoOID(newClassInfo.GetId(), true);
+                FileSystemProcessor.WriteFirstClassInfoOID(newClassInfo.GetId(), true);
 
             // Writes the header of the class - out of transaction (FIXME why out of
             // transaction)
@@ -387,7 +189,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                 }
             }
 
-            WriteClassInfoBody(newClassInfo, _fsi.GetAvailablePosition(), true);
+            WriteClassInfoBody(newClassInfo, FileSystemProcessor.FileSystemInterface.GetAvailablePosition(), true);
             return newClassInfo;
         }
 
@@ -426,48 +228,48 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             else
                 _idManager.UpdateClassPositionForId(classId, position, true);
 
-            _fsi.SetWritePosition(position, writeInTransaction);
+            FileSystemProcessor.FileSystemInterface.SetWritePosition(position, writeInTransaction);
             if (OdbConfiguration.IsDebugEnabled(LogId))
                 DLogger.Debug(string.Format("Writing new Class info header at {0} : {1}", position, classInfo));
 
             // Real value of block size is only known at the end of the writing
-            _fsi.WriteInt(0, writeInTransaction, "block size");
-            _fsi.WriteByte(BlockTypes.BlockTypeClassHeader, writeInTransaction, "class header block type");
-            _fsi.WriteByte(classInfo.GetClassCategory(), writeInTransaction, "Class info category");
-            _fsi.WriteLong(classId.ObjectId, writeInTransaction, "class id", WriteAction.DataWriteAction);
+            FileSystemProcessor.FileSystemInterface.WriteInt(0, writeInTransaction, "block size");
+            FileSystemProcessor.FileSystemInterface.WriteByte(BlockTypes.BlockTypeClassHeader, writeInTransaction, "class header block type");
+            FileSystemProcessor.FileSystemInterface.WriteByte(classInfo.GetClassCategory(), writeInTransaction, "Class info category");
+            FileSystemProcessor.FileSystemInterface.WriteLong(classId.ObjectId, writeInTransaction, "class id", WriteAction.DataWriteAction);
 
-            WriteOid(classInfo.GetPreviousClassOID(), writeInTransaction, "prev class oid",
+            FileSystemProcessor.WriteOid(classInfo.GetPreviousClassOID(), writeInTransaction, "prev class oid",
                      WriteAction.DataWriteAction);
 
-            WriteOid(classInfo.GetNextClassOID(), writeInTransaction, "next class oid",
+            FileSystemProcessor.WriteOid(classInfo.GetNextClassOID(), writeInTransaction, "next class oid",
                      WriteAction.DataWriteAction);
 
-            _fsi.WriteLong(classInfo.GetCommitedZoneInfo().GetNbObjects(), writeInTransaction, "class nb objects",
+            FileSystemProcessor.FileSystemInterface.WriteLong(classInfo.GetCommitedZoneInfo().GetNbObjects(), writeInTransaction, "class nb objects",
                            WriteAction.DataWriteAction);
 
-            WriteOid(classInfo.GetCommitedZoneInfo().First, writeInTransaction, "class first obj pos",
+            FileSystemProcessor.WriteOid(classInfo.GetCommitedZoneInfo().First, writeInTransaction, "class first obj pos",
                      WriteAction.DataWriteAction);
 
-            WriteOid(classInfo.GetCommitedZoneInfo().Last, writeInTransaction, "class last obj pos",
+            FileSystemProcessor.WriteOid(classInfo.GetCommitedZoneInfo().Last, writeInTransaction, "class last obj pos",
                      WriteAction.DataWriteAction);
 
             // FIXME : append extra info if not empty (.net compatibility)
-            _fsi.WriteString(classInfo.GetFullClassName(), false, writeInTransaction);
-            _fsi.WriteInt(classInfo.GetMaxAttributeId(), writeInTransaction, "Max attribute id");
+            FileSystemProcessor.FileSystemInterface.WriteString(classInfo.GetFullClassName(), false, writeInTransaction);
+            FileSystemProcessor.FileSystemInterface.WriteInt(classInfo.GetMaxAttributeId(), writeInTransaction, "Max attribute id");
 
             if (classInfo.GetAttributesDefinitionPosition() != -1)
             {
-                _fsi.WriteLong(classInfo.GetAttributesDefinitionPosition(), writeInTransaction, "class att def pos",
+                FileSystemProcessor.FileSystemInterface.WriteLong(classInfo.GetAttributesDefinitionPosition(), writeInTransaction, "class att def pos",
                                WriteAction.DataWriteAction);
             }
             else
             {
                 // @todo check this
-                _fsi.WriteLong(-1, writeInTransaction, "class att def pos", WriteAction.DataWriteAction);
+                FileSystemProcessor.FileSystemInterface.WriteLong(-1, writeInTransaction, "class att def pos", WriteAction.DataWriteAction);
             }
 
-            var blockSize = (int) (_fsi.GetPosition() - position);
-            WriteBlockSizeAt(position, blockSize, writeInTransaction, classInfo);
+            var blockSize = (int) (FileSystemProcessor.FileSystemInterface.GetPosition() - position);
+            FileSystemProcessor.WriteBlockSizeAt(position, blockSize, writeInTransaction, classInfo);
         }
 
         public void UpdateClassInfo(ClassInfo classInfo, bool writeInTransaction)
@@ -502,10 +304,10 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             }
             // To force the rewrite of class info body
             classInfo.SetAttributesDefinitionPosition(-1);
-            var newCiPosition = _fsi.GetAvailablePosition();
+            var newCiPosition = FileSystemProcessor.FileSystemInterface.GetAvailablePosition();
             classInfo.SetPosition(newCiPosition);
             WriteClassInfoHeader(classInfo, newCiPosition, writeInTransaction);
-            WriteClassInfoBody(classInfo, _fsi.GetAvailablePosition(), writeInTransaction);
+            WriteClassInfoBody(classInfo, FileSystemProcessor.FileSystemInterface.GetAvailablePosition(), writeInTransaction);
         }
 
         public OID WriteNonNativeObjectInfo(OID existingOid, NonNativeObjectInfo objectInfo, long position,
@@ -605,14 +407,14 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         private long WriteAtomicNativeObject(AtomicNativeObjectInfo anoi, bool writeInTransaction,
                                                     int totalSpaceIfString)
         {
-            var startPosition = _fsi.GetPosition();
+            var startPosition = FileSystemProcessor.FileSystemInterface.GetPosition();
             var odbTypeId = anoi.GetOdbTypeId();
             WriteNativeObjectHeader(odbTypeId, anoi.IsNull(), BlockTypes.BlockTypeNativeObject, writeInTransaction);
             if (anoi.IsNull())
             {
                 // Even if object is null, reserve space for to simplify/enable in
                 // place update
-                _fsi.EnsureSpaceFor(anoi.GetOdbType());
+                FileSystemProcessor.FileSystemInterface.EnsureSpaceFor(anoi.GetOdbType());
                 return startPosition;
             }
             var @object = anoi.GetObject();
@@ -620,56 +422,56 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             {
                 case OdbType.ByteId:
                     {
-                        _fsi.WriteByte(((byte) @object), writeInTransaction);
+                        FileSystemProcessor.FileSystemInterface.WriteByte(((byte) @object), writeInTransaction);
                         break;
                     }
 
                 case OdbType.BooleanId:
                     {
-                        _fsi.WriteBoolean(((bool) @object), writeInTransaction);
+                        FileSystemProcessor.FileSystemInterface.WriteBoolean(((bool) @object), writeInTransaction);
                         break;
                     }
 
                 case OdbType.CharacterId:
                     {
-                        _fsi.WriteChar(((char) @object), writeInTransaction);
+                        FileSystemProcessor.FileSystemInterface.WriteChar(((char) @object), writeInTransaction);
                         break;
                     }
 
                 case OdbType.FloatId:
                     {
-                        _fsi.WriteFloat(((float) @object), writeInTransaction);
+                        FileSystemProcessor.FileSystemInterface.WriteFloat(((float) @object), writeInTransaction);
                         break;
                     }
 
                 case OdbType.DoubleId:
                     {
-                        _fsi.WriteDouble(((double) @object), writeInTransaction);
+                        FileSystemProcessor.FileSystemInterface.WriteDouble(((double) @object), writeInTransaction);
                         break;
                     }
 
                 case OdbType.IntegerId:
                     {
-                        _fsi.WriteInt(((int) @object), writeInTransaction, "native attr");
+                        FileSystemProcessor.FileSystemInterface.WriteInt(((int) @object), writeInTransaction, "native attr");
                         break;
                     }
 
                 case OdbType.LongId:
                     {
-                        _fsi.WriteLong(((long) @object), writeInTransaction, "native attr",
+                        FileSystemProcessor.FileSystemInterface.WriteLong(((long) @object), writeInTransaction, "native attr",
                                        WriteAction.DataWriteAction);
                         break;
                     }
 
                 case OdbType.ShortId:
                     {
-                        _fsi.WriteShort(((short) @object), writeInTransaction);
+                        FileSystemProcessor.FileSystemInterface.WriteShort(((short) @object), writeInTransaction);
                         break;
                     }
 
                 case OdbType.BigDecimalId:
                     {
-                        _fsi.WriteBigDecimal((Decimal) @object, writeInTransaction);
+                        FileSystemProcessor.FileSystemInterface.WriteBigDecimal((Decimal) @object, writeInTransaction);
                         break;
                     }
 
@@ -677,34 +479,34 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                 case OdbType.DateSqlId:
                 case OdbType.DateTimestampId:
                     {
-                        _fsi.WriteDate((DateTime) @object, writeInTransaction);
+                        FileSystemProcessor.FileSystemInterface.WriteDate((DateTime) @object, writeInTransaction);
                         break;
                     }
 
                 case OdbType.StringId:
                     {
-                        _fsi.WriteString((string) @object, writeInTransaction, true, totalSpaceIfString);
+                        FileSystemProcessor.FileSystemInterface.WriteString((string) @object, writeInTransaction, true, totalSpaceIfString);
                         break;
                     }
 
                 case OdbType.OidId:
                     {
                         var oid = ((OdbObjectOID) @object).ObjectId;
-                        _fsi.WriteLong(oid, writeInTransaction, "ODB OID", WriteAction.DataWriteAction);
+                        FileSystemProcessor.FileSystemInterface.WriteLong(oid, writeInTransaction, "ODB OID", WriteAction.DataWriteAction);
                         break;
                     }
 
                 case OdbType.ObjectOidId:
                     {
                         var ooid = ((OdbObjectOID) @object).ObjectId;
-                        _fsi.WriteLong(ooid, writeInTransaction, "ODB OID", WriteAction.DataWriteAction);
+                        FileSystemProcessor.FileSystemInterface.WriteLong(ooid, writeInTransaction, "ODB OID", WriteAction.DataWriteAction);
                         break;
                     }
 
                 case OdbType.ClassOidId:
                     {
                         var coid = ((OdbClassOID) @object).ObjectId;
-                        _fsi.WriteLong(coid, writeInTransaction, "ODB OID", WriteAction.DataWriteAction);
+                        FileSystemProcessor.FileSystemInterface.WriteLong(coid, writeInTransaction, "ODB OID", WriteAction.DataWriteAction);
                         break;
                     }
 
@@ -728,9 +530,9 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                                                                   bool writeInTransaction)
         {
             var objectPosition = _idManager.GetObjectPositionWithOid(objectOID, true);
-            _fsi.SetWritePosition(objectPosition + StorageEngineConstant.ObjectOffsetPreviousObjectOid,
+            FileSystemProcessor.FileSystemInterface.SetWritePosition(objectPosition + StorageEngineConstant.ObjectOffsetPreviousObjectOid,
                                   writeInTransaction);
-            WriteOid(previousObjectOID, writeInTransaction, "prev object position",
+            FileSystemProcessor.WriteOid(previousObjectOID, writeInTransaction, "prev object position",
                      WriteAction.PointerWriteAction);
         }
 
@@ -740,8 +542,8 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         public void UpdateNextObjectFieldOfObjectInfo(OID objectOID, OID nextObjectOID, bool writeInTransaction)
         {
             var objectPosition = _idManager.GetObjectPositionWithOid(objectOID, true);
-            _fsi.SetWritePosition(objectPosition + StorageEngineConstant.ObjectOffsetNextObjectOid, writeInTransaction);
-            WriteOid(nextObjectOID, writeInTransaction, "next object oid of object info",
+            FileSystemProcessor.FileSystemInterface.SetWritePosition(objectPosition + StorageEngineConstant.ObjectOffsetNextObjectOid, writeInTransaction);
+            FileSystemProcessor.WriteOid(nextObjectOID, writeInTransaction, "next object oid of object info",
                      WriteAction.PointerWriteAction);
         }
 
@@ -751,45 +553,14 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         /// <returns> The block size </returns>
         public void MarkAsDeleted(long currentPosition, OID oid, bool writeInTransaction)
         {
-            _fsi.SetReadPosition(currentPosition);
-            var blockSize = _fsi.ReadInt();
-            _fsi.SetWritePosition(currentPosition + StorageEngineConstant.NativeObjectOffsetBlockType,
+            FileSystemProcessor.FileSystemInterface.SetReadPosition(currentPosition);
+            var blockSize = FileSystemProcessor.FileSystemInterface.ReadInt();
+            FileSystemProcessor.FileSystemInterface.SetWritePosition(currentPosition + StorageEngineConstant.NativeObjectOffsetBlockType,
                                   writeInTransaction);
             // Do not write block size, leave it as it is, to know the available
             // space for future use
-            _fsi.WriteByte(BlockTypes.BlockTypeDeleted, writeInTransaction);
+            FileSystemProcessor.FileSystemInterface.WriteByte(BlockTypes.BlockTypeDeleted, writeInTransaction);
             StoreFreeSpace(currentPosition, blockSize);
-        }
-
-        /// <summary>
-        ///   Updates the instance related field of the class info into the database file Updates the number of objects, the first object oid and the next class oid
-        /// </summary>
-        /// <param name="classInfo"> The class info to be updated </param>
-        /// <param name="writeInTransaction"> To specify if it must be part of a transaction @ </param>
-        public void UpdateInstanceFieldsOfClassInfo(ClassInfo classInfo, bool writeInTransaction)
-        {
-            var currentPosition = _fsi.GetPosition();
-            if (OdbConfiguration.IsDebugEnabled(LogIdDebug))
-                DLogger.Debug("Start of updateInstanceFieldsOfClassInfo for " +
-                              classInfo.GetFullClassName());
-            var position = classInfo.GetPosition() + StorageEngineConstant.ClassOffsetClassNbObjects;
-            _fsi.SetWritePosition(position, writeInTransaction);
-            var nbObjects = classInfo.GetNumberOfObjects();
-            _fsi.WriteLong(nbObjects, writeInTransaction, "class info update nb objects",
-                           WriteAction.PointerWriteAction);
-            WriteOid(classInfo.GetCommitedZoneInfo().First, writeInTransaction, "class info update first obj oid",
-                     WriteAction.PointerWriteAction);
-            WriteOid(classInfo.GetCommitedZoneInfo().Last, writeInTransaction, "class info update last obj oid",
-                     WriteAction.PointerWriteAction);
-            if (OdbConfiguration.IsDebugEnabled(LogIdDebug))
-                DLogger.Debug("End of updateInstanceFieldsOfClassInfo for " +
-                              classInfo.GetFullClassName());
-            _fsi.SetWritePosition(currentPosition, writeInTransaction);
-        }
-
-        public void Flush()
-        {
-            _fsi.Flush();
         }
 
         public IIdManager GetIdManager()
@@ -805,14 +576,8 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                 _idManager.Clear();
                 _idManager = null;
             }
-            StorageEngine = null;
-            _fsi.Close();
-            _fsi = null;
-        }
-
-        public IFileSystemInterface GetFsi()
-        {
-            return _fsi;
+            _storageEngine = null;
+            FileSystemProcessor.Close();
         }
 
         public OID Delete(ObjectInfoHeader header)
@@ -1001,78 +766,13 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
 
         #endregion
 
-        public IFileSystemInterface BuildFsi()
-        {
-            return new FileSystemInterface("local-data", StorageEngine.GetBaseIdentification(), true,
-                                                OdbConfiguration.GetDefaultBufferSizeForData(), _session);
-        }
-
-        /// <summary>
-        ///   Write the version in the database file
-        /// </summary>
-        public void WriteVersion(bool writeInTransaction)
-        {
-            _fsi.SetWritePosition(StorageEngineConstant.DatabaseHeaderVersionPosition, writeInTransaction);
-            _fsi.WriteInt(StorageEngineConstant.CurrentFileFormatVersion, writeInTransaction,
-                          "database file format version");
-        }
-
-        public IDatabaseId WriteDatabaseId(long creationDate, bool writeInTransaction)
-        {
-            var databaseId = UUID.GetDatabaseId(creationDate);
-
-            _fsi.WriteLong(databaseId.GetIds()[0], writeInTransaction, "database id 1/4",
-                           WriteAction.DirectWriteAction);
-            _fsi.WriteLong(databaseId.GetIds()[1], writeInTransaction, "database id 2/4",
-                           WriteAction.DirectWriteAction);
-            _fsi.WriteLong(databaseId.GetIds()[2], writeInTransaction, "database id 3/4",
-                           WriteAction.DirectWriteAction);
-            _fsi.WriteLong(databaseId.GetIds()[3], writeInTransaction, "database id 4/4",
-                           WriteAction.DirectWriteAction);
-
-            StorageEngine.SetDatabaseId(databaseId);
-            return databaseId;
-        }
-
-        /// <summary>
-        ///   Write the number of classes in meta-model
-        /// </summary>
-        public void WriteNumberOfClasses(long number, bool writeInTransaction)
-        {
-            _fsi.SetWritePosition(StorageEngineConstant.DatabaseHeaderNumberOfClassesPosition, writeInTransaction);
-            _fsi.WriteLong(number, writeInTransaction, "nb classes", WriteAction.DirectWriteAction);
-        }
-
-        /// <summary>
-        ///   Write the database characterEncoding
-        /// </summary>
-        public void WriteDatabaseCharacterEncoding(bool writeInTransaction)
-        {
-            _fsi.SetWritePosition(StorageEngineConstant.DatabaseHeaderDatabaseCharacterEncodingPosition,
-                                  writeInTransaction);
-            if (OdbConfiguration.HasEncoding())
-                _fsi.WriteString(OdbConfiguration.GetDatabaseCharacterEncoding(), writeInTransaction, true, 50);
-            else
-                _fsi.WriteString(StorageEngineConstant.NoEncoding, writeInTransaction, false, 50);
-        }
-
-        // fsi.writeLong(oid.getObjectId(), writeInTransaction, label,
-        // writeAction);
-        public void WriteOid(OID oid, bool writeInTransaction, string label, int writeAction)
-        {
-            if (oid == null)
-                _fsi.WriteLong(-1, writeInTransaction, label, writeAction);
-            else
-                _fsi.WriteLong(oid.ObjectId, writeInTransaction, label, writeAction);
-        }
-
         /// <summary>
         ///   Write the class info body to the database file.
         /// </summary>
         /// <remarks>
         ///   Write the class info body to the database file. TODO Check if we really must recall the writeClassInfoHeader
         /// </remarks>
-        public void WriteClassInfoBody(ClassInfo classInfo, long position, bool writeInTransaction)
+        private void WriteClassInfoBody(ClassInfo classInfo, long position, bool writeInTransaction)
         {
             if (OdbConfiguration.IsDebugEnabled(LogId))
                 DLogger.Debug("Writing new Class info body at " + position + " : " + classInfo);
@@ -1081,126 +781,20 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             // FIXME : change this to write only the position and not the whole
             // header
             WriteClassInfoHeader(classInfo, classInfo.GetPosition(), writeInTransaction);
-            _fsi.SetWritePosition(position, writeInTransaction);
+            FileSystemProcessor.FileSystemInterface.SetWritePosition(position, writeInTransaction);
             // block definition
-            _fsi.WriteInt(0, writeInTransaction, "block size");
-            _fsi.WriteByte(BlockTypes.BlockTypeClassBody, writeInTransaction);
+            FileSystemProcessor.FileSystemInterface.WriteInt(0, writeInTransaction, "block size");
+            FileSystemProcessor.FileSystemInterface.WriteByte(BlockTypes.BlockTypeClassBody, writeInTransaction);
             // number of attributes
-            _fsi.WriteLong(classInfo.GetAttributes().Count, writeInTransaction, "class nb attributes",
+            FileSystemProcessor.FileSystemInterface.WriteLong(classInfo.GetAttributes().Count, writeInTransaction, "class nb attributes",
                            WriteAction.DataWriteAction);
             for (var i = 0; i < classInfo.GetAttributes().Count; i++)
             {
                 var classAttributeInfo = classInfo.GetAttributes()[i];
-                WriteClassAttributeInfo(classAttributeInfo, writeInTransaction);
+                FileSystemProcessor.WriteClassAttributeInfo(_storageEngine, classAttributeInfo, writeInTransaction);
             }
-            var blockSize = (int) (_fsi.GetPosition() - position);
-            WriteBlockSizeAt(position, blockSize, writeInTransaction, classInfo);
-        }
-
-        public long WriteClassInfoIndexes(ClassInfo classInfo)
-        {
-            var position = _fsi.GetAvailablePosition();
-            _fsi.SetWritePosition(position, true);
-
-            long previousIndexPosition = -1;
-            for (var i = 0; i < classInfo.GetNumberOfIndexes(); i++)
-            {
-                var currentIndexPosition = _fsi.GetPosition();
-                var classInfoIndex = classInfo.GetIndex(i);
-                _fsi.WriteInt(0, true, "block size");
-                _fsi.WriteByte(BlockTypes.BlockTypeIndex, true, "Index block type");
-                _fsi.WriteLong(previousIndexPosition, true, "prev index pos",
-                               WriteAction.PointerWriteAction);
-                // The next position is only know at the end of the write
-                _fsi.WriteLong(-1, true, "next index pos", WriteAction.PointerWriteAction);
-                _fsi.WriteString(classInfoIndex.Name, false, true);
-                _fsi.WriteBoolean(classInfoIndex.IsUnique, true, "index is unique");
-                _fsi.WriteByte(classInfoIndex.Status, true, "index status");
-                _fsi.WriteLong(classInfoIndex.CreationDate, true, "creation date",
-                               WriteAction.DataWriteAction);
-                _fsi.WriteLong(classInfoIndex.LastRebuild, true, "last rebuild",
-                               WriteAction.DataWriteAction);
-                _fsi.WriteInt(classInfoIndex.AttributeIds.Length, true, "number of fields");
-                for (var j = 0; j < classInfoIndex.AttributeIds.Length; j++)
-                    _fsi.WriteInt(classInfoIndex.AttributeIds[j], true, "attr id");
-                var currentPosition = _fsi.GetPosition();
-                // Write the block size
-                var blockSize = (int) (_fsi.GetPosition() - currentIndexPosition);
-                WriteBlockSizeAt(currentIndexPosition, blockSize, true, classInfo);
-                // Write the next index position
-                long nextIndexPosition;
-                if (i + 1 < classInfo.GetNumberOfIndexes())
-                    nextIndexPosition = currentPosition;
-                else
-                    nextIndexPosition = -1;
-                // reset cursor to write the next position
-                _fsi.SetWritePosition(
-                    currentIndexPosition + OdbType.Integer.GetSize() + OdbType.Byte.GetSize() + OdbType.Long.GetSize(),
-                    true);
-                _fsi.WriteLong(nextIndexPosition, true, "next index pos",
-                               WriteAction.PointerWriteAction);
-                previousIndexPosition = currentIndexPosition;
-                // reset the write cursor
-                _fsi.SetWritePosition(currentPosition, true);
-            }
-            return position;
-        }
-
-        /// <summary>
-        ///   Resets the position of the first class of the metamodel.
-        /// </summary>
-        /// <remarks>
-        ///   Resets the position of the first class of the metamodel. It Happens when database is being refactored
-        /// </remarks>
-        public void WriteFirstClassInfoOID(OID classInfoId, bool inTransaction)
-        {
-            long positionToWrite = StorageEngineConstant.DatabaseHeaderFirstClassOid;
-            _fsi.SetWritePosition(positionToWrite, inTransaction);
-            WriteOid(classInfoId, inTransaction, "first class info oid", WriteAction.DataWriteAction);
-            if (OdbConfiguration.IsDebugEnabled(LogId))
-                DLogger.Debug("Updating first class info oid at " + positionToWrite + " with oid " +
-                              classInfoId);
-        }
-
-        /// <summary>
-        ///   Writes a class attribute info, an attribute of a class
-        /// </summary>
-        private void WriteClassAttributeInfo(ClassAttributeInfo cai, bool writeInTransaction)
-        {
-            _fsi.WriteInt(cai.GetId(), writeInTransaction, "attribute id");
-            _fsi.WriteBoolean(cai.IsNative(), writeInTransaction);
-            if (cai.IsNative())
-            {
-                _fsi.WriteInt(cai.GetAttributeType().GetId(), writeInTransaction, "att odb type id");
-                if (cai.GetAttributeType().IsArray())
-                {
-                    _fsi.WriteInt(cai.GetAttributeType().GetSubType().GetId(), writeInTransaction, "att array sub type");
-                    // when the attribute is not native, then write its class info
-                    // position
-                    if (cai.GetAttributeType().GetSubType().IsNonNative())
-                    {
-                        _fsi.WriteLong(
-                            StorageEngine.GetSession(true).GetMetaModel().GetClassInfo(
-                                cai.GetAttributeType().GetSubType().GetName(), true).GetId().ObjectId,
-                            writeInTransaction, "class info id of array subtype", WriteAction.DataWriteAction);
-                    }
-                }
-                // For enum, we write the class info id of the enum class
-                if (cai.GetAttributeType().IsEnum())
-                {
-                    _fsi.WriteLong(
-                        StorageEngine.GetSession(true).GetMetaModel().GetClassInfo(cai.GetFullClassname(), true).GetId()
-                            .ObjectId, writeInTransaction, "class info id", WriteAction.DataWriteAction);
-                }
-            }
-            else
-            {
-                _fsi.WriteLong(
-                    StorageEngine.GetSession(true).GetMetaModel().GetClassInfo(cai.GetFullClassname(), true).GetId().
-                        ObjectId, writeInTransaction, "class info id", WriteAction.DataWriteAction);
-            }
-            _fsi.WriteString(cai.GetName(), false, writeInTransaction);
-            _fsi.WriteBoolean(cai.IsIndex(), writeInTransaction);
+            var blockSize = (int) (FileSystemProcessor.FileSystemInterface.GetPosition() - position);
+            FileSystemProcessor.WriteBlockSizeAt(position, blockSize, writeInTransaction, classInfo);
         }
 
         /// <summary>
@@ -1235,275 +829,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             throw new OdbRuntimeException(NDatabaseError.NativeTypeNotSupported.AddParameter(noi.GetOdbTypeId()));
         }
 
-        public OID WriteNonNativeObjectInfoOld(OID existingOid, NonNativeObjectInfo objectInfo, long position,
-                                                       bool writeDataInTransaction, bool isNewObject)
-        {
-            var lsession = _session;
-            var cache = lsession.GetCache();
-            var hasObject = objectInfo.GetObject() != null;
-            if (isNewObject)
-            {
-                _triggerManager.ManageInsertTriggerBefore(objectInfo.GetClassInfo().GetFullClassName(),
-                                                          hasObject ? objectInfo.GetObject() : objectInfo);
-            }
-            // Checks if object is null,for null objects,there is nothing to do
-            if (objectInfo.IsNull())
-                return StorageEngineConstant.NullObjectId;
-            var metaModel = lsession.GetMetaModel();
-            // first checks if the class of this object already exist in the
-            // metamodel
-            if (!metaModel.ExistClass(objectInfo.GetClassInfo().GetFullClassName()))
-                AddClass(objectInfo.GetClassInfo(), true);
-            // if position is -1, gets the position where to write the object
-            if (position == -1)
-            {
-                // Write at the end of the file
-                position = _fsi.GetAvailablePosition();
-                // Updates the meta object position
-                objectInfo.SetPosition(position);
-            }
-            // Gets the object id
-            var oid = existingOid;
-            if (oid == null)
-            {
-                // If, to get the next id, a new id block must be created, then
-                // there is an extra work
-                // to update the current object position
-                if (_idManager.MustShift())
-                {
-                    oid = _idManager.GetNextObjectId(position);
-                    // The id manager wrote in the file so the position for the
-                    // object must be re-computed
-                    position = _fsi.GetAvailablePosition();
-                    // The oid must be associated to this new position - id
-                    // operations are always out of transaction
-                    // in this case, the update is done out of the transaction as a
-                    // rollback won t need to
-                    // undo this. We are just creating the id
-                    // => third parameter(write in transaction) = false
-                    _idManager.UpdateObjectPositionForOid(oid, position, false);
-                }
-                else
-                    oid = _idManager.GetNextObjectId(position);
-            }
-            else
-            {
-                // If an oid was passed, it is because object already exist and
-                // is being updated. So we
-                // must update the object position
-                // Here the update of the position of the id must be done in
-                // transaction as the object
-                // position of the id is being updated, and a rollback should undo
-                // this
-                // => third parameter(write in transaction) = true
-                _idManager.UpdateObjectPositionForOid(oid, position, true);
-                // Keep the relation of id and position in the cache until the
-                // commit
-                cache.SavePositionOfObjectWithOid(oid, position);
-            }
-            // Sets the oid of the object in the inserting cache
-            cache.UpdateIdOfInsertingObject(objectInfo.GetObject(), oid);
-            // Only add the oid to unconnected zone if it is a new object
-            if (isNewObject)
-            {
-                cache.AddOIDToUnconnectedZone(oid);
-                if (OdbConfiguration.ReconnectObjectsToSession())
-                {
-                    var crossSessionCache =
-                        CacheFactory.GetCrossSessionCache(StorageEngine.GetBaseIdentification().GetIdentification());
-                    crossSessionCache.AddObject(objectInfo.GetObject(), oid);
-                }
-            }
-            objectInfo.SetOid(oid);
-            if (OdbConfiguration.IsDebugEnabled(LogId))
-            {
-                DLogger.Debug("Start Writing non native object of type " +
-                              objectInfo.GetClassInfo().GetFullClassName() + " at " + position + " , oid = " + oid +
-                              " : " + objectInfo);
-            }
-            if (objectInfo.GetClassInfo() == null || objectInfo.GetClassInfo().GetId() == null)
-            {
-                if (objectInfo.GetClassInfo() != null)
-                {
-                    var clinfo =
-                        StorageEngine.GetSession(true).GetMetaModel().GetClassInfo(
-                            objectInfo.GetClassInfo().GetFullClassName(), true);
-                    objectInfo.SetClassInfo(clinfo);
-                }
-                else
-                    throw new OdbRuntimeException(NDatabaseError.UndefinedClassInfo.AddParameter(objectInfo.ToString()));
-            }
-            // updates the meta model - If class already exist, it returns the
-            // metamodel class, which contains
-            // a bit more informations
-            var classInfo = AddClass(objectInfo.GetClassInfo(), true);
-            objectInfo.SetClassInfo(classInfo);
-            // 
-            if (isNewObject)
-                ManageNewObjectPointers(objectInfo, classInfo);
-            if (OdbConfiguration.SaveHistory())
-            {
-                classInfo.AddHistory(new InsertHistoryInfo("insert", oid, position, objectInfo.GetPreviousObjectOID(),
-                                                           objectInfo.GetNextObjectOID()));
-            }
-            _fsi.SetWritePosition(position, writeDataInTransaction);
-            objectInfo.SetPosition(position);
-            // Block size
-            _fsi.WriteInt(0, writeDataInTransaction, "block size");
-            // Block type
-            _fsi.WriteByte(BlockTypes.BlockTypeNonNativeObject, writeDataInTransaction, "object block type");
-            // The object id
-            _fsi.WriteLong(oid.ObjectId, writeDataInTransaction, "oid", WriteAction.DataWriteAction);
-            // Class info id
-            _fsi.WriteLong(classInfo.GetId().ObjectId, writeDataInTransaction, "class info id",
-                           WriteAction.DataWriteAction);
-            // previous instance
-            WriteOid(objectInfo.GetPreviousObjectOID(), writeDataInTransaction, "prev instance",
-                     WriteAction.DataWriteAction);
-            // next instance
-            WriteOid(objectInfo.GetNextObjectOID(), writeDataInTransaction, "next instance",
-                     WriteAction.DataWriteAction);
-            // creation date, for update operation must be the original one
-            _fsi.WriteLong(objectInfo.GetHeader().GetCreationDate(), writeDataInTransaction, "creation date",
-                           WriteAction.DataWriteAction);
-            _fsi.WriteLong(OdbTime.GetCurrentTimeInTicks(), writeDataInTransaction, "update date",
-                           WriteAction.DataWriteAction);
-            // TODO check next version number
-            _fsi.WriteInt(objectInfo.GetHeader().GetObjectVersion(), writeDataInTransaction, "object version number");
-            // not used yet. But it will point to an internal object of type
-            // ObjectReference that will have details on the references:
-            // All the objects that point to it: to enable object integrity
-            _fsi.WriteLong(-1, writeDataInTransaction, "object reference pointer", WriteAction.DataWriteAction);
-            // True if this object have been synchronized with main database, else
-            // false
-            _fsi.WriteBoolean(false, writeDataInTransaction, "is syncronized with external db");
-            var nbAttributes = objectInfo.GetClassInfo().GetAttributes().Count;
-            // now write the number of attributes and the position of all
-            // attributes, we do not know them yet, so write 00 but at the end
-            // of the write operation
-            // These positions will be updated
-            // The positions that is going to be written are 'int' representing
-            // the offset position of the attribute
-            // first write the number of attributes
-            _fsi.WriteInt(nbAttributes, writeDataInTransaction, "nb attr");
-            // Store the position
-            var attributePositionStart = _fsi.GetPosition();
-            // TODO Could remove this, and pull to the right position
-            for (var i = 0; i < nbAttributes; i++)
-            {
-                _fsi.WriteInt(0, writeDataInTransaction, "attr id -1");
-                _fsi.WriteLong(0, writeDataInTransaction, "att pos", WriteAction.DataWriteAction);
-            }
-            var attributesIdentification = new long[nbAttributes];
-            var attributeIds = new int[nbAttributes];
-            // Puts the object info in the cache
-            // storageEngine.getSession().getCache().addObject(position,
-            // aoi.getObject(), objectInfo.getHeader());
-            var maxWritePosition = _fsi.GetPosition();
-            // Loop on all attributes
-            for (var i = 0; i < nbAttributes; i++)
-            {
-                // Gets the attribute meta description
-                var classAttributeInfo = classInfo.GetAttributeInfo(i);
-                // Gets the id of the attribute
-                attributeIds[i] = classAttributeInfo.GetId();
-                // Gets the attribute data
-                var aoi2 = objectInfo.GetAttributeValueFromId(classAttributeInfo.GetId());
-                if (aoi2 == null)
-                {
-                    // This only happens in 1 case : when a class has a field with
-                    // the same name of one of is superclass. In this, the deeper
-                    // attribute is null
-                    if (classAttributeInfo.IsNative())
-                        aoi2 = new NullNativeObjectInfo(classAttributeInfo.GetAttributeType().GetId());
-                    else
-                        aoi2 = new NonNativeNullObjectInfo(classAttributeInfo.GetClassInfo());
-                }
-                if (aoi2.IsNative())
-                {
-                    var nativeAttributePosition = InternalStoreObject((NativeObjectInfo) aoi2);
-                    // For native objects , odb stores their position
-                    attributesIdentification[i] = nativeAttributePosition;
-                }
-                else
-                {
-                    OID nonNativeAttributeOid;
-                    if (aoi2.IsObjectReference())
-                    {
-                        var or = (ObjectReference) aoi2;
-                        nonNativeAttributeOid = or.GetOid();
-                    }
-                    else
-                        nonNativeAttributeOid = StoreObject(null, (NonNativeObjectInfo) aoi2);
-                    // For non native objects , odb stores its oid as a negative
-                    // number!!u
-                    if (nonNativeAttributeOid != null)
-                        attributesIdentification[i] = -nonNativeAttributeOid.ObjectId;
-                    else
-                        attributesIdentification[i] = StorageEngineConstant.NullObjectIdId;
-                }
-                var p = _fsi.GetPosition();
-                if (p > maxWritePosition)
-                    maxWritePosition = p;
-            }
-            // Updates attributes identification in the object info header
-            objectInfo.GetHeader().SetAttributesIdentification(attributesIdentification);
-            objectInfo.GetHeader().SetAttributesIds(attributeIds);
-            var positionAfterWrite = maxWritePosition;
-            // Now writes back the attribute positions
-            _fsi.SetWritePosition(attributePositionStart, writeDataInTransaction);
-            for (var i = 0; i < attributesIdentification.Length; i++)
-            {
-                _fsi.WriteInt(attributeIds[i], writeDataInTransaction, "attr id");
-                _fsi.WriteLong(attributesIdentification[i], writeDataInTransaction, "att real pos",
-                               WriteAction.DataWriteAction);
-                // if (classInfo.getAttributeInfo(i).isNonNative() &&
-                // attributesIdentification[i] > 0) {
-                if (objectInfo.GetAttributeValueFromId(attributeIds[i]).IsNonNativeObject() &&
-                    attributesIdentification[i] > 0)
-                {
-                    throw new OdbRuntimeException(
-                        NDatabaseError.NonNativeAttributeStoredByPositionInsteadOfOid.AddParameter(
-                            classInfo.GetAttributeInfo(i).GetName()).AddParameter(classInfo.GetFullClassName()).
-                            AddParameter(attributesIdentification[i]));
-                }
-            }
-            _fsi.SetWritePosition(positionAfterWrite, writeDataInTransaction);
-            var blockSize = (int) (positionAfterWrite - position);
-            try
-            {
-                WriteBlockSizeAt(position, blockSize, writeDataInTransaction, objectInfo);
-            }
-            catch (OdbRuntimeException)
-            {
-                DLogger.Debug("Error while writing block size. pos after write " + positionAfterWrite +
-                              " / start pos = " + position);
-                // throw new ODBRuntimeException(storageEngine,"Error while writing
-                // block size. pos after write " + positionAfterWrite + " / start
-                // pos = " + position,e);
-                throw;
-            }
-            if (OdbConfiguration.IsDebugEnabled(LogId))
-            {
-                DLogger.Debug("  Attributes positions of object with oid " + oid + " are " +
-                              DisplayUtility.LongArrayToString(attributesIdentification));
-                DLogger.Debug("End Writing non native object at " + position + " with oid " + oid +
-                              " - prev oid=" + objectInfo.GetPreviousObjectOID() + " / next oid=" +
-                              objectInfo.GetNextObjectOID());
-                if (OdbConfiguration.IsDebugEnabled(LogIdDebug))
-                    DLogger.Debug(" - current buffer : " + _fsi.GetIo());
-            }
-            // Only insert in index for new objects
-            if (isNewObject)
-            {
-                // insert object id in indexes, if exist
-                ManageIndexesForInsert(oid, objectInfo);
-                _triggerManager.ManageInsertTriggerAfter(objectInfo.GetClassInfo().GetFullClassName(),
-                                                         hasObject ? objectInfo.GetObject() : objectInfo, oid);
-            }
-            return oid;
-        }
-
         /// <summary>
         ///   Updates pointers of objects, Only changes uncommitted info pointers
         /// </summary>
@@ -1511,7 +836,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         /// <param name="classInfo"> The class of the object being inserted </param>
         public void ManageNewObjectPointers(NonNativeObjectInfo objectInfo, ClassInfo classInfo)
         {
-            var cache = StorageEngine.GetSession(true).GetCache();
+            var cache = _storageEngine.GetSession(true).GetCache();
             var isFirstUncommitedObject = !classInfo.GetUncommittedZoneInfo().HasObjects();
             // if it is the first uncommitted object
             if (isFirstUncommitedObject)
@@ -1557,7 +882,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                     // object info oip has been changed, we must put it
                     // in the cache to turn this change available for current
                     // transaction until the commit
-                    StorageEngine.GetSession(true).GetCache().AddObjectInfo(oip);
+                    _storageEngine.GetSession(true).GetCache().AddObjectInfo(oip);
                 }
             }
             // always set the new last object oid and the number of objects
@@ -1572,7 +897,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             classInfo.SetLastObjectInfoHeader(objectInfo.GetHeader());
             // // Saves the fact that something has changed in the class (number of
             // objects and/or last object oid)
-            StorageEngine.GetSession(true).GetMetaModel().AddChangedClass(classInfo);
+            _storageEngine.GetSession(true).GetMetaModel().AddChangedClass(classInfo);
         }
 
         // This will be done by the mainStoreObject method
@@ -1581,8 +906,8 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         /// <returns> The position of the inserted object </returns>
         private long InsertNativeObject(NativeObjectInfo noi)
         {
-            var writePosition = _fsi.GetAvailablePosition();
-            _fsi.SetWritePosition(writePosition, true);
+            var writePosition = FileSystemProcessor.FileSystemInterface.GetAvailablePosition();
+            FileSystemProcessor.FileSystemInterface.SetWritePosition(writePosition, true);
             // true,false = update pointers,do not write in transaction, writes
             // directly to hard disk
             return WriteNativeObjectInfo(noi, writePosition, false);
@@ -1620,10 +945,10 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             if (!mustUpdate && OdbConfiguration.ReconnectObjectsToSession())
             {
                 var crossSessionCache =
-                    CacheFactory.GetCrossSessionCache(StorageEngine.GetBaseIdentification().GetIdentification());
+                    CacheFactory.GetCrossSessionCache(_storageEngine.GetBaseIdentification().GetIdentification());
                 if (crossSessionCache.ExistObject(@object))
                 {
-                    StorageEngine.Reconnect(@object);
+                    _storageEngine.Reconnect(@object);
                     mustUpdate = true;
                 }
             }
@@ -1684,21 +1009,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             return oip;
         }
 
-        private void WriteBlockSizeAt(long writePosition, int blockSize, bool writeInTransaction, object @object)
-        {
-            if (blockSize < 0)
-            {
-                throw new OdbRuntimeException(
-                    NDatabaseError.NegativeBlockSize.AddParameter(writePosition).AddParameter(blockSize).AddParameter(
-                        @object.ToString()));
-            }
-            var currentPosition = _fsi.GetPosition();
-            _fsi.SetWritePosition(writePosition, writeInTransaction);
-            _fsi.WriteInt(blockSize, writeInTransaction, "block size");
-            // goes back where we were
-            _fsi.SetWritePosition(currentPosition, writeInTransaction);
-        }
-
         /// <summary>
         ///   TODO check if we should pass the position instead of requesting if to fsi <pre>Write a collection to the database
         ///                                                                               This is done by writing the number of element s and then the position of all elements.</pre>
@@ -1719,7 +1029,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         /// </remarks>
         private long WriteCollection(CollectionObjectInfo coi, bool writeInTransaction)
         {
-            var startPosition = _fsi.GetPosition();
+            var startPosition = FileSystemProcessor.FileSystemInterface.GetPosition();
             WriteNativeObjectHeader(coi.GetOdbTypeId(), coi.IsNull(), BlockTypes.BlockTypeCollectionObject,
                                     writeInTransaction);
             if (coi.IsNull())
@@ -1728,18 +1038,18 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             var collectionSize = collection.Count;
             IEnumerator iterator = collection.GetEnumerator();
             // write the real type of the collection
-            _fsi.WriteString(coi.GetRealCollectionClassName(), false, writeInTransaction);
+            FileSystemProcessor.FileSystemInterface.WriteString(coi.GetRealCollectionClassName(), false, writeInTransaction);
             // write the size of the collection
-            _fsi.WriteInt(collectionSize, writeInTransaction, "collection size");
+            FileSystemProcessor.FileSystemInterface.WriteInt(collectionSize, writeInTransaction, "collection size");
             // build a n array to store all element positions
             var attributeIdentifications = new long[collectionSize];
             // Gets the current position, to know later where to put the
             // references
-            var firstObjectPosition = _fsi.GetPosition();
+            var firstObjectPosition = FileSystemProcessor.FileSystemInterface.GetPosition();
             // reserve space for object positions : write 'collectionSize' long
             // with zero to store each object position
             for (var i = 0; i < collectionSize; i++)
-                _fsi.WriteLong(0, writeInTransaction, "collection element pos ", WriteAction.DataWriteAction);
+                FileSystemProcessor.FileSystemInterface.WriteLong(0, writeInTransaction, "collection element pos ", WriteAction.DataWriteAction);
             var currentElement = 0;
             while (iterator.MoveNext())
             {
@@ -1747,17 +1057,17 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                 attributeIdentifications[currentElement] = InternalStoreObjectWrapper(element);
                 currentElement++;
             }
-            var positionAfterWrite = _fsi.GetPosition();
+            var positionAfterWrite = FileSystemProcessor.FileSystemInterface.GetPosition();
             // now that all objects have been stored, sets their position in the
             // space that have been reserved
-            _fsi.SetWritePosition(firstObjectPosition, writeInTransaction);
+            FileSystemProcessor.FileSystemInterface.SetWritePosition(firstObjectPosition, writeInTransaction);
             for (var i = 0; i < collectionSize; i++)
             {
-                _fsi.WriteLong(attributeIdentifications[i], writeInTransaction, "collection element real pos ",
+                FileSystemProcessor.FileSystemInterface.WriteLong(attributeIdentifications[i], writeInTransaction, "collection element real pos ",
                                WriteAction.DataWriteAction);
             }
             // Goes back to the end of the array
-            _fsi.SetWritePosition(positionAfterWrite, writeInTransaction);
+            FileSystemProcessor.FileSystemInterface.SetWritePosition(positionAfterWrite, writeInTransaction);
             return startPosition;
         }
 
@@ -1803,7 +1113,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         /// </remarks>
         private long WriteArray(ArrayObjectInfo aoi, bool writeInTransaction)
         {
-            var startPosition = _fsi.GetPosition();
+            var startPosition = FileSystemProcessor.FileSystemInterface.GetPosition();
             WriteNativeObjectHeader(aoi.GetOdbTypeId(), aoi.IsNull(), BlockTypes.BlockTypeArrayObject,
                                     writeInTransaction);
             if (aoi.IsNull())
@@ -1811,18 +1121,18 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             var array = aoi.GetArray();
             var arraySize = array.Length;
             // Writes the fact that it is an array
-            _fsi.WriteString(aoi.GetRealArrayComponentClassName(), false, writeInTransaction);
+            FileSystemProcessor.FileSystemInterface.WriteString(aoi.GetRealArrayComponentClassName(), false, writeInTransaction);
             // write the size of the array
-            _fsi.WriteInt(arraySize, writeInTransaction, "array size");
+            FileSystemProcessor.FileSystemInterface.WriteInt(arraySize, writeInTransaction, "array size");
             // build a n array to store all element positions
             var attributeIdentifications = new long[arraySize];
             // Gets the current position, to know later where to put the
             // references
-            var firstObjectPosition = _fsi.GetPosition();
+            var firstObjectPosition = FileSystemProcessor.FileSystemInterface.GetPosition();
             // reserve space for object positions : write 'arraySize' long
             // with zero to store each object position
             for (var i = 0; i < arraySize; i++)
-                _fsi.WriteLong(0, writeInTransaction, "array element pos ", WriteAction.DataWriteAction);
+                FileSystemProcessor.FileSystemInterface.WriteLong(0, writeInTransaction, "array element pos ", WriteAction.DataWriteAction);
             for (var i = 0; i < arraySize; i++)
             {
                 var element = (AbstractObjectInfo) array[i];
@@ -1834,17 +1144,17 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                 }
                 attributeIdentifications[i] = InternalStoreObjectWrapper(element);
             }
-            var positionAfterWrite = _fsi.GetPosition();
+            var positionAfterWrite = FileSystemProcessor.FileSystemInterface.GetPosition();
             // now that all objects have been stored, sets their position in the
             // space that have been reserved
-            _fsi.SetWritePosition(firstObjectPosition, writeInTransaction);
+            FileSystemProcessor.FileSystemInterface.SetWritePosition(firstObjectPosition, writeInTransaction);
             for (var i = 0; i < arraySize; i++)
             {
-                _fsi.WriteLong(attributeIdentifications[i], writeInTransaction, "array real element pos",
+                FileSystemProcessor.FileSystemInterface.WriteLong(attributeIdentifications[i], writeInTransaction, "array real element pos",
                                WriteAction.DataWriteAction);
             }
             // Gos back to the end of the array
-            _fsi.SetWritePosition(positionAfterWrite, writeInTransaction);
+            FileSystemProcessor.FileSystemInterface.SetWritePosition(positionAfterWrite, writeInTransaction);
             return startPosition;
         }
 
@@ -1867,7 +1177,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         /// </remarks>
         private long WriteMap(MapObjectInfo moi, bool writeInTransaction)
         {
-            var startPosition = _fsi.GetPosition();
+            var startPosition = FileSystemProcessor.FileSystemInterface.GetPosition();
             WriteNativeObjectHeader(moi.GetOdbTypeId(), moi.IsNull(), BlockTypes.BlockTypeMapObject, writeInTransaction);
             if (moi.IsNull())
                 return startPosition;
@@ -1875,18 +1185,18 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             var mapSize = map.Count;
             var keys = map.Keys.GetEnumerator();
             // write the map class
-            _fsi.WriteString(moi.GetRealMapClassName(), false, writeInTransaction);
+            FileSystemProcessor.FileSystemInterface.WriteString(moi.GetRealMapClassName(), false, writeInTransaction);
             // write the size of the map
-            _fsi.WriteInt(mapSize, writeInTransaction, "map size");
+            FileSystemProcessor.FileSystemInterface.WriteInt(mapSize, writeInTransaction, "map size");
             // build a n array to store all element positions
             var positions = new long[mapSize*2];
             // Gets the current position, to know later where to put the
             // references
-            var firstObjectPosition = _fsi.GetPosition();
+            var firstObjectPosition = FileSystemProcessor.FileSystemInterface.GetPosition();
             // reserve space for object positions : write 'mapSize*2' long
             // with zero to store each object position
             for (var i = 0; i < mapSize*2; i++)
-                _fsi.WriteLong(0, writeInTransaction, "map element pos", WriteAction.DataWriteAction);
+                FileSystemProcessor.FileSystemInterface.WriteLong(0, writeInTransaction, "map element pos", WriteAction.DataWriteAction);
             var currentElement = 0;
             while (keys.MoveNext())
             {
@@ -1896,15 +1206,15 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                 positions[currentElement++] = InternalStoreObjectWrapper(key);
                 positions[currentElement++] = InternalStoreObjectWrapper(value);
             }
-            var positionAfterWrite = _fsi.GetPosition();
+            var positionAfterWrite = FileSystemProcessor.FileSystemInterface.GetPosition();
             // now that all objects have been stored, sets their position in the
             // space that have been reserved
-            _fsi.SetWritePosition(firstObjectPosition, writeInTransaction);
+            FileSystemProcessor.FileSystemInterface.SetWritePosition(firstObjectPosition, writeInTransaction);
             for (var i = 0; i < mapSize*2; i++)
-                _fsi.WriteLong(positions[i], writeInTransaction, "map real element pos",
+                FileSystemProcessor.FileSystemInterface.WriteLong(positions[i], writeInTransaction, "map real element pos",
                                WriteAction.DataWriteAction);
             // Gos back to the end of the array
-            _fsi.SetWritePosition(positionAfterWrite, writeInTransaction);
+            FileSystemProcessor.FileSystemInterface.SetWritePosition(positionAfterWrite, writeInTransaction);
             return startPosition;
         }
 
@@ -1962,7 +1272,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             bytes[8] = bytesTypeId[3];
             bytes[9] = _byteArrayConverter.BooleanToByteArray(isNull)[0];
 
-            _fsi.WriteBytes(bytes, writeDataInTransaction, "NativeObjectHeader");
+            FileSystemProcessor.FileSystemInterface.WriteBytes(bytes, writeDataInTransaction, "NativeObjectHeader");
         }
 
         public long SafeOverWriteAtomicNativeObject(long position, AtomicNativeObjectInfo newAnoi,
@@ -1971,20 +1281,20 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             // If the attribute an a non fix ize, check if this write is safe
             if (OdbType.HasFixSize(newAnoi.GetOdbTypeId()))
             {
-                _fsi.SetWritePosition(position, writeInTransaction);
+                FileSystemProcessor.FileSystemInterface.SetWritePosition(position, writeInTransaction);
                 return WriteAtomicNativeObject(newAnoi, writeInTransaction);
             }
             if (OdbType.IsStringOrBigDecimal(newAnoi.GetOdbTypeId()))
             {
-                _fsi.SetReadPosition(position + StorageEngineConstant.NativeObjectOffsetDataArea);
-                var totalSize = _fsi.ReadInt("String total size");
+                FileSystemProcessor.FileSystemInterface.SetReadPosition(position + StorageEngineConstant.NativeObjectOffsetDataArea);
+                var totalSize = FileSystemProcessor.FileSystemInterface.ReadInt("String total size");
                 var stringNumberOfBytes = _byteArrayConverter.GetNumberOfBytesOfAString(newAnoi.GetObject().ToString(),
                                                                                         true);
                 // Checks if there is enough space to store this new string in place
                 var canUpdate = totalSize >= stringNumberOfBytes;
                 if (canUpdate)
                 {
-                    _fsi.SetWritePosition(position, writeInTransaction);
+                    FileSystemProcessor.FileSystemInterface.SetWritePosition(position, writeInTransaction);
                     return WriteAtomicNativeObject(newAnoi, writeInTransaction, totalSize);
                 }
             }
@@ -1993,14 +1303,14 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
 
         public long WriteEnumNativeObject(EnumNativeObjectInfo anoi, bool writeInTransaction)
         {
-            var startPosition = _fsi.GetPosition();
+            var startPosition = FileSystemProcessor.FileSystemInterface.GetPosition();
             var odbTypeId = anoi.GetOdbTypeId();
             WriteNativeObjectHeader(odbTypeId, anoi.IsNull(), BlockTypes.BlockTypeNativeObject, writeInTransaction);
             // Writes the Enum ClassName
-            _fsi.WriteLong(anoi.GetEnumClassInfo().GetId().ObjectId, writeInTransaction, "enum class info id",
+            FileSystemProcessor.FileSystemInterface.WriteLong(anoi.GetEnumClassInfo().GetId().ObjectId, writeInTransaction, "enum class info id",
                            WriteAction.DataWriteAction);
             // Write the Enum String value
-            _fsi.WriteString(anoi.GetObject().ToString(), writeInTransaction, true, -1);
+            FileSystemProcessor.FileSystemInterface.WriteString(anoi.GetObject().ToString(), writeInTransaction, true, -1);
             return startPosition;
         }
 
@@ -2019,39 +1329,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         {
             if (OdbConfiguration.IsDebugEnabled(LogId))
                 DLogger.Debug("Storing free space at position " + currentPosition + " | block size = " + blockSize);
-        }
-
-        /// <summary>
-        ///   <pre>Class User{
-        ///     private String name;
-        ///     private Function function;
-        ///     }
-        ///     When an object of type User is stored, it stores a reference to its function object.
-        /// </pre>
-        /// </summary>
-        /// <remarks>
-        ///   <pre>Class User{
-        ///     private String name;
-        ///     private Function function;
-        ///     }
-        ///     When an object of type User is stored, it stores a reference to its function object.
-        ///     If the function is set to another, the pointer to the function object must be changed.
-        ///     for example, it was pointing to a function at the position 1407, the 1407 value is stored while
-        ///     writing the USer object, let's say at the position 528. To make the user point to another function object (which exist at the position 1890)
-        ///     The position 528 must be updated to 1890.</pre>
-        /// </remarks>
-        public void UpdateObjectReference(long positionWhereTheReferenceIsStored, OID newOid,
-                                                  bool writeInTransaction)
-        {
-            var position = positionWhereTheReferenceIsStored;
-            if (position < 0)
-                throw new OdbRuntimeException(NDatabaseError.NegativePosition.AddParameter(position));
-            _fsi.SetWritePosition(position, writeInTransaction);
-            // Ids are always stored as negative value to differ from a position!
-            var oid = StorageEngineConstant.NullObjectIdId;
-            if (newOid != null)
-                oid = -newOid.ObjectId;
-            _fsi.WriteLong(oid, writeInTransaction, "object reference", WriteAction.PointerWriteAction);
         }
 
         public static int GetNbNormalUpdates()

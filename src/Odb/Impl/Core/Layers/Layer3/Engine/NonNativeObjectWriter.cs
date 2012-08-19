@@ -40,6 +40,8 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         ///                        &#064;</pre>
         /// </remarks>
         OID UpdateNonNativeObjectInfo(NonNativeObjectInfo nnoi, bool forceUpdate);
+
+        void AfterInit();
     }
 
     public class NonNativeObjectWriter : INonNativeObjectWriter
@@ -53,7 +55,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         private readonly IByteArrayConverter _byteArrayConverter;
         private readonly IObjectInfoComparator _comparator;
         private ITriggerManager _triggerManager;
-        private readonly IObjectReader _objectReader;
+        private IObjectReader _objectReader;
 
         public NonNativeObjectWriter(IObjectWriter objectWriter, IStorageEngine storageEngine, IByteArrayConverter byteArrayConverter, IObjectInfoComparator comparator)
         {
@@ -117,7 +119,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             if (position == -1)
             {
                 // Write at the end of the file
-                position = _objectWriter.GetFsi().GetAvailablePosition();
+                position = _objectWriter.FileSystemProcessor.FileSystemInterface.GetAvailablePosition();
                 // Updates the meta object position
                 objectInfo.SetPosition(position);
             }
@@ -134,7 +136,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                     oid = _objectWriter.GetIdManager().GetNextObjectId(position);
                     // The id manager wrote in the file so the position for the
                     // object must be re-computed
-                    position = _objectWriter.GetFsi().GetAvailablePosition();
+                    position = _objectWriter.FileSystemProcessor.FileSystemInterface.GetAvailablePosition();
                     // The oid must be associated to this new position - id
                     // operations are always out of transaction
                     // in this case, the update is done out of the transaction as a
@@ -213,7 +215,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                                                            objectInfo.GetNextObjectOID()));
             }
 
-            _objectWriter.GetFsi().SetWritePosition(position, writeDataInTransaction);
+            _objectWriter.FileSystemProcessor.FileSystemInterface.SetWritePosition(position, writeDataInTransaction);
             objectInfo.SetPosition(position);
             var nbAttributes = objectInfo.GetClassInfo().GetAttributes().Count;
             // compute the size of the array of byte needed till the attibute
@@ -282,21 +284,21 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             // fsi.writeInt(nbAttributes, writeDataInTransaction, "nb attr");
             _byteArrayConverter.IntToByteArray(nbAttributes, bytes, 66);
             // Then write the array of bytes
-            _objectWriter.GetFsi().WriteBytes(bytes, writeDataInTransaction, "NonNativeObjectInfoHeader");
+            _objectWriter.FileSystemProcessor.FileSystemInterface.WriteBytes(bytes, writeDataInTransaction, "NonNativeObjectInfoHeader");
             // Store the position
-            var attributePositionStart = _objectWriter.GetFsi().GetPosition();
+            var attributePositionStart = _objectWriter.FileSystemProcessor.FileSystemInterface.GetPosition();
             var attributeSize = OdbType.SizeOfInt + OdbType.SizeOfLong;
             var abytes = new byte[nbAttributes * (attributeSize)];
             // here, just write an empty (0) array, as real values will be set at
             // the end
-            _objectWriter.GetFsi().WriteBytes(abytes, writeDataInTransaction, "Empty Attributes");
+            _objectWriter.FileSystemProcessor.FileSystemInterface.WriteBytes(abytes, writeDataInTransaction, "Empty Attributes");
             var attributesIdentification = new long[nbAttributes];
             var attributeIds = new int[nbAttributes];
             // Puts the object info in the cache
             // storageEngine.getSession().getCache().addObject(position,
             // aoi.getObject(), objectInfo.getHeader());
 
-            var maxWritePosition = _objectWriter.GetFsi().GetPosition();
+            var maxWritePosition = _objectWriter.FileSystemProcessor.FileSystemInterface.GetPosition();
             // Loop on all attributes
             for (var i = 0; i < nbAttributes; i++)
             {
@@ -339,7 +341,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                     else
                         attributesIdentification[i] = StorageEngineConstant.NullObjectIdId;
                 }
-                var p = _objectWriter.GetFsi().GetPosition();
+                var p = _objectWriter.FileSystemProcessor.FileSystemInterface.GetPosition();
                 if (p > maxWritePosition)
                     maxWritePosition = p;
             }
@@ -348,7 +350,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             objectInfo.GetHeader().SetAttributesIds(attributeIds);
             var positionAfterWrite = maxWritePosition;
             // Now writes back the attribute positions
-            _objectWriter.GetFsi().SetWritePosition(attributePositionStart, writeDataInTransaction);
+            _objectWriter.FileSystemProcessor.FileSystemInterface.SetWritePosition(attributePositionStart, writeDataInTransaction);
             abytes = new byte[attributesIdentification.Length * (attributeSize)];
             for (var i = 0; i < attributesIdentification.Length; i++)
             {
@@ -370,8 +372,8 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                             AddParameter(attributesIdentification[i]));
                 }
             }
-            _objectWriter.GetFsi().WriteBytes(abytes, writeDataInTransaction, "Filled Attributes");
-            _objectWriter.GetFsi().SetWritePosition(positionAfterWrite, writeDataInTransaction);
+            _objectWriter.FileSystemProcessor.FileSystemInterface.WriteBytes(abytes, writeDataInTransaction, "Filled Attributes");
+            _objectWriter.FileSystemProcessor.FileSystemInterface.SetWritePosition(positionAfterWrite, writeDataInTransaction);
             var blockSize = (int)(positionAfterWrite - position);
             try
             {
@@ -394,7 +396,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                               " - prev oid=" + objectInfo.GetPreviousObjectOID() + " / next oid=" +
                               objectInfo.GetNextObjectOID());
                 if (OdbConfiguration.IsDebugEnabled(LogIdDebug))
-                    DLogger.Debug(" - current buffer : " + _objectWriter.GetFsi().GetIo());
+                    DLogger.Debug(" - current buffer : " + _objectWriter.FileSystemProcessor.FileSystemInterface.GetIo());
             }
             // Only insert in index for new objects
             if (isNewObject)
@@ -448,7 +450,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             try
             {
                 var lsession = _session;
-                var positionBeforeWrite = _objectWriter.GetFsi().GetPosition();
+                var positionBeforeWrite = _objectWriter.FileSystemProcessor.FileSystemInterface.GetPosition();
                 var tmpCache = lsession.GetTmpCache();
                 var cache = lsession.GetCache();
                 // Get header of the object (position, previous object position,
@@ -549,7 +551,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                     objectHasChanged = _comparator.HasChanged(oldMetaRepresentation, nnoi);
                     if (!objectHasChanged)
                     {
-                        _objectWriter.GetFsi().SetWritePosition(positionBeforeWrite, true);
+                        _objectWriter.FileSystemProcessor.FileSystemInterface.SetWritePosition(positionBeforeWrite, true);
                         if (OdbConfiguration.IsDebugEnabled(LogId))
                             DLogger.Debug("updateObject : Object is unchanged - doing nothing");
                         return oid;
@@ -599,14 +601,14 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                 // Creates the new object
                 oid = InsertNonNativeObject(oid, nnoi, false);
                 // This position after write must be call just after the insert!!
-                var positionAfterWrite = _objectWriter.GetFsi().GetPosition();
+                var positionAfterWrite = _objectWriter.FileSystemProcessor.FileSystemInterface.GetPosition();
                 if (hasObject)
                 {
                     // update cache
                     cache.AddObject(oid, @object, nnoi.GetHeader());
                 }
                 //TODO check if we must update cross session cache
-                _objectWriter.GetFsi().SetWritePosition(positionAfterWrite, true);
+                _objectWriter.FileSystemProcessor.FileSystemInterface.SetWritePosition(positionAfterWrite, true);
                 var nbConnectedObjectsAfter = nnoi.GetClassInfo().GetCommitedZoneInfo().GetNbObjects();
                 var nbNonConnectedObjectsAfter = nnoi.GetClassInfo().GetUncommittedZoneInfo().GetNbObjects();
                 if (nbConnectedObjectsAfter != nbConnectedObjects || nbNonConnectedObjectsAfter != nbNonConnectedObjects)
@@ -642,6 +644,11 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                                   nnoi.GetPosition() + " => " + nnoi);
                 }
             }
+        }
+
+        public void AfterInit()
+        {
+            _objectReader = _storageEngine.GetObjectReader();
         }
 
         private static void ManageIndexesForUpdate(OID oid, NonNativeObjectInfo nnoi, NonNativeObjectInfo oldMetaRepresentation)
@@ -695,11 +702,11 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                     NDatabaseError.NegativeBlockSize.AddParameter(writePosition).AddParameter(blockSize).AddParameter(
                         @object.ToString()));
             }
-            var currentPosition = _objectWriter.GetFsi().GetPosition();
-            _objectWriter.GetFsi().SetWritePosition(writePosition, writeInTransaction);
-            _objectWriter.GetFsi().WriteInt(blockSize, writeInTransaction, "block size");
+            var currentPosition = _objectWriter.FileSystemProcessor.FileSystemInterface.GetPosition();
+            _objectWriter.FileSystemProcessor.FileSystemInterface.SetWritePosition(writePosition, writeInTransaction);
+            _objectWriter.FileSystemProcessor.FileSystemInterface.WriteInt(blockSize, writeInTransaction, "block size");
             // goes back where we were
-            _objectWriter.GetFsi().SetWritePosition(currentPosition, writeInTransaction);
+            _objectWriter.FileSystemProcessor.FileSystemInterface.SetWritePosition(currentPosition, writeInTransaction);
         }
     }
 }

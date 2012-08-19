@@ -27,8 +27,8 @@ namespace IO
                 OdbConfiguration.GetCoreProvider().GetStorageEngine(new IOFileParameter("writing.neodatis", true));
             var engine2 =
                 OdbConfiguration.GetCoreProvider().GetStorageEngine(new IOFileParameter("reserving.neodatis", true));
-            var writingFsi = engine1.GetObjectWriter().GetFsi();
-            var reservingFsi = engine2.GetObjectWriter().GetFsi();
+            var writingFsi = engine1.GetObjectWriter().FileSystemProcessor.FileSystemInterface;
+            var reservingFsi = engine2.GetObjectWriter().FileSystemProcessor.FileSystemInterface;
             AssertEquals(writingFsi.GetLength(), reservingFsi.GetLength());
             Write(writingFsi, false);
             Write(reservingFsi, true);

@@ -2,6 +2,7 @@ using System;
 using NDatabase.Btree;
 using NDatabase.Btree.Tool;
 using NDatabase.Odb;
+using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Impl.Core.Btree;
 using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NDatabase.Tool.Wrappers;
@@ -20,7 +21,7 @@ namespace NeoDatis.Test.Btree.Impl.Singlevalue
             var odb = OdbFactory.Open(GetBaseName());
 
             var storageEngine = Dummy.GetEngine(odb);
-            storageEngine.GetObjectWriter().GetFsi().GetIo().EnableAutomaticDelete(true);
+            storageEngine.GetObjectWriter().FileSystemProcessor.FileSystemInterface.GetIo().EnableAutomaticDelete(true);
             return new OdbBtreeSingle("test1", degree, new LazyOdbBtreePersister(storageEngine));
             
         }

@@ -127,7 +127,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             // logically locks access to the file (only for this machine)
             FileMutex.GetInstance().OpenFile(GetStorageDeviceName());
             // Updates the Transaction Id in the file
-            _objectWriter.WriteLastTransactionId(GetCurrentTransactionId());
+            _objectWriter.FileSystemProcessor.WriteLastTransactionId(GetCurrentTransactionId());
             _objectWriter.SetTriggerManager(_triggerManager);
             _introspectionCallbackForInsert = new InstrumentationCallbackForStore(this, _triggerManager, false);
             _introspectionCallbackForUpdate = new InstrumentationCallbackForStore(this, _triggerManager, true);
@@ -137,7 +137,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             // Associate current session to the fsi -> all transaction writes
             // will be applied to this FileSystemInterface
-            session.SetFileSystemInterfaceToApplyTransaction(_objectWriter.GetFsi());
+            session.SetFileSystemInterfaceToApplyTransaction(_objectWriter.FileSystemProcessor.FileSystemInterface);
 
             if (!readMetamodel)
                 return;
@@ -148,7 +148,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             session.SetMetaModel(metaModel);
             metaModel = ObjectReader.ReadMetaModel(metaModel, true);
             // Updates the Transaction Id in the file
-            _objectWriter.WriteLastTransactionId(GetCurrentTransactionId());
+            _objectWriter.FileSystemProcessor.WriteLastTransactionId(GetCurrentTransactionId());
         }
 
         /// <summary>
@@ -311,9 +311,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             // When not local (client server) session can be null
             var lsession = GetSession(true);
             if (BaseIdentification.CanWrite())
-                _objectWriter.WriteLastOdbCloseStatus(true, false);
+                _objectWriter.FileSystemProcessor.WriteLastOdbCloseStatus(true, false);
 
-            _objectWriter.Flush();
+            _objectWriter.FileSystemProcessor.Flush();
             if (lsession.TransactionIsPending())
                 throw new OdbRuntimeException(NDatabaseError.TransactionIsPending.AddParameter(lsession.GetId()));
 
@@ -368,7 +368,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
 
             GetSession(true).Commit();
-            _objectWriter.Flush();
+            _objectWriter.FileSystemProcessor.Flush();
         }
 
         public override void Rollback()

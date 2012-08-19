@@ -87,7 +87,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Oid
         public void UpdateObjectPositionForOid(OID oid, long objectPosition, bool writeInTransaction)
         {
             var idPosition = GetIdPosition(oid);
-            _objectWriter.UpdateObjectPositionForObjectOIDWithPosition(idPosition, objectPosition, writeInTransaction);
+            _objectWriter.FileSystemProcessor.UpdateObjectPositionForObjectOIDWithPosition(idPosition, objectPosition, writeInTransaction);
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
                 DLogger.Debug(string.Format("IDManager : Updating id {0} with position {1}", oid, objectPosition));
@@ -96,7 +96,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Oid
         public void UpdateClassPositionForId(OID classId, long objectPosition, bool writeInTransaction)
         {
             var idPosition = GetIdPosition(classId);
-            _objectWriter.UpdateClassPositionForClassOIDWithPosition(idPosition, objectPosition, writeInTransaction);
+            _objectWriter.FileSystemProcessor.UpdateClassPositionForClassOIDWithPosition(idPosition, objectPosition, writeInTransaction);
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
                 DLogger.Debug(string.Format("Updating id {0} with position {1}", classId, objectPosition));
@@ -105,7 +105,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Oid
         public void UpdateIdStatus(OID id, byte newStatus)
         {
             var idPosition = GetIdPosition(id);
-            _objectWriter.UpdateStatusForIdWithPosition(idPosition, newStatus, true);
+            _objectWriter.FileSystemProcessor.UpdateStatusForIdWithPosition(idPosition, newStatus, true);
         }
 
         public long GetObjectPositionWithOid(OID oid, bool useCache)
@@ -190,7 +190,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Oid
 
         private long AssociateIdToObject(byte idType, byte idStatus, long objectPosition)
         {
-            var idPosition = _objectWriter.AssociateIdToObject(idType, idStatus, _currentBlockIdPosition, _nextId,
+            var idPosition = _objectWriter.FileSystemProcessor.AssociateIdToObject(idType, idStatus, _currentBlockIdPosition, _nextId,
                                                                objectPosition, false);
 
             _nextId = _provider.GetObjectOID(_nextId.ObjectId + 1, 0);
@@ -215,13 +215,15 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Oid
 
         private void MarkBlockAsFull(long currentBlockIdPosition, long nextBlockPosition)
         {
-            _objectWriter.MarkIdBlockAsFull(currentBlockIdPosition, nextBlockPosition, false);
+            _objectWriter.FileSystemProcessor.MarkIdBlockAsFull(currentBlockIdPosition, nextBlockPosition, false);
         }
 
         private long CreateNewBlock()
         {
-            var position = _objectWriter.WriteIdBlock(-1, OdbConfiguration.GetIdBlockSize(), BlockStatus.BlockNotFull,
-                                                      _currentBlockIdNumber + 1, _currentBlockIdPosition, false);
+            var position = _objectWriter.FileSystemProcessor.WriteIdBlock(-1, OdbConfiguration.GetIdBlockSize(),
+                                                                          BlockStatus.BlockNotFull,
+                                                                          _currentBlockIdNumber + 1,
+                                                                          _currentBlockIdPosition, false);
             return position;
         }
     }

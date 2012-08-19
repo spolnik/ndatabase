@@ -600,7 +600,7 @@ namespace NDatabase.Odb.Impl.Core.Transaction
                 // last object OID
                 newClassInfo = BuildClassInfoForCommit(newClassInfo);
 
-                writer.UpdateInstanceFieldsOfClassInfo(newClassInfo, false);
+                writer.FileSystemProcessor.UpdateInstanceFieldsOfClassInfo(newClassInfo, false);
 
                 if (OdbConfiguration.IsDebugEnabled(LogId))
                 {
