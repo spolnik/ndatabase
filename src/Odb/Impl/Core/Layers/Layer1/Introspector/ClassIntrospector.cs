@@ -378,9 +378,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
             {
                 // Checks if exist a default constructor - with no parameters
                 constructor = clazz.GetConstructor(Type.EmptyTypes);
-                //UPGRADE_ISSUE: Method 'java.lang.reflect.AccessibleObject.setAccessible' was not converted. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1000_javalangreflectAccessibleObject'"
-                //c by cristi
-                //constructor.setAccessible(true);
+                
                 if (constructor != null)
                     _classPool.AddConstrutor(fullClassName, constructor);
             }
