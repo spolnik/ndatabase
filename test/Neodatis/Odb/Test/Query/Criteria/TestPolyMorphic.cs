@@ -25,7 +25,7 @@ namespace Test.Odb.Test.Query.Criteria
 			odb = Open("multi");
 			IQuery q = new CriteriaQuery
 				(typeof(object));
-			q.SetPolymorphic(true);
+			
 			IObjects<object> os = odb.GetObjects<object>(q);
 			Println(os);
 			odb.Close();
@@ -47,7 +47,7 @@ namespace Test.Odb.Test.Query.Criteria
 			odb = Open("multi");
 			IQuery q = new CriteriaQuery
 				(typeof(Human));
-			q.SetPolymorphic(true);
+			
 			IObjects<Human> os = odb.GetObjects<Human>(q);
 			Println(os);
 			odb.Close();
@@ -69,7 +69,7 @@ namespace Test.Odb.Test.Query.Criteria
 			odb = Open("multi");
 			IValuesQuery q = new ValuesCriteriaQuery
 				(typeof(object)).Field("specie");
-			q.SetPolymorphic(true);
+			
 			IValues os = odb.GetValues(q);
 			Println(os);
 			odb.Close();
@@ -91,7 +91,7 @@ namespace Test.Odb.Test.Query.Criteria
 			odb = Open("multi");
 			IValuesQuery q = new ValuesCriteriaQuery
 				(typeof(Human)).Field("specie");
-			q.SetPolymorphic(true);
+			
 			IValues os = odb.GetValues(q);
 			Println(os);
 			odb.Close();
@@ -113,7 +113,7 @@ namespace Test.Odb.Test.Query.Criteria
 			odb = Open("multi");
 			IValuesQuery q = new ValuesCriteriaQuery
 				(typeof(Man)).Field("specie");
-			q.SetPolymorphic(true);
+			
 			IValues os = odb.GetValues(q);
 			Println(os);
 			odb.Close();
@@ -135,7 +135,7 @@ namespace Test.Odb.Test.Query.Criteria
 			odb = Open("multi");
 			CriteriaQuery q = new CriteriaQuery
 				(typeof(object));
-			q.SetPolymorphic(true);
+			
 			System.Decimal nb = odb.Count(q);
 			Println(nb);
 			odb.Close();
@@ -161,7 +161,7 @@ namespace Test.Odb.Test.Query.Criteria
 			odb = Open(baseName);
 			CriteriaQuery q = new CriteriaQuery
 				(typeof(object));
-			q.SetPolymorphic(true);
+			
 			System.Decimal nb = odb.Count(q);
 			Println(nb);
 			odb.Close();
@@ -187,7 +187,7 @@ namespace Test.Odb.Test.Query.Criteria
 			odb = Open(baseName);
 			CriteriaQuery q = new CriteriaQuery
 				(typeof(object), Where.Equal("specie", "man"));
-			q.SetPolymorphic(true);
+			
 			System.Decimal nb = odb.Count(q);
 			Println(nb);
 			odb.Close();

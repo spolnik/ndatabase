@@ -330,30 +330,35 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public static OdbType GetFromClass(Type clazz)
         {
-            var className = OdbClassUtil.GetFullName(clazz);
             if (clazz.IsEnum)
             {
                 var type = new OdbType(Enum._isPrimitive, EnumId, Enum.GetName(), 0);
                 type.SetName(OdbClassUtil.GetFullName(clazz));
                 return type;
             }
+
+            var className = OdbClassUtil.GetFullName(clazz);
+
             // First check if it is a 'default type'
             OdbType odbType;
+            var success = TypesByName.TryGetValue(className, out odbType);
+            if (success)
+                return odbType;
 
-            TypesByName.TryGetValue(className, out odbType);
-            if (odbType != null)
-                return odbType;
             // Then check if it is a 'non default type'
-            CacheOfTypesByName.TryGetValue(className, out odbType);
-            if (odbType != null)
+            success = CacheOfTypesByName.TryGetValue(className, out odbType);
+            if (success)
                 return odbType;
-            if (IsArray(clazz))
+
+            if (clazz.IsArray)
             {
                 var type = new OdbType(Array._isPrimitive, ArrayId, Array.GetName(), 0)
-                               {_subType = GetFromClass(clazz.GetElementType())};
+                    {_subType = GetFromClass(clazz.GetElementType())};
+
                 CacheOfTypesByName.Add(className, type);
                 return type;
             }
+
             if (IsMap(clazz))
             {
                 CacheOfTypesByName.Add(className, Map);
@@ -366,14 +371,9 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                 return Collection;
             }
             Number++;
-            var nonNative = new OdbType(NonNative._isPrimitive, NonNativeId, OdbClassUtil.GetFullName(clazz), 0);
+            var nonNative = new OdbType(NonNative._isPrimitive, NonNativeId, className, 0);
             CacheOfTypesByName.Add(className, nonNative);
             return nonNative;
-        }
-
-        public static bool IsArray(Type clazz)
-        {
-            return clazz.IsArray;
         }
 
         public static bool IsMap(Type clazz)

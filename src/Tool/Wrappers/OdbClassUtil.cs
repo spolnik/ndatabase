@@ -1,17 +1,29 @@
 using System;
-using System.Reflection;
+using System.Collections.Generic;
 
 namespace NDatabase.Tool.Wrappers
 {
     public static class OdbClassUtil
     {
+        private static readonly Dictionary<string, string> CacheByFullClassName = new Dictionary<string, string>();
+        private static readonly Dictionary<Type, string> CacheByType = new Dictionary<Type, string>();
+
         public static string GetClassName(string fullClassName)
         {
+            string value;
+            var success = CacheByFullClassName.TryGetValue(fullClassName, out value);
+
+            if (success)
+                return value;
+
             var index = fullClassName.LastIndexOf('.');
 
-            return index == -1
-                       ? fullClassName // primitive type
-                       : GetClassName(fullClassName, index);
+            var className = index == -1
+                                ? fullClassName // primitive type
+                                : GetClassName(fullClassName, index);
+            
+            CacheByFullClassName.Add(fullClassName, className);
+            return className;
         }
 
         private static string GetClassName(string fullClassName, int index)
@@ -30,15 +42,23 @@ namespace NDatabase.Tool.Wrappers
 
         public static String GetFullName(Type type)
         {
+            string value;
+            var success = CacheByType.TryGetValue(type, out value);
+
+            if (success)
+                return value;
+            
             var name = type.Assembly.GetName();
             var publicKey = name.GetPublicKey();
             var isSignedAsm = publicKey.Length > 0;
 
             var index = type.Assembly.FullName.IndexOf(',');
-            
-            return string.Format("{0},{1}", type.FullName, isSignedAsm
-                                                               ? type.Assembly.FullName
-                                                               : type.Assembly.FullName.Substring(0, index));
+
+            var fullName = string.Format("{0},{1}", type.FullName, isSignedAsm
+                                                                       ? type.Assembly.FullName
+                                                                       : type.Assembly.FullName.Substring(0, index));
+            CacheByType.Add(type, fullName);
+            return fullName;
         }
     }
 }

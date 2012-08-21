@@ -96,8 +96,7 @@ namespace NDatabase.Odb.Impl.Main
         public virtual long Count(CriteriaQuery query)
         {
             var valuesQuery = new ValuesCriteriaQuery(query).Count("count");
-            valuesQuery.SetPolymorphic(query.IsPolymorphic());
-
+            
             var values = _storageEngine.GetValues(valuesQuery, -1, -1);
 
             var count = (Decimal) values.NextValues().GetByIndex(0);

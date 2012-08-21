@@ -52,7 +52,7 @@ namespace NDatabase.Odb.Core.Query
             if (query is SimpleNativeQuery)
                 return true;
 
-            if (typeof (CriteriaQuery) == query.GetType() || typeof (ValuesCriteriaQuery) == query.GetType())
+            if (query is CriteriaQuery)
                 return false;
 
             throw new OdbRuntimeException(NDatabaseError.QueryTypeNotImplemented.AddParameter(query.GetType().FullName));
@@ -84,34 +84,7 @@ namespace NDatabase.Odb.Core.Query
         public static IQueryExecutor GetQueryExecutor(IQuery query, IStorageEngine engine,
                                                       IInstanceBuilder instanceBuilder)
         {
-            if (query.IsPolymorphic())
-                return GetMultiClassQueryExecutor(query, engine, instanceBuilder);
-            return GetSingleClassQueryExecutor(query, engine, instanceBuilder);
-        }
-
-        /// <summary>
-        ///   Return a single class query executor (polymorphic = false)
-        /// </summary>
-        /// <param name="query"> </param>
-        /// <param name="engine"> </param>
-        /// <param name="instanceBuilder"> </param>
-        /// <returns> </returns>
-        protected static IQueryExecutor GetSingleClassQueryExecutor(IQuery query, IStorageEngine engine,
-                                                                    IInstanceBuilder instanceBuilder)
-        {
-            if (query is ValuesCriteriaQuery)
-                return new ValuesCriteriaQueryExecutor(query, engine);
-
-            if (query is CriteriaQuery)
-                return new CriteriaQueryExecutor(query, engine);
-
-            if (query is NativeQuery)
-                return new NativeQueryExecutor(query, engine, instanceBuilder);
-
-            if (query is SimpleNativeQuery)
-                return new NativeQueryExecutor(query, engine, instanceBuilder);
-
-            throw new OdbRuntimeException(NDatabaseError.QueryTypeNotImplemented.AddParameter(query.GetType().FullName));
+            return GetMultiClassQueryExecutor(query, engine, instanceBuilder);
         }
 
         /// <summary>

@@ -46,7 +46,7 @@ namespace Query.NQ
             odb.Close();
             odb = Open("multi");
             IQuery q = new _SimpleNativeQuery_31();
-            q.SetPolymorphic(true);
+            
             var os = odb.GetObjects<Animal>(q);
             Println(os);
             odb.Close();
@@ -67,7 +67,7 @@ namespace Query.NQ
             odb.Close();
             odb = Open("multi");
             IQuery q = new _SimpleNativeQuery_60();
-            q.SetPolymorphic(true);
+            
             var os = odb.GetObjects<Human>(q);
             Println(os);
             odb.Close();
@@ -92,7 +92,7 @@ namespace Query.NQ
             odb.Close();
             odb = Open("multi");
             IQuery q = new _SimpleNativeQuery_91();
-            q.SetPolymorphic(true);
+            
             var objects = odb.GetObjects<Animal>(q);
             odb.Close();
             DeleteBase("multi");

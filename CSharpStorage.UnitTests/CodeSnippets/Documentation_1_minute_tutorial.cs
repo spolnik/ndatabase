@@ -63,9 +63,7 @@ namespace NDatabase.UnitTests.CodeSnippets
                 Console.WriteLine("Start working with IHero interface.");
 
                 // work with heroes
-                var query = CriteriaQuery.New<IHero>().SetPolymorphic(true);
-
-                var heroes = odb.GetObjects<IHero>(query);
+                var heroes = odb.GetObjects<IHero>();
                 foreach (var hero in heroes)
                     Console.WriteLine(hero);
 

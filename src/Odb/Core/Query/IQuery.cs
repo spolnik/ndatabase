@@ -44,16 +44,6 @@ namespace NDatabase.Odb.Core.Query
         void SetExecutionPlan(IQueryExecutionPlan plan);
 
         /// <summary>
-        ///   To specify that instances of subclass of the query class must not be load if true, when querying objects of class Class1, only direct instances of Class1 will be loaded.
-        /// </summary>
-        /// <remarks>
-        ///   To specify that instances of subclass of the query class must not be load if true, when querying objects of class Class1, only direct instances of Class1 will be loaded. If false, when querying objects of class Class1, direct instances of Class1 will be loaded and all instances of subclasses of Class1.
-        /// </remarks>
-        IQuery SetPolymorphic(bool yes);
-
-        bool IsPolymorphic();
-
-        /// <summary>
         ///   To indicate if a query must be executed on a single object with the specific OID.
         /// </summary>
         /// <remarks>

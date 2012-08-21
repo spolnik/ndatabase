@@ -141,7 +141,7 @@ namespace Test.Odb.Test.Performance
             var so = new SimpleObject();
             so.SetDate(new DateTime());
             so.SetDuration(i);
-            so.SetName("Bonjour, comment allez vous?" + i);
+            so.SetName(string.Format("Bonjour, comment allez vous?{0}", i));
             return so;
         }
 

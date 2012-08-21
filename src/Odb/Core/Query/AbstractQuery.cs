@@ -16,7 +16,6 @@ namespace NDatabase.Odb.Core.Query
         private OID _oidOfObjectToQuery;
 
         private OrderByConstants _orderByType;
-        private bool _polymorphic;
 
         [NonSerialized]
         private IStorageEngine _storageEngine;
@@ -24,7 +23,6 @@ namespace NDatabase.Odb.Core.Query
         protected AbstractQuery()
         {
             _orderByType = OrderByConstants.OrderByNone;
-            _polymorphic = false;
         }
 
         #region IQuery Members
@@ -79,17 +77,6 @@ namespace NDatabase.Odb.Core.Query
         public virtual void SetExecutionPlan(IQueryExecutionPlan plan)
         {
             ExecutionPlan = plan;
-        }
-
-        public virtual bool IsPolymorphic()
-        {
-            return _polymorphic;
-        }
-
-        public virtual IQuery SetPolymorphic(bool yes)
-        {
-            _polymorphic = yes;
-            return this;
         }
 
         public virtual OID GetOidOfObjectToQuery()
