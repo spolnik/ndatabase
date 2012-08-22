@@ -7,7 +7,7 @@ using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Serialization
 {
-    public sealed class Serializer
+    public static class Serializer
     {
         public static readonly char CollectionElementSeparator = ',';
 
@@ -21,8 +21,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Serialization
 
         private static readonly IDictionary<string, ISerializer> Serializers;
 
-        private static Serializer _instance;
-
         static Serializer()
         {
             Serializers = new OdbHashMap<string, ISerializer>
@@ -32,15 +30,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Serialization
                                };
         }
 
-        public static Serializer GetInstance()
-        {
-            lock (typeof (Serializer))
-            {
-                return _instance ?? (_instance = new Serializer());
-            }
-        }
-
-        public string ToString(IList objectList)
+        public static string ToString(IList objectList)
         {
             var buffer = new StringBuilder();
 

@@ -10,7 +10,7 @@ namespace NDatabase.Odb.Impl.Core.Query.List.Objects
     /// </summary>
     /// <author>osmadja</author>
     [Serializable]
-    public class InMemoryBTreeCollection<T> : AbstractBTreeCollection<T>
+    public sealed class InMemoryBTreeCollection<T> : AbstractBTreeCollection<T>
     {
         public InMemoryBTreeCollection() : base(OrderByConstants.OrderByAsc)
         {

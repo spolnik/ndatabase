@@ -8,11 +8,11 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// </summary>
     /// <author>osmadja</author>
     [Serializable]
-    public class NullNativeObjectInfo : NativeObjectInfo
+    public sealed class NullNativeObjectInfo : NativeObjectInfo
     {
         private static readonly NullNativeObjectInfo Instance = new NullNativeObjectInfo();
 
-        private NullNativeObjectInfo() : base(null, Meta.OdbType.Null)
+        private NullNativeObjectInfo() : base(null, OdbType.Null)
         {
         }
 

@@ -132,6 +132,7 @@
     <Compile Include="Odb\Core\Layers\Layer2\Meta\ObjectInfoHeader.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\ObjectReference.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\ODBType.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\OidInfo.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\CurrentIdBlockInfo.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\FileSystemProcessor.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\IFileSystemProcessor.cs" />
@@ -230,8 +231,6 @@
     <Compile Include="Odb\Impl\Core\Layers\Layer2\Instance\ODBClassPool.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer2\Meta\Compare\AttributeValueComparator.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer2\Meta\Compare\ObjectInfoComparator.cs" />
-    <Compile Include="Odb\Impl\Core\Layers\Layer2\Meta\History\IHistoryInfo.cs" />
-    <Compile Include="Odb\Impl\Core\Layers\Layer2\Meta\History\InsertHistoryInfo.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer2\Meta\Serialization\AtomicNativeObjectSerializer.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer2\Meta\Serialization\CollectionObjectInfoSerializer.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer2\Meta\Serialization\ISerializer.cs" />
@@ -265,7 +264,6 @@
     <Compile Include="Odb\Impl\Core\Query\Criteria\CriteriaQuery.cs" />
     <Compile Include="Odb\Impl\Core\Query\Criteria\CriteriaQueryExecutionPlan.cs" />
     <Compile Include="Odb\Impl\Core\Query\Criteria\CriteriaQueryExecutor.cs" />
-    <Compile Include="Odb\Impl\Core\Query\Criteria\CriteriaQueryManager.cs" />
     <Compile Include="Odb\Impl\Core\Query\Criteria\EqualCriterion.cs" />
     <Compile Include="Odb\Impl\Core\Query\Criteria\IsNotNullCriterion.cs" />
     <Compile Include="Odb\Impl\Core\Query\Criteria\IsNullCriterion.cs" />

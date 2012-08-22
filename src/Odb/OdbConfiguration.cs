@@ -48,8 +48,6 @@ namespace NDatabase.Odb
 
         private static bool _automaticCloseFileOnExit;
 
-        private static bool _saveHistory;
-
         private static string _databaseCharacterEncoding = DefaultDatabaseCharacterEncoding;
 
         private static bool _throwExceptionWhenInconsistencyFound = true;
@@ -458,16 +456,6 @@ namespace NDatabase.Odb
         public static void SetDisplayWarnings(bool yesOrNo)
         {
             _displayWarnings = yesOrNo;
-        }
-
-        public static bool SaveHistory()
-        {
-            return _saveHistory;
-        }
-
-        public static void SetSaveHistory(bool saveTheHistory)
-        {
-            _saveHistory = saveTheHistory;
         }
 
         public static int GetScaleForAverageDivision()

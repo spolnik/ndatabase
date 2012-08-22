@@ -4,7 +4,7 @@ namespace NDatabase.Odb.Impl.Tool
     ///   To manage logging level
     /// </summary>
     /// <author>osmadja</author>
-    public class LogUtil
+    public static class LogUtil
     {
         public static readonly string ObjectWriter = "ObjectWriter";
 

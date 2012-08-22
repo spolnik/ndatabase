@@ -11,7 +11,7 @@ using NDatabase.Tool;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
-    public class FileSystemProcessor : IFileSystemProcessor
+    public sealed class FileSystemProcessor : IFileSystemProcessor
     {
         private const string LogId = "FileSystemProcessor";
         private const string LogIdDebug = "FileSystemProcessor.debug";

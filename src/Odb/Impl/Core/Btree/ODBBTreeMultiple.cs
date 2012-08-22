@@ -12,7 +12,7 @@ namespace NDatabase.Odb.Impl.Core.Btree
     /// </remarks>
     /// <author>osmadja</author>
     [Serializable]
-    public class OdbBtreeMultiple : BTreeMultipleValuesPerKey
+    public sealed class OdbBtreeMultiple : BTreeMultipleValuesPerKey
     {
         private OID _oid;
 

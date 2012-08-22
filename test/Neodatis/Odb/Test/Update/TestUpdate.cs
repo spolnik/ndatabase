@@ -334,7 +334,6 @@ namespace Test.Odb.Test.Update
         [Test]
         public virtual void TestDirectSave()
         {
-            OdbConfiguration.SetSaveHistory(true);
             DeleteBase("btree.neodatis");
             var odb = Open("btree.neodatis");
             var function = new VO.Login.Function("f1");

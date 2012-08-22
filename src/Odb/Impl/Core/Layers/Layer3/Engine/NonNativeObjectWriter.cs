@@ -6,7 +6,6 @@ using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Odb.Core.Trigger;
-using NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.History;
 using NDatabase.Odb.Impl.Core.Layers.Layer3.Block;
 using NDatabase.Odb.Impl.Core.Transaction;
 using NDatabase.Tool;
@@ -44,7 +43,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         void AfterInit();
     }
 
-    public class NonNativeObjectWriter : INonNativeObjectWriter
+    public sealed class NonNativeObjectWriter : INonNativeObjectWriter
     {
         private const string LogId = "NonNativeObjectWriter";
         private const string LogIdDebug = "NonNativeObjectWriter.debug";
@@ -209,12 +208,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             if (isNewObject)
                 _objectWriter.ManageNewObjectPointers(objectInfo, classInfo);
 
-            if (OdbConfiguration.SaveHistory())
-            {
-                classInfo.AddHistory(new InsertHistoryInfo("insert", oid, position, objectInfo.GetPreviousObjectOID(),
-                                                           objectInfo.GetNextObjectOID()));
-            }
-
+            
             _objectWriter.FileSystemProcessor.FileSystemInterface.SetWritePosition(position, writeDataInTransaction);
             objectInfo.SetPosition(position);
             var nbAttributes = objectInfo.GetClassInfo().GetAttributes().Count;

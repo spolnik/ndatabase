@@ -1,10 +1,8 @@
 using System;
-using System.Diagnostics;
 using System.Globalization;
 using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Oid;
-using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Impl.Tool
 {
@@ -15,7 +13,7 @@ namespace NDatabase.Odb.Impl.Tool
     ///   Basic native Object formatter. Used in ODBExplorer and XML import/export.
     /// </remarks>
     /// <author>osmadja</author>
-    public class ObjectTool
+    public static class ObjectTool
     {
         private const string DateTimeFormatPattern = "dd/MM/yyyy HH:mm:ss:SSS";
 
@@ -82,8 +80,6 @@ namespace NDatabase.Odb.Impl.Tool
 
                     if (CallerIsXml(caller) || CallerIsSerializer(caller))
                         theObject = new DateTime(long.Parse(value));
-
-                    Debug.Assert(theObject != null, "theObject != null");
 
                     var date = (DateTime) theObject;
                     if (odbTypeId == OdbType.DateSqlId)

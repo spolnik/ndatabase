@@ -2,7 +2,6 @@ using System;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Query.Execution;
 using NDatabase.Odb.Core.Query.Values;
-using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Impl.Core.Query.Values
 {
@@ -11,7 +10,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
     /// </summary>
     /// <author>osmadja</author>
     [Serializable]
-    public class AverageValueAction : AbstractQueryFieldAction
+    public sealed class AverageValueAction : AbstractQueryFieldAction
     {
         private readonly int _roundType;
         private readonly int _scale;

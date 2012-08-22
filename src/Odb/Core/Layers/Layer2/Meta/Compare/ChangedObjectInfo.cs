@@ -5,7 +5,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
     /// <summary>
     ///   Used to store informations about object changes
     /// </summary>
-    public class ChangedObjectInfo
+    public sealed class ChangedObjectInfo
     {
         private readonly int _fieldIndex;
 
@@ -48,7 +48,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
                 buffer.Append("class=").Append(_oldCi.GetFullClassName());
 
             buffer.Append(" | field=").Append(_oldCi.GetAttributeInfo(_fieldIndex).GetName());
-            buffer.Append(" | old=").Append(_oldValue.ToString()).Append(" | new=").Append(_newValue.ToString());
+            buffer.Append(" | old=").Append(_oldValue).Append(" | new=").Append(_newValue);
             buffer.Append(" | obj. hier. level=").Append(_objectRecursionLevel);
 
             return buffer.ToString();

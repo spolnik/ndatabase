@@ -1,6 +1,6 @@
 namespace NDatabase.Odb.Impl.Core.Transaction
 {
-    public class IdInfo
+    public sealed class IdInfo
     {
         public IdInfo(OID oid, long position, byte status)
         {

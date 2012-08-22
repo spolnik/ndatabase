@@ -16,7 +16,7 @@ namespace NDatabase.Odb.Impl.Core.Query.List.Objects
     /// </remarks>
     /// <author>osmadja</author>
     [Serializable]
-    public class LazyBTreeCollection<T> : AbstractBTreeCollection<T>
+    public sealed class LazyBTreeCollection<T> : AbstractBTreeCollection<T>
     {
         private readonly bool _returnObjects;
         private readonly IStorageEngine _storageEngine;

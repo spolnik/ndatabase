@@ -7,6 +7,29 @@ using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {
+    [Serializable]
+    public sealed class AttributesCache
+    {
+        public AttributesCache()
+        {
+            AttributesByName = new OdbHashMap<string, ClassAttributeInfo>();
+            AttributesById = new OdbHashMap<int, ClassAttributeInfo>();
+        }
+
+        /// <summary>
+        ///   This map is redundant with the field 'attributes', 
+        ///   but it is to enable fast access to attributes 
+        ///   by id key=attribute Id(Integer), key =ClassAttributeInfo
+        /// </summary>
+        public IDictionary<int, ClassAttributeInfo> AttributesById { get; set; }
+
+        /// <summary>
+        ///   This map is redundant with the field 'attributes', 
+        ///   but it is to enable fast access to attributes by name
+        /// </summary>
+        public IDictionary<string, ClassAttributeInfo> AttributesByName { get; set; }
+    }
+
     /// <summary>
     ///   A meta representation of a class
     /// </summary>
@@ -40,15 +63,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         private IOdbList<ClassAttributeInfo> _attributes;
 
-        /// <summary>
-        ///   This map is redundant with the field 'attributes', but it is to enable fast access to attributes by id key=attribute Id(Integer), key =ClassAttributeInfo
-        /// </summary>
-        private IDictionary<int, ClassAttributeInfo> _attributesById;
-
-        /// <summary>
-        ///   This map is redundant with the field 'attributes', but it is to enable fast access to attributes by name
-        /// </summary>
-        private IDictionary<string, ClassAttributeInfo> _attributesByName;
+        private readonly AttributesCache _attributesCache;
 
         /// <summary>
         ///   Where starts the block of attributes definition of this class ?
@@ -70,11 +85,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// </summary>
         private string _fullClassName;
 
-        [NonSerialized]
-        private IOdbList<object> _history;
-
-        private OID _id;
-
         private IOdbList<ClassInfoIndex> _indexes;
 
         /// <summary>
@@ -88,35 +98,23 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         private int _maxAttributeId;
 
         /// <summary>
-        ///   Where is the next class, -1, if it does not exist
-        /// </summary>
-        private OID _nextClassOID;
-
-        /// <summary>
         ///   Physical location of this class in the file (in byte)
         /// </summary>
         private long _position;
 
-        /// <summary>
-        ///   Where is the previous class.
-        /// </summary>
-        /// <remarks>
-        ///   Where is the previous class. -1, if it does not exist
-        /// </remarks>
-        private OID _previousClassOID;
+        private readonly OidInfo _oidInfo;
 
         public ClassInfo()
         {
             _original = new CommittedCIZoneInfo(this, null, null, 0);
             _committed = new CommittedCIZoneInfo(this, null, null, 0);
             _uncommitted = new CIZoneInfo(this, null, null, 0);
-            _previousClassOID = null;
-            _nextClassOID = null;
+            _oidInfo = new OidInfo();
             _blockSize = -1;
             _position = -1;
             _maxAttributeId = -1;
             _classCategory = CategoryUserClass;
-            _history = new OdbArrayList<object>();
+            _attributesCache = new AttributesCache();
         }
 
         public ClassInfo(string className) : this(className, null)
@@ -133,8 +131,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
             _fullClassName = fullClassName;
             _attributes = attributes;
-            _attributesByName = new OdbHashMap<string, ClassAttributeInfo>();
-            _attributesById = new OdbHashMap<int, ClassAttributeInfo>();
 
             if (attributes != null)
                 FillAttributesMap();
@@ -146,16 +142,16 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         private void FillAttributesMap()
         {
-            if (_attributesByName == null)
+            if (_attributesCache.AttributesByName == null)
             {
-                _attributesByName = new OdbHashMap<string, ClassAttributeInfo>();
-                _attributesById = new OdbHashMap<int, ClassAttributeInfo>();
+                _attributesCache.AttributesByName = new OdbHashMap<string, ClassAttributeInfo>();
+                _attributesCache.AttributesById = new OdbHashMap<int, ClassAttributeInfo>();
             }
             // attributesMap.clear();
             foreach (var classAttributeInfo in _attributes)
             {
-                _attributesByName[classAttributeInfo.GetName()] = classAttributeInfo;
-                _attributesById[classAttributeInfo.GetId()] = classAttributeInfo;
+                _attributesCache.AttributesByName[classAttributeInfo.GetName()] = classAttributeInfo;
+                _attributesCache.AttributesById[classAttributeInfo.GetId()] = classAttributeInfo;
             }
         }
 
@@ -171,8 +167,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         {
             var buffer = new StringBuilder();
 
-            buffer.Append(" [ ").Append(_fullClassName).Append(" - id=").Append(_id);
-            buffer.Append(" - previousClass=").Append(_previousClassOID).Append(" - nextClass=").Append(_nextClassOID).
+            buffer.Append(" [ ").Append(_fullClassName).Append(" - id=").Append(_oidInfo.ID);
+            buffer.Append(" - previousClass=").Append(_oidInfo.PreviousClassOID).Append(" - nextClass=").Append(_oidInfo.NextClassOID).
                 Append(" - attributes=(");
 
             // buffer.append(" | position=").append(position);
@@ -222,22 +218,22 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public OID GetNextClassOID()
         {
-            return _nextClassOID;
+            return _oidInfo.NextClassOID;
         }
 
         public void SetNextClassOID(OID nextClassOID)
         {
-            _nextClassOID = nextClassOID;
+            _oidInfo.NextClassOID = nextClassOID;
         }
 
         public OID GetPreviousClassOID()
         {
-            return _previousClassOID;
+            return _oidInfo.PreviousClassOID;
         }
 
         public void SetPreviousClassOID(OID previousClassOID)
         {
-            _previousClassOID = previousClassOID;
+            _oidInfo.PreviousClassOID = previousClassOID;
         }
 
         public long GetPosition()
@@ -260,7 +256,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             _blockSize = blockSize;
         }
 
-        /// <returns> the fullClassName </returns>
         public string GetFullClassName()
         {
             return _fullClassName;
@@ -296,29 +291,29 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public OID GetId()
         {
-            return _id;
+            return _oidInfo.ID;
         }
 
         public void SetId(OID id)
         {
-            _id = id;
+            _oidInfo.ID = id;
         }
 
         public ClassAttributeInfo GetAttributeInfoFromId(int id)
         {
-            return _attributesById[id];
+            return _attributesCache.AttributesById[id];
         }
 
         public int GetAttributeId(string name)
         {
-            var classAttributeInfo = _attributesByName[name];
+            var classAttributeInfo = _attributesCache.AttributesByName[name];
 
             if (classAttributeInfo != null)
                 return classAttributeInfo.GetId();
 
             var enrichedName = EnrichNameForAutoProperty(name);
 
-            classAttributeInfo = _attributesByName[enrichedName];
+            classAttributeInfo = _attributesCache.AttributesByName[enrichedName];
 
             return classAttributeInfo != null
                        ? classAttributeInfo.GetId()
@@ -332,7 +327,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public ClassAttributeInfo GetAttributeInfoFromName(string name)
         {
-            return _attributesByName[name];
+            return _attributesCache.AttributesByName[name];
         }
 
         public ClassAttributeInfo GetAttributeInfo(int index)
@@ -429,7 +424,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
             var cii = new ClassInfoIndex
                 {
-                    ClassInfoId = _id,
+                    ClassInfoId = _oidInfo.ID,
                     CreationDate = OdbTime.GetCurrentTimeInTicks(),
                     Name = name,
                     Status = ClassInfoIndex.Enabled,
@@ -627,31 +622,19 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         public void RemoveAttribute(ClassAttributeInfo cai)
         {
             _attributes.Remove(cai);
-            _attributesByName.Remove(cai.GetName());
+            _attributesCache.AttributesByName.Remove(cai.GetName());
         }
 
         public void AddAttribute(ClassAttributeInfo cai)
         {
             cai.SetId(_maxAttributeId++);
             _attributes.Add(cai);
-            _attributesByName.Add(cai.GetName(), cai);
+            _attributesCache.AttributesByName.Add(cai.GetName(), cai);
         }
 
         public void SetFullClassName(string fullClassName)
         {
             _fullClassName = fullClassName;
-        }
-
-        public void AddHistory(object o)
-        {
-            if (_history == null)
-                _history = new OdbArrayList<object>(1);
-            _history.Add(o);
-        }
-
-        public IOdbList<object> GetHistory()
-        {
-            return _history;
         }
 
         public bool HasIndex(string indexName)
@@ -687,9 +670,9 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
             ci.SetAttributesDefinitionPosition(_attributesDefinitionPosition);
             ci.SetBlockSize(_blockSize);
-            ci.SetId(_id);
-            ci.SetPreviousClassOID(_previousClassOID);
-            ci.SetNextClassOID(_nextClassOID);
+            ci.SetId(_oidInfo.ID);
+            ci.SetPreviousClassOID(_oidInfo.PreviousClassOID);
+            ci.SetNextClassOID(_oidInfo.NextClassOID);
             ci.SetLastObjectInfoHeader(_lastObjectInfoHeader);
             ci.SetPosition(_position);
             ci.SetIndexes(_indexes);

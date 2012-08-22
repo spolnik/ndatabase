@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NDatabase.Tool
 {
-    public class DisplayUtility
+    public static class DisplayUtility
     {
         public static string ByteArrayToString(byte[] bytes)
         {

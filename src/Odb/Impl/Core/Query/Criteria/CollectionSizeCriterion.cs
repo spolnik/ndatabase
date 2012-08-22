@@ -12,7 +12,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Criteria
     /// </summary>
     /// <author>olivier s</author>
     [Serializable]
-    public class CollectionSizeCriterion : AbstractCriterion
+    public sealed class CollectionSizeCriterion : AbstractCriterion
     {
         public const int SizeEq = 1;
         public const int SizeNe = 2;

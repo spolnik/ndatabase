@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
@@ -15,7 +14,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
     /// </summary>
     /// <author>osmadja</author>
     [Serializable]
-    public class FieldValueAction : AbstractQueryFieldAction
+    public sealed class FieldValueAction : AbstractQueryFieldAction
     {
         /// <summary>
         ///   The value of the attribute

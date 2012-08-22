@@ -1,6 +1,6 @@
 namespace NDatabase.Odb.Impl.Core.Transaction
 {
-    public class ObjectInsertingInfo
+    public sealed class ObjectInsertingInfo
     {
         public ObjectInsertingInfo(OID oid, int level)
         {

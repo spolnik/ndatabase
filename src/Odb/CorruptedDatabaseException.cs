@@ -8,7 +8,7 @@ namespace NDatabase.Odb
     /// </summary>
     /// <author>olivier</author>
     [Serializable]
-    public class CorruptedDatabaseException : OdbRuntimeException
+    public sealed class CorruptedDatabaseException : OdbRuntimeException
     {
         public CorruptedDatabaseException(IError error, string message) : base(error, message)
         {

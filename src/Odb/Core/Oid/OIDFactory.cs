@@ -1,6 +1,6 @@
 namespace NDatabase.Odb.Core.Oid
 {
-    public class OIDFactory
+    public static class OIDFactory
     {
         public static OID BuildObjectOID(long oid)
         {

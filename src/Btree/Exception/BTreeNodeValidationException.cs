@@ -3,7 +3,7 @@ using System;
 namespace NDatabase.Btree.Exception
 {
     [Serializable]
-    public class BTreeNodeValidationException : System.Exception
+    public sealed class BTreeNodeValidationException : System.Exception
     {
         public BTreeNodeValidationException()
         {

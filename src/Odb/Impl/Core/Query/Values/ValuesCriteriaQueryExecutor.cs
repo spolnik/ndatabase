@@ -8,7 +8,7 @@ using NDatabase.Tool.Wrappers.List;
 
 namespace NDatabase.Odb.Impl.Core.Query.Values
 {
-    public class ValuesCriteriaQueryExecutor : GenericQueryExecutor
+    public sealed class ValuesCriteriaQueryExecutor : GenericQueryExecutor
     {
         private CriteriaQuery _criteriaQuery;
         private IOdbList<string> _involvedFields;
@@ -45,7 +45,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
             if (!_criteriaQuery.IsForSingleOid())
             {
                 // Then apply the query on the field values
-                objectMatches = CriteriaQueryManager.Match(_criteriaQuery, _values);
+                objectMatches = _criteriaQuery.Match(_values);
             }
 
             var objectInfoHeader = _values.GetObjectInfoHeader();

@@ -11,7 +11,7 @@ namespace NDatabase.Odb.Core
     ///   All NDatabase ODB Errors. Errors can be user errors or Internal errors. All @1 in error description will be replaced by parameters
     /// </remarks>
     /// <author>olivier s</author>
-    public class NDatabaseError : IError
+    public sealed class NDatabaseError : IError
     {
         public static readonly NDatabaseError NullNextObjectOid = new NDatabaseError(100,
                                                                                    "ODB has detected an inconsistency while reading instance(of @1) #@2 over @3 with oid @4 which has a null 'next object oid'");
@@ -256,7 +256,7 @@ namespace NDatabase.Odb.Core
                                                                                        "Incompatible meta-model : @1");
 
         public static readonly NDatabaseError IncompatibleJavaVm = new NDatabaseError(1003,
-                                                                                    "Incompatible java virtual Machine, 1.5 or greater is required, you are using : @1");
+                                                                                    "Incompatible java Machine, 1.5 or greater is required, you are using : @1");
 
         public static readonly NDatabaseError OdbIsClosed = new NDatabaseError(1004,
                                                                              "ODB session has already been closed (@1)");
@@ -285,7 +285,7 @@ namespace NDatabase.Odb.Core
                                                                                                 "Can not return the oid of a null object");
 
         public static readonly NDatabaseError OdbFileIsLockedByCurrentVirtualMachine = new NDatabaseError(1013,
-                                                                                                        "@1 file is locked by the current Virtual machine - check if the database has not been opened in the current VM! : thread = @2 - using multi thread ? @3");
+                                                                                                        "@1 file is locked by the current machine - check if the database has not been opened in the current VM! : thread = @2 - using multi thread ? @3");
 
         public static readonly NDatabaseError OdbFileIsLockedByExternalProgram = new NDatabaseError(1014,
                                                                                                   "@1 file is locked - check if the database file is not opened in another program! : thread = @2 - using multi thread ? @3");
@@ -446,7 +446,7 @@ namespace NDatabase.Odb.Core
 
         #region IError Members
 
-        public virtual IError AddParameter(object o)
+        public IError AddParameter(object o)
         {
             if (_parameters == null)
                 _parameters = new OdbArrayList<object>();
@@ -454,7 +454,7 @@ namespace NDatabase.Odb.Core
             return this;
         }
 
-        public virtual IError AddParameter(string s)
+        public IError AddParameter(string s)
         {
             if (_parameters == null)
                 _parameters = new OdbArrayList<object>();
@@ -463,7 +463,7 @@ namespace NDatabase.Odb.Core
             return this;
         }
 
-        public virtual IError AddParameter(int i)
+        public IError AddParameter(int i)
         {
             if (_parameters == null)
                 _parameters = new OdbArrayList<object>();
@@ -471,7 +471,7 @@ namespace NDatabase.Odb.Core
             return this;
         }
 
-        public virtual IError AddParameter(byte i)
+        public IError AddParameter(byte i)
         {
             if (_parameters == null)
                 _parameters = new OdbArrayList<object>();
@@ -479,7 +479,7 @@ namespace NDatabase.Odb.Core
             return this;
         }
 
-        public virtual IError AddParameter(long l)
+        public IError AddParameter(long l)
         {
             if (_parameters == null)
                 _parameters = new OdbArrayList<object>();

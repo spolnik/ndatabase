@@ -28,7 +28,7 @@ namespace NeoDatis.Test.Btree.Impl.Singlevalue
 
         private IBTreeNodeOneValuePerKey GetBTreeNode(IBTree tree, string name)
         {
-            return new MockBTreeNodeSingleValue(tree, name);
+            return new OdbBtreeNodeSingle(tree);
         }
 
         /// <exception cref="System.Exception"></exception>

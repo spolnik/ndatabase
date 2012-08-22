@@ -7,7 +7,7 @@ namespace NDatabase.Odb.Impl.Tool
     ///   Unique ID generator
     /// </summary>
     /// <author>osmadja</author>
-    public class UUID
+    public static class UUID
     {
         public static long GetUniqueId(string simpleSeed)
         {

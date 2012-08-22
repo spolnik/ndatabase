@@ -6,7 +6,7 @@ using System.Text;
 namespace NDatabase.Odb.Core.Query.Criteria
 {
     [Serializable]
-    public class And : ComposedExpression
+    public sealed class And : ComposedExpression
     {
         public override bool Match(object @object)
         {
@@ -38,12 +38,12 @@ namespace NDatabase.Odb.Core.Query.Criteria
 
                 if (isFirst)
                 {
-                    buffer.Append(criterion.ToString());
+                    buffer.Append(criterion);
                     isFirst = false;
                 }
                 else
                 {
-                    buffer.Append(" and ").Append(criterion.ToString());
+                    buffer.Append(" and ").Append(criterion);
                 }
             }
 

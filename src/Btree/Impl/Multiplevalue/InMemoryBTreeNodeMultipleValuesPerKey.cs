@@ -4,38 +4,38 @@ using NDatabase.Btree.Exception;
 namespace NDatabase.Btree.Impl.Multiplevalue
 {
     [Serializable]
-    public class InMemoryBTreeNodeMultipleValuesPerKey : BTreeNodeMultipleValuesPerKey
+    public sealed class InMemoryBTreeNodeMultipleValuesPerKey : BTreeNodeMultipleValuesPerKey
     {
-        protected static int NextId = 1;
+        private static int _nextId = 1;
 
-        protected IBTreeNode[] Children;
-        protected int Id;
+        private IBTreeNode[] _children;
+        private int _id;
 
-        protected IBTreeNode Parent;
+        private IBTreeNode _parent;
 
         public InMemoryBTreeNodeMultipleValuesPerKey(IBTree btree) : base(btree)
         {
-            Id = NextId++;
+            _id = _nextId++;
         }
 
         public override IBTreeNode GetChildAt(int index, bool throwExceptionIfNotExist)
         {
-            if (Children[index] == null && throwExceptionIfNotExist)
+            if (_children[index] == null && throwExceptionIfNotExist)
             {
                 throw new BTreeException("Trying to load null child node at index "
                                          + index);
             }
-            return Children[index];
+            return _children[index];
         }
 
         public override IBTreeNode GetParent()
         {
-            return Parent;
+            return _parent;
         }
 
         public override void SetChildAt(IBTreeNode child, int index)
         {
-            Children[index] = child;
+            _children[index] = child;
             if (child != null)
             {
                 child.SetParent(this);
@@ -47,7 +47,7 @@ namespace NDatabase.Btree.Impl.Multiplevalue
         {
             var childTreeNode = node.GetChildAt(childIndex, throwExceptionIfDoesNotExist);
 
-            Children[index] = childTreeNode;
+            _children[index] = childTreeNode;
 
             if (childTreeNode != null)
                 childTreeNode.SetParent(this);
@@ -55,64 +55,64 @@ namespace NDatabase.Btree.Impl.Multiplevalue
 
         public override void SetParent(IBTreeNode node)
         {
-            Parent = node;
+            _parent = node;
         }
 
         public override bool HasParent()
         {
-            return Parent != null;
+            return _parent != null;
         }
 
         protected override void Init()
         {
-            Children = new IBTreeNode[MaxNbChildren];
+            _children = new IBTreeNode[MaxNbChildren];
         }
 
         public override object GetId()
         {
-            return Id;
+            return _id;
         }
 
         public override void SetId(object id)
         {
-            Id = (int) id;
+            _id = (int) id;
         }
 
         public override void DeleteChildAt(int index)
         {
-            Children[index] = null;
+            _children[index] = null;
             NbChildren--;
         }
 
         public override void MoveChildFromTo(int sourceIndex, int destinationIndex, bool
                                                                                         throwExceptionIfDoesNotExist)
         {
-            if (Children[sourceIndex] == null && throwExceptionIfDoesNotExist)
+            if (_children[sourceIndex] == null && throwExceptionIfDoesNotExist)
             {
                 var errorMessage = string.Format("Trying to move null child node at index {0}", sourceIndex);
                 throw new BTreeException(errorMessage);
             }
-            Children[destinationIndex] = Children[sourceIndex];
+            _children[destinationIndex] = _children[sourceIndex];
         }
 
         public override void SetNullChildAt(int childIndex)
         {
-            Children[childIndex] = null;
+            _children[childIndex] = null;
         }
 
         public override object GetChildIdAt(int childIndex, bool throwExceptionIfDoesNotExist)
         {
-            if (Children[childIndex] == null && throwExceptionIfDoesNotExist)
+            if (_children[childIndex] == null && throwExceptionIfDoesNotExist)
             {
                 throw new BTreeException("Trying to move null child node at index "
                                          + childIndex);
             }
-            return Children[childIndex].GetId();
+            return _children[childIndex].GetId();
         }
 
         public override object GetParentId()
         {
-            return Id;
+            return _id;
         }
 
         public override object GetValueAsObjectAt(int index)

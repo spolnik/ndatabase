@@ -9,7 +9,7 @@ using NDatabase.Odb.Impl.Core.Query.Values;
 
 namespace NDatabase.Odb.Core.Query
 {
-    public class QueryManager
+    public static class QueryManager
     {
         public static bool Match(IQuery query, object @object)
         {
@@ -23,7 +23,7 @@ namespace NDatabase.Odb.Core.Query
 
             var criteriaQuery = query as CriteriaQuery;
             if (criteriaQuery != null)
-                return CriteriaQueryManager.Match(criteriaQuery, @object);
+                return criteriaQuery.Match((AbstractObjectInfo) @object);
 
             throw new OdbRuntimeException(NDatabaseError.QueryTypeNotImplemented.AddParameter(query.GetType().FullName));
         }
@@ -38,8 +38,9 @@ namespace NDatabase.Odb.Core.Query
             if (simpleNativeQuery != null)
                 return NativeQueryManager.GetFullClassName(simpleNativeQuery);
 
-            if (typeof (CriteriaQuery) == query.GetType() || query is ValuesCriteriaQuery)
-                return CriteriaQueryManager.GetFullClassName((CriteriaQuery) query);
+            var criteriaQuery = query as CriteriaQuery;
+            if (criteriaQuery != null)
+                return criteriaQuery.GetFullClassName();
 
             throw new OdbRuntimeException(NDatabaseError.QueryTypeNotImplemented.AddParameter(query.GetType().FullName));
         }
@@ -94,7 +95,7 @@ namespace NDatabase.Odb.Core.Query
         /// <param name="engine"> </param>
         /// <param name="instanceBuilder"> </param>
         /// <returns> </returns>
-        protected static IQueryExecutor GetMultiClassQueryExecutor(IQuery query, IStorageEngine engine,
+        private static IQueryExecutor GetMultiClassQueryExecutor(IQuery query, IStorageEngine engine,
                                                                    IInstanceBuilder instanceBuilder)
         {
             if (query is ValuesCriteriaQuery)

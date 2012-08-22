@@ -1,13 +1,9 @@
 using System;
-using System.Globalization;
-using System.Text;
-using NDatabase.Odb.Core;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
 namespace NDatabase.Odb.Impl.Core.Oid
 {
     [Serializable]
-    public class ExternalClassOID : OdbClassOID, IExternalOID
+    public sealed class ExternalClassOID : OdbClassOID, IExternalOID
     {
         private readonly IDatabaseId _databaseId;
 

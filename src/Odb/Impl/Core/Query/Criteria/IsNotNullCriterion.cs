@@ -5,7 +5,7 @@ using NDatabase.Odb.Core.Query.Criteria;
 namespace NDatabase.Odb.Impl.Core.Query.Criteria
 {
     [Serializable]
-    public class IsNotNullCriterion : AbstractCriterion
+    public sealed class IsNotNullCriterion : AbstractCriterion
     {
         public IsNotNullCriterion(string attributeName) : base(attributeName)
         {

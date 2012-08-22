@@ -9,7 +9,7 @@ namespace NDatabase.Odb.Impl.Core.Btree
     ///   A Lazy BTree Iterator : It iterate on the object OIDs and lazy load objects from them (OIDs) Used by the LazyBTreeCollection
     /// </summary>
     /// <author>osmadja</author>
-    public class LazyOdbBtreeIteratorSIngle<T> : BTreeIteratorSingleValuePerKey<T>
+    public sealed class LazyOdbBtreeIteratorSIngle<T> : BTreeIteratorSingleValuePerKey<T>
     {
         private readonly bool _returnObjects;
         private readonly IStorageEngine _storageEngine;
