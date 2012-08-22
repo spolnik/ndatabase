@@ -29,7 +29,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Serialization
             var anoi = (AtomicNativeObjectInfo) @object;
             var buffer = new StringBuilder();
 
-            // TODO escape ;
             buffer.Append(ClassId).Append(Serializer.FieldSeparator);
             buffer.Append(anoi.GetOdbTypeId()).Append(Serializer.FieldSeparator);
             buffer.Append(ObjectTool.AtomicNativeObjectToString(anoi, ObjectTool.IdCallerIsSerializer));

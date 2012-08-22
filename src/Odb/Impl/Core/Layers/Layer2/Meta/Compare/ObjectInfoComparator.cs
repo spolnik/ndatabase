@@ -270,10 +270,8 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Compare
                 }
                 if (value1.IsMapObject())
                 {
-                    var moi1 = (MapObjectInfo) value1;
-                    var moi2 = (MapObjectInfo) value2;
-                    var mapHasChanged = ManageMapChanges(nnoi1, nnoi2, id, moi1, moi2, objectRecursionLevel);
-                    hasChanged = hasChanged || mapHasChanged;
+                    // for now, every dictionary is reloaded without checking for changes
+                    hasChanged = true;
                     continue;
                 }
                 if (value1.IsEnumObject())
@@ -499,66 +497,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Compare
                 }
             }
             return false;
-        }
-
-        /// <summary>
-        ///   Checks if something in the Map has changed, if yes, stores the change
-        /// </summary>
-        /// <param name="nnoi1"> The first Object meta representation (nnoi = NonNativeObjectInfo) </param>
-        /// <param name="nnoi2"> The second object meta representation </param>
-        /// <param name="fieldId"> The field index that this map represents </param>
-        /// <param name="moi1"> The Meta representation of the map 1 (moi = MapObjectInfo) </param>
-        /// <param name="moi2"> The Meta representation of the map 2 </param>
-        /// <param name="objectRecursionLevel"> </param>
-        /// <returns> true if the 2 map representations are different </returns>
-        private bool ManageMapChanges(NonNativeObjectInfo nnoi1, NonNativeObjectInfo nnoi2, int fieldId,
-                                      MapObjectInfo moi1, MapObjectInfo moi2, int objectRecursionLevel)
-        {
-            if (true)
-                return true;
-            //TODO: implement it!
-/*
-            IDictionary<AbstractObjectInfo, AbstractObjectInfo> map1 = moi1.GetMap();
-            IDictionary<AbstractObjectInfo, AbstractObjectInfo> map2 = moi2.GetMap();
-            if (map1.Count != map2.Count)
-            {
-                var buffer = new StringBuilder();
-                buffer.Append("Map size has changed oldsize=").Append(map1.Count).Append("/newsize=").Append(map2.Count);
-                StoreChangedObject(nnoi1, nnoi2, fieldId, moi1, moi2, buffer.ToString(), objectRecursionLevel);
-                return true;
-            }
-            IEnumerator<AbstractObjectInfo> keys1 = map1.Keys.GetEnumerator();
-            IEnumerator<AbstractObjectInfo> keys2 = map2.Keys.GetEnumerator();
-            AbstractObjectInfo key1 = null;
-            AbstractObjectInfo key2 = null;
-            AbstractObjectInfo value1 = null;
-            AbstractObjectInfo value2 = null;
-            int index = 0;
-            while (keys1.MoveNext())
-            {
-                keys2.MoveNext();
-                key1 = keys1.Current;
-                key2 = keys2.Current;
-                bool keysHaveChanged = HasChanged(key1, key2, objectRecursionLevel);
-                if (keysHaveChanged)
-                {
-                    StoreChangedObject(nnoi1, nnoi2, fieldId, key1, key2, "Map key index " + index + " has changed",
-                                       objectRecursionLevel);
-                    return true;
-                }
-                value1 = map1[key1];
-                value2 = map2[key2];
-                bool valuesHaveChanged = HasChanged(value1, value2, objectRecursionLevel);
-                if (valuesHaveChanged)
-                {
-                    StoreChangedObject(nnoi1, nnoi2, fieldId, value1, value2,
-                                       "Map value index " + index + " has changed", objectRecursionLevel);
-                    return true;
-                }
-                index++;
-            }
-            return false;
-*/
         }
 
         private void StoreChangedAttributeAction(IChangedAttribute caa)

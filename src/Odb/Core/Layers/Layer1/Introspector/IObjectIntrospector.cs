@@ -6,10 +6,6 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
     /// <summary>
     ///   Interface for ObjectInstropector.
     /// </summary>
-    /// <remarks>
-    ///   Interface for ObjectInstropector.
-    /// </remarks>
-    /// <author>osmadja</author>
     public interface IObjectIntrospector
     {
         /// <summary>
@@ -24,10 +20,6 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
         AbstractObjectInfo GetMetaRepresentation(object @object, ClassInfo ci, bool recursive,
                                                  IDictionary<object, NonNativeObjectInfo> alreadyReadObjects,
                                                  IIntrospectionCallback callback);
-
-        NonNativeObjectInfo BuildNnoi(object @object, ClassInfo classInfo, AbstractObjectInfo[] values,
-                                      long[] attributesIdentification, int[] attributeIds,
-                                      IDictionary<object, NonNativeObjectInfo> alreadyReadObjects);
 
         void Clear();
     }

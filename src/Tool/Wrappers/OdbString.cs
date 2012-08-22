@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -6,6 +7,8 @@ namespace NDatabase.Tool.Wrappers
 {
     public static class OdbString
     {
+        private static readonly IDictionary<string, Regex> Cache = new Dictionary<string, Regex>();
+
         //TODO: there is no standard way to do that?
         /// <summary>
         ///   Replace a string within a string
@@ -63,8 +66,15 @@ namespace NDatabase.Tool.Wrappers
 
         public static bool Matches(string regExp, string valueToCheck)
         {
-            //TODO: regex ctor is expensive, try to create a cache for that based on regExp
-            return new Regex(regExp).IsMatch(valueToCheck);
+            Regex value;
+            var success = Cache.TryGetValue(regExp, out value);
+            if (success)
+                return Cache[regExp].IsMatch(valueToCheck);
+
+            var regex = new Regex(regExp);
+
+            Cache.Add(regExp, regex);
+            return regex.IsMatch(valueToCheck);
         }
     }
 }

@@ -112,7 +112,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
                 Flush(bufferIndex);
             }
             _currentBufferIndex = bufferIndex;
-            // TODO check length and getLength
+            
             var length = GetLength();
             if (readOrWrite == Read && newPosition >= length)
             {

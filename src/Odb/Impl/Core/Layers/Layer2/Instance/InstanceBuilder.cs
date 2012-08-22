@@ -72,10 +72,11 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Instance
                     NDatabaseError.InstanciationError.AddParameter(objectInfo.GetClassInfo().GetFullClassName()), e);
             }
 
-            // This can happen if ODB can not create the instance
-            // TODO Check if returning null is correct
+            // This can happen if ODB can not create the instance from security reasons
             if (o == null)
-                return null;
+                throw new OdbRuntimeException(
+                    NDatabaseError.InstanciationError.AddParameter(objectInfo.GetClassInfo().GetFullClassName()));
+
             // Keep the initial hash code. In some cases, when the class redefines
             // the hash code method
             // Hash code can return wrong values when attributes are not set (when

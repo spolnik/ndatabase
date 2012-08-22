@@ -125,7 +125,6 @@ namespace NDatabase.Odb.Impl.Core.Query.Criteria
                     if (_oid == null)
                     {
                         // TODO Should we return false or thrown exception?
-                        // See junit TestCriteriaQuery6.test1
                         return false;    
                     }
                 }

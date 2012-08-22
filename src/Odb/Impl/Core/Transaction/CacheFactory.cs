@@ -17,7 +17,7 @@ namespace NDatabase.Odb.Impl.Core.Transaction
         /// <summary>
         ///   This factory method returns an implementation of <see cref="ICrossSessionCache">NDatabase.Odb.Core.Transaction.ICrossSessionCache</see> to take over the objects across the sessions.
         /// </summary>
-        /// <param name="identification"> TODO </param>
+        /// <param name="identification"></param>
         /// <returns> <see cref="ICrossSessionCache">NDatabase.Odb.Core.Transaction.ICrossSessionCache</see> </returns>
         public static ICrossSessionCache GetCrossSessionCache(string identification)
         {

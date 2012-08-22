@@ -2,7 +2,6 @@ using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
 namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
 {
-    //TODO: Think about some buffer in the header block -> future purposes (255?)
     /// <summary>
     ///   Some Storage engine constants about offset position for object writing/reading.
     /// </summary>
@@ -218,7 +217,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                                                                  OdbType.Boolean.GetSize();
 
         public static readonly string NoEncoding = "no-encoding";
-        // TODO Something is wrong here : two constant with the same value!!*/
+        
         // ********************************************************
         // DATABASE HEADER
         // ********************************************************

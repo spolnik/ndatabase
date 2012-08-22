@@ -40,8 +40,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Criteria
                 if (!_criteriaQuery.HasCriteria())
                 {
                     // true, false = use cache, false = do not return object
-                    // TODO Warning setting true to useCache will put all objects in
-                    // the cache
+                    // TODO Warning setting true to useCache will put all objects in the cache
                     // This is not a good idea for big queries!, But use cache=true
                     // resolves when object have not been committed yet!
                     // for big queries, user should use a LazyCache!

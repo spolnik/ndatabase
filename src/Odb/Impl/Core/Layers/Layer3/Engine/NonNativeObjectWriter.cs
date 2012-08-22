@@ -259,7 +259,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             _byteArrayConverter.LongToByteArray(OdbTime.GetCurrentTimeInTicks(), bytes, 45);
             // fsi.writeLong(OdbTime.getCurrentTimeInMs(), writeDataInTransaction,
             // "update date", WriteAction.DATA_WRITE_ACTION);
-            // TODO check next version number
+            
             _byteArrayConverter.IntToByteArray(objectInfo.GetHeader().GetObjectVersion(), bytes, 53);
             // fsi.writeInt(objectInfo.getHeader().getObjectVersion(),
             // writeDataInTransaction, "object version number");
@@ -607,23 +607,23 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                     // update cache
                     cache.AddObject(oid, @object, nnoi.GetHeader());
                 }
-                //TODO check if we must update cross session cache
+                
                 _objectWriter.FileSystemProcessor.FileSystemInterface.SetWritePosition(positionAfterWrite, true);
                 var nbConnectedObjectsAfter = nnoi.GetClassInfo().GetCommitedZoneInfo().GetNbObjects();
                 var nbNonConnectedObjectsAfter = nnoi.GetClassInfo().GetUncommittedZoneInfo().GetNbObjects();
                 if (nbConnectedObjectsAfter != nbConnectedObjects || nbNonConnectedObjectsAfter != nbNonConnectedObjects)
                 {
+                    // TODO check this
+                    // throw new
+                    // ODBRuntimeException(Error.INTERNAL_ERROR.addParameter("Error
+                    // in nb connected/unconnected counter"));
                 }
-                // TODO check this
-                // throw new
-                // ODBRuntimeException(Error.INTERNAL_ERROR.addParameter("Error
-                // in nb connected/unconnected counter"));
+
                 return oid;
             }
             catch (Exception e)
             {
-                message = "Error updating object " + nnoi + " : " +
-                          e;
+                message = string.Format("Error updating object {0} : {1}", nnoi, e);
                 DLogger.Error(message);
                 throw new OdbRuntimeException(e, message);
             }

@@ -1405,12 +1405,9 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                             attributeOid = OIDFactory.BuildObjectOID(-attributeIdentification);
                         // For non native object, the identification is the oid,
                         // which is stored as negative long
-                        // @TODO The attributeIdentification <0 clause should not be
-                        // necessary
-                        // But there is a case (found by Jeremias) where even for
-                        // non
-                        // native the attribute
-                        // is a position and not an id! identification
+                        // TODO The attributeIdentification <0 clause should not be necessary
+                        // But there is a case (found by Jeremias) where even for non
+                        // native the attribute is a position and not an id! identification
                         if (cai.IsNonNative() && attributeIdentification < 0)
                             attributePosition = GetObjectPositionFromItsOid(attributeOid, useCache, false);
                         else
@@ -1733,7 +1730,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         /// <returns> The block position @ </returns>
         private long GetIdBlockPositionFromNumber(long blockNumberToFind)
         {
-            //TODO remove new Long
             // first check if it exist in cache
             long lposition;
 

@@ -170,9 +170,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                         var existingClassInfo = metaModel.GetClassInfo(classAttributeInfo.GetFullClassname(), false);
                         if (existingClassInfo == null)
                         {
-                            // TODO check if this getClassInfo is ok. Maybe, should
-                            // use
-                            // a buffered one
+                            // TODO check if this getClassInfo is ok. Maybe, should use a buffered one
                             AddClasses(_classIntrospector.Introspect(classAttributeInfo.GetFullClassname(), true));
                         }
                         else
@@ -264,7 +262,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             }
             else
             {
-                // @todo check this
+                // todo check this
                 FileSystemProcessor.FileSystemInterface.WriteLong(-1, writeInTransaction, "class att def pos", WriteAction.DataWriteAction);
             }
 
@@ -285,9 +283,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                     var existingClassInfo = metaModel.GetClassInfo(classAttributeInfo.GetFullClassname(), false);
                     if (existingClassInfo == null)
                     {
-                        // TODO check if this getClassInfo is ok. Maybe, should
-                        // use
-                        // a buffered one
+                        // TODO check if this getClassInfo is ok. Maybe, should use a buffered one
                         AddClasses(_classIntrospector.Introspect(classAttributeInfo.GetFullClassname(), true));
                     }
                     else

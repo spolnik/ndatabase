@@ -36,9 +36,16 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
             return GetObjectInfo(o, ci, recursive, alreadyReadObjects, callback);
         }
 
-        public NonNativeObjectInfo BuildNnoi(object o, ClassInfo classInfo, AbstractObjectInfo[] values,
-                                             long[] attributesIdentification, int[] attributeIds,
-                                             IDictionary<object, NonNativeObjectInfo> alreadyReadObjects)
+        public void Clear()
+        {
+            _storageEngine = null;
+        }
+
+        #endregion
+
+        private NonNativeObjectInfo BuildNnoi(object o, ClassInfo classInfo, AbstractObjectInfo[] values,
+                                              long[] attributesIdentification, int[] attributeIds,
+                                              IDictionary<object, NonNativeObjectInfo> alreadyReadObjects)
         {
             var nnoi = new NonNativeObjectInfo(o, classInfo, values, attributesIdentification, attributeIds);
 
@@ -52,8 +59,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
                 if (oid != null)
                 {
                     nnoi.SetOid(oid);
-                    // Sets some values to the new header to keep track of the infos
-                    // when
+                    // Sets some values to the new header to keep track of the infos when
                     // executing NDatabase without closing it, just committing.
                     // Bug reported by Andy
                     var objectInfoHeader = cache.GetObjectInfoHeaderFromOid(oid, true);
@@ -64,13 +70,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
             }
             return nnoi;
         }
-
-        public void Clear()
-        {
-            _storageEngine = null;
-        }
-
-        #endregion
 
         /// <summary>
         ///   retrieve object data
@@ -179,10 +178,9 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
         /// </summary>
         /// <returns> The ObjectInfo </returns>
         private AbstractObjectInfo GetObjectInfoInternal(AbstractObjectInfo nnoi, object o, ClassInfo classInfo,
-                                                                   bool recursive,
-                                                                   IDictionary<object, NonNativeObjectInfo>
-                                                                       alreadyReadObjects,
-                                                                   IIntrospectionCallback callback)
+                                                         bool recursive,
+                                                         IDictionary<object, NonNativeObjectInfo> alreadyReadObjects,
+                                                         IIntrospectionCallback callback)
         {
             if (o == null)
                 return NullNativeObjectInfo.GetInstance();
@@ -210,7 +208,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
                 alreadyReadObjects = new OdbHashMap<object, NonNativeObjectInfo>();
                 isRootObject = true;
             }
-            
+
             NonNativeObjectInfo cachedNnoi;
             alreadyReadObjects.TryGetValue(o, out cachedNnoi);
 
@@ -241,14 +239,15 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
                     }
 
                     var valueType = OdbType.GetFromClass(value == null
-                                                                 ? field.FieldType
-                                                                 : value.GetType());
+                                                             ? field.FieldType
+                                                             : value.GetType());
                     // for native fields
                     AbstractObjectInfo abstractObjectInfo;
 
                     if (valueType.IsNative())
                     {
-                        abstractObjectInfo = GetNativeObjectInfoInternal(valueType, value, recursive, alreadyReadObjects, callback);
+                        abstractObjectInfo = GetNativeObjectInfoInternal(valueType, value, recursive, alreadyReadObjects,
+                                                                         callback);
                         mainAoi.SetAttributeValue(attributeId, abstractObjectInfo);
                     }
                     else
@@ -267,7 +266,8 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
                             var classInfo2 = GetClassInfo(OdbClassUtil.GetFullName(value.GetType()));
                             if (recursive)
                             {
-                                abstractObjectInfo = GetObjectInfoInternal(null, value, classInfo2, true, alreadyReadObjects, callback);
+                                abstractObjectInfo = GetObjectInfoInternal(null, value, classInfo2, true,
+                                                                           alreadyReadObjects, callback);
                                 mainAoi.SetAttributeValue(attributeId, abstractObjectInfo);
                             }
                             else
@@ -283,8 +283,8 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
                 }
                 catch (ArgumentException e)
                 {
-                    throw new OdbRuntimeException(NDatabaseError.InternalError.AddParameter("in getObjectInfoInternal"),
-                                                  e);
+                    throw new OdbRuntimeException(
+                        NDatabaseError.InternalError.AddParameter("in getObjectInfoInternal"), e);
                 }
                 catch (MemberAccessException e)
                 {
@@ -330,23 +330,24 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
                     // o is not null, call the callback with it
                     //callback.objectFound(o);
                     // This is a non native object
-                    nonNativesObjects.Add((NonNativeObjectInfo)abstractObjectInfo);
+                    nonNativesObjects.Add((NonNativeObjectInfo) abstractObjectInfo);
                 }
             }
 
             var collectionObjectInfo = new CollectionObjectInfo(collectionCopy, nonNativesObjects);
-            
+
             var realCollectionClassName = OdbClassUtil.GetFullName(collection.GetType());
-            
-            collectionObjectInfo.SetRealCollectionClassName(realCollectionClassName.IndexOf("$", StringComparison.Ordinal) != -1
-                                               ? type.GetDefaultInstanciationClass().FullName
-                                               : realCollectionClassName);
+
+            collectionObjectInfo.SetRealCollectionClassName(
+                realCollectionClassName.IndexOf("$", StringComparison.Ordinal) != -1
+                    ? type.GetDefaultInstanciationClass().FullName
+                    : realCollectionClassName);
             return collectionObjectInfo;
         }
 
         private IDictionary<AbstractObjectInfo, AbstractObjectInfo> IntrospectNonGenericMap(IDictionary map,
                                                                                             bool introspect,
-                                                                                            IDictionary<object, NonNativeObjectInfo> alreadyReadObjects,
+                                                                                            IDictionary <object, NonNativeObjectInfo> alreadyReadObjects,
                                                                                             IIntrospectionCallback callback)
         {
             IDictionary<AbstractObjectInfo, AbstractObjectInfo> mapCopy =
@@ -395,8 +396,10 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
                     if (value != null)
                         ciValue = GetClassInfo(OdbClassUtil.GetFullName(value.GetType()));
 
-                    var abstractObjectInfoForKey = GetObjectInfo(key, classInfoKey, introspect, alreadyReadObjects, callback);
-                    var abstractObjectInfoForValue = GetObjectInfo(value, ciValue, introspect, alreadyReadObjects, callback);
+                    var abstractObjectInfoForKey = GetObjectInfo(key, classInfoKey, introspect, alreadyReadObjects,
+                                                                 callback);
+                    var abstractObjectInfoForValue = GetObjectInfo(value, ciValue, introspect, alreadyReadObjects,
+                                                                   callback);
                     mapCopy.Add(abstractObjectInfoForKey, abstractObjectInfoForValue);
                 }
             }
@@ -422,27 +425,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
                 metaModel.AddClasses(classInfoList);
 
             return metaModel.GetClassInfo(fullClassName, true);
-        }
-
-        /// <summary>
-        ///   Used when byte code instrumentation is to check if an object has changed
-        /// </summary>
-        /// <param name="o"> </param>
-        /// <returns> </returns>
-        public bool ObjectHasChanged(object o)
-        {
-            var clazz = _classPool.GetClass(o.GetType().FullName);
-            try
-            {
-                var fieldInfo = _classIntrospector.GetField(clazz, "hasChanged");
-                var value = fieldInfo.GetValue(o);
-                return ((bool) value);
-            }
-            catch (Exception e)
-            {
-                throw new OdbRuntimeException(
-                    NDatabaseError.InternalError.AddParameter("in objectHasChanged(Object object)"), e);
-            }
         }
 
         private ArrayObjectInfo IntrospectArray(object array, bool introspect,
