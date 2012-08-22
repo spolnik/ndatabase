@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using NDatabase.Odb.Core;
-using NDatabase.Odb.Core.Query.Execution;
 using NDatabase.Odb.Impl;
 using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NDatabase.Tool.Wrappers.Map;
@@ -65,11 +64,6 @@ namespace NDatabase.Odb
         private static bool _checkModelCompatibility = true;
 
         private static bool _monitorMemory;
-
-        /// <summary>
-        ///   A boolean value to indicate if ODB can create empty constructor when not available
-        /// </summary>
-        private static bool _enableEmptyConstructorCreation = true;
 
         /// <summary>
         ///   a boolean value to specify if ODBFactory waits a little to re-open a file when a file is locked
@@ -494,16 +488,6 @@ namespace NDatabase.Odb
         public static void SetRoundTypeForAverageDivision(int roundTypeForAverageDivision)
         {
             _roundTypeForAverageDivision = roundTypeForAverageDivision;
-        }
-
-        public static bool EnableEmptyConstructorCreation()
-        {
-            return _enableEmptyConstructorCreation;
-        }
-
-        public static void SetEnableEmptyConstructorCreation(bool enableEmptyConstructorCreation)
-        {
-            _enableEmptyConstructorCreation = enableEmptyConstructorCreation;
         }
 
         public static ICoreProvider GetCoreProvider()

@@ -26,8 +26,6 @@ namespace NDatabase.Odb.Core.Query.Criteria
         public ComparisonCriterion(string attributeName, string criterionValue, int comparisonType)
             : base(attributeName)
         {
-            //TODO: is that okay?
-//            _criterionValue = criterionValue;
             Init(criterionValue, comparisonType);
         }
 

@@ -97,11 +97,8 @@
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\IClassIntrospector.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\IIntrospectionCallback.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\IObjectIntrospector.cs" />
-    <Compile Include="Odb\Core\Layers\Layer2\Instance\FullInstantiationHelper.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Instance\IClassPool.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Instance\IInstanceBuilder.cs" />
-    <Compile Include="Odb\Core\Layers\Layer2\Instance\IInstantiationHelper.cs" />
-    <Compile Include="Odb\Core\Layers\Layer2\Instance\ParameterHelper.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\AbstractObjectInfo.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\ArrayObjectInfo.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\AtomicNativeObjectInfo.cs" />
@@ -135,7 +132,6 @@
     <Compile Include="Odb\Core\Layers\Layer2\Meta\ObjectInfoHeader.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\ObjectReference.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\ODBType.cs" />
-    <Compile Include="Odb\Core\Layers\Layer2\Meta\SessionMetaModel.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\CurrentIdBlockInfo.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\FileSystemProcessor.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\IFileSystemProcessor.cs" />

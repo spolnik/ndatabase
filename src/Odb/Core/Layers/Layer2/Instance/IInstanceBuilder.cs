@@ -5,7 +5,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
     public interface IInstanceBuilder
     {
         /// <summary>
-        ///   Builds a Non Native Object instance TODO Perf checks the IFs Builds a non native object using The object info
+        ///   Builds a Non Native Object instance
         /// </summary>
         /// <param name="objectInfo"> </param>
         /// <returns> The instance </returns>

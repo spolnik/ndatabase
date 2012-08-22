@@ -63,10 +63,6 @@ namespace NDatabase.Odb.Impl.Core.Btree
 
         public LazyOdbBtreePersister(IStorageEngine engine)
         {
-            // See the map strategy performance test at
-            // test/org.neodatis.odb.test.performance.TestMapPerf
-            // TODO create a boolean value to know if data must be saved on update or
-            // only at the end
             _oids = new OdbHashMap<OID, object>();
             _modifiedObjectOids = new OdbHashMap<object, int>();
             _modifiedObjectOidList = new OdbArrayList<OID>(500);

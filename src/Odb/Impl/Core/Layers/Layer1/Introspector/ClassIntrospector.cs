@@ -6,13 +6,11 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using NDatabase.Btree;
 using NDatabase.Btree.Impl;
-using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Impl.Core.Btree;
 using NDatabase.Odb.Impl.Core.Oid;
-using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
 using NDatabase.Tool.Wrappers.Map;
@@ -27,19 +25,8 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
     /// </remarks>
     public sealed class ClassIntrospector : IClassIntrospector
     {
-        private const string LogId = "ClassIntrospector";
-
         private readonly IDictionary<string, IOdbList<FieldInfo>> _fields =
             new OdbHashMap<string, IOdbList<FieldInfo>>();
-
-        private readonly IDictionary<String, IFullInstantiationHelper> _fullInstantiationHelpers =
-            new OdbHashMap<String, IFullInstantiationHelper>();
-
-        private readonly IDictionary<String, IInstantiationHelper> _instantiationHelpers =
-            new OdbHashMap<String, IInstantiationHelper>();
-
-        private readonly IDictionary<String, IParameterHelper> _parameterHelpers =
-            new OdbHashMap<String, IParameterHelper>();
 
         private readonly IDictionary<string, Type> _systemClasses = new OdbHashMap<string, Type>();
 
@@ -57,66 +44,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
             return InternalIntrospect(clazz, recursive, null);
         }
 
-        public void AddInstanciationHelper(Type clazz, IInstantiationHelper helper)
-        {
-            AddInstantiationHelper(clazz.FullName, helper);
-        }
-
-        public void AddParameterHelper(Type clazz, IParameterHelper helper)
-        {
-            AddParameterHelper(clazz.FullName, helper);
-        }
-
-        public void AddFullInstanciationHelper(Type clazz, IFullInstantiationHelper helper)
-        {
-            AddFullInstantiationHelper(clazz.FullName, helper);
-        }
-
-        public void AddInstantiationHelper(string clazz, IInstantiationHelper helper)
-        {
-            _instantiationHelpers.Add(clazz, helper);
-        }
-
-        public void AddParameterHelper(string clazz, IParameterHelper helper)
-        {
-            _parameterHelpers.Add(clazz, helper);
-        }
-
-        public void AddFullInstantiationHelper(string clazz, IFullInstantiationHelper helper)
-        {
-            _fullInstantiationHelpers.Add(clazz, helper);
-        }
-
-        public void RemoveInstantiationHelper(Type clazz)
-        {
-            RemoveInstantiationHelper(clazz.FullName);
-        }
-
-        public void RemoveInstantiationHelper(string canonicalName)
-        {
-            _instantiationHelpers.Remove(canonicalName);
-        }
-
-        public void RemoveParameterHelper(Type clazz)
-        {
-            RemoveParameterHelper(clazz.FullName);
-        }
-
-        public void RemoveParameterHelper(string canonicalName)
-        {
-            _parameterHelpers.Remove(canonicalName);
-        }
-
-        public void RemoveFullInstantiationHelper(Type clazz)
-        {
-            RemoveFullInstantiationHelper(clazz.FullName);
-        }
-
-        public void RemoveFullInstantiationHelper(string canonicalName)
-        {
-            _fullInstantiationHelpers.Remove(canonicalName);
-        }
-
         /// <summary>
         ///   Builds a class info from a class and an existing class info <pre>The existing class info is used to make sure that fields with the same name will have
         ///                                                                 the same id</pre>
@@ -124,7 +51,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
         /// <param name="fullClassName"> The name of the class to get info </param>
         /// <param name="existingClassInfo"> </param>
         /// <returns> A ClassInfo - a meta representation of the class </returns>
-        public ClassInfo GetClassInfo(String fullClassName, ClassInfo existingClassInfo)
+        private ClassInfo GetClassInfo(String fullClassName, ClassInfo existingClassInfo)
         {
             var classInfo = new ClassInfo(fullClassName);
             classInfo.SetClassCategory(GetClassCategory(fullClassName));
@@ -159,23 +86,18 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
         }
 
         /// <summary>
+        ///   Get The list of super classes
         /// </summary>
-        /// <param name="fullClassName"> </param>
-        /// <param name="includingThis"> </param>
         /// <returns> The list of super classes </returns>
-        public IList GetSuperClasses(string fullClassName, bool includingThis)
+        private IEnumerable<Type> GetSuperClasses(string fullClassName, bool includingThis)
         {
-            IList result = new ArrayList();
+            IList<Type> result = new List<Type>();
 
             var clazz = _classPool.GetClass(fullClassName);
 
             if (clazz == null)
                 return result;
 
-            if (clazz.IsInterface)
-            {
-                //throw new ODBRuntimeException(clazz.getName() + " is an interface");
-            }
             if (includingThis)
                 result.Add(clazz);
 
@@ -207,7 +129,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
             result = new OdbArrayList<FieldInfo>(50);
             var classes = GetSuperClasses(fullClassName, true);
 
-            foreach (Type clazz1 in classes)
+            foreach (var clazz1 in classes)
             {
                 var superClassfields =
                     clazz1.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public |
@@ -230,7 +152,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
             return result;
         }
 
-        public IOdbList<FieldInfo> RemoveUnnecessaryFields(IOdbList<FieldInfo> fields)
+        private static IOdbList<FieldInfo> RemoveUnnecessaryFields(IOdbList<FieldInfo> fields)
         {
             IOdbList<FieldInfo> fieldsToRemove = new OdbArrayList<FieldInfo>(fields.Count);
 
@@ -288,52 +210,9 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
             return Introspect(_classPool.GetClass(fullClassName), true);
         }
 
-        public ConstructorInfo GetConstructorOf(String fullClassName)
-        {
-            var clazz = _classPool.GetClass(fullClassName);
-
-            try
-            {
-                // Checks if exist a default constructor - with no parameters
-                var constructor = clazz.GetConstructor(new Type[0]);
-
-                return constructor;
-            }
-            catch (MethodAccessException)
-            {
-                // else take the constructer with the smaller number of parameters
-                // and call it will null values
-                // @TODO Put this inf oin cache !
-                if (OdbConfiguration.IsDebugEnabled(LogId))
-                {
-                    DLogger.Debug(
-                        string.Format(
-                            "{0} does not have default constructor! using a 'with parameter' constructor will null values",
-                            clazz));
-                }
-
-                var constructors = clazz.GetConstructors();
-                const int numberOfParameters = 1000;
-                var bestConstructorIndex = 0;
-
-                for (var i = 0; i < constructors.Length; i++)
-                {
-                    //UPGRADE_TODO: The equivalent in .NET for method 'java.lang.reflect.Constructor.getParameterTypes' may return a different value. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1043'"
-                    if (constructors[i].GetParameters().Length < numberOfParameters)
-                        bestConstructorIndex = i;
-                }
-
-                var constructor = constructors[bestConstructorIndex];
-                return constructor;
-            }
-        }
-
         public void Reset()
         {
             _fields.Clear();
-            _fullInstantiationHelpers.Clear();
-            _instantiationHelpers.Clear();
-            _parameterHelpers.Clear();
         }
 
         /// <summary>
@@ -344,98 +223,12 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
             _classPool = OdbConfiguration.GetCoreProvider().GetClassPool();
         }
 
-        public object NewFullInstanceOf(Type clazz, NonNativeObjectInfo nnoi)
-        {
-            var className = clazz.FullName;
-            
-            var helper = _fullInstantiationHelpers[className];
-
-            if (helper != null)
-            {
-                var o = helper.Instantiate(nnoi);
-                if (o != null)
-                    return o;
-            }
-
-            return null;
-        }
-
         public Object NewInstanceOf(Type clazz)
         {
-            var fullClassName = OdbClassUtil.GetFullName(clazz);
-
-            var helper = _instantiationHelpers[fullClassName];
-            if (helper != null)
-            {
-                var newInstance = helper.Instantiate();
-                if (newInstance != null)
-                    return newInstance;
-            }
-
-            var constructor = _classPool.GetConstrutor(fullClassName);
-
-            if (constructor == null)
-            {
-                // Checks if exist a default constructor - with no parameters
-                constructor = clazz.GetConstructor(Type.EmptyTypes);
-                
-                if (constructor != null)
-                    _classPool.AddConstrutor(fullClassName, constructor);
-            }
-            if (constructor != null)
-            {
-                var obj = constructor.Invoke(new Object[0]);
-
-                return obj;
-            }
-
-            if (clazz.IsValueType)
-                return Activator.CreateInstance(clazz);
-
-            // else take the constructer with the smaller number of parameters
-            // and call it will null values
-            // @TODO Put this info in cache !
-            if (OdbConfiguration.IsDebugEnabled(LogId))
-            {
-                DLogger.Debug(
-                    string.Format(
-                        "{0} does not have default constructor! using a 'with parameter' constructor will null values",
-                        clazz));
-            }
-
-            //TODO: do we really need that?
-            var constructors =
-                clazz.GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public |
-                                      BindingFlags.DeclaredOnly);
-
-            if (clazz.IsInterface)
-            {
-                //@TODO This is not a good solution to manage interface
-                return null;
-            }
-
-            if (constructors.Length == 0)
-                throw new OdbRuntimeException(
-                    NDatabaseError.ClassWithoutConstructor.AddParameter(clazz.AssemblyQualifiedName));
-            
-            if (OdbConfiguration.EnableEmptyConstructorCreation())
-                return FormatterServices.GetUninitializedObject(clazz);
-
-            throw new OdbRuntimeException(
-                NDatabaseError.NoNullableConstructor.AddParameter(string.Format("[{0}]",
-                                                                                DisplayUtility.ObjectArrayToString(
-                                                                                    constructors.Last().GetParameters()))).
-                    AddParameter(clazz.AssemblyQualifiedName));
+            return FormatterServices.GetUninitializedObject(clazz);
         }
 
-        // FIXME put the list of the classes elsewhere!
-
-        public bool IsSystemClass(string fullClassName)
-        {
-            return _systemClasses.ContainsKey(fullClassName);
-        }
-
-        public byte GetClassCategory(string fullClassName)
+        private byte GetClassCategory(string fullClassName)
         {
             if ((_systemClasses.Count == 0))
                 FillSystemClasses();

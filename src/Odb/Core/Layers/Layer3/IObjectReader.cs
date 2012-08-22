@@ -21,7 +21,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         /// <param name="metaModel"> An empty meta model </param>
         /// <param name="full"> To indicate if a full read must be done </param>
         /// <returns> The modified metamodel </returns>
-        MetaModel ReadMetaModel(MetaModel metaModel, bool full);
+        void LoadMetaModel(MetaModel metaModel, bool full);
 
         IOdbList<ClassInfoIndex> ReadClassInfoIndexesAt(long position, ClassInfo classInfo);
 

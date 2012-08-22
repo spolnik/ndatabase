@@ -144,9 +144,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             ObjectReader.ReadDatabaseHeader();
 
-            MetaModel metaModel = new SessionMetaModel();
+            var metaModel = new MetaModel();
             session.SetMetaModel(metaModel);
-            metaModel = ObjectReader.ReadMetaModel(metaModel, true);
+            ObjectReader.LoadMetaModel(metaModel, true);
+
             // Updates the Transaction Id in the file
             _objectWriter.FileSystemProcessor.WriteLastTransactionId(GetCurrentTransactionId());
         }

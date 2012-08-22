@@ -10,7 +10,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// <summary>
     ///   A meta representation of a class
     /// </summary>
-    /// <author>osmadja</author>
     [Serializable]
     public sealed class ClassInfo
     {
@@ -47,7 +46,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         private IDictionary<int, ClassAttributeInfo> _attributesById;
 
         /// <summary>
-        ///   This map is redundant with the field 'attributes', but it is to enable fast access to attributes by name TODO use only the map and remove list key=attribute name, key =ClassInfoattribute
+        ///   This map is redundant with the field 'attributes', but it is to enable fast access to attributes by name
         /// </summary>
         private IDictionary<string, ClassAttributeInfo> _attributesByName;
 
@@ -65,11 +64,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         ///   To specify the type of the class : system class or user class
         /// </summary>
         private byte _classCategory;
-
-        /// <summary>
-        ///   Extra info of the class - no used in java version
-        /// </summary>
-        private string _extraInfo;
 
         /// <summary>
         ///   The full class name with package
@@ -125,11 +119,11 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             _history = new OdbArrayList<object>();
         }
 
-        public ClassInfo(string className) : this(className, string.Empty, null)
+        public ClassInfo(string className) : this(className, null)
         {
         }
 
-        private ClassInfo(string fullClassName, string extraInfo, IOdbList<ClassAttributeInfo> attributes) : this()
+        private ClassInfo(string fullClassName, IOdbList<ClassAttributeInfo> attributes) : this()
         {
             var type = Type.GetType(fullClassName);
 
@@ -138,7 +132,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                     string.Format("Given full class name is not enough to create the Type from that: {0}", fullClassName));
 
             _fullClassName = fullClassName;
-            _extraInfo = extraInfo;
             _attributes = attributes;
             _attributesByName = new OdbHashMap<string, ClassAttributeInfo>();
             _attributesById = new OdbHashMap<int, ClassAttributeInfo>();
@@ -681,19 +674,9 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return _indexes != null && !_indexes.IsEmpty();
         }
 
-        public void SetExtraInfo(string extraInfo)
-        {
-            _extraInfo = extraInfo;
-        }
-
-        public string GetExtraInfo()
-        {
-            return _extraInfo;
-        }
-
         public ClassInfo Duplicate(bool onlyData)
         {
-            var ci = new ClassInfo(_fullClassName) {_extraInfo = _extraInfo};
+            var ci = new ClassInfo(_fullClassName);
 
             ci.SetAttributes(_attributes);
             ci.SetClassCategory(_classCategory);
@@ -704,7 +687,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
             ci.SetAttributesDefinitionPosition(_attributesDefinitionPosition);
             ci.SetBlockSize(_blockSize);
-            ci.SetExtraInfo(_extraInfo);
             ci.SetId(_id);
             ci.SetPreviousClassOID(_previousClassOID);
             ci.SetNextClassOID(_nextClassOID);

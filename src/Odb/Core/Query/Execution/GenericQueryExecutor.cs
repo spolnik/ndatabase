@@ -229,8 +229,7 @@ namespace NDatabase.Odb.Core.Query.Execution
 
             OID currentOID = null;
 
-            // TODO check if all instances are in the cache! and then load from the
-            // cache
+            // TODO check if all instances are in the cache! and then load from the cache
             NextOID = ClassInfo.GetCommitedZoneInfo().First;
 
             if (nbObjects > 0 && NextOID == null)

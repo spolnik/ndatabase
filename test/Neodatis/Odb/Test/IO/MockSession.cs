@@ -11,7 +11,7 @@ namespace IO
     {
         public MockSession(String baseIdentification) : base("mock", baseIdentification)
         {
-            MetaModel = new SessionMetaModel();
+            MetaModel = new MetaModel();
         }
 
         public override ICache BuildCache()

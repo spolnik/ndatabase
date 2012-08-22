@@ -302,12 +302,6 @@ namespace NDatabase.Odb.Core
         public static readonly NDatabaseError DifferentSizeInWriteAction = new NDatabaseError(1018,
                                                                                             "Size difference in WriteAction.persist :(calculated,stored)=(@1,@2)");
 
-        public static readonly NDatabaseError ClassWithoutConstructor = new NDatabaseError(1019,
-                                                                                         "Class without any constructor : @1");
-
-        public static readonly NDatabaseError NoNullableConstructor = new NDatabaseError(1020,
-                                                                                       "Constructor @1 of class @2 was called with null values because it does not have default constructor and it seems the constructor is not prepared for this!");
-
         public static readonly NDatabaseError QueryBadCriteria = new NDatabaseError(1021,
                                                                                   "CollectionSizeCriteria only work with Collection or Array, and you passed a @1 instead");
 

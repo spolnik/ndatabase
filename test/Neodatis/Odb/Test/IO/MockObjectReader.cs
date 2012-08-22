@@ -22,9 +22,9 @@ namespace IO
             //empty
         }
 
-        public MetaModel ReadMetaModel(MetaModel metaModel, bool full)
+        public void LoadMetaModel(MetaModel metaModel, bool full)
         {
-            return new SessionMetaModel();
+            //empty
         }
 
         public Object BuildOneInstance(NonNativeObjectInfo objectInfo)

@@ -125,10 +125,10 @@ namespace NDatabase.Odb.Impl.Core.Transaction
                 // And continue using it. In this case, after the commit, the
                 // metamodel is set to null
                 // and lazy-reloaded when the user use the odb again.
-                MetaModel = new SessionMetaModel();
+                MetaModel = new MetaModel();
                 try
                 {
-                    GetStorageEngine().GetObjectReader().ReadMetaModel(MetaModel, true);
+                    GetStorageEngine().GetObjectReader().LoadMetaModel(MetaModel, true);
                 }
                 catch (Exception e)
                 {

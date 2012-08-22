@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
 using IO;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
@@ -11,7 +9,6 @@ using NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Compare;
 using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NDatabase.Tool.Wrappers;
-using NDatabase.Tool.Wrappers.List;
 using NDatabase.Tool.Wrappers.Map;
 using NUnit.Framework;
 using Test.Odb.Test;
@@ -24,7 +21,6 @@ namespace Intropector
     {
         internal static IClassIntrospector classIntrospector = OdbConfiguration.GetCoreProvider().GetClassIntrospector();
 
-        
         public override void SetUp()
         {
             base.SetUp();
@@ -42,7 +38,6 @@ namespace Intropector
             AssertEquals(2, classInfoList.GetClassInfos().Count);
         }
 
-        
         [Test]
         public virtual void TestInstanceInfo()
         {
@@ -58,8 +53,9 @@ namespace Intropector
             var instanceInfo =
                 (NonNativeObjectInfo)
                 new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
-                                                                                           new InstrumentationCallbackForStore
-                                                                                               (null, null, false));
+                                                                            new InstrumentationCallbackForStore(null,
+                                                                                                                null,
+                                                                                                                false));
             AssertEquals(OdbClassUtil.GetFullName(user.GetType()), instanceInfo.GetClassInfo().GetFullClassName());
             AssertEquals("olivier smadja", instanceInfo.GetAttributeValueFromId(ci.GetAttributeId("name")).ToString());
             AssertEquals(typeof (AtomicNativeObjectInfo),
@@ -68,7 +64,6 @@ namespace Intropector
             odb.Close();
         }
 
-        
         [Test]
         public virtual void TestInstanceInfo2()
         {
@@ -84,15 +79,15 @@ namespace Intropector
             var instanceInfo =
                 (NonNativeObjectInfo)
                 new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
-                                                                                           new InstrumentationCallbackForStore
-                                                                                               (null, null, false));
+                                                                            new InstrumentationCallbackForStore(null,
+                                                                                                                null,
+                                                                                                                false));
             AssertEquals(instanceInfo.GetClassInfo().GetFullClassName(), OdbClassUtil.GetFullName(user.GetType()));
             AssertEquals(instanceInfo.GetAttributeValueFromId(ci.GetAttributeId("name")).ToString(), "olivier smadja");
 
             odb.Close();
         }
 
-        
         [Test]
         public virtual void TestCompareCollection1()
         {
@@ -109,8 +104,9 @@ namespace Intropector
             var instanceInfo =
                 (NonNativeObjectInfo)
                 new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
-                                                                                           new InstrumentationCallbackForStore
-                                                                                               (null, null, false));
+                                                                            new InstrumentationCallbackForStore(null,
+                                                                                                                null,
+                                                                                                                false));
             // Sets attributes offsets - this is normally done by reading then from
             // disk, but in this junit,
             // we must set them manually
@@ -125,8 +121,9 @@ namespace Intropector
             var instanceInfo3 =
                 (NonNativeObjectInfo)
                 new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
-                                                                                           new InstrumentationCallbackForStore
-                                                                                               (null, null, false));
+                                                                            new InstrumentationCallbackForStore(null,
+                                                                                                                null,
+                                                                                                                false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
             nnoiProfile = (NonNativeObjectInfo) instanceInfo3.GetAttributeValueFromId(2);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
@@ -139,7 +136,6 @@ namespace Intropector
             odb.Close();
         }
 
-        
         [Test]
         public virtual void TestCompareCollection11()
         {
@@ -156,8 +152,9 @@ namespace Intropector
             var instanceInfo =
                 (NonNativeObjectInfo)
                 new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
-                                                                                           new InstrumentationCallbackForStore
-                                                                                               (null, null, false));
+                                                                            new InstrumentationCallbackForStore(null,
+                                                                                                                null,
+                                                                                                                false));
             // Sets attributes offsets - this is normally done by reading then from
             // disk, but in this junit,
             // we must set them manually
@@ -174,8 +171,9 @@ namespace Intropector
             var instanceInfo3 =
                 (NonNativeObjectInfo)
                 new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
-                                                                                           new InstrumentationCallbackForStore
-                                                                                               (null, null, false));
+                                                                            new InstrumentationCallbackForStore(null,
+                                                                                                                null,
+                                                                                                                false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
             nnoiProfile = (NonNativeObjectInfo) instanceInfo3.GetAttributeValueFromId(2);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
@@ -190,7 +188,6 @@ namespace Intropector
             odb.Close();
         }
 
-        
         [Test]
         public virtual void TestCompareCollection2()
         {
@@ -208,8 +205,9 @@ namespace Intropector
             var instanceInfo =
                 (NonNativeObjectInfo)
                 new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
-                                                                                           new InstrumentationCallbackForStore
-                                                                                               (null, null, false));
+                                                                            new InstrumentationCallbackForStore(null,
+                                                                                                                null,
+                                                                                                                false));
             // Sets attributes offsets - this is normally done by reading them from
             // disk, but in this junit,
             // we must set them manually
@@ -227,8 +225,9 @@ namespace Intropector
             var instanceInfo3 =
                 (NonNativeObjectInfo)
                 new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
-                                                                                           new InstrumentationCallbackForStore
-                                                                                               (null, null, false));
+                                                                            new InstrumentationCallbackForStore(null,
+                                                                                                                null,
+                                                                                                                false));
             instanceInfo3.GetHeader().SetAttributesIdentification(offsets);
             instanceInfo3.GetHeader().SetAttributesIds(ids);
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
@@ -239,13 +238,12 @@ namespace Intropector
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
             AssertEquals(1, comparator.GetNbChanges());
             AssertEquals(1, comparator.GetAttributeToSetToNull().Count);
-            var cnaa = (SetAttributeToNullAction)comparator.GetAttributeToSetToNull()[0];
+            var cnaa = comparator.GetAttributeToSetToNull()[0];
             AssertEquals(1, cnaa.GetAttributeId());
 
             odb.Close();
         }
 
-        
         [Test]
         public virtual void TestCompareCollection3CollectionContentChange()
         {
@@ -263,8 +261,9 @@ namespace Intropector
             var instanceInfo =
                 (NonNativeObjectInfo)
                 new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
-                                                                                           new InstrumentationCallbackForStore
-                                                                                               (null, null, false));
+                                                                            new InstrumentationCallbackForStore(null,
+                                                                                                                null,
+                                                                                                                false));
             // Sets attributes offsets - this is normally done by reading then from
             // disk, but in this junit,
             // we must set them manually
@@ -291,8 +290,9 @@ namespace Intropector
             var instanceInfo3 =
                 (NonNativeObjectInfo)
                 new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
-                                                                                           new InstrumentationCallbackForStore
-                                                                                               (null, null, false));
+                                                                            new InstrumentationCallbackForStore(null,
+                                                                                                                null,
+                                                                                                                false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
             nnoiProfile = (NonNativeObjectInfo) instanceInfo3.GetAttributeValueFromId(2);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
@@ -305,7 +305,6 @@ namespace Intropector
             odb.Close();
         }
 
-        
         [Test]
         public virtual void TestCompareCollection4CollectionContentChange()
         {
@@ -315,7 +314,7 @@ namespace Intropector
 
             var function = new Function("login");
             var user = new User("olivier smadja", "olivier@neodatis.com", new Profile("operator", function));
-            
+
             var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
             var storageEngine = Dummy.GetEngine(odb);
@@ -323,8 +322,9 @@ namespace Intropector
             var instanceInfo =
                 (NonNativeObjectInfo)
                 new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
-                                                                                           new InstrumentationCallbackForStore
-                                                                                               (null, null, false));
+                                                                            new InstrumentationCallbackForStore(null,
+                                                                                                                null,
+                                                                                                                false));
             // Sets attributes offsets - this is normally done by reading then from
             // disk, but in this junit,
             // we must set them manually
@@ -335,14 +335,15 @@ namespace Intropector
             instanceInfo.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
             var nnoiProfile = (NonNativeObjectInfo) instanceInfo.GetAttributeValueFromId(2);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
-            
+
             function.SetName(null);
 
             var instanceInfo3 =
                 (NonNativeObjectInfo)
                 new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
-                                                                                           new InstrumentationCallbackForStore
-                                                                                               (null, null, false));
+                                                                            new InstrumentationCallbackForStore(null,
+                                                                                                                null,
+                                                                                                                false));
             instanceInfo3.GetHeader().SetAttributesIdentification(offsets);
             instanceInfo3.GetHeader().SetAttributesIds(ids);
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
@@ -360,7 +361,6 @@ namespace Intropector
             odb.Close();
         }
 
-        
         [Test]
         public virtual void TestCompareCollection5()
         {
@@ -379,8 +379,9 @@ namespace Intropector
             var instanceInfo =
                 (NonNativeObjectInfo)
                 new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
-                                                                                           new InstrumentationCallbackForStore
-                                                                                               (null, null, false));
+                                                                            new InstrumentationCallbackForStore(null,
+                                                                                                                null,
+                                                                                                                false));
             // Sets attributes offsets - this is normally done by reading then from
             // disk, but in this junit,
             // we must set them manually
@@ -395,8 +396,9 @@ namespace Intropector
             var instanceInfo3 =
                 (NonNativeObjectInfo)
                 new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
-                                                                                           new InstrumentationCallbackForStore
-                                                                                               (null, null, false));
+                                                                            new InstrumentationCallbackForStore(null,
+                                                                                                                null,
+                                                                                                                false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
             nnoiProfile = (NonNativeObjectInfo) instanceInfo3.GetAttributeValueFromId(2);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
@@ -408,7 +410,6 @@ namespace Intropector
             odb.Close();
         }
 
-        
         [Test]
         public virtual void TestCompareCollection6()
         {
@@ -427,8 +428,9 @@ namespace Intropector
             var instanceInfo =
                 (NonNativeObjectInfo)
                 new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
-                                                                                           new InstrumentationCallbackForStore
-                                                                                               (null, null, false));
+                                                                            new InstrumentationCallbackForStore(null,
+                                                                                                                null,
+                                                                                                                false));
             // Sets attributes offsets - this is normally done by reading then from
             // disk, but in this junit,
             // we must set them manually
@@ -446,8 +448,9 @@ namespace Intropector
             var instanceInfo3 =
                 (NonNativeObjectInfo)
                 new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
-                                                                                           new InstrumentationCallbackForStore
-                                                                                               (null, null, false));
+                                                                            new InstrumentationCallbackForStore(null,
+                                                                                                                null,
+                                                                                                                false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
             nnoiProfile = (NonNativeObjectInfo) instanceInfo3.GetAttributeValueFromId(2);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
@@ -460,7 +463,6 @@ namespace Intropector
             odb.Close();
         }
 
-        
         [Test]
         public virtual void TestCompareCollection7()
         {
@@ -479,8 +481,9 @@ namespace Intropector
             var instanceInfo =
                 (NonNativeObjectInfo)
                 new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
-                                                                                           new InstrumentationCallbackForStore
-                                                                                               (null, null, false));
+                                                                            new InstrumentationCallbackForStore(null,
+                                                                                                                null,
+                                                                                                                false));
             // Sets attributes offsets - this is normally done by reading then from
             // disk, but in this junit,
             // we must set them manually
@@ -496,8 +499,9 @@ namespace Intropector
             var instanceInfo3 =
                 (NonNativeObjectInfo)
                 new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
-                                                                                           new InstrumentationCallbackForStore
-                                                                                               (null, null, false));
+                                                                            new InstrumentationCallbackForStore(null,
+                                                                                                                null,
+                                                                                                                false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
             nnoiProfile = (NonNativeObjectInfo) instanceInfo3.GetAttributeValueFromId(2);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
@@ -507,7 +511,6 @@ namespace Intropector
             odb.Close();
         }
 
-        
         [Test]
         public virtual void TestCompareCollection8()
         {
@@ -526,8 +529,9 @@ namespace Intropector
             var instanceInfo =
                 (NonNativeObjectInfo)
                 new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
-                                                                                           new InstrumentationCallbackForStore
-                                                                                               (null, null, false));
+                                                                            new InstrumentationCallbackForStore(null,
+                                                                                                                null,
+                                                                                                                false));
             // Sets attributes offsets - this is normally done by reading then from
             // disk, but in this junit,
             // we must set them manually
@@ -539,19 +543,19 @@ namespace Intropector
             var instanceInfo3 =
                 (NonNativeObjectInfo)
                 new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
-                                                                                           new InstrumentationCallbackForStore
-                                                                                               (null, null, false));
+                                                                            new InstrumentationCallbackForStore(null,
+                                                                                                                null,
+                                                                                                                false));
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
             AssertEquals(1, comparator.GetNbChanges());
             AssertEquals(1, comparator.GetAttributeToSetToNull().Count);
-            var o = (SetAttributeToNullAction) comparator.GetAttributeToSetToNull()[0];
+            var o = comparator.GetAttributeToSetToNull()[0];
             AssertEquals(0, comparator.GetChangedAttributeActions().Count);
             AssertEquals(2, o.GetAttributeId());
 
             odb.Close();
         }
 
-        
         [Test]
         public virtual void TestCompareCollection9()
         {
@@ -570,8 +574,9 @@ namespace Intropector
             var instanceInfo =
                 (NonNativeObjectInfo)
                 new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
-                                                                                           new InstrumentationCallbackForStore
-                                                                                               (null, null, false));
+                                                                            new InstrumentationCallbackForStore(null,
+                                                                                                                null,
+                                                                                                                false));
             // Sets attributes offsets - this is normally done by reading then from
             // disk, but in this junit,
             // we must set them manually
@@ -586,8 +591,9 @@ namespace Intropector
             var instanceInfo3 =
                 (NonNativeObjectInfo)
                 new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
-                                                                                           new InstrumentationCallbackForStore
-                                                                                               (null, null, false));
+                                                                            new InstrumentationCallbackForStore(null,
+                                                                                                                null,
+                                                                                                                false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
             nnoiProfile = (NonNativeObjectInfo) instanceInfo3.GetAttributeValueFromId(2);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
@@ -601,27 +607,15 @@ namespace Intropector
         }
 
         [Test]
-        public virtual void TestGetSuperClasses()
-        {
-            var footballPlayerType = typeof (FootballPlayer);
-            var superclasses = classIntrospector.GetSuperClasses(OdbClassUtil.GetFullName(footballPlayerType), true);
-            AssertEquals(3, superclasses.Count);
-            AssertEquals(typeof (FootballPlayer), superclasses[0]);
-            AssertEquals(typeof (OutdoorPlayer), superclasses[1]);
-            AssertEquals(typeof (Player), superclasses[2]);
-        }
-
-        [Test]
         public virtual void TestGetAllFields()
         {
-            IOdbList<FieldInfo> allFields = classIntrospector.GetAllFields(OdbClassUtil.GetFullName(typeof(FootballPlayer)));
+            var allFields = classIntrospector.GetAllFields(OdbClassUtil.GetFullName(typeof (FootballPlayer)));
             AssertEquals(3, allFields.Count);
-            AssertEquals("role", ((FieldInfo) allFields[0]).Name);
-            AssertEquals("groundName", ((FieldInfo) allFields[1]).Name);
-            AssertEquals("name", ((FieldInfo) allFields[2]).Name);
+            AssertEquals("role", (allFields[0]).Name);
+            AssertEquals("groundName", (allFields[1]).Name);
+            AssertEquals("name", (allFields[2]).Name);
         }
 
-        
         [Test]
         public virtual void TestIntrospectWithNull()
         {
@@ -638,8 +632,9 @@ namespace Intropector
             var instanceInfo =
                 (NonNativeObjectInfo)
                 new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
-                                                                                           new InstrumentationCallbackForStore
-                                                                                               (null, null, false));
+                                                                            new InstrumentationCallbackForStore(null,
+                                                                                                                null,
+                                                                                                                false));
             // Sets attributes offsets - this is normally done by reading then from
             // disk, but in this junit,
             // we must set them manually
@@ -657,8 +652,9 @@ namespace Intropector
             var instanceInfo3 =
                 (NonNativeObjectInfo)
                 new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
-                                                                                           new InstrumentationCallbackForStore
-                                                                                               (null, null, false));
+                                                                            new InstrumentationCallbackForStore(null,
+                                                                                                                null,
+                                                                                                                false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
             nnoiProfile = (NonNativeObjectInfo) instanceInfo3.GetAttributeValueFromId(2);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
@@ -673,7 +669,6 @@ namespace Intropector
             odb.Close();
         }
 
-        
         [Test]
         public virtual void TestIntrospectWithNull2()
         {
@@ -690,8 +685,9 @@ namespace Intropector
             var instanceInfo =
                 (NonNativeObjectInfo)
                 new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
-                                                                                           new InstrumentationCallbackForStore
-                                                                                               (null, null, false));
+                                                                            new InstrumentationCallbackForStore(null,
+                                                                                                                null,
+                                                                                                                false));
             // Sets attributes offsets - this is normally done by reading then from
             // disk, but in this junit,
             // we must set them manually
@@ -708,8 +704,9 @@ namespace Intropector
             var instanceInfo3 =
                 (NonNativeObjectInfo)
                 new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
-                                                                                           new InstrumentationCallbackForStore
-                                                                                               (null, null, false));
+                                                                            new InstrumentationCallbackForStore(null,
+                                                                                                                null,
+                                                                                                                false));
             instanceInfo3.GetHeader().SetAttributesIdentification(offsets);
             instanceInfo3.GetHeader().SetAttributesIds(ids);
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
@@ -724,7 +721,6 @@ namespace Intropector
             odb.Close();
         }
 
-        
         [Test]
         public virtual void TestGetDependentObjects()
         {
@@ -740,8 +736,7 @@ namespace Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
-                                                                                           callback);
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null, callback);
 
             AssertEquals(OdbClassUtil.GetFullName(user.GetType()), instanceInfo.GetClassInfo().GetFullClassName());
             AssertEquals("olivier smadja", instanceInfo.GetAttributeValueFromId(ci.GetAttributeId("name")).ToString());
@@ -755,7 +750,6 @@ namespace Intropector
             odb.Close();
         }
 
-        
         [Test]
         public virtual void TestCopy()
         {
@@ -773,8 +767,9 @@ namespace Intropector
             var instanceInfo =
                 (NonNativeObjectInfo)
                 new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
-                                                                                           new InstrumentationCallbackForStore
-                                                                                               (null, null, false));
+                                                                            new InstrumentationCallbackForStore(null,
+                                                                                                                null,
+                                                                                                                false));
             var copy = (NonNativeObjectInfo) instanceInfo.CreateCopy(new OdbHashMap<OID, AbstractObjectInfo>(), true);
             AssertEquals(3, copy.GetAttributeValues().Length);
             var aois = copy.GetAttributeValues();

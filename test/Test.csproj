@@ -132,6 +132,7 @@
     <Compile Include="Neodatis\Odb\Test\Insert\TestDotNetObjects.cs" />
     <Compile Include="Neodatis\Odb\Test\Instantiationhelper\Car.cs" />
     <Compile Include="Neodatis\Odb\Test\Instantiationhelper\TestInstanceHelper.cs" />
+    <Compile Include="Neodatis\Odb\Test\Instantiationhelper\When_creating_object_without_invocation_of_constructor.cs" />
     <Compile Include="Neodatis\Odb\Test\Interfaces\TestObjectWithInterfaces.cs" />
     <Compile Include="Neodatis\Odb\Test\Intropector\Class1.cs" />
     <Compile Include="Neodatis\Odb\Test\Intropector\Class2.cs" />

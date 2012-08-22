@@ -130,12 +130,13 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             _storageEngine.SetCurrentTransactionId(lastTransactionId);
         }
 
-        public MetaModel ReadMetaModel(MetaModel metaModel, bool full)
+        public void LoadMetaModel(MetaModel metaModel, bool full)
         {
             ClassInfo classInfo;
             var nbClasses = ReadNumberOfClasses();
             if (nbClasses == 0)
-                return metaModel;
+                return;
+
             // Set the cursor Where We Can Find The First Class info OID
             _fsi.SetReadPosition(StorageEngineConstant.DatabaseHeaderFirstClassOid);
             var classOID = OIDFactory.BuildClassOID(ReadFirstClassOid());
@@ -155,7 +156,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             }
 
             if (!full)
-                return metaModel;
+                return;
 
             var allClasses = metaModel.GetAllClasses();
             IEnumerator iterator = allClasses.GetEnumerator();
@@ -229,8 +230,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
                 DLogger.Debug(DepthToSpaces() + "Current Meta Model is :" + metaModel);
-
-            return metaModel;
         }
 
         public IOdbList<ClassInfoIndex> ReadClassInfoIndexesAt(long position, ClassInfo classInfo)
@@ -949,8 +948,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             classInfo.GetOriginalZoneInfo().Last = ReadOid("ci last object oid");
             classInfo.GetCommitedZoneInfo().Set(classInfo.GetOriginalZoneInfo());
             classInfo.SetFullClassName(_fsi.ReadString(false));
-            // FIXME : Extract extra info : c# compatibility
-            classInfo.SetExtraInfo(string.Empty);
             classInfo.SetMaxAttributeId(_fsi.ReadInt());
             classInfo.SetAttributesDefinitionPosition(_fsi.ReadLong());
             // FIXME Convert block size to long ??
