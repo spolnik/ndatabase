@@ -190,13 +190,6 @@
     <Compile Include="Odb\Core\Query\NQ\SimpleNativeQuery.cs" />
     <Compile Include="Odb\Core\Query\QueryManager.cs" />
     <Compile Include="Odb\Core\Query\SimpleCompareKey.cs" />
-    <Compile Include="Odb\Core\Query\Soda\ICandidate.cs" />
-    <Compile Include="Odb\Core\Query\Soda\IConstraint.cs" />
-    <Compile Include="Odb\Core\Query\Soda\IConstraints.cs" />
-    <Compile Include="Odb\Core\Query\Soda\IEvaluation.cs" />
-    <Compile Include="Odb\Core\Query\Soda\IObjectContainer.cs" />
-    <Compile Include="Odb\Core\Query\Soda\IObjectSet.cs" />
-    <Compile Include="Odb\Core\Query\Soda\IQuery.cs" />
     <Compile Include="Odb\Core\Query\Values\AbstractQueryFieldAction.cs" />
     <Compile Include="Odb\Core\Query\Values\ICustomQueryFieldAction.cs" />
     <Compile Include="Odb\Core\Transaction\ICache.cs" />
