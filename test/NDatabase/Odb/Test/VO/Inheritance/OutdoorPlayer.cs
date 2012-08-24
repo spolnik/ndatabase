@@ -2,6 +2,11 @@ namespace Test.Odb.Test.VO.Inheritance
 {
     public class OutdoorPlayer : Player
     {
-        public string GroundName { get; set; }
+        private string groundName;
+        public string GroundName
+        {
+            get { return groundName; }
+            set { groundName = value; }
+        }
     }
 }

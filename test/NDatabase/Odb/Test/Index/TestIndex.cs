@@ -1301,10 +1301,10 @@ namespace Test.Odb.Test.Index
             var ci = metaModel.GetClassInfo(typeof (IndexedObject), true);
             AssertEquals(3, ci.GetNumberOfIndexes());
             AssertEquals(ci.GetIndex(0).Name, "index1");
-            AssertEquals(1, ci.GetIndex(0).AttributeIds[0]);
+            AssertEquals(3, ci.GetIndex(0).AttributeIds[0]);
             AssertEquals(ClassInfoIndex.Enabled, ci.GetIndex(0).Status);
             AssertEquals(ci.GetIndex(1).Name, "index2");
-            AssertEquals(1, ci.GetIndex(1).AttributeIds[0]);
+            AssertEquals(3, ci.GetIndex(1).AttributeIds[0]);
             AssertEquals(ClassInfoIndex.Enabled, ci.GetIndex(1).Status);
             AssertEquals(ci.GetIndex(2).Name, "index3");
             AssertEquals(2, ci.GetIndex(2).AttributeIds[0]);

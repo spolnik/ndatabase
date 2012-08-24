@@ -2,6 +2,11 @@ namespace Test.Odb.Test.VO.Inheritance
 {
     public class FootballPlayer : OutdoorPlayer
     {
-        public int Role { get; set; }
+        private int role;
+        public int Role
+        {
+            get { return role; }
+            set { role = value; }
+        }
     }
 }

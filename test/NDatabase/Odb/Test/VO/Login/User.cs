@@ -2,10 +2,9 @@ namespace Test.Odb.Test.VO.Login
 {
     public class User
     {
-        private string email;
         private string name;
-
         private Profile profile;
+        private string email;
 
         public User()
         {
