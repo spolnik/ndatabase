@@ -834,7 +834,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
 
         public string GetBaseIdentification()
         {
-            return _storageEngine.GetBaseIdentification().GetIdentification();
+            return _storageEngine.GetBaseIdentification().Id;
         }
 
         public IInstanceBuilder GetInstanceBuilder()

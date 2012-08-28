@@ -27,7 +27,7 @@ namespace Test.Odb.Test.IO
         {
             try
             {
-                return new StorageEngine(new MockBaseIdentification());
+                return new StorageEngine(new MockFileIdentification());
             }
             catch (Exception e)
             {

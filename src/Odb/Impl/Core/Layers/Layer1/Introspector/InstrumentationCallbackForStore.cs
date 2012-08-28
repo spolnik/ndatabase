@@ -24,7 +24,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
             // Just for junits
             if (engine != null)
                 _crossSessionCache =
-                    CacheFactory.GetCrossSessionCache(engine.GetBaseIdentification().GetIdentification());
+                    CacheFactory.GetCrossSessionCache(engine.GetBaseIdentification().Id);
         }
 
         #region IIntrospectionCallback Members

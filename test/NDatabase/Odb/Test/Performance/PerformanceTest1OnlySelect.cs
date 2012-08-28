@@ -69,8 +69,8 @@ namespace Test.Odb.Test.Performance
             var t5 = OdbTime.GetCurrentTimeInTicks();
             odb.Close();
             DisplayResult("ODB " + TestSize + " SimpleObject objects ", t3, t4, t5);
-            Console.Out.WriteLine("buffer Ok=" + MultiBufferedIO.NbBufferOk + " / buffer not ok =" +
-                                  MultiBufferedIO.NbBufferNotOk);
+            Console.Out.WriteLine("buffer Ok=" + MultiBufferedFileIO.NbBufferOk + " / buffer not ok =" +
+                                  MultiBufferedFileIO.NbBufferNotOk);
             Console.Out.WriteLine("nb1=" + FileSystemInterface.NbCall1 + " / nb2 =" + FileSystemInterface.NbCall2);
         }
 

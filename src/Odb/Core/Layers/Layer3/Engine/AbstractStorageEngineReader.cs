@@ -27,7 +27,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <summary>
         ///   The file parameters - if we are accessing a file, it will be a IOFileParameters that contains the file name
         /// </summary>
-        protected IBaseIdentification BaseIdentification;
+        protected IFileIdentification FileIdentification;
 
         protected ICoreProvider CoreProvider;
 
@@ -44,7 +44,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             if (IsDbClosed)
                 throw new OdbRuntimeException(
-                    NDatabaseError.OdbIsClosed.AddParameter(BaseIdentification.GetIdentification()));
+                    NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
             query.SetFullClassName(typeof (T));
             return ObjectReader.GetObjects<T>(query, inMemory, startIndex, endIndex);
         }
@@ -55,7 +55,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var totalNbObjects = 0L;
 
             var newStorageEngine =
-                OdbConfiguration.GetCoreProvider().GetStorageEngine(new IOFileParameter(newFileName, true));
+                OdbConfiguration.GetCoreProvider().GetStorageEngine(new FileIdentification(newFileName));
             IObjects<object> defragObjects;
             var j = 0;
             ClassInfo classInfo;
@@ -270,7 +270,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (IsDbClosed)
             {
                 throw new OdbRuntimeException(
-                    NDatabaseError.OdbIsClosed.AddParameter(BaseIdentification.GetIdentification()));
+                    NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
             }
 
             return ObjectReader.GetObjects<T>(new CriteriaQuery(OdbClassUtil.GetFullName(clazz)), inMemory, startIndex,
@@ -323,7 +323,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public abstract IList<long> GetAllObjectIds();
 
-        public abstract IBaseIdentification GetBaseIdentification();
+        public abstract IFileIdentification GetBaseIdentification();
 
         public abstract IOdbList<ICommitListener> GetCommitListeners();
 

@@ -941,7 +941,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             if (!mustUpdate && OdbConfiguration.ReconnectObjectsToSession())
             {
                 var crossSessionCache =
-                    CacheFactory.GetCrossSessionCache(_storageEngine.GetBaseIdentification().GetIdentification());
+                    CacheFactory.GetCrossSessionCache(_storageEngine.GetBaseIdentification().Id);
                 if (crossSessionCache.ExistObject(@object))
                 {
                     _storageEngine.Reconnect(@object);

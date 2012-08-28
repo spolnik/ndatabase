@@ -20,7 +20,7 @@ namespace Test.Odb.Test.Other
                 engine = Dummy.GetEngine(odb);
             }
 
-            var s = engine.GetBaseIdentification().GetIdentification();
+            var s = engine.GetBaseIdentification().Id;
 
             AssertEquals(baseName, s);
         }

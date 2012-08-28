@@ -140,7 +140,7 @@
     <Compile Include="NDatabase\Odb\Test\Intropector\InstrospectorTest.cs" />
     <Compile Include="NDatabase\Odb\Test\Intropector\IntrospectorWithNestedClasses.cs" />
     <Compile Include="NDatabase\Odb\Test\Intropector\TestArray.cs" />
-    <Compile Include="NDatabase\Odb\Test\IO\MockBaseIdentification.cs" />
+    <Compile Include="NDatabase\Odb\Test\IO\MockFileIdentification.cs" />
     <Compile Include="NDatabase\Odb\Test\IO\MockObjectReader.cs" />
     <Compile Include="NDatabase\Odb\Test\IO\MockSession.cs" />
     <Compile Include="NDatabase\Odb\Test\IO\TestBigFile.cs" />
@@ -152,7 +152,6 @@
     <Compile Include="NDatabase\Odb\Test\List\MyInt.cs" />
     <Compile Include="NDatabase\Odb\Test\List\MyLong.cs" />
     <Compile Include="NDatabase\Odb\Test\List\TestFieldComparatorSort.cs" />
-    <Compile Include="NDatabase\Odb\Test\List\TestLong.cs" />
     <Compile Include="NDatabase\Odb\Test\List\Update\DadosUsuario.cs" />
     <Compile Include="NDatabase\Odb\Test\List\Update\Publicacao.cs" />
     <Compile Include="NDatabase\Odb\Test\List\Update\TestUpdateList.cs" />

@@ -19,8 +19,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         /// <returns> The index of the buffer where that contains the position </returns>
         int ManageBufferForNewPosition(long newPosition, int readOrWrite, int size);
 
-        bool IsUsingbuffer();
-
         void SetUseBuffer(bool useBuffer);
 
         long GetCurrentPosition();
@@ -49,11 +47,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         void Close();
 
-        void Clear();
-
         bool Delete();
-
-        bool IsForTransaction();
 
         void EnableAutomaticDelete(bool yesOrNo);
 

@@ -215,7 +215,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Instance
             if (OdbConfiguration.ReconnectObjectsToSession())
             {
                 var crossSessionCache =
-                    CacheFactory.GetCrossSessionCache(_engine.GetBaseIdentification().GetIdentification());
+                    CacheFactory.GetCrossSessionCache(_engine.GetBaseIdentification().Id);
 
                 crossSessionCache.AddObject(o, objectInfo.GetOid());
             }

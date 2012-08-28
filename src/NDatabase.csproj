@@ -142,7 +142,7 @@
     <Compile Include="Odb\Core\Layers\Layer3\Engine\FileSystemInterface.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\IByteArrayConverter.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IFileSystemInterface.cs" />
-    <Compile Include="Odb\Core\Layers\Layer3\IBaseIdentification.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IFileIdentification.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IBufferedIO.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\ICommitListener.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IDTypes.cs" />
@@ -151,7 +151,7 @@
     <Compile Include="Odb\Core\Layers\Layer3\IObjectReader.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IObjectWriter.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IObjectWriterCallback.cs" />
-    <Compile Include="Odb\Core\Layers\Layer3\IOFileParameter.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\FileIdentification.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IRefactorManager.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IStorageEngine.cs" />
     <Compile Include="Odb\Core\Lookup\ILookup.cs" />
@@ -232,7 +232,6 @@
     <Compile Include="Odb\Impl\Core\Layers\Layer3\Block\BlockStatus.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer3\Block\BlockTypes.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer3\Buffer\MultiBufferedFileIO.cs" />
-    <Compile Include="Odb\Impl\Core\Layers\Layer3\Buffer\MultiBufferedIO.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer3\Engine\NonNativeObjectWriter.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer3\Engine\ObjectWriter.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer3\Engine\ByteArrayConverter.cs" />

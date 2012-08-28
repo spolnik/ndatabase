@@ -27,7 +27,7 @@ namespace NDatabase.Odb.Core
         /// <param name="parameters"> The parameters that define the buffer </param>
         /// <param name="bufferSize"> The size of the buffers </param>
         /// <returns> The buffer implementation </returns>
-        IBufferedIO GetIO(string name, IBaseIdentification parameters, int bufferSize);
+        IBufferedIO GetIO(string name, IFileIdentification parameters, int bufferSize);
 
         /// <summary>
         ///   Returns the Local Instance Builder
@@ -69,6 +69,6 @@ namespace NDatabase.Odb.Core
 
         IObjectReader GetObjectReader(IStorageEngine engine);
 
-        IStorageEngine GetStorageEngine(IBaseIdentification baseIdentification);
+        IStorageEngine GetStorageEngine(IFileIdentification fileIdentification);
     }
 }

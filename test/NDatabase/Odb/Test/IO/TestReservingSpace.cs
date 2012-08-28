@@ -21,9 +21,9 @@ namespace Test.Odb.Test.IO
             DeleteBase("reserving.neodatis");
             DeleteBase("reserving");
             var engine1 =
-                OdbConfiguration.GetCoreProvider().GetStorageEngine(new IOFileParameter("writing.neodatis", true));
+                OdbConfiguration.GetCoreProvider().GetStorageEngine(new FileIdentification("writing.neodatis"));
             var engine2 =
-                OdbConfiguration.GetCoreProvider().GetStorageEngine(new IOFileParameter("reserving.neodatis", true));
+                OdbConfiguration.GetCoreProvider().GetStorageEngine(new FileIdentification("reserving.neodatis"));
             var writingFsi = engine1.GetObjectWriter().FileSystemProcessor.FileSystemInterface;
             var reservingFsi = engine2.GetObjectWriter().FileSystemProcessor.FileSystemInterface;
             AssertEquals(writingFsi.GetLength(), reservingFsi.GetLength());

@@ -63,21 +63,20 @@ namespace NDatabase.Odb.Impl
         /// <param name="parameters"> The parameters that define the buffer </param>
         /// <param name="bufferSize"> The size of the buffers </param>
         /// <returns> The buffer implementation @ </returns>
-        public IBufferedIO GetIO(string name, IBaseIdentification parameters, int bufferSize)
+        public IBufferedIO GetIO(string name, IFileIdentification parameters, int bufferSize)
         {
-            var fileParameters = parameters as IOFileParameter;
+            var fileParameters = parameters as FileIdentification;
 
             if (fileParameters != null)
             {
                 // Guarantee that file directory structure exist
-                var odbFile = new OdbFile(fileParameters.GetFileName());
+                var odbFile = new OdbFile(fileParameters.FileName);
                 var fparent = odbFile.GetParentFile();
 
                 if (fparent != null && !fparent.Exists())
                     fparent.Mkdirs();
 
-                return new MultiBufferedFileIO(OdbConfiguration.GetNbBuffers(), name, fileParameters.GetFileName(),
-                                               fileParameters.CanWrite(), bufferSize);
+                return new MultiBufferedFileIO(OdbConfiguration.GetNbBuffers(), name, fileParameters.FileName,true, bufferSize);
             }
 
             throw new OdbRuntimeException(NDatabaseError.UnsupportedIoType.AddParameter(parameters.ToString()));
@@ -99,9 +98,9 @@ namespace NDatabase.Odb.Impl
             return new ObjectReader(engine);
         }
 
-        public IStorageEngine GetStorageEngine(IBaseIdentification baseIdentification)
+        public IStorageEngine GetStorageEngine(IFileIdentification fileIdentification)
         {
-            return new StorageEngine(baseIdentification);
+            return new StorageEngine(fileIdentification);
         }
 
         /// <summary>

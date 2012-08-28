@@ -5,6 +5,7 @@ using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NDatabase.Odb.Impl.Core.Query.Values;
 using NDatabase.Tool.Wrappers;
+using NDatabase.Tool.Wrappers.IO;
 using NUnit.Framework;
 using Test.Odb.Test.VO.Login;
 
@@ -18,9 +19,11 @@ namespace Test.Odb.Test.Query.Values
         [SetUp]
         public virtual void Populate()
         {
+            OdbFile.DeleteFile("perfOValuesVsCriteria");
+
             var odb = Open("perfOValuesVsCriteria");
-            var nbProfiles = 200;
-            var nbUsers = 500000;
+            var nbProfiles = 20;
+            var nbUsers = 50;
             var profiles = new Profile[nbProfiles];
             var users = new User2[nbUsers];
             // First creates profiles
@@ -34,7 +37,7 @@ namespace Test.Odb.Test.Query.Values
             {
                 users[i] = new User2("user" + i, "user mail" + i, profiles[GetProfileIndex(nbProfiles)], i);
                 odb.Store(users[i]);
-                if (i % 10000 == 0)
+                if (i % 10 == 0)
                     Println(i);
             }
             odb.Close();
@@ -44,53 +47,46 @@ namespace Test.Odb.Test.Query.Values
 
         private int GetProfileIndex(int nbProfiles)
         {
-            return OdbRandom.GetRandomInteger() * nbProfiles;
+            return Math.Abs(OdbRandom.GetRandomInteger() * nbProfiles) % nbProfiles;
         }
 
-        /// <exception cref="System.Exception"></exception>
-        public static void Main2(string[] args)
-        {
-            var t = new TestPerfObjectValuesVsCriteriaQuery();
-            // t.populate();
-            t.T1estA();
-        }
-
-        /// <exception cref="System.Exception"></exception>
+        
+        [Test]
         public virtual void T1est()
         {
             var odb = Open("perfOValuesVsCriteria");
             OdbConfiguration.MonitorMemory(true);
-            IQuery q = new CriteriaQuery(typeof (User2));
+            
             Decimal b = odb.Count(new CriteriaQuery(typeof (User2)));
             Println(b);
-            Console.Out.WriteLine(q.GetExecutionPlan().GetDetails());
-            AssertEquals(Convert.ToDecimal("500000"), b);
+            
+            AssertEquals(Convert.ToDecimal("50"), b);
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        [Test]
         public virtual void T1estA()
         {
             var odb = Open("perfOValuesVsCriteria");
             OdbConfiguration.MonitorMemory(true);
-            IQuery q = new CriteriaQuery(typeof (User2));
-            var objects = odb.GetObjects<User2>(q, false);
+            IQuery q = new CriteriaQuery(typeof(Profile));
+            var objects = odb.GetObjects<Profile>(q, false);
             Println(objects.Count);
             Console.Out.WriteLine(q.GetExecutionPlan().GetDetails());
-            AssertEquals(2000000, objects.Count);
+            AssertEquals(20, objects.Count);
             odb.Close();
         }
 
-        /// <exception cref="System.Exception"></exception>
+        [Test]
         public virtual void T1est1()
         {
             var odb = Open("perfOValuesVsCriteria");
             OdbConfiguration.MonitorMemory(true);
-            var q = new ValuesCriteriaQuery(typeof (User2), Where.Equal("nbLogins", 100)).Field("name");
+            var q = new ValuesCriteriaQuery(typeof (User2), Where.Equal("nbLogins", 10)).Field("name");
             var v = odb.GetValues(q);
             Println(v.Count);
             Console.Out.WriteLine(q.GetExecutionPlan().GetDetails());
-            AssertEquals(2000000, v.Count);
+            AssertEquals(1, v.Count);
             odb.Close();
         }
     }

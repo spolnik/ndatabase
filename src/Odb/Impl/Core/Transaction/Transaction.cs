@@ -144,12 +144,12 @@ namespace NDatabase.Odb.Impl.Core.Transaction
 
         public string GetName()
         {
-            var parameters = _fsiToApplyWriteActions.GetParameters();
-            if (parameters is IOFileParameter)
+            var parameters = _fsiToApplyWriteActions.GetFileIdentification();
+            if (parameters is FileIdentification)
             {
-                var ifp = (IOFileParameter) _fsiToApplyWriteActions.GetParameters();
+                var ifp = (FileIdentification) _fsiToApplyWriteActions.GetFileIdentification();
                 var buffer =
-                    new StringBuilder(ifp.GetCleanFileName()).Append("-").Append(_creationDateTime).Append("-").Append(
+                    new StringBuilder(ifp.Id).Append("-").Append(_creationDateTime).Append("-").Append(
                         _session.GetId()).Append(".transaction");
 
                 return buffer.ToString();
@@ -382,29 +382,29 @@ namespace NDatabase.Odb.Impl.Core.Transaction
             }
         }
 
-        internal IBaseIdentification GetParameters(bool canWrite)
+        internal IFileIdentification GetParameters()
         {
-            var parameters = _fsiToApplyWriteActions.GetParameters();
+            var parameters = _fsiToApplyWriteActions.GetFileIdentification();
 
-            if (parameters is IOFileParameter)
+            if (parameters is FileIdentification)
             {
-                var ifp = (IOFileParameter) _fsiToApplyWriteActions.GetParameters();
+                var ifp = (FileIdentification) _fsiToApplyWriteActions.GetFileIdentification();
                 var buffer =
-                    new StringBuilder(ifp.GetDirectory()).Append("/").Append(ifp.GetCleanFileName()).Append("-").Append(
+                    new StringBuilder(ifp.Directory).Append("/").Append(ifp.Id).Append("-").Append(
                         _creationDateTime).Append("-").Append(_session.GetId()).Append(".transaction");
 
-                return new IOFileParameter(buffer.ToString(), canWrite);
+                return new FileIdentification(buffer.ToString());
             }
 
             throw new OdbRuntimeException(NDatabaseError.UnsupportedIoType.AddParameter(parameters.GetType().FullName));
         }
 
-        private void CheckFileAccess(bool canWrite)
+        private void CheckFileAccess()
         {
-            CheckFileAccess(canWrite, null);
+            CheckFileAccess(null);
         }
 
-        private void CheckFileAccess(bool canWrite, string fileName)
+        private void CheckFileAccess(string fileName)
         {
             lock (this)
             {
@@ -412,10 +412,10 @@ namespace NDatabase.Odb.Impl.Core.Transaction
                 {
                     // to unable direct junit test of FileSystemInterface
                     var parameters = _fsiToApplyWriteActions == null
-                                         ? new IOFileParameter(fileName, canWrite)
-                                         : GetParameters(canWrite);
+                                         ? new FileIdentification(fileName)
+                                         : GetParameters();
 
-                    _fsi = new FileSystemInterface("transaction", parameters, false,
+                    _fsi = new FileSystemInterface("transaction", parameters,
                                                         OdbConfiguration.GetDefaultBufferSizeForTransaction(), _session);
                 }
             }
@@ -423,7 +423,7 @@ namespace NDatabase.Odb.Impl.Core.Transaction
 
         private void Persist()
         {
-            CheckFileAccess(true);
+            CheckFileAccess();
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
                 DLogger.Debug(string.Format("# Persisting transaction {0}", GetName()));
@@ -454,7 +454,7 @@ namespace NDatabase.Odb.Impl.Core.Transaction
         private void SetCommited(bool isConfirmed)
         {
             _isCommited = isConfirmed;
-            CheckFileAccess(true);
+            CheckFileAccess();
 
             // TODO Check atomicity
             // Writes the number of write actions after the byte and date
@@ -645,7 +645,7 @@ namespace NDatabase.Odb.Impl.Core.Transaction
             if (OdbConfiguration.IsDebugEnabled(LogId))
                 DLogger.Debug(string.Format("Load write actions of {0}", filename));
 
-            CheckFileAccess(false, filename);
+            CheckFileAccess(filename);
             _fsi.UseBuffer(true);
             _fsi.SetReadPosition(0);
             _isCommited = _fsi.ReadByte() == 1;
@@ -679,7 +679,7 @@ namespace NDatabase.Odb.Impl.Core.Transaction
             if (OdbConfiguration.IsDebugEnabled(LogId))
                 DLogger.Debug(string.Format("Load write actions of {0}", filename));
 
-            CheckFileAccess(false, filename);
+            CheckFileAccess(filename);
             _fsi.UseBuffer(true);
             _fsi.SetReadPosition(0);
             _isCommited = _fsi.ReadByte() == 1;
@@ -779,11 +779,10 @@ namespace NDatabase.Odb.Impl.Core.Transaction
             }
         }
 
-        /// <exception cref="System.IO.IOException"></exception>
         public IFileSystemInterface GetFsi()
         {
             if (_fsi == null)
-                CheckFileAccess(!_readOnlyMode);
+                CheckFileAccess();
             return _fsi;
         }
     }

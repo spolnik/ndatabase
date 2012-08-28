@@ -1,5 +1,6 @@
 using System;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Layers.Layer3.Engine;
 
 namespace NDatabase.Odb.Core.Layers.Layer3
 {
@@ -131,12 +132,15 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         void Clear();
 
         /// <returns> Returns the parameters. </returns>
-        IBaseIdentification GetParameters();
+        IFileIdentification GetFileIdentification();
 
         bool Delete();
 
         IBufferedIO GetIo();
 
         void SetDatabaseCharacterEncoding(string databaseCharacterEncoding);
+
+        void SetIo(IBufferedIO io);
+        void SetByteArrayConverter(IByteArrayConverter byteArrayConverter);
     }
 }

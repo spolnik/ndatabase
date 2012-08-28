@@ -56,6 +56,7 @@
     <Compile Include="CodeSnippets\Data\Sport.cs" />
     <Compile Include="InstanceSpecification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Refactoring\When_we_use_refactor_menager_to_rename_field_in_class.cs" />
     <Compile Include="Serialization\Identification\When_we_are_using_database_id.cs" />
     <Compile Include="Serialization\Identification\When_we_are_using_db_class_oid.cs" />
     <Compile Include="Serialization\Identification\When_we_are_using_db_object_oid.cs" />

@@ -166,11 +166,11 @@ namespace Test.Odb.Test.Performance
             var tupdate = t7 - t5;
             var tdelete = t8 - t7;
 
-            Println("Nb buffers ok = " + MultiBufferedIO.NbBufferOk + "   /   nb not ok = " +
-                    MultiBufferedIO.NbBufferNotOk);
+            Println("Nb buffers ok = " + MultiBufferedFileIO.NbBufferOk + "   /   nb not ok = " +
+                    MultiBufferedFileIO.NbBufferNotOk);
 
-            Println("Nb flushs= " + MultiBufferedIO.NumberOfFlush + "   /   flush size = " +
-                    MultiBufferedIO.TotalFlushSize + " / NbFlushForOverlap=" + MultiBufferedIO.NbFlushForOverlap);
+            Println("Nb flushs= " + MultiBufferedFileIO.NumberOfFlush + "   /   flush size = " +
+                    MultiBufferedFileIO.TotalFlushSize + " / NbFlushForOverlap=" + MultiBufferedFileIO.NbFlushForOverlap);
 
             // println("Same position write = "+
             // MultiBufferedIO.nbSamePositionForWrite+

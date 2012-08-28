@@ -79,12 +79,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <summary>
         ///   The database file name
         /// </summary>
-        public StorageEngine(IBaseIdentification parameters)
+        public StorageEngine(IFileIdentification parameters)
         {
             _currentIdBlockInfo = new CurrentIdBlockInfo();
 
             CoreProvider = OdbConfiguration.GetCoreProvider();
-            BaseIdentification = parameters;
+            FileIdentification = parameters;
             
             IsDbClosed = false;
 
@@ -213,7 +213,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (IsDbClosed)
             {
                 throw new OdbRuntimeException(
-                    NDatabaseError.OdbIsClosed.AddParameter(BaseIdentification.GetIdentification()));
+                    NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
             }
 
             // triggers before
@@ -239,7 +239,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                                    ObjectReader.ReadObjectInfoHeaderFromOid(oid, true);
 
             if (OdbConfiguration.ReconnectObjectsToSession())
-                CacheFactory.GetCrossSessionCache(GetBaseIdentification().GetIdentification()).RemoveOid(oid);
+                CacheFactory.GetCrossSessionCache(GetBaseIdentification().Id).RemoveOid(oid);
 
             _objectWriter.Delete(objectInfoHeader);
             // removes the object from the cache
@@ -255,7 +255,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (lsession.IsRollbacked())
             {
                 throw new OdbRuntimeException(
-                    NDatabaseError.OdbHasBeenRollbacked.AddParameter(BaseIdentification.ToString()));
+                    NDatabaseError.OdbHasBeenRollbacked.AddParameter(FileIdentification.ToString()));
             }
 
             if (@object == null)
@@ -275,7 +275,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 if (cachedOid == null && OdbConfiguration.ReconnectObjectsToSession())
                 {
                     var crossSessionCache =
-                        CacheFactory.GetCrossSessionCache(GetBaseIdentification().GetIdentification());
+                        CacheFactory.GetCrossSessionCache(GetBaseIdentification().Id);
                     cachedOid = crossSessionCache.GetOid(@object);
                 }
 
@@ -296,7 +296,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             cache.RemoveObjectWithOid(header.GetOid());
 
             if (OdbConfiguration.ReconnectObjectsToSession())
-                CacheFactory.GetCrossSessionCache(GetBaseIdentification().GetIdentification()).RemoveObject(@object);
+                CacheFactory.GetCrossSessionCache(GetBaseIdentification().Id).RemoveObject(@object);
 
             return oid;
         }
@@ -306,13 +306,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (IsDbClosed)
             {
                 throw new OdbRuntimeException(
-                    NDatabaseError.OdbIsClosed.AddParameter(BaseIdentification.GetIdentification()));
+                    NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
             }
 
             // When not local (client server) session can be null
             var lsession = GetSession(true);
-            if (BaseIdentification.CanWrite())
-                _objectWriter.FileSystemProcessor.WriteLastOdbCloseStatus(true, false);
+            _objectWriter.FileSystemProcessor.WriteLastOdbCloseStatus(true, false);
 
             _objectWriter.FileSystemProcessor.Flush();
             if (lsession.TransactionIsPending())
@@ -340,7 +339,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (IsDbClosed)
             {
                 throw new OdbRuntimeException(
-                    NDatabaseError.OdbIsClosed.AddParameter(BaseIdentification.GetIdentification()));
+                    NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
             }
 
             var valuesQuery = new ValuesCriteriaQuery(query).Count("count");
@@ -365,7 +364,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (IsClosed())
             {
                 throw new OdbRuntimeException(
-                    NDatabaseError.OdbIsClosed.AddParameter(BaseIdentification.GetIdentification()));
+                    NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
             }
 
             GetSession(true).Commit();
@@ -386,7 +385,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 if (oid == null && OdbConfiguration.ReconnectObjectsToSession())
                 {
                     var cache =
-                        CacheFactory.GetCrossSessionCache(GetBaseIdentification().GetIdentification());
+                        CacheFactory.GetCrossSessionCache(GetBaseIdentification().Id);
 
                     oid = cache.GetOid(@object);
                     if (oid != null)
@@ -473,9 +472,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return IsDbClosed;
         }
 
-        public override IBaseIdentification GetBaseIdentification()
+        public override IFileIdentification GetBaseIdentification()
         {
-            return BaseIdentification;
+            return FileIdentification;
         }
 
         public override OID WriteObjectInfo(OID oid, NonNativeObjectInfo aoi, long position, bool updatePointers)
@@ -494,7 +493,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (IsDbClosed)
             {
                 throw new OdbRuntimeException(
-                    NDatabaseError.OdbIsClosed.AddParameter(BaseIdentification.GetIdentification()));
+                    NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
             }
 
             return ObjectReader.GetValues(query, startIndex, endIndex);
@@ -536,7 +535,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             //remove from cross session cache
             if (OdbConfiguration.ReconnectObjectsToSession())
-                CacheFactory.GetCrossSessionCache(GetBaseIdentification().GetIdentification()).RemoveObject(@object);
+                CacheFactory.GetCrossSessionCache(GetBaseIdentification().Id).RemoveObject(@object);
         }
 
         /// <summary>
@@ -550,7 +549,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (@object == null)
                 throw new OdbRuntimeException(NDatabaseError.ReconnectCanReconnectNullObject);
 
-            var crossSessionCache = CacheFactory.GetCrossSessionCache(GetBaseIdentification().GetIdentification());
+            var crossSessionCache = CacheFactory.GetCrossSessionCache(GetBaseIdentification().Id);
 
             var oid = crossSessionCache.GetOid(@object);
             //in some situation the user can control the disconnect and reconnect
@@ -684,12 +683,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         private string GetStorageDeviceName()
         {
-            return BaseIdentification.GetIdentification();
+            return FileIdentification.Id;
         }
 
         private bool IsNewDatabase()
         {
-            return BaseIdentification.IsNew();
+            return FileIdentification.IsNew();
         }
 
         /// <summary>

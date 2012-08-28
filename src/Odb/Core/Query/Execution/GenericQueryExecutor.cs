@@ -90,7 +90,7 @@ namespace NDatabase.Odb.Core.Query.Execution
             if (StorageEngine.IsClosed())
             {
                 throw new OdbRuntimeException(
-                    NDatabaseError.OdbIsClosed.AddParameter(StorageEngine.GetBaseIdentification().GetIdentification()));
+                    NDatabaseError.OdbIsClosed.AddParameter(StorageEngine.GetBaseIdentification().Id));
             }
 
             if (Session.IsRollbacked())
@@ -217,7 +217,7 @@ namespace NDatabase.Odb.Core.Query.Execution
             if (StorageEngine.IsClosed())
             {
                 throw new OdbRuntimeException(
-                    NDatabaseError.OdbIsClosed.AddParameter(StorageEngine.GetBaseIdentification().GetIdentification()));
+                    NDatabaseError.OdbIsClosed.AddParameter(StorageEngine.GetBaseIdentification().Id));
             }
             var nbObjects = ClassInfo.GetNumberOfObjects();
 

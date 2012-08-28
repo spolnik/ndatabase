@@ -12,7 +12,7 @@ namespace NDatabase.Tool.Wrappers.IO
             _fileName = Path.GetFullPath(fileName);
         }
 
-        public String GetDirectory()
+        private String GetDirectory()
         {
             return Path.GetDirectoryName(_fileName);
         }

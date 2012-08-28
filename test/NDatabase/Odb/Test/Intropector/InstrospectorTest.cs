@@ -23,7 +23,7 @@ namespace Test.Odb.Test.Intropector
         public override void SetUp()
         {
             base.SetUp();
-            OdbConfiguration.GetCoreProvider().GetStorageEngine(new MockBaseIdentification()).AddSession(
+            OdbConfiguration.GetCoreProvider().GetStorageEngine(new MockFileIdentification()).AddSession(
                 new MockSession("test"), false);
         }
 

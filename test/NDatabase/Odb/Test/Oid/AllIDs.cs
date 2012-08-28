@@ -13,7 +13,7 @@ namespace Test.Odb.Test.Oid
         {
             DeleteBase(FileName);
 
-            IBaseIdentification parameter = new IOFileParameter(FileName, true);
+            IFileIdentification parameter = new FileIdentification(FileName);
 
             var engine = OdbConfiguration.GetCoreProvider().GetStorageEngine(parameter);
             var function1 = new VO.Login.Function("login");

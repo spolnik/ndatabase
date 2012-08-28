@@ -95,7 +95,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         void SetCurrentIdBlockInfos(CurrentIdBlockInfo currentIdBlockInfo);
 
-        IBaseIdentification GetBaseIdentification();
+        IFileIdentification GetBaseIdentification();
 
         /// <summary>
         ///   Write an object already transformed into meta representation!

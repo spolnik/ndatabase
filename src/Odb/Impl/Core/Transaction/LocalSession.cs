@@ -15,7 +15,7 @@ namespace NDatabase.Odb.Impl.Core.Transaction
         private ITransaction _transaction;
 
         public LocalSession(IStorageEngine engine, string sessionId)
-            : base(sessionId, engine.GetBaseIdentification().GetIdentification())
+            : base(sessionId, engine.GetBaseIdentification().Id)
         {
             _storageEngine = engine;
         }

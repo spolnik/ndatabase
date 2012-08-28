@@ -212,7 +212,7 @@ namespace NDatabase.Odb.Impl.Main
 
         public virtual string GetName()
         {
-            return _storageEngine.GetBaseIdentification().GetIdentification();
+            return _storageEngine.GetBaseIdentification().Id;
         }
 
         public void Dispose()

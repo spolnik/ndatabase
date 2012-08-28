@@ -36,7 +36,7 @@ namespace NDatabase.Odb.Core.Query.Execution
             {
                 throw new OdbRuntimeException(
                     NDatabaseError.OdbIsClosed.AddParameter(
-                        _executor.GetStorageEngine().GetBaseIdentification().GetIdentification()));
+                        _executor.GetStorageEngine().GetBaseIdentification().Id));
             }
 
             if (_executor.GetStorageEngine().GetSession(true).IsRollbacked())

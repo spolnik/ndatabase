@@ -11,7 +11,7 @@ namespace NDatabase.Odb.Impl.Main
         ///   protected Constructor
         /// </summary>
         private Odb(string fileName)
-            : base(OdbConfiguration.GetCoreProvider().GetStorageEngine(new IOFileParameter(fileName, true)))
+            : base(OdbConfiguration.GetCoreProvider().GetStorageEngine(new FileIdentification(fileName)))
         {
         }
 

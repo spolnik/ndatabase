@@ -17,14 +17,14 @@ namespace Test.Odb.Test.IO
             DeleteBase("testBigDecimal.neodatis");
             var bd = Convert.ToDecimal("-128451.1234567899876543210", CultureInfo.InvariantCulture);
 
-            IFileSystemInterface fsi = new FileSystemInterface("data", "testBigDecimal.neodatis", true, true,
+            IFileSystemInterface fsi = new FileSystemInterface("data", new FileIdentification("testBigDecimal.neodatis"),
                                                                OdbConfiguration.GetDefaultBufferSizeForData(),
                                                                new MockSession("test"));
             fsi.SetWritePosition(0, false);
             fsi.WriteBigDecimal(bd, false);
             fsi.Close();
 
-            fsi = new FileSystemInterface("data", "testBigDecimal.neodatis", false, false,
+            fsi = new FileSystemInterface("data", new FileIdentification("testBigDecimal.neodatis"),
                                           OdbConfiguration.GetDefaultBufferSizeForData(), new MockSession("test"));
             fsi.SetReadPosition(0);
             var bd2 = fsi.ReadBigDecimal();
@@ -37,13 +37,13 @@ namespace Test.Odb.Test.IO
         {
             DeleteBase("testBigDecimal.neodatis");
             var bd = Convert.ToDecimal("-128451");
-            IFileSystemInterface fsi = new FileSystemInterface("data", "testBigDecimal.neodatis", true, true,
+            IFileSystemInterface fsi = new FileSystemInterface("data", new FileIdentification("testBigDecimal.neodatis"),
                                                                OdbConfiguration.GetDefaultBufferSizeForData(),
                                                                new MockSession("test"));
             fsi.SetWritePosition(0, false);
             fsi.WriteBigDecimal(bd, false);
             fsi.Close();
-            fsi = new FileSystemInterface("data", "testBigDecimal.neodatis", false, false,
+            fsi = new FileSystemInterface("data", new FileIdentification("testBigDecimal.neodatis"),
                                           OdbConfiguration.GetDefaultBufferSizeForData(), new MockSession("test"));
             fsi.SetReadPosition(0);
             var bd2 = fsi.ReadBigDecimal();
@@ -58,14 +58,14 @@ namespace Test.Odb.Test.IO
 
             const bool b1 = true;
             const bool b2 = false;
-            IFileSystemInterface fsi = new FileSystemInterface("data", "testBoolean.neodatis", true, true,
+            IFileSystemInterface fsi = new FileSystemInterface("data", new FileIdentification("testBoolean.neodatis"),
                                                                OdbConfiguration.GetDefaultBufferSizeForData(),
                                                                new MockSession("test"));
             fsi.SetWritePosition(0, false);
             fsi.WriteBoolean(b1, false);
             fsi.WriteBoolean(b2, false);
             fsi.Close();
-            fsi = new FileSystemInterface("data", "testBoolean.neodatis", false, false,
+            fsi = new FileSystemInterface("data", new FileIdentification("testBoolean.neodatis"),
                                           OdbConfiguration.GetDefaultBufferSizeForData(), new MockSession("test"));
             fsi.SetReadPosition(0);
             var b11 = fsi.ReadBoolean();
@@ -81,13 +81,13 @@ namespace Test.Odb.Test.IO
             DeleteBase("testByte.neodatis");
 
             const byte b = 127;
-            IFileSystemInterface fsi = new FileSystemInterface("data", "testByte.neodatis", true, true,
+            IFileSystemInterface fsi = new FileSystemInterface("data", new FileIdentification("testByte.neodatis"),
                                                                OdbConfiguration.GetDefaultBufferSizeForData(),
                                                                new MockSession("test"));
             fsi.SetWritePosition(0, false);
             fsi.WriteByte(b, false);
             fsi.Close();
-            fsi = new FileSystemInterface("data", "testByte.neodatis", false, false,
+            fsi = new FileSystemInterface("data", new FileIdentification("testByte.neodatis"),
                                           OdbConfiguration.GetDefaultBufferSizeForData(), new MockSession("test"));
             fsi.SetReadPosition(0);
             var b2 = fsi.ReadByte();
@@ -101,13 +101,13 @@ namespace Test.Odb.Test.IO
             DeleteBase("testChar.neodatis");
 
             const char c = '\u00E1';
-            IFileSystemInterface fsi = new FileSystemInterface("data", "testChar.neodatis", true, true,
+            IFileSystemInterface fsi = new FileSystemInterface("data", new FileIdentification("testChar.neodatis"),
                                                                OdbConfiguration.GetDefaultBufferSizeForData(),
                                                                new MockSession("test"));
             fsi.SetWritePosition(0, false);
             fsi.WriteChar(c, false);
             fsi.Close();
-            fsi = new FileSystemInterface("data", "testChar.neodatis", false, false,
+            fsi = new FileSystemInterface("data", new FileIdentification("testChar.neodatis"),
                                           OdbConfiguration.GetDefaultBufferSizeForData(), new MockSession("test"));
             fsi.SetReadPosition(0);
             var c2 = fsi.ReadChar();
@@ -120,13 +120,13 @@ namespace Test.Odb.Test.IO
         {
             DeleteBase("testFloat.neodatis");
             const float f = (float) 12544548.12454;
-            IFileSystemInterface fsi = new FileSystemInterface("data", "testFloat.neodatis", true, true,
+            IFileSystemInterface fsi = new FileSystemInterface("data", new FileIdentification("testFloat.neodatis"),
                                                                OdbConfiguration.GetDefaultBufferSizeForData(),
                                                                new MockSession("test"));
             fsi.SetWritePosition(0, false);
             fsi.WriteFloat(f, false);
             fsi.Close();
-            fsi = new FileSystemInterface("data", "testFloat.neodatis", false, false,
+            fsi = new FileSystemInterface("data", new FileIdentification("testFloat.neodatis"),
                                           OdbConfiguration.GetDefaultBufferSizeForData(), new MockSession("test"));
             fsi.SetReadPosition(0);
             var f2 = fsi.ReadFloat();
@@ -139,13 +139,13 @@ namespace Test.Odb.Test.IO
         {
             DeleteBase("testInt.neodatis");
             const int i = 259998;
-            IFileSystemInterface fsi = new FileSystemInterface("data", "testInt.neodatis", true, true,
+            IFileSystemInterface fsi = new FileSystemInterface("data", new FileIdentification("testInt.neodatis"),
                                                                OdbConfiguration.GetDefaultBufferSizeForData(),
                                                                new MockSession("test"));
             fsi.SetWritePosition(0, false);
             fsi.WriteInt(i, false, "i");
             fsi.Close();
-            fsi = new FileSystemInterface("data", "testInt.neodatis", false, false,
+            fsi = new FileSystemInterface("data", new FileIdentification("testInt.neodatis"),
                                           OdbConfiguration.GetDefaultBufferSizeForData(), new MockSession("test"));
             fsi.SetReadPosition(0);
             var i2 = fsi.ReadInt();
@@ -158,13 +158,13 @@ namespace Test.Odb.Test.IO
         {
             DeleteBase("testLong.neodatis");
             const long i = 259999865;
-            IFileSystemInterface fsi = new FileSystemInterface("data", "testLong.neodatis", true, true,
+            IFileSystemInterface fsi = new FileSystemInterface("data", new FileIdentification("testLong.neodatis"),
                                                                OdbConfiguration.GetDefaultBufferSizeForData(),
                                                                new MockSession("test"));
             fsi.SetWritePosition(0, false);
             fsi.WriteLong(i, false, "i", WriteAction.PointerWriteAction);
             fsi.Close();
-            fsi = new FileSystemInterface("data", "testLong.neodatis", false, false,
+            fsi = new FileSystemInterface("data", new FileIdentification("testLong.neodatis"),
                                           OdbConfiguration.GetDefaultBufferSizeForData(), new MockSession("test"));
             fsi.SetReadPosition(0);
             var i2 = fsi.ReadLong();
@@ -177,13 +177,13 @@ namespace Test.Odb.Test.IO
         {
             DeleteBase("testShort.neodatis");
             const short s = 4598;
-            IFileSystemInterface fsi = new FileSystemInterface("data", "testShort.neodatis", true, true,
+            IFileSystemInterface fsi = new FileSystemInterface("data", new FileIdentification("testShort.neodatis"),
                                                                OdbConfiguration.GetDefaultBufferSizeForData(),
                                                                new MockSession("test"));
             fsi.SetWritePosition(0, false);
             fsi.WriteShort(s, false);
             fsi.Close();
-            fsi = new FileSystemInterface("data", "testShort.neodatis", false, false,
+            fsi = new FileSystemInterface("data", new FileIdentification("testShort.neodatis"),
                                           OdbConfiguration.GetDefaultBufferSizeForData(), new MockSession("test"));
             fsi.SetReadPosition(0);
             var s2 = fsi.ReadShort();
@@ -196,13 +196,13 @@ namespace Test.Odb.Test.IO
         {
             var baseName = GetBaseName();
             const string s = "ola chico, como voc√™ est√° ??? eu estou bem at√© amanh√£ de manh√£, √°√°√°√°'";
-            IFileSystemInterface fsi = new FileSystemInterface("data", baseName, true, true,
+            IFileSystemInterface fsi = new FileSystemInterface("data", new FileIdentification(baseName),
                                                                OdbConfiguration.GetDefaultBufferSizeForData(),
                                                                new MockSession("test"));
             fsi.SetWritePosition(0, false);
             fsi.WriteString(s, false, true);
             fsi.Close();
-            fsi = new FileSystemInterface("data", baseName, false, false, OdbConfiguration.GetDefaultBufferSizeForData(),
+            fsi = new FileSystemInterface("data", new FileIdentification(baseName), OdbConfiguration.GetDefaultBufferSizeForData(),
                                           new MockSession("test"));
             fsi.GetIo().EnableAutomaticDelete(true);
             fsi.SetReadPosition(0);
