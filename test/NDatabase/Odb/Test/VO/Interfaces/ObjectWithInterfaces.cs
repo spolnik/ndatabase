@@ -1,4 +1,4 @@
-namespace Test.Odb.Test.VO.Interfaces
+namespace Test.NDatabase.Odb.Test.VO.Interfaces
 {
     public class ObjectWithInterfaces
     {

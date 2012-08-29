@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Jdk15.Generics
+namespace Test.NDatabase.Odb.Test.Jdk15.Generics
 {
     /// <author>olivier</author>
     [TestFixture]

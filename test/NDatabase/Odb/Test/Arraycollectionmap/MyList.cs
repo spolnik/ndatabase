@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 
-namespace Test.Odb.Test.Arraycollectionmap
+namespace Test.NDatabase.Odb.Test.Arraycollectionmap
 {
     [Serializable]
     public class MyList : ArrayList

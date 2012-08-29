@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Test.Odb.Test.Transient_attributes
+namespace Test.NDatabase.Odb.Test.Transient_attributes
 {
     public class VoWithTransientAttribute
     {

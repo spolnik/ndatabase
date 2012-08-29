@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Test.Odb.Test.VO.Login
+namespace Test.NDatabase.Odb.Test.VO.Login
 {
     public class Profile
     {

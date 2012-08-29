@@ -5,11 +5,10 @@ using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NDatabase.Odb.Impl.Core.Query.Values;
 using NDatabase.Tool.Wrappers;
-using NDatabase.Tool.Wrappers.IO;
 using NUnit.Framework;
-using Test.Odb.Test.VO.Login;
+using Test.NDatabase.Odb.Test.VO.Login;
 
-namespace Test.Odb.Test.Query.Values
+namespace Test.NDatabase.Odb.Test.Query.Values
 {
     [TestFixture]
     public class TestPerfObjectValuesVsCriteriaQuery : ODBTest
@@ -19,7 +18,7 @@ namespace Test.Odb.Test.Query.Values
         [SetUp]
         public virtual void Populate()
         {
-            OdbFile.DeleteFile("perfOValuesVsCriteria");
+            OdbFactory.Delete("perfOValuesVsCriteria");
 
             var odb = Open("perfOValuesVsCriteria");
             var nbProfiles = 20;

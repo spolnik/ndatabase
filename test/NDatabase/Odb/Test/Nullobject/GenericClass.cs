@@ -1,4 +1,4 @@
-namespace Test.Odb.Test.Nullobject
+namespace Test.NDatabase.Odb.Test.Nullobject
 {
     public class GenericClass
     {

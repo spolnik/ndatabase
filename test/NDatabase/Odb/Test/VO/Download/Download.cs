@@ -1,6 +1,6 @@
 using System;
 
-namespace Test.Odb.Test.VO.Download
+namespace Test.NDatabase.Odb.Test.VO.Download
 {
     public class Download
     {

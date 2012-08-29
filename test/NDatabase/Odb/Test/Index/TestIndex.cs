@@ -10,7 +10,7 @@ using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Index
+namespace Test.NDatabase.Odb.Test.Index
 {
     [TestFixture]
     public class TestIndex : ODBTest

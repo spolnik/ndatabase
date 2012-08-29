@@ -1,8 +1,8 @@
 using System;
-using NDatabase.Tool.Wrappers.IO;
+using NDatabase.Odb;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Cache
+namespace Test.NDatabase.Odb.Test.Cache
 {
     [TestFixture]
     public class TestHashCode : ODBTest
@@ -35,7 +35,7 @@ namespace Test.Odb.Test.Cache
             odb = Open(baseName);
             objects = odb.GetObjects<MyObjectWithMyHashCode>();
             odb.Close();
-            OdbFile.DeleteFile(baseName);
+            OdbFactory.Delete(baseName);
             AssertEquals(0, objects.Count);
         }
 
@@ -67,7 +67,7 @@ namespace Test.Odb.Test.Cache
             odb = Open(baseName);
             objects = odb.GetObjects<MyObjectWithMyHashCode2>();
             odb.Close();
-            OdbFile.DeleteFile(baseName);
+            OdbFactory.Delete(baseName);
             AssertEquals(0, objects.Count);
         }
     }

@@ -1,7 +1,6 @@
 ﻿using System;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Trigger;
-using NDatabase.Tool.Wrappers.IO;
 using NDatabase.UnitTests.CodeSnippets.Data;
 using NUnit.Framework;
 
@@ -35,7 +34,7 @@ namespace NDatabase.UnitTests.CodeSnippets
         [SetUp]
         public void SetUp()
         {
-            OdbFile.DeleteFile("inserting_trigger.db");
+            OdbFactory.Delete("inserting_trigger.db");
         }
 
         [Test] 

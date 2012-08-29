@@ -6,7 +6,7 @@ using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Query.Criteria
+namespace Test.NDatabase.Odb.Test.Query.Criteria
 {
     [TestFixture]
     public class TestCriteriaQuery : ODBTest

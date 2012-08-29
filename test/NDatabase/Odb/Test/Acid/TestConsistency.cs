@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using Test.Odb.Test.VO.Attribute;
-using Test.Odb.Test.VO.Login;
+using Test.NDatabase.Odb.Test.VO.Attribute;
+using Test.NDatabase.Odb.Test.VO.Login;
 
-namespace Test.Odb.Test.Acid
+namespace Test.NDatabase.Odb.Test.Acid
 {
     [TestFixture]
     public class TestConsistency : ODBTest

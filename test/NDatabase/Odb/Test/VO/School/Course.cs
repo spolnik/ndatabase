@@ -1,6 +1,6 @@
 using System.Collections;
 
-namespace Test.Odb.Test.VO.School
+namespace Test.NDatabase.Odb.Test.VO.School
 {
     public class Course
     {

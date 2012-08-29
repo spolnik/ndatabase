@@ -1,6 +1,6 @@
 using NDatabase.Tool.Wrappers;
 
-namespace Test.Odb.Test.VO.Crawler.Jdk5
+namespace Test.NDatabase.Odb.Test.VO.Crawler.Jdk5
 {
     /// <summary>
     ///   Created by IntelliJ IDEA.

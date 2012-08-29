@@ -1,7 +1,7 @@
 using NDatabase.Odb;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Rollback
+namespace Test.NDatabase.Odb.Test.Rollback
 {
     [TestFixture]
     public class TestRollBack : ODBTest

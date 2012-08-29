@@ -1,6 +1,6 @@
 using System;
 
-namespace Test.Odb.Test.Arraycollectionmap
+namespace Test.NDatabase.Odb.Test.Arraycollectionmap
 {
     public class ObjectWithNativeArrayOfBigDecimal
     {

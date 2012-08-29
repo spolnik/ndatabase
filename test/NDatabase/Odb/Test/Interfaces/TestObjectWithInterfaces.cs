@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
-using Test.Odb.Test.VO.Interfaces;
+using Test.NDatabase.Odb.Test.VO.Interfaces;
 
-namespace Test.Odb.Test.Interfaces
+namespace Test.NDatabase.Odb.Test.Interfaces
 {
     [TestFixture]
     public class TestObjectWithInterfaces : ODBTest

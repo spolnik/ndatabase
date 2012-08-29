@@ -1,4 +1,4 @@
-namespace Test.Odb.Test.Index
+namespace Test.NDatabase.Odb.Test.Index
 {
     public class IndexedObject2
     {

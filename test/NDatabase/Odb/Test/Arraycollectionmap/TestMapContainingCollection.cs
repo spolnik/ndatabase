@@ -4,7 +4,7 @@ using NDatabase.Odb;
 using NDatabase.Tool.Wrappers.Map;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Arraycollectionmap
+namespace Test.NDatabase.Odb.Test.Arraycollectionmap
 {
     [TestFixture]
     public class TestMapContainingCollection : ODBTest

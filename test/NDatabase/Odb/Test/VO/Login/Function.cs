@@ -1,6 +1,6 @@
 using System;
 
-namespace Test.Odb.Test.VO.Login
+namespace Test.NDatabase.Odb.Test.VO.Login
 {
     [Serializable]
     public class Function

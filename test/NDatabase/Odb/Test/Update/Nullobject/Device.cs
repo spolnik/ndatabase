@@ -1,4 +1,4 @@
-namespace Test.Odb.Test.Update.Nullobject
+namespace Test.NDatabase.Odb.Test.Update.Nullobject
 {
     public interface Device
     {

@@ -2,9 +2,9 @@ using System;
 using NDatabase.Odb;
 using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NUnit.Framework;
-using Test.Odb.Test.VO.Login;
+using Test.NDatabase.Odb.Test.VO.Login;
 
-namespace Test.Odb.Test.Defragment
+namespace Test.NDatabase.Odb.Test.Defragment
 {
     [TestFixture]
     public class TestDefragment : ODBTest

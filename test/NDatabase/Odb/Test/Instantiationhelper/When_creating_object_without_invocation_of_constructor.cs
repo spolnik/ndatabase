@@ -1,7 +1,7 @@
 using System.Runtime.Serialization;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Instantiationhelper
+namespace Test.NDatabase.Odb.Test.Instantiationhelper
 {
     public class When_creating_object_without_invocation_of_constructor
     {

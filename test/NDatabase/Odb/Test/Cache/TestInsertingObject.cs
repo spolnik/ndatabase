@@ -5,7 +5,7 @@ using NDatabase.Odb.Impl.Core.Transaction;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Cache
+namespace Test.NDatabase.Odb.Test.Cache
 {
     [TestFixture]
     public class TestInsertingObject : ODBTest

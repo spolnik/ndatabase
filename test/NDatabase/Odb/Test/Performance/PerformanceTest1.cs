@@ -6,7 +6,7 @@ using NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Performance
+namespace Test.NDatabase.Odb.Test.Performance
 {
     public class PerformanceTest1 : ODBTest
     {

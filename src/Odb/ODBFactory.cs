@@ -1,3 +1,5 @@
+using NDatabase.Odb.Core.Layers.Layer3.IO;
+
 namespace NDatabase.Odb
 {
     /// <summary>
@@ -25,6 +27,17 @@ namespace NDatabase.Odb
         public static IOdb OpenLast()
         {
             return Impl.Main.Odb.GetInstance(_last);
+        }
+
+        /// <summary>
+        ///  Remove existing ODB database with a given name
+        /// </summary>
+        /// <param name="fileName">Database file name</param>
+        /// <returns>The result of operation - true if succcess</returns>
+        public static bool Delete(string fileName)
+        {
+            var file = new OdbFile(fileName);
+            return file.Delete();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using NDatabase.Odb.Core.Lookup;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Lookup
+namespace Test.NDatabase.Odb.Test.Lookup
 {
     /// <author>olivier</author>
     [TestFixture]

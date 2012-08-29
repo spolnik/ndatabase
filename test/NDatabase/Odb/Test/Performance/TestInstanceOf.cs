@@ -2,7 +2,7 @@ using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Performance
+namespace Test.NDatabase.Odb.Test.Performance
 {
     [TestFixture]
     public class TestInstanceOf : ODBTest

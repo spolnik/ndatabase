@@ -3,7 +3,7 @@ using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Instantiationhelper
+namespace Test.NDatabase.Odb.Test.Instantiationhelper
 {
     /// <summary>
     ///   Test if the ODB retrieves objects without default constructor and null

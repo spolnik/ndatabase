@@ -1,7 +1,7 @@
 using System;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Other
+namespace Test.NDatabase.Odb.Test.Other
 {
     [TestFixture]
     public class TestJavaClassPersistence : ODBTest

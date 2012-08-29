@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace Test.Odb.Test.Arraycollectionmap
+namespace Test.NDatabase.Odb.Test.Arraycollectionmap
 {
     internal class ClassWithNonGenericMap
     {

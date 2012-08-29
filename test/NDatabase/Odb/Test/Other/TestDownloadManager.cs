@@ -3,9 +3,9 @@ using NDatabase.Odb;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NUnit.Framework;
-using Test.Odb.Test.VO.Download;
+using Test.NDatabase.Odb.Test.VO.Download;
 
-namespace Test.Odb.Test.Other
+namespace Test.NDatabase.Odb.Test.Other
 {
     [TestFixture]
     public class TestDownloadManager : ODBTest

@@ -1,4 +1,4 @@
-namespace Test.Odb.Test.Trigger
+namespace Test.NDatabase.Odb.Test.Trigger
 {
     public class ID
     {

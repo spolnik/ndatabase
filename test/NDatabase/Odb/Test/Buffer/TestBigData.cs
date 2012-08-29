@@ -1,7 +1,7 @@
 using System.Text;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Buffer
+namespace Test.NDatabase.Odb.Test.Buffer
 {
     [TestFixture]
     public class TestBigData : ODBTest

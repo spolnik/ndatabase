@@ -5,7 +5,6 @@ using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Core.Query.NQ;
 using NDatabase.Odb.Impl.Core.Query.Criteria;
-using NDatabase.Tool.Wrappers.IO;
 using NDatabase.UnitTests.CodeSnippets.Data;
 using NUnit.Framework;
 
@@ -18,7 +17,7 @@ namespace NDatabase.UnitTests.CodeSnippets
         [SetUp]
         public void SetUp()
         {
-            OdbFile.DeleteFile(TutorialDb5MinName);
+            OdbFactory.Delete(TutorialDb5MinName);
         }
 
         [Test]

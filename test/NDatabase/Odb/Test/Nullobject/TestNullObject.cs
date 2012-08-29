@@ -1,8 +1,8 @@
 using System;
 using NUnit.Framework;
-using Test.Odb.Test.VO.Login;
+using Test.NDatabase.Odb.Test.VO.Login;
 
-namespace Test.Odb.Test.Nullobject
+namespace Test.NDatabase.Odb.Test.Nullobject
 {
     [TestFixture]
     public class TestNullObject : ODBTest

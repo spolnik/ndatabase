@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Test.Odb.Test.Query.Criteria
+namespace Test.NDatabase.Odb.Test.Query.Criteria
 {
     /// <author>olivier</author>
     public class ClassWithListOfString

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Text;
 
-namespace Test.Odb.Test.VO.Arraycollectionmap
+namespace Test.NDatabase.Odb.Test.VO.Arraycollectionmap
 {
     public class PlayerWithList
     {

@@ -103,6 +103,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         private long _position;
 
         private readonly OidInfo _oidInfo;
+        private Dictionary<string, Type> _typeCache = new Dictionary<string, Type>();
 
         public ClassInfo()
         {
@@ -123,11 +124,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         private ClassInfo(string fullClassName, IOdbList<ClassAttributeInfo> attributes) : this()
         {
-            var type = Type.GetType(fullClassName);
-
-            if (type == null)
-                throw new ArgumentException(
-                    string.Format("Given full class name is not enough to create the Type from that: {0}", fullClassName));
+            CheckIfTypeIsInstantiable(fullClassName);
 
             _fullClassName = fullClassName;
             _attributes = attributes;
@@ -138,6 +135,25 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             _maxAttributeId = (attributes == null
                                   ? 1
                                   : attributes.Count + 1);
+        }
+
+        private void CheckIfTypeIsInstantiable(string fullClassName)
+        {
+            Type type;
+            var success = _typeCache.TryGetValue(fullClassName, out type);
+
+            if (success)
+                return;
+
+            type = Type.GetType(fullClassName);
+
+            if (type == null)
+            {
+                throw new ArgumentException(
+                    string.Format("Given full class name is not enough to create the Type from that: {0}", fullClassName));
+            }
+
+            _typeCache.Add(fullClassName, type);
         }
 
         private void FillAttributesMap()

@@ -1,6 +1,6 @@
 using System;
 
-namespace Test.Odb.Test.Update.Nullobject
+namespace Test.NDatabase.Odb.Test.Update.Nullobject
 {
     /// <summary>
     ///   PMV - Painel

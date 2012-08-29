@@ -1,9 +1,9 @@
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NUnit.Framework;
-using Test.Odb.Test.Newbie.VO;
+using Test.NDatabase.Odb.Test.Newbie.VO;
 
-namespace Test.Odb.Test.Newbie
+namespace Test.NDatabase.Odb.Test.Newbie
 {
     /// <summary>
     ///   It is just a simple test to help the newbies

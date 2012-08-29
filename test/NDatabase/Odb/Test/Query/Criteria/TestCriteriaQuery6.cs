@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using NDatabase.Odb.Core.Query.Criteria;
 using NUnit.Framework;
-using Test.Odb.Test.VO.Login;
+using Test.NDatabase.Odb.Test.VO.Login;
 
-namespace Test.Odb.Test.Query.Criteria
+namespace Test.NDatabase.Odb.Test.Query.Criteria
 {
     [TestFixture]
     public class TestCriteriaQuery6 : ODBTest

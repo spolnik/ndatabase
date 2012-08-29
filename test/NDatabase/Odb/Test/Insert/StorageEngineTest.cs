@@ -4,10 +4,10 @@ using NDatabase.Odb;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.NQ;
 using NUnit.Framework;
-using Test.Odb.Test.VO.Attribute;
-using Test.Odb.Test.VO.Login;
+using Test.NDatabase.Odb.Test.VO.Attribute;
+using Test.NDatabase.Odb.Test.VO.Login;
 
-namespace Test.Odb.Test.Insert
+namespace Test.NDatabase.Odb.Test.Insert
 {
     [TestFixture]
     public class StorageEngineTest : ODBTest

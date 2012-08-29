@@ -1,4 +1,4 @@
-namespace Test.Odb.Test.Cache
+namespace Test.NDatabase.Odb.Test.Cache
 {
     public class MyObjectWithMyHashCode2
     {

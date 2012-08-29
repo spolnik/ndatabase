@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 
-namespace Test.Tool
+namespace Test.NDatabase.Tool
 {
     /// <summary>
     ///   A simple timer to get task duration. you make start. End when ends your task.

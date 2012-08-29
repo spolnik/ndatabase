@@ -1,7 +1,7 @@
 using NDatabase.Odb;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Trigger
+namespace Test.NDatabase.Odb.Test.Trigger
 {
     [TestFixture]
     public class TestTriggerBefore : ODBTest

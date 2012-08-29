@@ -1,6 +1,6 @@
 using System.Collections;
 
-namespace Test.Odb.Test.VO.Country
+namespace Test.NDatabase.Odb.Test.VO.Country
 {
     public class Country
     {

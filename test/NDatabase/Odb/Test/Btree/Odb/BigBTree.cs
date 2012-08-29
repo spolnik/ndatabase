@@ -7,7 +7,7 @@ using NDatabase.Odb.Core;
 using NDatabase.Odb.Impl.Core.Btree;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Btree.Odb
+namespace Test.NDatabase.Odb.Test.Btree.Odb
 {
     public class BigBTree : ODBTest
     {

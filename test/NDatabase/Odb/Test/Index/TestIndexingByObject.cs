@@ -6,7 +6,7 @@ using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Index
+namespace Test.NDatabase.Odb.Test.Index
 {
     /// <summary>
     ///   Nunit to test indexing an object when the index field is an object and not a

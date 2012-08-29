@@ -6,7 +6,7 @@ using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Core.Trigger;
 using NDatabase.Odb.Impl.Core.Query.Criteria;
 
-namespace Test.Odb.Test.Trigger
+namespace Test.NDatabase.Odb.Test.Trigger
 {
     public class LocalAutoIncrementTrigger : InsertTrigger
     {

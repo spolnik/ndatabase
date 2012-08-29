@@ -4,7 +4,7 @@ using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NDatabase.Odb.Impl.Tool;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Performance
+namespace Test.NDatabase.Odb.Test.Performance
 {
     [TestFixture]
     public class TestBatchInsert : ODBTest

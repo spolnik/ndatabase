@@ -1,7 +1,7 @@
 using System.IO;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Newbie
+namespace Test.NDatabase.Odb.Test.Newbie
 {
     /// <summary>
     ///   It is just a simple test to help the newbies

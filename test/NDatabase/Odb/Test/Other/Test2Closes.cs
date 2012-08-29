@@ -1,8 +1,8 @@
 using System;
 using NUnit.Framework;
-using Test.Odb.Test.VO.Attribute;
+using Test.NDatabase.Odb.Test.VO.Attribute;
 
-namespace Test.Odb.Test.Other
+namespace Test.NDatabase.Odb.Test.Other
 {
     [TestFixture]
     public class Test2Closes : ODBTest

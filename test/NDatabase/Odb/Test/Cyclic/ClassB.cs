@@ -1,4 +1,4 @@
-namespace Test.Odb.Test.Cyclic
+namespace Test.NDatabase.Odb.Test.Cyclic
 {
     /// <author>olivier</author>
     public class ClassB

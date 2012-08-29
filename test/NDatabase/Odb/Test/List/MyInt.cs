@@ -1,6 +1,6 @@
 using System;
 
-namespace Test.Odb.Test.List
+namespace Test.NDatabase.Odb.Test.List
 {
     public class MyInt : IComparable
     {

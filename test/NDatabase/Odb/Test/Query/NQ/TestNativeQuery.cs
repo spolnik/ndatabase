@@ -1,10 +1,10 @@
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.NQ;
 using NUnit.Framework;
-using Test.Odb.Test.Tutorial;
-using Test.Odb.Test.VO;
+using Test.NDatabase.Odb.Test.Tutorial;
+using Test.NDatabase.Odb.Test.VO;
 
-namespace Test.Odb.Test.Query.NQ
+namespace Test.NDatabase.Odb.Test.Query.NQ
 {
     [TestFixture]
     public class TestNativeQuery : ODBTest

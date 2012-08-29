@@ -3,7 +3,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
     /// <summary>
     ///   The basic IO interface for basic IO operation like reading and writing bytes
     /// </summary>
-    public interface IO
+    public interface IOdbIO
     {
         void Seek(long pos);
 

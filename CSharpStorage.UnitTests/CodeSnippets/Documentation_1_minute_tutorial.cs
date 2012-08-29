@@ -1,8 +1,5 @@
 ﻿using System;
 using NDatabase.Odb;
-using NDatabase.Odb.Core.Query;
-using NDatabase.Odb.Impl.Core.Query.Criteria;
-using NDatabase.Tool.Wrappers.IO;
 using NDatabase.UnitTests.CodeSnippets.Data;
 using NUnit.Framework;
 
@@ -14,7 +11,7 @@ namespace NDatabase.UnitTests.CodeSnippets
         public void SetUp()
         {
             const string dbFileName = "game.db";
-            OdbFile.DeleteFile(dbFileName);
+            OdbFactory.Delete(dbFileName);
         }
 
         [Test]

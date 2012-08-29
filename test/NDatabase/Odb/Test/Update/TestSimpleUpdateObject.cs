@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NUnit.Framework;
-using Test.Odb.Test.VO.Login;
+using Test.NDatabase.Odb.Test.VO.Login;
 
-namespace Test.Odb.Test.Update
+namespace Test.NDatabase.Odb.Test.Update
 {
     [TestFixture]
     public class TestSimpleUpdateObject : ODBTest

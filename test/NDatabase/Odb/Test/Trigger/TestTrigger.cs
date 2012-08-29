@@ -1,8 +1,8 @@
 using NDatabase.Odb;
 using NUnit.Framework;
-using Test.Odb.Test.VO.Login;
+using Test.NDatabase.Odb.Test.VO.Login;
 
-namespace Test.Odb.Test.Trigger
+namespace Test.NDatabase.Odb.Test.Trigger
 {
     [TestFixture]
     public class TestTrigger : ODBTest

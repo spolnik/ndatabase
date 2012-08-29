@@ -1,4 +1,4 @@
-namespace Test.Odb.Test.Other
+namespace Test.NDatabase.Odb.Test.Other
 {
     public class Person1
     {

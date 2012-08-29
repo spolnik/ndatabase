@@ -4,9 +4,9 @@ using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NDatabase.Odb.Impl.Core.Query.Values;
 using NUnit.Framework;
-using Test.Odb.Test.VO.Human;
+using Test.NDatabase.Odb.Test.VO.Human;
 
-namespace Test.Odb.Test.Query.Criteria
+namespace Test.NDatabase.Odb.Test.Query.Criteria
 {
     [TestFixture]
     public class TestPolyMorphic : ODBTest

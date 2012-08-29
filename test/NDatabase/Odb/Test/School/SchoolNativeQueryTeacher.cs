@@ -1,8 +1,8 @@
 using System;
 using NDatabase.Odb.Core.Query.NQ;
-using Test.Odb.Test.VO.School;
+using Test.NDatabase.Odb.Test.VO.School;
 
-namespace Test.Odb.Test.School
+namespace Test.NDatabase.Odb.Test.School
 {
     [Serializable]
     public class SchoolNativeQueryTeacher : NativeQuery

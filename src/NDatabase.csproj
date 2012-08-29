@@ -147,7 +147,7 @@
     <Compile Include="Odb\Core\Layers\Layer3\ICommitListener.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IDTypes.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IIdManager.cs" />
-    <Compile Include="Odb\Core\Layers\Layer3\IO.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IOdbIO.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IObjectReader.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IObjectWriter.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IObjectWriterCallback.cs" />
@@ -324,8 +324,8 @@
     <Compile Include="Tool\DLogger.cs" />
     <Compile Include="Tool\ILogger.cs" />
     <Compile Include="Tool\Wrappers\IO\MultiBufferVO.cs" />
-    <Compile Include="Tool\Wrappers\IO\OdbFile.cs" />
-    <Compile Include="Tool\Wrappers\IO\OdbFileIO.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IO\OdbFile.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IO\OdbFileStream.cs" />
     <Compile Include="Tool\Wrappers\List\IOdbList.cs" />
     <Compile Include="Tool\Wrappers\List\OdbCollectionUtil.cs" />
     <Compile Include="Tool\Wrappers\List\OdbArrayList.cs" />

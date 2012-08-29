@@ -1,6 +1,6 @@
 using System.Collections;
 
-namespace Test.Odb.Test.List.Update
+namespace Test.NDatabase.Odb.Test.List.Update
 {
     /// <author>gusto</author>
     public class DadosUsuario

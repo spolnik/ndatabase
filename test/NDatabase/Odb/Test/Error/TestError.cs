@@ -1,7 +1,7 @@
 using NDatabase.Odb.Core;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Error
+namespace Test.NDatabase.Odb.Test.Error
 {
     [TestFixture]
     public class TestError : ODBTest

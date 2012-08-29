@@ -1,6 +1,6 @@
 using System;
 
-namespace Test.Odb.Test.Query.Criteria
+namespace Test.NDatabase.Odb.Test.Query.Criteria
 {
     public class MyDates
     {

@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Intropector
+namespace Test.NDatabase.Odb.Test.Intropector
 {
     public class IntrospectorWithNestedClasses : ODBTest
     {

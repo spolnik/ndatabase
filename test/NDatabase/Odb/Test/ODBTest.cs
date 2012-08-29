@@ -22,9 +22,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.IO;
 using NDatabase.Odb;
-using NDatabase.Tool.Wrappers.IO;
 
-namespace Test.Odb.Test
+namespace Test.NDatabase.Odb.Test
 {
     public class ODBTest : NDatabaseAssert
     {
@@ -68,7 +67,7 @@ namespace Test.Odb.Test
         protected internal virtual void DeleteBase(String baseName)
         {
             if (File.Exists(baseName))
-                OdbFile.DeleteFile(baseName);
+                OdbFactory.Delete(baseName);
         }
 
         public void Println(object o)

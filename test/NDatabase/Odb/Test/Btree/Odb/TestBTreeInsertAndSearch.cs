@@ -5,7 +5,7 @@ using NDatabase.Btree.Impl.Multiplevalue;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Btree.Odb
+namespace Test.NDatabase.Odb.Test.Btree.Odb
 {
     [TestFixture]
     public class TestBTreeInsertAndSearch : ODBTest

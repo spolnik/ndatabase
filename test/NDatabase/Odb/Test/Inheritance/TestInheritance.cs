@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Inheritance
+namespace Test.NDatabase.Odb.Test.Inheritance
 {
     [TestFixture]
     public class TestInheritance : ODBTest

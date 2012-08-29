@@ -2,7 +2,7 @@ using System.Threading;
 using NDatabase.Odb;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Ext
+namespace Test.NDatabase.Odb.Test.Ext
 {
     [TestFixture]
     public class TestExt : ODBTest

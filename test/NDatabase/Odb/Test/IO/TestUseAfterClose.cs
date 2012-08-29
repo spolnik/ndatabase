@@ -1,7 +1,7 @@
 using System;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.IO
+namespace Test.NDatabase.Odb.Test.IO
 {
     [TestFixture]
     public class TestUseAfterClose : ODBTest

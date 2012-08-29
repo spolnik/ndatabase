@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Transient_attributes
+namespace Test.NDatabase.Odb.Test.Transient_attributes
 {
     [TestFixture]
     public class TestTransient : ODBTest

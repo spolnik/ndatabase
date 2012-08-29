@@ -4,7 +4,7 @@ using System.Text;
 using System.Windows.Forms;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Insert
+namespace Test.NDatabase.Odb.Test.Insert
 {
     [TestFixture]
     public class TestDotNetObjects : ODBTest

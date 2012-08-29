@@ -1,4 +1,4 @@
-namespace Test.Odb.Test.VO.Country
+namespace Test.NDatabase.Odb.Test.VO.Country
 {
     public class Country2 : Country
     {

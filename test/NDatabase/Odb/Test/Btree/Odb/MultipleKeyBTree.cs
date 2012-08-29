@@ -4,7 +4,7 @@ using NDatabase.Btree.Impl.Multiplevalue;
 using NDatabase.Odb.Core;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Btree.Odb
+namespace Test.NDatabase.Odb.Test.Btree.Odb
 {
     public class MultipleKeyBTree : ODBTest
     {

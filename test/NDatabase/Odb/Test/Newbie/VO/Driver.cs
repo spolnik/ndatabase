@@ -1,4 +1,4 @@
-namespace Test.Odb.Test.Newbie.VO
+namespace Test.NDatabase.Odb.Test.Newbie.VO
 {
     /// <summary>
     ///   It is just a simple test to help the newbies

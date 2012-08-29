@@ -5,9 +5,9 @@ using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Odb.Impl.Core.Transaction;
 
-namespace Test.Odb.Test.IO
+namespace Test.NDatabase.Odb.Test.IO
 {
-    public class MockSession : NDatabase.Odb.Impl.Core.Transaction.Session
+    public class MockSession : global::NDatabase.Odb.Impl.Core.Transaction.Session
     {
         public MockSession(String baseIdentification) : base("mock", baseIdentification)
         {

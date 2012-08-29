@@ -6,7 +6,7 @@ using NDatabase.Odb.Impl.Tool;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Index
+namespace Test.NDatabase.Odb.Test.Index
 {
     [TestFixture]
     public class TestCreateObjectAfterInsert : ODBTest

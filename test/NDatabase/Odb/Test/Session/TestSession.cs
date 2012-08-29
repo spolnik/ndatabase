@@ -1,7 +1,7 @@
 using NUnit.Framework;
-using Test.Odb.Test.VO.Arraycollectionmap;
+using Test.NDatabase.Odb.Test.VO.Arraycollectionmap;
 
-namespace Test.Odb.Test.Session
+namespace Test.NDatabase.Odb.Test.Session
 {
     [TestFixture]
     public class TestSession : ODBTest

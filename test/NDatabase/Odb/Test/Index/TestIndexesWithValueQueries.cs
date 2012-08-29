@@ -3,7 +3,7 @@ using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Impl.Core.Query.Values;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Index
+namespace Test.NDatabase.Odb.Test.Index
 {
     /// <author>olivier</author>
     [TestFixture]

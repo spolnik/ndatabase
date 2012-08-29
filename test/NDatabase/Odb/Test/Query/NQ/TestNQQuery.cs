@@ -1,8 +1,8 @@
 using NDatabase.Odb.Core.Query.NQ;
 using NUnit.Framework;
-using Test.Odb.Test.VO.Login;
+using Test.NDatabase.Odb.Test.VO.Login;
 
-namespace Test.Odb.Test.Query.NQ
+namespace Test.NDatabase.Odb.Test.Query.NQ
 {
     [TestFixture]
     public class TestNQQuery : ODBTest

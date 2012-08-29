@@ -1,9 +1,9 @@
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.NQ;
 using NUnit.Framework;
-using Test.Odb.Test.VO.Human;
+using Test.NDatabase.Odb.Test.VO.Human;
 
-namespace Test.Odb.Test.Query.NQ
+namespace Test.NDatabase.Odb.Test.Query.NQ
 {
     [TestFixture]
     public class TestPolyMorphic : ODBTest

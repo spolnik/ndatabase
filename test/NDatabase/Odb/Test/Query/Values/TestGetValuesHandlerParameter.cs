@@ -3,7 +3,7 @@ using System.Collections;
 using NDatabase.Odb.Impl.Core.Query.Values;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Query.Values
+namespace Test.NDatabase.Odb.Test.Query.Values
 {
     [TestFixture]
     public class TestGetValuesHandlerParameter : ODBTest

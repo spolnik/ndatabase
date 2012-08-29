@@ -7,7 +7,7 @@ using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Index
+namespace Test.NDatabase.Odb.Test.Index
 {
     [TestFixture]
     public class TestIndex2 : ODBTest

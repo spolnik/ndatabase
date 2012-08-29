@@ -1,6 +1,6 @@
 using System;
 
-namespace Test.Odb.Test.VO.Attribute
+namespace Test.NDatabase.Odb.Test.VO.Attribute
 {
     public class TestClass
     {

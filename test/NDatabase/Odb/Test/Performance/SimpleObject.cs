@@ -1,6 +1,6 @@
 using System;
 
-namespace Test.Odb.Test.Performance
+namespace Test.NDatabase.Odb.Test.Performance
 {
     public class SimpleObject
     {

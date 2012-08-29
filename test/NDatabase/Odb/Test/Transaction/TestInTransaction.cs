@@ -4,10 +4,10 @@ using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NUnit.Framework;
-using Test.Odb.Test.VO.Login;
-using Test.Odb.Test.VO.Sport;
+using Test.NDatabase.Odb.Test.VO.Login;
+using Test.NDatabase.Odb.Test.VO.Sport;
 
-namespace Test.Odb.Test.Transaction
+namespace Test.NDatabase.Odb.Test.Transaction
 {
     [TestFixture]
     public class TestInTransaction : ODBTest

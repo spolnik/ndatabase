@@ -6,7 +6,6 @@ using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Impl.Core.Layers.Layer3.Refactor;
 using NDatabase.Tool.Wrappers;
 #endif
-using NDatabase.Tool.Wrappers.IO;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Refactoring
@@ -21,7 +20,7 @@ namespace NDatabase.UnitTests.Refactoring
         [Ignore]
         public void Step1()
         {
-            OdbFile.DeleteFile(RefactoringDbName);
+            OdbFactory.Delete(RefactoringDbName);
 
             var user = new User {Name = "Jacek", Age = 25};
 
@@ -56,7 +55,7 @@ namespace NDatabase.UnitTests.Refactoring
                 Assert.That(first.Age, Is.EqualTo(25));
             }
 
-            OdbFile.DeleteFile(RefactoringDbName);
+            OdbFile.Delete(RefactoringDbName);
         }
 #endif
     }

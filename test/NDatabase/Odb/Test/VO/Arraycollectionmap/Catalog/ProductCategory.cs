@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Test.Odb.Test.VO.Arraycollectionmap.Catalog
+namespace Test.NDatabase.Odb.Test.VO.Arraycollectionmap.Catalog
 {
     /// <author>olivier</author>
     public class ProductCategory

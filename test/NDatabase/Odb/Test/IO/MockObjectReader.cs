@@ -9,7 +9,7 @@ using NDatabase.Odb.Core.Query.Execution;
 using NDatabase.Odb.Impl.Core.Layers.Layer3.Oid;
 using NDatabase.Tool.Wrappers.List;
 
-namespace Test.Odb.Test.IO
+namespace Test.NDatabase.Odb.Test.IO
 {
     public class MockObjectReader : IObjectReader
     {

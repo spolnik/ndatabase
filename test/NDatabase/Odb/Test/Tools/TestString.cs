@@ -1,7 +1,7 @@
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Tools
+namespace Test.NDatabase.Odb.Test.Tools
 {
     /// <author>olivier</author>
     [TestFixture]

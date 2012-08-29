@@ -6,9 +6,9 @@ using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NDatabase.Odb.Impl.Core.Query.Values;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
-using Test.Odb.Test.VO.Login;
+using Test.NDatabase.Odb.Test.VO.Login;
 
-namespace Test.Odb.Test.Query.Values
+namespace Test.NDatabase.Odb.Test.Query.Values
 {
     [TestFixture]
     public class TestPerfObjectValuesVsCriteriaQueryWithIndexes : ODBTest

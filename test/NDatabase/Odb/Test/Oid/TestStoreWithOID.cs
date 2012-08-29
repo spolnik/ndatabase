@@ -1,7 +1,7 @@
 using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Oid
+namespace Test.NDatabase.Odb.Test.Oid
 {
     /// <author>olivier</author>
     [TestFixture]

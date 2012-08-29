@@ -1,6 +1,6 @@
 using NDatabase.Tool.Wrappers.Map;
 
-namespace Test.Odb.Test.VO.Arraycollectionmap
+namespace Test.NDatabase.Odb.Test.VO.Arraycollectionmap
 {
     public class Dictionnary
     {

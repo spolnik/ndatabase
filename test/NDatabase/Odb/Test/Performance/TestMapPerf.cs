@@ -4,9 +4,9 @@ using NDatabase.Odb;
 using NDatabase.Odb.Core.Oid;
 using NDatabase.Odb.Impl.Tool;
 using NUnit.Framework;
-using Test.Tool;
+using Test.NDatabase.Tool;
 
-namespace Test.Odb.Test.Performance
+namespace Test.NDatabase.Odb.Test.Performance
 {
     /// <summary>
     ///   Test map strategy

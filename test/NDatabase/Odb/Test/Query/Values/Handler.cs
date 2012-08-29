@@ -1,6 +1,6 @@
 using System.Collections;
 
-namespace Test.Odb.Test.Query.Values
+namespace Test.NDatabase.Odb.Test.Query.Values
 {
     /// <author>olivier</author>
     public class Handler

@@ -2,7 +2,7 @@ using System;
 using NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Compare;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Conversion
+namespace Test.NDatabase.Odb.Test.Conversion
 {
     /// <author>olivier</author>
     [TestFixture]

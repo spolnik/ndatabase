@@ -1,6 +1,6 @@
 using System;
 
-namespace Test.Odb.Test.Nativemap
+namespace Test.NDatabase.Odb.Test.Nativemap
 {
     public class NativeLongMap
     {

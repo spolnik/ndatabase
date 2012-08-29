@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
-using Test.Odb.Test.VO.Login;
+using Test.NDatabase.Odb.Test.VO.Login;
 
-namespace Test.Odb.Test.Performance
+namespace Test.NDatabase.Odb.Test.Performance
 {
     [TestFixture]
     public class TestLazy : ODBTest

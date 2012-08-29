@@ -1,6 +1,6 @@
 using NDatabase.Odb.Core.Layers.Layer3;
 
-namespace Test.Odb.Test.IO
+namespace Test.NDatabase.Odb.Test.IO
 {
     public class MockFileIdentification : IFileIdentification
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace Test.Odb.Test.Index
+namespace Test.NDatabase.Odb.Test.Index
 {
     [Serializable]
     public class IndexedObject : IComparable

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Test.Odb.Test.VO.Login;
+using Test.NDatabase.Odb.Test.VO.Login;
 
-namespace Test.Odb.Test.Query.Criteria
+namespace Test.NDatabase.Odb.Test.Query.Criteria
 {
     /// <author>olivier</author>
     public class ClassB

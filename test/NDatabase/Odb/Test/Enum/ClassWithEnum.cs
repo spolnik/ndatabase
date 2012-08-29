@@ -1,4 +1,4 @@
-﻿namespace Test.Odb.Test.Enum
+﻿namespace Test.NDatabase.Odb.Test.Enum
 {
     public enum ObjectType
     {

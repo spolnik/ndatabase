@@ -1,4 +1,4 @@
-namespace Test.Odb.Test.VO
+namespace Test.NDatabase.Odb.Test.VO
 {
     /// <author>olivier</author>
     public class ClassWithArrayOfBoolean

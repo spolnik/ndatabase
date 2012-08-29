@@ -5,7 +5,7 @@ using NDatabase.Odb;
 using NDatabase.Odb.Impl.Core.Btree;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Btree.Odb
+namespace Test.NDatabase.Odb.Test.Btree.Odb
 {
     /// <author>olivier</author>
     public class SingleValueBTree : ODBTest

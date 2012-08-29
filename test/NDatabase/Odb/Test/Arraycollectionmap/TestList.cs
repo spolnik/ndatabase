@@ -3,10 +3,10 @@ using NDatabase.Odb;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NUnit.Framework;
-using Test.Odb.Test.VO.Arraycollectionmap;
-using Test.Odb.Test.VO.Sport;
+using Test.NDatabase.Odb.Test.VO.Arraycollectionmap;
+using Test.NDatabase.Odb.Test.VO.Sport;
 
-namespace Test.Odb.Test.Arraycollectionmap
+namespace Test.NDatabase.Odb.Test.Arraycollectionmap
 {
     [TestFixture]
     public class TestList : ODBTest

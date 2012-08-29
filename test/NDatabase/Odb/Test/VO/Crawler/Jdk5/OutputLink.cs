@@ -1,6 +1,6 @@
 using System;
 
-namespace Test.Odb.Test.VO.Crawler.Jdk5
+namespace Test.NDatabase.Odb.Test.VO.Crawler.Jdk5
 {
     public class OutputLink
     {

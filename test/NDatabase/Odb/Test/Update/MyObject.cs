@@ -1,6 +1,6 @@
 using System;
 
-namespace Test.Odb.Test.Update
+namespace Test.NDatabase.Odb.Test.Update
 {
     public class MyObject
     {

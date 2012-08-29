@@ -1,7 +1,7 @@
 using NDatabase.Odb.Core.Oid;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Oid
+namespace Test.NDatabase.Odb.Test.Oid
 {
     [TestFixture]
     public class TestOidAsNativeObject : ODBTest

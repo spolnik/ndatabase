@@ -1,6 +1,6 @@
 using System;
 
-namespace Test.Odb.Test.VO.Interfaces
+namespace Test.NDatabase.Odb.Test.VO.Interfaces
 {
     /// <author>olivier</author>
     [Serializable]

@@ -7,9 +7,9 @@ using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
-using Test.Odb.Test.VO.Login;
+using Test.NDatabase.Odb.Test.VO.Login;
 
-namespace Test.Odb.Test.IO
+namespace Test.NDatabase.Odb.Test.IO
 {
     [TestFixture]
     public class TestBigFile : ODBTest

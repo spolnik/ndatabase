@@ -4,7 +4,7 @@ using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.List
+namespace Test.NDatabase.Odb.Test.List
 {
     [TestFixture]
     public class TestFieldComparatorSort : ODBTest

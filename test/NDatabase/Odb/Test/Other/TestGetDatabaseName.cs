@@ -2,7 +2,7 @@ using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Other
+namespace Test.NDatabase.Odb.Test.Other
 {
     /// <author>olivier</author>
     [TestFixture]

@@ -2,7 +2,7 @@ using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Update
+namespace Test.NDatabase.Odb.Test.Update
 {
     [TestFixture]
     public class TestUnconnectedZone : ODBTest

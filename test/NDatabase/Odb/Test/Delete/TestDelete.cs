@@ -6,9 +6,9 @@ using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
-using Test.Odb.Test.VO.Login;
+using Test.NDatabase.Odb.Test.VO.Login;
 
-namespace Test.Odb.Test.Delete
+namespace Test.NDatabase.Odb.Test.Delete
 {
     [TestFixture]
     public class TestDelete : ODBTest

@@ -1,9 +1,9 @@
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NUnit.Framework;
-using Test.Odb.Test.VO.Attribute;
+using Test.NDatabase.Odb.Test.VO.Attribute;
 
-namespace Test.Odb.Test.Query.Criteria
+namespace Test.NDatabase.Odb.Test.Query.Criteria
 {
     [TestFixture]
     public class TestCriteriaQuery5 : ODBTest

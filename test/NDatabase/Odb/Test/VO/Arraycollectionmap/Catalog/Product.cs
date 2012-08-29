@@ -1,6 +1,6 @@
 using System;
 
-namespace Test.Odb.Test.VO.Arraycollectionmap.Catalog
+namespace Test.NDatabase.Odb.Test.VO.Arraycollectionmap.Catalog
 {
     /// <author>olivier</author>
     public class Product

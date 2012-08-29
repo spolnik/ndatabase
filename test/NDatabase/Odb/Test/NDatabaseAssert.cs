@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace Test.Odb.Test
+namespace Test.NDatabase.Odb.Test
 {
     /// <author>olivier</author>
     public class NDatabaseAssert

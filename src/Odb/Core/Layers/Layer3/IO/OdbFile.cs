@@ -1,13 +1,13 @@
 using System;
 using System.IO;
 
-namespace NDatabase.Tool.Wrappers.IO
+namespace NDatabase.Odb.Core.Layers.Layer3.IO
 {
-    public sealed class OdbFile
+    internal sealed class OdbFile
     {
         private readonly string _fileName;
 
-        public OdbFile(String fileName)
+        internal OdbFile(String fileName)
         {
             _fileName = Path.GetFullPath(fileName);
         }
@@ -17,12 +17,12 @@ namespace NDatabase.Tool.Wrappers.IO
             return Path.GetDirectoryName(_fileName);
         }
 
-        public bool Exists()
+        internal bool Exists()
         {
             return File.Exists(_fileName);
         }
 
-        public OdbFile GetParentFile()
+        internal OdbFile GetParentFile()
         {
             var di = new DirectoryInfo(GetDirectory());
 
@@ -33,27 +33,22 @@ namespace NDatabase.Tool.Wrappers.IO
             return new OdbFile(di.Parent.FullName);
         }
 
-        public void Mkdirs()
+        internal void Mkdirs()
         {
             var di = new DirectoryInfo(GetDirectory());
             //TODO check if it creates all sub directories
             di.Create();
         }
 
-        private bool Delete()
+        internal bool Delete()
         {
             var fileExists = Exists();
             if (!fileExists)
                 return false;
 
             File.Delete(_fileName);
-            return !Exists();
-        }
 
-        public static bool DeleteFile(string fileName)
-        {
-            var file = new OdbFile(fileName);
-            return file.Delete();
+            return !Exists();
         }
     }
 }

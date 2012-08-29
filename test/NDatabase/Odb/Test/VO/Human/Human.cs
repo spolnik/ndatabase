@@ -1,4 +1,4 @@
-namespace Test.Odb.Test.VO.Human
+namespace Test.NDatabase.Odb.Test.VO.Human
 {
     public class Human : Animal
     {

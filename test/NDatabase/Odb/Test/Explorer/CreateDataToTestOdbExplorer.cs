@@ -1,11 +1,10 @@
 using System;
 using NDatabase.Odb;
 using NDatabase.Tool.Wrappers;
-using NDatabase.Tool.Wrappers.IO;
 using NUnit.Framework;
-using Test.Odb.Test.VO.Attribute;
+using Test.NDatabase.Odb.Test.VO.Attribute;
 
-namespace Test.Odb.Test.Explorer
+namespace Test.NDatabase.Odb.Test.Explorer
 {
     public class CreateDataToTestOdbExplorer
     {
@@ -17,7 +16,7 @@ namespace Test.Odb.Test.Explorer
         [Test]
         public virtual void Test1()
         {
-            OdbFile.DeleteFile("base1.neodatis");
+            OdbFactory.Delete("base1.neodatis");
             var odb = OdbFactory.Open("base1.neodatis");
             var fields = new[] {"int1"};
             odb.GetClassRepresentation(typeof (TestClass)).AddUniqueIndexOn("index1", fields, true);

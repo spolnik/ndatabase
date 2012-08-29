@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Encoding
+namespace Test.NDatabase.Odb.Test.Encoding
 {
     [TestFixture]
     public class TestEncoding : ODBTest

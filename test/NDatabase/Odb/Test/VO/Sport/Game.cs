@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 
-namespace Test.Odb.Test.VO.Sport
+namespace Test.NDatabase.Odb.Test.VO.Sport
 {
     public class Game
     {

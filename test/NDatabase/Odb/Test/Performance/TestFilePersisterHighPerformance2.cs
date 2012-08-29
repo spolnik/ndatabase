@@ -4,10 +4,10 @@ using NDatabase.Odb;
 using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
-using Test.Odb.Test.VO.Attribute;
-using Test.Odb.Test.VO.Login;
+using Test.NDatabase.Odb.Test.VO.Attribute;
+using Test.NDatabase.Odb.Test.VO.Login;
 
-namespace Test.Odb.Test.Performance
+namespace Test.NDatabase.Odb.Test.Performance
 {
     [TestFixture]
     public class TestFilePersisterHighPerformance2 : ODBTest

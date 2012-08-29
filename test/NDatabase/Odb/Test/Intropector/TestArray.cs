@@ -2,7 +2,7 @@ using System;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Intropector
+namespace Test.NDatabase.Odb.Test.Intropector
 {
     [TestFixture]
     public class TestArray : ODBTest

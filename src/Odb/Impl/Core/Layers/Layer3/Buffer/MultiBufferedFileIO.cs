@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Layers.Layer3;
+using NDatabase.Odb.Core.Layers.Layer3.IO;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.IO;
@@ -16,13 +17,12 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
     public sealed class MultiBufferedFileIO : IBufferedIO
     {
         private const int Read = 1;
-
         private const int Write = 2;
 
         public static readonly string LogId = "MultiBufferedIO";
 
-        private OdbFileIO _fileWriter;
-        private string _wholeFileName;
+        private OdbFileStream _fileWriter;
+        private readonly string _wholeFileName;
 
         /// <summary>
         ///   The size of the buffer
@@ -55,10 +55,23 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
         private int _nextBufferIndex;
         private int[] _overlappingBuffers;
 
-        public MultiBufferedFileIO(int nbBuffers, string name, string fileName, bool canWrite, int bufferSize)
+        public MultiBufferedFileIO(int nbBuffers, string name, string fileName, int bufferSize)
             : this(nbBuffers, name, bufferSize)
         {
-            Init(fileName, canWrite);
+            _wholeFileName = fileName;
+
+            try
+            {
+                if (OdbConfiguration.IsDebugEnabled(LogId))
+                    DLogger.Info(string.Format("Opening datatbase file : {0}", Path.GetFullPath(_wholeFileName)));
+
+                _fileWriter = new OdbFileStream(_wholeFileName);
+                SetIoDeviceLength(_fileWriter.Length());
+            }
+            catch (Exception e)
+            {
+                throw new OdbRuntimeException(NDatabaseError.InternalError, e);
+            }
         }
 
         private MultiBufferedFileIO(int nbBuffers, string name, int bufferSize)
@@ -90,24 +103,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
         public static int NbBufferNotOk { get; set; }
 
         #region IBufferedIO Members
-
-        private void Init(string fileName, bool canWrite)
-        {
-            _wholeFileName = fileName;
-
-            try
-            {
-                if (OdbConfiguration.IsDebugEnabled(LogId))
-                    DLogger.Info(string.Format("Opening datatbase file : {0}", Path.GetFullPath(_wholeFileName)));
-
-                _fileWriter = new OdbFileIO(_wholeFileName, canWrite);
-                SetIoDeviceLength(_fileWriter.Length());
-            }
-            catch (Exception e)
-            {
-                throw new OdbRuntimeException(NDatabaseError.InternalError, e);
-            }
-        }
 
         public void GoToPosition(long position)
         {
@@ -205,7 +200,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
             _fileWriter = null;
             if (IsForTransaction() && AutomaticDeleteIsEnabled())
             {
-                var b = OdbFile.DeleteFile(_wholeFileName);
+                var b = OdbFactory.Delete(_wholeFileName);
                 if (!b)
                     throw new OdbRuntimeException(NDatabaseError.CanNotDeleteFile.AddParameter(_wholeFileName));
             }
@@ -213,7 +208,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
 
         public bool Delete()
         {
-            return OdbFile.DeleteFile(_wholeFileName);
+            return OdbFactory.Delete(_wholeFileName);
         }
 
         public int ManageBufferForNewPosition(long newPosition, int readOrWrite, int size)

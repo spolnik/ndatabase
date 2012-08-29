@@ -10,11 +10,11 @@ using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.Map;
 using NUnit.Framework;
-using Test.Odb.Test.IO;
-using Test.Odb.Test.VO.Inheritance;
-using Test.Odb.Test.VO.Login;
+using Test.NDatabase.Odb.Test.IO;
+using Test.NDatabase.Odb.Test.VO.Inheritance;
+using Test.NDatabase.Odb.Test.VO.Login;
 
-namespace Test.Odb.Test.Intropector
+namespace Test.NDatabase.Odb.Test.Intropector
 {
     public class InstrospectorTest : ODBTest
     {

@@ -2,11 +2,10 @@ using System;
 using System.Collections.Generic;
 using NDatabase.Odb;
 using NDatabase.Tool.Wrappers;
-using NDatabase.Tool.Wrappers.IO;
 using NUnit.Framework;
-using Test.Odb.Test.VO.Login;
+using Test.NDatabase.Odb.Test.VO.Login;
 
-namespace Test.Odb.Test.Performance
+namespace Test.NDatabase.Odb.Test.Performance
 {
     public class PerformanceTest2
     {
@@ -19,7 +18,7 @@ namespace Test.Odb.Test.Performance
         {
             var inMemory = true;
             // Deletes the database file
-            OdbFile.DeleteFile(OdbFileName);
+            OdbFactory.Delete(OdbFileName);
             long t1 = 0;
             long t2 = 0;
             long t3 = 0;

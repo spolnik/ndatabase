@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Enum
+namespace Test.NDatabase.Odb.Test.Enum
 {
     [TestFixture]
     public class TestEnum : ODBTest

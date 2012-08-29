@@ -6,7 +6,7 @@ using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Impl.Core.Transaction;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.IO
+namespace Test.NDatabase.Odb.Test.IO
 {
     [TestFixture]
     public class TestFileSystemInterface1 : ODBTest

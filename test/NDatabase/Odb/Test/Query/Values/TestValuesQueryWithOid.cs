@@ -6,7 +6,7 @@ using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Impl.Core.Query.Values;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Query.Values
+namespace Test.NDatabase.Odb.Test.Query.Values
 {
     /// <author>olivier</author>
     [TestFixture]

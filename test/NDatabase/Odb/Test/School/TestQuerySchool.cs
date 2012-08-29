@@ -4,9 +4,9 @@ using NDatabase.Odb;
 using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NDatabase.Tool.Wrappers.Map;
 using NUnit.Framework;
-using Test.Odb.Test.VO.School;
+using Test.NDatabase.Odb.Test.VO.School;
 
-namespace Test.Odb.Test.School
+namespace Test.NDatabase.Odb.Test.School
 {
     [TestFixture]
     public class TestQuerySchool : ODBTest

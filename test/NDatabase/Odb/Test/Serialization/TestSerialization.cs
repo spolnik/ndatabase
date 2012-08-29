@@ -4,7 +4,7 @@ using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Impl.Core.Layers.Layer2.Meta.Serialization;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Serialization
+namespace Test.NDatabase.Odb.Test.Serialization
 {
     [TestFixture]
     public class TestSerialization : ODBTest

@@ -1,4 +1,4 @@
-namespace Test.Odb.Test.Inheritance
+namespace Test.NDatabase.Odb.Test.Inheritance
 {
     public class SubClassOfClass1 : Class1
     {

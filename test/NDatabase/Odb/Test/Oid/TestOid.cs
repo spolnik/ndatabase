@@ -4,9 +4,9 @@ using NDatabase.Odb.Core.Oid;
 using NDatabase.Odb.Impl.Core.Oid;
 using NDatabase.Tool.Wrappers.Map;
 using NUnit.Framework;
-using Test.Tool;
+using Test.NDatabase.Tool;
 
-namespace Test.Odb.Test.Oid
+namespace Test.NDatabase.Odb.Test.Oid
 {
     [TestFixture]
     public class TestOid : ODBTest

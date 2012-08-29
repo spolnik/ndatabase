@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using NDatabase.Odb;
 using NUnit.Framework;
-using Test.Odb.Test.VO.Attribute;
-using Test.Odb.Test.VO.Login;
+using Test.NDatabase.Odb.Test.VO.Attribute;
+using Test.NDatabase.Odb.Test.VO.Login;
 
-namespace Test.Odb.Test.Insert
+namespace Test.NDatabase.Odb.Test.Insert
 {
     [TestFixture]
     public class TestInsert : ODBTest

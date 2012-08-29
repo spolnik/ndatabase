@@ -2,7 +2,7 @@ using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Oid
+namespace Test.NDatabase.Odb.Test.Oid
 {
     public class AllIDs : ODBTest
     {

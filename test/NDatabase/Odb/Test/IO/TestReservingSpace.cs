@@ -2,7 +2,7 @@ using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.IO
+namespace Test.NDatabase.Odb.Test.IO
 {
     [TestFixture]
     public class TestReservingSpace : ODBTest

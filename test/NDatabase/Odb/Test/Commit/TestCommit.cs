@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using NDatabase.Odb;
 using NDatabase.Tool.Wrappers.Map;
 using NUnit.Framework;
-using Test.Odb.Test.VO.Login;
+using Test.NDatabase.Odb.Test.VO.Login;
 
-namespace Test.Odb.Test.Commit
+namespace Test.NDatabase.Odb.Test.Commit
 {
     [TestFixture]
     public class TestCommit : ODBTest

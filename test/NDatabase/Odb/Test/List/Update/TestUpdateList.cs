@@ -2,7 +2,7 @@ using System.Collections;
 using NDatabase.Odb;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.List.Update
+namespace Test.NDatabase.Odb.Test.List.Update
 {
     [TestFixture]
     public class TestUpdateList : ODBTest

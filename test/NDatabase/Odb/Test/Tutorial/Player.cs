@@ -1,6 +1,6 @@
 using System;
 
-namespace Test.Odb.Test.Tutorial
+namespace Test.NDatabase.Odb.Test.Tutorial
 {
     public class Player
     {

@@ -1,7 +1,7 @@
 using NUnit.Framework;
-using Test.Odb.Test.VO.Country;
+using Test.NDatabase.Odb.Test.VO.Country;
 
-namespace Test.Odb.Test.Cyclic
+namespace Test.NDatabase.Odb.Test.Cyclic
 {
     [TestFixture]
     public class TestCyclicReference2 : ODBTest

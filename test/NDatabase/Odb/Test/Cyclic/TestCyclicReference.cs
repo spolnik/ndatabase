@@ -3,10 +3,10 @@ using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NUnit.Framework;
-using Test.Odb.Test.VO.Country;
-using Test.Odb.Test.VO.Login;
+using Test.NDatabase.Odb.Test.VO.Country;
+using Test.NDatabase.Odb.Test.VO.Login;
 
-namespace Test.Odb.Test.Cyclic
+namespace Test.NDatabase.Odb.Test.Cyclic
 {
     [TestFixture]
     public class TestCyclicReference : ODBTest

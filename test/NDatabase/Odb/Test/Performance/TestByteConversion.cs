@@ -3,7 +3,7 @@ using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Performance
+namespace Test.NDatabase.Odb.Test.Performance
 {
     [TestFixture]
     public class TestByteConversion : ODBTest

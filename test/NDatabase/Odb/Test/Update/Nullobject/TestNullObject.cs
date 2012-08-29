@@ -5,7 +5,7 @@ using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Update.Nullobject
+namespace Test.NDatabase.Odb.Test.Update.Nullobject
 {
     [TestFixture]
     public class TestNullObject : ODBTest

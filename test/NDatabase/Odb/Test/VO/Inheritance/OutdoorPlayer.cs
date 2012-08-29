@@ -1,4 +1,4 @@
-namespace Test.Odb.Test.VO.Inheritance
+namespace Test.NDatabase.Odb.Test.VO.Inheritance
 {
     public class OutdoorPlayer : Player
     {

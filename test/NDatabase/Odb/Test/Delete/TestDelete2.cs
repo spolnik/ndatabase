@@ -1,9 +1,9 @@
 using System;
 using NUnit.Framework;
-using Test.Odb.Test.VO.Arraycollectionmap.Catalog;
-using Test.Odb.Test.VO.Login;
+using Test.NDatabase.Odb.Test.VO.Arraycollectionmap.Catalog;
+using Test.NDatabase.Odb.Test.VO.Login;
 
-namespace Test.Odb.Test.Delete
+namespace Test.NDatabase.Odb.Test.Delete
 {
     [TestFixture]
     public class TestDelete2 : ODBTest

@@ -5,10 +5,9 @@ using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer;
 using NDatabase.Odb.Impl.Tool;
 using NDatabase.Tool.Wrappers;
-using NDatabase.Tool.Wrappers.IO;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Performance
+namespace Test.NDatabase.Odb.Test.Performance
 {
     public class PerformanceTest1OnlySelect
     {
@@ -20,7 +19,7 @@ namespace Test.Odb.Test.Performance
         public virtual void BuildBase()
         {
             // Deletes the database file
-            OdbFile.DeleteFile(OdbFileName);
+            OdbFactory.Delete(OdbFileName);
             long t1 = 0;
             long t2 = 0;
             IOdb odb;

@@ -1,7 +1,7 @@
 using NDatabase.Odb;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Resistance
+namespace Test.NDatabase.Odb.Test.Resistance
 {
     [TestFixture]
     public class TestResistance : ODBTest

@@ -1,4 +1,4 @@
-namespace Test.Odb.Test.List.Update
+namespace Test.NDatabase.Odb.Test.List.Update
 {
     public class Publicacao
     {

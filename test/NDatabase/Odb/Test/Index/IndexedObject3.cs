@@ -1,6 +1,6 @@
 using System;
 
-namespace Test.Odb.Test.Index
+namespace Test.NDatabase.Odb.Test.Index
 {
     /// <author>olivier</author>
     public class IndexedObject3

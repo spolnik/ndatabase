@@ -1,6 +1,6 @@
 using NDatabase.Odb;
 
-namespace Test.Odb.Test.Oid
+namespace Test.NDatabase.Odb.Test.Oid
 {
     public class ClassWithOid
     {

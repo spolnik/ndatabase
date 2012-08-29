@@ -5,11 +5,11 @@ using NDatabase.Odb.Core.Query.Values;
 using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NDatabase.Odb.Impl.Core.Query.Values;
 using NUnit.Framework;
-using Test.Odb.Test.VO.Attribute;
-using Test.Odb.Test.VO.Login;
-using Test.Tool;
+using Test.NDatabase.Odb.Test.VO.Attribute;
+using Test.NDatabase.Odb.Test.VO.Login;
+using Test.NDatabase.Tool;
 
-namespace Test.Odb.Test.Query.Values
+namespace Test.NDatabase.Odb.Test.Query.Values
 {
     [TestFixture]
     public class TestGetValues : ODBTest

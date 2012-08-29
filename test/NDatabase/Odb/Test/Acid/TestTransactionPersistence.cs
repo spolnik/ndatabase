@@ -5,9 +5,9 @@ using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Odb.Impl.Core.Transaction;
 using NUnit.Framework;
-using Test.Odb.Test.IO;
+using Test.NDatabase.Odb.Test.IO;
 
-namespace Test.Odb.Test.Acid
+namespace Test.NDatabase.Odb.Test.Acid
 {
     [TestFixture]
     public class TestTransactionPersistence : ODBTest

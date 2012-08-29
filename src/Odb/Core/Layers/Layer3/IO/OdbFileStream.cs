@@ -1,16 +1,21 @@
 using System.IO;
-using NDatabase.Odb;
-using NDatabase.Odb.Core;
 
-namespace NDatabase.Tool.Wrappers.IO
+namespace NDatabase.Odb.Core.Layers.Layer3.IO
 {
-    public sealed class OdbFileIO : Odb.Core.Layers.Layer3.IO
+    internal sealed class OdbFileStream : IOdbIO
     {
-        private FileStream _fileAccess;
-        
-        public OdbFileIO(string wholeFileName, bool canWrite)
+        private readonly FileStream _fileAccess;
+
+        internal OdbFileStream(string wholeFileName)
         {
-            Init(wholeFileName, canWrite);
+            try
+            {
+                _fileAccess = new FileStream(wholeFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+            }
+            catch (IOException e)
+            {
+                throw new OdbRuntimeException(NDatabaseError.FileNotFound.AddParameter(wholeFileName), e);
+            }
         }
 
         #region IO Members
@@ -62,19 +67,5 @@ namespace NDatabase.Tool.Wrappers.IO
         }
 
         #endregion
-
-        private void Init(string fileName, bool canWrite)
-        {
-            try
-            {
-                _fileAccess = new FileStream(fileName, FileMode.OpenOrCreate, canWrite
-                                                                                  ? FileAccess.ReadWrite
-                                                                                  : FileAccess.Read);
-            }
-            catch (IOException e)
-            {
-                throw new OdbRuntimeException(NDatabaseError.FileNotFound.AddParameter(fileName), e);
-            }
-        }
     }
 }

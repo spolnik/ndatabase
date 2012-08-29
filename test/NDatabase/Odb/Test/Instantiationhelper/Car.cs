@@ -1,6 +1,6 @@
 using System;
 
-namespace Test.Odb.Test.Instantiationhelper
+namespace Test.NDatabase.Odb.Test.Instantiationhelper
 {
     /// <summary>
     ///   It is just a simple test to help the newbies

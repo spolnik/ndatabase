@@ -1,7 +1,7 @@
 using System;
 using NDatabase.Tool;
 
-namespace Test.Odb.Test.Log
+namespace Test.NDatabase.Odb.Test.Log
 {
     /// <author>olivier</author>
     public class MyLogger : ILogger

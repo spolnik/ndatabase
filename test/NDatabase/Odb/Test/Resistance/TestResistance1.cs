@@ -5,10 +5,10 @@ using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
-using Test.Odb.Test.VO.Login;
-using Test.Tool;
+using Test.NDatabase.Odb.Test.VO.Login;
+using Test.NDatabase.Tool;
 
-namespace Test.Odb.Test.Resistance
+namespace Test.NDatabase.Odb.Test.Resistance
 {
     [TestFixture]
     public class TestResistance1 : ODBTest

@@ -7,7 +7,7 @@ using NDatabase.Odb.Impl.Tool;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Performance
+namespace Test.NDatabase.Odb.Test.Performance
 {
     public class PerformanceTest1WithIndex : ODBTest
     {

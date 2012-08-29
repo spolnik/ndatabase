@@ -5,7 +5,7 @@ using NDatabase.Odb.Impl.Core.Btree;
 using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NUnit.Framework;
 
-namespace Test.Odb.Test.Btree.Odb
+namespace Test.NDatabase.Odb.Test.Btree.Odb
 {
     [TestFixture]
     public class TestPersister : ODBTest

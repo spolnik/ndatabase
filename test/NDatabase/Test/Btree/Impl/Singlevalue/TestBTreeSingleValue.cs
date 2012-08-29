@@ -6,9 +6,9 @@ using NDatabase.Odb.Impl.Core.Btree;
 using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
-using Test.Odb.Test;
+using Test.NDatabase.Odb.Test;
 
-namespace Test.Test.Btree.Impl.Singlevalue
+namespace Test.NDatabase.Test.Btree.Impl.Singlevalue
 {
     [TestFixture]
     public class TestBTreeSingleValue : ODBTest
