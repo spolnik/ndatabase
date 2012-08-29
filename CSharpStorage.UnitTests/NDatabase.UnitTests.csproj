@@ -57,6 +57,7 @@
     <Compile Include="InstanceSpecification.cs" />
     <Compile Include="Layer3\When_we_use_file_identification_as_db_identification.cs" />
     <Compile Include="Layer3\When_we_use_odb_directory.cs" />
+    <Compile Include="Layer3\When_we_use_odb_file_stream.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Refactoring\When_we_use_refactor_menager_to_rename_field_in_class.cs" />
     <Compile Include="Serialization\Identification\When_we_are_using_database_id.cs" />
@@ -72,11 +73,6 @@
       <Project>{4B6993D5-995D-4AAA-BBCE-423D1B5451F6}</Project>
       <Name>NDatabase</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="dummy.ndb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

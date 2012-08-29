@@ -10,11 +10,13 @@ namespace NDatabase.UnitTests.Layer3
         private FileIdentification _fileIdentificationForNonExistingFile;
         private string _currentDirectory;
 
-        private const string ExistingDbName = "dummy.ndb";
+        private const string ExistingDbName = "fileidentification.ndb";
         private const string NonExistingDbName = "folder\\nonexisting.ndb";
 
         protected override void Establish_context()
         {
+            File.Create(ExistingDbName).Dispose();
+
             _currentDirectory = Directory.GetCurrentDirectory();
             _fileIdentificationForNonExistingFile = new FileIdentification(NonExistingDbName);
         }

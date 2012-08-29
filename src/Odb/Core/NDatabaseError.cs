@@ -46,9 +46,6 @@ namespace NDatabase.Odb.Core
         public static readonly NDatabaseError NativeTypeNotSupported = new NDatabaseError(208,
                                                                                         "Native type not supported @1 @2");
 
-        public static readonly NDatabaseError NativeTypeDivergence = new NDatabaseError(209,
-                                                                                      "Native type informed(@1) is different from the one informed (@2)");
-
         public static readonly NDatabaseError NegativeClassNumberInHeader = new NDatabaseError(210,
                                                                                              "number of classes is negative while reading database header : @1 at position @2");
 
@@ -96,46 +93,23 @@ namespace NDatabase.Odb.Core
         public static readonly NDatabaseError ObjectIntrospectorNoFieldWithName = new NDatabaseError(226,
                                                                                                    "Class/Interface @1 does not have attribute '@2'");
 
-        public static readonly NDatabaseError ObjectIntrospectorClassNotFound = new NDatabaseError(227,
-                                                                                                 "Class not found : @1");
-
         public static readonly NDatabaseError ClassPoolCreateClass = new NDatabaseError(228,
                                                                                       "Error while creating (reflection) class @1");
-
-        public static readonly NDatabaseError BufferTooSmall = new NDatabaseError(229,
-                                                                                "Buffer too small: buffer size = @1 and data size = @2 - should not happen");
-
-        public static readonly NDatabaseError FileInterfaceWriteBytesNotImplementedForTransaction = new NDatabaseError(
-            230, "writeBytes not implemented for transactions");
 
         public static readonly NDatabaseError FileInterfaceReadError = new NDatabaseError(231,
                                                                                         "Error reading @1 bytes at @2 : read @3 bytes instead");
 
-        public static readonly NDatabaseError PointerToSelf = new NDatabaseError(232,
-                                                                               "Error while creating a pointer : a pointer to itself : @1 -> @2 for oid @3");
-
         public static readonly NDatabaseError IndexNotFound = new NDatabaseError(233,
                                                                                "No index defined on class @1 at index position @2");
 
-        public static readonly NDatabaseError NotYetImplemented = new NDatabaseError(234, "Not yet implemented : @1");
-
         public static readonly NDatabaseError MetaModelClassNameDoesNotExist = new NDatabaseError(235,
                                                                                                 "Class @1 does not exist in meta-model");
-
-        public static readonly NDatabaseError MetaModelClassWithOidDoesNotExist = new NDatabaseError(236,
-                                                                                                   "Class with oid @1 does not exist in meta-model");
-
-        public static readonly NDatabaseError MetaModelClassWithPositionDoesNotExist = new NDatabaseError(237,
-                                                                                                        "Class with position @1 does not exist in meta-model");
 
         public static readonly NDatabaseError ClassInfoDoNotHaveTheAttribute = new NDatabaseError(238,
                                                                                                 "Class @1 does not have attribute with name @2 in the database meta-model");
 
         public static readonly NDatabaseError OdbTypeIdDoesNotExist = new NDatabaseError(239,
                                                                                        "ODBtype with id @1 does not exist");
-
-        public static readonly NDatabaseError OdbTypeNativeTypeWithIdDoesNotExist = new NDatabaseError(240,
-                                                                                                     "Native type with id @1 does not exist");
 
         public static readonly NDatabaseError QueryEngineNotSet = new NDatabaseError(241,
                                                                                    "Storage engine not set on query");
@@ -152,14 +126,6 @@ namespace NDatabase.Odb.Core
         public static readonly NDatabaseError MetamodelReadingLastObject = new NDatabaseError(249,
                                                                                             "Error while reading last object of type @1 at with OID @2");
 
-        public static readonly NDatabaseError CacheNegativeOid = new NDatabaseError(250, "Negative oid set in cache @1");
-
-        public static readonly NDatabaseError SessionDoesNotExistForConnection = new NDatabaseError(254,
-                                                                                                  "Connection @1 for base @2 does not have any associated session");
-
-        public static readonly NDatabaseError SessionDoesNotExistForConnectionId = new NDatabaseError(255,
-                                                                                                    "Connection ID @1 does not have any associated session");
-
         public static readonly NDatabaseError ObjectReaderDirectCall = new NDatabaseError(257,
                                                                                         "Generic readObjectInfo called for non native object info");
 
@@ -175,8 +141,6 @@ namespace NDatabase.Odb.Core
 
         public static readonly NDatabaseError UnexpectedSituation = new NDatabaseError(262, "Unexpected situation: @1");
 
-        public static readonly NDatabaseError ImportError = new NDatabaseError(263, "Import error: @1");
-
         public static readonly NDatabaseError MethodShouldNotBeCalled = new NDatabaseError(267,
                                                                                          "Method @1 should not be called on @2");
 
@@ -185,9 +149,6 @@ namespace NDatabase.Odb.Core
 
         public static readonly NDatabaseError ErrorWhileGettingObjectFromListAtIndex = new NDatabaseError(269,
                                                                                                         "Error while getting object from list at index @1");
-
-        public static readonly NDatabaseError ClassInfoDoesNotExistInMetaModel = new NDatabaseError(270,
-                                                                                                  "Class Info @1 does not exist in MetaModel");
 
         public static readonly NDatabaseError BtreeSizeDiffersFromClassElementNumber = new NDatabaseError(271,
                                                                                                         "The Index has @1 element(s) whereas the Class has @2 objects. The two values should be equal");
@@ -210,21 +171,9 @@ namespace NDatabase.Odb.Core
         public static readonly IError InstanciationError = new NDatabaseError(279,
                                                                              "Error while creating instance of type @1");
 
-        public static readonly IError NetSerialisationError = new NDatabaseError(281, "Net Serialization Error : @1 \n@2");
-
-        public static readonly IError ErrorWhileGettingConstrctorsOfClass = new NDatabaseError(284,
-                                                                                              "Error while getting constructor of @1");
-
-        public static readonly IError UnknownHost = new NDatabaseError(285, "Unknown host");
-
         public static readonly NDatabaseError CacheNullObject = new NDatabaseError(286, "Null Object : @1");
 
         public static readonly NDatabaseError LookupKeyNotFound = new NDatabaseError(287, "Lookup key not found : @1");
-
-        public static readonly NDatabaseError ReflectionErrorWhileGettingField = new NDatabaseError(289,
-                                                                                                  "Error while getting field @1 on class @2");
-
-        public static readonly NDatabaseError NotYetSupported = new NDatabaseError(290, "Not Yet Supported : @1");
 
         public static readonly NDatabaseError FileNotFoundOrItIsAlreadyUsed = new NDatabaseError(291, "File not found or it already used: @1");
 
@@ -232,9 +181,6 @@ namespace NDatabase.Odb.Core
 
         public static readonly NDatabaseError IndexIsCorrupted = new NDatabaseError(292,
                                                                                   "Index '@1' of class '@2' is corrupted: class has @3 objects, index has @4 entries");
-
-        public static readonly NDatabaseError ErrorWhileCreatingMessageStreamer = new NDatabaseError(293,
-                                                                                                   "Error while creating message streamer '@1'");
 
         public static readonly NDatabaseError ContainsQueryWithNoQuery = new NDatabaseError(295,
                                                                                           "Contains criteria with no query!");
@@ -245,9 +191,6 @@ namespace NDatabase.Odb.Core
         public static readonly NDatabaseError CrossSessionCacheNullOidForObject = new NDatabaseError(297,
                                                                                                    "Cross session cache does not know the object @1");
 
-        public static readonly NDatabaseError ErrorWhileGettingIpAddress = new NDatabaseError(298,
-                                                                                            "Error while getting IP address of @1");
-
         public static readonly NDatabaseError CriteriaQueryUnknownAttribute = new NDatabaseError(1000,
                                                                                                "Attribute @1 used in criteria queria does not exist on class @2");
 
@@ -257,9 +200,6 @@ namespace NDatabase.Odb.Core
         public static readonly NDatabaseError IncompatibleMetamodel = new NDatabaseError(1002,
                                                                                        "Incompatible meta-model : @1");
 
-        public static readonly NDatabaseError IncompatibleJavaVm = new NDatabaseError(1003,
-                                                                                    "Incompatible java Machine, 1.5 or greater is required, you are using : @1");
-
         public static readonly NDatabaseError OdbIsClosed = new NDatabaseError(1004,
                                                                              "ODB session has already been closed (@1)");
 
@@ -268,9 +208,6 @@ namespace NDatabase.Odb.Core
 
         public static readonly NDatabaseError OdbCanNotStoreNullObject = new NDatabaseError(1006,
                                                                                           "ODB can not store null object");
-
-        public static readonly NDatabaseError OdbCanNotStoreArrayDirectly = new NDatabaseError(1007,
-                                                                                             "ODB can not store array directly : @1");
 
         public static readonly NDatabaseError OdbCanNotStoreNativeObjectDirectly = new NDatabaseError(1008,
                                                                                                     "NeoDats ODB can not store native object direclty : @1 which is or seems to be a @2. Workaround: Wrap class @3 into another class");
@@ -285,18 +222,6 @@ namespace NDatabase.Odb.Core
 
         public static readonly NDatabaseError OdbCanNotReturnOidOfNullObject = new NDatabaseError(1012,
                                                                                                 "Can not return the oid of a null object");
-
-        public static readonly NDatabaseError OdbFileIsLockedByCurrentVirtualMachine = new NDatabaseError(1013,
-                                                                                                        "@1 file is locked by the current machine - check if the database has not been opened in the current VM! : thread = @2 - using multi thread ? @3");
-
-        public static readonly NDatabaseError OdbFileIsLockedByExternalProgram = new NDatabaseError(1014,
-                                                                                                  "@1 file is locked - check if the database file is not opened in another program! : thread = @2 - using multi thread ? @3");
-
-        public static readonly NDatabaseError UserNameTooLong = new NDatabaseError(1015,
-                                                                                 "User name @1 is too long, should be lesser than 20 characters");
-
-        public static readonly NDatabaseError PasswordTooLong = new NDatabaseError(1016,
-                                                                                 "Password is too long, it must be less than 20 character long");
 
         public static readonly NDatabaseError TransactionAlreadyCommitedOrRollbacked = new NDatabaseError(1017,
                                                                                                         "Transaction have already been 'committed' or 'rollbacked'");
@@ -329,12 +254,6 @@ namespace NDatabase.Odb.Core
 
         public static readonly NDatabaseError QueryNqExceptionRaisedByNativeQueryExecution = new NDatabaseError(1030,
                                                                                                               "Exception raised by the native query @1 match method");
-
-        public static readonly NDatabaseError OdbCanNotReturnOidOfUnknownObject = new NDatabaseError(1031,
-                                                                                                   "Can not return the oid of a not previously loaded object : @1");
-
-        public static readonly NDatabaseError ErrorWhileAddingObjectToHashmap = new NDatabaseError(1032,
-                                                                                                 "Internal error in user object of class @1 in equals or hashCode method : @2");
 
         public static readonly NDatabaseError AttributeReferencesADeletedObject = new NDatabaseError(1033,
                                                                                                    "Object of type @1 with oid @2 has the attribute '@3' that references a deleted object");
@@ -384,19 +303,7 @@ namespace NDatabase.Odb.Core
         public static readonly NDatabaseError ObjectWithOidDoesNotExist = new NDatabaseError(1048,
                                                                                            "Object with OID @1 does not exist in the database");
 
-        public static readonly NDatabaseError ParamHelperWrongNoOfParams = new NDatabaseError(1049,
-                                                                                            "The ParameterHelper for the class @1 didn't provide the correct number of parameters for the constructor @2");
-
-        public static readonly NDatabaseError CacheIsFull = new NDatabaseError(1050,
-                                                                             "Cache is full! ( it has @1 object(s). The maximum size is @2. Please increase the size of the cache using Configuration.setMaxNumberOfObjectInCache, or call the Configuration.setAutomaticallyIncreaseCacheSize(true)");
-
         public static readonly IError UnsupportedEncoding = new NDatabaseError(1052, "Unsupported encoding @1");
-
-        public static readonly IError ReconnectOnlyWithByteCodeAgentConfigured = new NDatabaseError(1053,
-                                                                                                   "Reconnect object only available when Byte code instrumentation is on");
-
-        public static readonly IError ReconnectOnlyForPreviouslyLoadedObject = new NDatabaseError(1054,
-                                                                                                 "Reconnect object only available for objets previously loaded in an ODB Session");
 
         public static readonly IError ReconnectCanReconnectNullObject = new NDatabaseError(1055,
                                                                                           "Can not reconnect null object");
@@ -404,29 +311,14 @@ namespace NDatabase.Odb.Core
         public static readonly IError CanNotGetObjectFromNullOid = new NDatabaseError(1056,
                                                                                      "Can not get object from null OID");
 
-        public static readonly IError InvalidOidRepresentation = new NDatabaseError(1057,
-                                                                                   "Invalid OID representation : @1");
-
-        public static readonly IError DuplicatedKeyInIndex = new NDatabaseError(1058,
-                                                                               "Duplicate key on index @1 : Values of index key @2");
-
         public static readonly IError OperationNotAllowedInTrigger = new NDatabaseError(1056,
                                                                                        "Operation not allowed in trigger");
 
         public static readonly IError TriggerCalledOnNullObject = new NDatabaseError(1058,
                                                                                     "Trigger has been called on class @1 on a null object so it cannot retrieve the value of the '@2' attribute");
 
-        public static readonly IError CriteriaQueryOnUnknownObject = new NDatabaseError(1059,
-                                                                                       "When the right side of a Criteria query is an object, this object must have been previously loaded by NDatabase");
-
-        public static readonly IError ReconnectCanNotReconnectObject = new NDatabaseError(1060,
-                                                                                         "Can not reconnect object");
-
         public static readonly NDatabaseError OdbCanNotDeleteNullObject = new NDatabaseError(1061,
                                                                                            "NDatabase can not delete null object");
-
-        public static readonly NDatabaseError FormtInvalidDateFormat = new NDatabaseError(1062,
-                                                                                        "Invalid date format:@1, expecting something like @2");
 
         public static readonly NDatabaseError InternalError = new NDatabaseError(10, "Internal error : @1 ");
 

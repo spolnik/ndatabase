@@ -126,11 +126,11 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
             }
         }
 
-        public void InternalWrite(byte[] bs, int size)
+        public void InternalWrite(byte[] buffer, int size)
         {
             try
             {
-                _fileWriter.Write(bs, size);
+                _fileWriter.Write(buffer, size);
             }
             catch (IOException e)
             {

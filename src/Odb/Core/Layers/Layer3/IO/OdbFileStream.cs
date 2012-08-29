@@ -3,10 +3,11 @@ using System.IO;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.IO
 {
-    internal sealed class OdbFileStream : IOdbIO
+    internal sealed class OdbFileStream : IOdbFileStream
     {
+        private const int DefaultBufferSize = 4096*2;
+
         private readonly FileStream _fileAccess;
-        internal const int DefaultBufferSize = 4096*2;
 
         internal OdbFileStream(string wholeFileName)
         {
@@ -16,20 +17,30 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
                                              DefaultBufferSize, FileOptions.RandomAccess);
                 //TODO: _fileAccess.SetLength(1024 * 20);
             }
-            catch (Exception e)
+            catch (IOException e)
             {
-                //TODO: handle IOException in other way ?
                 throw new OdbRuntimeException(NDatabaseError.FileNotFoundOrItIsAlreadyUsed.AddParameter(wholeFileName), e);
+            }
+            catch(Exception ex)
+            {
+                throw new OdbRuntimeException(NDatabaseError.InternalError.AddParameter("Error during opening FileStream"), ex);
             }
         }
 
         #region IO Members
 
+        /// <summary>
+        /// Gets the length in bytes of the stream
+        /// </summary>
         public long Length
         {
             get { return _fileAccess.Length; }
         }
 
+        /// <summary>
+        ///  Sets the current position of this stream to the given value
+        /// </summary>
+        /// <param name="position">offset</param>
         public void Seek(long position)
         {
             try
@@ -51,6 +62,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
                 }
 
                 throw new OdbRuntimeException(NDatabaseError.GoToPosition.AddParameter(position).AddParameter(l), e);
+            }
+            catch (Exception ex)
+            {
+                var parameter = string.Format("Error during seek operation, position: {0}", position);
+                throw new OdbRuntimeException(NDatabaseError.InternalError.AddParameter(parameter), ex);
             }
         }
 
