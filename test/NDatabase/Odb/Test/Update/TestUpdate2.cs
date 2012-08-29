@@ -18,16 +18,18 @@ namespace Test.NDatabase.Odb.Test.Update
         [Test]
         public virtual void Test10()
         {
-            var odb = Open("update-transaction");
+            var updateTransaction = "update-transaction.ndb";
+            DeleteBase(updateTransaction);
+            var odb = Open(updateTransaction);
             var oid = odb.Store(new VO.Login.Function("function1"));
             odb.Close();
-            odb = Open("update-transaction");
+            odb = Open(updateTransaction);
             var f = (VO.Login.Function) odb.GetObjectFromId(oid);
             f.SetName("function2");
             odb.Store(f);
             odb.Rollback();
             odb.Close();
-            odb = Open("update-transaction");
+            odb = Open(updateTransaction);
             f = (VO.Login.Function) odb.GetObjectFromId(oid);
             odb.Close();
             AssertEquals("function1", f.GetName());

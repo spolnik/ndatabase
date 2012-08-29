@@ -226,7 +226,9 @@ namespace NDatabase.Odb.Core
 
         public static readonly NDatabaseError NotYetSupported = new NDatabaseError(290, "Not Yet Supported : @1");
 
-        public static readonly NDatabaseError FileNotFound = new NDatabaseError(291, "File not found or it already used: @1");
+        public static readonly NDatabaseError FileNotFoundOrItIsAlreadyUsed = new NDatabaseError(291, "File not found or it already used: @1");
+
+        public static readonly NDatabaseError ParentNotFound = new NDatabaseError(283, "Parent directory doesn't exist: @1");
 
         public static readonly NDatabaseError IndexIsCorrupted = new NDatabaseError(292,
                                                                                   "Index '@1' of class '@2' is corrupted: class has @3 objects, index has @4 entries");

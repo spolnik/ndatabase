@@ -16,7 +16,6 @@ using NDatabase.Odb.Impl.Core.Layers.Layer3.Refactor;
 using NDatabase.Odb.Impl.Core.Oid;
 using NDatabase.Odb.Impl.Core.Transaction;
 using NDatabase.Odb.Impl.Core.Trigger;
-using NDatabase.Tool.Wrappers.IO;
 using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb.Impl
@@ -70,12 +69,7 @@ namespace NDatabase.Odb.Impl
 
             if (fileParameters != null)
             {
-                // Guarantee that file directory structure exist
-                var odbFile = new OdbFile(fileParameters.FileName);
-                var fparent = odbFile.GetParentFile();
-
-                if (fparent != null && !fparent.Exists())
-                    fparent.Mkdirs();
+                OdbDirectory.Mkdirs(fileParameters.FileName);
 
                 return new MultiBufferedFileIO(OdbConfiguration.GetNbBuffers(), name, fileParameters.FileName, bufferSize);
             }

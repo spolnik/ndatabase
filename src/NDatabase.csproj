@@ -102,6 +102,7 @@
     <Compile Include="Odb\Core\Layers\Layer2\Meta\AbstractObjectInfo.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\ArrayObjectInfo.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\AtomicNativeObjectInfo.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\AttributesCache.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\AttributeValuesMap.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\CIZoneInfo.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\ClassAttributeInfo.cs" />
@@ -324,7 +325,7 @@
     <Compile Include="Tool\DLogger.cs" />
     <Compile Include="Tool\ILogger.cs" />
     <Compile Include="Tool\Wrappers\IO\MultiBufferVO.cs" />
-    <Compile Include="Odb\Core\Layers\Layer3\IO\OdbFile.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IO\OdbDirectory.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IO\OdbFileStream.cs" />
     <Compile Include="Tool\Wrappers\List\IOdbList.cs" />
     <Compile Include="Tool\Wrappers\List\OdbCollectionUtil.cs" />

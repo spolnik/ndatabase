@@ -1,9 +1,11 @@
+using System;
+
 namespace NDatabase.Odb.Core.Layers.Layer3
 {
     /// <summary>
     ///   The basic IO interface for basic IO operation like reading and writing bytes
     /// </summary>
-    public interface IOdbIO
+    public interface IOdbIO : IDisposable
     {
         void Seek(long pos);
 
@@ -11,12 +13,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         void Write(byte b);
 
-        void Write(byte[] bytes, int offset, int size);
+        void Write(byte[] buffer, int size);
 
-        long Read(byte[] bytes, int offset, int size);
+        long Read(byte[] buffer, int size);
 
         int Read();
 
-        long Length();
+        long Length { get; }
     }
 }

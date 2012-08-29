@@ -47,8 +47,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         void Close();
 
-        bool Delete();
-
         void EnableAutomaticDelete(bool yesOrNo);
 
         bool AutomaticDeleteIsEnabled();

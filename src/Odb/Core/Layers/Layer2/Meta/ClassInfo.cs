@@ -7,29 +7,6 @@ using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {
-    [Serializable]
-    public sealed class AttributesCache
-    {
-        public AttributesCache()
-        {
-            AttributesByName = new OdbHashMap<string, ClassAttributeInfo>();
-            AttributesById = new OdbHashMap<int, ClassAttributeInfo>();
-        }
-
-        /// <summary>
-        ///   This map is redundant with the field 'attributes', 
-        ///   but it is to enable fast access to attributes 
-        ///   by id key=attribute Id(Integer), key =ClassAttributeInfo
-        /// </summary>
-        public IDictionary<int, ClassAttributeInfo> AttributesById { get; set; }
-
-        /// <summary>
-        ///   This map is redundant with the field 'attributes', 
-        ///   but it is to enable fast access to attributes by name
-        /// </summary>
-        public IDictionary<string, ClassAttributeInfo> AttributesByName { get; set; }
-    }
-
     /// <summary>
     ///   A meta representation of a class
     /// </summary>
@@ -103,7 +80,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         private long _position;
 
         private readonly OidInfo _oidInfo;
-        private Dictionary<string, Type> _typeCache = new Dictionary<string, Type>();
+        private readonly Dictionary<string, Type> _typeCache = new Dictionary<string, Type>();
 
         public ClassInfo()
         {

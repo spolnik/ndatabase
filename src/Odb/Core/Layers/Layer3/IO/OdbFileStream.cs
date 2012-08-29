@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.IO
@@ -5,24 +6,28 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
     internal sealed class OdbFileStream : IOdbIO
     {
         private readonly FileStream _fileAccess;
+        internal const int DefaultBufferSize = 4096*2;
 
         internal OdbFileStream(string wholeFileName)
         {
             try
             {
-                _fileAccess = new FileStream(wholeFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                _fileAccess = new FileStream(wholeFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read,
+                                             DefaultBufferSize, FileOptions.RandomAccess);
+                //TODO: _fileAccess.SetLength(1024 * 20);
             }
-            catch (IOException e)
+            catch (Exception e)
             {
-                throw new OdbRuntimeException(NDatabaseError.FileNotFound.AddParameter(wholeFileName), e);
+                //TODO: handle IOException in other way ?
+                throw new OdbRuntimeException(NDatabaseError.FileNotFoundOrItIsAlreadyUsed.AddParameter(wholeFileName), e);
             }
         }
 
         #region IO Members
 
-        public long Length()
+        public long Length
         {
-            return _fileAccess.Length;
+            get { return _fileAccess.Length; }
         }
 
         public void Seek(long position)
@@ -36,8 +41,16 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             }
             catch (IOException e)
             {
-                throw new OdbRuntimeException(
-                    NDatabaseError.GoToPosition.AddParameter(position).AddParameter(_fileAccess.Length), e);
+                long l = -1;
+                try
+                {
+                    l = _fileAccess.Length;
+                }
+                catch (IOException)
+                {
+                }
+
+                throw new OdbRuntimeException(NDatabaseError.GoToPosition.AddParameter(position).AddParameter(l), e);
             }
         }
 
@@ -46,9 +59,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             _fileAccess.WriteByte(b);
         }
 
-        public void Write(byte[] bs, int offset, int size)
+        public void Write(byte[] buffer, int size)
         {
-            _fileAccess.Write(bs, offset, size);
+            _fileAccess.Write(buffer, 0, size);
         }
 
         public int Read()
@@ -56,9 +69,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             return _fileAccess.ReadByte();
         }
 
-        public long Read(byte[] array, int offset, int size)
+        public long Read(byte[] buffer, int size)
         {
-            return _fileAccess.Read(array, offset, size);
+            return _fileAccess.Read(buffer, 0, size);
         }
 
         public void Close()
@@ -67,5 +80,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         }
 
         #endregion
+
+        public void Dispose()
+        {
+            Close();
+        }
     }
 }

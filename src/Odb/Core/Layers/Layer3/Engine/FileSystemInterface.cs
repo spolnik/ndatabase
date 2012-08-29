@@ -11,6 +11,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
     /// </summary>
     public sealed class FileSystemInterface : IFileSystemInterface
     {
+        //TODO: consider usage of BinaryReader and BinaryWriter
+
         private const byte ReservedSpace = 128;
 
         private static readonly int IntSize = OdbType.Integer.GetSize();
@@ -697,11 +699,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public IFileIdentification GetFileIdentification()
         {
             return _fileIdentification;
-        }
-
-        public bool Delete()
-        {
-            return _io.Delete();
         }
 
         public IBufferedIO GetIo()

@@ -1,4 +1,4 @@
-using NDatabase.Odb.Core.Layers.Layer3.IO;
+using System.IO;
 
 namespace NDatabase.Odb
 {
@@ -33,11 +33,12 @@ namespace NDatabase.Odb
         ///  Remove existing ODB database with a given name
         /// </summary>
         /// <param name="fileName">Database file name</param>
-        /// <returns>The result of operation - true if succcess</returns>
-        public static bool Delete(string fileName)
+        public static void Delete(string fileName)
         {
-            var file = new OdbFile(fileName);
-            return file.Delete();
+            if (!File.Exists(fileName))
+                return;
+
+            File.Delete(fileName);
         }
     }
 }

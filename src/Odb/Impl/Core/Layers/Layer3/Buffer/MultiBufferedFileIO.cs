@@ -66,7 +66,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
                     DLogger.Info(string.Format("Opening datatbase file : {0}", Path.GetFullPath(_wholeFileName)));
 
                 _fileWriter = new OdbFileStream(_wholeFileName);
-                SetIoDeviceLength(_fileWriter.Length());
+                SetIoDeviceLength(_fileWriter.Length);
             }
             catch (Exception e)
             {
@@ -106,24 +106,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
 
         public void GoToPosition(long position)
         {
-            try
-            {
-                if (position < 0)
-                    throw new OdbRuntimeException(NDatabaseError.NegativePosition.AddParameter(position));
-                _fileWriter.Seek(position);
-            }
-            catch (IOException e)
-            {
-                long l = -1;
-                try
-                {
-                    l = _fileWriter.Length();
-                }
-                catch (IOException)
-                {
-                }
-                throw new OdbRuntimeException(NDatabaseError.GoToPosition.AddParameter(position).AddParameter(l), e);
-            }
+            _fileWriter.Seek(position);
         }
 
         public long GetLength()
@@ -147,7 +130,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
         {
             try
             {
-                _fileWriter.Write(bs, 0, size);
+                _fileWriter.Write(bs, size);
             }
             catch (IOException e)
             {
@@ -176,7 +159,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
             // FIXME raf.read only returns int not long
             try
             {
-                return _fileWriter.Read(array, 0, size);
+                return _fileWriter.Read(array, size);
             }
             catch (IOException e)
             {
@@ -189,7 +172,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
             try
             {
                 if (OdbConfiguration.IsDebugEnabled(LogId))
-                    DLogger.Debug("Closing file with size " + _fileWriter.Length());
+                    DLogger.Debug("Closing file with size " + _fileWriter.Length);
                 
                 _fileWriter.Close();
             }
@@ -198,17 +181,17 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
                 DLogger.Error(e.ToString());
             }
             _fileWriter = null;
-            if (IsForTransaction() && AutomaticDeleteIsEnabled())
-            {
-                var b = OdbFactory.Delete(_wholeFileName);
-                if (!b)
-                    throw new OdbRuntimeException(NDatabaseError.CanNotDeleteFile.AddParameter(_wholeFileName));
-            }
+            AutoDelete();
         }
 
-        public bool Delete()
+        private void AutoDelete()
         {
-            return OdbFactory.Delete(_wholeFileName);
+            if (!IsForTransaction() || !AutomaticDeleteIsEnabled())
+                return;
+
+            OdbFactory.Delete(_wholeFileName);
+            if (File.Exists(_wholeFileName))
+                throw new OdbRuntimeException(NDatabaseError.CanNotDeleteFile.AddParameter(_wholeFileName));
         }
 
         public int ManageBufferForNewPosition(long newPosition, int readOrWrite, int size)

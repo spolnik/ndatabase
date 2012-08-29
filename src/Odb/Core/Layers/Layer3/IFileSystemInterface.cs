@@ -134,8 +134,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         /// <returns> Returns the parameters. </returns>
         IFileIdentification GetFileIdentification();
 
-        bool Delete();
-
         IBufferedIO GetIo();
 
         void SetDatabaseCharacterEncoding(string databaseCharacterEncoding);
