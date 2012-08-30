@@ -4,7 +4,7 @@ using NDatabase.Tool.Wrappers.List;
 
 namespace NDatabase.Odb.Core.Query.Criteria
 {
-    [Serializable]
+    
     public abstract class AbstractExpression : IExpression
     {
         private IQuery _query;

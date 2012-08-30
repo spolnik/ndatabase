@@ -4,7 +4,7 @@ using NDatabase.Odb.Core.Layers.Layer3;
 
 namespace NDatabase.Odb.Impl.Main
 {
-    [Serializable]
+    
     public sealed class ClassRepresentation : IClassRepresentation
     {
         private readonly ClassInfo _classInfo;

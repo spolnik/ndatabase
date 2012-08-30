@@ -110,7 +110,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             }
             var lastCloseStatus = ReadLastODBCloseStatus();
             var databaseCharacterEncoding = ReadDatabaseCharacterEncoding();
-            _fsi.SetDatabaseCharacterEncoding(databaseCharacterEncoding);
+//            _fsi.SetDatabaseCharacterEncoding(databaseCharacterEncoding);
 
             var currentBlockPosition = _fsi.ReadLong("current block position");
             // Gets the current id block number

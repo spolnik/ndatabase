@@ -12,7 +12,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
     /// <remarks>
     ///   An action to retrieve a size of a list. It is used by the Object Values API. When calling odb.getValues(new ValuesCriteriaQuery(Handler.class, Where .equal("id", id)).size("parameters"); The sublist action will return Returns a view of the portion of this list between the specified fromIndex, inclusive, and toIndex, exclusive. if parameters list contains [param1,param2,param3,param4], sublist("parameters",1,2) will return a sublist containing [param2,param3]
     /// </remarks>
-    [Serializable]
+    
     public sealed class SizeAction : AbstractQueryFieldAction
     {
         private long _size;

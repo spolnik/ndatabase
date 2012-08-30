@@ -11,7 +11,7 @@ namespace NDatabase.Odb.Impl.Core.Query.NQ
     ///   A simple Criteria execution plan Check if the query can use index and tries to find the best index to be used
     /// </summary>
     /// <author>osmadja</author>
-    [Serializable]
+    
     public sealed class NativeQueryExecutionPlan : IQueryExecutionPlan
     {
         /// <summary>

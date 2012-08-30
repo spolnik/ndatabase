@@ -11,7 +11,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     ///   To keep track of differences between two ClassInfo. Ussed by the MetaModel compatibility checker
     /// </remarks>
     /// <author>osmadja</author>
-    [Serializable]
+    
     public sealed class ClassInfoCompareResult
     {
         private readonly string _fullClassName;

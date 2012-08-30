@@ -2,7 +2,7 @@ using System;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {
-    [Serializable]
+    
     public sealed class OidInfo
     {
         public OidInfo()

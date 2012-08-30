@@ -2,7 +2,7 @@ using System;
 
 namespace Test.NDatabase.Odb.Test.Index
 {
-    [Serializable]
+    
     public class IndexedObject : IComparable
     {
         private DateTime creation;

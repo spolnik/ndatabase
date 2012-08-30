@@ -7,7 +7,7 @@ namespace NDatabase.Odb
     ///   An exception thrown by ODB when a corrupted block is found
     /// </summary>
     /// <author>olivier</author>
-    [Serializable]
+    
     public sealed class CorruptedDatabaseException : OdbRuntimeException
     {
         public CorruptedDatabaseException(IError error, string message) : base(error, message)

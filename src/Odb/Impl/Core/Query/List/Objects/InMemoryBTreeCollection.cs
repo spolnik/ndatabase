@@ -9,7 +9,7 @@ namespace NDatabase.Odb.Impl.Core.Query.List.Objects
     ///   An implementation of an ordered Collection based on a BTree implementation that holds all objects in memory
     /// </summary>
     /// <author>osmadja</author>
-    [Serializable]
+    
     public sealed class InMemoryBTreeCollection<T> : AbstractBTreeCollection<T>
     {
         public InMemoryBTreeCollection() : base(OrderByConstants.OrderByAsc)

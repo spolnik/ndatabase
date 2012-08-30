@@ -5,7 +5,7 @@ using NDatabase.Odb.Core.Query.Values;
 
 namespace NDatabase.Odb.Impl.Core.Query.Values
 {
-    [Serializable]
+    
     public abstract class CustomQueryFieldAction : AbstractQueryFieldAction, ICustomQueryFieldAction
     {
         protected CustomQueryFieldAction() : base(null, null, true)

@@ -2,7 +2,7 @@ using System;
 
 namespace NDatabase.Btree.Exception
 {
-    [Serializable]
+    
     public sealed class DuplicatedKeyException : BTreeException
     {
         public DuplicatedKeyException()

@@ -2,7 +2,7 @@ using System;
 
 namespace NDatabase.Btree.Exception
 {
-    [Serializable]
+    
     public class BTreeException : System.Exception
     {
         public BTreeException()

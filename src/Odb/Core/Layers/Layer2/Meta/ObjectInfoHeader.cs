@@ -8,7 +8,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// <summary>
     ///   Some basic info about an object info like position, its class info,...
     /// </summary>
-    [Serializable]
+    
     public sealed class ObjectInfoHeader
     {
         private int[] _attributeIds;

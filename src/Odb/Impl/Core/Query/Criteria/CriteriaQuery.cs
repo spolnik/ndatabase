@@ -9,7 +9,7 @@ using NDatabase.Tool.Wrappers.List;
 
 namespace NDatabase.Odb.Impl.Core.Query.Criteria
 {
-    [Serializable]
+    
     public class CriteriaQuery : AbstractQuery
     {
         private ICriterion _criterion;

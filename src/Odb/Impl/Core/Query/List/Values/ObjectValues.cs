@@ -5,7 +5,7 @@ using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb.Impl.Core.Query.List.Values
 {
-    [Serializable]
+    
     public sealed class ObjectValues : IObjectValues
     {
         /// <summary>

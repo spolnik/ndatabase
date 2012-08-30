@@ -7,7 +7,7 @@ namespace NDatabase.Odb
     /// <summary>
     ///   Generic ODB Runtime exception : Used to report all problems.
     /// </summary>
-    [Serializable]
+    
     public class OdbRuntimeException : Exception
     {
         private static readonly string Message1 =

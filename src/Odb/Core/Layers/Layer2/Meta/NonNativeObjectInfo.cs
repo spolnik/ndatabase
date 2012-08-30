@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NDatabase.Tool.Wrappers;
 
@@ -14,7 +15,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     ///                                            - The Object being represented by The meta information</pre>
     /// </summary>
     /// <author>olivier s</author>
-    [Serializable]
+    
     public class NonNativeObjectInfo : AbstractObjectInfo
     {
         private readonly int _maxNbattributes;
@@ -25,7 +26,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// <summary>
         ///   The object being represented
         /// </summary>
-        [NonSerialized]
+        [NonPersistent]
         private object _theObject;
 
         public NonNativeObjectInfo() : base(null)

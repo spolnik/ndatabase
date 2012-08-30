@@ -4,7 +4,7 @@ using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {
-    [Serializable]
+    
     public sealed class AttributesCache
     {
         public AttributesCache()

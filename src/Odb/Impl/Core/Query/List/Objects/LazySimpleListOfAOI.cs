@@ -5,6 +5,7 @@ using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Lookup;
+using NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Impl.Core.Layers.Layer2.Instance;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
@@ -17,7 +18,7 @@ namespace NDatabase.Odb.Impl.Core.Query.List.Objects
     /// <remarks>
     ///   A simple list to hold query result. It is used when no index and no order by This collection does not store the objects, it only holds the Abstract Object Info (AOI) of the objects. When user ask an object the object is lazy loaded by the buildInstance method
     /// </remarks>
-    [Serializable]
+    
     public sealed class LazySimpleListOfAoi<T> : OdbArrayList<T>, IObjects<T>
     {
         /// <summary>
@@ -41,7 +42,7 @@ namespace NDatabase.Odb.Impl.Core.Query.List.Objects
         /// <summary>
         ///   The odb engine to lazily get objects
         /// </summary>
-        [NonSerialized]
+        [NonPersistent]
         private IInstanceBuilder _instanceBuilder;
 
         public LazySimpleListOfAoi() : base(10)

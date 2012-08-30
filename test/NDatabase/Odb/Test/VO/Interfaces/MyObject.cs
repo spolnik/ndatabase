@@ -3,7 +3,7 @@ using System;
 namespace Test.NDatabase.Odb.Test.VO.Interfaces
 {
     /// <author>olivier</author>
-    [Serializable]
+    
     public class MyObject
     {
         private string name;

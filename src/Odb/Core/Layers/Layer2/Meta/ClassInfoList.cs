@@ -15,7 +15,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     ///       Introspecting Class1 return a ClassInfoList with the classes Class1, Class2, Class3. Class1 being the main class info</pre>
     /// </remarks>
     /// <author>osmadja</author>
-    [Serializable]
+    
     public sealed class ClassInfoList
     {
         /// <summary>

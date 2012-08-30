@@ -11,7 +11,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Criteria
     ///   A criterion to match equality
     /// </summary>
     /// <author>olivier s</author>
-    [Serializable]
+    
     public sealed class EqualCriterion : AbstractCriterion
     {
         private object _criterionValue;

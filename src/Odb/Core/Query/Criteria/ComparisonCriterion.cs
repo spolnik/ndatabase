@@ -9,7 +9,7 @@ namespace NDatabase.Odb.Core.Query.Criteria
     ///   A Criterion for greater than (gt),greater or equal(ge), less than (lt) and less or equal (le)
     /// </summary>
     /// <author>olivier s</author>
-    [Serializable]
+    
     public sealed class ComparisonCriterion : AbstractCriterion
     {
         public const int ComparisonTypeGt = 1;

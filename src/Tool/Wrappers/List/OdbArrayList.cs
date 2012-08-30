@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NDatabase.Tool.Wrappers.List
 {
-    [Serializable]
+    
     public class OdbArrayList<TItem> : List<TItem>, IOdbList<TItem>
     {
         public OdbArrayList()

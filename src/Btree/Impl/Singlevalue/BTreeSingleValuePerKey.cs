@@ -4,7 +4,7 @@ using NDatabase.Odb.Core;
 
 namespace NDatabase.Btree.Impl.Singlevalue
 {
-    [Serializable]
+    
     public abstract class BTreeSingleValuePerKey : AbstractBTree, IBTreeSingleValuePerKey
     {
         protected BTreeSingleValuePerKey()

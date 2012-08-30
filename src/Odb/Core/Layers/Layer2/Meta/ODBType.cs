@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
+using NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Impl.Core.Oid;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
@@ -14,7 +15,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     ///   Contains the list for the ODB types
     /// </summary>
     /// <author>olivier s</author>
-    [Serializable]
+    
     public sealed class OdbType
     {
         public const int NullId = 0;
@@ -89,7 +90,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public const int NonNativeId = 300;
 
-        [NonSerialized]
+        [NonPersistent]
         private static IClassPool _classPool;
 
         public static readonly OdbType Null = new OdbType(true, NullId, "null", 1);

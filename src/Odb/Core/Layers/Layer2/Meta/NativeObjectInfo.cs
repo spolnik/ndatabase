@@ -6,7 +6,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     ///   To keep info about a native instance
     /// </summary>
     /// <author>olivier s</author>
-    [Serializable]
+    
     public abstract class NativeObjectInfo : AbstractObjectInfo
     {
         /// <summary>

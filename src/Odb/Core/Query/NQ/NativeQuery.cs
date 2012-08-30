@@ -3,7 +3,7 @@ using NDatabase.Odb.Core.Query.Execution;
 
 namespace NDatabase.Odb.Core.Query.NQ
 {
-    [Serializable]
+    
     public abstract class NativeQuery : AbstractQuery
     {
         public abstract bool Match(object @object);

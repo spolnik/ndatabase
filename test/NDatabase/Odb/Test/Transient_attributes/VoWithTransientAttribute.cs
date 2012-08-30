@@ -1,11 +1,11 @@
-using System;
 using System.Collections.Generic;
+using NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector;
 
 namespace Test.NDatabase.Odb.Test.Transient_attributes
 {
     public class VoWithTransientAttribute
     {
-        [NonSerialized]
+        [NonPersistent]
         private IList<string> keys;
 
         private string name;

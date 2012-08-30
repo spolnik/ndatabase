@@ -1,10 +1,11 @@
 using System;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Query.Execution;
+using NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector;
 
 namespace NDatabase.Odb.Core.Query
 {
-    [Serializable]
+    
     public abstract class AbstractQuery : IQuery
     {
         protected IQueryExecutionPlan ExecutionPlan;
@@ -17,7 +18,7 @@ namespace NDatabase.Odb.Core.Query
 
         private OrderByConstants _orderByType;
 
-        [NonSerialized]
+        [NonPersistent]
         private IStorageEngine _storageEngine;
 
         protected AbstractQuery()

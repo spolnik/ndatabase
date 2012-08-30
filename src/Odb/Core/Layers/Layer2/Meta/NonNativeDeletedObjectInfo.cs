@@ -5,7 +5,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// <summary>
     ///   To specify that an object has been mark as deleted
     /// </summary>
-    [Serializable]
+    
     public sealed class NonNativeDeletedObjectInfo : NonNativeObjectInfo
     {
         public NonNativeDeletedObjectInfo(long position, OID oid) : base(null, null)

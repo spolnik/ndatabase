@@ -4,7 +4,7 @@ using Test.NDatabase.Odb.Test.VO.School;
 
 namespace Test.NDatabase.Odb.Test.School
 {
-    [Serializable]
+    
     public class SchoolNativeQueryStudent : NativeQuery
     {
         private readonly string name;

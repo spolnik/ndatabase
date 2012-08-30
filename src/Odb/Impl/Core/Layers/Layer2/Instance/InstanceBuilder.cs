@@ -297,7 +297,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Instance
         /// </summary>
         public object BuildEnumInstance(EnumNativeObjectInfo enoi, Type enumClass)
         {
-            return Enum.Parse(enumClass, enoi.GetEnumName());
+            return Enum.Parse(enumClass, enoi.GetEnumName(), false);
         }
 
         /// <summary>
@@ -393,14 +393,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Instance
             {
                 var coi = (CollectionObjectInfo) objectInfo;
                 var value = BuildCollectionInstance(coi);
-                /* Manage a specific case of Set
-				if (typeof(Java.Util.Set).IsAssignableFrom(value.GetType()) && typeof(System.Collections.ICollection).IsAssignableFrom(value.GetType()))
-				{
-					Java.Util.Set s = new Java.Util.HashSet();
-					s.AddAll((System.Collections.ICollection)value);
-					value = s;
-				}
-				*/
+                
                 return value;
             }
             if (objectInfo.IsArrayObject())

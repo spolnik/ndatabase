@@ -3,10 +3,11 @@ using System.Collections;
 using NDatabase.Btree.Exception;
 using NDatabase.Btree.Tool;
 using NDatabase.Odb.Core;
+using NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector;
 
 namespace NDatabase.Btree.Impl
 {
-    [Serializable]
+    
     public abstract class AbstractBTree : IBTree
     {
         private readonly int _degree;
@@ -15,7 +16,7 @@ namespace NDatabase.Btree.Impl
 
         private int _height;
 
-        [NonSerialized]
+        [NonPersistent]
         private IBTreePersister _persister;
 
         private IBTreeNode _root;

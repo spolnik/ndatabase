@@ -3,6 +3,7 @@ using System.Text;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Core.Query.Execution;
+using NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
 
@@ -12,16 +13,16 @@ namespace NDatabase.Odb.Impl.Core.Query.Criteria
     ///   A simple Criteria execution plan Check if the query can use index and tries to find the best index to be used
     /// </summary>
     /// <author>osmadja</author>
-    [Serializable]
+    
     public sealed class CriteriaQueryExecutionPlan : IQueryExecutionPlan
     {
-        [NonSerialized]
+        [NonPersistent]
         private readonly ClassInfo _classInfo;
 
-        [NonSerialized]
+        [NonPersistent]
         private readonly CriteriaQuery _query;
 
-        [NonSerialized]
+        [NonPersistent]
         private ClassInfoIndex _classInfoIndex;
 
         /// <summary>

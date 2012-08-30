@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using NDatabase.Btree;
 using NDatabase.Odb.Core;
+using NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector;
 using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Impl.Core.Query.List
@@ -11,13 +12,13 @@ namespace NDatabase.Odb.Impl.Core.Query.List
     /// <summary>
     ///   A collection that uses a BTree as an underlying system to provide ordered by Collections <p></p>
     /// </summary>
-    [Serializable]
+    
     public abstract class AbstractBTreeCollection<TItem> : IObjects<TItem>
     {
         private readonly OrderByConstants _orderByType;
         private readonly IBTree _tree;
 
-        [NonSerialized]
+        [NonPersistent]
         private IEnumerator<TItem> _currentIterator;
 
         private int _size;

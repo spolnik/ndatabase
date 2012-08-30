@@ -12,8 +12,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
     /// </summary>
     public sealed class ByteArrayConverter : IByteArrayConverter
     {
-        private const String UtfEncoding = "UTF-8";
-
         private const byte ByteForTrue = 1;
         private const byte ByteForFalse = 0;
 
@@ -99,15 +97,21 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             {
                 try
                 {
-                    return Encoding.GetEncoding(UtfEncoding).GetBytes(s).Length + OdbType.Integer.GetSize() * 2;
+                    return Encoding.UTF8.GetBytes(s).Length + OdbType.Integer.GetSize() * 2;
                 }
                 catch (Exception)
                 {
                     throw new OdbRuntimeException(NDatabaseError.UnsupportedEncoding.AddParameter(_encoding));
                 }
             }
-            return Encoding.ASCII.GetBytes(s).Length;
+#if SILVERLIGHT
+            var bytes = new AsciiEncoding().GetBytes(s);
+#else
+            var bytes = Encoding.ASCII.GetBytes(s);
+#endif
+            return bytes.Length;
         }
+
 
         /// <summary>
         /// </summary>
@@ -124,7 +128,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             {
                 try
                 {
-                    bytes = Encoding.GetEncoding(UtfEncoding).GetBytes(s);
+                    bytes = Encoding.UTF8.GetBytes(s);
                 }
                 catch (Exception)
                 {
@@ -132,7 +136,13 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                 }
             }
             else
+            {
+#if SILVERLIGHT
+                bytes = new AsciiEncoding().GetBytes(s);
+#else
                 bytes = Encoding.ASCII.GetBytes(s);
+#endif
+            }
 
             if (!withSize)
                 return bytes;
@@ -177,10 +187,10 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             {
                 var realSize = ByteArrayToInt(bytes, _intSize);
 
-                return Encoding.GetEncoding(UtfEncoding).GetString(bytes, _intSizeX2, realSize);
+                return Encoding.UTF8.GetString(bytes, _intSizeX2, realSize);
             }
 
-            return Encoding.GetEncoding(UtfEncoding).GetString(bytes);
+            return Encoding.UTF8.GetString(bytes, 0, bytes.Length);
         }
 
         public byte[] BigDecimalToByteArray(Decimal bigDecimal, bool withSize)
@@ -269,5 +279,51 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         }
 
         #endregion
+
+#if SILVERLIGHT
+        /// <summary>
+        /// Silverlight doesn't have an ASCII encoder, so here is one:
+        /// </summary>
+        public class AsciiEncoding : Encoding
+        {
+            public override int GetMaxByteCount(int charCount)
+            {
+                return charCount;
+            }
+            public override int GetMaxCharCount(int byteCount)
+            {
+                return byteCount;
+            }
+            public override int GetByteCount(char[] chars, int index, int count)
+            {
+                return count;
+            }
+
+            public override int GetCharCount(byte[] bytes)
+            {
+                return bytes.Length;
+            }
+            public override int GetBytes(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
+            {
+                for (int i = 0; i < charCount; i++)
+                {
+                    bytes[byteIndex + i] = (byte)chars[charIndex + i];
+                }
+                return charCount;
+            }
+            public override int GetCharCount(byte[] bytes, int index, int count)
+            {
+                return count;
+            }
+            public override int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex)
+            {
+                for (int i = 0; i < byteCount; i++)
+                {
+                    chars[charIndex + i] = (char)bytes[byteIndex + i];
+                }
+                return byteCount;
+            }
+        }
+#endif
     }
 }

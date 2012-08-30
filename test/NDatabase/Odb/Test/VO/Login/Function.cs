@@ -1,8 +1,6 @@
-using System;
-
 namespace Test.NDatabase.Odb.Test.VO.Login
 {
-    [Serializable]
+    
     public class Function
     {
         private string name;

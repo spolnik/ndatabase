@@ -4,7 +4,7 @@ using NDatabase.Odb.Core;
 
 namespace NDatabase.Btree.Impl.Multiplevalue
 {
-    [Serializable]
+    
     public sealed class InMemoryBTreeMultipleValuesPerKey : AbstractBTree, IBTreeMultipleValuesPerKey
     {
         private static int _nextId = 1;

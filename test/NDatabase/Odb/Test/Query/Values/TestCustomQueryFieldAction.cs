@@ -5,7 +5,7 @@ using NDatabase.Odb.Impl.Core.Query.Values;
 
 namespace Test.NDatabase.Odb.Test.Query.Values
 {
-    [Serializable]
+    
     public class TestCustomQueryFieldAction : CustomQueryFieldAction
     {
         private Decimal myValue;

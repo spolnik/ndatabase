@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NDatabase.Odb.Impl.Core.Oid
 {
-    [Serializable]
+    
     public sealed class DatabaseIdImpl : IDatabaseId
     {
         private readonly long[] _ids;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
+using NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
 using NDatabase.Tool.Wrappers.Map;
@@ -12,7 +13,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// <summary>
     ///   The database meta-model
     /// </summary>
-    [Serializable]
+    
     public sealed class MetaModel
     {
         /// <summary>
@@ -28,7 +29,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// </summary>
         private readonly OdbHashMap<ClassInfo, ClassInfo> _changedClasses;
 
-        [NonSerialized]
+        [NonPersistent]
         private readonly IClassPool _classPool;
 
         private readonly IDictionary<OID, ClassInfo> _rapidAccessForClassesByOid;

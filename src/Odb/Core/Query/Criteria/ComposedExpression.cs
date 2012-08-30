@@ -6,7 +6,7 @@ using NDatabase.Tool.Wrappers.List;
 
 namespace NDatabase.Odb.Core.Query.Criteria
 {
-    [Serializable]
+    
     public abstract class ComposedExpression : AbstractExpression
     {
         protected IOdbList<ICriterion> Criteria;

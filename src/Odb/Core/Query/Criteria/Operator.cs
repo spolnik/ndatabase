@@ -2,7 +2,7 @@ using System;
 
 namespace NDatabase.Odb.Core.Query.Criteria
 {
-    [Serializable]
+    
     public sealed class Operator
     {
         public static readonly Operator Equal = new Operator("=");

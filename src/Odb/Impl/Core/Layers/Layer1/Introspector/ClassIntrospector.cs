@@ -6,11 +6,13 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using NDatabase.Btree;
 using NDatabase.Btree.Impl;
+using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Impl.Core.Btree;
 using NDatabase.Odb.Impl.Core.Oid;
+using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
 using NDatabase.Tool.Wrappers.Map;
@@ -31,7 +33,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
         private readonly IDictionary<string, Type> _systemClasses = new OdbHashMap<string, Type>();
 
         private IClassPool _classPool;
-
+        
         #region IClassIntrospector Members
 
         /// <summary>
@@ -225,7 +227,11 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
 
         public Object NewInstanceOf(Type clazz)
         {
+#if SILVERLIGHT
+            return SilverlightClassIntrospector.NewInstanceOf(clazz);
+#else
             return FormatterServices.GetUninitializedObject(clazz);
+#endif
         }
 
         private byte GetClassCategory(string fullClassName)

@@ -7,7 +7,7 @@ using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Impl.Core.Query.Criteria
 {
-    [Serializable]
+    
     public sealed class ContainsCriterion : AbstractCriterion
     {
         private object _criterionValue;

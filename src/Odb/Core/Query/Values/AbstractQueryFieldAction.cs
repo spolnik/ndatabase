@@ -5,7 +5,7 @@ using NDatabase.Odb.Core.Query.Execution;
 
 namespace NDatabase.Odb.Core.Query.Values
 {
-    [Serializable]
+    
     public abstract class AbstractQueryFieldAction : IQueryFieldAction
     {
         protected string Alias;

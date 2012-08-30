@@ -5,7 +5,7 @@ using NDatabase.Tool.Wrappers.List;
 
 namespace NDatabase.Odb.Core.Query.Criteria
 {
-    [Serializable]
+    
     public sealed class Not : AbstractExpression
     {
         private readonly ICriterion _criterion;

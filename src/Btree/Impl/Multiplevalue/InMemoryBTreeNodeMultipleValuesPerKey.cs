@@ -3,7 +3,7 @@ using NDatabase.Btree.Exception;
 
 namespace NDatabase.Btree.Impl.Multiplevalue
 {
-    [Serializable]
+    
     public sealed class InMemoryBTreeNodeMultipleValuesPerKey : BTreeNodeMultipleValuesPerKey
     {
         private static int _nextId = 1;

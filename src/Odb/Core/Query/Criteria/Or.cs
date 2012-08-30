@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NDatabase.Odb.Core.Query.Criteria
 {
-    [Serializable]
+    
     public sealed class Or : ComposedExpression
     {
         public override bool Match(object @object)

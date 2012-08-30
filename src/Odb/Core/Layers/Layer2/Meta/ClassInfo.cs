@@ -10,7 +10,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// <summary>
     ///   A meta representation of a class
     /// </summary>
-    [Serializable]
+    
     public sealed class ClassInfo
     {
         /// <summary>

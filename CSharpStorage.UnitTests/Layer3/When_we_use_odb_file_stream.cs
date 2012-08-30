@@ -103,7 +103,7 @@ namespace NDatabase.UnitTests.Layer3
 
             Assert.That(size, Is.EqualTo(bytes.Length));
 
-            var value = Encoding.GetEncoding("UTF-8").GetString(buffer);
+            var value = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
 
             Assert.That(value, Is.EqualTo(name));
         }

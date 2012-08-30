@@ -9,7 +9,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// <remarks>
     ///   A Map to contain values of attributes of an object. It is used to optimize a criteria query execution where ODB , while reading an instance data, tries to retrieve only values of attributes involved in the query instead of reading the entire object.
     /// </remarks>
-    [Serializable]
+    
     public sealed class AttributeValuesMap : Hashtable
 
     {

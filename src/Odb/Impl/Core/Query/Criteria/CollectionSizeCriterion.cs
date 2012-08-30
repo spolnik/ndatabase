@@ -11,7 +11,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Criteria
     ///   A criterio to test collection or array size
     /// </summary>
     /// <author>olivier s</author>
-    [Serializable]
+    
     public sealed class CollectionSizeCriterion : AbstractCriterion
     {
         public const int SizeEq = 1;

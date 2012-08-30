@@ -11,7 +11,7 @@ namespace NDatabase.Odb.Core.Query.Criteria
     ///   An adapter for Criterion.
     /// </remarks>
     /// <author>olivier s</author>
-    [Serializable]
+    
     public abstract class AbstractCriterion : ICriterion
     {
         /// <summary>

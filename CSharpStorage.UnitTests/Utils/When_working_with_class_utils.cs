@@ -67,7 +67,7 @@ namespace NDatabase.UnitTests.Utils
         public void It_should_return_proper_full_name_for_basic_type()
         {
             var fullName = OdbClassUtil.GetFullName(typeof(int));
-            Assert.That(fullName, Is.EqualTo("System.Int32,mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"));
+            Assert.That(fullName, Is.StringStarting("System.Int32,mscorlib, Version="));
         }
     }
 }

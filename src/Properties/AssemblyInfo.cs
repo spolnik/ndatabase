@@ -42,3 +42,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("1.0.1.0")]
 [assembly: InternalsVisibleTo("NDatabase.UnitTests")]
 [assembly: InternalsVisibleTo("NDatabase.Old.UnitTests")]
+[assembly: InternalsVisibleTo("NDatabase.UnitTests.Silverlight")]

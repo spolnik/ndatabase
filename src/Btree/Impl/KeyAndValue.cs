@@ -3,7 +3,7 @@ using System.Text;
 
 namespace NDatabase.Btree.Impl
 {
-    [Serializable]
+    
     public sealed class KeyAndValue : IKeyAndValue
     {
         private IComparable _key;

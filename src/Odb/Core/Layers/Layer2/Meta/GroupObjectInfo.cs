@@ -10,7 +10,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     ///   A super class for CollectionObjectInfo, MapObjectInfo and ArrayObjectInfo. It keeps a list of reference to non native objects contained in theses structures
     /// </remarks>
     /// <author>osmadja</author>
-    [Serializable]
+    
     public abstract class GroupObjectInfo : NativeObjectInfo
     {
         private ICollection<NonNativeObjectInfo> _nonNativeObjects;

@@ -136,7 +136,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         IBufferedIO GetIo();
 
-        void SetDatabaseCharacterEncoding(string databaseCharacterEncoding);
+//        void SetDatabaseCharacterEncoding(string databaseCharacterEncoding);
 
         void SetIo(IBufferedIO io);
         void SetByteArrayConverter(IByteArrayConverter byteArrayConverter);

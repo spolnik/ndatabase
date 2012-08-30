@@ -8,7 +8,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// <remarks>
     ///   Used for committed zone info. It has one more attribute than the super class. It is used to keep track of committed deleted objects
     /// </remarks>
-    [Serializable]
+    
     public sealed class CommittedCIZoneInfo : CIZoneInfo
     {
         private long _nbDeletedObjects;

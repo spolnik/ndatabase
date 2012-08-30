@@ -4,7 +4,7 @@ using NDatabase.Tool.Wrappers.List;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
-    [Serializable]
+    
     public sealed class CheckMetaModelResult
     {
         private bool _modelHasBeenUpdated;

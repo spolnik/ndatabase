@@ -12,7 +12,7 @@ namespace NDatabase.Odb.Impl.Core.Query.List.Objects
     ///   A simple list to hold query result. It is used when no index and no order by is used and inMemory = true
     /// </remarks>
     /// <author>osmadja</author>
-    [Serializable]
+    
     public class SimpleList<TItem> : List<TItem>, IObjects<TItem>
     {
         private int _currentPosition;

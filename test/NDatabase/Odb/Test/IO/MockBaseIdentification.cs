@@ -3,28 +3,22 @@ using NDatabase.Odb.Core.Layers.Layer3;
 
 namespace Test.Odb.Test.IO
 {
-    public class MockBaseIdentification : IBaseIdentification
+    public class MockBaseIdentification : IFileIdentification
     {
         #region IBaseIdentification Members
-
-        public bool CanWrite()
-        {
-            return false;
-        }
 
         public String GetIdentification()
         {
             return "mock";
         }
 
+        public string Id { get { return "mock"; } }
+        public string Directory { get { return string.Empty; } }
+        public string FileName { get { return "mock"; } }
+
         public bool IsNew()
         {
             return false;
-        }
-
-        public String GetDirectory()
-        {
-            return string.Empty;
         }
 
         #endregion

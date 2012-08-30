@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NDatabase.Odb.Impl.Core.Oid
 {
-    [Serializable]
+    
     public sealed class TransactionIdImpl : ITransactionId
     {
         private readonly IDatabaseId _databaseId;

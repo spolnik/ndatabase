@@ -9,7 +9,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     ///   Class keep track of object pointers and number of objects of a class info for a specific zone <pre>For example, to keep track of first committed and last committed object position.</pre>
     /// </remarks>
     /// <author>osmadja</author>
-    [Serializable]
+    
     public class CIZoneInfo
     {
         private readonly ClassInfo _ci;

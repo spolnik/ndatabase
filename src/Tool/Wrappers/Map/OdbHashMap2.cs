@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace NDatabase.Tool.Wrappers.Map
 {
-    [Serializable]
+    
     public sealed class OdbHashMap<TKey, TValue> : IDictionary<TKey, TValue>
     {
         private readonly IDictionary<TKey, TValue> _dictionary;

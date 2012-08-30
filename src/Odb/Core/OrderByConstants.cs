@@ -6,7 +6,7 @@ namespace NDatabase.Odb.Core
     ///   Some constants used for ordering queries and creating ordered collection iterators
     /// </summary>
     /// <author>osmadja</author>
-    [Serializable]
+    
     public sealed class OrderByConstants
     {
         private const int OrderByNoneType = 0;

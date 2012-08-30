@@ -3,16 +3,17 @@ using System.Collections;
 using System.Text;
 using NDatabase.Btree.Exception;
 using NDatabase.Btree.Tool;
+using NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector;
 
 namespace NDatabase.Btree.Impl
 {
-    [Serializable]
+    
     public abstract class AbstractBTreeNode : IBTreeNode
     {
         /// <summary>
         ///   The BTree owner of this node
         /// </summary>
-        [NonSerialized]
+        [NonPersistent]
         protected IBTree Btree;
 
         protected int NbChildren;

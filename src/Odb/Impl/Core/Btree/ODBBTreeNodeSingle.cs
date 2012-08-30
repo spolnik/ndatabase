@@ -2,6 +2,7 @@ using System;
 using NDatabase.Btree;
 using NDatabase.Btree.Exception;
 using NDatabase.Btree.Impl.Singlevalue;
+using NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector;
 
 namespace NDatabase.Odb.Impl.Core.Btree
 {
@@ -12,7 +13,7 @@ namespace NDatabase.Odb.Impl.Core.Btree
     ///   The NDatabase ODB BTree Node implementation. It extends the DefaultBTreeNode generic implementation to be able to be stored in the ODB database.
     /// </remarks>
     /// <author>osmadja</author>
-    [Serializable]
+    
     public sealed class OdbBtreeNodeSingle : BTreeNodeSingleValuePerKey
     {
         private OID[] _childrenOids;
@@ -21,7 +22,7 @@ namespace NDatabase.Odb.Impl.Core.Btree
         /// <summary>
         ///   lazy loaded
         /// </summary>
-        [NonSerialized]
+        [NonPersistent]
         private IBTreeNode _parent;
 
         private OID _parentOid;

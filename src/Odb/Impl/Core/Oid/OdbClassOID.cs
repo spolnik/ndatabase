@@ -2,7 +2,7 @@ using System;
 
 namespace NDatabase.Odb.Impl.Core.Oid
 {
-    [Serializable]
+    
     public class OdbClassOID : OdbAbstractOID
     {
         public OdbClassOID(long oid) : base(oid)

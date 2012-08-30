@@ -10,7 +10,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     ///                                                          - If it is an index</pre>
     /// </summary>
     /// <author>olivier s</author>
-    [Serializable]
+    
     public sealed class ClassAttributeInfo
     {
         /// <summary>
