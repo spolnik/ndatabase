@@ -324,7 +324,7 @@
     <Compile Include="Tool\DisplayUtility.cs" />
     <Compile Include="Tool\DLogger.cs" />
     <Compile Include="Tool\ILogger.cs" />
-    <Compile Include="Tool\Wrappers\IO\MultiBufferVO.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IO\MultiBufferVO.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IO\OdbDirectory.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IO\OdbFileStream.cs" />
     <Compile Include="Tool\Wrappers\List\IOdbList.cs" />

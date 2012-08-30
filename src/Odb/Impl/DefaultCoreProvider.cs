@@ -55,27 +55,7 @@ namespace NDatabase.Odb.Impl
             return ByteArrayConverter;
         }
 
-        /// <summary>
-        ///   TODO Return a list of IO to enable replication or other IO mechanism Used by the 
-        ///   TODO FileSystemInterface to actual write/read byte to underlying storage
-        /// </summary>
-        /// <param name="name"> The name of the buffered io </param>
-        /// <param name="parameters"> The parameters that define the buffer </param>
-        /// <param name="bufferSize"> The size of the buffers </param>
-        /// <returns> The buffer implementation @ </returns>
-        public IBufferedIO GetIO(string name, IFileIdentification parameters, int bufferSize)
-        {
-            var fileParameters = parameters as FileIdentification;
-
-            if (fileParameters != null)
-            {
-                OdbDirectory.Mkdirs(fileParameters.FileName);
-
-                return new MultiBufferedFileIO(OdbConfiguration.GetNbBuffers(), name, fileParameters.FileName, bufferSize);
-            }
-
-            throw new OdbRuntimeException(NDatabaseError.UnsupportedIoType.AddParameter(parameters.ToString()));
-        }
+        
 
         public IIdManager GetIdManager(IStorageEngine engine)
         {

@@ -6,14 +6,13 @@ using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.IO;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
-using NDatabase.Tool.Wrappers.IO;
 
 namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
 {
     /// <summary>
-    ///   Abstract class allowing buffering for IO This class is used to give a transparent access to buffered io : File, socket The DefaultFileIO and DefaultSocketIO inherits from AbstractIO
+    ///   Class allowing buffering for IO This class is used to give 
+    ///   a transparent access to buffered file io
     /// </summary>
-    /// <author>olivier s</author>
     public sealed class MultiBufferedFileIO : IBufferedIO
     {
         private const int Read = 1;
@@ -21,7 +20,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
 
         public static readonly string LogId = "MultiBufferedIO";
 
-        private OdbFileStream _fileWriter;
+        private IOdbFileStream _fileWriter;
         private readonly string _wholeFileName;
 
         /// <summary>

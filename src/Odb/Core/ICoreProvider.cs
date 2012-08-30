@@ -2,8 +2,6 @@ using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
-using NDatabase.Odb.Core.Query;
-using NDatabase.Odb.Core.Query.Execution;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Odb.Core.Trigger;
 
@@ -19,15 +17,6 @@ namespace NDatabase.Odb.Core
     public interface ICoreProvider : ITwoPhaseInit
     {
         IByteArrayConverter GetByteArrayConverter();
-
-        /// <summary>
-        ///   TODO Return a list of IO to enable replication or other IO mechanism Used by the FileSystemInterface to actual write/read byte to underlying storage
-        /// </summary>
-        /// <param name="name"> The name of the buffered io </param>
-        /// <param name="parameters"> The parameters that define the buffer </param>
-        /// <param name="bufferSize"> The size of the buffers </param>
-        /// <returns> The buffer implementation </returns>
-        IBufferedIO GetIO(string name, IFileIdentification parameters, int bufferSize);
 
         /// <summary>
         ///   Returns the Local Instance Builder

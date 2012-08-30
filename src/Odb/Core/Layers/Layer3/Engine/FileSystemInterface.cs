@@ -1,6 +1,8 @@
 using System;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Layers.Layer3.IO;
 using NDatabase.Odb.Core.Transaction;
+using NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer;
 using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NDatabase.Tool;
 
@@ -27,26 +29,20 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         private readonly ISession _session;
 
         private IBufferedIO _io;
-        private readonly string _name;
 
         public FileSystemInterface(string name, IFileIdentification fileIdentification, int bufferSize, ISession session)
         {
-            _name = name;
             _fileIdentification = fileIdentification;
-            
-            var coreProvider = OdbConfiguration.GetCoreProvider();
-            _io = coreProvider.GetIO(name, fileIdentification, bufferSize);
-            _byteArrayConverter = coreProvider.GetByteArrayConverter();
+
+            OdbDirectory.Mkdirs(fileIdentification.FileName);
+            _io = new MultiBufferedFileIO(OdbConfiguration.GetNbBuffers(), name, fileIdentification.FileName, bufferSize);
+
+            _byteArrayConverter = OdbConfiguration.GetCoreProvider().GetByteArrayConverter();
             _session = session;
         }
 
         public static int NbCall1 { get; private set; }
         public static int NbCall2 { get; private set; }
-
-        public string Name
-        {
-            get { return _name; }
-        }
 
         #region IFileSystemInterface Members
 
