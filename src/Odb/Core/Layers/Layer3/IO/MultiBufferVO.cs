@@ -1,8 +1,8 @@
 using System;
 
-namespace NDatabase.Tool.Wrappers.IO
+namespace NDatabase.Odb.Core.Layers.Layer3.IO
 {
-    public sealed class MultiBufferVO
+    internal sealed class MultiBufferVO
     {
         ///<summary>
         ///  The buffer size.
@@ -21,7 +21,7 @@ namespace NDatabase.Tool.Wrappers.IO
         ///</summary>
         private bool[] _bufferHasBeenUsedForWrite;
 
-        public MultiBufferVO(int numberOfBuffers, int bufferSize)
+        internal MultiBufferVO(int numberOfBuffers, int bufferSize)
         {
             _numberOfBuffers = numberOfBuffers;
             _bufferSize = bufferSize;
@@ -59,9 +59,6 @@ namespace NDatabase.Tool.Wrappers.IO
             return Buffers[bufferIndex][byteIndex];
         }
 
-        ///<summary>
-        ///  @param i
-        ///</summary>
         public void ClearBuffer(int bufferIndex)
         {
             var buffer = Buffers[bufferIndex];
@@ -75,9 +72,6 @@ namespace NDatabase.Tool.Wrappers.IO
             _bufferHasBeenUsedForWrite[bufferIndex] = false;
         }
 
-        ///<summary>
-        ///  @param bufferIndex @param positionInBuffer @param b
-        ///</summary>
         public void SetByte(int bufferIndex, int positionInBuffer, byte b)
         {
             if (Buffers[bufferIndex] == null)
@@ -104,17 +98,11 @@ namespace NDatabase.Tool.Wrappers.IO
             return -1;
         }
 
-        ///<summary>
-        ///  @param bufferIndex @param currentTimeInMs
-        ///</summary>
         public void SetCreationDate(int bufferIndex, long currentTimeInMs)
         {
             _creations[bufferIndex] = currentTimeInMs;
         }
 
-        ///<summary>
-        ///  @param bufferIndex @param newPosition @param endPosition @param i
-        ///</summary>
         public void SetPositions(int bufferIndex, long startPosition, long endPosition, int maxPosition)
         {
             BufferStartPosition[bufferIndex] = startPosition;
@@ -122,9 +110,6 @@ namespace NDatabase.Tool.Wrappers.IO
             MaxPositionInBuffer[bufferIndex] = maxPosition;
         }
 
-        ///<summary>
-        ///  @param bufferIndex @param bytes @param startIndex @param i @param lengthToCopy
-        ///</summary>
         public void WriteBytes(int bufferIndex, byte[] bytes, int startIndex, int offsetWhereToCopy, int lengthToCopy)
         {
             Array.Copy(bytes, startIndex, Buffers[bufferIndex], offsetWhereToCopy, lengthToCopy);
@@ -136,16 +121,11 @@ namespace NDatabase.Tool.Wrappers.IO
                 MaxPositionInBuffer[bufferIndex] = positionInBuffer;
         }
 
-        ///<summary>
-        ///  @param bufferIndex @return
-        ///</summary>
         public bool HasBeenUsedForWrite(int bufferIndex)
         {
             return _bufferHasBeenUsedForWrite[bufferIndex];
         }
 
-        ///<summary>
-        ///</summary>
         public void Clear()
         {
             Buffers = null;
@@ -155,9 +135,6 @@ namespace NDatabase.Tool.Wrappers.IO
             _bufferHasBeenUsedForWrite = null;
         }
 
-        ///<summary>
-        ///  @param i @return
-        ///</summary>
         public long GetCreationDate(int bufferIndex)
         {
             return _creations[bufferIndex];
