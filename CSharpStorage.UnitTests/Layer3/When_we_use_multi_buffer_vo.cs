@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Layer3
 {
-    public class When_we_use_multi_buffer_vo : InstanceSpecification<IMultiBuffer>
+    internal class When_we_use_multi_buffer_vo : InstanceSpecification<IMultiBuffer>
     {
         private long _buffer1StartPosition;
         private long _buffer1EndPosition;

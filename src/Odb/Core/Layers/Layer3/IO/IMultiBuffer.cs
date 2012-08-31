@@ -1,6 +1,6 @@
 namespace NDatabase.Odb.Core.Layers.Layer3.IO
 {
-    public interface IMultiBuffer
+    internal interface IMultiBuffer
     {
         byte[][] Buffers { get; }
 

@@ -73,7 +73,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
 
         private MultiBufferedFileIO(string name, int bufferSize)
         {
-            SetMultiBuffer(new MultiBuffer(bufferSize));
+            _multiBuffer = new MultiBuffer(bufferSize);
             _bufferSize = bufferSize;
             _currentPositionWhenUsingBuffer = -1;
             _currentPositionForDirectWrite = -1;
@@ -97,11 +97,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
         public static int NbBufferOk { get; set; }
 
         public static int NbBufferNotOk { get; set; }
-
-        public void SetMultiBuffer(IMultiBuffer value)
-        {
-            _multiBuffer = value;
-        }
 
         #region IBufferedIO Members
 
@@ -481,7 +476,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
         {
             FlushAll();
             _multiBuffer.Clear();
-            SetMultiBuffer(null);
+            _multiBuffer = null;
             _overlappingBuffers = null;
         }
 

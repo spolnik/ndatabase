@@ -148,7 +148,7 @@
     <Compile Include="Odb\Core\Layers\Layer3\ICommitListener.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IDTypes.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IIdManager.cs" />
-    <Compile Include="Odb\Core\Layers\Layer3\IOdbFileStream.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IO\IOdbFileStream.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IObjectReader.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IObjectWriter.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IObjectWriterCallback.cs" />

@@ -52,6 +52,5 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         void EnableAutomaticDelete(bool yesOrNo);
 
         bool AutomaticDeleteIsEnabled();
-        void SetMultiBuffer(IMultiBuffer value);
     }
 }

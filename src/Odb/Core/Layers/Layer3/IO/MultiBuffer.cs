@@ -2,7 +2,7 @@ using System;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.IO
 {
-    public sealed class MultiBuffer : IMultiBuffer
+    internal sealed class MultiBuffer : IMultiBuffer
     {
         ///<summary>
         ///  The number of buffers.
@@ -134,7 +134,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
 
         #region Nested type: BufferPosition
 
-        public struct BufferPosition
+        internal struct BufferPosition
         {
             ///<summary>
             ///  The current start position of the buffer
