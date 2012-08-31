@@ -55,10 +55,9 @@ namespace NDatabase.UnitTests.Layer3
         }
 
         [Test]
-        public void It_should_return_minus_one_when_reading_from_out_of_range_position()
+        public void It_should_throw_exception_when_reading_from_out_of_range_position()
         {
-            var value = SubjectUnderTest.Read();
-            Assert.That(value, Is.EqualTo(-1));
+            Assert.That(() => SubjectUnderTest.Read(), Throws.Exception.TypeOf<OdbRuntimeException>());
         }
 
         [Test]

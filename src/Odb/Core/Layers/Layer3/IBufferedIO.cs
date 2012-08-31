@@ -1,5 +1,3 @@
-using NDatabase.Odb.Core.Layers.Layer3.IO;
-
 namespace NDatabase.Odb.Core.Layers.Layer3
 {
     /// <summary>
@@ -8,18 +6,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
     /// <author>osmadja</author>
     public interface IBufferedIO
     {
-        void GoToPosition(long position);
-
         long GetLength();
-
-        /// <summary>
-        ///   Checks if the new position is in the buffer, if not, flushes the buffer and rebuilds it to the correct position
-        /// </summary>
-        /// <param name="newPosition"> </param>
-        /// <param name="readOrWrite"> </param>
-        /// <param name="size"> Size if the data that must be stored </param>
-        /// <returns> The index of the buffer where that contains the position </returns>
-        int ManageBufferForNewPosition(long newPosition, int readOrWrite, int size);
 
         void SetUseBuffer(bool useBuffer);
 
@@ -30,8 +17,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         void SetCurrentReadPosition(long currentPosition);
 
         void WriteByte(byte b);
-
-        byte[] ReadBytesOld(int size);
 
         byte[] ReadBytes(int size);
 
@@ -50,7 +35,5 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         void Close();
 
         void EnableAutomaticDelete(bool yesOrNo);
-
-        bool AutomaticDeleteIsEnabled();
     }
 }

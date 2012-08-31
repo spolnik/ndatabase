@@ -88,19 +88,19 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
         /// <summary>
         ///   Internal counter of flush
         /// </summary>
-        public static long NumberOfFlush { get; set; }
+        public static long NumberOfFlush { get; private set; }
 
-        public static long TotalFlushSize { get; set; }
+        public static long TotalFlushSize { get; private set; }
 
-        public static int NbFlushForOverlap { get; set; }
+        public static int NbFlushForOverlap { get; private set; }
 
-        public static int NbBufferOk { get; set; }
+        public static int NbBufferOk { get; private set; }
 
-        public static int NbBufferNotOk { get; set; }
+        public static int NbBufferNotOk { get; private set; }
 
         #region IBufferedIO Members
 
-        public void GoToPosition(long position)
+        private void GoToPosition(long position)
         {
             _fileWriter.Seek(position);
         }
@@ -110,60 +110,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
             return GetIoDeviceLength();
         }
 
-        public void InternalWrite(byte b)
-        {
-            try
-            {
-                _fileWriter.Write(b);
-            }
-            catch (IOException e)
-            {
-                throw new OdbRuntimeException(e, "Error while writing a byte");
-            }
-        }
-
-        public void InternalWrite(byte[] buffer, int size)
-        {
-            try
-            {
-                _fileWriter.Write(buffer, size);
-            }
-            catch (IOException e)
-            {
-                throw new OdbRuntimeException(e, "Error while writing an array of byte");
-            }
-        }
-
-        public byte InternalRead()
-        {
-            try
-            {
-                var data = _fileWriter.Read();
-                if (data == -1)
-                    throw new IOException("Enf of file");
-
-                return (byte) data;
-            }
-            catch (IOException e)
-            {
-                throw new OdbRuntimeException(e, "Error while reading a byte");
-            }
-        }
-
-        public long InternalRead(byte[] array, int size)
-        {
-            // FIXME raf.read only returns int not long
-            try
-            {
-                return _fileWriter.Read(array, size);
-            }
-            catch (IOException e)
-            {
-                throw new OdbRuntimeException(e, "Error while reading an array of byte");
-            }
-        }
-
-        public void CloseIO()
+        private void CloseIO()
         {
             try
             {
@@ -182,7 +129,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
 
         private void AutoDelete()
         {
-            if (!IsForTransaction() || !AutomaticDeleteIsEnabled())
+            if (!IsForTransaction() || !_enableAutomaticDelete)
                 return;
 
             OdbFactory.Delete(_wholeFileName);
@@ -190,7 +137,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
                 throw new OdbRuntimeException(NDatabaseError.CanNotDeleteFile.AddParameter(_wholeFileName));
         }
 
-        public int ManageBufferForNewPosition(long newPosition, int readOrWrite, int size)
+        private int ManageBufferForNewPosition(long newPosition, int readOrWrite, int size)
         {
             var bufferIndex = _multiBuffer.GetBufferIndexForPosition(newPosition, size);
             if (bufferIndex != -1)
@@ -236,7 +183,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
                 // buffer, we first read the content of the file
                 GoToPosition(newPosition);
                 // Actually loads data from the file to the buffer
-                nread = InternalRead(_multiBuffer.Buffers[bufferIndex], _bufferSize);
+                nread = _fileWriter.Read(_multiBuffer.Buffers[bufferIndex], _bufferSize);
                 _multiBuffer.SetCreationDate(bufferIndex, OdbTime.GetCurrentTimeInTicks());
             }
             else
@@ -311,7 +258,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
             if (!_isUsingBuffer)
             {
                 GoToPosition(_currentPositionForDirectWrite);
-                InternalWrite(b);
+                _fileWriter.Write(b);
                 _currentPositionForDirectWrite++;
                 return;
             }
@@ -329,14 +276,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
                 _ioDeviceLength = _currentPositionWhenUsingBuffer;
         }
 
-        public byte[] ReadBytesOld(int size)
-        {
-            var bytes = new byte[size];
-            for (var i = 0; i < size; i++)
-                bytes[i] = ReadByte();
-            return bytes;
-        }
-
         public byte[] ReadBytes(int size)
         {
             var bytes = new byte[size];
@@ -344,7 +283,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
             {
                 // If there is no buffer, simply read data
                 GoToPosition(_currentPositionForDirectWrite);
-                var realSize = InternalRead(bytes, size);
+                var realSize = _fileWriter.Read(bytes, size);
                 _currentPositionForDirectWrite += realSize;
                 return bytes;
             }
@@ -376,7 +315,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
             if (!_isUsingBuffer)
             {
                 GoToPosition(_currentPositionForDirectWrite);
-                var b = InternalRead();
+                var b = (byte) _fileWriter.Read();
                 _currentPositionForDirectWrite++;
                 return b;
             }
@@ -432,7 +371,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
                 // the +1 is because the maxPositionInBuffer is a position and the
                 // parameter is a length
                 var bufferSizeToFlush = _multiBuffer.MaxPositionInBuffer[bufferIndex] + 1;
-                InternalWrite(buffer, bufferSizeToFlush);
+                _fileWriter.Write(buffer, bufferSizeToFlush);
                 NumberOfFlush++;
                 TotalFlushSize += bufferSizeToFlush;
                 if (OdbConfiguration.IsDebugEnabled(LogId))
@@ -490,11 +429,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
             _enableAutomaticDelete = yesOrNo;
         }
 
-        public bool AutomaticDeleteIsEnabled()
-        {
-            return _enableAutomaticDelete;
-        }
-
         #endregion
 
         /// <summary>
@@ -544,7 +478,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
             if (!_isUsingBuffer)
             {
                 GoToPosition(_currentPositionForDirectWrite);
-                InternalWrite(bytes, bytes.Length);
+                _fileWriter.Write(bytes, bytes.Length);
                 _currentPositionForDirectWrite += bytes.Length;
                 return;
             }
@@ -562,12 +496,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
             _currentPositionWhenUsingBuffer += lengthToCopy;
             if (_currentPositionWhenUsingBuffer > _ioDeviceLength)
                 _ioDeviceLength = _currentPositionWhenUsingBuffer;
-        }
-
-        /// <returns> Returns the numberOfFlush. </returns>
-        public long GetNumberOfFlush()
-        {
-            return NumberOfFlush;
         }
 
         public override string ToString()

@@ -72,22 +72,55 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
 
         public void Write(byte b)
         {
-            _fileAccess.WriteByte(b);
+            try
+            {
+                _fileAccess.WriteByte(b);
+            }
+            catch (IOException e)
+            {
+                throw new OdbRuntimeException(e, "Error while writing a byte");
+            }
         }
 
         public void Write(byte[] buffer, int size)
         {
-            _fileAccess.Write(buffer, 0, size);
+            try
+            {
+                _fileAccess.Write(buffer, 0, size);
+            }
+            catch (IOException e)
+            {
+                throw new OdbRuntimeException(e, "Error while writing an array of byte");
+            }
         }
 
         public int Read()
         {
-            return _fileAccess.ReadByte();
+            try
+            {
+                var data = _fileAccess.ReadByte();
+                if (data == -1)
+                    throw new IOException("End of file");
+
+                return (byte)data;
+            }
+            catch (IOException e)
+            {
+                throw new OdbRuntimeException(e, "Error while reading a byte");
+            }
         }
 
         public long Read(byte[] buffer, int size)
         {
-            return _fileAccess.Read(buffer, 0, size);
+            // FIXME raf.read only returns int not long
+            try
+            {
+                return _fileAccess.Read(buffer, 0, size);
+            }
+            catch (IOException e)
+            {
+                throw new OdbRuntimeException(e, "Error while reading an array of byte");
+            }
         }
 
         public void Close()
