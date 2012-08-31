@@ -104,11 +104,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                     throw new OdbRuntimeException(NDatabaseError.UnsupportedEncoding.AddParameter(_encoding));
                 }
             }
-#if SILVERLIGHT
-            var bytes = new AsciiEncoding().GetBytes(s);
-#else
             var bytes = Encoding.ASCII.GetBytes(s);
-#endif
             return bytes.Length;
         }
 
@@ -137,11 +133,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             }
             else
             {
-#if SILVERLIGHT
-                bytes = new AsciiEncoding().GetBytes(s);
-#else
-                bytes = Encoding.ASCII.GetBytes(s);
-#endif
+              bytes = Encoding.ASCII.GetBytes(s);
             }
 
             if (!withSize)
@@ -279,51 +271,5 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         }
 
         #endregion
-
-#if SILVERLIGHT
-        /// <summary>
-        /// Silverlight doesn't have an ASCII encoder, so here is one:
-        /// </summary>
-        public class AsciiEncoding : Encoding
-        {
-            public override int GetMaxByteCount(int charCount)
-            {
-                return charCount;
-            }
-            public override int GetMaxCharCount(int byteCount)
-            {
-                return byteCount;
-            }
-            public override int GetByteCount(char[] chars, int index, int count)
-            {
-                return count;
-            }
-
-            public override int GetCharCount(byte[] bytes)
-            {
-                return bytes.Length;
-            }
-            public override int GetBytes(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
-            {
-                for (int i = 0; i < charCount; i++)
-                {
-                    bytes[byteIndex + i] = (byte)chars[charIndex + i];
-                }
-                return charCount;
-            }
-            public override int GetCharCount(byte[] bytes, int index, int count)
-            {
-                return count;
-            }
-            public override int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex)
-            {
-                for (int i = 0; i < byteCount; i++)
-                {
-                    chars[charIndex + i] = (char)bytes[byteIndex + i];
-                }
-                return byteCount;
-            }
-        }
-#endif
     }
 }

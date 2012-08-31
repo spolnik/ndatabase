@@ -119,35 +119,6 @@ namespace Test.NDatabase.Odb.Test.Insert
         }
 
         [Test]
-        public virtual void TestBufferSize()
-        {
-            var size = OdbConfiguration.GetDefaultBufferSizeForData();
-            OdbConfiguration.SetDefaultBufferSizeForData(5);
-            DeleteBase("ti1.neodatis");
-            var odb = Open("ti1.neodatis");
-            var b = new StringBuilder();
-            for (var i = 0; i < 1000; i++)
-                b.Append("login - login ");
-            var login = new VO.Login.Function(b.ToString());
-            var profile1 = new Profile("operator 1", login);
-            var user = new User("olivier smadja", "olivier@neodatis.com", profile1);
-            odb.Store(user);
-            odb.Commit();
-            var users = odb.GetObjects<User>(true);
-            var profiles = odb.GetObjects<Profile>(true);
-            var functions = odb.GetObjects<VO.Login.Function>(true);
-            odb.Close();
-            // assertEquals(nbUsers+2,users.size());
-            var user2 = users.GetFirst();
-            AssertEquals(user.ToString(), user2.ToString());
-            var enumerator = user2.GetProfile().GetFunctions().GetEnumerator();
-            enumerator.MoveNext();
-            AssertEquals(b.ToString(), enumerator.Current.ToString());
-            DeleteBase("ti1.neodatis");
-            OdbConfiguration.SetDefaultBufferSizeForData(size);
-        }
-
-        [Test]
         public virtual void TestCompositeCollection1()
         {
             DeleteBase("t31.neodatis");

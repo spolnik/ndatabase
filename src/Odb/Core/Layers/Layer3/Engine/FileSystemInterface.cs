@@ -35,7 +35,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             _fileIdentification = fileIdentification;
 
             OdbDirectory.Mkdirs(fileIdentification.FileName);
-            _io = new MultiBufferedFileIO(OdbConfiguration.GetNbBuffers(), name, fileIdentification.FileName, bufferSize);
+            _io = new MultiBufferedFileIO(name, fileIdentification.FileName, bufferSize);
 
             _byteArrayConverter = OdbConfiguration.GetCoreProvider().GetByteArrayConverter();
             _session = session;

@@ -2,8 +2,17 @@ using System;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.IO
 {
-    internal sealed class MultiBufferVO
+    public sealed class MultiBuffer : IMultiBuffer
     {
+        ///<summary>
+        ///  The number of buffers.
+        ///</summary>
+        internal static readonly int NumberOfBuffers = 5;
+
+        internal static readonly int DefaultBufferSizeForData = 4096 * 4;
+
+        internal static readonly int DefaultBufferSizeForTransaction = 4096 * 4;
+
         ///<summary>
         ///  The buffer size.
         ///</summary>
@@ -12,52 +21,34 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         private readonly long[] _creations;
 
         ///<summary>
-        ///  The number of buffers.
-        ///</summary>
-        private readonly int _numberOfBuffers;
-
-        ///<summary>
         ///  To know if buffer has been used for write - to speedup flush.
         ///</summary>
         private bool[] _bufferHasBeenUsedForWrite;
 
-        internal MultiBufferVO(int numberOfBuffers, int bufferSize)
+        internal MultiBuffer(int bufferSize)
         {
-            _numberOfBuffers = numberOfBuffers;
             _bufferSize = bufferSize;
-            Buffers = new byte[numberOfBuffers][];
+            Buffers = new byte[NumberOfBuffers][];
 
-            for (var x = 0; x < numberOfBuffers; x++)
+            for (var x = 0; x < NumberOfBuffers; x++)
                 Buffers[x] = new byte[bufferSize];
 
-            BufferStartPosition = new long[numberOfBuffers];
-            BufferEndPosition = new long[numberOfBuffers];
-            MaxPositionInBuffer = new int[numberOfBuffers];
-            _creations = new long[numberOfBuffers];
-            _bufferHasBeenUsedForWrite = new bool[numberOfBuffers];
+            BufferPositions = new BufferPosition[NumberOfBuffers];
+            MaxPositionInBuffer = new int[NumberOfBuffers];
+            _creations = new long[NumberOfBuffers];
+            _bufferHasBeenUsedForWrite = new bool[NumberOfBuffers];
         }
 
-        ///<summary>
-        ///  The current end position of the buffer
-        ///</summary>
-        public long[] BufferEndPosition { get; set; }
+        #region IMultiBuffer Members
 
-        ///<summary>
-        ///  The current start position of the buffer
-        ///</summary>
-        public long[] BufferStartPosition { get; set; }
+        public BufferPosition[] BufferPositions { get; private set; }
 
-        public byte[][] Buffers { get; set; }
+        public byte[][] Buffers { get; private set; }
 
         ///<summary>
         ///  The max position in the buffer, used to optimize the flush - to flush only new data and not all the buffer
         ///</summary>
-        public int[] MaxPositionInBuffer { get; set; }
-
-        public byte GetByte(int bufferIndex, int byteIndex)
-        {
-            return Buffers[bufferIndex][byteIndex];
-        }
+        public int[] MaxPositionInBuffer { get; private set; }
 
         public void ClearBuffer(int bufferIndex)
         {
@@ -66,18 +57,17 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             for (var i = 0; i < maxPosition; i++)
                 buffer[i] = 0;
 
-            BufferStartPosition[bufferIndex] = 0;
-            BufferEndPosition[bufferIndex] = 0;
+            BufferPositions[bufferIndex] = new BufferPosition();
             MaxPositionInBuffer[bufferIndex] = 0;
             _bufferHasBeenUsedForWrite[bufferIndex] = false;
         }
 
-        public void SetByte(int bufferIndex, int positionInBuffer, byte b)
+        public void SetByte(int bufferIndex, int positionInBuffer, byte value)
         {
             if (Buffers[bufferIndex] == null)
                 Buffers[bufferIndex] = new byte[_bufferSize];
 
-            Buffers[bufferIndex][positionInBuffer] = b;
+            Buffers[bufferIndex][positionInBuffer] = value;
             _bufferHasBeenUsedForWrite[bufferIndex] = true;
 
             if (positionInBuffer > MaxPositionInBuffer[bufferIndex])
@@ -88,10 +78,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         {
             var max = position + size;
 
-            for (var i = 0; i < _numberOfBuffers; i++)
+            for (var i = 0; i < NumberOfBuffers; i++)
             {
                 // Check if new position is in buffer
-                if (max <= BufferEndPosition[i] && position >= BufferStartPosition[i])
+                if (max <= BufferPositions[i].End && position >= BufferPositions[i].Start)
                     return i;
             }
 
@@ -103,11 +93,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             _creations[bufferIndex] = currentTimeInMs;
         }
 
-        public void SetPositions(int bufferIndex, long startPosition, long endPosition, int maxPosition)
+        public void SetPositions(int bufferIndex, long startPosition, long endPosition)
         {
-            BufferStartPosition[bufferIndex] = startPosition;
-            BufferEndPosition[bufferIndex] = endPosition;
-            MaxPositionInBuffer[bufferIndex] = maxPosition;
+            BufferPositions[bufferIndex].Start = startPosition;
+            BufferPositions[bufferIndex].End = endPosition;
+
+            MaxPositionInBuffer[bufferIndex] = 0;
         }
 
         public void WriteBytes(int bufferIndex, byte[] bytes, int startIndex, int offsetWhereToCopy, int lengthToCopy)
@@ -129,8 +120,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         public void Clear()
         {
             Buffers = null;
-            BufferStartPosition = null;
-            BufferEndPosition = null;
+            BufferPositions = null;
             MaxPositionInBuffer = null;
             _bufferHasBeenUsedForWrite = null;
         }
@@ -139,5 +129,24 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         {
             return _creations[bufferIndex];
         }
+
+        #endregion
+
+        #region Nested type: BufferPosition
+
+        public struct BufferPosition
+        {
+            ///<summary>
+            ///  The current start position of the buffer
+            ///</summary>
+            public long Start { get; set; }
+
+            ///<summary>
+            ///  The current end position of the buffer
+            ///</summary>
+            public long End { get; set; }
+        }
+
+        #endregion
     }
 }

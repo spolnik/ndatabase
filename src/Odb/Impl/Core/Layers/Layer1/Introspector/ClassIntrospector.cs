@@ -227,11 +227,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
 
         public Object NewInstanceOf(Type clazz)
         {
-#if SILVERLIGHT
-            return SilverlightClassIntrospector.NewInstanceOf(clazz);
-#else
             return FormatterServices.GetUninitializedObject(clazz);
-#endif
         }
 
         private byte GetClassCategory(string fullClassName)

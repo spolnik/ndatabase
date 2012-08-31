@@ -1,6 +1,7 @@
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
+using NDatabase.Odb.Core.Layers.Layer3.IO;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 
@@ -14,7 +15,7 @@ namespace Test.NDatabase.Odb.Test.IO
         {
             DeleteBase("testReadWrite.neodatis");
             IFileSystemInterface fsi = new FileSystemInterface("data", new FileIdentification("testReadWrite.neodatis"),
-                                                               OdbConfiguration.GetDefaultBufferSizeForData(),
+                                                               MultiBuffer.DefaultBufferSizeForData,
                                                                new MockSession("test"));
             fsi.SetWritePosition(fsi.GetLength(), false);
             for (var i = 0; i < 10000; i++)

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using NDatabase.Odb.Core;
+using NDatabase.Odb.Core.Layers.Layer3.IO;
 using NDatabase.Odb.Impl;
 using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NDatabase.Tool.Wrappers.Map;
@@ -37,12 +38,6 @@ namespace NDatabase.Odb
         private static int _maxNumberOfWriteObjectPerTransaction = 10000;
 
         private static long _maxNumberOfObjectInCache = 3000000;
-
-        private static int _defaultBufferSizeForData = 1024 * 16;
-
-        private static int _defaultBufferSizeForTransaction = 4096 * 4;
-
-        private static int _nbBuffers = 5;
 
         private static bool _useMultiBuffer = true;
 
@@ -138,16 +133,6 @@ namespace NDatabase.Odb
         public static void SetReconnectObjectsToSession(bool reconnectObjectsToSession)
         {
             _reconnectObjectsToSession = reconnectObjectsToSession;
-        }
-
-        public static int GetDefaultBufferSizeForData()
-        {
-            return _defaultBufferSizeForData;
-        }
-
-        public static void SetDefaultBufferSizeForData(int defaultBufferSize)
-        {
-            _defaultBufferSizeForData = defaultBufferSize;
         }
 
         public static void AddLogId(string logId)
@@ -354,26 +339,6 @@ namespace NDatabase.Odb
         public static void SetDebugLevel(int debugLevel)
         {
             _debugLevel = debugLevel;
-        }
-
-        public static int GetDefaultBufferSizeForTransaction()
-        {
-            return _defaultBufferSizeForTransaction;
-        }
-
-        public static void SetDefaultBufferSizeForTransaction(int defaultBufferSizeForTransaction)
-        {
-            _defaultBufferSizeForTransaction = defaultBufferSizeForTransaction;
-        }
-
-        public static int GetNbBuffers()
-        {
-            return _nbBuffers;
-        }
-
-        public static void SetNbBuffers(int nbBuffers)
-        {
-            _nbBuffers = nbBuffers;
         }
 
         public static bool UseMultiBuffer()

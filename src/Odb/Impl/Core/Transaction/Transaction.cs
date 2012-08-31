@@ -5,6 +5,7 @@ using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
+using NDatabase.Odb.Core.Layers.Layer3.IO;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
@@ -416,7 +417,7 @@ namespace NDatabase.Odb.Impl.Core.Transaction
                                          : GetParameters();
 
                     _fsi = new FileSystemInterface("transaction", parameters,
-                                                        OdbConfiguration.GetDefaultBufferSizeForTransaction(), _session);
+                                                        MultiBuffer.DefaultBufferSizeForTransaction, _session);
                 }
             }
         }

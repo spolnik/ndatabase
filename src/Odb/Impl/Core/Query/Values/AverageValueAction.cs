@@ -42,11 +42,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
         public override void End()
         {
             var result = Decimal.Divide(_totalValue, _nbValues);
-#if SILVERLIGHT
-            _average = Decimal.Round(result, _scale);
-#else
             _average = Decimal.Round(result, _scale, MidpointRounding.ToEven);
-#endif
             //TODO: should we use _roundType here?
 //            _average = Decimal.Round(result, _scale, _roundType);
         }

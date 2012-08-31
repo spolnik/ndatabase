@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-#if SILVERLIGHT
-using System.Windows.Controls;
-#else
 using System.Windows.Forms;
-#endif
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Insert

@@ -2,6 +2,7 @@
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
+using NDatabase.Odb.Core.Layers.Layer3.IO;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Odb.Impl.Core.Transaction;
 using NUnit.Framework;
@@ -36,7 +37,7 @@ namespace Test.NDatabase.Odb.Test.Acid
             var byteArrayConverter = OdbConfiguration.GetCoreProvider().GetByteArrayConverter();
             var size = 1000;
             ISession session = new MockSession("test2.neodatis");
-            IFileSystemInterface fsi = new FileSystemInterface("test", new FileIdentification("test2.neodatis"), OdbConfiguration.GetDefaultBufferSizeForData(),
+            IFileSystemInterface fsi = new FileSystemInterface("test", new FileIdentification("test2.neodatis"), MultiBuffer.DefaultBufferSizeForData,
                                                                session);
             var transaction = new OdbTransaction(session, fsi);
             transaction.SetArchiveLog(true);

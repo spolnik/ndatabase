@@ -1,4 +1,5 @@
 ﻿using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Layers.Layer3.IO;
 using NDatabase.Odb.Core.Oid;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Odb.Impl.Core.Layers.Layer3.Block;
@@ -35,7 +36,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public void BuildFileSystemInterface(IStorageEngine storageEngine, ISession session)
         {
             FileSystemInterface =  new FileSystemInterface("local-data", storageEngine.GetBaseIdentification(),
-                                                OdbConfiguration.GetDefaultBufferSizeForData(), session);
+                                                MultiBuffer.DefaultBufferSizeForData, session);
         }
 
         /// <summary>

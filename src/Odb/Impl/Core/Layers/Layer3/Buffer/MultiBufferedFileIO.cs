@@ -30,8 +30,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
 
         private readonly string _name;
 
-        private readonly int _nbBuffers;
-
         private int _currentBufferIndex;
 
         private long _currentPositionForDirectWrite;
@@ -49,13 +47,13 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
         /// </summary>
         private bool _isUsingBuffer;
 
-        private MultiBufferVO _multiBuffer;
+        private IMultiBuffer _multiBuffer;
 
         private int _nextBufferIndex;
         private int[] _overlappingBuffers;
 
-        public MultiBufferedFileIO(int nbBuffers, string name, string fileName, int bufferSize)
-            : this(nbBuffers, name, bufferSize)
+        public MultiBufferedFileIO(string name, string fileName, int bufferSize)
+            : this(name, bufferSize)
         {
             _wholeFileName = fileName;
 
@@ -73,14 +71,13 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
             }
         }
 
-        private MultiBufferedFileIO(int nbBuffers, string name, int bufferSize)
+        private MultiBufferedFileIO(string name, int bufferSize)
         {
-            _nbBuffers = nbBuffers;
-            _multiBuffer = new MultiBufferVO(nbBuffers, bufferSize);
+            SetMultiBuffer(new MultiBuffer(bufferSize));
             _bufferSize = bufferSize;
             _currentPositionWhenUsingBuffer = -1;
             _currentPositionForDirectWrite = -1;
-            _overlappingBuffers = new int[nbBuffers];
+            _overlappingBuffers = new int[MultiBuffer.NumberOfBuffers];
             NumberOfFlush = 0;
             _isUsingBuffer = true;
             _name = name;
@@ -100,6 +97,11 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
         public static int NbBufferOk { get; set; }
 
         public static int NbBufferNotOk { get; set; }
+
+        public void SetMultiBuffer(IMultiBuffer value)
+        {
+            _multiBuffer = value;
+        }
 
         #region IBufferedIO Members
 
@@ -206,16 +208,16 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
             _overlappingBuffers = GetOverlappingBuffers(newPosition, _bufferSize);
             // Choose the first overlaping buffer
             bufferIndex = _overlappingBuffers[0];
-            if (_nbBuffers > 1 && _overlappingBuffers[1] != -1 && bufferIndex == _currentBufferIndex)
+            if (MultiBuffer.NumberOfBuffers > 1 && _overlappingBuffers[1] != -1 && bufferIndex == _currentBufferIndex)
                 bufferIndex = _overlappingBuffers[1];
             if (bufferIndex == -1)
             {
                 bufferIndex = _nextBufferIndex;
-                _nextBufferIndex = (_nextBufferIndex + 1) % _nbBuffers;
+                _nextBufferIndex = (_nextBufferIndex + 1) % MultiBuffer.NumberOfBuffers;
                 if (bufferIndex == _currentBufferIndex)
                 {
                     bufferIndex = _nextBufferIndex;
-                    _nextBufferIndex = (_nextBufferIndex + 1) % _nbBuffers;
+                    _nextBufferIndex = (_nextBufferIndex + 1) % MultiBuffer.NumberOfBuffers;
                 }
                 Flush(bufferIndex);
             }
@@ -249,14 +251,14 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
                                   ? newPosition + nread
                                   : newPosition + _bufferSize;
 
-            _multiBuffer.SetPositions(bufferIndex, newPosition, endPosition, 0);
+            _multiBuffer.SetPositions(bufferIndex, newPosition, endPosition);
             _currentPositionWhenUsingBuffer = newPosition;
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
                 DLogger.Debug(string.Format("Creating buffer {0}-{1} : [{2},{3}]", _name, bufferIndex,
-                                            _multiBuffer.BufferStartPosition[bufferIndex],
-                                            _multiBuffer.BufferEndPosition[bufferIndex]));
+                                            _multiBuffer.BufferPositions[bufferIndex].Start,
+                                            _multiBuffer.BufferPositions[bufferIndex].End));
             }
             return bufferIndex;
         }
@@ -323,9 +325,10 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
                 bufferIndex = ManageBufferForNewPosition(_currentPositionWhenUsingBuffer, Write, 1);
 
             var positionInBuffer =
-                (int) (_currentPositionWhenUsingBuffer - _multiBuffer.BufferStartPosition[bufferIndex]);
+                (int)(_currentPositionWhenUsingBuffer - _multiBuffer.BufferPositions[bufferIndex].Start);
 
             _multiBuffer.SetByte(bufferIndex, positionInBuffer, b);
+
             _currentPositionWhenUsingBuffer++;
             if (_currentPositionWhenUsingBuffer > _ioDeviceLength)
                 _ioDeviceLength = _currentPositionWhenUsingBuffer;
@@ -383,12 +386,10 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
                 return b;
             }
             var bufferIndex = ManageBufferForNewPosition(_currentPositionWhenUsingBuffer, Read, 1);
-            var byt = _multiBuffer.GetByte(bufferIndex,
-                                            (int)
-                                            (_currentPositionWhenUsingBuffer -
-                                             _multiBuffer.BufferStartPosition[bufferIndex]));
+            var positionInBuffer = (int) (_currentPositionWhenUsingBuffer - _multiBuffer.BufferPositions[bufferIndex].Start);
+            var result = _multiBuffer.Buffers[bufferIndex][positionInBuffer];
             _currentPositionWhenUsingBuffer++;
-            return byt;
+            return result;
         }
 
         public void WriteBytes(byte[] bytes)
@@ -423,7 +424,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
 
         public void FlushAll()
         {
-            for (var i = 0; i < _nbBuffers; i++)
+            for (var i = 0; i < MultiBuffer.NumberOfBuffers; i++)
                 Flush(i);
         }
 
@@ -432,7 +433,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
             var buffer = _multiBuffer.Buffers[bufferIndex];
             if (buffer != null && _multiBuffer.HasBeenUsedForWrite(bufferIndex))
             {
-                GoToPosition(_multiBuffer.BufferStartPosition[bufferIndex]);
+                GoToPosition(_multiBuffer.BufferPositions[bufferIndex].Start);
                 // the +1 is because the maxPositionInBuffer is a position and the
                 // parameter is a length
                 var bufferSizeToFlush = _multiBuffer.MaxPositionInBuffer[bufferIndex] + 1;
@@ -442,8 +443,8 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
                 if (OdbConfiguration.IsDebugEnabled(LogId))
                 {
                     DLogger.Debug("Flushing buffer " + _name + "-" + bufferIndex + " : [" +
-                                  _multiBuffer.BufferStartPosition[bufferIndex] + ":" +
-                                  _multiBuffer.BufferEndPosition[bufferIndex] + "] - flush size=" + bufferSizeToFlush +
+                                  _multiBuffer.BufferPositions[bufferIndex].Start + ":" +
+                                  _multiBuffer.BufferPositions[bufferIndex].End + "] - flush size=" + bufferSizeToFlush +
                                   "  flush number = " + NumberOfFlush);
                 }
                 _multiBuffer.ClearBuffer(bufferIndex);
@@ -453,8 +454,8 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
                 if (OdbConfiguration.IsDebugEnabled(LogId))
                 {
                     DLogger.Debug("Flushing buffer " + _name + "-" + bufferIndex + " : [" +
-                                  _multiBuffer.BufferStartPosition[bufferIndex] + ":" +
-                                  _multiBuffer.BufferEndPosition[bufferIndex] + "] - Nothing to flush!");
+                                  _multiBuffer.BufferPositions[bufferIndex].Start + ":" +
+                                  _multiBuffer.BufferPositions[bufferIndex].End + "] - Nothing to flush!");
                 }
                 _multiBuffer.ClearBuffer(bufferIndex);
             }
@@ -480,7 +481,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
         {
             FlushAll();
             _multiBuffer.Clear();
-            _multiBuffer = null;
+            SetMultiBuffer(null);
             _overlappingBuffers = null;
         }
 
@@ -511,12 +512,12 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
         {
             var start1 = position;
             var end1 = position + size;
-            var indexes = new int[_nbBuffers];
+            var indexes = new int[MultiBuffer.NumberOfBuffers];
             var index = 0;
-            for (var i = 0; i < _nbBuffers; i++)
+            for (var i = 0; i < MultiBuffer.NumberOfBuffers; i++)
             {
-                var start2 = _multiBuffer.BufferStartPosition[i];
-                var end2 = _multiBuffer.BufferEndPosition[i];
+                var start2 = _multiBuffer.BufferPositions[i].Start;
+                var end2 = _multiBuffer.BufferPositions[i].End;
                 if ((start1 >= start2 && start1 < end2) || (start2 >= start1 && start2 < end1) ||
                     start2 <= start1 && end2 >= end1)
                 {
@@ -527,7 +528,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
                     NbFlushForOverlap++;
                 }
             }
-            for (var i = index; i < _nbBuffers; i++)
+            for (var i = index; i < MultiBuffer.NumberOfBuffers; i++)
                 indexes[i] = -1;
             return indexes;
         }
@@ -536,7 +537,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
         {
             var size = endIndex - startIndex;
             var bufferIndex = ManageBufferForNewPosition(_currentPositionWhenUsingBuffer, Read, size);
-            var start = (int) (_currentPositionWhenUsingBuffer - _multiBuffer.BufferStartPosition[bufferIndex]);
+            var start = (int)(_currentPositionWhenUsingBuffer - _multiBuffer.BufferPositions[bufferIndex].Start);
             var buffer = _multiBuffer.Buffers[bufferIndex];
             Array.Copy(buffer, start, bytes, startIndex, size);
             _currentPositionWhenUsingBuffer += size;
@@ -556,7 +557,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
 
             var bufferIndex = ManageBufferForNewPosition(_currentPositionWhenUsingBuffer, Write, lengthToCopy);
             var positionInBuffer =
-                (int) (_currentPositionWhenUsingBuffer - _multiBuffer.BufferStartPosition[bufferIndex]);
+                (int)(_currentPositionWhenUsingBuffer - _multiBuffer.BufferPositions[bufferIndex].Start);
             // Here, the bytes.length seems to have an average value lesser that 70,
             // and in this
             // It is faster to copy using System.arraycopy
@@ -578,12 +579,12 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer
         {
             var buffer = new StringBuilder();
             buffer.Append("Buffers=").Append("currbuffer=").Append(_currentBufferIndex).Append(" : \n");
-            for (var i = 0; i < _nbBuffers; i++)
+            for (var i = 0; i < MultiBuffer.NumberOfBuffers; i++)
             {
-                buffer.Append(i).Append(":[").Append(_multiBuffer.BufferStartPosition[i]).Append(",").Append(
-                    _multiBuffer.BufferEndPosition[i]).Append("] : write=").Append(_multiBuffer.HasBeenUsedForWrite(i)).
+                buffer.Append(i).Append(":[").Append(_multiBuffer.BufferPositions[i].Start).Append(",").Append(
+                    _multiBuffer.BufferPositions[i].End).Append("] : write=").Append(_multiBuffer.HasBeenUsedForWrite(i)).
                     Append(" - when=").Append(_multiBuffer.GetCreationDate(i));
-                if (i + 1 < _nbBuffers)
+                if (i + 1 < MultiBuffer.NumberOfBuffers)
                     buffer.Append("\n");
             }
             return buffer.ToString();

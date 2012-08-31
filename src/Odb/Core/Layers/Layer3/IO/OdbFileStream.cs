@@ -13,14 +13,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         {
             try
             {
-#if SILVERLIGHT
-                _fileAccess = new FileStream(wholeFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read,
-                                             DefaultBufferSize);
-#else
-
                 _fileAccess = new FileStream(wholeFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read,
                                              DefaultBufferSize, FileOptions.RandomAccess);
-#endif
                 //TODO: _fileAccess.SetLength(1024 * 20);
             }
             catch (IOException e)
