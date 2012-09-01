@@ -13,7 +13,7 @@ namespace NDatabase.Odb.Core.Query.Criteria
 
         protected ComposedExpression()
         {
-            Criteria = new OdbArrayList<ICriterion>(5);
+            Criteria = new OdbList<ICriterion>(5);
         }
 
         public virtual ComposedExpression Add(ICriterion criterion)
@@ -25,7 +25,7 @@ namespace NDatabase.Odb.Core.Query.Criteria
         public override IOdbList<string> GetAllInvolvedFields()
         {
             IEnumerator iterator = Criteria.GetEnumerator();
-            IOdbList<string> fields = new OdbArrayList<string>(10);
+            IOdbList<string> fields = new OdbList<string>(10);
             while (iterator.MoveNext())
             {
                 var criterion = (ICriterion) iterator.Current;

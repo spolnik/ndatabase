@@ -316,7 +316,7 @@ namespace NDatabase.Odb.Impl.Core.Transaction
             _session = session;
             _isCommited = false;
             _creationDateTime = OdbTime.GetCurrentTimeInTicks();
-            _writeActions = new OdbArrayList<IWriteAction>(1000);
+            _writeActions = new OdbList<IWriteAction>(1000);
             _hasAllWriteActionsInMemory = true;
             _numberOfWriteActions = 0;
             _hasBeenPersisted = false;

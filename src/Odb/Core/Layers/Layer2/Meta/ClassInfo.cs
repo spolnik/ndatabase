@@ -263,7 +263,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// <returns> </returns>
         public IOdbList<ClassAttributeInfo> GetAllNonNativeAttributes()
         {
-            IOdbList<ClassAttributeInfo> result = new OdbArrayList<ClassAttributeInfo>(_attributes.Count);
+            IOdbList<ClassAttributeInfo> result = new OdbList<ClassAttributeInfo>(_attributes.Count);
             
             foreach (var classAttributeInfo in _attributes)
             {
@@ -345,8 +345,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             ClassAttributeInfo cai2;
 
             var result = new ClassInfoCompareResult(GetFullClassName());
-            IOdbList<ClassAttributeInfo> attributesToRemove = new OdbArrayList<ClassAttributeInfo>(10);
-            IOdbList<ClassAttributeInfo> attributesToAdd = new OdbArrayList<ClassAttributeInfo>(10);
+            IOdbList<ClassAttributeInfo> attributesToRemove = new OdbList<ClassAttributeInfo>(10);
+            IOdbList<ClassAttributeInfo> attributesToAdd = new OdbList<ClassAttributeInfo>(10);
 
             var attributesCount = _attributes.Count;
             for (var id = 0; id < attributesCount; id++)
@@ -413,7 +413,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         public ClassInfoIndex AddIndexOn(string name, string[] indexFields, bool acceptMultipleValuesForSameKey)
         {
             if (_indexes == null)
-                _indexes = new OdbArrayList<ClassInfoIndex>();
+                _indexes = new OdbList<ClassInfoIndex>();
 
             var cii = new ClassInfoIndex
                 {
@@ -608,7 +608,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         public IOdbList<ClassInfoIndex> GetIndexes()
         {
             if (_indexes == null)
-                return new OdbArrayList<ClassInfoIndex>();
+                return new OdbList<ClassInfoIndex>();
             return _indexes;
         }
 

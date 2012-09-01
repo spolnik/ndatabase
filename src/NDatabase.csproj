@@ -144,7 +144,7 @@
     <Compile Include="Odb\Core\Layers\Layer3\Engine\IByteArrayConverter.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IFileSystemInterface.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IFileIdentification.cs" />
-    <Compile Include="Odb\Core\Layers\Layer3\IBufferedIO.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IMultiBufferedFileIO.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\ICommitListener.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IDTypes.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IIdManager.cs" />
@@ -330,7 +330,7 @@
     <Compile Include="Odb\Core\Layers\Layer3\IO\OdbFileStream.cs" />
     <Compile Include="Tool\Wrappers\List\IOdbList.cs" />
     <Compile Include="Tool\Wrappers\List\OdbCollectionUtil.cs" />
-    <Compile Include="Tool\Wrappers\List\OdbArrayList.cs" />
+    <Compile Include="Tool\Wrappers\List\OdbList.cs" />
     <Compile Include="Tool\Wrappers\Map\OdbHashMap2.cs" />
     <Compile Include="Tool\Wrappers\OdbArray.cs" />
     <Compile Include="Tool\Wrappers\OdbClassUtil.cs" />

@@ -121,7 +121,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
                         if (type.IsMap())
                         {
                             if (o == null)
-                                aoi = new MapObjectInfo(null, type, type.GetDefaultInstanciationClass().FullName);
+                                aoi = new MapObjectInfo(null, type, typeof(Hashtable).FullName);
                             else
                             {
                                 MapObjectInfo moi;
@@ -142,8 +142,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
                                             IntrospectNonGenericMap((IDictionary) o, recursive, alreadyReadObjects,
                                                                     callback), type, realMapClassName);
                                 }
-                                if (realMapClassName.IndexOf("$", StringComparison.Ordinal) != -1)
-                                    moi.SetRealMapClassName(OdbClassUtil.GetFullName(type.GetDefaultInstanciationClass()));
                                 aoi = moi;
                             }
                         }
@@ -338,10 +336,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
 
             var realCollectionClassName = OdbClassUtil.GetFullName(collection.GetType());
 
-            collectionObjectInfo.SetRealCollectionClassName(
-                realCollectionClassName.IndexOf("$", StringComparison.Ordinal) != -1
-                    ? type.GetDefaultInstanciationClass().FullName
-                    : realCollectionClassName);
+            collectionObjectInfo.SetRealCollectionClassName(realCollectionClassName);
             return collectionObjectInfo;
         }
 

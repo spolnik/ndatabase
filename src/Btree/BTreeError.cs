@@ -1,4 +1,5 @@
-using System.Collections;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using NDatabase.Odb.Core;
 using NDatabase.Tool.Wrappers;
@@ -32,7 +33,7 @@ namespace NDatabase.Btree
 
         private readonly string _description;
 
-        private IList _parameters;
+        private IList<string> _parameters;
 
         public BTreeError(int code, string description)
         {
@@ -44,19 +45,17 @@ namespace NDatabase.Btree
 
         public IError AddParameter(object o)
         {
-            if (_parameters == null)
-                _parameters = new ArrayList();
+            var value = o != null
+                            ? o.ToString()
+                            : "null";
 
-            _parameters.Add(o != null
-                               ? o.ToString()
-                               : "null");
-            return this;
+            return AddParameter(value);
         }
 
         public IError AddParameter(string s)
         {
             if (_parameters == null)
-                _parameters = new ArrayList();
+                _parameters = new List<string>();
 
             _parameters.Add(s);
             return this;
@@ -64,29 +63,17 @@ namespace NDatabase.Btree
 
         public IError AddParameter(int i)
         {
-            if (_parameters == null)
-                _parameters = new ArrayList();
-
-            _parameters.Add(i);
-            return this;
+            return AddParameter(i.ToString(CultureInfo.InvariantCulture));
         }
 
         public IError AddParameter(byte i)
         {
-            if (_parameters == null)
-                _parameters = new ArrayList();
-
-            _parameters.Add(i);
-            return this;
+            return AddParameter(i.ToString(CultureInfo.InvariantCulture));
         }
 
         public IError AddParameter(long l)
         {
-            if (_parameters == null)
-                _parameters = new ArrayList();
-
-            _parameters.Add(l);
-            return this;
+            return AddParameter(l.ToString(CultureInfo.InvariantCulture));
         }
 
         #endregion
@@ -109,7 +96,7 @@ namespace NDatabase.Btree
                 for (var i = 0; i < _parameters.Count; i++)
                 {
                     var parameterName = string.Format("@{0}", (i + 1));
-                    var parameterValue = _parameters[i].ToString();
+                    var parameterValue = _parameters[i];
                     var parameterIndex = token.IndexOf(parameterName, System.StringComparison.Ordinal);
                     
                     if (parameterIndex != -1)

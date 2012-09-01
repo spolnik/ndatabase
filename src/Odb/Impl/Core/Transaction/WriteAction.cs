@@ -42,7 +42,7 @@ namespace NDatabase.Odb.Impl.Core.Transaction
             _byteArrayConverter = OdbConfiguration.GetCoreProvider().GetByteArrayConverter();
             _position = position;
 
-            _listOfBytes = new OdbArrayList<byte[]>(20);
+            _listOfBytes = new OdbList<byte[]>(20);
             if (bytes != null)
             {
                 _listOfBytes.Add(bytes);

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using NDatabase.Btree;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3;
@@ -375,7 +376,7 @@ namespace NDatabase.Odb.Core.Query.Execution
                 var treeSingle = (IBTreeSingleValuePerKey) tree;
                 var value = treeSingle.Search(key);
                 if (value != null)
-                    list = new ArrayList {value};
+                    list = new List<object> {value};
             }
             else
             {

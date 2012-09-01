@@ -134,11 +134,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         /// <returns> Returns the parameters. </returns>
         IFileIdentification GetFileIdentification();
 
-        IBufferedIO GetIo();
+        IMultiBufferedFileIO GetIo();
 
 //        void SetDatabaseCharacterEncoding(string databaseCharacterEncoding);
 
-        void SetIo(IBufferedIO io);
+        void SetIo(IMultiBufferedFileIO io);
         void SetByteArrayConverter(IByteArrayConverter byteArrayConverter);
     }
 }

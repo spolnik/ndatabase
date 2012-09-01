@@ -14,14 +14,14 @@ namespace NDatabase.Odb.Impl.Core.Query.List.Objects
     ///   A simple list to hold query result. It is used when no index and no order by is used and inMemory = false This collection does not store the objects, it only holds the OIDs of the objects. When user ask an object the object is lazy loaded by the getObjectFromId method
     /// </remarks>
     
-    public sealed class LazySimpleListFromOid<T> : OdbArrayList<T>, IObjects<T>
+    public sealed class LazySimpleListFromOid<T> : OdbList<T>, IObjects<T>
     {
         /// <summary>
         ///   The odb engine to lazily get objects
         /// </summary>
         private readonly IStorageEngine _engine;
 
-        private readonly OdbArrayList<OID> _oids;
+        private readonly OdbList<OID> _oids;
 
         /// <summary>
         ///   indicate if objects must be returned as instance (true) or as non native objects (false)
@@ -37,7 +37,7 @@ namespace NDatabase.Odb.Impl.Core.Query.List.Objects
         {
             _engine = engine;
             _returnInstance = returnObjects;
-            _oids = new OdbArrayList<OID>();
+            _oids = new OdbList<OID>();
         }
 
         #region IObjects<T> Members

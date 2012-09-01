@@ -343,7 +343,7 @@ namespace NDatabase.Odb.Core
         public IError AddParameter(object o)
         {
             if (_parameters == null)
-                _parameters = new OdbArrayList<object>();
+                _parameters = new OdbList<object>();
             _parameters.Add(o.ToString());
             return this;
         }
@@ -351,7 +351,7 @@ namespace NDatabase.Odb.Core
         public IError AddParameter(string s)
         {
             if (_parameters == null)
-                _parameters = new OdbArrayList<object>();
+                _parameters = new OdbList<object>();
             
             _parameters.Add(s ?? "[null object]");
             return this;
@@ -360,7 +360,7 @@ namespace NDatabase.Odb.Core
         public IError AddParameter(int i)
         {
             if (_parameters == null)
-                _parameters = new OdbArrayList<object>();
+                _parameters = new OdbList<object>();
             _parameters.Add(i);
             return this;
         }
@@ -368,7 +368,7 @@ namespace NDatabase.Odb.Core
         public IError AddParameter(byte i)
         {
             if (_parameters == null)
-                _parameters = new OdbArrayList<object>();
+                _parameters = new OdbList<object>();
             _parameters.Add(i);
             return this;
         }
@@ -376,7 +376,7 @@ namespace NDatabase.Odb.Core
         public IError AddParameter(long l)
         {
             if (_parameters == null)
-                _parameters = new OdbArrayList<object>();
+                _parameters = new OdbList<object>();
             _parameters.Add(l);
             return this;
         }

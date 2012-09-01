@@ -283,7 +283,7 @@ namespace NDatabase.Odb.Impl.Core.Trigger
 
             if (triggers == null)
             {
-                triggers = new OdbArrayList<Odb.Core.Trigger.Trigger>();
+                triggers = new OdbList<Odb.Core.Trigger.Trigger>();
                 listOfTriggers.Add(className, triggers);
             }
 
@@ -335,7 +335,7 @@ namespace NDatabase.Odb.Impl.Core.Trigger
                 if (listOfTriggersBuClassName != null)
                     size = size + listOfTriggersBuClassName.Count;
 
-                IOdbList<Odb.Core.Trigger.Trigger> listOfTriggersToReturn = new OdbArrayList<Odb.Core.Trigger.Trigger>(size);
+                IOdbList<Odb.Core.Trigger.Trigger> listOfTriggersToReturn = new OdbList<Odb.Core.Trigger.Trigger>(size);
 
                 if (listOfTriggersBuClassName != null)
                     listOfTriggersToReturn.AddAll(listOfTriggersBuClassName);

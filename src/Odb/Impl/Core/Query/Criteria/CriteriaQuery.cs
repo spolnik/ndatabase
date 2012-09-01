@@ -97,7 +97,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Criteria
         public virtual IOdbList<string> GetAllInvolvedFields()
         {
             if (_criterion == null)
-                return new OdbArrayList<string>();
+                return new OdbList<string>();
             return _criterion.GetAllInvolvedFields();
         }
 

@@ -1,10 +1,8 @@
-using System;
-using System.Collections;
+using System.Collections.Generic;
 
 namespace Test.NDatabase.Odb.Test.Arraycollectionmap
 {
-    
-    public class MyList : ArrayList
+    public class MyList : List<object>
     {
         public virtual object MyGet(int i)
         {

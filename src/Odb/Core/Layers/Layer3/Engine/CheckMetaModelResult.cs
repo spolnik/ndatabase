@@ -14,7 +14,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public CheckMetaModelResult()
         {
             _modelHasBeenUpdated = false;
-            _results = new OdbArrayList<ClassInfoCompareResult>();
+            _results = new OdbList<ClassInfoCompareResult>();
         }
 
         public bool IsModelHasBeenUpdated()

@@ -94,7 +94,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             // would always return false*/
             var isNewDatabase = IsNewDatabase();
 
-            _commitListeners = new OdbArrayList<ICommitListener>();
+            _commitListeners = new OdbList<ICommitListener>();
             var session = BuildDefaultSession();
 
             // Object Writer must be created before object Reader

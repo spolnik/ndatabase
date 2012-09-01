@@ -95,9 +95,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
 
         public void SetPositions(int bufferIndex, long startPosition, long endPosition)
         {
-            BufferPositions[bufferIndex].Start = startPosition;
-            BufferPositions[bufferIndex].End = endPosition;
-
+            BufferPositions[bufferIndex] = new BufferPosition(startPosition, endPosition);
             MaxPositionInBuffer[bufferIndex] = 0;
         }
 
@@ -136,15 +134,30 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
 
         internal struct BufferPosition
         {
+            private readonly long _start;
+            private readonly long _end;
+
+            public BufferPosition(long start, long end) : this()
+            {
+                _start = start;
+                _end = end;
+            }
+
             ///<summary>
             ///  The current start position of the buffer
             ///</summary>
-            public long Start { get; set; }
+            public long Start
+            {
+                get { return _start; }
+            }
 
             ///<summary>
             ///  The current end position of the buffer
             ///</summary>
-            public long End { get; set; }
+            public long End
+            {
+                get { return _end; }
+            }
         }
 
         #endregion

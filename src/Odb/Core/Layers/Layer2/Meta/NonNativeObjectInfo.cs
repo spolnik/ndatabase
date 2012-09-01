@@ -48,7 +48,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public NonNativeObjectInfo(ClassInfo classInfo) : base(null)
         {
-            //new OdbArrayList<NonNativeObjectInfo>();
+            //new OdbList<NonNativeObjectInfo>();
             _classInfo = classInfo;
             _objectHeader = new ObjectInfoHeader(-1, null, null, (classInfo != null
                                                                       ? classInfo.GetId()
@@ -64,7 +64,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                                    long[] attributesIdentification, int[] attributeIds)
             : base(Meta.OdbType.GetFromName(info.GetFullClassName()))
         {
-            //new OdbArrayList<NonNativeObjectInfo>();
+            //new OdbList<NonNativeObjectInfo>();
             _theObject = @object;
             _classInfo = info;
             _attributeValues = values;

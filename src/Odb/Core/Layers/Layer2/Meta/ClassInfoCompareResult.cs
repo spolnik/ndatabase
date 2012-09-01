@@ -22,8 +22,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         public ClassInfoCompareResult(string fullClassName)
         {
             _fullClassName = fullClassName;
-            _incompatibleChanges = new OdbArrayList<string>(5);
-            _compatibleChanges = new OdbArrayList<string>(5);
+            _incompatibleChanges = new OdbList<string>(5);
+            _compatibleChanges = new OdbList<string>(5);
         }
 
         /// <returns> the compatibleChanges </returns>

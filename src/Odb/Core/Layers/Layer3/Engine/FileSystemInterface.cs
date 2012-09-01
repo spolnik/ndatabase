@@ -28,7 +28,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         private readonly IFileIdentification _fileIdentification;
         private readonly ISession _session;
 
-        private IBufferedIO _io;
+        private IMultiBufferedFileIO _io;
 
         public FileSystemInterface(string name, IFileIdentification fileIdentification, int bufferSize, ISession session)
         {
@@ -51,7 +51,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             _byteArrayConverter.SetDatabaseCharacterEncoding(databaseCharacterEncoding);
         }
 
-        public void SetIo(IBufferedIO io)
+        public void SetIo(IMultiBufferedFileIO io)
         {
             _io = io;
         }
@@ -73,12 +73,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public long GetPosition()
         {
-            return _io.GetCurrentPosition();
+            return _io.CurrentPosition;
         }
 
         public long GetLength()
         {
-            return _io.GetLength();
+            return _io.Length;
         }
 
         public void SetWritePositionNoVerification(long position, bool writeInTransacation)
@@ -113,7 +113,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public long GetAvailablePosition()
         {
-            return _io.GetLength();
+            return _io.Length;
         }
 
         public void EnsureSpaceFor(OdbType type)
@@ -144,7 +144,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
             else
             {
-                GetSession().GetTransaction().ManageWriteAction(_io.GetCurrentPosition(), bytes);
+                GetSession().GetTransaction().ManageWriteAction(_io.CurrentPosition, bytes);
                 EnsureSpaceFor(OdbType.Byte);
             }
         }
@@ -156,7 +156,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public byte ReadByte(string label)
         {
-            var currentPosition = _io.GetCurrentPosition();
+            var currentPosition = _io.CurrentPosition;
             var i = _io.ReadByte();
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
@@ -187,14 +187,14 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
             else
             {
-                GetSession().GetTransaction().ManageWriteAction(_io.GetCurrentPosition(), bytes);
+                GetSession().GetTransaction().ManageWriteAction(_io.CurrentPosition, bytes);
                 EnsureSpaceFor(bytes.Length, OdbType.Byte);
             }
         }
 
         public byte[] ReadBytes(int length)
         {
-            var currentPosition = _io.GetCurrentPosition();
+            var currentPosition = _io.CurrentPosition;
             var bytes = _io.ReadBytes(length);
             var byteCount = bytes.Length;
 
@@ -225,7 +225,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public char ReadChar(string label)
         {
-            var currentPosition = _io.GetCurrentPosition();
+            var currentPosition = _io.CurrentPosition;
             var toChar = _byteArrayConverter.ByteArrayToChar(ReadCharBytes());
 
             if (OdbConfiguration.IsDebugEnabled(LogId) && label != null)
@@ -254,7 +254,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public short ReadShort(string label)
         {
-            var position = _io.GetCurrentPosition();
+            var position = _io.CurrentPosition;
             var toShort = _byteArrayConverter.ByteArrayToShort(ReadShortBytes());
 
             if (OdbConfiguration.IsDebugEnabled(LogId) && label != null)
@@ -283,7 +283,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public int ReadInt(string label)
         {
-            var currentPosition = _io.GetCurrentPosition();
+            var currentPosition = _io.CurrentPosition;
             var i = _byteArrayConverter.ByteArrayToInt(ReadIntBytes(), 0);
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
@@ -317,7 +317,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public long ReadLong(string label)
         {
-            var position = _io.GetCurrentPosition();
+            var position = _io.CurrentPosition;
             var toLong = _byteArrayConverter.ByteArrayToLong(ReadLongBytes(), 0);
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
@@ -348,7 +348,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public float ReadFloat(string label)
         {
-            var currentPosition = _io.GetCurrentPosition();
+            var currentPosition = _io.CurrentPosition;
             var toFloat = _byteArrayConverter.ByteArrayToFloat(ReadFloatBytes());
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
@@ -379,7 +379,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public double ReadDouble(string label)
         {
-            var currentPosition = _io.GetCurrentPosition();
+            var currentPosition = _io.CurrentPosition;
             var toDouble = _byteArrayConverter.ByteArrayToDouble(ReadDoubleBytes());
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
@@ -404,7 +404,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 _io.WriteBytes(bytes);
             else
             {
-                GetSession().GetTransaction().ManageWriteAction(_io.GetCurrentPosition(), bytes);
+                GetSession().GetTransaction().ManageWriteAction(_io.CurrentPosition, bytes);
                 EnsureSpaceFor(bytes.Length, OdbType.BigDecimal);
             }
         }
@@ -421,7 +421,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public Decimal ReadBigDecimal(string label)
         {
-            var currentPosition = _io.GetCurrentPosition();
+            var currentPosition = _io.CurrentPosition;
 
             var toBigDecimal = _byteArrayConverter.ByteArrayToBigDecimal(ReadBigDecimalBytes(), false);
 
@@ -462,7 +462,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public DateTime ReadDate(string label)
         {
-            var currentPosition = _io.GetCurrentPosition();
+            var currentPosition = _io.CurrentPosition;
             var date = _byteArrayConverter.ByteArrayToDate(ReadDateBytes());
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
@@ -493,7 +493,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             if (!writeInTransaction)
             {
-                var startPosition = _io.GetCurrentPosition();
+                var startPosition = _io.CurrentPosition;
                 _io.WriteBytes(bytes);
 //                var endPosition = _io.GetCurrentPosition();
 
@@ -513,7 +513,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
             else
             {
-                GetSession().GetTransaction().ManageWriteAction(_io.GetCurrentPosition(), bytes);
+                GetSession().GetTransaction().ManageWriteAction(_io.CurrentPosition, bytes);
                 EnsureSpaceFor(bytes.Length, OdbType.String);
             }
         }
@@ -564,7 +564,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
-                var startPosition = _io.GetCurrentPosition();
+                var startPosition = _io.CurrentPosition;
                 var message = string.Format("Reading string '{0}' at {1}{2}", toString, startPosition, (label != null
                                                                                                             ? string.Format(" : {0}", label)
                                                                                                             : string.Empty));
@@ -599,7 +599,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public bool ReadBoolean(string label)
         {
-            var currentPosition = _io.GetCurrentPosition();
+            var currentPosition = _io.CurrentPosition;
             var toBoolean = _byteArrayConverter.ByteArrayToBoolean(ReadBooleanBytes(), 0);
 
             if (OdbConfiguration.IsDebugEnabled(LogId) && label != null)
@@ -697,7 +697,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return _fileIdentification;
         }
 
-        public IBufferedIO GetIo()
+        public IMultiBufferedFileIO GetIo()
         {
             return _io;
         }
@@ -734,7 +734,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         private bool PointerAtTheEndOfTheFile()
         {
-            return _io.GetCurrentPosition() == _io.GetLength();
+            return _io.CurrentPosition == _io.Length;
         }
 
         /// <summary>
@@ -752,7 +752,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (PointerAtTheEndOfTheFile())
             {
                 if (space != 1)
-                    _io.SetCurrentWritePosition(_io.GetCurrentPosition() + space - 1);
+                    _io.SetCurrentWritePosition(_io.CurrentPosition + space - 1);
 
                 _io.WriteByte(ReservedSpace);
             }
@@ -761,7 +761,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 // DLogger.debug("Reserving " + space + " bytes (" + quantity +
                 // " " + type.getName() + ")");
                 // We must simulate the move
-                _io.SetCurrentWritePosition(_io.GetCurrentPosition() + space);
+                _io.SetCurrentWritePosition(_io.CurrentPosition + space);
             }
         }
 
@@ -775,7 +775,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
             else
             {
-                GetSession().GetTransaction().ManageWriteAction(_io.GetCurrentPosition(), bytes);
+                GetSession().GetTransaction().ManageWriteAction(_io.CurrentPosition, bytes);
                 EnsureSpaceFor(odbType);
             }
         }

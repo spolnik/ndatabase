@@ -19,7 +19,7 @@ namespace NDatabase.Odb.Impl.Core.Query.List.Objects
     ///   A simple list to hold query result. It is used when no index and no order by This collection does not store the objects, it only holds the Abstract Object Info (AOI) of the objects. When user ask an object the object is lazy loaded by the buildInstance method
     /// </remarks>
     
-    public sealed class LazySimpleListOfAoi<T> : OdbArrayList<T>, IObjects<T>
+    public sealed class LazySimpleListOfAoi<T> : OdbList<T>, IObjects<T>
     {
         /// <summary>
         ///   indicate if objects must be returned as instance (true) or as non native objects (false)

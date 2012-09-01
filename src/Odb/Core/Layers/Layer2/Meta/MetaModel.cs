@@ -52,7 +52,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             _rapidAccessForUserClassesByName = new OdbHashMap<string, ClassInfo>(10);
             _rapidAccessForSystemClassesByName = new OdbHashMap<string, ClassInfo>(10);
             _rapidAccessForClassesByOid = new OdbHashMap<OID, ClassInfo>(10);
-            _allClassInfos = new OdbArrayList<ClassInfo>();
+            _allClassInfos = new OdbList<ClassInfo>();
             _changedClasses = new OdbHashMap<ClassInfo, ClassInfo>();
         }
 
@@ -176,7 +176,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public ICollection<ClassInfo> GetChangedClassInfo()
         {
-            IOdbList<ClassInfo> list = new OdbArrayList<ClassInfo>();
+            IOdbList<ClassInfo> list = new OdbList<ClassInfo>();
             list.AddAll(_changedClasses.Keys);
 
             return new ReadOnlyCollection<ClassInfo>(list);
@@ -203,7 +203,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// <returns> The list of class info of persistent classes that are subclasses or equal to the class </returns>
         public IOdbList<ClassInfo> GetPersistentSubclassesOf(string fullClassName)
         {
-            IOdbList<ClassInfo> result = new OdbArrayList<ClassInfo>();
+            IOdbList<ClassInfo> result = new OdbList<ClassInfo>();
             var classNames = _rapidAccessForUserClassesByName.Keys.GetEnumerator();
 
             var theClass = _classPool.GetClass(fullClassName);

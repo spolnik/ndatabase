@@ -468,9 +468,9 @@ namespace NDatabase.Btree.Impl
         {
             var result = new StringBuilder();
 
-            if (o is ArrayList)
+            if (o is IList)
             {
-                foreach (var item in (ArrayList)o)
+                foreach (var item in (IList)o)
                     result.AppendFormat("{0},", item);
                 result = result.Remove(result.Length - 1, 1);
             }

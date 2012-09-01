@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using NDatabase.Btree.Exception;
 using NDatabase.Btree.Tool;
 
@@ -143,6 +144,8 @@ namespace NDatabase.Btree.Impl.Multiplevalue
 
             if (obj == null)
             {
+                //TODO: check why unit tests are failing when we are using List<object>
+//                obj = new List<object>();
                 obj = new ArrayList();
                 Values[realPosition] = obj;
             }

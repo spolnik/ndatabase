@@ -161,7 +161,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
         /// </remarks>
         public override IOdbList<string> GetAllInvolvedFields()
         {
-            IOdbList<string> list = new OdbArrayList<string>();
+            IOdbList<string> list = new OdbList<string>();
 
             // To check field duplicity
             IDictionary<string, string> map = new OdbHashMap<string, string>();
@@ -293,7 +293,7 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
 
         private void Init()
         {
-            _objectActions = new OdbArrayList<IQueryFieldAction>();
+            _objectActions = new OdbList<IQueryFieldAction>();
             _returnInstance = true;
         }
 

@@ -159,18 +159,17 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public static readonly OdbType Collection = new OdbType(false, CollectionId,
                                                                 OdbClassUtil.GetFullName(typeof (ICollection)), 0,
-                                                                typeof (ICollection), typeof (ArrayList));
+                                                                typeof (ICollection));
 
         public static readonly OdbType CollectionGeneric = new OdbType(false, CollectionGenericId,
                                                                        OdbClassUtil.GetFullName(
                                                                            typeof (ICollection<object>)), 0,
-                                                                       typeof (ICollection<object>),
-                                                                       typeof (List<object>));
+                                                                       typeof (ICollection<object>));
 
         public static readonly OdbType Array = new OdbType(false, ArrayId, "array", 0);
 
         public static readonly OdbType Map = new OdbType(false, MapId, OdbClassUtil.GetFullName(typeof (IDictionary)), 0,
-                                                         typeof (IDictionary), typeof (Hashtable));
+                                                         typeof (IDictionary));
 
         public static readonly OdbType Oid = new OdbType(false, OidId, OdbClassUtil.GetFullName(typeof (OID)), 0,
                                                          typeof (OID));
@@ -211,14 +210,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public static readonly int SizeOfByte = Byte.GetSize();
 
-        /// <summary>
-        ///   Used to instantiate the class when complex subclass is referenced.
-        /// </summary>
-        /// <remarks>
-        ///   Used to instantiate the class when complex subclass is referenced. example, when a Collection$SynchronizedMap is referenced ODB, will use HashMap instead
-        /// </remarks>
-        private readonly Type _defaultInstanciationClass;
-
         private readonly int _id;
         private readonly bool _isPrimitive;
         private readonly int _size;
@@ -233,7 +224,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         static OdbType()
         {
-            IOdbList<OdbType> allTypes = new OdbArrayList<OdbType>(100);
+            IOdbList<OdbType> allTypes = new OdbList<OdbType>(100);
             //// DO NOT FORGET DO ADD THE TYPE IN THIS LIST WHEN CREATING A NEW ONE!!!
             allTypes.Add(Null);
             allTypes.Add(Byte);
@@ -281,12 +272,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             _name = name;
             _size = size;
             _superClass = superclass;
-        }
-
-        private OdbType(bool isPrimitive, int id, string name, int size, Type superclass, Type defaultClass)
-            : this(isPrimitive, id, name, size, superclass)
-        {
-            _defaultInstanciationClass = defaultClass;
         }
 
         public static int Number { get; private set; }
@@ -663,11 +648,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         private bool IsEquivalent(OdbType type2)
         {
             return (_id == IntegerId && type2._id == IntegerId);
-        }
-
-        public Type GetDefaultInstanciationClass()
-        {
-            return _defaultInstanciationClass;
         }
 
         public bool IsDate()

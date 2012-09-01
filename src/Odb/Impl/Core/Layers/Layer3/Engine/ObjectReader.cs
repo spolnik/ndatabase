@@ -205,7 +205,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             // Read class info indexes
             foreach (var actualClassInfo in allClasses)
             {
-                IOdbList<ClassInfoIndex> indexes = new OdbArrayList<ClassInfoIndex>();
+                IOdbList<ClassInfoIndex> indexes = new OdbList<ClassInfoIndex>();
                 IQuery queryClassInfo = new CriteriaQuery(typeof (ClassInfoIndex),
                                                           Where.Equal("ClassInfoId", actualClassInfo.GetId()));
                 var classIndexes = GetObjects<ClassInfoIndex>(queryClassInfo, true, -1, -1);
@@ -234,7 +234,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
 
         public IOdbList<ClassInfoIndex> ReadClassInfoIndexesAt(long position, ClassInfo classInfo)
         {
-            IOdbList<ClassInfoIndex> indexes = new OdbArrayList<ClassInfoIndex>();
+            IOdbList<ClassInfoIndex> indexes = new OdbList<ClassInfoIndex>();
             _fsi.SetReadPosition(position);
             var nextIndexPosition = position;
 
@@ -353,7 +353,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             // With the cache , we detect the cyclic reference and return what has been read already
             tmpCache.StartReadingObjectInfoWithOid(objectInfo.GetOid(), objectInfo);
             AbstractObjectInfo aoi;
-            IOdbList<PendingReading> pendingReadings = new OdbArrayList<PendingReading>();
+            IOdbList<PendingReading> pendingReadings = new OdbList<PendingReading>();
             for (var id = 1; id <= classInfo.GetMaxAttributeId(); id++)
             {
                 var cai = objectInfo.GetClassInfo().GetAttributeInfoFromId(id);
@@ -998,7 +998,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             }
             // TODO This should be a short instead of long
             var nbAttributes = _fsi.ReadLong();
-            IOdbList<ClassAttributeInfo> attributes = new OdbArrayList<ClassAttributeInfo>((int) nbAttributes);
+            IOdbList<ClassAttributeInfo> attributes = new OdbList<ClassAttributeInfo>((int) nbAttributes);
             for (var i = 0; i < nbAttributes; i++)
                 attributes.Add(ReadClassAttributeInfo());
             classInfo.SetAttributes(attributes);
@@ -1369,9 +1369,9 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                             }
                             attributeOid = OIDFactory.BuildObjectOID(-attributeIdentification);
                             attributePosition = GetObjectPositionFromItsOid(attributeOid, useCache, false);
-                            IOdbList<string> list1 = new OdbArrayList<string>(1);
+                            IOdbList<string> list1 = new OdbList<string>(1);
                             list1.Add(relationAttributeName);
-                            IOdbList<string> list2 = new OdbArrayList<string>(1);
+                            IOdbList<string> list2 = new OdbList<string>(1);
                             list2.Add(attributeNameToSearch);
                             map.PutAll(ReadObjectInfoValuesFromPosition(cai.GetClassInfo(), attributeOid,
                                                                         attributePosition, useCache, list1, list2,
@@ -1799,8 +1799,8 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         public IOdbList<ObjectInfoHeader> GetObjectInfoHeaderList(ClassInfo classInfo)
         {
             if (classInfo.GetNumberOfObjects() == 0)
-                return new OdbArrayList<ObjectInfoHeader>();
-            IOdbList<ObjectInfoHeader> list = new OdbArrayList<ObjectInfoHeader>((int) classInfo.GetNumberOfObjects());
+                return new OdbList<ObjectInfoHeader>();
+            IOdbList<ObjectInfoHeader> list = new OdbList<ObjectInfoHeader>((int) classInfo.GetNumberOfObjects());
             var oid = classInfo.GetCommitedZoneInfo().First ?? classInfo.GetUncommittedZoneInfo().First;
             while (oid != null)
             {

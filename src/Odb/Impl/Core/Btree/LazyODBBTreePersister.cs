@@ -65,7 +65,7 @@ namespace NDatabase.Odb.Impl.Core.Btree
         {
             _oids = new OdbHashMap<OID, object>();
             _modifiedObjectOids = new OdbHashMap<object, int>();
-            _modifiedObjectOidList = new OdbArrayList<OID>(500);
+            _modifiedObjectOidList = new OdbList<OID>(500);
             _engine = engine;
             _engine.AddCommitListener(this);
             _smap = _oids;

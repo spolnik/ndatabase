@@ -58,7 +58,7 @@ namespace NDatabase.Odb.Core.Query.Criteria
         /// <returns> The list of involved field of the criteria </returns>
         public virtual IOdbList<string> GetAllInvolvedFields()
         {
-            IOdbList<string> list = new OdbArrayList<string>(1);
+            IOdbList<string> list = new OdbList<string>(1);
             list.Add(AttributeName);
             return list;
         }

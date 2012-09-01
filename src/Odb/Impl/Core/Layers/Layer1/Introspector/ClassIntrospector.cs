@@ -59,7 +59,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
             classInfo.SetClassCategory(GetClassCategory(fullClassName));
 
             var fields = GetAllFields(fullClassName);
-            IOdbList<ClassAttributeInfo> attributes = new OdbArrayList<ClassAttributeInfo>(fields.Count);
+            IOdbList<ClassAttributeInfo> attributes = new OdbList<ClassAttributeInfo>(fields.Count);
 
             var maxAttributeId = existingClassInfo.GetMaxAttributeId();
             foreach (var fieldInfo in fields)
@@ -128,7 +128,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
                 return result;
 
             IDictionary attributesNames = new Hashtable();
-            result = new OdbArrayList<FieldInfo>(50);
+            result = new OdbList<FieldInfo>(50);
             var classes = GetSuperClasses(fullClassName, true);
 
             foreach (var clazz1 in classes)
@@ -156,7 +156,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
 
         private static IOdbList<FieldInfo> RemoveUnnecessaryFields(IOdbList<FieldInfo> fields)
         {
-            IOdbList<FieldInfo> fieldsToRemove = new OdbArrayList<FieldInfo>(fields.Count);
+            IOdbList<FieldInfo> fieldsToRemove = new OdbList<FieldInfo>(fields.Count);
 
             // Remove static fields
             foreach (var fieldInfo in fields)
@@ -271,7 +271,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
             //UPGRADE_TODO: The equivalent in .NET for method 'java.lang.Class.getName' may return a different value. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1043'"
             //m by cristi
             var fields = GetAllFields(fullClassName);
-            IOdbList<ClassAttributeInfo> attributes = new OdbArrayList<ClassAttributeInfo>(fields.Count);
+            IOdbList<ClassAttributeInfo> attributes = new OdbList<ClassAttributeInfo>(fields.Count);
 
             for (var i = 0; i < fields.Count; i++)
             {

@@ -1,16 +1,14 @@
-using System;
 using System.Collections.Generic;
 
 namespace NDatabase.Tool.Wrappers.List
 {
-    
-    public class OdbArrayList<TItem> : List<TItem>, IOdbList<TItem>
+    public class OdbList<TItem> : List<TItem>, IOdbList<TItem>
     {
-        public OdbArrayList()
+        public OdbList()
         {
         }
 
-        public OdbArrayList(int size) : base(size)
+        public OdbList(int size) : base(size)
         {
         }
 

@@ -1,36 +1,31 @@
+using System;
+
 namespace NDatabase.Odb.Core.Layers.Layer3
 {
     /// <summary>
     ///   The interface for buffered IO
     /// </summary>
-    /// <author>osmadja</author>
-    public interface IBufferedIO
+    public interface IMultiBufferedFileIO : IDisposable
     {
-        long GetLength();
-
-        void SetUseBuffer(bool useBuffer);
-
-        long GetCurrentPosition();
+        long Length { get; }
+        
+        long CurrentPosition { get; }
 
         void SetCurrentWritePosition(long currentPosition);
 
         void SetCurrentReadPosition(long currentPosition);
 
-        void WriteByte(byte b);
+        void SetUseBuffer(bool useBuffer);
 
-        byte[] ReadBytes(int size);
+        void WriteByte(byte b);
 
         byte ReadByte();
 
         void WriteBytes(byte[] bytes);
 
-        void Flush(int bufferIndex);
+        byte[] ReadBytes(int size);
 
         void FlushAll();
-
-        long GetIoDeviceLength();
-
-        void SetIoDeviceLength(long ioDeviceLength);
 
         void Close();
 

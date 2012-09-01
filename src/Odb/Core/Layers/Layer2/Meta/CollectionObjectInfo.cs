@@ -69,9 +69,9 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         public override AbstractObjectInfo CreateCopy(IDictionary<OID, AbstractObjectInfo> cache, bool onlyData)
         {
             var collection = (ICollection) TheObject;
-            ICollection<AbstractObjectInfo> newCollection = new OdbArrayList<AbstractObjectInfo>();
+            ICollection<AbstractObjectInfo> newCollection = new OdbList<AbstractObjectInfo>();
             // To keep track of non native objects
-            IOdbList<NonNativeObjectInfo> nonNatives = new OdbArrayList<NonNativeObjectInfo>();
+            IOdbList<NonNativeObjectInfo> nonNatives = new OdbList<NonNativeObjectInfo>();
 
             foreach (AbstractObjectInfo aoi in collection)
             {
