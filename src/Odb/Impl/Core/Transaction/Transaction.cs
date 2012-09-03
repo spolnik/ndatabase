@@ -416,8 +416,9 @@ namespace NDatabase.Odb.Impl.Core.Transaction
                                          ? new FileIdentification(fileName)
                                          : GetParameters();
 
-                    _fsi = new FileSystemInterface("transaction", parameters,
+                    _fsi = new FileSystemInterface(parameters,
                                                         MultiBuffer.DefaultBufferSizeForTransaction, _session);
+                    _fsi.GetIo().EnableAutomaticDelete(true);
                 }
             }
         }

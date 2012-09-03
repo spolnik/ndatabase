@@ -37,7 +37,7 @@ namespace Test.NDatabase.Odb.Test.Acid
             var byteArrayConverter = OdbConfiguration.GetCoreProvider().GetByteArrayConverter();
             var size = 1000;
             ISession session = new MockSession("test2.neodatis");
-            IFileSystemInterface fsi = new FileSystemInterface("test", new FileIdentification("test2.neodatis"), MultiBuffer.DefaultBufferSizeForData,
+            IFileSystemInterface fsi = new FileSystemInterface(new FileIdentification("test2.neodatis"), MultiBuffer.DefaultBufferSizeForData,
                                                                session);
             var transaction = new OdbTransaction(session, fsi);
             transaction.SetArchiveLog(true);

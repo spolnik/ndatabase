@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.IO;
@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Layer3
 {
-    public class When_we_use_multi_buffered_file_io : InstanceSpecification<IMultiBufferedFileIO>
+    public class When_we_use_multi_buffered_file_io_with_turned_off_buffer : InstanceSpecification<IMultiBufferedFileIO>
     {
         private const long StartWritePosition = 10L;
         private string _fileName;
@@ -15,7 +15,7 @@ namespace NDatabase.UnitTests.Layer3
         protected override void Establish_context()
         {
             _fileName = "multibufferedfileio.ndb";
-            
+
             OdbFactory.Delete(_fileName);
         }
 
@@ -26,8 +26,9 @@ namespace NDatabase.UnitTests.Layer3
 
         protected override void Because()
         {
+            SubjectUnderTest.SetUseBuffer(false);
             SubjectUnderTest.SetCurrentWritePosition(StartWritePosition);
-            SubjectUnderTest.WriteBytes(new byte[] {1, 2, 3, 4, 5});
+            SubjectUnderTest.WriteBytes(new byte[] { 1, 2, 3, 4, 5 });
         }
 
         protected override void Dispose_context()
@@ -91,5 +92,7 @@ namespace NDatabase.UnitTests.Layer3
 
             Assert.That(File.Exists(fileName), Is.False);
         }
+
+        //TODO: check bytes with bigger size than buffer, and than buffer x 5
     }
 }

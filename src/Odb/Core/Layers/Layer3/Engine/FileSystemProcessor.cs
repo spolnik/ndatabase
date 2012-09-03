@@ -35,7 +35,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public void BuildFileSystemInterface(IStorageEngine storageEngine, ISession session)
         {
-            FileSystemInterface =  new FileSystemInterface("local-data", storageEngine.GetBaseIdentification(),
+            FileSystemInterface =  new FileSystemInterface(storageEngine.GetBaseIdentification(),
                                                 MultiBuffer.DefaultBufferSizeForData, session);
         }
 

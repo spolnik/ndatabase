@@ -14,7 +14,7 @@ namespace Test.NDatabase.Odb.Test.IO
         public virtual void TestReadWrite()
         {
             DeleteBase("testReadWrite.neodatis");
-            IFileSystemInterface fsi = new FileSystemInterface("data", new FileIdentification("testReadWrite.neodatis"),
+            IFileSystemInterface fsi = new FileSystemInterface(new FileIdentification("testReadWrite.neodatis"),
                                                                MultiBuffer.DefaultBufferSizeForData,
                                                                new MockSession("test"));
             fsi.SetWritePosition(fsi.GetLength(), false);

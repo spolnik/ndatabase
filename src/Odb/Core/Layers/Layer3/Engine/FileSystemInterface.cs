@@ -30,12 +30,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         private IMultiBufferedFileIO _io;
 
-        public FileSystemInterface(string name, IFileIdentification fileIdentification, int bufferSize, ISession session)
+        public FileSystemInterface(IFileIdentification fileIdentification, int bufferSize, ISession session)
         {
             _fileIdentification = fileIdentification;
 
             OdbDirectory.Mkdirs(fileIdentification.FileName);
-            _io = new MultiBufferedFileIO(name, fileIdentification.FileName, bufferSize);
+            _io = new MultiBufferedFileIO(fileIdentification.FileName, bufferSize);
 
             _byteArrayConverter = OdbConfiguration.GetCoreProvider().GetByteArrayConverter();
             _session = session;
@@ -713,7 +713,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         ///   Writing at position &lt; DATABASE_HEADER_PROTECTED_ZONE_SIZE is writing in ODB Header place.
         /// </summary>
         /// <remarks>
-        ///   Writing at position &lt; DATABASE_HEADER_PROTECTED_ZONE_SIZE is writing in ODB Header place. Here we check the positions where the writing is done. Search for 'page format' in ODB wiki to understand the positions
+        ///   Writing at position &lt; DATABASE_HEADER_PROTECTED_ZONE_SIZE is writing in ODB Header place. 
+        ///   Here we check the positions where the writing is done. 
+        ///   Search for 'page format' in ODB wiki to understand the positions
         /// </remarks>
         /// <param name="position"> </param>
         /// <returns> </returns>
