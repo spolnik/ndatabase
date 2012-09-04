@@ -2,7 +2,6 @@
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.IO;
-using NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Layer3

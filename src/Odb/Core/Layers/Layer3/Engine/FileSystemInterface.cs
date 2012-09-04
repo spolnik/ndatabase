@@ -2,7 +2,6 @@ using System;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3.IO;
 using NDatabase.Odb.Core.Transaction;
-using NDatabase.Odb.Impl.Core.Layers.Layer3.Buffer;
 using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NDatabase.Tool;
 
@@ -32,9 +31,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public FileSystemInterface(IFileIdentification fileIdentification, int bufferSize, ISession session)
         {
-            _fileIdentification = fileIdentification;
-
             OdbDirectory.Mkdirs(fileIdentification.FileName);
+
+            _fileIdentification = fileIdentification;
             _io = new MultiBufferedFileIO(fileIdentification.FileName, bufferSize);
 
             _byteArrayConverter = OdbConfiguration.GetCoreProvider().GetByteArrayConverter();
@@ -681,16 +680,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public void Close()
         {
-            Clear();
             _io.Close();
             _io = null;
         }
-
-        public void Clear()
-        {
-        }
-
-        // Nothing to do
 
         public IFileIdentification GetFileIdentification()
         {
@@ -780,6 +772,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 GetSession().GetTransaction().ManageWriteAction(_io.CurrentPosition, bytes);
                 EnsureSpaceFor(odbType);
             }
+        }
+
+        public void Dispose()
+        {
+            Close();
         }
     }
 }

@@ -1,10 +1,11 @@
 using System;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
+using NDatabase.Odb.Core.Layers.Layer3.IO;
 
 namespace NDatabase.Odb.Core.Layers.Layer3
 {
-    public interface IFileSystemInterface
+    public interface IFileSystemInterface : IDisposable
     {
         void UseBuffer(bool useBuffer);
 
@@ -129,14 +130,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         void Close();
 
-        void Clear();
-
         /// <returns> Returns the parameters. </returns>
         IFileIdentification GetFileIdentification();
 
         IMultiBufferedFileIO GetIo();
-
-//        void SetDatabaseCharacterEncoding(string databaseCharacterEncoding);
 
         void SetIo(IMultiBufferedFileIO io);
         void SetByteArrayConverter(IByteArrayConverter byteArrayConverter);

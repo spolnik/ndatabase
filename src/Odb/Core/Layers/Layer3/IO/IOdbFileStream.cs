@@ -1,6 +1,6 @@
 using System;
 
-namespace NDatabase.Odb.Core.Layers.Layer3
+namespace NDatabase.Odb.Core.Layers.Layer3.IO
 {
     /// <summary>
     ///   The basic IO interface for basic IO operation like reading and writing bytes
@@ -12,8 +12,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         /// </summary>
         /// <param name="position">offset</param>
         void Seek(long position);
-
-        void Close();
 
         void Write(byte value);
 

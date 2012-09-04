@@ -50,6 +50,14 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         ///</summary>
         public int[] MaxPositionInBuffer { get; private set; }
 
+        ///<summary>
+        ///  The buffer size.
+        ///</summary>
+        public int Size
+        {
+            get { return _bufferSize; }
+        }
+
         public void ClearBuffer(int bufferIndex)
         {
             var buffer = Buffers[bufferIndex];
@@ -65,7 +73,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         public void SetByte(int bufferIndex, int positionInBuffer, byte value)
         {
             if (Buffers[bufferIndex] == null)
-                Buffers[bufferIndex] = new byte[_bufferSize];
+                Buffers[bufferIndex] = new byte[Size];
 
             Buffers[bufferIndex][positionInBuffer] = value;
             _bufferHasBeenUsedForWrite[bufferIndex] = true;

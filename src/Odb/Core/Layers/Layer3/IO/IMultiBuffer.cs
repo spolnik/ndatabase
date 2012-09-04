@@ -11,6 +11,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
 
         MultiBuffer.BufferPosition[] BufferPositions { get; }
 
+        ///<summary>
+        ///  The buffer size.
+        ///</summary>
+        int Size { get; }
+
         void ClearBuffer(int bufferIndex);
         void SetByte(int bufferIndex, int positionInBuffer, byte value);
         int GetBufferIndexForPosition(long position, int size);

@@ -144,7 +144,7 @@
     <Compile Include="Odb\Core\Layers\Layer3\Engine\IByteArrayConverter.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IFileSystemInterface.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IFileIdentification.cs" />
-    <Compile Include="Odb\Core\Layers\Layer3\IMultiBufferedFileIO.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IO\IMultiBufferedFileIO.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\ICommitListener.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IDTypes.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IIdManager.cs" />
@@ -233,7 +233,9 @@
     <Compile Include="Odb\Impl\Core\Layers\Layer2\Meta\Serialization\Serializer.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer3\Block\BlockStatus.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer3\Block\BlockTypes.cs" />
-    <Compile Include="Odb\Impl\Core\Layers\Layer3\Buffer\MultiBufferedFileIO.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IO\INonBufferedFileIO.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IO\MultiBufferedFileIO.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IO\NonBufferedFileIO.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer3\Engine\NonNativeObjectWriter.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer3\Engine\ObjectWriter.cs" />
     <Compile Include="Odb\Impl\Core\Layers\Layer3\Engine\ByteArrayConverter.cs" />

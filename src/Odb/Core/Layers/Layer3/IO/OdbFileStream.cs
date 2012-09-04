@@ -7,7 +7,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
     {
         private const int DefaultBufferSize = 4096*2;
 
-        private readonly FileStream _fileAccess;
+        private FileStream _fileAccess;
 
         internal OdbFileStream(string wholeFileName)
         {
@@ -123,16 +123,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             }
         }
 
-        public void Close()
-        {
-            _fileAccess.Close();
-        }
-
         #endregion
 
         public void Dispose()
         {
-            Close();
+            _fileAccess.Close();
+            _fileAccess = null;
         }
     }
 }
