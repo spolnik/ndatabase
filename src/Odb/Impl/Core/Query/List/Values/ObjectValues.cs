@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 using NDatabase.Odb.Core;
 using NDatabase.Tool.Wrappers.Map;
