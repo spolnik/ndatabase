@@ -122,7 +122,7 @@ namespace NDatabase.Odb.Core.Query.Execution
             try
             {
                 if (executionPlan.UseIndex() && OdbConfiguration.UseIndex())
-                    return ExecuteUsingIndex<T>(executionPlan.GetIndex(), inMemory, startIndex, endIndex, returnObjects,
+                    return ExecuteUsingIndex<T>(executionPlan.GetIndex(), inMemory, returnObjects,
                                                 queryResultAction);
 
                 // When query must be applied to a single object
@@ -322,11 +322,9 @@ namespace NDatabase.Odb.Core.Query.Execution
         /// </summary>
         /// <param name="index"> </param>
         /// <param name="inMemory"> </param>
-        /// <param name="startIndex"> </param>
-        /// <param name="endIndex"> </param>
         /// <param name="returnObjects"> </param>
         /// <param name="queryResultAction"> </param>
-        private IObjects<T> ExecuteUsingIndex<T>(ClassInfoIndex index, bool inMemory, int startIndex, int endIndex,
+        private IObjects<T> ExecuteUsingIndex<T>(ClassInfoIndex index, bool inMemory,
                                                  bool returnObjects, IMatchingObjectAction queryResultAction)
         {
             // Index that have not been used yet do not have persister!

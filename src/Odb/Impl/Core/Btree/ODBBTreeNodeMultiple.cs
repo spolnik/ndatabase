@@ -1,4 +1,3 @@
-using System;
 using NDatabase.Btree;
 using NDatabase.Btree.Exception;
 using NDatabase.Btree.Impl.Multiplevalue;
@@ -13,7 +12,6 @@ namespace NDatabase.Odb.Impl.Core.Btree
     ///   The NDatabase ODB BTree Node implementation. It extends the DefaultBTreeNode generic implementation to be able to be stored in the ODB database.
     /// </remarks>
     /// <author>osmadja</author>
-    
     public sealed class OdbBtreeNodeMultiple : BTreeNodeMultipleValuesPerKey
     {
         private OID[] _childrenOids;

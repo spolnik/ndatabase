@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Linq;
 using System.Text;
@@ -13,7 +12,6 @@ namespace NDatabase.Odb.Impl.Core.Query.Values
     ///   An action to retrieve an object field
     /// </summary>
     /// <author>osmadja</author>
-    
     public sealed class FieldValueAction : AbstractQueryFieldAction
     {
         /// <summary>

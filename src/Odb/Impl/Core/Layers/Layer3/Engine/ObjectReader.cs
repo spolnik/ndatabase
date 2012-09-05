@@ -290,7 +290,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             // FIXME if useCache, why not directly search the cache?
             var position = GetObjectPositionFromItsOid(oid, useCache, false);
             if (position == StorageEngineConstant.DeletedObjectPosition)
-                return new NonNativeDeletedObjectInfo(position, oid);
+                return new NonNativeDeletedObjectInfo(position);
             if (position == StorageEngineConstant.ObjectDoesNotExist)
                 throw new OdbRuntimeException(NDatabaseError.ObjectWithOidDoesNotExist.AddParameter(oid));
             var nnoi = ReadNonNativeObjectInfoFromPosition(classInfo, oid, position, useCache, returnObjects);
@@ -1202,7 +1202,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                     objectPosition == StorageEngineConstant.NullObjectPosition)
                 {
                     // TODO Is this correct ?
-                    return new NonNativeDeletedObjectInfo(objectPosition, null);
+                    return new NonNativeDeletedObjectInfo(objectPosition);
                 }
                 
                 // Read block size and block type
@@ -1219,7 +1219,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                     return NullNativeObjectInfo.GetInstance();
                 // Deleted objects
                 if (BlockTypes.IsDeletedObject(blockType))
-                    return new NonNativeDeletedObjectInfo(objectPosition, null);
+                    return new NonNativeDeletedObjectInfo(objectPosition);
                 // Checks if what we are reading is only a pointer to the real
                 // block, if
                 // it is the case, just recall this method with the right position
