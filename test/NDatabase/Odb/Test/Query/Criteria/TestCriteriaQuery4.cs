@@ -51,7 +51,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             testClass2.SetDate1(correctDate);
             testClass2.SetDouble1(191.99);
             testClass2.SetInt1(1901);
-            testClass2.SetString1("test class with null BigDecimal");
+            testClass2.SetString1("test class with null Decimal");
             odb.Store(testClass2);
             var testClass3 = new TestClass();
             odb.Store(testClass3);
@@ -140,7 +140,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             l = odb.GetObjects<TestClass>(query);
             if (l.Count != 1)
             {
-                query = new CriteriaQuery(Where.Equal("string1", "test class with null BigDecimal"));
+                query = new CriteriaQuery(Where.Equal("string1", "test class with null Decimal"));
                 var l2 = odb.GetObjects<TestClass>(query);
                 Println(l2);
                 Println(correctDate.Millisecond);

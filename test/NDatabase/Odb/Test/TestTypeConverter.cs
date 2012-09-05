@@ -20,7 +20,7 @@ namespace Test.NDatabase.Odb.Test
             AssertEquals(OdbType.Long, OdbType.GetFromClass(typeof (long)));
             AssertEquals(OdbType.Short, OdbType.GetFromClass(typeof (short)));
             AssertEquals(OdbType.String, OdbType.GetFromClass(typeof (string)));
-            AssertEquals(OdbType.BigDecimal, OdbType.GetFromClass(typeof (Decimal)));
+            AssertEquals(OdbType.Decimal, OdbType.GetFromClass(typeof (Decimal)));
         }
 
         [Test]

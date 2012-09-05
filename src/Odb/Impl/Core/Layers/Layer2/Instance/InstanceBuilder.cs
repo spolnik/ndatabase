@@ -423,8 +423,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Instance
                     return objectInfo.GetObject();
                 }
 
-                case OdbType.DateSqlId:
-                case OdbType.DateTimestampId:
                 case OdbType.DateId:
                 {
                     return objectInfo.GetObject();
@@ -479,7 +477,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Instance
                     return Convert.ToDouble(objectInfo.GetObject().ToString());
                 }
 
-                case OdbType.BigDecimalId:
+                case OdbType.DecimalId:
                 {
                     return Decimal.Parse(objectInfo.GetObject().ToString(), NumberStyles.Any);
                 }

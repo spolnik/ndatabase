@@ -1,16 +1,13 @@
 using System;
-using System.Globalization;
-using System.Text;
 using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer3.Engine;
 
 namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
 {
     /// <summary>
     ///   Converts array of bytes into native objects and native objects into array of bytes
     /// </summary>
-    public sealed class ByteArrayConverter : IByteArrayConverter
+    public static class ByteArrayConverter
     {
         private const byte ByteForTrue = 1;
         private const byte ByteForFalse = 0;
@@ -19,46 +16,18 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
 
         private static readonly byte[] BytesForFalse = new byte[] {0};
 
-        private static int _intSize;
+        private static readonly int IntSize = OdbType.Integer.GetSize();
 
-        private static int _intSizeX2;
-
-        /// <summary>
-        ///   The encoding used for string to byte conversion
-        /// </summary>
-        private string _encoding;
-
-        private bool _hasEncoding;
+        private static readonly int IntSizeX2 = OdbType.Integer.GetSize() * 2;
 
         #region IByteArrayConverter Members
 
-        /// <summary>
-        ///   Two Phase Init method
-        /// </summary>
-        public void Init2()
+        public static byte[] BooleanToByteArray(bool b)
         {
-            _intSize = OdbType.Integer.GetSize();
-            _intSizeX2 = _intSize * 2;
-            SetDatabaseCharacterEncoding(OdbConfiguration.GetDatabaseCharacterEncoding());
+            return b ? BytesForTrue : BytesForFalse;
         }
 
-        public void SetDatabaseCharacterEncoding(string databaseCharacterEncoding)
-        {
-            _encoding = databaseCharacterEncoding;
-            if (_encoding == null || _encoding.Equals(StorageEngineConstant.NoEncoding))
-                _hasEncoding = false;
-            else
-                _hasEncoding = true;
-        }
-
-        public byte[] BooleanToByteArray(bool b)
-        {
-            if (b)
-                return BytesForTrue;
-            return BytesForFalse;
-        }
-
-        public void BooleanToByteArray(bool b, byte[] arrayWhereToWrite, int offset)
+        public static void BooleanToByteArray(bool b, byte[] arrayWhereToWrite, int offset)
         {
             if (b)
                 arrayWhereToWrite[offset] = ByteForTrue;
@@ -66,46 +35,46 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                 arrayWhereToWrite[offset] = ByteForFalse;
         }
 
-        public bool ByteArrayToBoolean(byte[] bytes, int offset)
+        public static bool ByteArrayToBoolean(byte[] bytes)
+        {
+            return bytes[0] != 0;
+        }
+
+        public static bool ByteArrayToBoolean(byte[] bytes, int offset)
         {
             return bytes[offset] != 0;
         }
 
-        public byte[] ShortToByteArray(short s)
+        public static byte[] ShortToByteArray(short s)
         {
             return BitConverter.GetBytes(s);
         }
 
-        public short ByteArrayToShort(byte[] bytes)
+        public static short ByteArrayToShort(byte[] bytes)
         {
             return BitConverter.ToInt16(bytes, 0);
         }
 
-        public byte[] CharToByteArray(char c)
+        public static byte[] CharToByteArray(char c)
         {
             return BitConverter.GetBytes(c);
         }
 
-        public char ByteArrayToChar(byte[] bytes)
+        public static char ByteArrayToChar(byte[] bytes)
         {
             return BitConverter.ToChar(bytes, 0);
         }
 
-        public int GetNumberOfBytesOfAString(String s, bool useEncoding)
+        public static int GetNumberOfBytesOfAString(String s)
         {
-            if (useEncoding && _hasEncoding)
+            try
             {
-                try
-                {
-                    return Encoding.UTF8.GetBytes(s).Length + OdbType.Integer.GetSize() * 2;
-                }
-                catch (Exception)
-                {
-                    throw new OdbRuntimeException(NDatabaseError.UnsupportedEncoding.AddParameter(_encoding));
-                }
+                return System.Text.Encoding.UTF8.GetBytes(s).Length + OdbType.Integer.GetSize()*2;
             }
-            var bytes = Encoding.ASCII.GetBytes(s);
-            return bytes.Length;
+            catch (Exception)
+            {
+                throw new OdbRuntimeException(NDatabaseError.UnsupportedEncoding.AddParameter("UTF-8"));
+            }
         }
 
 
@@ -117,23 +86,23 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         /// <param name="withEncoding"> </param>
         /// <returns> The byte array that represent the string </returns>
         /// <throws>UnsupportedEncodingException</throws>
-        public byte[] StringToByteArray(String s, bool withSize, int totalSpace, bool withEncoding)
+        public static byte[] StringToByteArray(String s, bool withSize, int totalSpace, bool withEncoding)
         {
             byte[] bytes;
-            if (withEncoding && _hasEncoding)
+            if (withEncoding)
             {
                 try
                 {
-                    bytes = Encoding.UTF8.GetBytes(s);
+                    bytes = System.Text.Encoding.UTF8.GetBytes(s);
                 }
                 catch (Exception)
                 {
-                    throw new OdbRuntimeException(NDatabaseError.UnsupportedEncoding.AddParameter(_encoding));
+                    throw new OdbRuntimeException(NDatabaseError.UnsupportedEncoding.AddParameter("UTF-8"));
                 }
             }
             else
             {
-              bytes = Encoding.ASCII.GetBytes(s);
+              bytes = System.Text.Encoding.ASCII.GetBytes(s);
             }
 
             if (!withSize)
@@ -152,7 +121,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             var totalSizeBytes = IntToByteArray(totalSize);
             var stringRealSize = IntToByteArray(bytes.Length);
 
-            var bytes2 = new byte[totalSize + _intSizeX2];
+            var bytes2 = new byte[totalSize + IntSizeX2];
 
             for (var i = 0; i < 4; i++)
                 bytes2[i] = totalSizeBytes[i];
@@ -170,37 +139,70 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         /// </summary>
         /// <param name="bytes"> </param>
         /// <param name="hasSize"> If hasSize is true, the first four bytes are the size of the string </param>
-        /// <param name="useEncoding"> </param>
         /// <returns> The String represented by the byte array </returns>
         /// <throws>UnsupportedEncodingException</throws>
-        public String ByteArrayToString(byte[] bytes, bool hasSize, bool useEncoding)
+        public static String ByteArrayToString(byte[] bytes, bool hasSize)
         {
             if (hasSize)
             {
-                var realSize = ByteArrayToInt(bytes, _intSize);
+                var realSize = ByteArrayToInt(bytes, IntSize);
 
-                return Encoding.UTF8.GetString(bytes, _intSizeX2, realSize);
+                return System.Text.Encoding.UTF8.GetString(bytes, IntSizeX2, realSize);
             }
 
-            return Encoding.UTF8.GetString(bytes, 0, bytes.Length);
+            return System.Text.Encoding.UTF8.GetString(bytes, 0, bytes.Length);
         }
 
-        public byte[] BigDecimalToByteArray(Decimal bigDecimal, bool withSize)
+        public static byte[] DecimalToByteArray(Decimal bigDecimal)
         {
-            return StringToByteArray(bigDecimal.ToString(CultureInfo.InvariantCulture), withSize, - 1, false);
+            var bits = Decimal.GetBits(bigDecimal);
+
+            return GetBytes(bits[0], bits[1], bits[2], bits[3]);
         }
 
-        public Decimal ByteArrayToBigDecimal(byte[] bytes, bool hasSize)
+        private static byte[] GetBytes(int lo, int mid, int hi, int flags)
         {
-            return Decimal.Parse(ByteArrayToString(bytes, hasSize, false), NumberStyles.Any, CultureInfo.InvariantCulture);
+            var buffer = new byte[16];
+            buffer[0] = (byte)lo;
+            buffer[1] = (byte)(lo >> 8);
+            buffer[2] = (byte)(lo >> 16);
+            buffer[3] = (byte)(lo >> 24);
+
+            buffer[4] = (byte)mid;
+            buffer[5] = (byte)(mid >> 8);
+            buffer[6] = (byte)(mid >> 16);
+            buffer[7] = (byte)(mid >> 24);
+
+            buffer[8] = (byte)hi;
+            buffer[9] = (byte)(hi >> 8);
+            buffer[10] = (byte)(hi >> 16);
+            buffer[11] = (byte)(hi >> 24);
+
+            buffer[12] = (byte)flags;
+            buffer[13] = (byte)(flags >> 8);
+            buffer[14] = (byte)(flags >> 16);
+            buffer[15] = (byte)(flags >> 24);
+
+            return buffer;
         }
 
-        public byte[] IntToByteArray(int l)
+        public static Decimal ByteArrayToDecimal(byte[] buffer)
+        {
+            var lo = (buffer[0]) | (buffer[1] << 8) | (buffer[2] << 16) | (buffer[3] << 24);
+            var mid = (buffer[4]) | (buffer[5] << 8) | (buffer[6] << 16) | (buffer[7] << 24);
+            var hi = (buffer[8]) | (buffer[9] << 8) | (buffer[10] << 16) | (buffer[11] << 24);
+            var flags = (buffer[12]) | (buffer[13] << 8) | (buffer[14] << 16) | (buffer[15] << 24);
+
+            return new Decimal(new[] { lo, mid, hi, flags });
+        }
+
+        public static byte[] IntToByteArray(int l)
         {
             return BitConverter.GetBytes(l);
         }
 
-        public void IntToByteArray(int l, byte[] arrayWhereToWrite, int offset)
+        //TODO: check if it is needed
+        public static void IntToByteArray(int l, byte[] arrayWhereToWrite, int offset)
         {
             int i;
             var bytes = BitConverter.GetBytes(l);
@@ -209,17 +211,23 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                 arrayWhereToWrite[offset + i] = bytes[i];
         }
 
-        public int ByteArrayToInt(byte[] bytes, int offset)
+        public static int ByteArrayToInt(byte[] bytes)
+        {
+            return BitConverter.ToInt32(bytes, 0);
+        }
+
+        public static int ByteArrayToInt(byte[] bytes, int offset)
         {
             return BitConverter.ToInt32(bytes, offset);
         }
 
-        public byte[] LongToByteArray(long l)
+        public static byte[] LongToByteArray(long l)
         {
             return BitConverter.GetBytes(l);
         }
 
-        public void LongToByteArray(long l, byte[] arrayWhereToWrite, int offset)
+        //TODO: check if it is needed
+        public static void LongToByteArray(long l, byte[] arrayWhereToWrite, int offset)
         {
             int i;
             var bytes = BitConverter.GetBytes(l);
@@ -227,47 +235,46 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                 arrayWhereToWrite[offset + i] = bytes[i];
         }
 
-        public long ByteArrayToLong(byte[] bytes, int offset)
+        public static long ByteArrayToLong(byte[] bytes)
+        {
+            return BitConverter.ToInt64(bytes, 0);
+        }
+
+        public static long ByteArrayToLong(byte[] bytes, int offset)
         {
             return BitConverter.ToInt64(bytes, offset);
         }
 
-        public byte[] DateToByteArray(DateTime date)
+        public static byte[] DateToByteArray(DateTime date)
         {
             var ticks = date.Ticks;
             return LongToByteArray(ticks);
         }
 
-        public DateTime ByteArrayToDate(byte[] bytes)
+        public static DateTime ByteArrayToDate(byte[] bytes)
         {
-            var ticks = ByteArrayToLong(bytes, 0);
+            var ticks = ByteArrayToLong(bytes);
             return new DateTime(ticks);
         }
 
-        public byte[] FloatToByteArray(float f)
+        public static byte[] FloatToByteArray(float f)
         {
             return BitConverter.GetBytes(f);
         }
 
-        public float ByteArrayToFloat(byte[] bytes)
+        public static float ByteArrayToFloat(byte[] bytes)
         {
             return BitConverter.ToSingle(bytes, 0);
         }
 
-        public byte[] DoubleToByteArray(double d)
+        public static byte[] DoubleToByteArray(double d)
         {
             return BitConverter.GetBytes(d);
         }
 
-        public double ByteArrayToDouble(byte[] bytes)
+        public static double ByteArrayToDouble(byte[] bytes)
         {
             return BitConverter.ToDouble(bytes, 0);
-        }
-
-        public void TestEncoding(string encoding)
-        {
-            var s = "test encoding";
-            Encoding.GetEncoding(encoding).GetBytes(s);
         }
 
         #endregion

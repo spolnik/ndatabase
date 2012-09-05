@@ -14,8 +14,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// <summary>
     ///   Contains the list for the ODB types
     /// </summary>
-    /// <author>olivier s</author>
-    
     public sealed class OdbType
     {
         public const int NullId = 0;
@@ -56,6 +54,11 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// </summary>
         public const int DoubleId = 80;
 
+        /// <summary>
+        ///   16 byte
+        /// </summary>
+        public const int DecimalId = 100;
+
         public const int DateId = 170;
 
         public const int DateSqlId = 171;
@@ -67,8 +70,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         public const int ObjectOidId = 181;
 
         public const int ClassOidId = 182;
-
-        public const int BigDecimalId = 200;
 
         public const int StringId = 210;
 
@@ -94,29 +95,27 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         private static IClassPool _classPool;
 
         public static readonly OdbType Null = new OdbType(true, NullId, "null", 1);
-
-       
         
         /// <summary>
         ///   1 byte
         /// </summary>
         public static readonly OdbType Byte = new OdbType(true, ByteId, OdbClassUtil.GetFullName(typeof(byte)), 1);
 
-        
         /// <summary>
         ///   2 byte
         /// </summary>
         public static readonly OdbType Short = new OdbType(true, ShortId, OdbClassUtil.GetFullName(typeof(short)), 2);
-
 
         /// <summary>
         ///   4 byte
         /// </summary>
         public static readonly OdbType Integer = new OdbType(true, IntegerId, OdbClassUtil.GetFullName(typeof(int)), 4);
 
-        public static readonly OdbType BigDecimal = new OdbType(false, BigDecimalId,
-                                                                OdbClassUtil.GetFullName(typeof (Decimal)), 1);
-
+        /// <summary>
+        ///   16 byte
+        /// </summary>
+        public static readonly OdbType Decimal = new OdbType(true, DecimalId, OdbClassUtil.GetFullName(typeof (decimal)),
+                                                             16);
         /// <summary>
         ///   8 bytes
         /// </summary>
@@ -138,19 +137,16 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// </summary>
         public static readonly OdbType Character = new OdbType(true, CharacterId,
                                                                OdbClassUtil.GetFullName(typeof (char)), 2);
-
+        
         /// <summary>
         ///   1 byte
         /// </summary>
         public static readonly OdbType Boolean = new OdbType(true, BooleanId, OdbClassUtil.GetFullName(typeof(bool)), 1);
 
+        /// <summary>
+        ///   8 byte
+        /// </summary>
         public static readonly OdbType Date = new OdbType(false, DateId, OdbClassUtil.GetFullName(typeof (DateTime)), 8);
-
-        public static readonly OdbType DateSql = new OdbType(false, DateSqlId,
-                                                             OdbClassUtil.GetFullName(typeof (DateTime)), 8);
-
-        public static readonly OdbType DateTimestamp = new OdbType(false, DateTimestampId,
-                                                                   OdbClassUtil.GetFullName(typeof (DateTime)), 8);
 
         public static readonly OdbType String = new OdbType(false, StringId, OdbClassUtil.GetFullName(typeof (string)),
                                                             1);
@@ -233,12 +229,10 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             allTypes.Add(Long);
             allTypes.Add(Float);
             allTypes.Add(Double);
-            allTypes.Add(BigDecimal);
+            allTypes.Add(Decimal);
             allTypes.Add(Character);
             allTypes.Add(Boolean);
             allTypes.Add(Date);
-            allTypes.Add(DateSql);
-            allTypes.Add(DateTimestamp);
             allTypes.Add(String);
             allTypes.Add(Enum);
             allTypes.Add(Collection);
@@ -307,11 +301,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             OdbType odbType;
 
             TypesByName.TryGetValue(fullName, out odbType);
-            if (odbType != null)
-                return odbType;
-
-            var nonNative = new OdbType(NonNative._isPrimitive, NonNativeId, fullName, 0);
-            return nonNative;
+            
+            return odbType ?? new OdbType(NonNative._isPrimitive, NonNativeId, fullName, 0);
         }
 
         public static OdbType GetFromClass(Type clazz)
@@ -540,6 +531,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                     return typeof (long);
                 case ShortId:
                     return typeof (short);
+                case DecimalId:
+                    return typeof (decimal);
                 case ObjectOidId:
                     return typeof (OdbObjectOID);
                 case ClassOidId:
@@ -592,7 +585,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public static bool IsStringOrBigDecimal(int odbTypeId)
         {
-            return odbTypeId == StringId || odbTypeId == BigDecimalId;
+            return odbTypeId == StringId || odbTypeId == DecimalId;
         }
 
         public static bool IsAtomicNative(int odbTypeId)
@@ -652,7 +645,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public bool IsDate()
         {
-            return _id == DateId || _id == DateSqlId || _id == DateTimestampId;
+            return _id == DateId;
         }
     }
 }

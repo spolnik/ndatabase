@@ -92,10 +92,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             FileSystemInterface.SetWritePosition(StorageEngineConstant.DatabaseHeaderDatabaseCharacterEncodingPosition,
                                   writeInTransaction);
-            if (OdbConfiguration.HasEncoding())
-                FileSystemInterface.WriteString(OdbConfiguration.GetDatabaseCharacterEncoding(), writeInTransaction, true, 50);
-            else
-                FileSystemInterface.WriteString(StorageEngineConstant.NoEncoding, writeInTransaction, false, 50);
+
+            FileSystemInterface.WriteString("UTF-8", writeInTransaction, true, 50);
         }
 
         // fsi.writeLong(oid.getObjectId(), writeInTransaction, label,

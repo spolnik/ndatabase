@@ -4,7 +4,6 @@ using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
-using NDatabase.Odb.Core.Layers.Layer3.IO;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Odb.Core.Trigger;
 using NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector;
@@ -26,8 +25,6 @@ namespace NDatabase.Odb.Impl
     {
         private static readonly IClassPool ClassPool = new OdbClassPool();
 
-        private static readonly IByteArrayConverter ByteArrayConverter = new ByteArrayConverter();
-
         private static IClassIntrospector _classIntrospector;
 
         private static readonly IDictionary<IStorageEngine, ITriggerManager> TriggerManagers =
@@ -37,8 +34,6 @@ namespace NDatabase.Odb.Impl
 
         public void Init2()
         {
-            ByteArrayConverter.Init2();
-
             _classIntrospector = new ClassIntrospector();
             _classIntrospector.Init2();
         }
@@ -49,13 +44,6 @@ namespace NDatabase.Odb.Impl
             ClassPool.Reset();
         }
 
-        public IByteArrayConverter GetByteArrayConverter()
-        {
-            return ByteArrayConverter;
-        }
-
-        
-
         public IIdManager GetIdManager(IStorageEngine engine)
         {
             return new IdManager(engine.GetObjectWriter(), engine.GetObjectReader(),
@@ -64,7 +52,7 @@ namespace NDatabase.Odb.Impl
 
         public IObjectWriter GetObjectWriter(IStorageEngine engine)
         {
-            return new ObjectWriter(engine, ByteArrayConverter, _classIntrospector);
+            return new ObjectWriter(engine, _classIntrospector);
         }
 
         public IObjectReader GetObjectReader(IStorageEngine engine)

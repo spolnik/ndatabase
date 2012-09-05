@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using NDatabase.Odb.Core;
-using NDatabase.Odb.Core.Layers.Layer3.IO;
 using NDatabase.Odb.Impl;
-using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb
@@ -20,7 +18,6 @@ namespace NDatabase.Odb
         private const int NbIdsPerBlock = 1000;
 
         private const int IdBlockRepetitionSize = 18;
-        private const string DefaultDatabaseCharacterEncoding = "UTF-8";
         private static bool _coreProviderInit;
 
         private static bool _debugEnabled;
@@ -42,8 +39,6 @@ namespace NDatabase.Odb
         private static bool _useMultiBuffer = true;
 
         private static bool _automaticCloseFileOnExit;
-
-        private static string _databaseCharacterEncoding = DefaultDatabaseCharacterEncoding;
 
         private static bool _throwExceptionWhenInconsistencyFound = true;
 
@@ -459,30 +454,6 @@ namespace NDatabase.Odb
                 }
             }
             return CoreProvider;
-        }
-
-        public static string GetDatabaseCharacterEncoding()
-        {
-            return _databaseCharacterEncoding;
-        }
-
-        public static void SetDatabaseCharacterEncoding(string dbCharacterEncoding)
-        {
-            if (dbCharacterEncoding != null)
-            {
-                // Checks if encoding is valid, using it in the String.getBytes
-                // method
-                new ByteArrayConverter().TestEncoding(dbCharacterEncoding);
-                _databaseCharacterEncoding = dbCharacterEncoding;
-            }
-            else
-                _databaseCharacterEncoding = StorageEngineConstant.NoEncoding;
-        }
-
-        public static bool HasEncoding()
-        {
-            return _databaseCharacterEncoding != null &&
-                   !_databaseCharacterEncoding.Equals(StorageEngineConstant.NoEncoding);
         }
 
         public static bool UseIndex()

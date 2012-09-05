@@ -3,7 +3,6 @@ using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer2.Meta.Compare;
 using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Odb.Core.Trigger;
 using NDatabase.Odb.Impl.Core.Layers.Layer3.Block;
@@ -51,18 +50,16 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         private readonly IObjectWriter _objectWriter;
         private readonly ISession _session;
         private readonly IStorageEngine _storageEngine;
-        private readonly IByteArrayConverter _byteArrayConverter;
         private readonly IObjectInfoComparator _comparator;
         private ITriggerManager _triggerManager;
         private IObjectReader _objectReader;
 
-        public NonNativeObjectWriter(IObjectWriter objectWriter, IStorageEngine storageEngine, IByteArrayConverter byteArrayConverter, IObjectInfoComparator comparator)
+        public NonNativeObjectWriter(IObjectWriter objectWriter, IStorageEngine storageEngine, IObjectInfoComparator comparator)
         {
             _objectWriter = objectWriter;
             _session = storageEngine.GetSession(true);
             _objectReader = storageEngine.GetObjectReader();
             _storageEngine = storageEngine;
-            _byteArrayConverter = byteArrayConverter;
             _comparator = comparator;
         }
 
@@ -223,7 +220,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             var tsize = 7 * OdbType.SizeOfLong + 3 * OdbType.SizeOfInt + 2 * OdbType.SizeOfByte;
             var bytes = new byte[tsize];
             // Block size
-            _byteArrayConverter.IntToByteArray(0, bytes, 0);
+            ByteArrayConverter.IntToByteArray(0, bytes, 0);
             // Block type
             bytes[4] = BlockTypes.BlockTypeNonNativeObject;
             // fsi.writeInt(BlockTypes.BLOCK_TYPE_NON_NATIVE_OBJECT,
@@ -233,7 +230,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             // fsi.writeLong(oid.getObjectId(), writeDataInTransaction, "oid",
             // WriteAction.DATA_WRITE_ACTION);
             // Class info id
-            _byteArrayConverter.LongToByteArray(classInfo.GetId().ObjectId, bytes, 13);
+            ByteArrayConverter.LongToByteArray(classInfo.GetId().ObjectId, bytes, 13);
             // fsi.writeLong(classInfo.getId().getObjectId(),
             // writeDataInTransaction, "class info id",
             // WriteAction.DATA_WRITE_ACTION);
@@ -246,26 +243,26 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             // writeOid(objectInfo.getNextObjectOID(), writeDataInTransaction,
             // "next instance", WriteAction.DATA_WRITE_ACTION);
             // creation date, for update operation must be the original one
-            _byteArrayConverter.LongToByteArray(objectInfo.GetHeader().GetCreationDate(), bytes, 37);
+            ByteArrayConverter.LongToByteArray(objectInfo.GetHeader().GetCreationDate(), bytes, 37);
             // fsi.writeLong(objectInfo.getHeader().getCreationDate(),
             // writeDataInTransaction, "creation date",
             // WriteAction.DATA_WRITE_ACTION);
-            _byteArrayConverter.LongToByteArray(OdbTime.GetCurrentTimeInTicks(), bytes, 45);
+            ByteArrayConverter.LongToByteArray(OdbTime.GetCurrentTimeInTicks(), bytes, 45);
             // fsi.writeLong(OdbTime.getCurrentTimeInMs(), writeDataInTransaction,
             // "update date", WriteAction.DATA_WRITE_ACTION);
             
-            _byteArrayConverter.IntToByteArray(objectInfo.GetHeader().GetObjectVersion(), bytes, 53);
+            ByteArrayConverter.IntToByteArray(objectInfo.GetHeader().GetObjectVersion(), bytes, 53);
             // fsi.writeInt(objectInfo.getHeader().getObjectVersion(),
             // writeDataInTransaction, "object version number");
             // not used yet. But it will point to an internal object of type
             // ObjectReference that will have details on the references:
             // All the objects that point to it: to enable object integrity
-            _byteArrayConverter.LongToByteArray(-1, bytes, 57);
+            ByteArrayConverter.LongToByteArray(-1, bytes, 57);
             // fsi.writeLong(-1, writeDataInTransaction, "object reference pointer",
             // WriteAction.DATA_WRITE_ACTION);
             // True if this object have been synchronized with main database, else
             // false
-            _byteArrayConverter.BooleanToByteArray(false, bytes, 65);
+            ByteArrayConverter.BooleanToByteArray(false, bytes, 65);
             // fsi.writeBoolean(false, writeDataInTransaction,
             // "is syncronized with external db");
             // now write the number of attributes and the position of all
@@ -276,7 +273,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             // the offset position of the attribute
             // first write the number of attributes
             // fsi.writeInt(nbAttributes, writeDataInTransaction, "nb attr");
-            _byteArrayConverter.IntToByteArray(nbAttributes, bytes, 66);
+            ByteArrayConverter.IntToByteArray(nbAttributes, bytes, 66);
             // Then write the array of bytes
             _objectWriter.FileSystemProcessor.FileSystemInterface.WriteBytes(bytes, writeDataInTransaction, "NonNativeObjectInfoHeader");
             // Store the position
@@ -348,8 +345,8 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             abytes = new byte[attributesIdentification.Length * (attributeSize)];
             for (var i = 0; i < attributesIdentification.Length; i++)
             {
-                _byteArrayConverter.IntToByteArray(attributeIds[i], abytes, i * attributeSize);
-                _byteArrayConverter.LongToByteArray(attributesIdentification[i], abytes,
+                ByteArrayConverter.IntToByteArray(attributeIds[i], abytes, i * attributeSize);
+                ByteArrayConverter.LongToByteArray(attributesIdentification[i], abytes,
                                                     i * (attributeSize) + OdbType.SizeOfInt);
                 // fsi.writeInt(attributeIds[i], writeDataInTransaction, "attr id");
                 // fsi.writeLong(attributesIdentification[i],
@@ -680,11 +677,11 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         public void EncodeOid(OID oid, byte[] bytes, int offset)
         {
             if (oid == null)
-                _byteArrayConverter.LongToByteArray(-1, bytes, offset);
+                ByteArrayConverter.LongToByteArray(-1, bytes, offset);
             else
             {
                 // fsi.writeLong(-1, writeInTransaction, label, writeAction);
-                _byteArrayConverter.LongToByteArray(oid.ObjectId, bytes, offset);
+                ByteArrayConverter.LongToByteArray(oid.ObjectId, bytes, offset);
             }
         }
 

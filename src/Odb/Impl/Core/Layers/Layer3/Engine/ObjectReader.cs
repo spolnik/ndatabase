@@ -33,8 +33,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
     public sealed class ObjectReader : IObjectReader
     {
         private const string LogId = "ObjectReader";
-        private readonly IByteArrayConverter _byteArrayConverter;
-
+        
         /// <summary>
         ///   The fsi is the object that knows how to write and read native types
         /// </summary>
@@ -72,7 +71,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             _fsi = engine.GetObjectWriter().FileSystemProcessor.FileSystemInterface;
             _blockPositions = new OdbHashMap<long, long>();
             _instanceBuilder = BuildInstanceBuilder();
-            _byteArrayConverter = OdbConfiguration.GetCoreProvider().GetByteArrayConverter();
         }
 
         #region IObjectReader Members
@@ -252,7 +250,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                 }
                 var previousIndexPosition = _fsi.ReadLong("prev index pos");
                 nextIndexPosition = _fsi.ReadLong("next index pos");
-                classInfoIndex.Name = _fsi.ReadString(false, "Index name");
+                classInfoIndex.Name = _fsi.ReadString("Index name");
                 classInfoIndex.IsUnique = _fsi.ReadBoolean("index is unique");
                 classInfoIndex.Status = _fsi.ReadByte("index status");
                 classInfoIndex.CreationDate = _fsi.ReadLong("creation date");
@@ -475,25 +473,13 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                     break;
                 }
 
-                case OdbType.BigDecimalId:
+                case OdbType.DecimalId:
                 {
                     o = _fsi.ReadBigDecimal("atomic");
                     break;
                 }
 
                 case OdbType.DateId:
-                {
-                    o = _fsi.ReadDate("atomic");
-                    break;
-                }
-
-                case OdbType.DateSqlId:
-                {
-                    o = _fsi.ReadDate("atomic");
-                    break;
-                }
-
-                case OdbType.DateTimestampId:
                 {
                     o = _fsi.ReadDate("atomic");
                     break;
@@ -515,13 +501,13 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
 
                 case OdbType.StringId:
                 {
-                    o = _fsi.ReadString(true);
+                    o = _fsi.ReadString();
                     break;
                 }
 
                 case OdbType.EnumId:
                 {
-                    o = _fsi.ReadString(false);
+                    o = _fsi.ReadString();
                     break;
                 }
             }
@@ -913,7 +899,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         private string ReadDatabaseCharacterEncoding()
         {
             _fsi.SetReadPosition(StorageEngineConstant.DatabaseHeaderDatabaseCharacterEncodingPosition);
-            return _fsi.ReadString(false);
+            return _fsi.ReadString();
         }
 
         /// <summary>
@@ -946,7 +932,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             classInfo.GetOriginalZoneInfo().First = ReadOid("ci first object oid");
             classInfo.GetOriginalZoneInfo().Last = ReadOid("ci last object oid");
             classInfo.GetCommitedZoneInfo().Set(classInfo.GetOriginalZoneInfo());
-            classInfo.SetFullClassName(_fsi.ReadString(false));
+            classInfo.SetFullClassName(_fsi.ReadString());
             classInfo.SetMaxAttributeId(_fsi.ReadInt());
             classInfo.SetAttributesDefinitionPosition(_fsi.ReadLong());
             // FIXME Convert block size to long ??
@@ -962,7 +948,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
 
         private OID DecodeOid(byte[] bytes, int offset)
         {
-            var oid = _byteArrayConverter.ByteArrayToLong(bytes, offset);
+            var oid = ByteArrayConverter.ByteArrayToLong(bytes, offset);
             if (oid == -1)
                 return null;
             return OIDFactory.BuildObjectOID(oid);
@@ -1066,7 +1052,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                 cai.SetClassInfo(metaModel.GetClassInfo(cai.GetFullClassname(), true));
                 cai.SetAttributeType(OdbType.GetFromName(cai.GetFullClassname()));
             }
-            cai.SetName(_fsi.ReadString(false));
+            cai.SetName(_fsi.ReadString());
             cai.SetIndex(_fsi.ReadBoolean());
             cai.SetId(attributeId);
             return cai;
@@ -1139,16 +1125,16 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                 if (oid == null)
                     oid = readOid;
                 // It is a non native object
-                var classInfoId = OIDFactory.BuildClassOID(_byteArrayConverter.ByteArrayToLong(abytes, 8));
+                var classInfoId = OIDFactory.BuildClassOID(ByteArrayConverter.ByteArrayToLong(abytes, 8));
                 var prevObjectOID = DecodeOid(abytes, 16);
                 var nextObjectOID = DecodeOid(abytes, 24);
-                var creationDate = _byteArrayConverter.ByteArrayToLong(abytes, 32);
-                var updateDate = _byteArrayConverter.ByteArrayToLong(abytes, 40);
-                var objectVersion = _byteArrayConverter.ByteArrayToInt(abytes, 48);
-                var objectReferencePointer = _byteArrayConverter.ByteArrayToLong(abytes, 52);
-                var isSynchronized = _byteArrayConverter.ByteArrayToBoolean(abytes, 60);
+                var creationDate = ByteArrayConverter.ByteArrayToLong(abytes, 32);
+                var updateDate = ByteArrayConverter.ByteArrayToLong(abytes, 40);
+                var objectVersion = ByteArrayConverter.ByteArrayToInt(abytes, 48);
+                var objectReferencePointer = ByteArrayConverter.ByteArrayToLong(abytes, 52);
+                var isSynchronized = ByteArrayConverter.ByteArrayToBoolean(abytes, 60);
                 // Now gets info about attributes
-                var nbAttributesRead = _byteArrayConverter.ByteArrayToInt(abytes, 61);
+                var nbAttributesRead = ByteArrayConverter.ByteArrayToInt(abytes, 61);
                 // Now gets an array with the identification all attributes (can be
                 // positions(for native objects) or ids(for non native objects))
                 var attributesIdentification = new long[nbAttributesRead];
@@ -1158,8 +1144,8 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                 var bytes = _fsi.ReadBytes(nbAttributesRead * atsize);
                 for (var i = 0; i < nbAttributesRead; i++)
                 {
-                    attributeIds[i] = _byteArrayConverter.ByteArrayToInt(bytes, i * atsize);
-                    attributesIdentification[i] = _byteArrayConverter.ByteArrayToLong(bytes,
+                    attributeIds[i] = ByteArrayConverter.ByteArrayToInt(bytes, i * atsize);
+                    attributesIdentification[i] = ByteArrayConverter.ByteArrayToLong(bytes,
                                                                                       i * atsize + OdbType.SizeOfInt);
                 }
                 var oip = new ObjectInfoHeader(position, prevObjectOID, nextObjectOID, classInfoId,
@@ -1504,10 +1490,10 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             var size = OdbType.Integer.GetSize() + OdbType.Byte.GetSize() + OdbType.Integer.GetSize() +
                        OdbType.Boolean.GetSize();
             var bytes = _fsi.ReadBytes(size);
-            var blockSize = _byteArrayConverter.ByteArrayToInt(bytes, 0);
+            var blockSize = ByteArrayConverter.ByteArrayToInt(bytes);
             var blockType = bytes[4];
-            var odbTypeId = _byteArrayConverter.ByteArrayToInt(bytes, 5);
-            var isNull = _byteArrayConverter.ByteArrayToBoolean(bytes, 9);
+            var odbTypeId = ByteArrayConverter.ByteArrayToInt(bytes, 5);
+            var isNull = ByteArrayConverter.ByteArrayToBoolean(bytes, 9);
             nah.SetBlockSize(blockSize);
             nah.SetBlockType(blockType);
             nah.SetOdbTypeId(odbTypeId);
@@ -1565,7 +1551,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         public EnumNativeObjectInfo ReadEnumObjectInfo(long position, int odbTypeId)
         {
             var enumClassInfoId = _fsi.ReadLong("EnumClassInfoId");
-            var enumValue = _fsi.ReadString(true);
+            var enumValue = _fsi.ReadString();
             var enumCi = GetSession().GetMetaModel().GetClassInfoFromId(OIDFactory.BuildClassOID(enumClassInfoId));
             return new EnumNativeObjectInfo(enumCi, enumValue);
         }
@@ -1577,7 +1563,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         /// </summary>
         private CollectionObjectInfo ReadCollection(long position, bool useCache, bool returnObjects)
         {
-            var realCollectionClassName = _fsi.ReadString(false, "Real collection class name");
+            var realCollectionClassName = _fsi.ReadString("Real collection class name");
             // read the size of the collection
             var collectionSize = _fsi.ReadInt("Collection size");
 
@@ -1612,7 +1598,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         /// <returns> The Collection or the array @ </returns>
         private ArrayObjectInfo ReadArray(long position, bool useCache, bool returnObjects)
         {
-            var realArrayComponentClassName = _fsi.ReadString(false, "real array class name");
+            var realArrayComponentClassName = _fsi.ReadString("real array class name");
             var subTypeId = OdbType.GetFromName(realArrayComponentClassName);
             var componentIsNative = subTypeId.IsNative();
             // read the size of the array
@@ -1674,7 +1660,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         private MapObjectInfo ReadMap(long position, bool useCache, bool returnObjects)
         {
             // Reads the real map class
-            var realMapClassName = _fsi.ReadString(false);
+            var realMapClassName = _fsi.ReadString();
             // read the size of the map
             var mapSize = _fsi.ReadInt();
             IDictionary<AbstractObjectInfo, AbstractObjectInfo> map =

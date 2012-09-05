@@ -32,7 +32,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         private static byte[] _nativeHeaderBlockSizeByte;
         internal static int NbNormalUpdates;
 
-        private readonly IByteArrayConverter _byteArrayConverter;
         private readonly IClassIntrospector _classIntrospector;
         private readonly IObjectInfoComparator _comparator;
         private readonly ISession _session;
@@ -48,19 +47,18 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
 
         private IStorageEngine _storageEngine;
 
-        public ObjectWriter(IStorageEngine engine, IByteArrayConverter byteArrayConverter, IClassIntrospector classIntrospector)
+        public ObjectWriter(IStorageEngine engine, IClassIntrospector classIntrospector)
         {
             _storageEngine = engine;
             _objectReader = _storageEngine.GetObjectReader();
 
-            _byteArrayConverter = byteArrayConverter;
             _classIntrospector = classIntrospector;
-            _nativeHeaderBlockSizeByte = _byteArrayConverter.IntToByteArray(NativeHeaderBlockSize);
+            _nativeHeaderBlockSizeByte = ByteArrayConverter.IntToByteArray(NativeHeaderBlockSize);
             _comparator = new ObjectInfoComparator();
 
             _session = engine.GetSession(true);
 
-            _nonNativeObjectWriter = new NonNativeObjectWriter(this, _storageEngine, _byteArrayConverter, _comparator);
+            _nonNativeObjectWriter = new NonNativeObjectWriter(this, _storageEngine, _comparator);
         }
 
         #region IObjectWriter Members
@@ -465,15 +463,13 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                         break;
                     }
 
-                case OdbType.BigDecimalId:
+                case OdbType.DecimalId:
                     {
                         FileSystemProcessor.FileSystemInterface.WriteBigDecimal((Decimal) @object, writeInTransaction);
                         break;
                     }
 
                 case OdbType.DateId:
-                case OdbType.DateSqlId:
-                case OdbType.DateTimestampId:
                     {
                         FileSystemProcessor.FileSystemInterface.WriteDate((DateTime) @object, writeInTransaction);
                         break;
@@ -1261,12 +1257,12 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             bytes[3] = _nativeHeaderBlockSizeByte[3];
             bytes[4] = blockType;
 
-            var bytesTypeId = _byteArrayConverter.IntToByteArray(odbTypeId);
+            var bytesTypeId = ByteArrayConverter.IntToByteArray(odbTypeId);
             bytes[5] = bytesTypeId[0];
             bytes[6] = bytesTypeId[1];
             bytes[7] = bytesTypeId[2];
             bytes[8] = bytesTypeId[3];
-            bytes[9] = _byteArrayConverter.BooleanToByteArray(isNull)[0];
+            bytes[9] = ByteArrayConverter.BooleanToByteArray(isNull)[0];
 
             FileSystemProcessor.FileSystemInterface.WriteBytes(bytes, writeDataInTransaction, "NativeObjectHeader");
         }
@@ -1284,8 +1280,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             {
                 FileSystemProcessor.FileSystemInterface.SetReadPosition(position + StorageEngineConstant.NativeObjectOffsetDataArea);
                 var totalSize = FileSystemProcessor.FileSystemInterface.ReadInt("String total size");
-                var stringNumberOfBytes = _byteArrayConverter.GetNumberOfBytesOfAString(newAnoi.GetObject().ToString(),
-                                                                                        true);
+                var stringNumberOfBytes = ByteArrayConverter.GetNumberOfBytesOfAString(newAnoi.GetObject().ToString());
                 // Checks if there is enough space to store this new string in place
                 var canUpdate = totalSize >= stringNumberOfBytes;
                 if (canUpdate)

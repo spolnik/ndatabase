@@ -216,8 +216,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         public static readonly long NativeObjectOffsetDataArea = NativeObjectOffsetObjectIsNull +
                                                                  OdbType.Boolean.GetSize();
 
-        public static readonly string NoEncoding = "no-encoding";
-        
         // ********************************************************
         // DATABASE HEADER
         // ********************************************************

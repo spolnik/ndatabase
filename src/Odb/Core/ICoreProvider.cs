@@ -1,7 +1,6 @@
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Odb.Core.Trigger;
 
@@ -10,14 +9,8 @@ namespace NDatabase.Odb.Core
     /// <summary>
     ///   This is the default Core Object Provider.
     /// </summary>
-    /// <remarks>
-    ///   This is the default Core Object Provider.
-    /// </remarks>
-    /// <author>olivier</author>
     public interface ICoreProvider : ITwoPhaseInit
     {
-        IByteArrayConverter GetByteArrayConverter();
-
         /// <summary>
         ///   Returns the Local Instance Builder
         /// </summary>

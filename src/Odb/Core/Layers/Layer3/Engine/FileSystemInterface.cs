@@ -12,8 +12,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
     /// </summary>
     public sealed class FileSystemInterface : IFileSystemInterface
     {
-        //TODO: consider usage of BinaryReader and BinaryWriter
-
         private const byte ReservedSpace = 128;
 
         private static readonly int IntSize = OdbType.Integer.GetSize();
@@ -22,8 +20,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public static readonly string LogId = "FileSystemInterface";
 
-        private IByteArrayConverter _byteArrayConverter;
-        
         private readonly IFileIdentification _fileIdentification;
         private readonly ISession _session;
 
@@ -36,7 +32,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             _fileIdentification = fileIdentification;
             _io = new MultiBufferedFileIO(fileIdentification.FileName, bufferSize);
 
-            _byteArrayConverter = OdbConfiguration.GetCoreProvider().GetByteArrayConverter();
             _session = session;
         }
 
@@ -45,19 +40,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         #region IFileSystemInterface Members
 
-        public void SetDatabaseCharacterEncoding(string databaseCharacterEncoding)
-        {
-            _byteArrayConverter.SetDatabaseCharacterEncoding(databaseCharacterEncoding);
-        }
-
         public void SetIo(IMultiBufferedFileIO io)
         {
             _io = io;
-        }
-
-        public void SetByteArrayConverter(IByteArrayConverter byteArrayConverter)
-        {
-            _byteArrayConverter = byteArrayConverter;
         }
 
         public void UseBuffer(bool useBuffer)
@@ -209,7 +194,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public void WriteChar(char c, bool writeInTransaction)
         {
-            WriteValue(c, writeInTransaction, _byteArrayConverter.CharToByteArray, OdbType.Character);
+            WriteValue(c, writeInTransaction, ByteArrayConverter.CharToByteArray, OdbType.Character);
         }
 
         public byte[] ReadCharBytes()
@@ -225,7 +210,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public char ReadChar(string label)
         {
             var currentPosition = _io.CurrentPosition;
-            var toChar = _byteArrayConverter.ByteArrayToChar(ReadCharBytes());
+            var toChar = ByteArrayConverter.ByteArrayToChar(ReadCharBytes());
 
             if (OdbConfiguration.IsDebugEnabled(LogId) && label != null)
                 DLogger.Debug(string.Format("reading char {0} at {1} : {2}", toChar, currentPosition, label));
@@ -238,7 +223,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (OdbConfiguration.IsDebugEnabled(LogId))
                 DLogger.Debug(string.Format("writing short {0} at {1}", s, GetPosition()));
 
-            WriteValue(s, writeInTransaction, _byteArrayConverter.ShortToByteArray, OdbType.Short);
+            WriteValue(s, writeInTransaction, ByteArrayConverter.ShortToByteArray, OdbType.Short);
         }
 
         public byte[] ReadShortBytes()
@@ -254,7 +239,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public short ReadShort(string label)
         {
             var position = _io.CurrentPosition;
-            var toShort = _byteArrayConverter.ByteArrayToShort(ReadShortBytes());
+            var toShort = ByteArrayConverter.ByteArrayToShort(ReadShortBytes());
 
             if (OdbConfiguration.IsDebugEnabled(LogId) && label != null)
                 DLogger.Debug(string.Format("reading short {0} at {1} : {2}", toShort, position, label));
@@ -267,7 +252,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (OdbConfiguration.IsDebugEnabled(LogId))
                 DLogger.Debug(string.Format("writing int {0} at {1} : {2}", i, GetPosition(), label));
 
-            WriteValue(i, writeInTransaction, _byteArrayConverter.IntToByteArray, OdbType.Integer);
+            WriteValue(i, writeInTransaction, ByteArrayConverter.IntToByteArray, OdbType.Integer);
         }
 
         public byte[] ReadIntBytes()
@@ -283,7 +268,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public int ReadInt(string label)
         {
             var currentPosition = _io.CurrentPosition;
-            var i = _byteArrayConverter.ByteArrayToInt(ReadIntBytes(), 0);
+            var i = ByteArrayConverter.ByteArrayToInt(ReadIntBytes());
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
@@ -301,7 +286,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (OdbConfiguration.IsDebugEnabled(LogId) && label != null)
                 DLogger.Debug(string.Format("writing long {0} at {1} : {2}", i, GetPosition(), label));
 
-            WriteValue(i, writeInTransaction, _byteArrayConverter.LongToByteArray, OdbType.Long);
+            WriteValue(i, writeInTransaction, ByteArrayConverter.LongToByteArray, OdbType.Long);
         }
 
         public byte[] ReadLongBytes()
@@ -317,7 +302,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public long ReadLong(string label)
         {
             var position = _io.CurrentPosition;
-            var toLong = _byteArrayConverter.ByteArrayToLong(ReadLongBytes(), 0);
+            var toLong = ByteArrayConverter.ByteArrayToLong(ReadLongBytes());
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
@@ -332,7 +317,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public void WriteFloat(float f, bool writeInTransaction)
         {
-            WriteValue(f, writeInTransaction, _byteArrayConverter.FloatToByteArray, OdbType.Float);
+            WriteValue(f, writeInTransaction, ByteArrayConverter.FloatToByteArray, OdbType.Float);
         }
 
         public byte[] ReadFloatBytes()
@@ -348,7 +333,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public float ReadFloat(string label)
         {
             var currentPosition = _io.CurrentPosition;
-            var toFloat = _byteArrayConverter.ByteArrayToFloat(ReadFloatBytes());
+            var toFloat = ByteArrayConverter.ByteArrayToFloat(ReadFloatBytes());
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
@@ -363,7 +348,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public void WriteDouble(double d, bool writeInTransaction)
         {
-            WriteValue(d, writeInTransaction, _byteArrayConverter.DoubleToByteArray, OdbType.Double);
+            WriteValue(d, writeInTransaction, ByteArrayConverter.DoubleToByteArray, OdbType.Double);
         }
 
         public byte[] ReadDoubleBytes()
@@ -379,7 +364,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public double ReadDouble(string label)
         {
             var currentPosition = _io.CurrentPosition;
-            var toDouble = _byteArrayConverter.ByteArrayToDouble(ReadDoubleBytes());
+            var toDouble = ByteArrayConverter.ByteArrayToDouble(ReadDoubleBytes());
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
@@ -394,23 +379,23 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public void WriteBigDecimal(Decimal d, bool writeInTransaction)
         {
-            var bytes = _byteArrayConverter.BigDecimalToByteArray(d, true);
+            var bytes = ByteArrayConverter.DecimalToByteArray(d);
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
-                DLogger.Debug(string.Format("writing BigDecimal {0} at {1}", d, GetPosition()));
+                DLogger.Debug(string.Format("writing Decimal {0} at {1}", d, GetPosition()));
 
             if (!writeInTransaction)
                 _io.WriteBytes(bytes);
             else
             {
                 GetSession().GetTransaction().ManageWriteAction(_io.CurrentPosition, bytes);
-                EnsureSpaceFor(bytes.Length, OdbType.BigDecimal);
+                EnsureSpaceFor(bytes.Length, OdbType.Decimal);
             }
         }
 
         public byte[] ReadBigDecimalBytes()
         {
-            return ReadStringBytes(false);
+            return _io.ReadBytes(OdbType.Decimal.GetSize());
         }
 
         public Decimal ReadBigDecimal()
@@ -422,7 +407,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             var currentPosition = _io.CurrentPosition;
 
-            var toBigDecimal = _byteArrayConverter.ByteArrayToBigDecimal(ReadBigDecimalBytes(), false);
+            var toBigDecimal = ByteArrayConverter.ByteArrayToDecimal(ReadBigDecimalBytes());
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
@@ -446,7 +431,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (OdbConfiguration.IsDebugEnabled(LogId))
                 DLogger.Debug(string.Format("writing Date {0} at {1}", d.Ticks, GetPosition()));
 
-            WriteValue(d, writeInTransaction, _byteArrayConverter.DateToByteArray, OdbType.Date);
+            WriteValue(d, writeInTransaction, ByteArrayConverter.DateToByteArray, OdbType.Date);
         }
 
         public byte[] ReadDateBytes()
@@ -462,7 +447,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public DateTime ReadDate(string label)
         {
             var currentPosition = _io.CurrentPosition;
-            var date = _byteArrayConverter.ByteArrayToDate(ReadDateBytes());
+            var date = ByteArrayConverter.ByteArrayToDate(ReadDateBytes());
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
@@ -482,7 +467,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public void WriteString(string s, bool writeInTransaction, bool useEncoding, int totalSpace)
         {
-            var bytes = _byteArrayConverter.StringToByteArray(s, true, totalSpace, useEncoding);
+            var bytes = ByteArrayConverter.StringToByteArray(s, true, totalSpace, useEncoding);
             
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
@@ -500,7 +485,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 {
                     // To check the write
                     _io.SetCurrentWritePosition(startPosition);
-                    var asString = ReadString(useEncoding);
+                    var asString = ReadString();
                     // DLogger.debug("s1 : " + s.length() + " = " + s + "\ts2 : " +
                     // s2.length() + " = " + s2);
                     // FIXME replace RuntimeException by a ODBRuntimeException with
@@ -522,10 +507,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (withSize)
             {
                 var sizeBytes = _io.ReadBytes(IntSizeX2);
-                var totalSize = _byteArrayConverter.ByteArrayToInt(sizeBytes, 0);
+                var totalSize = ByteArrayConverter.ByteArrayToInt(sizeBytes);
 
                 // Use offset of int size to read real size
-                var stringSize = _byteArrayConverter.ByteArrayToInt(sizeBytes, IntSize);
+                var stringSize = ByteArrayConverter.ByteArrayToInt(sizeBytes, IntSize);
                 var bytes = ReadBytes(stringSize);
 
                 NbCall2++;
@@ -544,7 +529,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
 
             var sizeBytesNoSize = _io.ReadBytes(IntSizeX2);
-            var stringSizeNoSize = _byteArrayConverter.ByteArrayToInt(sizeBytesNoSize, IntSize);
+            var stringSizeNoSize = ByteArrayConverter.ByteArrayToInt(sizeBytesNoSize, IntSize);
 
             var bytesNoSize = ReadBytes(stringSizeNoSize);
             NbCall1++;
@@ -552,14 +537,14 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return bytesNoSize;
         }
 
-        public string ReadString(bool useEncoding)
+        public string ReadString()
         {
-            return ReadString(useEncoding, OdbConfiguration.GetDatabaseCharacterEncoding());
+            return ReadString(null);
         }
 
-        public string ReadString(bool useEncoding, string label)
+        public string ReadString(string label)
         {
-            var toString = _byteArrayConverter.ByteArrayToString(ReadStringBytes(true), true, useEncoding);
+            var toString = ByteArrayConverter.ByteArrayToString(ReadStringBytes(true), true);
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
@@ -583,7 +568,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (OdbConfiguration.IsDebugEnabled(LogId) && label != null)
                 DLogger.Debug(string.Format("writing boolean {0} at {1} : {2}", b, GetPosition(), label));
 
-            WriteValue(b, writeInTransaction, _byteArrayConverter.BooleanToByteArray, OdbType.Boolean);
+            WriteValue(b, writeInTransaction, ByteArrayConverter.BooleanToByteArray, OdbType.Boolean);
         }
 
         public byte[] ReadBooleanBytes()
@@ -599,7 +584,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public bool ReadBoolean(string label)
         {
             var currentPosition = _io.CurrentPosition;
-            var toBoolean = _byteArrayConverter.ByteArrayToBoolean(ReadBooleanBytes(), 0);
+            var toBoolean = ByteArrayConverter.ByteArrayToBoolean(ReadBooleanBytes(), 0);
 
             if (OdbConfiguration.IsDebugEnabled(LogId) && label != null)
                 DLogger.Debug(string.Format("reading boolean {0} at {1} : {2}", toBoolean, currentPosition, label));
@@ -628,7 +613,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     return ReadShortBytes();
                 }
 
-                case OdbType.BigDecimalId:
+                case OdbType.DecimalId:
                 {
                     return ReadBigDecimalBytes();
                 }
@@ -644,8 +629,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 }
 
                 case OdbType.DateId:
-                case OdbType.DateSqlId:
-                case OdbType.DateTimestampId:
                 {
                     return ReadDateBytes();
                 }

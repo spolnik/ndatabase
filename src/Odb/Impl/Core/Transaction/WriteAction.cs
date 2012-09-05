@@ -3,8 +3,8 @@ using System.Text;
 using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Transaction;
+using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers.List;
 
@@ -26,8 +26,6 @@ namespace NDatabase.Odb.Impl.Core.Transaction
 
         public static readonly string LogId = "WriteAction";
 
-        private readonly IByteArrayConverter _byteArrayConverter;
-
         private IOdbList<byte[]> _listOfBytes;
         private long _position;
 
@@ -39,7 +37,6 @@ namespace NDatabase.Odb.Impl.Core.Transaction
 
         public WriteAction(long position, byte[] bytes)
         {
-            _byteArrayConverter = OdbConfiguration.GetCoreProvider().GetByteArrayConverter();
             _position = position;
 
             _listOfBytes = new OdbList<byte[]>(20);
@@ -80,8 +77,8 @@ namespace NDatabase.Odb.Impl.Core.Transaction
             // build the full byte array to write once
             var bytes = new byte[sizeOfLong + sizeOfInt + _size];
 
-            var bytesOfPosition = _byteArrayConverter.LongToByteArray(_position);
-            var bytesOfSize = _byteArrayConverter.IntToByteArray(_size);
+            var bytesOfPosition = ByteArrayConverter.LongToByteArray(_position);
+            var bytesOfSize = ByteArrayConverter.IntToByteArray(_size);
             for (var i = 0; i < sizeOfLong; i++)
                 bytes[i] = bytesOfPosition[i];
 

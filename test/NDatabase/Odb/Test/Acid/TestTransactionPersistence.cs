@@ -1,9 +1,9 @@
 ﻿using System;
-using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Layers.Layer3.IO;
 using NDatabase.Odb.Core.Transaction;
+using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Impl.Core.Transaction;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.IO;
@@ -13,28 +13,24 @@ namespace Test.NDatabase.Odb.Test.Acid
     [TestFixture]
     public class TestTransactionPersistence : ODBTest
     {
-        /// <exception cref="System.IO.IOException"></exception>
-        /// <exception cref="System.TypeLoadException"></exception>
         [Test]
         public virtual void Test4()
         {
-            var byteArrayConverter = OdbConfiguration.GetCoreProvider().GetByteArrayConverter();
-            IWriteAction wa1 = new WriteAction(1, byteArrayConverter.IntToByteArray(1));
+            IWriteAction wa1 = new WriteAction(1, ByteArrayConverter.IntToByteArray(1));
             AssertEquals(wa1.GetBytes(0).Length, 4);
 
-            IWriteAction wa2 = new WriteAction(1, byteArrayConverter.StringToByteArray("ol√° chico", true, -1, true));
+            IWriteAction wa2 = new WriteAction(1, ByteArrayConverter.StringToByteArray("ol√° chico", true, -1, true));
             AssertEquals(wa2.GetBytes(0).Length, 29);
 
             IWriteAction wa3 = new WriteAction(1,
-                                               byteArrayConverter.BigDecimalToByteArray(new Decimal(1.123456789), true));
-            AssertEquals(wa3.GetBytes(0).Length, 27);
+                                               ByteArrayConverter.DecimalToByteArray(new Decimal(1.123456789)));
+            AssertEquals(wa3.GetBytes(0).Length, 16);
         }
 
         [Test]
         [Ignore("Requires better mocking engine")]
         public virtual void Test5()
         {
-            var byteArrayConverter = OdbConfiguration.GetCoreProvider().GetByteArrayConverter();
             var size = 1000;
             ISession session = new MockSession("test2.neodatis");
             IFileSystemInterface fsi = new FileSystemInterface(new FileIdentification("test2.neodatis"), MultiBuffer.DefaultBufferSizeForData,
@@ -44,7 +40,7 @@ namespace Test.NDatabase.Odb.Test.Acid
             for (var i = 0; i < size; i++)
             {
                 // 155 : to avoid protected zone
-                transaction.ManageWriteAction(300 + i * 4, byteArrayConverter.IntToByteArray(i));
+                transaction.ManageWriteAction(300 + i * 4, ByteArrayConverter.IntToByteArray(i));
             }
             // All write action were together so the transaction should have
             // appended all the bytes

@@ -1,7 +1,7 @@
-using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Layers.Layer3.IO;
+using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 
@@ -56,25 +56,17 @@ namespace Test.NDatabase.Odb.Test.IO
             DeleteBase("testReadWrite.neodatis");
         }
 
-        /// <exception cref="Java.IO.UnsupportedEncodingException"></exception>
         [Test]
         public virtual void TestStringGetBytesWithoutEncoding()
         {
-            var byteArrayConverter = OdbConfiguration.GetCoreProvider().GetByteArrayConverter();
             var test = "How are you my friend?";
             var size = 1000000;
             var t0 = OdbTime.GetCurrentTimeInMs();
             // Execute with encoding
             for (var i = 0; i < size; i++)
-                byteArrayConverter.StringToByteArray(test, true, -1, true);
+                ByteArrayConverter.StringToByteArray(test, true, -1, true);
             var t1 = OdbTime.GetCurrentTimeInMs();
-            // Execute without encoding
-            for (var i = 0; i < size; i++)
-            {
-            }
-            // byteArrayConverter.stringToByteArray(test, false, -1, false);
-            var t2 = OdbTime.GetCurrentTimeInMs();
-            Println("With Encoding=" + (t1 - t0) + " / Without Encoding=" + (t2 - t1));
+            Println("With Encoding=" + (t1 - t0));
         }
     }
 }

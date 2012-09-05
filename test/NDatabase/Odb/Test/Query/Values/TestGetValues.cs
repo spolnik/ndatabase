@@ -70,7 +70,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
         }
 
         // assertEquals(bsum.divide(new
-        // BigDecimal(size),2,BigDecimal.ROUND_HALF_DOWN), avg);
+        // Decimal(size),2,Decimal.ROUND_HALF_DOWN), avg);
         /// <exception cref="System.IO.IOException"></exception>
         /// <exception cref="System.Exception"></exception>
         [Test]

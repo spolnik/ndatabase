@@ -1,6 +1,5 @@
 using System;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Layers.Layer3.IO;
 
 namespace NDatabase.Odb.Core.Layers.Layer3
@@ -112,9 +111,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         byte[] ReadStringBytes(bool withSize);
 
-        string ReadString(bool useEncoding);
+        string ReadString();
 
-        string ReadString(bool useEncoding, string label);
+        string ReadString(string label);
 
         void WriteBoolean(bool b, bool writeInTransaction);
 
@@ -136,6 +135,5 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         IMultiBufferedFileIO GetIo();
 
         void SetIo(IMultiBufferedFileIO io);
-        void SetByteArrayConverter(IByteArrayConverter byteArrayConverter);
     }
 }

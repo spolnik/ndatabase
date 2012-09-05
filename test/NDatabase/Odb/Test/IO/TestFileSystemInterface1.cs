@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Layers.Layer3.IO;
@@ -207,7 +206,7 @@ namespace Test.NDatabase.Odb.Test.IO
                                           new MockSession("test"));
             fsi.GetIo().EnableAutomaticDelete(true);
             fsi.SetReadPosition(0);
-            var s2 = fsi.ReadString(true);
+            var s2 = fsi.ReadString();
             fsi.Close();
             AssertEquals(s, s2);
         }

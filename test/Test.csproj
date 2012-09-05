@@ -242,7 +242,6 @@
     <Compile Include="NDatabase\Odb\Test\School\SchoolNativeQueryTeacher.cs" />
     <Compile Include="NDatabase\Odb\Test\School\SchoolSimpleNativeQueryStudent.cs" />
     <Compile Include="NDatabase\Odb\Test\School\TestQuerySchool.cs" />
-    <Compile Include="NDatabase\Odb\Test\Serialization\TestSerialization.cs" />
     <Compile Include="NDatabase\Odb\Test\Session\TestSession.cs" />
     <Compile Include="NDatabase\Odb\Test\TestTypeConverter.cs" />
     <Compile Include="NDatabase\Odb\Test\Tools\TestString.cs" />
