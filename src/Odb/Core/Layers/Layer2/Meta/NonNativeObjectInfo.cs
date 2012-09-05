@@ -15,7 +15,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     ///                                            - The Object being represented by The meta information</pre>
     /// </summary>
     /// <author>olivier s</author>
-    
     public class NonNativeObjectInfo : AbstractObjectInfo
     {
         private readonly int _maxNbattributes;
@@ -62,7 +61,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public NonNativeObjectInfo(object @object, ClassInfo info, AbstractObjectInfo[] values,
                                    long[] attributesIdentification, int[] attributeIds)
-            : base(Meta.OdbType.GetFromName(info.GetFullClassName()))
+            : base(OdbType.GetFromName(info.GetFullClassName()))
         {
             //new OdbList<NonNativeObjectInfo>();
             _theObject = @object;
@@ -104,8 +103,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public override string ToString()
         {
-            var buffer =
-                new StringBuilder(_classInfo.GetFullClassName()).Append("(").Append(GetOid()).Append(")=");
+            var buffer = new StringBuilder(_classInfo.GetFullClassName()).Append("(").Append(GetOid()).Append(")=");
 
             if (_attributeValues == null)
             {
@@ -126,12 +124,10 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                 object @object = _attributeValues[i];
 
                 if (@object == null)
-                {
                     buffer.Append(" null object - should not happen , ");
-                }
                 else
                 {
-                    var type = Meta.OdbType.GetFromClass(_attributeValues[i].GetType());
+                    var type = OdbType.GetFromClass(_attributeValues[i].GetType());
                     if (@object is NonNativeNullObjectInfo)
                     {
                         buffer.Append("null");
@@ -207,7 +203,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             Debug.Assert(attributeName != null);
 
             int attributeId;
-            var isRelation = attributeName.IndexOf(".", System.StringComparison.Ordinal) != -1;
+            var isRelation = attributeName.IndexOf(".", StringComparison.Ordinal) != -1;
 
             if (!isRelation)
             {
@@ -215,7 +211,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                 return GetAttributeValueFromId(attributeId).GetObject();
             }
 
-            var firstDotIndex = attributeName.IndexOf(".", System.StringComparison.Ordinal);
+            var firstDotIndex = attributeName.IndexOf(".", StringComparison.Ordinal);
             var firstAttributeName = attributeName.Substring(0, firstDotIndex);
             attributeId = GetClassInfo().GetAttributeId(firstAttributeName);
 
@@ -256,7 +252,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             attributeId = GetClassInfo().GetAttributeId(firstAttributeName);
             object @object = _attributeValues[attributeId];
             var nnoi = @object as NonNativeObjectInfo;
-            
+
             if (nnoi != null)
             {
                 var beginIndex = firstDotIndex + 1;
@@ -333,7 +329,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                 newAttributeValues[i] = _attributeValues[i].CreateCopy(cache, onlyData);
 
             nnoi._attributeValues = newAttributeValues;
-            
+
             if (_objectHeader.GetOid() != null)
                 cache.Add(_objectHeader.GetOid(), nnoi);
 
@@ -382,9 +378,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         ///                                                                       and first attribute id definition is stored at x+StorageEngineConstant.OBJECT_OFFSET_NB_ATTRIBUTES+size-of(int)
         ///                                                                       and first attribute position is stored at x+StorageEngineConstant.OBJECT_OFFSET_NB_ATTRIBUTES+size-of(int)+size-of(int)
         ///                                                                       the second attribute id is stored at x+StorageEngineConstant.OBJECT_OFFSET_NB_ATTRIBUTES+size-of(int)+size-of(int)+size-of(long)
-        ///                                                                       the second attribute position is stored at x+StorageEngineConstant.OBJECT_OFFSET_NB_ATTRIBUTES+size-of(int)+size-of(int)+size-of(long)+size-of(int)
-        ///                                                                     </pre>
-        ///                                                                       <pre>FIXME Remove dependency of StorageEngineConstant!</pre>
+        ///                                                                       the second attribute position is stored at x+StorageEngineConstant.OBJECT_OFFSET_NB_ATTRIBUTES+size-of(int)+size-of(int)+size-of(long)+size-of(int)</pre>
+        ///   <pre>FIXME Remove dependency of StorageEngineConstant!</pre>
         /// </remarks>
         /// <param name="attributeId"> </param>
         /// <returns> The position where this attribute is stored </returns>
@@ -396,9 +391,9 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             // Delta attribute (attributeId-1) * attribute definition size =
             // INT+LONG
             // Skip attribute Id (int)
-            long delta = Meta.OdbType.Integer.GetSize() +
-                         (attributeId - 1) * (Meta.OdbType.Integer.GetSize() + Meta.OdbType.Long.GetSize()) +
-                         Meta.OdbType.Integer.GetSize();
+            long delta = OdbType.Integer.GetSize() +
+                         (attributeId - 1) * (OdbType.Integer.GetSize() + OdbType.Long.GetSize()) +
+                         OdbType.Integer.GetSize();
 
             return GetPosition() + offset + delta;
         }
@@ -406,11 +401,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         public override void SetObject(object @object)
         {
             _theObject = @object;
-        }
-
-        public override bool Equals(object obj)
-        {
-            return base.Equals(obj);
         }
 
         public override int GetHashCode()

@@ -151,7 +151,8 @@ namespace NDatabase.Btree
                     return i;
             }
 
-            throw new System.Exception("parent " + parent + " does not have the specified child : " + child);
+            var errorMessage = string.Format("parent {0} does not have the specified child : {1}", parent, child);
+            throw new OdbRuntimeException(NDatabaseError.InternalError.AddParameter(errorMessage));
         }
 
         public virtual void Remove()

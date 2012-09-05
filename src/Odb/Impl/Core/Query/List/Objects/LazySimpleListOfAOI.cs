@@ -106,7 +106,7 @@ namespace NDatabase.Odb.Impl.Core.Query.List.Objects
 
         public void AddOid(OID oid)
         {
-            throw new Exception("Add Oid not implemented ");
+            throw new OdbRuntimeException(NDatabaseError.InternalError.AddParameter("Add Oid not implemented "));
         }
 
         public void Reset()

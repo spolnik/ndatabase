@@ -6,7 +6,6 @@ using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Odb.Impl.Core.Btree;
-using NDatabase.Odb.Impl.Tool;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
 
@@ -422,9 +421,7 @@ namespace NDatabase.Odb.Core.Query.Execution
             PrepareQuery();
             var oid = Query.GetOidOfObjectToQuery();
 
-            // FIXME Why calling this method
-            var position = ObjectReader.GetObjectPositionFromItsOid(oid, true, true);
-            var objectMatches = MatchObjectWithOid(oid, returnObjects, inMemory);
+            MatchObjectWithOid(oid, returnObjects, inMemory);
 
             queryResultAction.ObjectMatch(oid, GetCurrentObjectMetaRepresentation(), _orderByKey);
             queryResultAction.End();

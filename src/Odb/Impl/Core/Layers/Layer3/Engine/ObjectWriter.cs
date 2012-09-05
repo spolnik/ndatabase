@@ -503,11 +503,13 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                     }
 
                 default:
-                    {
-                        // FIXME replace RuntimeException by a
-                        throw new Exception("native type with odb type id " + odbTypeId + " (" +
-                                            OdbType.GetNameFromId(odbTypeId) + ") for attribute ? is not suported");
-                    }
+                {
+                    var message = string.Format(
+                        "native type with odb type id {0} ({1}) for attribute ? is not suported", odbTypeId,
+                        OdbType.GetNameFromId(odbTypeId));
+
+                    throw new OdbRuntimeException(NDatabaseError.InternalError.AddParameter(message));
+                }
             }
             return startPosition;
         }

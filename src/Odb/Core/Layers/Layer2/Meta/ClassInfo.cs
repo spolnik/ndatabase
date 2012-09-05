@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
@@ -10,21 +11,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// <summary>
     ///   A meta representation of a class
     /// </summary>
-    
     public sealed class ClassInfo
     {
-        private bool Equals(ClassInfo other)
-        {
-            return string.Equals(_fullClassName, other._fullClassName);
-        }
-
-        public override int GetHashCode()
-        {
-            return (_fullClassName != null
-                        ? _fullClassName.GetHashCode()
-                        : 0);
-        }
-
         /// <summary>
         ///   Constant used for the classCategory variable to indicate a system class
         /// </summary>
@@ -35,10 +23,15 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// </summary>
         public const byte CategoryUserClass = 2;
 
+        private static readonly Dictionary<string, Type> TypeCache = new Dictionary<string, Type>();
+        private readonly AttributesCache _attributesCache;
+
         /// <summary>
         ///   To keep session numbers, number of committed objects,first and last object position
         /// </summary>
         private readonly CommittedCIZoneInfo _committed;
+
+        private readonly OidInfo _oidInfo;
 
         /// <summary>
         ///   To keep session original numbers, original number of committed objects,first and last object position
@@ -51,8 +44,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         private readonly CIZoneInfo _uncommitted;
 
         private IOdbList<ClassAttributeInfo> _attributes;
-
-        private readonly AttributesCache _attributesCache;
 
         /// <summary>
         ///   Where starts the block of attributes definition of this class ?
@@ -91,9 +82,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// </summary>
         private long _position;
 
-        private readonly OidInfo _oidInfo;
-        private readonly Dictionary<string, Type> _typeCache = new Dictionary<string, Type>();
-
         public ClassInfo()
         {
             _original = new CommittedCIZoneInfo(this, null, null, 0);
@@ -122,14 +110,14 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                 FillAttributesMap();
 
             _maxAttributeId = (attributes == null
-                                  ? 1
-                                  : attributes.Count + 1);
+                                   ? 1
+                                   : attributes.Count + 1);
         }
 
-        private void CheckIfTypeIsInstantiable(string fullClassName)
+        private static void CheckIfTypeIsInstantiable(string fullClassName)
         {
             Type type;
-            var success = _typeCache.TryGetValue(fullClassName, out type);
+            var success = TypeCache.TryGetValue(fullClassName, out type);
 
             if (success)
                 return;
@@ -142,7 +130,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                     string.Format("Given full class name is not enough to create the Type from that: {0}", fullClassName));
             }
 
-            _typeCache.Add(fullClassName, type);
+            TypeCache.Add(fullClassName, type);
         }
 
         private void FillAttributesMap()
@@ -173,8 +161,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             var buffer = new StringBuilder();
 
             buffer.Append(" [ ").Append(_fullClassName).Append(" - id=").Append(_oidInfo.ID);
-            buffer.Append(" - previousClass=").Append(_oidInfo.PreviousClassOID).Append(" - nextClass=").Append(_oidInfo.NextClassOID).
-                Append(" - attributes=(");
+            buffer.Append(" - previousClass=").Append(_oidInfo.PreviousClassOID).Append(" - nextClass=").Append(
+                _oidInfo.NextClassOID).Append(" - attributes=(");
 
             // buffer.append(" | position=").append(position);
             // buffer.append(" | class=").append(className).append(" | attributes=[");
@@ -185,9 +173,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                     buffer.Append(classAttributeInfo.GetName()).Append(",");
             }
             else
-            {
                 buffer.Append("not yet defined");
-            }
 
             buffer.Append(") ]");
 
@@ -276,17 +262,17 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         public IOdbList<ClassAttributeInfo> GetAllNonNativeAttributes()
         {
             IOdbList<ClassAttributeInfo> result = new OdbList<ClassAttributeInfo>(_attributes.Count);
-            
+
             foreach (var classAttributeInfo in _attributes)
             {
                 if (!classAttributeInfo.IsNative() || classAttributeInfo.GetAttributeType().IsEnum())
-                {
                     result.Add(classAttributeInfo);
-                }
                 else
                 {
-                    if (classAttributeInfo.GetAttributeType().IsArray() && !classAttributeInfo.GetAttributeType().GetSubType().IsNative())
-                        result.Add(new ClassAttributeInfo(-1, "subtype", classAttributeInfo.GetAttributeType().GetSubType().GetName(),
+                    if (classAttributeInfo.GetAttributeType().IsArray() &&
+                        !classAttributeInfo.GetAttributeType().GetSubType().IsNative())
+                        result.Add(new ClassAttributeInfo(-1, "subtype",
+                                                          classAttributeInfo.GetAttributeType().GetSubType().GetName(),
                                                           null));
                 }
             }
@@ -297,6 +283,13 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         public OID GetId()
         {
             return _oidInfo.ID;
+        }
+
+        public override int GetHashCode()
+        {
+            return (_fullClassName != null
+                        ? _fullClassName.GetHashCode()
+                        : 0);
         }
 
         public void SetId(OID id)
@@ -496,7 +489,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                 return true;
 
             alreadyVisitedClasses.Add(_fullClassName, this);
-            
+
             for (var i = 0; i < _attributes.Count; i++)
             {
                 var classAttributeInfo = GetAttributeInfo(i);
@@ -557,49 +550,33 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public ClassInfoIndex GetIndexWithName(string name)
         {
-            if (_indexes == null)
-                return null;
-            
-            for (var i = 0; i < _indexes.Count; i++)
-            {
-                var classInfoIndex = _indexes[i];
-                if (classInfoIndex.Name.Equals(name))
-                    return classInfoIndex;
-            }
-            return null;
+            return _indexes == null
+                       ? null
+                       : _indexes.FirstOrDefault(classInfoIndex => classInfoIndex.Name.Equals(name));
         }
 
         public ClassInfoIndex GetIndexForAttributeId(int attributeId)
         {
             if (_indexes == null)
                 return null;
-            for (var i = 0; i < _indexes.Count; i++)
-            {
-                var classInfoIndex = _indexes[i];
-                if (classInfoIndex.AttributeIds.Length == 1 && classInfoIndex.AttributeIds[0] == attributeId)
-                    return classInfoIndex;
-            }
-            return null;
+            return
+                _indexes.FirstOrDefault(
+                    classInfoIndex =>
+                    classInfoIndex.AttributeIds.Length == 1 && classInfoIndex.AttributeIds[0] == attributeId);
         }
 
         public ClassInfoIndex GetIndexForAttributeIds(int[] attributeIds)
         {
-            if (_indexes == null)
-                return null;
-            for (var i = 0; i < _indexes.Count; i++)
-            {
-                var classInfoIndex = _indexes[i];
-                if (classInfoIndex.MatchAttributeIds(attributeIds))
-                    return classInfoIndex;
-            }
-            return null;
+            return _indexes == null
+                       ? null
+                       : _indexes.FirstOrDefault(classInfoIndex => classInfoIndex.MatchAttributeIds(attributeIds));
         }
 
         public string[] GetAttributeNames(int[] attributeIds)
         {
             var attributeIdsLength = attributeIds.Length;
             var names = new string[attributeIdsLength];
-            
+
             for (var i = 0; i < attributeIdsLength; i++)
                 names[i] = GetAttributeInfoFromId(attributeIds[i]).GetName();
 
@@ -646,15 +623,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         {
             if (_indexes == null)
                 return false;
-            
-            for (var i = 0; i < _indexes.Count; i++)
-            {
-                var classInfoIndex = _indexes[i];
-                if (indexName.Equals(classInfoIndex.Name))
-                    return true;
-            }
 
-            return false;
+            return _indexes.Any(classInfoIndex => indexName.Equals(classInfoIndex.Name));
         }
 
         public bool HasIndex()
@@ -669,7 +639,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             ci.SetAttributes(_attributes);
             ci.SetClassCategory(_classCategory);
             ci.SetMaxAttributeId(_maxAttributeId);
-            
+
             if (onlyData)
                 return ci;
 

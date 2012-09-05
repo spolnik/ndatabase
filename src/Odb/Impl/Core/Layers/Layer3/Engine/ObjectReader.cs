@@ -106,8 +106,8 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                 throw new CorruptedDatabaseException(
                     NDatabaseError.NegativeClassNumberInHeader.AddParameter(nbClasses).AddParameter(firstClassPosition));
             }
-            var lastCloseStatus = ReadLastOdbCloseStatus();
-            var databaseCharacterEncoding = ReadDatabaseCharacterEncoding();
+            ReadLastOdbCloseStatus();
+            ReadDatabaseCharacterEncoding();
 
             var currentBlockPosition = _fsi.ReadLong("current block position");
             // Gets the current id block number
@@ -239,7 +239,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             {
                 var classInfoIndex = new ClassInfoIndex();
                 _fsi.SetReadPosition(nextIndexPosition);
-                var blockSize = _fsi.ReadInt("block size");
+                _fsi.ReadInt("block size");//blockSize
                 var blockType = _fsi.ReadByte("block type");
                 if (!BlockTypes.IsIndex(blockType))
                 {
@@ -248,7 +248,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                             blockType).AddParameter(position).AddParameter("while reading indexes for " +
                                                                            classInfo.GetFullClassName()));
                 }
-                var previousIndexPosition = _fsi.ReadLong("prev index pos");
+                _fsi.ReadLong("prev index pos"); //previousIndexPosition
                 nextIndexPosition = _fsi.ReadLong("next index pos");
                 classInfoIndex.Name = _fsi.ReadString("Index name");
                 classInfoIndex.IsUnique = _fsi.ReadBoolean("index is unique");
@@ -1131,8 +1131,8 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                 var creationDate = ByteArrayConverter.ByteArrayToLong(abytes, 32);
                 var updateDate = ByteArrayConverter.ByteArrayToLong(abytes, 40);
                 var objectVersion = ByteArrayConverter.ByteArrayToInt(abytes, 48);
-                var objectReferencePointer = ByteArrayConverter.ByteArrayToLong(abytes, 52);
-                var isSynchronized = ByteArrayConverter.ByteArrayToBoolean(abytes, 60);
+                ByteArrayConverter.ByteArrayToLong(abytes, 52); //objectReferencePointer
+                ByteArrayConverter.ByteArrayToBoolean(abytes, 60); //isSynchronized
                 // Now gets info about attributes
                 var nbAttributesRead = ByteArrayConverter.ByteArrayToInt(abytes, 61);
                 // Now gets an array with the identification all attributes (can be
@@ -1204,7 +1204,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                     // TODO Is this correct ?
                     return new NonNativeDeletedObjectInfo(objectPosition, null);
                 }
-                var cache = _storageEngine.GetSession(true).GetCache();
+                
                 // Read block size and block type
                 // block type is used to decide what to do
                 _fsi.SetReadPosition(objectPosition);

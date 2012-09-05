@@ -1,5 +1,3 @@
-using System;
-
 namespace NDatabase.Odb.Core
 {
     /// <summary>

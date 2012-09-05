@@ -41,8 +41,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
         #endregion
 
         private NonNativeObjectInfo BuildNnoi(object o, ClassInfo classInfo, AbstractObjectInfo[] values,
-                                              long[] attributesIdentification, int[] attributeIds,
-                                              IDictionary<object, NonNativeObjectInfo> alreadyReadObjects)
+                                              long[] attributesIdentification, int[] attributeIds)
         {
             var nnoi = new NonNativeObjectInfo(o, classInfo, values, attributesIdentification, attributeIds);
 
@@ -94,7 +93,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
             else
             {
                 if (type.IsCollection())
-                    aoi = IntrospectCollection((ICollection) o, recursive, alreadyReadObjects, type, callback);
+                    aoi = IntrospectCollection((ICollection) o, recursive, alreadyReadObjects, callback);
                 else
                 {
                     if (type.IsArray())
@@ -214,7 +213,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
                 callback.ObjectFound(o);
 
             if (mainAoi == null)
-                mainAoi = BuildNnoi(o, classInfo, null, null, null, alreadyReadObjects);
+                mainAoi = BuildNnoi(o, classInfo, null, null, null);
 
             alreadyReadObjects[o] = mainAoi;
             var fields = _classIntrospector.GetAllFields(className);
@@ -295,7 +294,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
 
         private CollectionObjectInfo IntrospectCollection(ICollection collection, bool introspect,
                                                           IDictionary<object, NonNativeObjectInfo> alreadyReadObjects,
-                                                          OdbType type, IIntrospectionCallback callback)
+                                                          IIntrospectionCallback callback)
         {
             if (collection == null)
                 return new CollectionObjectInfo();

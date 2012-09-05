@@ -479,20 +479,15 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             {
                 var startPosition = _io.CurrentPosition;
                 _io.WriteBytes(bytes);
-//                var endPosition = _io.GetCurrentPosition();
 
                 if (OdbConfiguration.IsEnableAfterWriteChecking())
                 {
                     // To check the write
                     _io.SetCurrentWritePosition(startPosition);
                     var asString = ReadString();
-                    // DLogger.debug("s1 : " + s.length() + " = " + s + "\ts2 : " +
-                    // s2.length() + " = " + s2);
-                    // FIXME replace RuntimeException by a ODBRuntimeException with
-                    // an Error constant
-                    throw new Exception(
-                        string.Format("error while writing string at {0} :  {1} / check after writing ={2}",
-                                      startPosition, s, asString));
+
+                    var message = string.Format("error while writing string at {0} :  {1} / check after writing ={2}", startPosition, s, asString);
+                    throw new OdbRuntimeException(NDatabaseError.InternalError.AddParameter(message));
                 }
             }
             else

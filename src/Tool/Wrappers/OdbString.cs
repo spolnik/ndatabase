@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using NDatabase.Odb;
+using NDatabase.Odb.Core;
 
 namespace NDatabase.Tool.Wrappers
 {
@@ -32,7 +34,10 @@ namespace NDatabase.Tool.Wrappers
             //TODO: NDatabase error
             // To prevent from replace the token with a token containg Token to replace
             if (inNbTimes == -1 && inNewToken.IndexOf(inTokenToReplace, StringComparison.Ordinal) != -1)
-                throw new Exception("Can not replace by this new token because it contains token to be replaced");
+            {
+                const string message = "Can not replace by this new token because it contains token to be replaced";
+                throw new OdbRuntimeException(NDatabaseError.InternalError.AddParameter(message));
+            }
 
             while (bHasToken)
             {

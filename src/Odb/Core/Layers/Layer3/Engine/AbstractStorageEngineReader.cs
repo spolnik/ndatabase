@@ -12,7 +12,6 @@ using NDatabase.Odb.Core.Trigger;
 using NDatabase.Odb.Impl.Core.Btree;
 using NDatabase.Odb.Impl.Core.Layers.Layer3.Oid;
 using NDatabase.Odb.Impl.Core.Query.Criteria;
-using NDatabase.Odb.Impl.Tool;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
