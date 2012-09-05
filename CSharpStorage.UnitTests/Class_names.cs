@@ -28,7 +28,7 @@ namespace NDatabase.UnitTests
             {
                 public string Value3 { get; set; }
 
-                public void SomeMethod()
+                public new void SomeMethod()
                 {
                     var val = new { x = "40", y = 50, z = 60L };
                     Console.WriteLine(val.x);
