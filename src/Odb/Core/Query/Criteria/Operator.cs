@@ -1,10 +1,15 @@
-using System;
-
 namespace NDatabase.Odb.Core.Query.Criteria
 {
     
     public sealed class Operator
     {
+        public override int GetHashCode()
+        {
+            return (_name != null
+                        ? _name.GetHashCode()
+                        : 0);
+        }
+
         public static readonly Operator Equal = new Operator("=");
 
         public static readonly Operator Contain = new Operator("contain");

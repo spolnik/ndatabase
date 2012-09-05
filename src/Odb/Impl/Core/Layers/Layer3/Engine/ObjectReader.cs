@@ -106,7 +106,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                 throw new CorruptedDatabaseException(
                     NDatabaseError.NegativeClassNumberInHeader.AddParameter(nbClasses).AddParameter(firstClassPosition));
             }
-            var lastCloseStatus = ReadLastODBCloseStatus();
+            var lastCloseStatus = ReadLastOdbCloseStatus();
             var databaseCharacterEncoding = ReadDatabaseCharacterEncoding();
 
             var currentBlockPosition = _fsi.ReadLong("current block position");
@@ -887,7 +887,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         /// <summary>
         ///   Reads the status of the last odb close
         /// </summary>
-        private bool ReadLastODBCloseStatus()
+        private bool ReadLastOdbCloseStatus()
         {
             _fsi.SetReadPosition(StorageEngineConstant.DatabaseHeaderLastCloseStatusPosition);
             return _fsi.ReadBoolean("last odb status");
@@ -946,7 +946,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             return classInfo;
         }
 
-        private OID DecodeOid(byte[] bytes, int offset)
+        private static OID DecodeOid(byte[] bytes, int offset)
         {
             var oid = ByteArrayConverter.ByteArrayToLong(bytes, offset);
             if (oid == -1)

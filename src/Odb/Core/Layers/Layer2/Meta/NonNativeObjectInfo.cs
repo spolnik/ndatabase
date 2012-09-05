@@ -142,10 +142,10 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                         buffer.Append("deleted object");
                         continue;
                     }
-                    if (@object is NativeObjectInfo)
+                    var noi = @object as NativeObjectInfo;
+                    if (noi != null)
                     {
-                        var noi = (NativeObjectInfo) @object;
-                        buffer.Append(noi.ToString());
+                        buffer.Append(noi);
                         continue;
                     }
                     var nnoi = @object as NonNativeObjectInfo;
@@ -157,7 +157,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                     }
                     if (@object is ObjectReference)
                     {
-                        buffer.Append(@object.ToString());
+                        buffer.Append(@object);
                         continue;
                     }
                     buffer.Append("@").Append(OdbClassUtil.GetClassName(type.GetName()));
@@ -224,7 +224,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
             if (nnoi != null)
             {
-                int beginIndex = firstDotIndex + 1;
+                var beginIndex = firstDotIndex + 1;
                 return nnoi.GetValueOf(attributeName.Substring(beginIndex, attributeName.Length - beginIndex));
             }
 
@@ -259,7 +259,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             
             if (nnoi != null)
             {
-                int beginIndex = firstDotIndex + 1;
+                var beginIndex = firstDotIndex + 1;
                 nnoi.SetValueOf(attributeName.Substring(beginIndex, attributeName.Length - beginIndex), aoi);
             }
 
@@ -299,6 +299,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// <summary>
         ///   Create a copy oh this meta object
         /// </summary>
+        /// <param name="cache"> </param>
         /// <param name="onlyData"> if true, only copy attributes values </param>
         /// <returns> </returns>
         public override AbstractObjectInfo CreateCopy(IDictionary<OID, AbstractObjectInfo> cache, bool onlyData)
@@ -382,7 +383,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         ///                                                                       and first attribute position is stored at x+StorageEngineConstant.OBJECT_OFFSET_NB_ATTRIBUTES+size-of(int)+size-of(int)
         ///                                                                       the second attribute id is stored at x+StorageEngineConstant.OBJECT_OFFSET_NB_ATTRIBUTES+size-of(int)+size-of(int)+size-of(long)
         ///                                                                       the second attribute position is stored at x+StorageEngineConstant.OBJECT_OFFSET_NB_ATTRIBUTES+size-of(int)+size-of(int)+size-of(long)+size-of(int)
-        ///                                                                       <pre>FIXME Remove dependency of StorageEngineConstant!
+        ///                                                                     </pre>
+        ///                                                                       <pre>FIXME Remove dependency of StorageEngineConstant!</pre>
         /// </remarks>
         /// <param name="attributeId"> </param>
         /// <returns> The position where this attribute is stored </returns>

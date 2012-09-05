@@ -16,6 +16,16 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// </summary>
     public sealed class OdbType
     {
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (_id * 397) ^ (_name != null
+                                          ? _name.GetHashCode()
+                                          : 0);
+            }
+        }
+
         public const int NullId = 0;
 
         public const int BooleanId = 10;
@@ -361,9 +371,10 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                 return true;
 
             var types = clazz.GetInterfaces();
-            for (var i = 0; i < types.Length; i++)
+
+            foreach (var type in types)
             {
-                var ind = types[i].FullName.IndexOf("System.Collections.Generic.IDictionary");
+                var ind = type.FullName.IndexOf("System.Collections.Generic.IDictionary", StringComparison.Ordinal);
                 if (ind != -1)
                     return true;
             }
@@ -377,9 +388,10 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             if (isNonGenericCollection)
                 return true;
             var types = clazz.GetInterfaces();
-            for (var i = 0; i < types.Length; i++)
+            
+            foreach (var type in types)
             {
-                var ind = types[i].FullName.IndexOf("System.Collections.Generic.ICollection");
+                var ind = type.FullName.IndexOf("System.Collections.Generic.ICollection", StringComparison.Ordinal);
                 if (ind != -1)
                     return true;
             }

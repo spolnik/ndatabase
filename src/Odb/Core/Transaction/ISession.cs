@@ -38,8 +38,6 @@ namespace NDatabase.Odb.Core.Transaction
 
         string GetId();
 
-        void SetId(string id);
-
         void RemoveObjectFromCache(object @object);
 
         /// <summary>

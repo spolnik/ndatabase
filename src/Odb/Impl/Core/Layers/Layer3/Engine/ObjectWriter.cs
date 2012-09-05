@@ -1175,7 +1175,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                 return startPosition;
             var map = moi.GetMap();
             var mapSize = map.Count;
-            var keys = map.Keys.GetEnumerator();
             // write the map class
             FileSystemProcessor.FileSystemInterface.WriteString(moi.GetRealMapClassName(), false, writeInTransaction);
             // write the size of the map
@@ -1190,14 +1189,15 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             for (var i = 0; i < mapSize*2; i++)
                 FileSystemProcessor.FileSystemInterface.WriteLong(0, writeInTransaction, "map element pos", WriteAction.DataWriteAction);
             var currentElement = 0;
-            while (keys.MoveNext())
+
+            foreach (var key in map.Keys)
             {
-                var key = keys.Current;
                 var value = map[key];
-                
+
                 positions[currentElement++] = InternalStoreObjectWrapper(key);
                 positions[currentElement++] = InternalStoreObjectWrapper(value);
             }
+
             var positionAfterWrite = FileSystemProcessor.FileSystemInterface.GetPosition();
             // now that all objects have been stored, sets their position in the
             // space that have been reserved

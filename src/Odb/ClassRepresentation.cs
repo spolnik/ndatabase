@@ -1,5 +1,3 @@
-using NDatabase.Odb.Core.Layers.Layer2.Instance;
-
 namespace NDatabase.Odb
 {
     /// <summary>

@@ -13,6 +13,18 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     
     public sealed class ClassInfo
     {
+        private bool Equals(ClassInfo other)
+        {
+            return string.Equals(_fullClassName, other._fullClassName);
+        }
+
+        public override int GetHashCode()
+        {
+            return (_fullClassName != null
+                        ? _fullClassName.GetHashCode()
+                        : 0);
+        }
+
         /// <summary>
         ///   Constant used for the classCategory variable to indicate a system class
         /// </summary>

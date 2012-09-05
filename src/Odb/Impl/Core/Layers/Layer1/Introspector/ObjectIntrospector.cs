@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
-using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Tool.Wrappers;
@@ -17,14 +16,12 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
     public sealed class ObjectIntrospector : IObjectIntrospector
     {
         private readonly IClassIntrospector _classIntrospector;
-        private readonly IClassPool _classPool;
         private IStorageEngine _storageEngine;
 
         public ObjectIntrospector(IStorageEngine storageEngine)
         {
             _storageEngine = storageEngine;
             _classIntrospector = OdbConfiguration.GetCoreProvider().GetClassIntrospector();
-            _classPool = OdbConfiguration.GetCoreProvider().GetClassPool();
         }
 
         #region IObjectIntrospector Members
@@ -373,31 +370,27 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector
             IDictionary<object, object> map, bool introspect,
             IDictionary<object, NonNativeObjectInfo> alreadyReadObjects, IIntrospectionCallback callback)
         {
-            IDictionary<AbstractObjectInfo, AbstractObjectInfo> mapCopy =
-                new OdbHashMap<AbstractObjectInfo, AbstractObjectInfo>();
-            var keySet = map.Keys;
-            IEnumerator keys = keySet.GetEnumerator();
+            var mapCopy = new OdbHashMap<AbstractObjectInfo, AbstractObjectInfo>();
 
             ClassInfo ciValue = null;
 
-            while (keys.MoveNext())
+            foreach (var key in map.Keys)
             {
-                var key = keys.Current;
                 var value = map[key];
+                if (key == null)
+                    continue;
 
-                if (key != null)
-                {
-                    var classInfoKey = GetClassInfo(OdbClassUtil.GetFullName(key.GetType()));
-                    if (value != null)
-                        ciValue = GetClassInfo(OdbClassUtil.GetFullName(value.GetType()));
+                var classInfoKey = GetClassInfo(OdbClassUtil.GetFullName(key.GetType()));
+                if (value != null)
+                    ciValue = GetClassInfo(OdbClassUtil.GetFullName(value.GetType()));
 
-                    var abstractObjectInfoForKey = GetObjectInfo(key, classInfoKey, introspect, alreadyReadObjects,
-                                                                 callback);
-                    var abstractObjectInfoForValue = GetObjectInfo(value, ciValue, introspect, alreadyReadObjects,
-                                                                   callback);
-                    mapCopy.Add(abstractObjectInfoForKey, abstractObjectInfoForValue);
-                }
+                var abstractObjectInfoForKey = GetObjectInfo(key, classInfoKey, introspect, alreadyReadObjects,
+                                                             callback);
+                var abstractObjectInfoForValue = GetObjectInfo(value, ciValue, introspect, alreadyReadObjects,
+                                                               callback);
+                mapCopy.Add(abstractObjectInfoForKey, abstractObjectInfoForValue);
             }
+
             return mapCopy;
         }
 

@@ -1,5 +1,3 @@
-using System;
-
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {
     /// <summary>
@@ -9,6 +7,18 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     
     public abstract class NativeObjectInfo : AbstractObjectInfo
     {
+        protected bool Equals(NativeObjectInfo other)
+        {
+            return Equals(TheObject, other.TheObject);
+        }
+
+        public override int GetHashCode()
+        {
+            return (TheObject != null
+                        ? TheObject.GetHashCode()
+                        : 0);
+        }
+
         /// <summary>
         ///   The object being represented
         /// </summary>

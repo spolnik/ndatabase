@@ -221,15 +221,11 @@ namespace NDatabase.Odb.Impl.Core.Transaction
                     NDatabaseError.CacheNullObject.AddParameter(" while removing object from the cache"));
 
             OID oid;
-            _objects.TryGetValue(o, out oid);
-            _oids.Remove(oid);
-
-            try
+            var success = _objects.TryGetValue(o, out oid);
+            if (success)
             {
+                _oids.Remove(oid);
                 _objects.Remove(o);
-            }
-            catch (ArgumentNullException)
-            {
             }
 
             // FIXME URL in HashMap What should we do?

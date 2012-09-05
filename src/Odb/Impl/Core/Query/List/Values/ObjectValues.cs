@@ -57,13 +57,13 @@ namespace NDatabase.Odb.Impl.Core.Query.List.Values
         public override string ToString()
         {
             var buffer = new StringBuilder();
-            var aliases = _valuesByAlias.Keys.GetEnumerator();
-            while (aliases.MoveNext())
+
+            foreach (var alias in _valuesByAlias.Keys)
             {
-                var alias = aliases.Current;
                 var @object = _valuesByAlias[alias];
                 buffer.Append(alias).Append("=").Append(@object).Append(",");
             }
+
             return buffer.ToString();
         }
     }

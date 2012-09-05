@@ -347,14 +347,13 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Instance
                                               e);
             }
 
-            var iterator = map.Keys.GetEnumerator();
-            while (iterator.MoveNext())
+            foreach (var key in map.Keys)
             {
-                var key = iterator.Current;
                 var realKey = BuildOneInstance(key);
                 var realValue = BuildOneInstance(map[key]);
                 newMap[realKey] = realValue;
             }
+
             return newMap;
         }
 
@@ -373,15 +372,15 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer2.Instance
                                               e);
             }
 
-            var iterator = map.Keys.GetEnumerator();
             var method = t.GetMethod("Add", t.GetGenericArguments());
-            while (iterator.MoveNext())
+
+            foreach (var key in map.Keys)
             {
-                var key = iterator.Current;
                 var realKey = BuildOneInstance(key);
                 var realValue = BuildOneInstance(map[key]);
-                method.Invoke(newMap, new[] {realKey, realValue});
+                method.Invoke(newMap, new[] { realKey, realValue });
             }
+            
             return newMap;
         }
 

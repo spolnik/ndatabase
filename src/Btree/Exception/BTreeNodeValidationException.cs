@@ -1,5 +1,3 @@
-using System;
-
 namespace NDatabase.Btree.Exception
 {
     

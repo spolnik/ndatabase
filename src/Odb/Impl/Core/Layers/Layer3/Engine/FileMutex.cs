@@ -68,15 +68,8 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                 var nbRetry = 0;
                 while (!CanOpenFile(fileName) && nbRetry < OdbConfiguration.GetNumberOfRetryToOpenFile())
                 {
-                    try
-                    {
-                        Thread.Sleep((int) OdbConfiguration.GetRetryTimeout());
-                    }
-                    catch
-                    {
-                        //TODO: check it
-                    }
-                    // nothing to do
+                    Thread.Sleep((int)OdbConfiguration.GetRetryTimeout());
+
                     nbRetry++;
                 }
                 if (nbRetry < OdbConfiguration.GetNumberOfRetryToOpenFile())

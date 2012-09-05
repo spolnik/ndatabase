@@ -15,6 +15,13 @@ namespace NDatabase.Odb.Impl.Core.Transaction
     /// <author>osmadja</author>
     public abstract class Session : IComparable, ISession
     {
+        public override int GetHashCode()
+        {
+            return (_id != null
+                        ? _id.GetHashCode()
+                        : 0);
+        }
+
         private readonly ICache _cache;
 
         /// <summary>
@@ -24,7 +31,7 @@ namespace NDatabase.Odb.Impl.Core.Transaction
 
         private string _baseIdentification;
 
-        private string _id;
+        private readonly string _id;
 
         protected MetaModel MetaModel;
         private bool _rollbacked;
@@ -93,11 +100,6 @@ namespace NDatabase.Odb.Impl.Core.Transaction
         public virtual string GetId()
         {
             return _id;
-        }
-
-        public virtual void SetId(string sessionId)
-        {
-            _id = sessionId;
         }
 
         public abstract IStorageEngine GetStorageEngine();

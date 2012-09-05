@@ -1,8 +1,5 @@
-using System;
-
 namespace NDatabase.Btree.Exception
 {
-    
     public class BTreeException : System.Exception
     {
         public BTreeException()
