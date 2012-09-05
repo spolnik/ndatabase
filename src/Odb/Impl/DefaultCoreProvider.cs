@@ -106,11 +106,6 @@ namespace NDatabase.Odb.Impl
             return new WriteAction(position, bytes);
         }
 
-        public ITransaction GetTransaction(ISession session, IFileSystemInterface fsi)
-        {
-            return new OdbTransaction(session, fsi);
-        }
-
         public ISession GetLocalSession(IStorageEngine engine)
         {
             return new LocalSession(engine);

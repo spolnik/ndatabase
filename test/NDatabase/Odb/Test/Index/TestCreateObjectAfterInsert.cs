@@ -26,7 +26,7 @@ namespace Test.NDatabase.Odb.Test.Index
             IOdb odb = null;
             var size = 1000;
             var start = OdbTime.GetCurrentTimeInMs();
-            OdbConfiguration.MonitorMemory(true);
+            
             OdbConfiguration.SetReconnectObjectsToSession(false);
             try
             {
@@ -62,7 +62,7 @@ namespace Test.NDatabase.Odb.Test.Index
             {
                 var end = OdbTime.GetCurrentTimeInMs();
                 Println((end - start) + "ms");
-                OdbConfiguration.MonitorMemory(false);
+                
                 odb.Close();
             }
         }
@@ -82,7 +82,7 @@ namespace Test.NDatabase.Odb.Test.Index
             IOdb odb = null;
             var size = 100;
             var start = OdbTime.GetCurrentTimeInMs();
-            OdbConfiguration.MonitorMemory(true);
+            
             try
             {
                 DeleteBase(OdbFileName);
@@ -116,7 +116,6 @@ namespace Test.NDatabase.Odb.Test.Index
             {
                 var end = OdbTime.GetCurrentTimeInMs();
                 Println((end - start) + "ms");
-                OdbConfiguration.MonitorMemory(false);
             }
         }
 

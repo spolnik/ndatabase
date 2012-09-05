@@ -105,16 +105,6 @@ namespace NDatabase.Odb.Impl.Core.Transaction
         /// </summary>
         private IOdbList<IWriteAction> _writeActions;
 
-        /// <summary>
-        ///   The main constructor
-        /// </summary>
-        /// <param name="session"> The transaction session </param>
-        /// <exception cref="System.IO.IOException">System.IO.IOException</exception>
-        public OdbTransaction(ISession session)
-        {
-            Init(session);
-        }
-
         public OdbTransaction(ISession session, IFileSystemInterface fsiToApplyTransaction)
         {
             _fsiToApplyWriteActions = fsiToApplyTransaction;

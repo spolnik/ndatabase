@@ -51,8 +51,6 @@ namespace NDatabase.Odb
 
         private static bool _checkModelCompatibility = true;
 
-        private static bool _monitorMemory;
-
         /// <summary>
         ///   a boolean value to specify if ODBFactory waits a little to re-open a file when a file is locked
         /// </summary>
@@ -396,16 +394,6 @@ namespace NDatabase.Odb
         public static void SetUseCache(bool useCache)
         {
             _useCache = useCache;
-        }
-
-        public static bool IsMonitoringMemory()
-        {
-            return _monitorMemory;
-        }
-
-        public static void MonitorMemory(bool yes)
-        {
-            _monitorMemory = yes;
         }
 
         public static bool DisplayWarnings()

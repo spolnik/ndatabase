@@ -303,8 +303,6 @@
     <Compile Include="Odb\Impl\Main\OdbExt.cs" />
     <Compile Include="Odb\Impl\Main\ODBForTrigger.cs" />
     <Compile Include="Odb\Impl\Tool\LogUtil.cs" />
-    <Compile Include="Odb\Impl\Tool\MemoryMonitor.cs" />
-    <Compile Include="Odb\Impl\Tool\ObjectTool.cs" />
     <Compile Include="Odb\Impl\Tool\UUID.cs" />
     <Compile Include="Odb\ObjectRepresentation.cs" />
     <Compile Include="Odb\Objects.cs" />

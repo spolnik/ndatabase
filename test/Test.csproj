@@ -325,6 +325,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CSharpStorage.UnitTests\NDatabase.UnitTests.csproj">
+      <Project>{5A12A273-4159-489D-8A77-3C5AB22860E4}</Project>
+      <Name>NDatabase.UnitTests</Name>
+    </ProjectReference>
     <ProjectReference Include="..\src\NDatabase.csproj">
       <Project>{4B6993D5-995D-4AAA-BBCE-423D1B5451F6}</Project>
       <Name>NDatabase</Name>

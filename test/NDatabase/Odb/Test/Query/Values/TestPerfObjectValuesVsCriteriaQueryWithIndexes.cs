@@ -63,7 +63,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
         public virtual void T1est()
         {
             var odb = Open("perfOValuesVsCriteriaIndex1");
-            OdbConfiguration.MonitorMemory(true);
+            
             var q = new CriteriaQuery(typeof (User2));
             Decimal b = odb.Count(q);
             Println(b);
@@ -75,7 +75,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
         public virtual void T1est1()
         {
             var odb = Open("perfOValuesVsCriteriaIndex1");
-            OdbConfiguration.MonitorMemory(true);
+            
             IQuery q = new CriteriaQuery(typeof (User2), Where.Equal("name", "user1599"));
             var objects = odb.GetObjects<User2>(q, false);
             Println(objects.Count);
@@ -90,7 +90,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
         public virtual void T1estA()
         {
             var odb = Open("perfOValuesVsCriteriaIndex1");
-            OdbConfiguration.MonitorMemory(true);
+            
             var q = new ValuesCriteriaQuery(typeof (User2), Where.Equal("name", "user1599")).Field("name");
             var v = odb.GetValues(q);
             Println(v.Count);

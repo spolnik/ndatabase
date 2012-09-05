@@ -244,16 +244,11 @@ namespace NDatabase.Odb.Core.Query.Execution
             if (Query != null)
                 _queryHasOrderBy = Query.HasOrderBy();
 
-            var monitorMemory = OdbConfiguration.IsMonitoringMemory();
             // used when startIndex and endIndex are not negative
             var nbObjectsInResult = 0;
 
             for (var i = 0; i < nbObjects; i++)
             {
-                //Console.WriteLine(i);
-                if (monitorMemory && i % 10000 == 0)
-                    MemoryMonitor.DisplayCurrentMemory(string.Empty + (i + 1), true);
-
                 // Reset the order by key
                 _orderByKey = null;
                 var prevOID = currentOID;

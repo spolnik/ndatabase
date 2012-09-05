@@ -2,12 +2,14 @@
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Impl.Core.Query.Criteria;
+using NUnit.Framework;
 
 namespace Test
 {
-    class Program
+    public class Program
     {
-        public static void test1()
+        [Test]
+        public void test1()
         {
             //OdbConfiguration.SetDebugEnabled(true);
             OdbConfiguration.SetReconnectObjectsToSession(false);
@@ -35,7 +37,8 @@ namespace Test
             Console.ReadLine();
         }
 
-        public static void test2()
+        [Test]
+        public void test2()
         {
             //OdbConfiguration.SetDebugEnabled(true);
             OdbConfiguration.SetReconnectObjectsToSession(false);
@@ -65,7 +68,8 @@ namespace Test
             Console.ReadLine();
         }
 
-        public static void test4()
+        [Test]
+        public void test4()
         {
             //OdbConfiguration.SetDebugEnabled(true);
             OdbConfiguration.SetReconnectObjectsToSession(false);
@@ -94,13 +98,6 @@ namespace Test
                 Console.WriteLine(e);
             }
             Console.ReadLine();
-        }
-
-
-        static void Main(string[] args)
-
-        {
-            test4();
         }
     }
 }

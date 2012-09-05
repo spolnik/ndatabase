@@ -35,7 +35,7 @@ namespace NDatabase.Odb.Impl.Core.Transaction
         public override ITransaction GetTransaction()
         {
             return _transaction ??
-                   (_transaction = OdbConfiguration.GetCoreProvider().GetTransaction(this, _fsiToApplyTransaction));
+                   (_transaction = new OdbTransaction(this, _fsiToApplyTransaction));
         }
 
         public override bool TransactionIsPending()

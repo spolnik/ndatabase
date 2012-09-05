@@ -232,22 +232,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (verbose)
                 DLogger.Info(string.Format("{0} : {1} objects loaded", indexName, classInfo.GetNumberOfObjects()));
 
-            var i = 0;
-            var monitorMemory = OdbConfiguration.IsMonitoringMemory();
-
             while (objects.HasNext())
             {
                 var nnoi = (NonNativeObjectInfo) objects.Next();
 
                 btree.Insert(classInfoIndex.ComputeKey(nnoi), nnoi.GetOid());
-
-                if (verbose && i % 1000 == 0)
-                {
-                    if (monitorMemory)
-                        MemoryMonitor.DisplayCurrentMemory(string.Format("Index {0} {1} objects inserted", indexName, i), true);
-                }
-
-                i++;
             }
 
             if (verbose)

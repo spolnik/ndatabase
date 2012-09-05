@@ -22,8 +22,6 @@ namespace NDatabase.Odb.Core
 
         IClassIntrospector GetClassIntrospector();
 
-        ITransaction GetTransaction(ISession session, IFileSystemInterface fsi);
-
         IWriteAction GetWriteAction(long position, byte[] bytes);
 
         ISession GetLocalSession(IStorageEngine engine);
