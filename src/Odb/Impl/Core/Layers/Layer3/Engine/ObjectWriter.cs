@@ -250,7 +250,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
                      WriteAction.DataWriteAction);
 
             // FIXME : append extra info if not empty (.net compatibility)
-            FileSystemProcessor.FileSystemInterface.WriteString(classInfo.GetFullClassName(), false, writeInTransaction);
+            FileSystemProcessor.FileSystemInterface.WriteString(classInfo.GetFullClassName(), writeInTransaction);
             FileSystemProcessor.FileSystemInterface.WriteInt(classInfo.GetMaxAttributeId(), writeInTransaction, "Max attribute id");
 
             if (classInfo.GetAttributesDefinitionPosition() != -1)
@@ -477,7 +477,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
 
                 case OdbType.StringId:
                     {
-                        FileSystemProcessor.FileSystemInterface.WriteString((string) @object, writeInTransaction, true, totalSpaceIfString);
+                        FileSystemProcessor.FileSystemInterface.WriteString((string) @object, writeInTransaction, totalSpaceIfString);
                         break;
                     }
 
@@ -1032,7 +1032,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             var collectionSize = collection.Count;
             IEnumerator iterator = collection.GetEnumerator();
             // write the real type of the collection
-            FileSystemProcessor.FileSystemInterface.WriteString(coi.GetRealCollectionClassName(), false, writeInTransaction);
+            FileSystemProcessor.FileSystemInterface.WriteString(coi.GetRealCollectionClassName(), writeInTransaction);
             // write the size of the collection
             FileSystemProcessor.FileSystemInterface.WriteInt(collectionSize, writeInTransaction, "collection size");
             // build a n array to store all element positions
@@ -1115,7 +1115,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             var array = aoi.GetArray();
             var arraySize = array.Length;
             // Writes the fact that it is an array
-            FileSystemProcessor.FileSystemInterface.WriteString(aoi.GetRealArrayComponentClassName(), false, writeInTransaction);
+            FileSystemProcessor.FileSystemInterface.WriteString(aoi.GetRealArrayComponentClassName(), writeInTransaction);
             // write the size of the array
             FileSystemProcessor.FileSystemInterface.WriteInt(arraySize, writeInTransaction, "array size");
             // build a n array to store all element positions
@@ -1178,7 +1178,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             var map = moi.GetMap();
             var mapSize = map.Count;
             // write the map class
-            FileSystemProcessor.FileSystemInterface.WriteString(moi.GetRealMapClassName(), false, writeInTransaction);
+            FileSystemProcessor.FileSystemInterface.WriteString(moi.GetRealMapClassName(), writeInTransaction);
             // write the size of the map
             FileSystemProcessor.FileSystemInterface.WriteInt(mapSize, writeInTransaction, "map size");
             // build a n array to store all element positions
@@ -1303,7 +1303,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             FileSystemProcessor.FileSystemInterface.WriteLong(anoi.GetEnumClassInfo().GetId().ObjectId, writeInTransaction, "enum class info id",
                            WriteAction.DataWriteAction);
             // Write the Enum String value
-            FileSystemProcessor.FileSystemInterface.WriteString(anoi.GetObject().ToString(), writeInTransaction, true, -1);
+            FileSystemProcessor.FileSystemInterface.WriteString(anoi.GetObject().ToString(), writeInTransaction);
             return startPosition;
         }
 

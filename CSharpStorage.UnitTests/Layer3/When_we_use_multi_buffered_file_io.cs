@@ -1,6 +1,6 @@
 ﻿using System.IO;
+using System.Text;
 using NDatabase.Odb;
-using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.IO;
 using NUnit.Framework;
 
@@ -89,6 +89,73 @@ namespace NDatabase.UnitTests.Layer3
             }
 
             Assert.That(File.Exists(fileName), Is.False);
+        }
+
+        [Test]
+        public void It_should_be_able_to_write_and_read_more_bytes_than_one_buffer_has()
+        {
+            var sizeBiggerThanOneBufferSize = MultiBuffer.DefaultBufferSizeForData + 100;
+            var bytes = new byte[sizeBiggerThanOneBufferSize];
+
+            for (var i = 0; i < sizeBiggerThanOneBufferSize; i++)
+                bytes[i] = (byte)(i % 256);
+
+            using (var nonBufferedFileIO = new MultiBufferedFileIO("nonbufferedfileio.ndb", MultiBuffer.DefaultBufferSizeForData))
+            {
+                nonBufferedFileIO.EnableAutomaticDelete(true);
+
+                nonBufferedFileIO.SetCurrentWritePosition(0L);
+                nonBufferedFileIO.WriteBytes(bytes);
+
+                nonBufferedFileIO.SetCurrentReadPosition(0L);
+                var readBytes = nonBufferedFileIO.ReadBytes(sizeBiggerThanOneBufferSize);
+
+                CollectionAssert.AreEqual(readBytes, bytes);
+            }
+        }
+
+        [Test]
+        public void It_should_be_able_to_write_and_read_more_bytes_than_all_buffer_have()
+        {
+            var sizeBiggerThanAllBufferSize = MultiBuffer.DefaultBufferSizeForData * (MultiBuffer.NumberOfBuffers + 2);
+            var bytes = new byte[sizeBiggerThanAllBufferSize];
+
+            for (var i = 0; i < sizeBiggerThanAllBufferSize; i++)
+                bytes[i] = (byte)(i % 256);
+
+            using (var nonBufferedFileIO = new MultiBufferedFileIO("nonbufferedfileio.ndb", MultiBuffer.DefaultBufferSizeForData))
+            {
+                nonBufferedFileIO.EnableAutomaticDelete(true);
+
+                nonBufferedFileIO.SetCurrentWritePosition(0L);
+                nonBufferedFileIO.WriteBytes(bytes);
+
+                nonBufferedFileIO.SetCurrentReadPosition(0L);
+                var readBytes = nonBufferedFileIO.ReadBytes(sizeBiggerThanAllBufferSize);
+
+                CollectionAssert.AreEqual(readBytes, bytes);
+            }
+        }
+
+        [Test]
+        public void It_should_throw_exception_when_reading_from_out_of_range_position()
+        {
+            const long toBigPosition = 12345667L;
+            Assert.That(() => SubjectUnderTest.SetCurrentReadPosition(toBigPosition), Throws.Exception);
+        }
+
+        [Test]
+        public void It_should_display_meaningful_information_as_a_string_representation()
+        {
+            var representation = new StringBuilder();
+            representation.Append("Buffers=currbuffer=1 : ")
+                .Append("\n0:[0,0] : write=False - when=0")
+                .Append("\n1:[10,16394] : write=True - when=0")
+                .Append("\n2:[0,0] : write=False - when=0")
+                .Append("\n3:[0,0] : write=False - when=0")
+                .Append("\n4:[0,0] : write=False - when=0");
+
+            Assert.That(SubjectUnderTest.ToString(), Is.EqualTo(representation.ToString()));
         }
     }
 }

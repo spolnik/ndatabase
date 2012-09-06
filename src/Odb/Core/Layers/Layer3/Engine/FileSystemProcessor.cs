@@ -93,7 +93,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             FileSystemInterface.SetWritePosition(StorageEngineConstant.DatabaseHeaderDatabaseCharacterEncodingPosition,
                                   writeInTransaction);
 
-            FileSystemInterface.WriteString("UTF-8", writeInTransaction, true, 50);
+            FileSystemInterface.WriteString("UTF-8", writeInTransaction, 50);
         }
 
         // fsi.writeLong(oid.getObjectId(), writeInTransaction, label,
@@ -383,7 +383,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     storageEngine.GetSession(true).GetMetaModel().GetClassInfo(cai.GetFullClassname(), true).GetId().
                         ObjectId, writeInTransaction, "class info id", WriteAction.DataWriteAction);
             }
-            FileSystemInterface.WriteString(cai.GetName(), false, writeInTransaction);
+            FileSystemInterface.WriteString(cai.GetName(), writeInTransaction);
             FileSystemInterface.WriteBoolean(cai.IsIndex(), writeInTransaction);
         }
 

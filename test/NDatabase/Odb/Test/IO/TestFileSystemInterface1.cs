@@ -200,7 +200,7 @@ namespace Test.NDatabase.Odb.Test.IO
                                                                MultiBuffer.DefaultBufferSizeForData,
                                                                new MockSession("test"));
             fsi.SetWritePosition(0, false);
-            fsi.WriteString(s, false, true);
+            fsi.WriteString(s, false);
             fsi.Close();
             fsi = new FileSystemInterface(new FileIdentification(baseName), MultiBuffer.DefaultBufferSizeForData,
                                           new MockSession("test"));

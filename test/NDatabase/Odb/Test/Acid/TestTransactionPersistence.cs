@@ -19,7 +19,7 @@ namespace Test.NDatabase.Odb.Test.Acid
             IWriteAction wa1 = new WriteAction(1, ByteArrayConverter.IntToByteArray(1));
             AssertEquals(wa1.GetBytes(0).Length, 4);
 
-            IWriteAction wa2 = new WriteAction(1, ByteArrayConverter.StringToByteArray("ol√° chico", true, -1, true));
+            IWriteAction wa2 = new WriteAction(1, ByteArrayConverter.StringToByteArray("ol√° chico", -1));
             AssertEquals(wa2.GetBytes(0).Length, 29);
 
             IWriteAction wa3 = new WriteAction(1,

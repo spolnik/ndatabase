@@ -43,7 +43,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             GoToPosition(currentPosition);
         }
 
-        public void GoToPosition(long position)
+        private void GoToPosition(long position)
         {
             _fileWriter.Seek(position);
         }
@@ -86,12 +86,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             GoToPosition(CurrentPositionForDirectWrite);
             _fileWriter.Write(bytes, length);
             CurrentPositionForDirectWrite += length;
-        }
-
-        public void Flush(long position, byte[] buffer, int bufferSizeToFlush)
-        {
-            GoToPosition(position);
-            _fileWriter.Write(buffer, bufferSizeToFlush);
         }
 
         public long Read(long position, byte[] buffer, int size)

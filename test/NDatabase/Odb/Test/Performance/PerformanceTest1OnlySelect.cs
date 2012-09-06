@@ -70,7 +70,6 @@ namespace Test.NDatabase.Odb.Test.Performance
             DisplayResult("ODB " + TestSize + " SimpleObject objects ", t3, t4, t5);
             Console.Out.WriteLine("buffer Ok=" + MultiBufferedFileIO.NbBufferOk + " / buffer not ok =" +
                                   MultiBufferedFileIO.NbBufferNotOk);
-            Console.Out.WriteLine("nb1=" + FileSystemInterface.NbCall1 + " / nb2 =" + FileSystemInterface.NbCall2);
         }
 
         private SimpleObject GetSimpleObjectInstance(int i)

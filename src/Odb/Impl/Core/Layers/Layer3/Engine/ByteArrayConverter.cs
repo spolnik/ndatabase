@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
@@ -20,24 +21,16 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
 
         private static readonly int IntSizeX2 = OdbType.Integer.GetSize() * 2;
 
-        #region IByteArrayConverter Members
-
         public static byte[] BooleanToByteArray(bool b)
         {
-            return b ? BytesForTrue : BytesForFalse;
-        }
-
-        public static void BooleanToByteArray(bool b, byte[] arrayWhereToWrite, int offset)
-        {
-            if (b)
-                arrayWhereToWrite[offset] = ByteForTrue;
-            else
-                arrayWhereToWrite[offset] = ByteForFalse;
+            return b
+                       ? BytesForTrue
+                       : BytesForFalse;
         }
 
         public static bool ByteArrayToBoolean(byte[] bytes)
         {
-            return bytes[0] != 0;
+            return ByteArrayToBoolean(bytes, 0);
         }
 
         public static bool ByteArrayToBoolean(byte[] bytes, int offset)
@@ -69,7 +62,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         {
             try
             {
-                return System.Text.Encoding.UTF8.GetBytes(s).Length + OdbType.Integer.GetSize()*2;
+                return Encoding.UTF8.GetBytes(s).Length + OdbType.Integer.GetSize() * 2;
             }
             catch (Exception)
             {
@@ -77,49 +70,23 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             }
         }
 
-
-        /// <summary>
-        /// </summary>
-        /// <param name="s"> </param>
-        /// <param name="withSize"> if true, returns an array with an initial int with its size </param>
+        /// <param name="s">Input</param>
         /// <param name="totalSpace"> The total space of the string (can be bigger that the real string size - to support later in place update) </param>
-        /// <param name="withEncoding"> </param>
         /// <returns> The byte array that represent the string </returns>
         /// <throws>UnsupportedEncodingException</throws>
-        public static byte[] StringToByteArray(String s, bool withSize, int totalSpace, bool withEncoding)
+        public static byte[] StringToByteArray(String s, int totalSpace)
         {
-            byte[] bytes;
-            if (withEncoding)
-            {
-                try
-                {
-                    bytes = System.Text.Encoding.UTF8.GetBytes(s);
-                }
-                catch (Exception)
-                {
-                    throw new OdbRuntimeException(NDatabaseError.UnsupportedEncoding.AddParameter("UTF-8"));
-                }
-            }
-            else
-            {
-              bytes = System.Text.Encoding.ASCII.GetBytes(s);
-            }
+            var stringBytes = Encoding.UTF8.GetBytes(s);
 
-            if (!withSize)
-                return bytes;
             int totalSize;
 
             if (totalSpace == - 1)
-            {
-                // we always store a string with X the size to enable in place update for bigger string later
-                totalSize = OdbConfiguration.GetStringSpaceReserveFactor() * bytes.Length +
-                            2 * OdbType.Integer.GetSize();
-            }
+                totalSize = stringBytes.Length + IntSizeX2;
             else
                 totalSize = totalSpace;
 
             var totalSizeBytes = IntToByteArray(totalSize);
-            var stringRealSize = IntToByteArray(bytes.Length);
+            var stringRealSize = IntToByteArray(stringBytes.Length);
 
             var bytes2 = new byte[totalSize + IntSizeX2];
 
@@ -129,28 +96,18 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             for (var i = 4; i < 8; i++)
                 bytes2[i] = stringRealSize[i - 4];
 
-            for (var i = 0; i < bytes.Length; i++)
-                bytes2[i + 8] = bytes[i];
+            for (var i = 0; i < stringBytes.Length; i++)
+                bytes2[i + 8] = stringBytes[i];
 
             return bytes2;
         }
 
-        /// <summary>
-        /// </summary>
         /// <param name="bytes"> </param>
-        /// <param name="hasSize"> If hasSize is true, the first four bytes are the size of the string </param>
         /// <returns> The String represented by the byte array </returns>
-        /// <throws>UnsupportedEncodingException</throws>
-        public static String ByteArrayToString(byte[] bytes, bool hasSize)
+        public static String ByteArrayToString(byte[] bytes)
         {
-            if (hasSize)
-            {
-                var realSize = ByteArrayToInt(bytes, IntSize);
-
-                return System.Text.Encoding.UTF8.GetString(bytes, IntSizeX2, realSize);
-            }
-
-            return System.Text.Encoding.UTF8.GetString(bytes, 0, bytes.Length);
+            var realSize = ByteArrayToInt(bytes, IntSize);
+            return Encoding.UTF8.GetString(bytes, IntSizeX2, realSize);
         }
 
         public static byte[] DecimalToByteArray(Decimal bigDecimal)
@@ -163,25 +120,25 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
         private static byte[] GetBytes(int lo, int mid, int hi, int flags)
         {
             var buffer = new byte[16];
-            buffer[0] = (byte)lo;
-            buffer[1] = (byte)(lo >> 8);
-            buffer[2] = (byte)(lo >> 16);
-            buffer[3] = (byte)(lo >> 24);
+            buffer[0] = (byte) lo;
+            buffer[1] = (byte) (lo >> 8);
+            buffer[2] = (byte) (lo >> 16);
+            buffer[3] = (byte) (lo >> 24);
 
-            buffer[4] = (byte)mid;
-            buffer[5] = (byte)(mid >> 8);
-            buffer[6] = (byte)(mid >> 16);
-            buffer[7] = (byte)(mid >> 24);
+            buffer[4] = (byte) mid;
+            buffer[5] = (byte) (mid >> 8);
+            buffer[6] = (byte) (mid >> 16);
+            buffer[7] = (byte) (mid >> 24);
 
-            buffer[8] = (byte)hi;
-            buffer[9] = (byte)(hi >> 8);
-            buffer[10] = (byte)(hi >> 16);
-            buffer[11] = (byte)(hi >> 24);
+            buffer[8] = (byte) hi;
+            buffer[9] = (byte) (hi >> 8);
+            buffer[10] = (byte) (hi >> 16);
+            buffer[11] = (byte) (hi >> 24);
 
-            buffer[12] = (byte)flags;
-            buffer[13] = (byte)(flags >> 8);
-            buffer[14] = (byte)(flags >> 16);
-            buffer[15] = (byte)(flags >> 24);
+            buffer[12] = (byte) flags;
+            buffer[13] = (byte) (flags >> 8);
+            buffer[14] = (byte) (flags >> 16);
+            buffer[15] = (byte) (flags >> 24);
 
             return buffer;
         }
@@ -193,7 +150,7 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             var hi = (buffer[8]) | (buffer[9] << 8) | (buffer[10] << 16) | (buffer[11] << 24);
             var flags = (buffer[12]) | (buffer[13] << 8) | (buffer[14] << 16) | (buffer[15] << 24);
 
-            return new Decimal(new[] { lo, mid, hi, flags });
+            return new Decimal(new[] {lo, mid, hi, flags});
         }
 
         public static byte[] IntToByteArray(int l)
@@ -201,19 +158,9 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             return BitConverter.GetBytes(l);
         }
 
-        //TODO: check if it is needed
-        public static void IntToByteArray(int l, byte[] arrayWhereToWrite, int offset)
-        {
-            int i;
-            var bytes = BitConverter.GetBytes(l);
-
-            for (i = 0; i < 4; i++)
-                arrayWhereToWrite[offset + i] = bytes[i];
-        }
-
         public static int ByteArrayToInt(byte[] bytes)
         {
-            return BitConverter.ToInt32(bytes, 0);
+            return ByteArrayToInt(bytes, 0);
         }
 
         public static int ByteArrayToInt(byte[] bytes, int offset)
@@ -226,23 +173,9 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             return BitConverter.GetBytes(l);
         }
 
-        //TODO: check if it is needed
-        public static void LongToByteArray(long l, byte[] arrayWhereToWrite, int offset)
-        {
-            int i;
-            var bytes = BitConverter.GetBytes(l);
-            for (i = 0; i < 8; i++)
-                arrayWhereToWrite[offset + i] = bytes[i];
-        }
-
         public static long ByteArrayToLong(byte[] bytes)
         {
-            return BitConverter.ToInt64(bytes, 0);
-        }
-
-        public static long ByteArrayToLong(byte[] bytes, int offset)
-        {
-            return BitConverter.ToInt64(bytes, offset);
+            return ByteArrayToLong(bytes, 0);
         }
 
         public static byte[] DateToByteArray(DateTime date)
@@ -277,6 +210,34 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             return BitConverter.ToDouble(bytes, 0);
         }
 
-        #endregion
+        public static long ByteArrayToLong(byte[] bytes, int offset)
+        {
+            return BitConverter.ToInt64(bytes, offset);
+        }
+
+        public static void BooleanToByteArray(bool b, byte[] arrayWhereToWrite, int offset)
+        {
+            if (b)
+                arrayWhereToWrite[offset] = ByteForTrue;
+            else
+                arrayWhereToWrite[offset] = ByteForFalse;
+        }
+
+        public static void IntToByteArray(int l, byte[] arrayWhereToWrite, int offset)
+        {
+            int i;
+            var bytes = BitConverter.GetBytes(l);
+
+            for (i = 0; i < 4; i++)
+                arrayWhereToWrite[offset + i] = bytes[i];
+        }
+
+        public static void LongToByteArray(long l, byte[] arrayWhereToWrite, int offset)
+        {
+            int i;
+            var bytes = BitConverter.GetBytes(l);
+            for (i = 0; i < 8; i++)
+                arrayWhereToWrite[offset + i] = bytes[i];
+        }
     }
 }

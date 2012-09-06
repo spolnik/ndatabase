@@ -92,5 +92,13 @@ namespace NDatabase.UnitTests.Layer3
 
             Assert.That(convertedValue, Is.EqualTo(value));
         }
+
+//        [Test]
+//        public void It_should_convert_string_to_binary_and_from_binary_to_string_with_success()
+//        {
+//            var name = "Magdalena Płatek-Spólnik";
+
+//            var byteArray = ByteArrayConverter.StringToByteArray(name, )
+//        }
     }
 }

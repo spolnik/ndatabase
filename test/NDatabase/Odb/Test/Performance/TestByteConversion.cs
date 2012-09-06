@@ -216,8 +216,8 @@ namespace Test.NDatabase.Odb.Test.Performance
         public virtual void TestString()
         {
             var s = "test1";
-            var b2 = ByteArrayConverter.StringToByteArray(s, true, -1, true);
-            var s2 = ByteArrayConverter.ByteArrayToString(b2, true);
+            var b2 = ByteArrayConverter.StringToByteArray(s, -1);
+            var s2 = ByteArrayConverter.ByteArrayToString(b2);
             AssertEquals(s, s2);
         }
     }

@@ -35,9 +35,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             _session = session;
         }
 
-        public static int NbCall1 { get; private set; }
-        public static int NbCall2 { get; private set; }
-
         #region IFileSystemInterface Members
 
         public void SetIo(IMultiBufferedFileIO io)
@@ -421,11 +418,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return toBigDecimal;
         }
 
-        public byte[] ReadBigIntegerBytes(bool hasSize)
-        {
-            return ReadStringBytes(hasSize);
-        }
-
         public void WriteDate(DateTime d, bool writeInTransaction)
         {
             if (OdbConfiguration.IsDebugEnabled(LogId))
@@ -460,14 +452,14 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return date;
         }
 
-        public void WriteString(string s, bool writeInTransaction, bool useEncoding)
+        public void WriteString(string s, bool writeInTransaction)
         {
-            WriteString(s, writeInTransaction, useEncoding, -1);
+            WriteString(s, writeInTransaction, -1);
         }
 
-        public void WriteString(string s, bool writeInTransaction, bool useEncoding, int totalSpace)
+        public void WriteString(string s, bool writeInTransaction, int totalSpace)
         {
-            var bytes = ByteArrayConverter.StringToByteArray(s, true, totalSpace, useEncoding);
+            var bytes = ByteArrayConverter.StringToByteArray(s, totalSpace);
             
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
@@ -477,18 +469,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             if (!writeInTransaction)
             {
-                var startPosition = _io.CurrentPosition;
                 _io.WriteBytes(bytes);
-
-                if (OdbConfiguration.IsEnableAfterWriteChecking())
-                {
-                    // To check the write
-                    _io.SetCurrentWritePosition(startPosition);
-                    var asString = ReadString();
-
-                    var message = string.Format("error while writing string at {0} :  {1} / check after writing ={2}", startPosition, s, asString);
-                    throw new OdbRuntimeException(NDatabaseError.InternalError.AddParameter(message));
-                }
             }
             else
             {
@@ -497,39 +478,27 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
         }
 
-        public byte[] ReadStringBytes(bool withSize)
+        public byte[] ReadStringBytes()
         {
-            if (withSize)
-            {
-                var sizeBytes = _io.ReadBytes(IntSizeX2);
-                var totalSize = ByteArrayConverter.ByteArrayToInt(sizeBytes);
+            var sizeBytes = _io.ReadBytes(IntSizeX2);
+            var totalSize = ByteArrayConverter.ByteArrayToInt(sizeBytes);
 
-                // Use offset of int size to read real size
-                var stringSize = ByteArrayConverter.ByteArrayToInt(sizeBytes, IntSize);
-                var bytes = ReadBytes(stringSize);
+            // Use offset of int size to read real size
+            var stringSize = ByteArrayConverter.ByteArrayToInt(sizeBytes, IntSize);
+            var bytes = ReadBytes(stringSize);
 
-                NbCall2++;
-                // Reads extra bytes
-                ReadBytes(totalSize - stringSize);
+            // Reads extra bytes
+            ReadBytes(totalSize - stringSize);
 
-                var bytes2 = new byte[stringSize + IntSizeX2];
+            var bytes2 = new byte[stringSize + IntSizeX2];
 
-                for (var i = 0; i < IntSizeX2; i++)
-                    bytes2[i] = sizeBytes[i];
+            for (var i = 0; i < IntSizeX2; i++)
+                bytes2[i] = sizeBytes[i];
 
-                for (var i = 0; i < bytes.Length; i++)
-                    bytes2[i + 8] = bytes[i];
+            for (var i = 0; i < bytes.Length; i++)
+                bytes2[i + 8] = bytes[i];
 
-                return bytes2;
-            }
-
-            var sizeBytesNoSize = _io.ReadBytes(IntSizeX2);
-            var stringSizeNoSize = ByteArrayConverter.ByteArrayToInt(sizeBytesNoSize, IntSize);
-
-            var bytesNoSize = ReadBytes(stringSizeNoSize);
-            NbCall1++;
-
-            return bytesNoSize;
+            return bytes2;
         }
 
         public string ReadString()
@@ -539,7 +508,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public string ReadString(string label)
         {
-            var toString = ByteArrayConverter.ByteArrayToString(ReadStringBytes(true), true);
+            var toString = ByteArrayConverter.ByteArrayToString(ReadStringBytes());
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
@@ -645,7 +614,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
                 case OdbType.StringId:
                 {
-                    return ReadStringBytes(true);
+                    return ReadStringBytes();
                 }
 
                 default:

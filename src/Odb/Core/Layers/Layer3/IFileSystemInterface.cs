@@ -105,11 +105,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         DateTime ReadDate(string label);
 
-        void WriteString(string s, bool writeInTransaction, bool useEncoding);
+        void WriteString(string s, bool writeInTransaction);
 
-        void WriteString(string s, bool writeInTransaction, bool useEncoding, int totalSpace);
+        void WriteString(string s, bool writeInTransaction, int totalSpace);
 
-        byte[] ReadStringBytes(bool withSize);
+        byte[] ReadStringBytes();
 
         string ReadString();
 

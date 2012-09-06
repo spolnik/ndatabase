@@ -307,7 +307,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
                 _buffer.SetCreationDate(bufferIndex, OdbTime.GetCurrentTimeInTicks());
             }
             else
-                _nonBufferedFileIO.GoToPosition(newPosition);
+                _nonBufferedFileIO.SetCurrentPosition(newPosition);
 
             // If we are in READ, sets the size equal to what has been read
             var endPosition = isReading
@@ -336,7 +336,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
                 // the +1 is because the maxPositionInBuffer is a position and the
                 // parameter is a length
                 var bufferSizeToFlush = _buffer.MaxPositionInBuffer[bufferIndex] + 1;
-                _nonBufferedFileIO.Flush(_buffer.BufferPositions[bufferIndex].Start, buffer, bufferSizeToFlush);
+                _nonBufferedFileIO.SetCurrentPosition(_buffer.BufferPositions[bufferIndex].Start);
+                _nonBufferedFileIO.WriteBytes(buffer, bufferSizeToFlush);
 
                 NumberOfFlush++;
                 TotalFlushSize += bufferSizeToFlush;

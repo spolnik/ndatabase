@@ -64,7 +64,7 @@ namespace Test.NDatabase.Odb.Test.IO
             var t0 = OdbTime.GetCurrentTimeInMs();
             // Execute with encoding
             for (var i = 0; i < size; i++)
-                ByteArrayConverter.StringToByteArray(test, true, -1, true);
+                ByteArrayConverter.StringToByteArray(test, -1);
             var t1 = OdbTime.GetCurrentTimeInMs();
             Println("With Encoding=" + (t1 - t0));
         }

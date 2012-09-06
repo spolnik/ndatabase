@@ -30,8 +30,6 @@ namespace NDatabase.Odb
 
         private static bool _infoEnabled;
 
-        private static bool _enableAfterWriteChecking;
-
         private static int _maxNumberOfWriteObjectPerTransaction = 10000;
 
         private static long _maxNumberOfObjectInCache = 3000000;
@@ -46,8 +44,6 @@ namespace NDatabase.Odb
         ///   header(34) + 1000 * 18
         /// </summary>
         private static int _idBlockSize = 34 + NbIdsPerBlock * IdBlockRepetitionSize;
-
-        private static int _stringSpaceReserveFactor = 1;
 
         private static bool _checkModelCompatibility = true;
 
@@ -159,11 +155,6 @@ namespace NDatabase.Odb
             _debugLevel = level;
         }
 
-        public static bool IsEnableAfterWriteChecking()
-        {
-            return _enableAfterWriteChecking;
-        }
-
         public static bool IsInfoEnabled()
         {
             return _infoEnabled;
@@ -171,7 +162,6 @@ namespace NDatabase.Odb
 
         public static bool IsInfoEnabled(string logId)
         {
-            // return false;
             if (_logAll)
                 return true;
             if (_logIds == null || _logIds.Count == 0)
@@ -179,15 +169,9 @@ namespace NDatabase.Odb
             return _logIds.ContainsKey(logId);
         }
 
-        // return false;
         public static void SetInfoEnabled(bool infoEnabled)
         {
             _infoEnabled = infoEnabled;
-        }
-
-        public static void SetEnableAfterWriteChecking(bool enableAfterWriteChecking)
-        {
-            _enableAfterWriteChecking = enableAfterWriteChecking;
         }
 
         public static int GetMaxNumberOfWriteObjectPerTransaction()
@@ -308,18 +292,6 @@ namespace NDatabase.Odb
         public static int GetIdBlockRepetitionSize()
         {
             return IdBlockRepetitionSize;
-        }
-
-        /// <returns> Returns the stringSpaceReserveFactor. </returns>
-        public static int GetStringSpaceReserveFactor()
-        {
-            return _stringSpaceReserveFactor;
-        }
-
-        /// <param name="stringSpaceReserveFactor"> The stringSpaceReserveFactor to set. </param>
-        public static void SetStringSpaceReserveFactor(int stringSpaceReserveFactor)
-        {
-            _stringSpaceReserveFactor = stringSpaceReserveFactor;
         }
 
         /// <returns> Returns the debugLevel. </returns>
