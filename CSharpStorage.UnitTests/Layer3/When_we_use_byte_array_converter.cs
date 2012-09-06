@@ -1,4 +1,5 @@
-﻿using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
+﻿using System;
+using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Layer3
@@ -93,12 +94,57 @@ namespace NDatabase.UnitTests.Layer3
             Assert.That(convertedValue, Is.EqualTo(value));
         }
 
-//        [Test]
-//        public void It_should_convert_string_to_binary_and_from_binary_to_string_with_success()
-//        {
-//            var name = "Magdalena Płatek-Spólnik";
+        [Test]
+        public void It_should_convert_string_to_binary_and_from_binary_to_string_with_success()
+        {
+            const string name = "Magdalena Płatek-Spólnik";
 
-//            var byteArray = ByteArrayConverter.StringToByteArray(name, )
-//        }
+            var numberOfBytesOfAString = ByteArrayConverter.GetNumberOfBytesOfAString(name);
+            Assert.That(numberOfBytesOfAString, Is.EqualTo(34));
+
+            var byteArray = ByteArrayConverter.StringToByteArray(name, -1);
+            var convertedValue = ByteArrayConverter.ByteArrayToString(byteArray);
+
+            Assert.That(convertedValue, Is.EqualTo(name));
+        }
+
+        [Test]
+        public void It_should_convert_string_to_binary_and_from_binary_to_string_with_success_with_size_bigger_than_string_size()
+        {
+            const string name = "Magdalena Płatek-Spólnik";
+
+            var numberOfBytesOfAString = ByteArrayConverter.GetNumberOfBytesOfAString(name);
+            Assert.That(numberOfBytesOfAString, Is.EqualTo(34));
+
+            var byteArray = ByteArrayConverter.StringToByteArray(name, 50);
+            var convertedValue = ByteArrayConverter.ByteArrayToString(byteArray);
+
+            Assert.That(convertedValue, Is.EqualTo(name));
+        }
+
+        [Test]
+        public void It_should_convert_string_to_binary_and_from_binary_to_string_with_success_with_size_smaller_than_string_size()
+        {
+            const string name = "Magdalena Płatek-Spólnik";
+
+            var numberOfBytesOfAString = ByteArrayConverter.GetNumberOfBytesOfAString(name);
+            Assert.That(numberOfBytesOfAString, Is.EqualTo(34));
+
+            var byteArray = ByteArrayConverter.StringToByteArray(name, 10);
+            var convertedValue = ByteArrayConverter.ByteArrayToString(byteArray);
+
+            Assert.That(convertedValue, Is.EqualTo(name));
+        }
+
+        [Test]
+        public void It_should_convert_datetime_to_binary_and_from_datetime_to_bool_with_the_success()
+        {
+            var value = new DateTime(1988, 8, 6);
+
+            var byteArray = ByteArrayConverter.DateToByteArray(value);
+            var convertedValue = ByteArrayConverter.ByteArrayToDate(byteArray);
+
+            Assert.That(convertedValue, Is.EqualTo(value));
+        }
     }
 }

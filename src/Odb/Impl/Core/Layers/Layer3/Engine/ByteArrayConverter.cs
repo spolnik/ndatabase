@@ -1,6 +1,5 @@
 using System;
 using System.Text;
-using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
 namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
@@ -60,30 +59,21 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
 
         public static int GetNumberOfBytesOfAString(String s)
         {
-            try
-            {
-                return Encoding.UTF8.GetBytes(s).Length + OdbType.Integer.GetSize() * 2;
-            }
-            catch (Exception)
-            {
-                throw new OdbRuntimeException(NDatabaseError.UnsupportedEncoding.AddParameter("UTF-8"));
-            }
+            return Encoding.UTF8.GetBytes(s).Length + IntSizeX2;
         }
 
         /// <param name="s">Input</param>
         /// <param name="totalSpace"> The total space of the string (can be bigger that the real string size - to support later in place update) </param>
         /// <returns> The byte array that represent the string </returns>
-        /// <throws>UnsupportedEncodingException</throws>
         public static byte[] StringToByteArray(String s, int totalSpace)
         {
             var stringBytes = Encoding.UTF8.GetBytes(s);
 
-            int totalSize;
+            var size = stringBytes.Length + IntSizeX2;
 
-            if (totalSpace == - 1)
-                totalSize = stringBytes.Length + IntSizeX2;
-            else
-                totalSize = totalSpace;
+            var totalSize = totalSpace < size
+                                ? size
+                                : totalSpace;
 
             var totalSizeBytes = IntToByteArray(totalSize);
             var stringRealSize = IntToByteArray(stringBytes.Length);
@@ -102,7 +92,6 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
             return bytes2;
         }
 
-        /// <param name="bytes"> </param>
         /// <returns> The String represented by the byte array </returns>
         public static String ByteArrayToString(byte[] bytes)
         {
@@ -217,10 +206,9 @@ namespace NDatabase.Odb.Impl.Core.Layers.Layer3.Engine
 
         public static void BooleanToByteArray(bool b, byte[] arrayWhereToWrite, int offset)
         {
-            if (b)
-                arrayWhereToWrite[offset] = ByteForTrue;
-            else
-                arrayWhereToWrite[offset] = ByteForFalse;
+            arrayWhereToWrite[offset] = b
+                                            ? ByteForTrue
+                                            : ByteForFalse;
         }
 
         public static void IntToByteArray(int l, byte[] arrayWhereToWrite, int offset)
