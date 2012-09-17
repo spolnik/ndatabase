@@ -1,7 +1,7 @@
 using System;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Impl.Core.Query.Values;
+using NDatabase.Odb.Core.Query.Values;
 
 namespace Test.NDatabase.Odb.Test.Query.Values
 {

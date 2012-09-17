@@ -1,7 +1,7 @@
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Oid;
-using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
-using NDatabase.Odb.Impl.Core.Transaction;
+using NDatabase.Odb.Core.Transaction;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 

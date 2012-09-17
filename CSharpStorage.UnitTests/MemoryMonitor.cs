@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Text;
-using NDatabase.Odb.Impl.Core.Transaction;
+using NDatabase.Odb.Core.Transaction;
 
 namespace NDatabase.Odb.Impl.Tool
 {

@@ -1,7 +1,6 @@
 using System;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Query.Criteria;
-using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Arraycollectionmap;
 using Test.NDatabase.Odb.Test.VO.Sport;

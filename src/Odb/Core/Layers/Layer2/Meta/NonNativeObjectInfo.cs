@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector;
-using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
+using NDatabase.Odb.Core.Layers.Layer1.Introspector;
+using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta
@@ -34,7 +34,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public NonNativeObjectInfo(ObjectInfoHeader oip, ClassInfo classInfo) : base(null)
         {
-            // private List attributeValues;
             _classInfo = classInfo;
             _objectHeader = oip;
 
@@ -47,7 +46,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public NonNativeObjectInfo(ClassInfo classInfo) : base(null)
         {
-            //new OdbList<NonNativeObjectInfo>();
             _classInfo = classInfo;
             _objectHeader = new ObjectInfoHeader(-1, null, null, (classInfo != null
                                                                       ? classInfo.GetId()
@@ -63,7 +61,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                                    long[] attributesIdentification, int[] attributeIds)
             : base(OdbType.GetFromName(info.GetFullClassName()))
         {
-            //new OdbList<NonNativeObjectInfo>();
             _theObject = @object;
             _classInfo = info;
             _attributeValues = values;
@@ -77,22 +74,22 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                                                                       : null), attributesIdentification, attributeIds);
         }
 
-        public virtual ObjectInfoHeader GetHeader()
+        public ObjectInfoHeader GetHeader()
         {
             return _objectHeader;
         }
 
-        public virtual AbstractObjectInfo GetAttributeValueFromId(int attributeId)
+        public AbstractObjectInfo GetAttributeValueFromId(int attributeId)
         {
             return _attributeValues[attributeId - 1];
         }
 
-        public virtual ClassInfo GetClassInfo()
+        public ClassInfo GetClassInfo()
         {
             return _classInfo;
         }
 
-        public virtual void SetClassInfo(ClassInfo classInfo)
+        public void SetClassInfo(ClassInfo classInfo)
         {
             if (classInfo != null)
             {
@@ -163,22 +160,22 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return buffer.ToString();
         }
 
-        public virtual OID GetNextObjectOID()
+        public OID GetNextObjectOID()
         {
             return _objectHeader.GetNextObjectOID();
         }
 
-        public virtual void SetNextObjectOID(OID nextObjectOID)
+        public void SetNextObjectOID(OID nextObjectOID)
         {
             _objectHeader.SetNextObjectOID(nextObjectOID);
         }
 
-        public virtual OID GetPreviousObjectOID()
+        public OID GetPreviousObjectOID()
         {
             return _objectHeader.GetPreviousObjectOID();
         }
 
-        public virtual void SetPreviousInstanceOID(OID previousObjectOID)
+        public void SetPreviousInstanceOID(OID previousObjectOID)
         {
             _objectHeader.SetPreviousObjectOID(previousObjectOID);
         }
@@ -198,7 +195,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return _theObject;
         }
 
-        public virtual object GetValueOf(string attributeName)
+        public object GetValueOf(string attributeName)
         {
             Debug.Assert(attributeName != null);
 
@@ -234,7 +231,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// </summary>
         /// <param name="attributeName"> </param>
         /// <param name="aoi"> </param>
-        public virtual void SetValueOf(string attributeName, AbstractObjectInfo aoi)
+        public void SetValueOf(string attributeName, AbstractObjectInfo aoi)
         {
             int attributeId;
             var isRelation = attributeName.IndexOf(".", StringComparison.Ordinal) != -1;
@@ -264,14 +261,14 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                     AddParameter(attributeName));
         }
 
-        public virtual OID GetOid()
+        public OID GetOid()
         {
             if (GetHeader() == null)
                 throw new OdbRuntimeException(NDatabaseError.UnexpectedSituation.AddParameter("Null Object Info Header"));
             return GetHeader().GetOid();
         }
 
-        public virtual void SetOid(OID oid)
+        public void SetOid(OID oid)
         {
             if (GetHeader() != null)
                 GetHeader().SetOid(oid);
@@ -287,7 +284,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return false;
         }
 
-        public virtual void Clear()
+        public void Clear()
         {
             _attributeValues = null;
         }
@@ -336,17 +333,17 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return nnoi;
         }
 
-        public virtual void SetAttributeValue(int attributeId, AbstractObjectInfo aoi)
+        public void SetAttributeValue(int attributeId, AbstractObjectInfo aoi)
         {
             _attributeValues[attributeId - 1] = aoi;
         }
 
-        public virtual AbstractObjectInfo[] GetAttributeValues()
+        public AbstractObjectInfo[] GetAttributeValues()
         {
             return _attributeValues;
         }
 
-        public virtual int GetMaxNbattributes()
+        public int GetMaxNbattributes()
         {
             return _maxNbattributes;
         }
@@ -359,7 +356,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// </remarks>
         /// <param name="aoi"> </param>
         /// <returns> </returns>
-        public virtual int GetAttributeId(AbstractObjectInfo aoi)
+        public int GetAttributeId(AbstractObjectInfo aoi)
         {
             for (var i = 0; i < _attributeValues.Length; i++)
             {
@@ -383,7 +380,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// </remarks>
         /// <param name="attributeId"> </param>
         /// <returns> The position where this attribute is stored </returns>
-        public virtual long GetAttributeDefinitionPosition(int attributeId)
+        public long GetAttributeDefinitionPosition(int attributeId)
         {
             var offset = StorageEngineConstant.ObjectOffsetNbAttributes;
             // delta =
@@ -412,8 +409,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return _objectHeader.GetHashCode();
         }
 
-        /// <param name="header"> </param>
-        public virtual void SetHeader(ObjectInfoHeader header)
+        public void SetHeader(ObjectInfoHeader header)
         {
             _objectHeader = header;
         }

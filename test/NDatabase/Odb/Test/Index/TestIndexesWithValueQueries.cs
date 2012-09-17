@@ -1,6 +1,6 @@
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Query.Criteria;
-using NDatabase.Odb.Impl.Core.Query.Values;
+using NDatabase.Odb.Core.Query.Values;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Index

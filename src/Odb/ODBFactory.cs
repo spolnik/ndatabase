@@ -17,7 +17,7 @@ namespace NDatabase.Odb
         public static IOdb Open(string fileName)
         {
             _last = fileName;
-            return Impl.Main.Odb.GetInstance(fileName);
+            return Main.Odb.GetInstance(fileName);
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace NDatabase.Odb
         /// <returns> A local ODB implementation </returns>
         public static IOdb OpenLast()
         {
-            return Impl.Main.Odb.GetInstance(_last);
+            return Main.Odb.GetInstance(_last);
         }
 
         /// <summary>

@@ -3,7 +3,7 @@ using System.Globalization;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Layers.Layer3.IO;
-using NDatabase.Odb.Impl.Core.Transaction;
+using NDatabase.Odb.Core.Transaction;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.IO

@@ -1,5 +1,5 @@
 ﻿using NDatabase.Odb;
-using NDatabase.Odb.Impl.Core.Oid;
+using NDatabase.Odb.Core.Oid;
 using NUnit.Framework;
 using System.Linq;
 

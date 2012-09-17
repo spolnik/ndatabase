@@ -4,7 +4,6 @@ using NDatabase.Odb;
 using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Core.Trigger;
-using NDatabase.Odb.Impl.Core.Query.Criteria;
 
 namespace Test.NDatabase.Odb.Test.Trigger
 {

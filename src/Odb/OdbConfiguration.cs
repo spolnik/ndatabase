@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using NDatabase.Odb.Core;
-using NDatabase.Odb.Impl;
 using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb

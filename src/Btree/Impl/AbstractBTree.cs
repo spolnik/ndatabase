@@ -3,7 +3,7 @@ using System.Collections;
 using NDatabase.Btree.Exception;
 using NDatabase.Btree.Tool;
 using NDatabase.Odb.Core;
-using NDatabase.Odb.Impl.Core.Layers.Layer1.Introspector;
+using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 
 namespace NDatabase.Btree.Impl
 {

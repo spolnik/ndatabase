@@ -2,7 +2,7 @@ using System;
 using NDatabase.Btree;
 using NDatabase.Btree.Exception;
 using NDatabase.Odb;
-using NDatabase.Odb.Impl.Core.Btree;
+using NDatabase.Odb.Core.BTree;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Btree.Odb

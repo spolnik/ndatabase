@@ -1,12 +1,11 @@
 using System;
 using NDatabase.Btree.Exception;
 using NDatabase.Odb;
+using NDatabase.Odb.Core.BTree;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.Criteria;
-using NDatabase.Odb.Impl.Core.Btree;
-using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
-using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 

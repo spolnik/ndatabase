@@ -1,8 +1,8 @@
 using System;
 using NDatabase.Btree;
 using NDatabase.Odb.Core;
-using NDatabase.Odb.Impl.Core.Btree;
-using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
+using NDatabase.Odb.Core.BTree;
+using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 

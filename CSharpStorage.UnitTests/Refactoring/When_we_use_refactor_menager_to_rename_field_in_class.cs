@@ -2,8 +2,8 @@
 
 using NDatabase.Odb;
 #if USER1
-using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
-using NDatabase.Odb.Impl.Core.Layers.Layer3.Refactor;
+using NDatabase.Odb.Core.Layers.Layer3.Engine;
+using NDatabase.Odb.Core.Layers.Layer3.Refactor;
 using NDatabase.Tool.Wrappers;
 #endif
 using NUnit.Framework;

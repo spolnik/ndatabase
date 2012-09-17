@@ -4,7 +4,6 @@ using NDatabase.Odb;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Core.Query.NQ;
-using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NDatabase.UnitTests.CodeSnippets.Data;
 using NUnit.Framework;
 

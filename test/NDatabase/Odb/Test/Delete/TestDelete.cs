@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using NDatabase.Odb;
+using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Query.Criteria;
-using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
-using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;

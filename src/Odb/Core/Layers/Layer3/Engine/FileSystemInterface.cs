@@ -2,7 +2,6 @@ using System;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3.IO;
 using NDatabase.Odb.Core.Transaction;
-using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
 using NDatabase.Tool;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.Engine

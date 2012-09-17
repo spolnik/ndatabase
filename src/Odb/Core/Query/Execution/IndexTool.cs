@@ -1,6 +1,6 @@
 using System;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Impl.Core.Query.Criteria;
+using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Query.Execution

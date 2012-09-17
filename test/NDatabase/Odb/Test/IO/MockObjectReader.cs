@@ -4,9 +4,9 @@ using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3;
+using NDatabase.Odb.Core.Layers.Layer3.Oid;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.Execution;
-using NDatabase.Odb.Impl.Core.Layers.Layer3.Oid;
 using NDatabase.Tool.Wrappers.List;
 
 namespace Test.NDatabase.Odb.Test.IO

@@ -1,4 +1,4 @@
-using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
+using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 

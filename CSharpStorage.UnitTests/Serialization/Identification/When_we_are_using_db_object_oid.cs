@@ -1,6 +1,6 @@
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Impl.Core.Oid;
+using NDatabase.Odb.Core.Oid;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Serialization.Identification

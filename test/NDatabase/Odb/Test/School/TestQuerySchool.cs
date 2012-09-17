@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using NDatabase.Odb;
-using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
+using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Tool.Wrappers.Map;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.School;

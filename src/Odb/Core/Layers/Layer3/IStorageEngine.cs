@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
+using NDatabase.Odb.Core.Layers.Layer3.Oid;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Odb.Core.Trigger;
-using NDatabase.Odb.Impl.Core.Layers.Layer3.Oid;
-using NDatabase.Odb.Impl.Core.Query.Criteria;
 using NDatabase.Tool.Wrappers.List;
 
 namespace NDatabase.Odb.Core.Layers.Layer3

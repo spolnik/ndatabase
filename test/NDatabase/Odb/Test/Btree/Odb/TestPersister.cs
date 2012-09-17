@@ -1,8 +1,8 @@
 using System.Collections;
 using NDatabase.Btree;
 using NDatabase.Btree.Impl;
-using NDatabase.Odb.Impl.Core.Btree;
-using NDatabase.Odb.Impl.Core.Layers.Layer3.Engine;
+using NDatabase.Odb.Core.BTree;
+using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Btree.Odb

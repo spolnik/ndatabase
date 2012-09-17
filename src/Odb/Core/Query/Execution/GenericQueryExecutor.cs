@@ -2,10 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using NDatabase.Btree;
+using NDatabase.Odb.Core.BTree;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Transaction;
-using NDatabase.Odb.Impl.Core.Btree;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
 
