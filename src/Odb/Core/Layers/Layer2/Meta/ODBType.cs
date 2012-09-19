@@ -16,188 +16,9 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     {
         public static readonly IClassPool ClassPool = new OdbClassPool();
 
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                return (_id * 397) ^ (_name != null
-                                          ? _name.GetHashCode()
-                                          : 0);
-            }
-        }
+        private static readonly IDictionary<int, OdbType> TypesById = new Dictionary<int, OdbType>();
 
-        #region Odb Type Ids
-
-        public const int NullId = 0;
-
-        public const int BooleanId = 10;
-
-        /// <summary>
-        ///   1 byte
-        /// </summary>
-        public const int ByteId = 20;
-
-        public const int SignedByteId = 21;
-
-        public const int CharacterId = 30;
-
-        /// <summary>
-        ///   2 byte
-        /// </summary>
-        public const int ShortId = 40;
-
-        /// <summary>
-        ///   4 byte
-        /// </summary>
-        public const int IntegerId = 50;
-
-        /// <summary>
-        ///   8 bytes
-        /// </summary>
-        public const int LongId = 60;
-
-        /// <summary>
-        ///   4 byte
-        /// </summary>
-        public const int FloatId = 70;
-
-        /// <summary>
-        ///   8 byte
-        /// </summary>
-        public const int DoubleId = 80;
-
-        /// <summary>
-        ///   16 byte
-        /// </summary>
-        public const int DecimalId = 100;
-
-        public const int DateId = 170;
-
-        public const int DateSqlId = 171;
-
-        public const int DateTimestampId = 172;
-
-        public const int OidId = 180;
-
-        public const int ObjectOidId = 181;
-
-        public const int ClassOidId = 182;
-
-        public const int StringId = 210;
-
-        /// <summary>
-        ///   Enums are internally stored as String: the enum name
-        /// </summary>
-        public const int EnumId = 211;
-
-        public const int NativeFixSizeMaxId = ClassOidId;
-
-        public const int NativeMaxId = StringId;
-
-        public const int CollectionId = 250;
-        public const int CollectionGenericId = 251;
-
-        public const int ArrayId = 260;
-
-        public const int MapId = 270;
-
-        public const int NonNativeId = 300;
-
-        #endregion
-
-        #region Odb Types
-
-        public static readonly OdbType Null = new OdbType(true, NullId, "null", 1);
-
-        /// <summary>
-        ///   1 byte
-        /// </summary>
-        public static readonly OdbType Byte = new OdbType(true, ByteId, OdbClassUtil.GetFullName(typeof (byte)), 1);
-
-        /// <summary>
-        ///   2 byte
-        /// </summary>
-        public static readonly OdbType Short = new OdbType(true, ShortId, OdbClassUtil.GetFullName(typeof (short)), 2);
-
-        /// <summary>
-        ///   4 byte
-        /// </summary>
-        public static readonly OdbType Integer = new OdbType(true, IntegerId, OdbClassUtil.GetFullName(typeof (int)), 4);
-
-        /// <summary>
-        ///   16 byte
-        /// </summary>
-        public static readonly OdbType Decimal = new OdbType(true, DecimalId, OdbClassUtil.GetFullName(typeof (decimal)),
-                                                             16);
-
-        /// <summary>
-        ///   8 bytes
-        /// </summary>
-        public static readonly OdbType Long = new OdbType(true, LongId, OdbClassUtil.GetFullName(typeof (long)), 8);
-
-        /// <summary>
-        ///   4 byte
-        /// </summary>
-        public static readonly OdbType Float = new OdbType(true, FloatId, OdbClassUtil.GetFullName(typeof (float)), 4);
-
-        /// <summary>
-        ///   8 byte
-        /// </summary>
-        public static readonly OdbType Double = new OdbType(true, DoubleId, OdbClassUtil.GetFullName(typeof (double)), 8);
-
-        /// <summary>
-        ///   2 byte
-        /// </summary>
-        public static readonly OdbType Character = new OdbType(true, CharacterId,
-                                                               OdbClassUtil.GetFullName(typeof (char)), 2);
-
-        /// <summary>
-        ///   1 byte
-        /// </summary>
-        public static readonly OdbType Boolean = new OdbType(true, BooleanId, OdbClassUtil.GetFullName(typeof (bool)), 1);
-
-        /// <summary>
-        ///   8 byte
-        /// </summary>
-        public static readonly OdbType Date = new OdbType(false, DateId, OdbClassUtil.GetFullName(typeof (DateTime)), 8);
-
-        public static readonly OdbType String = new OdbType(false, StringId, OdbClassUtil.GetFullName(typeof (string)),
-                                                            1);
-
-        public static readonly OdbType Enum = new OdbType(false, EnumId, OdbClassUtil.GetFullName(typeof (Enum)), 1);
-
-        public static readonly OdbType Collection = new OdbType(false, CollectionId,
-                                                                OdbClassUtil.GetFullName(typeof (ICollection)), 0,
-                                                                typeof (ICollection));
-
-        public static readonly OdbType CollectionGeneric = new OdbType(false, CollectionGenericId,
-                                                                       OdbClassUtil.GetFullName(
-                                                                           typeof (ICollection<object>)), 0,
-                                                                       typeof (ICollection<object>));
-
-        public static readonly OdbType Array = new OdbType(false, ArrayId, "array", 0);
-
-        public static readonly OdbType Map = new OdbType(false, MapId, OdbClassUtil.GetFullName(typeof (IDictionary)), 0,
-                                                         typeof (IDictionary));
-
-        public static readonly OdbType Oid = new OdbType(false, OidId, OdbClassUtil.GetFullName(typeof (OID)), 0,
-                                                         typeof (OID));
-
-        public static readonly OdbType ObjectOid = new OdbType(false, ObjectOidId,
-                                                               OdbClassUtil.GetFullName(typeof (OdbObjectOID)), 0,
-                                                               typeof (OdbObjectOID));
-
-        public static readonly OdbType ClassOid = new OdbType(false, ClassOidId,
-                                                              OdbClassUtil.GetFullName(typeof (OdbClassOID)), 0,
-                                                              typeof (OdbClassOID));
-
-        public static readonly OdbType NonNative = new OdbType(false, NonNativeId, "non native", 0);
-
-        #endregion
-
-        private static readonly IDictionary<int, OdbType> TypesById = new OdbHashMap<int, OdbType>();
-
-        private static readonly IDictionary<string, OdbType> TypesByName = new OdbHashMap<string, OdbType>();
+        private static readonly IDictionary<string, OdbType> TypesByName = new Dictionary<string, OdbType>();
 
         /// <summary>
         ///   This cache is used to cache non default types.
@@ -205,35 +26,28 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// <remarks>
         ///   This cache is used to cache non default types. Instead or always testing if a class is an array or a collection or any other, we put the odbtype in this cache
         /// </remarks>
-        private static readonly IDictionary<string, OdbType> CacheOfTypesByName = new OdbHashMap<string, OdbType>();
+        private static readonly IDictionary<string, OdbType> CacheOfTypesByName = new Dictionary<string, OdbType>();
 
         public static readonly string DefaultCollectionClassName = OdbClassUtil.GetFullName(typeof (ArrayList));
 
         public static readonly string DefaultArrayComponentClassName = OdbClassUtil.GetFullName(typeof (object));
 
-        public static readonly int SizeOfInt = Integer.Size;
-
-        public static readonly int SizeOfLong = Long.Size;
-
-        public static readonly int SizeOfBool = Boolean.Size;
-
-        public static readonly int SizeOfByte = Byte.Size;
+        
+        private readonly Type _baseClass;
 
         private readonly int _id;
         private readonly bool _isPrimitive;
-        private readonly int _size;
         private readonly string _name;
+        private readonly int _size;
 
         /// <summary>
         ///   For array element type
         /// </summary>
         private OdbType _subType;
 
-        private readonly Type _baseClass;
-
         static OdbType()
         {
-            IOdbList<OdbType> allTypes = new OdbList<OdbType>(100);
+            IList<OdbType> allTypes = new List<OdbType>(100);
             //// DO NOT FORGET DO ADD THE TYPE IN THIS LIST WHEN CREATING A NEW ONE!!!
             allTypes.Add(Null);
             allTypes.Add(Byte);
@@ -281,9 +95,45 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             _baseClass = superclass;
         }
 
+        public int Id
+        {
+            get { return _id; }
+        }
+
+        public string Name
+        {
+            get { return _name; }
+        }
+
+        public int Size
+        {
+            get { return _size; }
+        }
+
+        public OdbType SubType
+        {
+            get { return _subType; }
+            set { _subType = value; }
+        }
+
+        public Type BaseClass
+        {
+            get { return _baseClass; }
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (_id * 397) ^ (_name != null
+                                          ? _name.GetHashCode()
+                                          : 0);
+            }
+        }
+
         public OdbType Copy(string name)
         {
-            return new OdbType(_isPrimitive, _id, name, _size) { _subType = SubType };
+            return new OdbType(_isPrimitive, _id, name, _size) {_subType = SubType};
         }
 
         public OdbType Copy()
@@ -310,7 +160,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         {
             OdbType odbType;
             TypesByName.TryGetValue(fullName, out odbType);
-            
+
             return odbType ?? new OdbType(NonNative._isPrimitive, NonNativeId, fullName, 0);
         }
 
@@ -352,7 +202,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                 CacheOfTypesByName.Add(className, Collection);
                 return Collection;
             }
-            
+
             var nonNative = new OdbType(NonNative._isPrimitive, NonNativeId, className, 0);
             CacheOfTypesByName.Add(className, nonNative);
             return nonNative;
@@ -373,7 +223,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                 if (ind != -1)
                     return true;
             }
-            
+
             return false;
         }
 
@@ -383,14 +233,14 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             if (isNonGenericCollection)
                 return true;
             var types = clazz.GetInterfaces();
-            
+
             foreach (var type in types)
             {
                 var ind = type.FullName.IndexOf("System.Collections.Generic.ICollection", StringComparison.Ordinal);
                 if (ind != -1)
                     return true;
             }
-            
+
             return false;
         }
 
@@ -420,24 +270,9 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return TypesByName.ContainsKey(name);
         }
 
-        public int Id
-        {
-            get { return _id; }
-        }
-
-        public string Name
-        {
-            get { return _name; }
-        }
-
-        public int Size
-        {
-            get { return _size; }
-        }
-
         public bool IsCollection()
         {
-            return _id == CollectionId;
+            return _id == CollectionId || _id == CollectionGenericId;
         }
 
         public static bool IsCollection(int odbTypeId)
@@ -478,17 +313,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         public bool IsNative()
         {
             return _id != NonNativeId;
-        }
-
-        public OdbType SubType
-        {
-            get { return _subType; }
-            set { _subType = value; }
-        }
-
-        public Type BaseClass
-        {
-            get { return _baseClass; }
         }
 
         public override string ToString()
@@ -609,9 +433,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             if (type1.Name.Equals(type2.Name))
                 return true;
             if (type1.IsNative() && type2.IsNative())
-            {
                 return type1.IsEquivalent(type2);
-            }
             if (type1.IsNonNative() && type2.IsNonNative())
             {
                 return (type1.GetNativeClass() == type2.GetNativeClass()) ||
@@ -634,5 +456,181 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         {
             return _id == DateId;
         }
+
+        #region Odb Type Ids
+
+        public const int NullId = 0;
+
+        public const int BooleanId = 10;
+
+        /// <summary>
+        ///   1 byte
+        /// </summary>
+        public const int ByteId = 20;
+
+        public const int CharacterId = 30;
+
+        /// <summary>
+        ///   2 byte
+        /// </summary>
+        public const int ShortId = 40;
+
+        /// <summary>
+        ///   4 byte
+        /// </summary>
+        public const int IntegerId = 50;
+
+        /// <summary>
+        ///   8 bytes
+        /// </summary>
+        public const int LongId = 60;
+
+        /// <summary>
+        ///   4 byte
+        /// </summary>
+        public const int FloatId = 70;
+
+        /// <summary>
+        ///   8 byte
+        /// </summary>
+        public const int DoubleId = 80;
+
+        /// <summary>
+        ///   16 byte
+        /// </summary>
+        public const int DecimalId = 100;
+
+        public const int DateId = 170;
+
+        public const int OidId = 180;
+
+        public const int ObjectOidId = 181;
+
+        public const int ClassOidId = 182;
+
+        public const int StringId = 210;
+
+        /// <summary>
+        ///   Enums are internally stored as String: the enum name
+        /// </summary>
+        public const int EnumId = 211;
+
+        public const int NativeFixSizeMaxId = ClassOidId;
+
+        public const int NativeMaxId = StringId;
+
+        public const int CollectionId = 250;
+        public const int CollectionGenericId = 251;
+
+        public const int ArrayId = 260;
+
+        public const int MapId = 270;
+
+        public const int NonNativeId = 300;
+
+        #endregion
+
+        #region Odb Types
+
+        public static readonly OdbType Null = new OdbType(true, NullId, "null", 1);
+
+        /// <summary>
+        ///   1 byte
+        /// </summary>
+        public static readonly OdbType Byte = new OdbType(true, ByteId, OdbClassUtil.GetFullName(typeof (byte)), 1);
+
+        /// <summary>
+        ///   2 byte
+        /// </summary>
+        public static readonly OdbType Short = new OdbType(true, ShortId, OdbClassUtil.GetFullName(typeof (short)), 2);
+
+        /// <summary>
+        ///   4 byte
+        /// </summary>
+        public static readonly OdbType Integer = new OdbType(true, IntegerId, OdbClassUtil.GetFullName(typeof (int)), 4);
+
+        /// <summary>
+        ///   16 byte
+        /// </summary>
+        public static readonly OdbType Decimal = new OdbType(true, DecimalId, OdbClassUtil.GetFullName(typeof (decimal)),
+                                                             16);
+
+        /// <summary>
+        ///   8 bytes
+        /// </summary>
+        public static readonly OdbType Long = new OdbType(true, LongId, OdbClassUtil.GetFullName(typeof (long)), 8);
+
+        /// <summary>
+        ///   4 byte
+        /// </summary>
+        public static readonly OdbType Float = new OdbType(true, FloatId, OdbClassUtil.GetFullName(typeof (float)), 4);
+
+        /// <summary>
+        ///   8 byte
+        /// </summary>
+        public static readonly OdbType Double = new OdbType(true, DoubleId, OdbClassUtil.GetFullName(typeof (double)), 8);
+
+        /// <summary>
+        ///   2 byte
+        /// </summary>
+        public static readonly OdbType Character = new OdbType(true, CharacterId,
+                                                               OdbClassUtil.GetFullName(typeof (char)), 2);
+
+        /// <summary>
+        ///   1 byte
+        /// </summary>
+        public static readonly OdbType Boolean = new OdbType(true, BooleanId, OdbClassUtil.GetFullName(typeof (bool)), 1);
+
+        /// <summary>
+        ///   8 byte
+        /// </summary>
+        public static readonly OdbType Date = new OdbType(false, DateId, OdbClassUtil.GetFullName(typeof (DateTime)), 8);
+
+        public static readonly OdbType String = new OdbType(false, StringId, OdbClassUtil.GetFullName(typeof (string)),
+                                                            1);
+
+        public static readonly OdbType Enum = new OdbType(false, EnumId, OdbClassUtil.GetFullName(typeof (Enum)), 1);
+
+        public static readonly OdbType Collection = new OdbType(false, CollectionId,
+                                                                OdbClassUtil.GetFullName(typeof (ICollection)), 0,
+                                                                typeof (ICollection));
+
+        public static readonly OdbType CollectionGeneric = new OdbType(false, CollectionGenericId,
+                                                                       OdbClassUtil.GetFullName(
+                                                                           typeof (ICollection<object>)), 0,
+                                                                       typeof (ICollection<object>));
+
+        public static readonly OdbType Array = new OdbType(false, ArrayId, "array", 0);
+
+        public static readonly OdbType Map = new OdbType(false, MapId, OdbClassUtil.GetFullName(typeof (IDictionary)), 0,
+                                                         typeof (IDictionary));
+
+        public static readonly OdbType Oid = new OdbType(false, OidId, OdbClassUtil.GetFullName(typeof (OID)), 0,
+                                                         typeof (OID));
+
+        public static readonly OdbType ObjectOid = new OdbType(false, ObjectOidId,
+                                                               OdbClassUtil.GetFullName(typeof (OdbObjectOID)), 0,
+                                                               typeof (OdbObjectOID));
+
+        public static readonly OdbType ClassOid = new OdbType(false, ClassOidId,
+                                                              OdbClassUtil.GetFullName(typeof (OdbClassOID)), 0,
+                                                              typeof (OdbClassOID));
+
+        public static readonly OdbType NonNative = new OdbType(false, NonNativeId, "non native", 0);
+
+        #endregion
+
+        #region Type Sizes
+
+        public static readonly int SizeOfInt = Integer.Size;
+
+        public static readonly int SizeOfLong = Long.Size;
+
+        public static readonly int SizeOfBool = Boolean.Size;
+
+        public static readonly int SizeOfByte = Byte.Size;
+
+        #endregion
+
     }
 }
