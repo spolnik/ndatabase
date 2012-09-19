@@ -272,7 +272,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     // the same name of one of is superclass. In this, the deeper
                     // attribute is null
                     if (classAttributeInfo.IsNative())
-                        aoi2 = new NullNativeObjectInfo(classAttributeInfo.GetAttributeType().GetId());
+                        aoi2 = new NullNativeObjectInfo(classAttributeInfo.GetAttributeType().Id);
                     else
                         aoi2 = new NonNativeNullObjectInfo(classAttributeInfo.GetClassInfo());
                 }

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
+using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Layers.Layer3.Oid;
@@ -18,8 +19,6 @@ namespace NDatabase.Odb
     /// </summary>
     public sealed class DefaultCoreProvider : ICoreProvider
     {
-        private static readonly IClassPool ClassPool = new OdbClassPool();
-
         private static IClassIntrospector _classIntrospector;
 
         private static readonly IDictionary<IStorageEngine, ITriggerManager> TriggerManagers =
@@ -30,13 +29,12 @@ namespace NDatabase.Odb
         public void Init2()
         {
             _classIntrospector = new ClassIntrospector();
-            _classIntrospector.Init2();
         }
 
         public void ResetClassDefinitions()
         {
             _classIntrospector.Reset();
-            ClassPool.Reset();
+            OdbType.ClassPool.Reset();
         }
 
         public IIdManager GetIdManager(IStorageEngine engine)
@@ -130,11 +128,6 @@ namespace NDatabase.Odb
         public OID GetExternalClassOID(long oid)
         {
             return new OdbClassOID(oid);
-        }
-
-        public IClassPool GetClassPool()
-        {
-            return ClassPool;
         }
 
         #endregion

@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using NDatabase.Odb.Core.Layers.Layer1.Introspector;
-using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
 using NDatabase.Tool.Wrappers.Map;
@@ -29,9 +27,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// </summary>
         private readonly OdbHashMap<ClassInfo, ClassInfo> _changedClasses;
 
-        [NonPersistent]
-        private readonly IClassPool _classPool;
-
         private readonly IDictionary<OID, ClassInfo> _rapidAccessForClassesByOid;
 
         /// <summary>
@@ -48,7 +43,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public MetaModel()
         {
-            _classPool = OdbConfiguration.GetCoreProvider().GetClassPool();
             _rapidAccessForUserClassesByName = new OdbHashMap<string, ClassInfo>(10);
             _rapidAccessForSystemClassesByName = new OdbHashMap<string, ClassInfo>(10);
             _rapidAccessForClassesByOid = new OdbHashMap<OID, ClassInfo>(10);
@@ -206,7 +200,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             IOdbList<ClassInfo> result = new OdbList<ClassInfo>();
             var classNames = _rapidAccessForUserClassesByName.Keys.GetEnumerator();
 
-            var theClass = _classPool.GetClass(fullClassName);
+            var theClass = OdbType.ClassPool.GetClass(fullClassName);
             while (classNames.MoveNext())
             {
                 var oneClassName = classNames.Current;
@@ -218,7 +212,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                 }
                 else
                 {
-                    var oneClass = _classPool.GetClass(oneClassName);
+                    var oneClass = OdbType.ClassPool.GetClass(oneClassName);
                     if (theClass.IsAssignableFrom(oneClass))
                         result.Add(GetClassInfo(oneClassName, true));
                 }

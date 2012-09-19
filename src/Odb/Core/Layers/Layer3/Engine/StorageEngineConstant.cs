@@ -77,25 +77,25 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <summary>
         ///   The Database ID : 4 Long (4*8 bytes)
         /// </summary>
-        public static readonly int DatabaseHeaderDatabaseIdPosition = OdbType.Integer.GetSize();
+        public static readonly int DatabaseHeaderDatabaseIdPosition = OdbType.Integer.Size;
 
         /// <summary>
         ///   The last Transaction ID 2 long (2*4*8 bytes)
         /// </summary>
         public static readonly int DatabaseHeaderLastTransactionId = DatabaseHeaderDatabaseIdPosition +
-                                                                          4 * OdbType.Long.GetSize();
+                                                                          4 * OdbType.Long.Size;
 
         /// <summary>
         ///   The number of classes in the meta model 1 long (4*8 bytes)
         /// </summary>
         public static readonly int DatabaseHeaderNumberOfClassesPosition = DatabaseHeaderLastTransactionId +
-                                                                           2 * OdbType.Long.GetSize();
+                                                                           2 * OdbType.Long.Size;
 
         /// <summary>
         ///   The first class OID : 1 Long (8 bytes)
         /// </summary>
         public static readonly int DatabaseHeaderFirstClassOid = DatabaseHeaderNumberOfClassesPosition +
-                                                                 OdbType.Long.GetSize();
+                                                                 OdbType.Long.Size;
 
         /// <summary>
         ///   The last ODB close status.
@@ -104,29 +104,29 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         ///   The last ODB close status. Used to detect if the transaction is ok : 1 byte
         /// </remarks>
         public static readonly int DatabaseHeaderLastCloseStatusPosition = DatabaseHeaderFirstClassOid +
-                                                                           OdbType.Long.GetSize();
+                                                                           OdbType.Long.Size;
 
         public static readonly int DatabaseHeaderEmptySpaceWhichCouldBeUsedInTheFuture =
-            DatabaseHeaderLastCloseStatusPosition + OdbType.Byte.GetSize();
+            DatabaseHeaderLastCloseStatusPosition + OdbType.Byte.Size;
 
         /// <summary>
         ///   The Database character encoding : 50 bytes
         /// </summary>
         public static readonly int DatabaseHeaderDatabaseCharacterEncodingPosition =
-            DatabaseHeaderEmptySpaceWhichCouldBeUsedInTheFuture + 120 * OdbType.Byte.GetSize();
+            DatabaseHeaderEmptySpaceWhichCouldBeUsedInTheFuture + 120 * OdbType.Byte.Size;
 
         /// <summary>
         ///   The position of the current id block: 1 long
         /// </summary>
         public static readonly int DatabaseHeaderCurrentIdBlockPosition =
-            DatabaseHeaderDatabaseCharacterEncodingPosition + 58 * OdbType.Byte.GetSize();
+            DatabaseHeaderDatabaseCharacterEncodingPosition + 58 * OdbType.Byte.Size;
             
 
         /// <summary>
         ///   First ID Block position
         /// </summary>
         public static readonly int DatabaseHeaderFirstIdBlockPosition = DatabaseHeaderCurrentIdBlockPosition +
-                                                                        OdbType.Long.GetSize();
+                                                                        OdbType.Long.Size;
 
         public static readonly int DatabaseHeaderProtectedZoneSize = DatabaseHeaderCurrentIdBlockPosition;
 
@@ -137,44 +137,44 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 DatabaseHeaderLastCloseStatusPosition, DatabaseHeaderDatabaseCharacterEncodingPosition, DatabaseHeaderEmptySpaceWhichCouldBeUsedInTheFuture
             };
 
-        public static readonly long ClassOffsetBlockType = ClassOffsetBlockSize + OdbType.Integer.GetSize();
+        public static readonly long ClassOffsetBlockType = ClassOffsetBlockSize + OdbType.Integer.Size;
 
-        public static readonly long ClassOffsetCategory = ClassOffsetBlockType + OdbType.Byte.GetSize();
+        public static readonly long ClassOffsetCategory = ClassOffsetBlockType + OdbType.Byte.Size;
 
-        public static readonly long ClassOffsetId = ClassOffsetCategory + OdbType.Byte.GetSize();
+        public static readonly long ClassOffsetId = ClassOffsetCategory + OdbType.Byte.Size;
 
-        public static readonly long ClassOffsetPreviousClassPosition = ClassOffsetId + OdbType.Long.GetSize();
+        public static readonly long ClassOffsetPreviousClassPosition = ClassOffsetId + OdbType.Long.Size;
 
         public static readonly long ClassOffsetNextClassPosition = ClassOffsetPreviousClassPosition +
-                                                                   OdbType.Long.GetSize();
+                                                                   OdbType.Long.Size;
 
-        public static readonly long ClassOffsetClassNbObjects = ClassOffsetNextClassPosition + OdbType.Long.GetSize();
+        public static readonly long ClassOffsetClassNbObjects = ClassOffsetNextClassPosition + OdbType.Long.Size;
 
-        public static readonly long ClassOffsetFullClassNameSize = ClassOffsetNextClassPosition + OdbType.Long.GetSize();
+        public static readonly long ClassOffsetFullClassNameSize = ClassOffsetNextClassPosition + OdbType.Long.Size;
 
-        public static readonly long ObjectOffsetBlockType = ObjectOffsetBlockSize + OdbType.Integer.GetSize();
+        public static readonly long ObjectOffsetBlockType = ObjectOffsetBlockSize + OdbType.Integer.Size;
 
-        public static readonly long ObjectOffsetObjectId = ObjectOffsetBlockType + OdbType.Byte.GetSize();
+        public static readonly long ObjectOffsetObjectId = ObjectOffsetBlockType + OdbType.Byte.Size;
 
-        public static readonly long ObjectOffsetClassInfoId = ObjectOffsetObjectId + OdbType.Long.GetSize();
+        public static readonly long ObjectOffsetClassInfoId = ObjectOffsetObjectId + OdbType.Long.Size;
 
-        public static readonly long ObjectOffsetPreviousObjectOid = ObjectOffsetClassInfoId + OdbType.Long.GetSize();
+        public static readonly long ObjectOffsetPreviousObjectOid = ObjectOffsetClassInfoId + OdbType.Long.Size;
 
-        public static readonly long ObjectOffsetNextObjectOid = ObjectOffsetPreviousObjectOid + OdbType.Long.GetSize();
+        public static readonly long ObjectOffsetNextObjectOid = ObjectOffsetPreviousObjectOid + OdbType.Long.Size;
 
-        public static readonly long ObjectOffsetCreationDate = ObjectOffsetNextObjectOid + OdbType.Long.GetSize();
+        public static readonly long ObjectOffsetCreationDate = ObjectOffsetNextObjectOid + OdbType.Long.Size;
 
-        public static readonly long ObjectOffsetUpdateDate = ObjectOffsetCreationDate + OdbType.Long.GetSize();
+        public static readonly long ObjectOffsetUpdateDate = ObjectOffsetCreationDate + OdbType.Long.Size;
 
-        public static readonly long ObjectOffsetVersion = ObjectOffsetUpdateDate + OdbType.Long.GetSize();
+        public static readonly long ObjectOffsetVersion = ObjectOffsetUpdateDate + OdbType.Long.Size;
 
-        public static readonly long ObjectOffsetReferencePointer = ObjectOffsetVersion + OdbType.Integer.GetSize();
+        public static readonly long ObjectOffsetReferencePointer = ObjectOffsetVersion + OdbType.Integer.Size;
 
         public static readonly long ObjectOffsetIsExternallySynchronized = ObjectOffsetReferencePointer +
-                                                                           OdbType.Long.GetSize();
+                                                                           OdbType.Long.Size;
 
         public static readonly long ObjectOffsetNbAttributes = ObjectOffsetIsExternallySynchronized +
-                                                               OdbType.Boolean.GetSize();
+                                                               OdbType.Boolean.Size;
 
         /// <summary>
         ///   <pre>ID Block Header :
@@ -187,34 +187,34 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         ///     Max id                 : 1 long
         ///     Total size = 34</pre>
         /// </summary>
-        public static readonly long BlockIdOffsetForBlockStatus = OdbType.Integer.GetSize() + OdbType.Byte.GetSize();
+        public static readonly long BlockIdOffsetForBlockStatus = OdbType.Integer.Size + OdbType.Byte.Size;
 
-        public static readonly long BlockIdOffsetForPrevBlock = BlockIdOffsetForBlockStatus + OdbType.Byte.GetSize();
+        public static readonly long BlockIdOffsetForPrevBlock = BlockIdOffsetForBlockStatus + OdbType.Byte.Size;
 
-        public static readonly long BlockIdOffsetForNextBlock = BlockIdOffsetForPrevBlock + OdbType.Long.GetSize();
+        public static readonly long BlockIdOffsetForNextBlock = BlockIdOffsetForPrevBlock + OdbType.Long.Size;
 
-        public static readonly long BlockIdOffsetForBlockNumber = BlockIdOffsetForNextBlock + OdbType.Long.GetSize();
+        public static readonly long BlockIdOffsetForBlockNumber = BlockIdOffsetForNextBlock + OdbType.Long.Size;
 
-        public static readonly long BlockIdOffsetForMaxId = BlockIdOffsetForBlockNumber + OdbType.Integer.GetSize();
+        public static readonly long BlockIdOffsetForMaxId = BlockIdOffsetForBlockNumber + OdbType.Integer.Size;
 
-        public static readonly long BlockIdOffsetForStartOfRepetition = BlockIdOffsetForMaxId + OdbType.Long.GetSize();
+        public static readonly long BlockIdOffsetForStartOfRepetition = BlockIdOffsetForMaxId + OdbType.Long.Size;
 
-        public static readonly long BlockIdRepetitionId = BlockIdRepetitionIdType + OdbType.Byte.GetSize();
+        public static readonly long BlockIdRepetitionId = BlockIdRepetitionIdType + OdbType.Byte.Size;
 
-        public static readonly long BlockIdRepetitionIdStatus = BlockIdRepetitionId + OdbType.Long.GetSize();
+        public static readonly long BlockIdRepetitionIdStatus = BlockIdRepetitionId + OdbType.Long.Size;
 
-        public static readonly long BlockIdRepetitionObjectPosition = BlockIdRepetitionIdStatus + OdbType.Byte.GetSize();
+        public static readonly long BlockIdRepetitionObjectPosition = BlockIdRepetitionIdStatus + OdbType.Byte.Size;
 
         public static readonly long NativeObjectOffsetBlockType = NativeObjectOffsetBlockSize +
-                                                                  OdbType.Integer.GetSize();
+                                                                  OdbType.Integer.Size;
 
-        public static readonly long NativeObjectOffsetOdbTypeId = NativeObjectOffsetBlockType + OdbType.Byte.GetSize();
+        public static readonly long NativeObjectOffsetOdbTypeId = NativeObjectOffsetBlockType + OdbType.Byte.Size;
 
         public static readonly long NativeObjectOffsetObjectIsNull = NativeObjectOffsetOdbTypeId +
-                                                                     OdbType.Integer.GetSize();
+                                                                     OdbType.Integer.Size;
 
         public static readonly long NativeObjectOffsetDataArea = NativeObjectOffsetObjectIsNull +
-                                                                 OdbType.Boolean.GetSize();
+                                                                 OdbType.Boolean.Size;
 
         // ********************************************************
         // DATABASE HEADER

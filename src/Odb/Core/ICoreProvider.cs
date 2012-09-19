@@ -37,8 +37,6 @@ namespace NDatabase.Odb.Core
 
         OID GetExternalClassOID(long oid);
 
-        IClassPool GetClassPool();
-
         void ResetClassDefinitions();
 
         void RemoveLocalTriggerManager(IStorageEngine engine);

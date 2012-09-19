@@ -153,7 +153,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                         buffer.Append(@object);
                         continue;
                     }
-                    buffer.Append("@").Append(OdbClassUtil.GetClassName(type.GetName()));
+                    buffer.Append("@").Append(OdbClassUtil.GetClassName(type.Name));
                 }
             }
 
@@ -388,9 +388,9 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             // Delta attribute (attributeId-1) * attribute definition size =
             // INT+LONG
             // Skip attribute Id (int)
-            long delta = OdbType.Integer.GetSize() +
-                         (attributeId - 1) * (OdbType.Integer.GetSize() + OdbType.Long.GetSize()) +
-                         OdbType.Integer.GetSize();
+            long delta = OdbType.Integer.Size +
+                         (attributeId - 1) * (OdbType.Integer.Size + OdbType.Long.Size) +
+                         OdbType.Integer.Size;
 
             return GetPosition() + offset + delta;
         }

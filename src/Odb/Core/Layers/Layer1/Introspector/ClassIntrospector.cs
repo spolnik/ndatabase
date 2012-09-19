@@ -7,7 +7,6 @@ using System.Runtime.Serialization;
 using NDatabase.Btree;
 using NDatabase.Btree.Impl;
 using NDatabase.Odb.Core.BTree;
-using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Oid;
 using NDatabase.Tool.Wrappers;
@@ -29,8 +28,6 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 
         private readonly IDictionary<string, Type> _systemClasses = new OdbHashMap<string, Type>();
 
-        private IClassPool _classPool;
-        
         #region IClassIntrospector Members
 
         /// <summary>
@@ -88,11 +85,11 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
         ///   Get The list of super classes
         /// </summary>
         /// <returns> The list of super classes </returns>
-        private IEnumerable<Type> GetSuperClasses(string fullClassName, bool includingThis)
+        private static IEnumerable<Type> GetSuperClasses(string fullClassName, bool includingThis)
         {
             IList<Type> result = new List<Type>();
 
-            var clazz = _classPool.GetClass(fullClassName);
+            var clazz = OdbType.ClassPool.GetClass(fullClassName);
 
             if (clazz == null)
                 return result;
@@ -206,20 +203,12 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 
         public ClassInfoList Introspect(String fullClassName, bool recursive)
         {
-            return Introspect(_classPool.GetClass(fullClassName), true);
+            return Introspect(OdbType.ClassPool.GetClass(fullClassName), true);
         }
 
         public void Reset()
         {
             _fields.Clear();
-        }
-
-        /// <summary>
-        ///   Two phase init method
-        /// </summary>
-        public void Init2()
-        {
-            _classPool = OdbConfiguration.GetCoreProvider().GetClassPool();
         }
 
         public Object NewInstanceOf(Type clazz)

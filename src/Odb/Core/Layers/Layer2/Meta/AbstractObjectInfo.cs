@@ -31,7 +31,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         protected AbstractObjectInfo(OdbType type)
         {
             if (type != null)
-                OdbTypeId = type.GetId();
+                OdbTypeId = type.Id;
 
             OdbType = type;
         }

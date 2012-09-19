@@ -172,11 +172,6 @@ namespace Test.NDatabase.Odb.Test.Performance
             Println("Nb flushs= " + MultiBufferedFileIO.NumberOfFlush + "   /   flush size = " +
                     MultiBufferedFileIO.TotalFlushSize + " / NbFlushForOverlap=" + MultiBufferedFileIO.NbFlushForOverlap);
 
-            // println("Same position write = "+
-            // MultiBufferedIO.nbSamePositionForWrite+
-            // "   /   same pos for read = "+
-            // MultiBufferedIO.nbSamePositionForRead);
-            Println("Nb  =" + OdbType.Number);
             Assert.That(tinsert, Is.LessThan(7500));
             Assert.That(tselect, Is.LessThan(4000));
             Assert.That(tupdate, Is.LessThan(9000));

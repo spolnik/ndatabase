@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Oid;
 using NDatabase.Tool.Wrappers;
@@ -16,6 +14,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// </summary>
     public sealed class OdbType
     {
+        public static readonly IClassPool ClassPool = new OdbClassPool();
+
         public override int GetHashCode()
         {
             unchecked
@@ -25,6 +25,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                                           : 0);
             }
         }
+
+        #region Odb Type Ids
 
         public const int NullId = 0;
 
@@ -101,57 +103,58 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public const int NonNativeId = 300;
 
-        [NonPersistent]
-        private static IClassPool _classPool;
+        #endregion
+
+        #region Odb Types
 
         public static readonly OdbType Null = new OdbType(true, NullId, "null", 1);
-        
+
         /// <summary>
         ///   1 byte
         /// </summary>
-        public static readonly OdbType Byte = new OdbType(true, ByteId, OdbClassUtil.GetFullName(typeof(byte)), 1);
+        public static readonly OdbType Byte = new OdbType(true, ByteId, OdbClassUtil.GetFullName(typeof (byte)), 1);
 
         /// <summary>
         ///   2 byte
         /// </summary>
-        public static readonly OdbType Short = new OdbType(true, ShortId, OdbClassUtil.GetFullName(typeof(short)), 2);
+        public static readonly OdbType Short = new OdbType(true, ShortId, OdbClassUtil.GetFullName(typeof (short)), 2);
 
         /// <summary>
         ///   4 byte
         /// </summary>
-        public static readonly OdbType Integer = new OdbType(true, IntegerId, OdbClassUtil.GetFullName(typeof(int)), 4);
+        public static readonly OdbType Integer = new OdbType(true, IntegerId, OdbClassUtil.GetFullName(typeof (int)), 4);
 
         /// <summary>
         ///   16 byte
         /// </summary>
         public static readonly OdbType Decimal = new OdbType(true, DecimalId, OdbClassUtil.GetFullName(typeof (decimal)),
                                                              16);
+
         /// <summary>
         ///   8 bytes
         /// </summary>
-        public static readonly OdbType Long = new OdbType(true, LongId, OdbClassUtil.GetFullName(typeof(long)), 8);
+        public static readonly OdbType Long = new OdbType(true, LongId, OdbClassUtil.GetFullName(typeof (long)), 8);
 
         /// <summary>
         ///   4 byte
         /// </summary>
-        public static readonly OdbType Float = new OdbType(true, FloatId, OdbClassUtil.GetFullName(typeof(float)), 4);
+        public static readonly OdbType Float = new OdbType(true, FloatId, OdbClassUtil.GetFullName(typeof (float)), 4);
 
         /// <summary>
         ///   8 byte
         /// </summary>
-        public static readonly OdbType Double = new OdbType(true, DoubleId, OdbClassUtil.GetFullName(typeof(double)),
-                                                            8);
+        public static readonly OdbType Double = new OdbType(true, DoubleId, OdbClassUtil.GetFullName(typeof (double)), 8);
 
         /// <summary>
         ///   2 byte
         /// </summary>
         public static readonly OdbType Character = new OdbType(true, CharacterId,
                                                                OdbClassUtil.GetFullName(typeof (char)), 2);
-        
+
         /// <summary>
         ///   1 byte
         /// </summary>
-        public static readonly OdbType Boolean = new OdbType(true, BooleanId, OdbClassUtil.GetFullName(typeof(bool)), 1);
+        public static readonly OdbType Boolean = new OdbType(true, BooleanId, OdbClassUtil.GetFullName(typeof (bool)), 1);
 
         /// <summary>
         ///   8 byte
@@ -190,6 +193,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public static readonly OdbType NonNative = new OdbType(false, NonNativeId, "non native", 0);
 
+        #endregion
+
         private static readonly IDictionary<int, OdbType> TypesById = new OdbHashMap<int, OdbType>();
 
         private static readonly IDictionary<string, OdbType> TypesByName = new OdbHashMap<string, OdbType>();
@@ -204,29 +209,27 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public static readonly string DefaultCollectionClassName = OdbClassUtil.GetFullName(typeof (ArrayList));
 
-        public static readonly string DefaultMapClassName = OdbClassUtil.GetFullName(typeof (Hashtable));
-
         public static readonly string DefaultArrayComponentClassName = OdbClassUtil.GetFullName(typeof (object));
 
-        public static readonly int SizeOfInt = Integer.GetSize();
+        public static readonly int SizeOfInt = Integer.Size;
 
-        public static readonly int SizeOfLong = Long.GetSize();
+        public static readonly int SizeOfLong = Long.Size;
 
-        public static readonly int SizeOfBool = Boolean.GetSize();
+        public static readonly int SizeOfBool = Boolean.Size;
 
-        public static readonly int SizeOfByte = Byte.GetSize();
+        public static readonly int SizeOfByte = Byte.Size;
 
         private readonly int _id;
         private readonly bool _isPrimitive;
         private readonly int _size;
-        private string _name;
+        private readonly string _name;
 
         /// <summary>
         ///   For array element type
         /// </summary>
         private OdbType _subType;
 
-        private Type _superClass;
+        private readonly Type _baseClass;
 
         static OdbType()
         {
@@ -256,8 +259,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
             foreach (var type in allTypes)
             {
-                TypesByName[type.GetName()] = type;
-                TypesById[type.GetId()] = type;
+                TypesByName[type.Name] = type;
+                TypesById[type.Id] = type;
             }
         }
 
@@ -275,41 +278,37 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             _id = id;
             _name = name;
             _size = size;
-            _superClass = superclass;
+            _baseClass = superclass;
         }
 
-        public static int Number { get; private set; }
-
-        private void InitClassPool()
+        public OdbType Copy(string name)
         {
-            lock (this)
-            {
-                _classPool = OdbConfiguration.GetCoreProvider().GetClassPool();
-            }
+            return new OdbType(_isPrimitive, _id, name, _size) { _subType = SubType };
         }
 
         public OdbType Copy()
         {
-            return new OdbType(_isPrimitive, _id, _name, _size) {_subType = GetSubType()};
+            return Copy(_name);
         }
 
         public static OdbType GetFromId(int id)
         {
             var odbType = TypesById[id];
+
             if (odbType == null)
                 throw new OdbRuntimeException(NDatabaseError.OdbTypeIdDoesNotExist.AddParameter(id));
+
             return odbType;
         }
 
         public static string GetNameFromId(int id)
         {
-            return GetFromId(id).GetName();
+            return GetFromId(id).Name;
         }
 
         public static OdbType GetFromName(string fullName)
         {
             OdbType odbType;
-
             TypesByName.TryGetValue(fullName, out odbType);
             
             return odbType ?? new OdbType(NonNative._isPrimitive, NonNativeId, fullName, 0);
@@ -318,11 +317,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         public static OdbType GetFromClass(Type clazz)
         {
             if (clazz.IsEnum)
-            {
-                var type = new OdbType(Enum._isPrimitive, EnumId, Enum.GetName(), 0);
-                type.SetName(OdbClassUtil.GetFullName(clazz));
-                return type;
-            }
+                return new OdbType(Enum._isPrimitive, EnumId, OdbClassUtil.GetFullName(clazz), 0);
 
             var className = OdbClassUtil.GetFullName(clazz);
 
@@ -339,7 +334,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
             if (clazz.IsArray)
             {
-                var type = new OdbType(Array._isPrimitive, ArrayId, Array.GetName(), 0)
+                var type = new OdbType(Array._isPrimitive, ArrayId, Array.Name, 0)
                     {_subType = GetFromClass(clazz.GetElementType())};
 
                 CacheOfTypesByName.Add(className, type);
@@ -357,7 +352,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                 CacheOfTypesByName.Add(className, Collection);
                 return Collection;
             }
-            Number++;
+            
             var nonNative = new OdbType(NonNative._isPrimitive, NonNativeId, className, 0);
             CacheOfTypesByName.Add(className, nonNative);
             return nonNative;
@@ -365,7 +360,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public static bool IsMap(Type clazz)
         {
-            var isNonGenericMap = Map._superClass.IsAssignableFrom(clazz);
+            var isNonGenericMap = Map._baseClass.IsAssignableFrom(clazz);
 
             if (isNonGenericMap)
                 return true;
@@ -384,7 +379,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public static bool IsCollection(Type clazz)
         {
-            var isNonGenericCollection = Collection._superClass.IsAssignableFrom(clazz);
+            var isNonGenericCollection = Collection._baseClass.IsAssignableFrom(clazz);
             if (isNonGenericCollection)
                 return true;
             var types = clazz.GetInterfaces();
@@ -412,10 +407,10 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                 //type.subType = getFromClass(clazz.getComponentType());
                 return true;
             }
-            if (Map._superClass.IsAssignableFrom(clazz))
+            if (Map._baseClass.IsAssignableFrom(clazz))
                 return true;
             // check if it is a list
-            if (Collection._superClass.IsAssignableFrom(clazz))
+            if (Collection._baseClass.IsAssignableFrom(clazz))
                 return true;
             return false;
         }
@@ -425,24 +420,19 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return TypesByName.ContainsKey(name);
         }
 
-        public int GetId()
+        public int Id
         {
-            return _id;
+            get { return _id; }
         }
 
-        public string GetName()
+        public string Name
         {
-            return _name;
+            get { return _name; }
         }
 
-        public void SetName(string name)
+        public int Size
         {
-            _name = name;
-        }
-
-        public int GetSize()
-        {
-            return _size;
+            get { return _size; }
         }
 
         public bool IsCollection()
@@ -490,29 +480,20 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return _id != NonNativeId;
         }
 
-        public OdbType GetSubType()
+        public OdbType SubType
         {
-            return _subType;
+            get { return _subType; }
+            set { _subType = value; }
         }
 
-        public Type GetSuperClass()
+        public Type BaseClass
         {
-            return _superClass;
-        }
-
-        public void SetSuperClass(Type superClass)
-        {
-            _superClass = superClass;
+            get { return _baseClass; }
         }
 
         public override string ToString()
         {
-            return System.String.Format("{0} - {1}", _id, _name);
-        }
-
-        public void SetSubType(OdbType subType)
-        {
-            _subType = subType;
+            return string.Format("{0} - {1}", _id, _name);
         }
 
         public override bool Equals(object obj)
@@ -520,7 +501,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             if (obj == null || obj.GetType() != typeof (OdbType))
                 return false;
             var type = (OdbType) obj;
-            return GetId() == type.GetId();
+            return Id == type.Id;
         }
 
         public Type GetNativeClass()
@@ -552,11 +533,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                 case OidId:
                     return typeof (OID);
             }
-            if (_classPool == null)
-                InitClassPool();
-            Debug.Assert(_classPool != null);
 
-            return _classPool.GetClass(GetName());
+            return ClassPool.GetClass(Name);
         }
 
         public bool IsNonNative()
@@ -589,7 +567,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return odbId > 0 && odbId <= NativeFixSizeMaxId;
         }
 
-        //return odbId != BIG_INTEGER_ID && odbId != BIG_DECIMAL_ID && odbId != STRING_ID && odbId != COLLECTION_ID && odbId!=ARRAY_ID && odbId!= MAP_ID && odbId!=NON_NATIVE_ID;
         public bool IsStringOrBigDecimal()
         {
             return IsStringOrBigDecimal(_id);
@@ -628,14 +605,12 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         public static bool TypesAreCompatible(OdbType type1, OdbType type2)
         {
             if (type1.IsArray() && type2.IsArray())
-                return TypesAreCompatible(type1.GetSubType(), type2.GetSubType());
-            if (type1.GetName().Equals(type2.GetName()))
+                return TypesAreCompatible(type1.SubType, type2.SubType);
+            if (type1.Name.Equals(type2.Name))
                 return true;
             if (type1.IsNative() && type2.IsNative())
             {
-                if (type1.IsEquivalent(type2))
-                    return true;
-                return false;
+                return type1.IsEquivalent(type2);
             }
             if (type1.IsNonNative() && type2.IsNonNative())
             {

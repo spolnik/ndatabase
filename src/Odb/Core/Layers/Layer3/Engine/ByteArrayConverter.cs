@@ -13,9 +13,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         private static readonly byte[] BytesForFalse = new byte[] {0};
 
-        private static readonly int IntSize = OdbType.Integer.GetSize();
+        private static readonly int IntSize = OdbType.Integer.Size;
 
-        private static readonly int IntSizeX2 = OdbType.Integer.GetSize() * 2;
+        private static readonly int IntSizeX2 = OdbType.Integer.Size * 2;
 
         public static byte[] BooleanToByteArray(bool b)
         {

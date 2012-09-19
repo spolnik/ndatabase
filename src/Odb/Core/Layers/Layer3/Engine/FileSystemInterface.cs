@@ -13,7 +13,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
     {
         private const byte ReservedSpace = 128;
 
-        private static readonly int IntSize = OdbType.Integer.GetSize();
+        private static readonly int IntSize = OdbType.Integer.Size;
 
         private static readonly int IntSizeX2 = IntSize * 2;
 
@@ -195,7 +195,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public byte[] ReadCharBytes()
         {
-            return _io.ReadBytes(OdbType.Character.GetSize());
+            return _io.ReadBytes(OdbType.Character.Size);
         }
 
         public char ReadChar()
@@ -224,7 +224,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public byte[] ReadShortBytes()
         {
-            return _io.ReadBytes(OdbType.Short.GetSize());
+            return _io.ReadBytes(OdbType.Short.Size);
         }
 
         public short ReadShort()
@@ -253,7 +253,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public byte[] ReadIntBytes()
         {
-            return _io.ReadBytes(OdbType.Integer.GetSize());
+            return _io.ReadBytes(OdbType.Integer.Size);
         }
 
         public int ReadInt()
@@ -287,7 +287,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public byte[] ReadLongBytes()
         {
-            return _io.ReadBytes(OdbType.Long.GetSize());
+            return _io.ReadBytes(OdbType.Long.Size);
         }
 
         public long ReadLong()
@@ -318,7 +318,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public byte[] ReadFloatBytes()
         {
-            return _io.ReadBytes(OdbType.Float.GetSize());
+            return _io.ReadBytes(OdbType.Float.Size);
         }
 
         public float ReadFloat()
@@ -349,7 +349,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public byte[] ReadDoubleBytes()
         {
-            return _io.ReadBytes(OdbType.Double.GetSize());
+            return _io.ReadBytes(OdbType.Double.Size);
         }
 
         public double ReadDouble()
@@ -391,7 +391,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public byte[] ReadBigDecimalBytes()
         {
-            return _io.ReadBytes(OdbType.Decimal.GetSize());
+            return _io.ReadBytes(OdbType.Decimal.Size);
         }
 
         public Decimal ReadBigDecimal()
@@ -427,7 +427,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public byte[] ReadDateBytes()
         {
-            return _io.ReadBytes(OdbType.Date.GetSize());
+            return _io.ReadBytes(OdbType.Date.Size);
         }
 
         public DateTime ReadDate()
@@ -536,7 +536,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public byte[] ReadBooleanBytes()
         {
-            return _io.ReadBytes(OdbType.Boolean.GetSize());
+            return _io.ReadBytes(OdbType.Boolean.Size);
         }
 
         public bool ReadBoolean()
@@ -684,7 +684,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <param name="type"> The type of the object to reserve space for </param>
         private void EnsureSpaceFor(long quantity, OdbType type)
         {
-            var space = type.GetSize() * quantity;
+            var space = type.Size * quantity;
 
             // We are in transaction mode - do not write just reserve space if
             // necessary

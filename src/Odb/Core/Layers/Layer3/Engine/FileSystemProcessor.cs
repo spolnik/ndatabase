@@ -352,17 +352,17 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             FileSystemInterface.WriteBoolean(cai.IsNative(), writeInTransaction);
             if (cai.IsNative())
             {
-                FileSystemInterface.WriteInt(cai.GetAttributeType().GetId(), writeInTransaction, "att odb type id");
+                FileSystemInterface.WriteInt(cai.GetAttributeType().Id, writeInTransaction, "att odb type id");
                 if (cai.GetAttributeType().IsArray())
                 {
-                    FileSystemInterface.WriteInt(cai.GetAttributeType().GetSubType().GetId(), writeInTransaction, "att array sub type");
+                    FileSystemInterface.WriteInt(cai.GetAttributeType().SubType.Id, writeInTransaction, "att array sub type");
                     // when the attribute is not native, then write its class info
                     // position
-                    if (cai.GetAttributeType().GetSubType().IsNonNative())
+                    if (cai.GetAttributeType().SubType.IsNonNative())
                     {
                         FileSystemInterface.WriteLong(
                             storageEngine.GetSession(true).GetMetaModel().GetClassInfo(
-                                cai.GetAttributeType().GetSubType().GetName(), true).GetId().ObjectId,
+                                cai.GetAttributeType().SubType.Name, true).GetId().ObjectId,
                             writeInTransaction, "class info id of array subtype", WriteAction.DataWriteAction);
                     }
                 }

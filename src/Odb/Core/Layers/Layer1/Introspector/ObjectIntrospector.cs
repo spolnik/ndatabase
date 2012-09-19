@@ -84,9 +84,9 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             if (type.IsAtomicNative())
             {
                 if (o == null)
-                    aoi = new NullNativeObjectInfo(type.GetId());
+                    aoi = new NullNativeObjectInfo(type.Id);
                 else
-                    aoi = new AtomicNativeObjectInfo(o, type.GetId());
+                    aoi = new AtomicNativeObjectInfo(o, type.Id);
             }
             else
             {
@@ -145,7 +145,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                             {
                                 var enumObject = (Enum) o;
                                 if (enumObject == null)
-                                    aoi = new NullNativeObjectInfo(type.GetSize());
+                                    aoi = new NullNativeObjectInfo(type.Size);
                                 else
                                 {
                                     var enumClassName = OdbClassUtil.GetFullName(enumObject.GetType());
@@ -440,7 +440,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                     arrayCopy[i] = new NonNativeNullObjectInfo();
             }
 
-            return new ArrayObjectInfo(arrayCopy, valueType, type.GetId());
+            return new ArrayObjectInfo(arrayCopy, valueType, type.Id);
         }
 
         private static ArrayObjectInfo IntropectAtomicNativeArray(object array, OdbType type)
@@ -453,18 +453,18 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                 if (o != null)
                 {
                     // If object is not null, try to get the exact type
-                    var typeId = OdbType.GetFromClass(o.GetType()).GetId();
+                    var typeId = OdbType.GetFromClass(o.GetType()).Id;
                     var atomicNativeObjectInfo = new AtomicNativeObjectInfo(o, typeId);
                     arrayCopy[i] = atomicNativeObjectInfo;
                 }
                 else
                 {
                     // Else take the declared type
-                    arrayCopy[i] = new NullNativeObjectInfo(type.GetId());
+                    arrayCopy[i] = new NullNativeObjectInfo(type.Id);
                 }
             }
 
-            return new ArrayObjectInfo(arrayCopy, OdbType.Array, type.GetId());
+            return new ArrayObjectInfo(arrayCopy, OdbType.Array, type.Id);
         }
     }
 }

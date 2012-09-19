@@ -21,8 +21,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         private const string LogId = "ObjectWriter";
         private const string LogIdDebug = "ObjectWriter.debug";
 
-        private static readonly int NativeHeaderBlockSize = OdbType.Integer.GetSize() + OdbType.Byte.GetSize() +
-                                                            OdbType.Integer.GetSize() + OdbType.Boolean.GetSize();
+        private static readonly int NativeHeaderBlockSize = OdbType.Integer.Size + OdbType.Byte.Size +
+                                                            OdbType.Integer.Size + OdbType.Boolean.Size;
 
         private static byte[] _nativeHeaderBlockSizeByte;
         internal static int NbNormalUpdates;

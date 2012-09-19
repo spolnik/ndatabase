@@ -270,9 +270,9 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                 else
                 {
                     if (classAttributeInfo.GetAttributeType().IsArray() &&
-                        !classAttributeInfo.GetAttributeType().GetSubType().IsNative())
+                        !classAttributeInfo.GetAttributeType().SubType.IsNative())
                         result.Add(new ClassAttributeInfo(-1, "subtype",
-                                                          classAttributeInfo.GetAttributeType().GetSubType().GetName(),
+                                                          classAttributeInfo.GetAttributeType().SubType.Name,
                                                           null));
                 }
             }

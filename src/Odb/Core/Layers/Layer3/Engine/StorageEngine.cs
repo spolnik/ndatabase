@@ -708,7 +708,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             {
                 throw new OdbRuntimeException(
                     NDatabaseError.OdbCanNotStoreNativeObjectDirectly.AddParameter(type.FullName).AddParameter(
-                        OdbType.GetFromClass(type).GetName()).AddParameter(type.FullName));
+                        OdbType.GetFromClass(type).Name).AddParameter(type.FullName));
             }
 
             // The object must be transformed into meta representation

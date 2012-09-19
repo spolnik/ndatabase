@@ -758,7 +758,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public OID GetIdOfObjectAt(long position, bool includeDeleted)
         {
-            _fsi.SetReadPosition(position + OdbType.Integer.GetSize());
+            _fsi.SetReadPosition(position + OdbType.Integer.Size);
             var blockType = _fsi.ReadByte("object block type");
             if (BlockTypes.IsPointer(blockType))
                 return GetIdOfObjectAt(_fsi.ReadLong("new position"), includeDeleted);
@@ -1014,12 +1014,13 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     var subType = OdbType.GetFromId(subTypeId);
                     if (subType.IsNonNative())
                     {
-                        subType = subType.Copy();
-                        subType.SetName(
+                        var fullClassName =
                             _storageEngine.GetSession(true).GetMetaModel().GetClassInfoFromId(
-                                OIDFactory.BuildClassOID(_fsi.ReadLong())).GetFullClassName());
+                                OIDFactory.BuildClassOID(_fsi.ReadLong())).GetFullClassName();
+
+                        subType = subType.Copy(fullClassName);
                     }
-                    type.SetSubType(subType);
+                    type.SubType = subType;
                 }
                 cai.SetAttributeType(type);
                 // For enum, we get the class info id of the enum class
@@ -1030,12 +1031,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     cai.SetFullClassName(
                         metaModel.GetClassInfoFromId(OIDFactory.BuildClassOID(classInfoId)).GetFullClassName());
                     // For enum, we need to create a new type just to set the real enum class name
-                    type = type.Copy();
-                    type.SetName(cai.GetFullClassname());
+                    type = type.Copy(cai.GetFullClassname());
                     cai.SetAttributeType(type);
                 }
                 else
-                    cai.SetFullClassName(cai.GetAttributeType().GetName());
+                    cai.SetFullClassName(cai.GetAttributeType().Name);
             }
             else
             {
@@ -1098,7 +1098,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     NDatabaseError.InstancePositionIsNegative.AddParameter(position).AddParameter(oid.ToString()));
             }
             // adds an integer because, we pull the block size
-            _fsi.SetReadPosition(position + OdbType.Integer.GetSize());
+            _fsi.SetReadPosition(position + OdbType.Integer.Size);
             var blockType = _fsi.ReadByte("object block type");
             if (BlockTypes.IsNonNative(blockType))
             {
@@ -1403,7 +1403,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                         object @object;
                         if (cai.IsNative())
                         {
-                            var aoi = ReadNativeObjectInfo(cai.GetAttributeType().GetId(), attributePosition, useCache,
+                            var aoi = ReadNativeObjectInfo(cai.GetAttributeType().Id, attributePosition, useCache,
                                                            true, true);
                             @object = aoi.GetObject();
                             map.Add(relationNameToSearch, @object);
@@ -1482,8 +1482,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         private NativeAttributeHeader ReadNativeAttributeHeader()
         {
             var nah = new NativeAttributeHeader();
-            var size = OdbType.Integer.GetSize() + OdbType.Byte.GetSize() + OdbType.Integer.GetSize() +
-                       OdbType.Boolean.GetSize();
+            var size = OdbType.Integer.Size + OdbType.Byte.Size + OdbType.Integer.Size +
+                       OdbType.Boolean.Size;
             var bytes = _fsi.ReadBytes(size);
             var blockSize = ByteArrayConverter.ByteArrayToInt(bytes);
             var blockType = bytes[4];
@@ -1637,7 +1637,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
             var aoi = new ArrayObjectInfo(array);
             aoi.SetRealArrayComponentClassName(realArrayComponentClassName);
-            aoi.SetComponentTypeId(subTypeId.GetId());
+            aoi.SetComponentTypeId(subTypeId.Id);
             return aoi;
         }
 

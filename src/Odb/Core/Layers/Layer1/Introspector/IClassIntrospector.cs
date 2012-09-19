@@ -6,7 +6,7 @@ using NDatabase.Tool.Wrappers.List;
 
 namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 {
-    public interface IClassIntrospector : ITwoPhaseInit
+    public interface IClassIntrospector
     {
         void Reset();
 

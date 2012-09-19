@@ -69,8 +69,8 @@ namespace NDatabase.Odb.Core.Transaction
             
             // DLogger.debug("# Writing WriteAction #" + index + " at " +
             // currentPosition+" : " + toString());
-            var sizeOfLong = OdbType.Long.GetSize();
-            var sizeOfInt = OdbType.Integer.GetSize();
+            var sizeOfLong = OdbType.Long.Size;
+            var sizeOfInt = OdbType.Integer.Size;
 
             // build the full byte array to write once
             var bytes = new byte[sizeOfLong + sizeOfInt + _size];

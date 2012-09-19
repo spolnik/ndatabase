@@ -28,10 +28,10 @@ namespace Test.NDatabase.Odb.Test
         {
             var array1 = new[] {1, 2};
             AssertEquals(OdbType.Array, OdbType.GetFromClass(array1.GetType()));
-            AssertEquals(OdbType.Integer, OdbType.GetFromClass(array1.GetType()).GetSubType());
+            AssertEquals(OdbType.Integer, OdbType.GetFromClass(array1.GetType()).SubType);
             var array2 = new[] {"1", "2"};
             AssertEquals(OdbType.Array, OdbType.GetFromClass(array2.GetType()));
-            AssertEquals(OdbType.String, OdbType.GetFromClass(array2.GetType()).GetSubType());
+            AssertEquals(OdbType.String, OdbType.GetFromClass(array2.GetType()).SubType);
         }
 
         [Test]

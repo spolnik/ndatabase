@@ -24,8 +24,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
 
         private readonly IClassIntrospector _classIntrospector;
 
-        private readonly IClassPool _classPool;
-
         private readonly IStorageEngine _engine;
         private readonly ITriggerManager _triggerManager;
 
@@ -35,7 +33,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
         {
             _triggerManager = OdbConfiguration.GetCoreProvider().GetLocalTriggerManager(engine);
             _classIntrospector = OdbConfiguration.GetCoreProvider().GetClassIntrospector();
-            _classPool = OdbConfiguration.GetCoreProvider().GetClassPool();
             _engine = engine;
 
             _session = engine.GetSession(true);
@@ -57,7 +54,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
             if (o != null)
                 return o;
 
-            var instanceClazz = _classPool.GetClass(objectInfo.GetClassInfo().GetFullClassName());
+            var instanceClazz = OdbType.ClassPool.GetClass(objectInfo.GetClassInfo().GetFullClassName());
 
             try
             {
@@ -241,7 +238,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
 
         public object BuildCollectionInstance(CollectionObjectInfo coi)
         {
-            var type = _classPool.GetClass(coi.GetRealCollectionClassName());
+            var type = OdbType.ClassPool.GetClass(coi.GetRealCollectionClassName());
 
             return type.IsGenericType
                        ? BuildGenericCollectionInstance(coi, type)
@@ -277,7 +274,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
 
         public object BuildNonGenericCollectionInstance(CollectionObjectInfo coi, Type t)
         {
-            var newCollection = (IList) Activator.CreateInstance(_classPool.GetClass(coi.GetRealCollectionClassName()));
+            var newCollection = (IList)Activator.CreateInstance(OdbType.ClassPool.GetClass(coi.GetRealCollectionClassName()));
             IEnumerator iterator = coi.GetCollection().GetEnumerator();
 
             while (iterator.MoveNext())
@@ -322,7 +319,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
 
         public object BuildMapInstance(MapObjectInfo moi)
         {
-            var type = _classPool.GetClass(moi.GetRealMapClassName());
+            var type = OdbType.ClassPool.GetClass(moi.GetRealMapClassName());
 
             return type.IsGenericType
                        ? BuildGenericMapInstance(moi, type)

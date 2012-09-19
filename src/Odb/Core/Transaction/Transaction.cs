@@ -448,7 +448,7 @@ namespace NDatabase.Odb.Core.Transaction
 
             // TODO Check atomicity
             // Writes the number of write actions after the byte and date
-            _fsi.SetWritePositionNoVerification(OdbType.Byte.GetSize() + OdbType.Long.GetSize(), false);
+            _fsi.SetWritePositionNoVerification(OdbType.Byte.Size + OdbType.Long.Size, false);
             _fsi.WriteLong(_numberOfWriteActions, false, "nb write actions", WriteAction.DirectWriteAction);
             // FIXME The fsi.flush should not be called after the last write?
             _fsi.Flush();
@@ -685,7 +685,7 @@ namespace NDatabase.Odb.Core.Transaction
             while (i > 0)
             {
                 // Sets the position 8 bytes backwards
-                _fsi.SetReadPosition(previousWriteActionPosition - OdbType.Long.GetSize());
+                _fsi.SetReadPosition(previousWriteActionPosition - OdbType.Long.Size);
 
                 // And then the read a long, this will be the previous write
                 // action position
