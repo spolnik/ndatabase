@@ -5,7 +5,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// <summary>
     ///   Meta representation of an object reference.
     /// </summary>
-    
     public sealed class ObjectReference : AbstractObjectInfo
     {
         private readonly OID _id;

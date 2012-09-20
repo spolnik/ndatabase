@@ -104,6 +104,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var writePosition = FileSystemProcessor.FileSystemInterface.GetAvailablePosition();
             newClassInfo.SetPosition(writePosition);
             GetIdManager().UpdateClassPositionForId(classInfoId, writePosition, true);
+
+            #region Logging
+
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
                 DLogger.Debug(string.Format("Persisting class into database : {0} with oid {1} at pos {2}",
@@ -113,6 +116,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                                             newClassInfo.GetNumberOfAttributes(), newClassInfo.GetAttributes()));
             }
 
+            #endregion
+
             // The class info oid is created in ObjectWriter.writeClassInfoHeader
             if (metaModel.GetNumberOfClasses() > 0 && lastClassInfoIndex != -2)
             {
@@ -121,6 +126,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                                         : metaModel.GetClassInfo(lastClassInfoIndex);
 
                 lastClassinfo.SetNextClassOID(newClassInfo.GetId());
+
+                #region Logging
+
                 if (OdbConfiguration.IsDebugEnabled(LogId))
                 {
                     DLogger.Debug(
@@ -129,6 +137,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                                       StorageEngineConstant.ClassOffsetNextClassPosition, newClassInfo.GetId(),
                                       newClassInfo.GetFullClassName()));
                 }
+
+                #endregion
 
                 FileSystemProcessor.FileSystemInterface.SetWritePosition(lastClassinfo.GetPosition() + StorageEngineConstant.ClassOffsetNextClassPosition,
                                       true);

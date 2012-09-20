@@ -166,7 +166,9 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
         }
 
         /// <summary>
-        ///   Build a meta representation of an object <pre>warning: When an object has two fields with the same name (a private field with the same name in a parent class, the deeper field (of the parent) is ignored!)</pre>
+        ///   Build a meta representation of an object 
+        ///   <pre>warning: When an object has two fields with the same name 
+        ///        (a private field with the same name in a parent class, the deeper field (of the parent) is ignored!)</pre>
         /// </summary>
         /// <returns> The ObjectInfo </returns>
         private AbstractObjectInfo GetObjectInfoInternal(AbstractObjectInfo nnoi, object o, ClassInfo classInfo,

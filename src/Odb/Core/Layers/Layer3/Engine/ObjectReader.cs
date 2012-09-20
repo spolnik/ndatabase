@@ -1103,10 +1103,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (BlockTypes.IsNonNative(blockType))
             {
                 // compute the number of bytes to read
-                // OID + ClassOid + PrevOid + NextOid + createDate + update Date + objectVersion + objectRefPointer + isSync + nbAttributes
-                // Long + Long +    Long    +  Long    + Long       + Long       +   int         +   Long            + Bool    + Int       
-                // atsize = ODBType.SIZE_OF_INT+ODBType.SIZE_OF_LONG;
-                var tsize = 7 * OdbType.SizeOfLong + 2 * OdbType.SizeOfInt + 1 * OdbType.SizeOfBool;
+                // OID + ClassOid + PrevOid + NextOid + createDate + update Date + objectVersion + nbAttributes
+                // Long + Long +    Long    +  Long    + Long       + Long       +   int         + Int       
+                var tsize = 6 * OdbType.SizeOfLong + 2 * OdbType.SizeOfInt;
                 var abytes = _fsi.ReadBytes(tsize);
                 var readOid = DecodeOid(abytes, 0);
                 // oid can be -1 (if was not set),in this case there is no way to
@@ -1126,10 +1125,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 var creationDate = ByteArrayConverter.ByteArrayToLong(abytes, 32);
                 var updateDate = ByteArrayConverter.ByteArrayToLong(abytes, 40);
                 var objectVersion = ByteArrayConverter.ByteArrayToInt(abytes, 48);
-                ByteArrayConverter.ByteArrayToLong(abytes, 52); //objectReferencePointer
-                ByteArrayConverter.ByteArrayToBoolean(abytes, 60); //isSynchronized
+//                ByteArrayConverter.ByteArrayToLong(abytes, 52); //objectReferencePointer
+//                ByteArrayConverter.ByteArrayToBoolean(abytes, 60); //isSynchronized
                 // Now gets info about attributes
-                var nbAttributesRead = ByteArrayConverter.ByteArrayToInt(abytes, 61);
+                var nbAttributesRead = ByteArrayConverter.ByteArrayToInt(abytes, 52);
                 // Now gets an array with the identification all attributes (can be
                 // positions(for native objects) or ids(for non native objects))
                 var attributesIdentification = new long[nbAttributesRead];
@@ -1150,9 +1149,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 oip.SetUpdateDate(updateDate);
                 oip.SetOid(oid);
                 oip.SetClassInfoId(classInfoId);
-                // oip.setCreationDate(creationDate);
-                // oip.setUpdateDate(updateDate);
-                // oip.setObjectVersion(objectVersion);
+
                 if (useCache)
                 {
                     // the object info does not exist in the cache

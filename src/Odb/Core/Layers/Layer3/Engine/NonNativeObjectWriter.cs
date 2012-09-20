@@ -143,12 +143,16 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
 
             objectInfo.SetOid(oid);
+
+            #region Logging
+
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
                 DLogger.Debug(string.Format("Start Writing non native object of type {0} at {1} , oid = {2} : {3}",
-                                            objectInfo.GetClassInfo().GetFullClassName(), position, oid,
-                                            objectInfo));
+                                            objectInfo.GetClassInfo().GetFullClassName(), position, oid, objectInfo));
             }
+
+            #endregion
 
             if (objectInfo.GetClassInfo() == null || objectInfo.GetClassInfo().GetId() == null)
             {
@@ -178,69 +182,41 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var nbAttributes = objectInfo.GetClassInfo().GetAttributes().Count;
             // compute the size of the array of byte needed till the attibute
             // positions
-            // BlockSize + Block Type + ObjectId + ClassInfoId + Previous + Next +
-            // CreatDate + UpdateDate + VersionNumber + ObjectRef + isSync + NbAttri
-            // + Attributes
-            // Int + Int + Long + Long + Long + Long + Long + Long + int + Long +
-            // Bool + int + variable
-            // 7 Longs + 4Ints + 1Bool + variable
-            var tsize = 7 * OdbType.SizeOfLong + 3 * OdbType.SizeOfInt + 2 * OdbType.SizeOfByte;
+            // BlockSize + Block Type + OID  + ClassOid + PrevOid + NextOid + CreatDate + UpdateDate + objectVersion + NbAttributes
+            // Int       + Byte        + Long + Long     + Long    + Long    + Long      + Long       + int          + int
+            // 6 Longs + 3Ints + Byte
+            var tsize = 6 * OdbType.SizeOfLong + 3 * OdbType.SizeOfInt + 1 * OdbType.SizeOfByte;
             var bytes = new byte[tsize];
             // Block size
             IntToByteArray(0, bytes, 0);
             // Block type
             bytes[4] = BlockTypes.BlockTypeNonNativeObject;
-            // fsi.writeInt(BlockTypes.BLOCK_TYPE_NON_NATIVE_OBJECT,
-            // writeDataInTransaction, "block size");
+            
             // The object id
             EncodeOid(oid, bytes, 5);
-            // fsi.writeLong(oid.getObjectId(), writeDataInTransaction, "oid",
-            // WriteAction.DATA_WRITE_ACTION);
+            
             // Class info id
             LongToByteArray(classInfo.GetId().ObjectId, bytes, 13);
-            // fsi.writeLong(classInfo.getId().getObjectId(),
-            // writeDataInTransaction, "class info id",
-            // WriteAction.DATA_WRITE_ACTION);
+            
             // previous instance
             EncodeOid(objectInfo.GetPreviousObjectOID(), bytes, 21);
-            // writeOid(objectInfo.getPreviousObjectOID(), writeDataInTransaction,
-            // "prev instance", WriteAction.DATA_WRITE_ACTION);
+            
             // next instance
             EncodeOid(objectInfo.GetNextObjectOID(), bytes, 29);
-            // writeOid(objectInfo.getNextObjectOID(), writeDataInTransaction,
-            // "next instance", WriteAction.DATA_WRITE_ACTION);
+            
             // creation date, for update operation must be the original one
             LongToByteArray(objectInfo.GetHeader().GetCreationDate(), bytes, 37);
-            // fsi.writeLong(objectInfo.getHeader().getCreationDate(),
-            // writeDataInTransaction, "creation date",
-            // WriteAction.DATA_WRITE_ACTION);
-            LongToByteArray(OdbTime.GetCurrentTimeInTicks(), bytes, 45);
-            // fsi.writeLong(OdbTime.getCurrentTimeInMs(), writeDataInTransaction,
-            // "update date", WriteAction.DATA_WRITE_ACTION);
             
+            LongToByteArray(OdbTime.GetCurrentTimeInTicks(), bytes, 45);
+           
             IntToByteArray(objectInfo.GetHeader().GetObjectVersion(), bytes, 53);
-            // fsi.writeInt(objectInfo.getHeader().getObjectVersion(),
-            // writeDataInTransaction, "object version number");
-            // not used yet. But it will point to an internal object of type
-            // ObjectReference that will have details on the references:
-            // All the objects that point to it: to enable object integrity
-            LongToByteArray(-1, bytes, 57);
-            // fsi.writeLong(-1, writeDataInTransaction, "object reference pointer",
-            // WriteAction.DATA_WRITE_ACTION);
-            // True if this object have been synchronized with main database, else
-            // false
-            BooleanToByteArray(false, bytes, 65);
-            // fsi.writeBoolean(false, writeDataInTransaction,
-            // "is syncronized with external db");
+           
             // now write the number of attributes and the position of all
-            // attributes, we do not know them yet, so write 00 but at the end
-            // of the write operation
-            // These positions will be updated
-            // The positions that is going to be written are 'int' representing
-            // the offset position of the attribute
-            // first write the number of attributes
-            // fsi.writeInt(nbAttributes, writeDataInTransaction, "nb attr");
-            IntToByteArray(nbAttributes, bytes, 66);
+            // attributes, we do not know them yet, so write 00 but at the end of the write operation
+            // These positions will be updated The positions that is going to be written are 'int' representing
+            // the offset position of the attribute first write the number of attributes
+            IntToByteArray(nbAttributes, bytes, 57);
+
             // Then write the array of bytes
             _objectWriter.FileSystemProcessor.FileSystemInterface.WriteBytes(bytes, writeDataInTransaction, "NonNativeObjectInfoHeader");
             // Store the position
