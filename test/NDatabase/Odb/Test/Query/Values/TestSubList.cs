@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.Criteria;
@@ -50,7 +51,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             var size = (long) ov.GetByAlias("size");
             AssertEquals(10, size);
 
-            var instanceBuilder = new InstanceBuilder(Dummy.GetEngine(odb));
+            var instanceBuilder = new InstanceBuilder(odb.GetStorageEngine());
 
             var p = GetParameterInstance(instanceBuilder, fulllist[0]);
             AssertEquals("value 0", p.GetValue());
@@ -124,7 +125,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             var size = (long) ov.GetByAlias("size");
             AssertEquals(500, size);
 
-            var instanceBuilder = new InstanceBuilder(Dummy.GetEngine(odb));
+            var instanceBuilder = new InstanceBuilder(odb.GetStorageEngine());
 
             var p = GetParameterInstance(instanceBuilder, sublist[0]);
             AssertEquals("value 490", p.GetValue());
@@ -241,7 +242,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             var sublist = (IList) ov.GetByAlias("sub");
             AssertEquals(2, sublist.Count);
 
-            var instanceBuilder = new InstanceBuilder(Dummy.GetEngine(odb));
+            var instanceBuilder = new InstanceBuilder(odb.GetStorageEngine());
 
             var parameter = GetParameterInstance(instanceBuilder, sublist[1]);
             AssertEquals("value 1", parameter.GetValue());

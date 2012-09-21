@@ -1,4 +1,5 @@
 using NDatabase.Odb;
+using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Query.Criteria;
 using NUnit.Framework;
@@ -64,7 +65,7 @@ namespace Test.NDatabase.Odb.Test.Cyclic
                 ca.SetClassb(cb);
                 ca.SetName("a");
                 odb.Store(ca);
-                var ci = Dummy.GetEngine(odb).GetSession(true).GetMetaModel().GetClassInfo(typeof (ClassA), true);
+                var ci = odb.GetStorageEngine().GetSession(true).GetMetaModel().GetClassInfo(typeof (ClassA), true);
                 AssertTrue(ci.HasCyclicReference());
             }
             finally
@@ -81,7 +82,7 @@ namespace Test.NDatabase.Odb.Test.Cyclic
             try
             {
                 odb = Open("cyclic.neodatis");
-                var ci = Dummy.GetEngine(odb).GetSession(true).GetMetaModel().GetClassInfo(typeof (User), true);
+                var ci = odb.GetStorageEngine().GetSession(true).GetMetaModel().GetClassInfo(typeof (User), true);
                 AssertFalse(ci.HasCyclicReference());
             }
             finally

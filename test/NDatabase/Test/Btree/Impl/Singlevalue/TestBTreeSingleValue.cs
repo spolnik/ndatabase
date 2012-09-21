@@ -3,6 +3,7 @@ using NDatabase.Btree;
 using NDatabase.Btree.Tool;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.BTree;
+using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
@@ -19,7 +20,7 @@ namespace Test.NDatabase.Test.Btree.Impl.Singlevalue
         {
             var odb = OdbFactory.Open(GetBaseName());
 
-            var storageEngine = Dummy.GetEngine(odb);
+            var storageEngine = odb.GetStorageEngine();
             storageEngine.GetObjectWriter().FileSystemProcessor.FileSystemInterface.GetIo().EnableAutomaticDelete(true);
             return new OdbBtreeSingle("test1", degree, new LazyOdbBtreePersister(storageEngine));
         }

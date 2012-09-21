@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NDatabase.Odb;
+using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
@@ -95,11 +96,11 @@ namespace Test.NDatabase.Odb.Test.Performance
                 if (i % 20000 == 0)
                 {
                     Console.Out.Write(".");
-                    Println("After insert=" + Dummy.GetEngine(odb).GetSession(true).GetCache().ToString());
+                    Println("After insert=" + odb.GetStorageEngine().GetSession(true).GetCache().ToString());
                 }
             }
             //
-            var engine = Dummy.GetEngine(odb);
+            var engine = odb.GetStorageEngine();
 
             // println("NB WA="+WriteAction.count);
             Println("NB WAs=" + engine.GetSession(true).GetTransaction().GetNumberOfWriteActions());
@@ -144,7 +145,7 @@ namespace Test.NDatabase.Odb.Test.Performance
                     Println("update " + k);
                     Println("after update : NB WAs=" +
                             engine.GetSession(true).GetTransaction().GetNumberOfWriteActions());
-                    Println("After update=" + Dummy.GetEngine(odb).GetSession(true).GetCache().ToString());
+                    Println("After update=" + odb.GetStorageEngine().GetSession(true).GetCache().ToString());
                 }
                 k++;
             }
@@ -198,7 +199,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             t2 = OdbTime.GetCurrentTimeInTicks();
             // assertEquals(TEST_SIZE,
             // odb.getSession().getCache().getNumberOfObjects ());
-            var engine = Dummy.GetEngine(odb);
+            var engine = odb.GetStorageEngine();
             Println("NB WAs=" + engine.GetSession(true).GetTransaction().GetNumberOfWriteActions());
             odb.Commit();
             t3 = OdbTime.GetCurrentTimeInTicks();

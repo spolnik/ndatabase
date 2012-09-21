@@ -1,6 +1,8 @@
 using System;
 using NDatabase.Btree.Exception;
+using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.Criteria;
@@ -197,7 +199,7 @@ namespace Test.NDatabase.Odb.Test.Index
             clazz.AddUniqueIndexOn("index1", indexFields1, true);
             @base.Close();
             @base = Open(baseName);
-            var session = Dummy.GetEngine(@base).GetSession(true);
+            var session = @base.GetStorageEngine().GetSession(true);
             var metaModel = session.GetStorageEngine().GetSession(true).GetMetaModel();
             var ci = metaModel.GetClassInfo(typeof (IndexedObject3), true);
             AssertEquals(1, ci.GetNumberOfIndexes());
@@ -275,7 +277,7 @@ namespace Test.NDatabase.Odb.Test.Index
             clazz.AddUniqueIndexOn("index1", indexFields1, true);
             @base.Close();
             @base = Open(baseName);
-            var session = Dummy.GetEngine(@base).GetSession(true);
+            var session = @base.GetStorageEngine().GetSession(true);
             var metaModel = session.GetStorageEngine().GetSession(true).GetMetaModel();
             var ci = metaModel.GetClassInfo(typeof (IndexedObject3), true);
             AssertEquals(1, ci.GetNumberOfIndexes());
@@ -313,7 +315,7 @@ namespace Test.NDatabase.Odb.Test.Index
             clazz.AddUniqueIndexOn("index4", indexFields4, true);
             @base.Close();
             @base = Open(baseName);
-            var session = Dummy.GetEngine(@base).GetSession(true);
+            var session = @base.GetStorageEngine().GetSession(true);
             var metaModel = session.GetStorageEngine().GetSession(true).GetMetaModel();
             var ci = metaModel.GetClassInfo(typeof (IndexedObject3), true);
             AssertEquals(4, ci.GetNumberOfIndexes());

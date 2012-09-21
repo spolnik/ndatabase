@@ -1,6 +1,7 @@
 using System;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Tool.Wrappers;
@@ -373,7 +374,7 @@ namespace Test.NDatabase.Odb.Test.Resistance
             }
             Println("re-updated");
             objects = odb.GetObjects<User>();
-            var engine = Dummy.GetEngine(odb);
+            var engine = odb.GetStorageEngine();
             var uncommited =
                 engine.GetSession(true).GetMetaModel().GetClassInfo(typeof (User).FullName, true).GetUncommittedZoneInfo
                     ();

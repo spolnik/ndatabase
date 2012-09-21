@@ -1,3 +1,4 @@
+using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NUnit.Framework;
@@ -17,7 +18,7 @@ namespace Test.NDatabase.Odb.Test.Other
             IStorageEngine engine;
             using (var odb = Open(baseName))
             {
-                engine = Dummy.GetEngine(odb);
+                engine = odb.GetStorageEngine();
             }
 
             var s = engine.GetBaseIdentification().Id;

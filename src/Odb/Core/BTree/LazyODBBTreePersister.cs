@@ -57,7 +57,7 @@ namespace NDatabase.Odb.Core.BTree
         /// </summary>
         private IBTree _tree;
 
-        public LazyOdbBtreePersister(IOdb odb) : this(Dummy.GetEngine(odb))
+        public LazyOdbBtreePersister(IOdb odb) : this(odb.GetStorageEngine())
         {
         }
 

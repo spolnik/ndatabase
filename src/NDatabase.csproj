@@ -234,7 +234,6 @@
     <Compile Include="Odb\Core\Layers\Layer3\Engine\NonNativeObjectWriter.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\ObjectWriter.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\ByteArrayConverter.cs" />
-    <Compile Include="Odb\Core\Layers\Layer3\Engine\Dummy.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\FileMutex.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\ObjectReader.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\PendingReading.cs" />

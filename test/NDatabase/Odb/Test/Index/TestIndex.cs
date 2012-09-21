@@ -3,6 +3,7 @@ using NDatabase.Btree.Exception;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.BTree;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.Criteria;
@@ -978,7 +979,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var size = 1300;
             var commitInterval = 10;
             var start0 = OdbTime.GetCurrentTimeInMs();
-            var engine = Dummy.GetEngine(@base);
+            var engine = @base.GetStorageEngine();
             for (var i = 0; i < size; i++)
             {
                 var io1 = new IndexedObject("olivier" + (i + 1), 15 + size, new DateTime());
@@ -988,12 +989,12 @@ namespace Test.NDatabase.Odb.Test.Index
                     @base.Commit();
                     @base.Close();
                     @base = Open(baseName);
-                    engine = Dummy.GetEngine(@base);
+                    engine = @base.GetStorageEngine();
                 }
                 if (io1.GetName().Equals("olivier" + size))
                     Println("Ola chico");
             }
-            engine = Dummy.GetEngine(@base);
+            engine = @base.GetStorageEngine();
             // println(new
             // BTreeDisplay().build(engine.getSession(true).getMetaModel().getClassInfo(IndexedObject.class.Name,
             // true).getIndex(0).getBTree(), true));
@@ -1003,7 +1004,7 @@ namespace Test.NDatabase.Odb.Test.Index
             // ObjectWriter.getNbNormalUpdates());
             Console.WriteLine("inserting time with index=" + (end0 - start0));
             @base = Open(baseName);
-            engine = Dummy.GetEngine(@base);
+            engine = @base.GetStorageEngine();
             // println("After load = unconnected : "+
             // engine.getSession(true).getMetaModel().getClassInfo(IndexedObject.class.Name,
             // true).getUncommittedZoneInfo());
@@ -1056,7 +1057,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var size = 1300;
             var commitInterval = 10;
             var start0 = OdbTime.GetCurrentTimeInMs();
-            var engine = Dummy.GetEngine(@base);
+            var engine = @base.GetStorageEngine();
             for (var i = 0; i < size; i++)
             {
                 var io1 = new IndexedObject("olivier" + (i + 1), 15 + size, new DateTime());
@@ -1066,12 +1067,12 @@ namespace Test.NDatabase.Odb.Test.Index
                     @base.Commit();
                     @base.Close();
                     @base = Open(baseName);
-                    engine = Dummy.GetEngine(@base);
+                    engine = @base.GetStorageEngine();
                 }
                 if (io1.GetName().Equals("olivier" + size))
                     Println("Ola chico");
             }
-            engine = Dummy.GetEngine(@base);
+            engine = @base.GetStorageEngine();
             // println(new
             // BTreeDisplay().build(engine.getSession(true).getMetaModel().getClassInfo(IndexedObject.class.Name,
             // true).getIndex(0).getBTree(), true));
@@ -1295,7 +1296,7 @@ namespace Test.NDatabase.Odb.Test.Index
             clazz.AddUniqueIndexOn("index3", indexFields3, true);
             @base.Close();
             @base = Open(baseName);
-            var session = Dummy.GetEngine(@base).GetSession(true);
+            var session = @base.GetStorageEngine().GetSession(true);
             var metaModel = session.GetStorageEngine().GetSession(true).GetMetaModel();
             var ci = metaModel.GetClassInfo(typeof (IndexedObject), true);
             AssertEquals(3, ci.GetNumberOfIndexes());
@@ -1334,7 +1335,7 @@ namespace Test.NDatabase.Odb.Test.Index
             }
             @base.Close();
             @base = Open(baseName);
-            var e = Dummy.GetEngine(@base);
+            var e = @base.GetStorageEngine();
             var cii = e.GetSession(true).GetMetaModel().GetClassInfo(typeof (IndexedObject), true).GetIndex(0);
             @base.Close();
             DeleteBase(baseName);
@@ -1405,7 +1406,7 @@ namespace Test.NDatabase.Odb.Test.Index
                     t4 = OdbTime.GetCurrentTimeInMs();
                     if (j == 0)
                     {
-                        var engine = Dummy.GetEngine(@base);
+                        var engine = @base.GetStorageEngine();
                         var ci = engine.GetSession(true).GetMetaModel().GetClassInfo(typeof (IndexedObject), true);
                         var cii = ci.GetIndex(0);
                         AssertEquals(size, cii.BTree.GetSize());

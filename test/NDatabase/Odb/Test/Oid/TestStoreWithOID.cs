@@ -1,3 +1,5 @@
+using NDatabase.Odb;
+using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NUnit.Framework;
 
@@ -17,7 +19,7 @@ namespace Test.NDatabase.Odb.Test.Oid
             odb.Close();
             odb = Open("withoid");
             var f2 = new VO.Login.Function("f2");
-            var engine = Dummy.GetEngine(odb);
+            var engine = odb.GetStorageEngine();
             engine.Store(oid, f2);
             odb.Close();
             odb = Open("withoid");

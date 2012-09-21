@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using NDatabase.Odb;
+using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.Criteria;
@@ -342,7 +343,7 @@ namespace Test.NDatabase.Odb.Test.Update
                 function.SetName(function.GetName() + function.GetName() + function.GetName() + function.GetName());
                 odb.Store(function);
             }
-            var engine = Dummy.GetEngine(odb);
+            var engine = odb.GetStorageEngine();
 
             var fullClassName = OdbClassUtil.GetFullName(typeof (VO.Login.Function));
 

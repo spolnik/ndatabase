@@ -214,6 +214,11 @@ namespace NDatabase.Odb.Main
             return _storageEngine.GetBaseIdentification().Id;
         }
 
+        public IStorageEngine GetStorageEngine()
+        {
+            return GetSession().GetStorageEngine();
+        }
+
         public void Dispose()
         {
             Commit();

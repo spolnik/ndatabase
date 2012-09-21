@@ -183,5 +183,7 @@ namespace NDatabase.Odb
         /// </summary>
         /// <returns> the file name in local mode and the base id (alias) in client server mode. </returns>
         string GetName();
+
+        IStorageEngine GetStorageEngine();
     }
 }

@@ -3,10 +3,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Block
     /// <summary>
     ///   All Block Types of the ODB database format.
     /// </summary>
-    /// <remarks>
-    ///   All Block Types of the ODB database format.
-    /// </remarks>
-    /// <author>osmadja</author>
     public static class BlockTypes
     {
         public const byte BlockTypeClassHeader = 1;
