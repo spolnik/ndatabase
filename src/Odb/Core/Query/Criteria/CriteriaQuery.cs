@@ -51,19 +51,19 @@ namespace NDatabase.Odb.Core.Query.Criteria
             return new CriteriaQuery(typeof (T));
         }
 
-        public virtual bool HasCriteria()
+        public bool HasCriteria()
         {
             return _criterion != null;
         }
 
-        public virtual bool Match(AbstractObjectInfo aoi)
+        public bool Match(AbstractObjectInfo aoi)
         {
             if (_criterion == null)
                 return true;
             return _criterion.Match(aoi);
         }
 
-        public virtual bool Match(IDictionary map)
+        public bool Match(IDictionary map)
         {
             if (_criterion == null)
                 return true;
@@ -75,12 +75,12 @@ namespace NDatabase.Odb.Core.Query.Criteria
             _fullClassName = OdbClassUtil.GetFullName(type);
         }
 
-        public virtual string GetFullClassName()
+        public string GetFullClassName()
         {
             return _fullClassName;
         }
 
-        public virtual ICriterion GetCriteria()
+        public ICriterion GetCriteria()
         {
             return _criterion;
         }
@@ -99,7 +99,7 @@ namespace NDatabase.Odb.Core.Query.Criteria
             return _criterion.GetAllInvolvedFields();
         }
 
-        public virtual void SetCriterion(ICriterion criterion)
+        public void SetCriterion(ICriterion criterion)
         {
             _criterion = criterion;
         }

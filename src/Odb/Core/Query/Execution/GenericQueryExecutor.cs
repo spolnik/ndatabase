@@ -96,25 +96,6 @@ namespace NDatabase.Odb.Core.Query.Execution
             if (Session.IsRollbacked())
                 throw new OdbRuntimeException(NDatabaseError.OdbHasBeenRollbacked);
 
-            // When used as MultiClass Executor, classInfo is already set
-            if (ClassInfo == null)
-            {
-                // Class to execute query on
-                var fullClassName = QueryManager.GetFullClassName(Query);
-
-                // If the query class does not exist in meta model, return an empty
-                // collection
-                if (!Session.GetMetaModel().ExistClass(fullClassName))
-                {
-                    queryResultAction.Start();
-                    queryResultAction.End();
-                    Query.SetExecutionPlan(new EmptyExecutionPlan());
-                    return queryResultAction.GetObjects<T>();
-                }
-
-                ClassInfo = Session.GetMetaModel().GetClassInfo(fullClassName, true);
-            }
-
             // Get the query execution plan
             var executionPlan = GetExecutionPlan();
             executionPlan.Start();

@@ -190,5 +190,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         CriteriaQuery CriteriaQuery(Type clazz);
 
         CurrentIdBlockInfo GetCurrentIdBlockInfo();
+
+        IIdManager GetIdManager();
+
+        ITriggerManager GetLocalTriggerManager();
+        void RemoveLocalTriggerManager();
     }
 }

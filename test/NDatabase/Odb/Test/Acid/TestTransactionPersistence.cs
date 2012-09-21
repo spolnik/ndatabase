@@ -34,7 +34,7 @@ namespace Test.NDatabase.Odb.Test.Acid
             IFileSystemInterface fsi = new FileSystemInterface(new FileIdentification("test2.neodatis"), MultiBuffer.DefaultBufferSizeForData,
                                                                session);
             var transaction = new OdbTransaction(session, fsi);
-            transaction.SetArchiveLog(true);
+            
             for (var i = 0; i < size; i++)
             {
                 // 155 : to avoid protected zone
@@ -44,7 +44,6 @@ namespace Test.NDatabase.Odb.Test.Acid
             // appended all the bytes
             // in one WriteAction. As it as not been committed, the current
             // writeAction
-            AssertEquals(0, transaction.GetWriteActions().Count);
             transaction.Commit();
             fsi.Close();
             DeleteBase("test2.neodatis");

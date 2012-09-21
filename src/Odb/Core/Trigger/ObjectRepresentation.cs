@@ -1,5 +1,6 @@
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Layers.Layer3;
 
 namespace NDatabase.Odb.Core.Trigger
 {
@@ -28,7 +29,7 @@ namespace NDatabase.Odb.Core.Trigger
         public void SetValueOf(string attributeName, object value)
         {
             //fixme : storage engine is null?
-            var introspector = OdbConfiguration.GetCoreProvider().GetLocalObjectIntrospector(null);
+            var introspector = (IObjectIntrospector) new ObjectIntrospector(null);
             var aoi = introspector.GetMetaRepresentation(value, null, true, null, new DefaultInstrumentationCallback());
             _nnoi.SetValueOf(attributeName, aoi);
         }

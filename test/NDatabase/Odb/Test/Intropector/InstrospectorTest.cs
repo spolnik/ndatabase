@@ -17,12 +17,12 @@ namespace Test.NDatabase.Odb.Test.Intropector
 {
     public class InstrospectorTest : ODBTest
     {
-        internal static IClassIntrospector classIntrospector = OdbConfiguration.GetCoreProvider().GetClassIntrospector();
+        internal static IClassIntrospector classIntrospector = ClassIntrospector.Instance;
 
         public override void SetUp()
         {
             base.SetUp();
-            OdbConfiguration.GetCoreProvider().GetStorageEngine(new MockFileIdentification()).AddSession(
+            new StorageEngine(new MockFileIdentification()).AddSession(
                 new MockSession("test"), false);
         }
 

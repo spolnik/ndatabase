@@ -9,13 +9,18 @@ using NDatabase.Tool.Wrappers.Map;
 namespace NDatabase.Odb.Core.Query.Values
 {
     /// <summary>
-    ///   A values Criteria quwry is a query to retrieve object values instead of objects.
+    ///   A values Criteria query is a query to retrieve object values instead of objects.
     /// </summary>
     /// <remarks>
-    ///   A values Criteria quwry is a query to retrieve object values instead of objects. Values Criteria Query allows one to retrieve one field value of an object: - A field values - The sum of a specific numeric field - The Max value of a specific numeric field - The Min value of a specific numeric field - The Average value of a specific numeric value
+    ///   A values Criteria query is a query to retrieve object values instead of objects. 
+    ///   Values Criteria Query allows one to retrieve one field value of an object: 
+    ///    - A field values 
+    ///    - The sum of a specific numeric field 
+    ///    - The Max value of a specific numeric field 
+    ///    - The Min value of a specific numeric field 
+    ///    - The Average value of a specific numeric value
     /// </remarks>
     /// <author>osmadja</author>
-    
     public sealed class ValuesCriteriaQuery : CriteriaQuery, IValuesQuery
     {
         private string[] _groupByFieldList;

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
@@ -7,8 +6,6 @@ using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Layers.Layer3.IO;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
-using NDatabase.Tool.Wrappers.List;
-using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb.Core.Transaction
 {
@@ -30,16 +27,6 @@ namespace NDatabase.Odb.Core.Transaction
         ///   the log module name
         /// </summary>
         public static readonly string LogId = "Transaction";
-
-        /// <summary>
-        ///   To indicate if transaction is read only
-        /// </summary>
-        private readonly bool _readOnlyMode;
-
-        /// <summary>
-        ///   When this flag is set,the transaction will not be deleted, but will be flagged as executed
-        /// </summary>
-        private bool _archiveLog;
 
         /// <summary>
         ///   The transaction creation time
@@ -86,8 +73,6 @@ namespace NDatabase.Odb.Core.Transaction
         /// </summary>
         private int _numberOfWriteActions;
 
-        private ICoreProvider _provider;
-
         /// <summary>
         ///   The transaction session
         /// </summary>
@@ -101,13 +86,12 @@ namespace NDatabase.Odb.Core.Transaction
         /// <summary>
         ///   All the pending writing that must be applied to actually commit the transaction
         /// </summary>
-        private IOdbList<IWriteAction> _writeActions;
+        private IList<IWriteAction> _writeActions;
 
         public OdbTransaction(ISession session, IFileSystemInterface fsiToApplyTransaction)
         {
             _fsiToApplyWriteActions = fsiToApplyTransaction;
             Init(session);
-            _readOnlyMode = false;
         }
 
         #region ITransaction Members
@@ -138,8 +122,8 @@ namespace NDatabase.Odb.Core.Transaction
             {
                 var ifp = (FileIdentification) _fsiToApplyWriteActions.GetFileIdentification();
                 var buffer =
-                    new StringBuilder(ifp.Id).Append("-").Append(_creationDateTime).Append("-").Append(
-                        _session.GetId()).Append(".transaction");
+                    new StringBuilder(ifp.Id).Append("-").Append(_creationDateTime).Append("-").Append(_session.GetId())
+                        .Append(".transaction");
 
                 return buffer.ToString();
             }
@@ -147,19 +131,11 @@ namespace NDatabase.Odb.Core.Transaction
             throw new OdbRuntimeException(NDatabaseError.UnsupportedIoType.AddParameter(parameters.GetType().FullName));
         }
 
-        public bool IsCommited()
-        {
-            return _isCommited;
-        }
-
         public void Rollback()
         {
             _wasRollbacked = true;
             if (_fsi != null)
-            {
                 _fsi.Close();
-                Delete();
-            }
         }
 
         public void Commit()
@@ -178,14 +154,14 @@ namespace NDatabase.Odb.Core.Transaction
 
             if (_currentWriteAction != null && !_currentWriteAction.IsEmpty())
             {
-                AddWriteAction(_currentWriteAction);
+                AddWriteAction(_currentWriteAction, true);
                 _currentWriteAction = null;
             }
 
             if (_fsi == null && _numberOfWriteActions != 0)
                 throw new OdbRuntimeException(NDatabaseError.TransactionAlreadyCommitedOrRollbacked);
 
-            if (_numberOfWriteActions == 0 || _readOnlyMode)
+            if (_numberOfWriteActions == 0)
             {
                 // FIXME call commitMetaModel in realOnlyMode?
                 CommitMetaModel();
@@ -201,25 +177,17 @@ namespace NDatabase.Odb.Core.Transaction
             }
 
             // Marks the transaction as committed
-            SetCommited(true);
+            SetCommited();
 
             // Apply the write actions the main database file
             ApplyTo();
 
             // Commit Meta Model changes
             CommitMetaModel();
-            if (_archiveLog)
-            {
-                _fsi.SetWritePositionNoVerification(0, false);
-                _fsi.WriteByte(2, false);
-                _fsi.GetIo().EnableAutomaticDelete(false);
-                _fsi.Close();
-                _fsi = null;
-            }
-            else
+
+            if (_fsi != null)
             {
                 _fsi.Close();
-                Delete();
                 _fsi = null;
             }
 
@@ -232,16 +200,6 @@ namespace NDatabase.Odb.Core.Transaction
         public void SetFsiToApplyWriteActions(IFileSystemInterface fsi)
         {
             _fsiToApplyWriteActions = fsi;
-        }
-
-        public bool IsArchiveLog()
-        {
-            return _archiveLog;
-        }
-
-        public void SetArchiveLog(bool archiveLog)
-        {
-            _archiveLog = archiveLog;
         }
 
         /// <returns> Returns the numberOfWriteActions. </returns>
@@ -265,7 +223,9 @@ namespace NDatabase.Odb.Core.Transaction
             {
                 _currentWritePositionInWa = position;
                 if (_currentWriteAction != null)
-                    AddWriteAction(_currentWriteAction);
+                {
+                    AddWriteAction(_currentWriteAction, true);
+                }
                 _currentWriteAction = new WriteAction(position);
             }
             else
@@ -283,28 +243,31 @@ namespace NDatabase.Odb.Core.Transaction
             if (_currentWritePositionInWa == position)
             {
                 if (_currentWriteAction == null)
-                    _currentWriteAction = _provider.GetWriteAction(position, null);
+                {
+                    _currentWriteAction = new WriteAction(position, null);
+                }
                 _currentWriteAction.AddBytes(bytes);
                 _currentWritePositionInWa += bytes.Length;
             }
             else
             {
                 if (_currentWriteAction != null)
-                    AddWriteAction(_currentWriteAction);
-                _currentWriteAction = _provider.GetWriteAction(position, bytes);
+                {
+                    AddWriteAction(_currentWriteAction, true);
+                }
+                _currentWriteAction = new WriteAction(position, bytes);
                 _currentWritePositionInWa = position + bytes.Length;
             }
         }
 
         #endregion
 
-        public void Init(ISession session)
+        private void Init(ISession session)
         {
-            _provider = OdbConfiguration.GetCoreProvider();
             _session = session;
             _isCommited = false;
             _creationDateTime = OdbTime.GetCurrentTimeInTicks();
-            _writeActions = new OdbList<IWriteAction>(1000);
+            _writeActions = new List<IWriteAction>(1000);
             _hasAllWriteActionsInMemory = true;
             _numberOfWriteActions = 0;
             _hasBeenPersisted = false;
@@ -316,17 +279,8 @@ namespace NDatabase.Odb.Core.Transaction
         ///   Adds a write action to the transaction
         /// </summary>
         /// <param name="writeAction"> The write action to be added </param>
-        public void AddWriteAction(IWriteAction writeAction)
-        {
-            AddWriteAction(writeAction, true);
-        }
-
-        /// <summary>
-        ///   Adds a write action to the transaction
-        /// </summary>
-        /// <param name="writeAction"> The write action to be added </param>
         /// <param name="persistWriteAcion"> To indicate if write action must be persisted </param>
-        public void AddWriteAction(IWriteAction writeAction, bool persistWriteAcion)
+        private void AddWriteAction(IWriteAction writeAction, bool persistWriteAcion)
         {
             if (OdbConfiguration.IsDebugEnabled(LogId))
                 DLogger.Info(string.Format("Adding WA in Transaction of session {0}", _session.GetId()));
@@ -352,12 +306,9 @@ namespace NDatabase.Odb.Core.Transaction
                 _numberOfWriteActions > OdbConfiguration.GetMaxNumberOfWriteObjectPerTransaction())
             {
                 _hasAllWriteActionsInMemory = false;
-                IEnumerator iterator = _writeActions.GetEnumerator();
-                while (iterator.MoveNext())
-                {
-                    var defaultWriteAction = (WriteAction) iterator.Current;
+
+                foreach (WriteAction defaultWriteAction in _writeActions)
                     defaultWriteAction.Clear();
-                }
 
                 _writeActions.Clear();
 
@@ -371,7 +322,7 @@ namespace NDatabase.Odb.Core.Transaction
             }
         }
 
-        internal IFileIdentification GetParameters()
+        private IFileIdentification GetParameters()
         {
             var parameters = _fsiToApplyWriteActions.GetFileIdentification();
 
@@ -379,18 +330,13 @@ namespace NDatabase.Odb.Core.Transaction
             {
                 var ifp = (FileIdentification) _fsiToApplyWriteActions.GetFileIdentification();
                 var buffer =
-                    new StringBuilder(ifp.Directory).Append("/").Append(ifp.Id).Append("-").Append(
-                        _creationDateTime).Append("-").Append(_session.GetId()).Append(".transaction");
+                    new StringBuilder(ifp.Directory).Append("/").Append(ifp.Id).Append("-").Append(_creationDateTime).
+                        Append("-").Append(_session.GetId()).Append(".transaction");
 
                 return new FileIdentification(buffer.ToString());
             }
 
             throw new OdbRuntimeException(NDatabaseError.UnsupportedIoType.AddParameter(parameters.GetType().FullName));
-        }
-
-        private void CheckFileAccess()
-        {
-            CheckFileAccess(null);
         }
 
         private void CheckFileAccess(string fileName)
@@ -404,8 +350,7 @@ namespace NDatabase.Odb.Core.Transaction
                                          ? new FileIdentification(fileName)
                                          : GetParameters();
 
-                    _fsi = new FileSystemInterface(parameters,
-                                                        MultiBuffer.DefaultBufferSizeForTransaction, _session);
+                    _fsi = new FileSystemInterface(parameters, MultiBuffer.DefaultBufferSizeForTransaction, _session);
                     _fsi.GetIo().EnableAutomaticDelete(true);
                 }
             }
@@ -413,7 +358,7 @@ namespace NDatabase.Odb.Core.Transaction
 
         private void Persist()
         {
-            CheckFileAccess();
+            CheckFileAccess(null);
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
                 DLogger.Debug(string.Format("# Persisting transaction {0}", GetName()));
@@ -427,24 +372,13 @@ namespace NDatabase.Odb.Core.Transaction
             _hasBeenPersisted = true;
         }
 
-        public IOdbList<IWriteAction> GetWriteActions()
-        {
-            return _writeActions;
-        }
-
-        public long GetCreationDateTime()
-        {
-            return _creationDateTime;
-        }
-
         /// <summary>
         ///   Mark te transaction file as committed
         /// </summary>
-        /// <param name="isConfirmed"> </param>
-        private void SetCommited(bool isConfirmed)
+        private void SetCommited()
         {
-            _isCommited = isConfirmed;
-            CheckFileAccess();
+            _isCommited = true;
+            CheckFileAccess(null);
 
             // TODO Check atomicity
             // Writes the number of write actions after the byte and date
@@ -572,7 +506,8 @@ namespace NDatabase.Odb.Core.Transaction
                     else
                     {
                         // Committed zone has 0 object
-                        writer.UpdatePreviousObjectFieldOfObjectInfo(newClassInfo.GetUncommittedZoneInfo().First, null, false);
+                        writer.UpdatePreviousObjectFieldOfObjectInfo(newClassInfo.GetUncommittedZoneInfo().First, null,
+                                                                     false);
                     }
                 }
 
@@ -599,7 +534,8 @@ namespace NDatabase.Odb.Core.Transaction
                     DLogger.Debug(
                         string.Format("\t-connect last commited object with oid {0} to first uncommited object {1}",
                                       lastCommittedObjectOID, newClassInfo.GetUncommittedZoneInfo().First));
-                    DLogger.Debug(string.Format("\t-Commiting new Number of objects = {0}", newClassInfo.GetNumberOfObjects()));
+                    DLogger.Debug(string.Format("\t-Commiting new Number of objects = {0}",
+                                                newClassInfo.GetNumberOfObjects()));
                 }
             }
 
@@ -611,10 +547,11 @@ namespace NDatabase.Odb.Core.Transaction
         /// </summary>
         /// <param name="classInfo"> </param>
         /// <returns> The updated class info </returns>
-        public ClassInfo BuildClassInfoForCommit(ClassInfo classInfo)
+        private static ClassInfo BuildClassInfoForCommit(ClassInfo classInfo)
         {
             var nbObjects = classInfo.GetNumberOfObjects();
             classInfo.GetCommitedZoneInfo().SetNbObjects(nbObjects);
+
             if (classInfo.GetCommitedZoneInfo().First == null)
             {
                 // nothing to change
@@ -630,7 +567,7 @@ namespace NDatabase.Odb.Core.Transaction
             return classInfo;
         }
 
-        public void LoadWriteActions(string filename, bool apply)
+        private void LoadWriteActions(string filename, bool apply)
         {
             if (OdbConfiguration.IsDebugEnabled(LogId))
                 DLogger.Debug(string.Format("Load write actions of {0}", filename));
@@ -656,91 +593,19 @@ namespace NDatabase.Odb.Core.Transaction
                 }
                 else
                     AddWriteAction(defaultWriteAction, false);
-
             }
 
             if (apply)
                 _fsiToApplyWriteActions.Flush();
         }
-
-        public void LoadWriteActionsBackwards(string filename, bool apply)
-        {
-            var executedWriteAction = 0;
-            if (OdbConfiguration.IsDebugEnabled(LogId))
-                DLogger.Debug(string.Format("Load write actions of {0}", filename));
-
-            CheckFileAccess(filename);
-            _fsi.UseBuffer(true);
-            _fsi.SetReadPosition(0);
-            _isCommited = _fsi.ReadByte() == 1;
-            _creationDateTime = _fsi.ReadLong();
-
-            IDictionary<long, long> writtenPositions = null;
-            if (apply)
-                writtenPositions = new OdbHashMap<long, long>();
-
-            var i = _numberOfWriteActions;
-            var previousWriteActionPosition = _fsi.GetLength();
-
-            while (i > 0)
-            {
-                // Sets the position 8 bytes backwards
-                _fsi.SetReadPosition(previousWriteActionPosition - OdbType.Long.Size);
-
-                // And then the read a long, this will be the previous write
-                // action position
-                previousWriteActionPosition = _fsi.ReadLong();
-
-                // Then sets the read position to read the write action
-                _fsi.SetReadPosition(previousWriteActionPosition);
-
-                IWriteAction writeAction = WriteAction.Read(_fsi, i + 1);
-
-                if (apply)
-                {
-                    var position = writeAction.GetPosition();
-                    if (writtenPositions.ContainsKey(position))
-                    {
-                        // It has already been written something more recent at
-                        // this position, do not write again
-                        i--;
-                        continue;
-                    }
-                    writeAction.ApplyTo(_fsiToApplyWriteActions, i + 1);
-                    writtenPositions.Add(position, position);
-                    executedWriteAction++;
-                }
-                else
-                    AddWriteAction(writeAction, false);
-                i--;
-            }
-            if (apply)
-            {
-                _fsiToApplyWriteActions.Flush();
-                if (OdbConfiguration.IsDebugEnabled(LogId))
-                    DLogger.Debug(string.Format("Total Write actions : {0} / position cache = {1}", i, writtenPositions.Count));
-
-                DLogger.Info(string.Format("Total write actions = {0} : executed = {1}", _numberOfWriteActions, executedWriteAction));
-
-                writtenPositions.Clear();
-            }
-        }
-
-        /// <summary>
-        ///   deletes the transaction file
-        /// </summary>
-        /// <exception cref="System.IO.IOException">System.IO.IOException</exception>
-        private static void Delete()
-        {
-            //TODO: check it
-        }
-
-        // The delete is done automatically by underlying api
+        
         public override string ToString()
         {
             var buffer = new StringBuilder();
+
             buffer.Append("state=").Append(_isCommited).Append(" | creation=").Append(_creationDateTime).Append(
                 " | write actions numbers=").Append(_numberOfWriteActions);
+
             return buffer.ToString();
         }
 
@@ -767,13 +632,6 @@ namespace NDatabase.Odb.Core.Transaction
                 LoadWriteActions(GetName(), true);
                 _fsiToApplyWriteActions.Flush();
             }
-        }
-
-        public IFileSystemInterface GetFsi()
-        {
-            if (_fsi == null)
-                CheckFileAccess();
-            return _fsi;
         }
     }
 }

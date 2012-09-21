@@ -1,4 +1,5 @@
 using NDatabase.Odb.Core.Layers.Layer3;
+using NDatabase.Odb.Core.Layers.Layer3.Engine;
 
 namespace NDatabase.Odb.Main
 {
@@ -11,7 +12,7 @@ namespace NDatabase.Odb.Main
         ///   protected Constructor
         /// </summary>
         private Odb(string fileName)
-            : base(OdbConfiguration.GetCoreProvider().GetStorageEngine(new FileIdentification(fileName)))
+            : base(new StorageEngine(new FileIdentification(fileName)))
         {
         }
 

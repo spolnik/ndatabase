@@ -31,8 +31,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
 
         public InstanceBuilder(IStorageEngine engine)
         {
-            _triggerManager = OdbConfiguration.GetCoreProvider().GetLocalTriggerManager(engine);
-            _classIntrospector = OdbConfiguration.GetCoreProvider().GetClassIntrospector();
+            _triggerManager = engine.GetLocalTriggerManager();
+            _classIntrospector = ClassIntrospector.Instance;
             _engine = engine;
 
             _session = engine.GetSession(true);

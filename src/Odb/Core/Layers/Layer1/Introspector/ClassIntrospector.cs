@@ -23,6 +23,8 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
     /// </remarks>
     public sealed class ClassIntrospector : IClassIntrospector
     {
+        public static readonly IClassIntrospector Instance = new ClassIntrospector();
+
         private readonly IDictionary<string, IOdbList<FieldInfo>> _fields =
             new OdbHashMap<string, IOdbList<FieldInfo>>();
 

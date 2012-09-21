@@ -4,12 +4,12 @@ namespace NDatabase.Odb.Core.Oid
     {
         public static OID BuildObjectOID(long oid)
         {
-            return OdbConfiguration.GetCoreProvider().GetObjectOID(oid, 0);
+            return new OdbObjectOID(oid);
         }
 
         public static OID BuildClassOID(long oid)
         {
-            return OdbConfiguration.GetCoreProvider().GetClassOID(oid);
+            return new OdbClassOID(oid);
         }
     }
 }

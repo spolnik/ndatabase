@@ -787,10 +787,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             IMatchingObjectAction queryResultAction = new CollectionQueryResultAction<T>(query, inMemory, _storageEngine,
                                                                                          true, _instanceBuilder);
-            return QueryManager.GetQueryExecutor(query, _storageEngine, _instanceBuilder).Execute<T>(inMemory,
-                                                                                                     startIndex,
-                                                                                                     endIndex, true,
-                                                                                                     queryResultAction);
+            
+            var queryExecutor = QueryManager.GetQueryExecutor(query, _storageEngine, _instanceBuilder);
+
+            return queryExecutor.Execute<T>(inMemory, startIndex, endIndex, true, queryResultAction);
         }
 
         public IValues GetValues(IValuesQuery valuesQuery, int startIndex, int endIndex)
@@ -837,7 +837,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         private IInstanceBuilder BuildInstanceBuilder()
         {
-            return OdbConfiguration.GetCoreProvider().GetInstanceBuilder(_storageEngine);
+            return new InstanceBuilder(_storageEngine);
         }
 
         /// <summary>

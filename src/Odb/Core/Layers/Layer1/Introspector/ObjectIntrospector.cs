@@ -19,7 +19,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
         public ObjectIntrospector(IStorageEngine storageEngine)
         {
             _storageEngine = storageEngine;
-            _classIntrospector = OdbConfiguration.GetCoreProvider().GetClassIntrospector();
+            _classIntrospector = ClassIntrospector.Instance;
         }
 
         #region IObjectIntrospector Members

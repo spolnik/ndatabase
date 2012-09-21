@@ -1,5 +1,6 @@
 using NDatabase.Odb.Core.Layers.Layer3.Block;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
+using NDatabase.Odb.Core.Oid;
 using NDatabase.Tool;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.Oid
@@ -11,8 +12,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Oid
     {
         private const int IdBufferSize = 10;
         private const string LogId = "IdManager";
-
-        private readonly ICoreProvider _provider;
 
         private int _currentBlockIdNumber;
         private long _currentBlockIdPosition;
@@ -35,13 +34,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Oid
         /// <param name="currentIdBlock">Current Id block data </param>
         public IdManager(IObjectWriter objectWriter, IObjectReader objectReader, CurrentIdBlockInfo currentIdBlock)
         {
-            _provider = OdbConfiguration.GetCoreProvider();
             _objectWriter = objectWriter;
             _objectReader = objectReader;
             _currentBlockIdPosition = currentIdBlock.CurrentIdBlockPosition;
             _currentBlockIdNumber = currentIdBlock.CurrentIdBlockNumber;
-            _maxId = _provider.GetObjectOID((long)currentIdBlock.CurrentIdBlockNumber * OdbConfiguration.GetNbIdsPerBlock(), 0);
-            _nextId = _provider.GetObjectOID(currentIdBlock.CurrentIdBlockMaxOid.ObjectId + 1, 0);
+            _maxId = new OdbObjectOID((long)currentIdBlock.CurrentIdBlockNumber * OdbConfiguration.GetNbIdsPerBlock());
+            _nextId = new OdbObjectOID(currentIdBlock.CurrentIdBlockMaxOid.ObjectId + 1);
 
             _lastIds = new OID[IdBufferSize];
             for (var i = 0; i < IdBufferSize; i++)
@@ -143,7 +141,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Oid
                 if (idType == IdTypes.Class)
                 {
                     // If its a class, build a class OID instead.
-                    currentNextId = _provider.GetClassOID(currentNextId.ObjectId);
+                    currentNextId = new OdbClassOID(currentNextId.ObjectId);
                 }
 
                 // Compute the new index to be used to store id and its position in the lastIds and lastIdPositions array
@@ -190,7 +188,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Oid
             var idPosition = _objectWriter.FileSystemProcessor.AssociateIdToObject(idType, idStatus, _currentBlockIdPosition, _nextId,
                                                                objectPosition, false);
 
-            _nextId = _provider.GetObjectOID(_nextId.ObjectId + 1, 0);
+            _nextId = new OdbObjectOID(_nextId.ObjectId + 1);
 
             return idPosition;
         }
@@ -207,7 +205,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Oid
 
             _currentBlockIdNumber++;
             _currentBlockIdPosition = newBlockPosition;
-            _maxId = _provider.GetObjectOID((long) _currentBlockIdNumber * OdbConfiguration.GetNbIdsPerBlock(), 0);
+            _maxId = new OdbObjectOID((long) _currentBlockIdNumber * OdbConfiguration.GetNbIdsPerBlock());
         }
 
         private void MarkBlockAsFull(long currentBlockIdPosition, long nextBlockPosition)

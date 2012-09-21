@@ -91,7 +91,6 @@
     <Compile Include="Btree\Tool\BTreeDisplay.cs" />
     <Compile Include="Btree\Tool\BTreeValidator.cs" />
     <Compile Include="Odb\ClassRepresentation.cs" />
-    <Compile Include="Odb\Core\ICoreProvider.cs" />
     <Compile Include="Odb\Core\IError.cs" />
     <Compile Include="Odb\Core\ITwoPhaseInit.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\IClassIntrospector.cs" />
@@ -296,7 +295,6 @@
     <Compile Include="Odb\Core\Transaction\Session.cs" />
     <Compile Include="Odb\Core\Transaction\TmpCache.cs" />
     <Compile Include="Odb\Core\Trigger\TriggerManager.cs" />
-    <Compile Include="Odb\DefaultCoreProvider.cs" />
     <Compile Include="Odb\Main\ClassRepresentation.cs" />
     <Compile Include="Odb\Main\Odb.cs" />
     <Compile Include="Odb\Main\ODBAdapter.cs" />

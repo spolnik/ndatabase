@@ -17,8 +17,7 @@ namespace NDatabase.Odb
         private const int NbIdsPerBlock = 1000;
 
         private const int IdBlockRepetitionSize = 18;
-        private static bool _coreProviderInit;
-
+        
         private static bool _debugEnabled;
 
         private static bool _logAll;
@@ -92,11 +91,6 @@ namespace NDatabase.Odb
         ///   Round Type used for the average division
         /// </summary>
         private static int _roundTypeForAverageDivision;
-
-        /// <summary>
-        ///   The core provider is the provider of core object implementation for ODB
-        /// </summary>
-        private static readonly ICoreProvider CoreProvider = new DefaultCoreProvider();
 
         /// <summary>
         ///   To specify if NDatabase must automatically reconnect objects loaded in previous session.
@@ -395,24 +389,6 @@ namespace NDatabase.Odb
         public static void SetRoundTypeForAverageDivision(int roundTypeForAverageDivision)
         {
             _roundTypeForAverageDivision = roundTypeForAverageDivision;
-        }
-
-        public static ICoreProvider GetCoreProvider()
-        {
-            if (!_coreProviderInit)
-            {
-                _coreProviderInit = true;
-                try
-                {
-                    CoreProvider.Init2();
-                }
-                catch (Exception e)
-                {
-                    throw new OdbRuntimeException(
-                        NDatabaseError.ErrorInCoreProviderInitialization.AddParameter("Core Provider"), e);
-                }
-            }
-            return CoreProvider;
         }
 
         public static bool UseIndex()

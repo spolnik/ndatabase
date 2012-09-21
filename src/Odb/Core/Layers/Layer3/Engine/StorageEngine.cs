@@ -5,6 +5,7 @@ using System.Text;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3.Oid;
+using NDatabase.Odb.Core.Layers.Layer3.Refactor;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Core.Query.Values;
@@ -64,7 +65,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             _currentIdBlockInfo = new CurrentIdBlockInfo();
 
-            CoreProvider = OdbConfiguration.GetCoreProvider();
             FileIdentification = parameters;
             
             IsDbClosed = false;
@@ -103,7 +103,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var metaModel = GetMetaModel();
 
             if (OdbConfiguration.CheckModelCompatibility())
-                CheckMetaModelCompatibility(CoreProvider.GetClassIntrospector().Instrospect(metaModel.GetAllClasses()));
+                CheckMetaModelCompatibility(ClassIntrospector.Instance.Instrospect(metaModel.GetAllClasses()));
 
             // logically locks access to the file (only for this machine)
             FileMutex.GetInstance().OpenFile(GetStorageDeviceName());
@@ -282,6 +282,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return oid;
         }
 
+        public override IIdManager GetIdManager()
+        {
+            return new IdManager(GetObjectWriter(), GetObjectReader(), GetCurrentIdBlockInfo());
+        }
+
         public override void Close()
         {
             if (IsDbClosed)
@@ -312,7 +317,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
 
             // remove trigger manager
-            CoreProvider.RemoveLocalTriggerManager(this);
+            RemoveLocalTriggerManager();
         }
 
         public override long Count(CriteriaQuery query)
@@ -492,7 +497,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public override IRefactorManager GetRefactorManager()
         {
-            return CoreProvider.GetRefactorManager(this);
+            return new RefactorManager(this);
         }
 
         public override void ResetCommitListeners()
@@ -617,7 +622,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public override ISession BuildDefaultSession()
         {
-            _session = CoreProvider.GetLocalSession(this);
+            _session = new LocalSession(this);
             return _session;
         }
 
@@ -628,22 +633,22 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public override IObjectIntrospector BuildObjectIntrospector()
         {
-            return CoreProvider.GetLocalObjectIntrospector(this);
+            return new ObjectIntrospector(this);
         }
 
         public override IObjectReader BuildObjectReader()
         {
-            return CoreProvider.GetObjectReader(this);
+            return new ObjectReader(this);
         }
 
         public override IObjectWriter BuildObjectWriter()
         {
-            return CoreProvider.GetObjectWriter(this);
+            return new ObjectWriter(this, ClassIntrospector.Instance);
         }
 
         public override ITriggerManager BuildTriggerManager()
         {
-            return CoreProvider.GetLocalTriggerManager(this);
+            return GetLocalTriggerManager();
         }
 
         public void UpdateMetaModel()
@@ -708,7 +713,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
             else
             {
-                var classInfoList = CoreProvider.GetClassIntrospector().Introspect(@object.GetType(), true);
+                var classInfoList = ClassIntrospector.Instance.Introspect(@object.GetType(), true);
 
                 // All new classes found
                 _objectWriter.AddClasses(classInfoList);

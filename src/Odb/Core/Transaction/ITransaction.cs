@@ -11,23 +11,14 @@ namespace NDatabase.Odb.Core.Transaction
 
         string GetName();
 
-        bool IsCommited();
-
         void Rollback();
 
         /// <summary>
         ///   Execute the commit process of the transaction
         /// </summary>
-        /// <exception cref="System.Exception">System.Exception</exception>
         void Commit();
 
         void SetFsiToApplyWriteActions(IFileSystemInterface fsi);
-
-        /// <returns> Returns the archiveLog. </returns>
-        bool IsArchiveLog();
-
-        /// <param name="archiveLog"> The archiveLog to set. </param>
-        void SetArchiveLog(bool archiveLog);
 
         /// <summary>
         ///   The public method to add a write action to the transaction.

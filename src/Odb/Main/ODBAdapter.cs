@@ -25,7 +25,7 @@ namespace NDatabase.Odb.Main
         protected OdbAdapter(IStorageEngine storageEngine)
         {
             _storageEngine = storageEngine;
-            _classIntrospector = OdbConfiguration.GetCoreProvider().GetClassIntrospector();
+            _classIntrospector = ClassIntrospector.Instance;
         }
 
         #region IOdb Members

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NDatabase.Odb;
+using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.NQ;
 using NUnit.Framework;
@@ -61,7 +62,7 @@ namespace Test.NDatabase.Odb.Test.Insert
         {
             var tc = new TestClass();
             var classInfo =
-                OdbConfiguration.GetCoreProvider().GetClassIntrospector().Introspect(tc.GetType(), true).
+                ClassIntrospector.Instance.Introspect(tc.GetType(), true).
                     GetMainClassInfo();
             AssertEquals(0, classInfo.GetAllNonNativeAttributes().Count);
         }

@@ -14,20 +14,21 @@ using NDatabase.Odb.Core.Trigger;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
+using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
-    /// <author>olivier</author>
     public abstract class AbstractStorageEngineReader : IStorageEngine
     {
         private const string LogId = "LocalStorageEngine";
+
+        private static readonly IDictionary<IStorageEngine, ITriggerManager> TriggerManagers =
+            new OdbHashMap<IStorageEngine, ITriggerManager>();
 
         /// <summary>
         ///   The file parameters - if we are accessing a file, it will be a IOFileParameters that contains the file name
         /// </summary>
         protected IFileIdentification FileIdentification;
-
-        protected ICoreProvider CoreProvider;
 
         /// <summary>
         ///   To check if database has already been closed
@@ -38,11 +39,28 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         #region IStorageEngine Members
 
+        public ITriggerManager GetLocalTriggerManager()
+        {
+            // First check if trigger manager has already been built for the engine
+            ITriggerManager triggerManager;
+            TriggerManagers.TryGetValue(this, out triggerManager);
+            if (triggerManager != null)
+                return triggerManager;
+
+            triggerManager = new TriggerManager(this);
+            TriggerManagers[this] = triggerManager;
+            return triggerManager;
+        }
+
+        public void RemoveLocalTriggerManager()
+        {
+            TriggerManagers.Remove(this);
+        }
+
         public virtual IObjects<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex)
         {
             if (IsDbClosed)
-                throw new OdbRuntimeException(
-                    NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
+                throw new OdbRuntimeException(NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
             query.SetFullClassName(typeof (T));
             return ObjectReader.GetObjects<T>(query, inMemory, startIndex, endIndex);
         }
@@ -52,8 +70,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var start = OdbTime.GetCurrentTimeInMs();
             var totalNbObjects = 0L;
 
-            var newStorageEngine =
-                OdbConfiguration.GetCoreProvider().GetStorageEngine(new FileIdentification(newFileName));
+            var newStorageEngine = (IStorageEngine) new StorageEngine(new FileIdentification(newFileName));
             IObjects<object> defragObjects;
             var j = 0;
             ClassInfo classInfo;
@@ -73,7 +90,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 }
 
                 var criteriaQuery = new CriteriaQuery(classInfo.GetFullClassName());
-                
+
                 defragObjects = GetObjects<object>(criteriaQuery, true, -1, -1);
 
                 while (defragObjects.HasNext())
@@ -128,10 +145,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var time = OdbTime.GetCurrentTimeInMs() - start;
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
-            {
                 DLogger.Info(string.Format("New storage {0} created with {1} objects in {2} ms.", newFileName,
                                            totalNbObjects, time));
-            }
         }
 
         public abstract ISession GetSession(bool throwExceptionIfDoesNotExist);
@@ -141,10 +156,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var classInfo = GetMetaModel().GetClassInfo(className, true);
 
             if (!classInfo.HasIndex(indexName))
-            {
                 throw new OdbRuntimeException(
                     NDatabaseError.IndexDoesNotExist.AddParameter(indexName).AddParameter(className));
-            }
 
             var classInfoIndex = classInfo.GetIndexWithName(indexName);
 
@@ -167,12 +180,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 DLogger.Info(string.Format("Rebuilding index {0} on class {1}", indexName, className));
 
             var classInfo = GetMetaModel().GetClassInfo(className, true);
-            
+
             if (!classInfo.HasIndex(indexName))
-            {
                 throw new OdbRuntimeException(
                     NDatabaseError.IndexDoesNotExist.AddParameter(indexName).AddParameter(className));
-            }
 
             var classInfoIndex = classInfo.GetIndexWithName(indexName);
             DeleteIndex(className, indexName, verbose);
@@ -186,10 +197,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             var classInfo = GetMetaModel().GetClassInfo(className, true);
             if (classInfo.HasIndex(indexName))
-            {
                 throw new OdbRuntimeException(
                     NDatabaseError.IndexAlreadyExist.AddParameter(indexName).AddParameter(className));
-            }
 
             var classInfoIndex = classInfo.AddIndexOn(indexName, indexFields, acceptMultipleValuesForSameKey);
             IBTree btree;
@@ -200,10 +209,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                                              new LazyOdbBtreePersister(this));
             }
             else
-            {
                 btree = new OdbBtreeSingle(className, OdbConfiguration.GetDefaultIndexBTreeDegree(),
                                            new LazyOdbBtreePersister(this));
-            }
 
             classInfoIndex.BTree = btree;
             Store(classInfoIndex);
@@ -223,7 +230,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 DLogger.Info(string.Format("{0} : loading {1} objects from database", indexName,
                                            classInfo.GetNumberOfObjects()));
             }
-            
+
             // We must load all objects and insert them in the index!
             var objects = GetObjectInfos<object>(new CriteriaQuery(className), false, -1, -1, false);
 
@@ -246,8 +253,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             // Returns the query result handler for normal query result (that return a collection of objects)
             var queryResultAction = new CollectionQueryResultAction<object>(query, inMemory, this, returnObjects,
-                                                           GetObjectReader().GetInstanceBuilder());
-            
+                                                                            GetObjectReader().GetInstanceBuilder());
+
             return ObjectReader.GetObjectInfos<T>(query, inMemory, startIndex, endIndex, returnObjects,
                                                   queryResultAction);
         }
@@ -255,10 +262,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public virtual IObjects<T> GetObjects<T>(Type clazz, bool inMemory, int startIndex, int endIndex)
         {
             if (IsDbClosed)
-            {
-                throw new OdbRuntimeException(
-                    NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
-            }
+                throw new OdbRuntimeException(NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
 
             return ObjectReader.GetObjects<T>(new CriteriaQuery(OdbClassUtil.GetFullName(clazz)), inMemory, startIndex,
                                               endIndex);
@@ -358,13 +362,14 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public abstract OID WriteObjectInfo(OID arg1, NonNativeObjectInfo arg2, long arg3, bool arg4);
 
+        public abstract CurrentIdBlockInfo GetCurrentIdBlockInfo();
+        public abstract IIdManager GetIdManager();
+
         #endregion
 
         protected virtual MetaModel GetMetaModel()
         {
             return GetSession(true).GetMetaModel();
         }
-
-        public abstract CurrentIdBlockInfo GetCurrentIdBlockInfo();
     }
 }

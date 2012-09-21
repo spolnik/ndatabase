@@ -1,5 +1,6 @@
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer3;
+using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.IO
@@ -21,9 +22,9 @@ namespace Test.NDatabase.Odb.Test.IO
             DeleteBase("reserving.neodatis");
             DeleteBase("reserving");
             var engine1 =
-                OdbConfiguration.GetCoreProvider().GetStorageEngine(new FileIdentification("writing.neodatis"));
+                (IStorageEngine) new StorageEngine(new FileIdentification("writing.neodatis"));
             var engine2 =
-                OdbConfiguration.GetCoreProvider().GetStorageEngine(new FileIdentification("reserving.neodatis"));
+                (IStorageEngine) new StorageEngine(new FileIdentification("reserving.neodatis"));
             var writingFsi = engine1.GetObjectWriter().FileSystemProcessor.FileSystemInterface;
             var reservingFsi = engine2.GetObjectWriter().FileSystemProcessor.FileSystemInterface;
             AssertEquals(writingFsi.GetLength(), reservingFsi.GetLength());

@@ -71,7 +71,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             _objectReader = _storageEngine.GetObjectReader();
             _nonNativeObjectWriter.AfterInit();
-            _idManager = OdbConfiguration.GetCoreProvider().GetIdManager(_storageEngine);
+            _idManager = _storageEngine.GetIdManager();
         }
 
         /// <summary>
