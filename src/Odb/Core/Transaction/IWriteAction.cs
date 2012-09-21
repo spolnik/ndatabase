@@ -13,7 +13,6 @@ namespace NDatabase.Odb.Core.Transaction
         void Persist(IFileSystemInterface fsi, int index);
 
         bool IsEmpty();
-
-        long GetPosition();
+        void Clear();
     }
 }

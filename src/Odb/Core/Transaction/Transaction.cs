@@ -307,7 +307,7 @@ namespace NDatabase.Odb.Core.Transaction
             {
                 _hasAllWriteActionsInMemory = false;
 
-                foreach (WriteAction defaultWriteAction in _writeActions)
+                foreach (var defaultWriteAction in _writeActions)
                     defaultWriteAction.Clear();
 
                 _writeActions.Clear();
@@ -621,7 +621,7 @@ namespace NDatabase.Odb.Core.Transaction
             {
                 for (var i = 0; i < _writeActions.Count; i++)
                 {
-                    var wa = (WriteAction) _writeActions[i];
+                    var wa = _writeActions[i];
                     wa.ApplyTo(_fsiToApplyWriteActions, i + 1);
                     wa.Clear();
                 }

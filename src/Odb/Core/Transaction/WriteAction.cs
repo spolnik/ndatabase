@@ -12,9 +12,11 @@ namespace NDatabase.Odb.Core.Transaction
     ///   The WriteAction class is the description of a Write operation that will be applied to the main database file when committing.
     /// </summary>
     /// <remarks>
-    ///   The WriteAction class is the description of a Write operation that will be applied to the main database file when committing. All operations(writes) that can not be written to the database file before committing , pointers (for example) are stored in WriteAction objects. The transaction keeps track of all these WriteActions. When committing, the transaction apply each WriteAction to the engine database file.
+    ///   The WriteAction class is the description of a Write operation that will be applied to the main database file when committing.
+    ///   All operations(writes) that can not be written to the database file before committing, 
+    ///   pointers (for example) are stored in WriteAction objects. The transaction keeps track of all these WriteActions. 
+    ///   When committing, the transaction apply each WriteAction to the engine database file.
     /// </remarks>
-    /// <author>osmadja</author>
     public sealed class WriteAction : IWriteAction
     {
         public const int UnknownWriteAction = 0;
@@ -24,8 +26,8 @@ namespace NDatabase.Odb.Core.Transaction
 
         public static readonly string LogId = "WriteAction";
 
+        private readonly long _position;
         private IOdbList<byte[]> _listOfBytes;
-        private long _position;
 
         private int _size;
 
@@ -38,6 +40,7 @@ namespace NDatabase.Odb.Core.Transaction
             _position = position;
 
             _listOfBytes = new OdbList<byte[]>(20);
+
             if (bytes != null)
             {
                 _listOfBytes.Add(bytes);
@@ -46,11 +49,6 @@ namespace NDatabase.Odb.Core.Transaction
         }
 
         #region IWriteAction Members
-
-        public long GetPosition()
-        {
-            return _position;
-        }
 
         public byte[] GetBytes(int index)
         {
@@ -66,7 +64,7 @@ namespace NDatabase.Odb.Core.Transaction
         public void Persist(IFileSystemInterface fsi, int index)
         {
             var currentPosition = fsi.GetPosition();
-            
+
             // DLogger.debug("# Writing WriteAction #" + index + " at " +
             // currentPosition+" : " + toString());
             var sizeOfLong = OdbType.Long.Size;
@@ -118,14 +116,15 @@ namespace NDatabase.Odb.Core.Transaction
             return _listOfBytes == null || _listOfBytes.IsEmpty();
         }
 
-        #endregion
-
-        public void SetPosition(long position)
+        public void Clear()
         {
-            _position = position;
+            _listOfBytes.Clear();
+            _listOfBytes = null;
         }
 
-        public static WriteAction Read(IFileSystemInterface fsi, int index)
+        #endregion
+
+        public static IWriteAction Read(IFileSystemInterface fsi, int index)
         {
             try
             {
@@ -135,7 +134,8 @@ namespace NDatabase.Odb.Core.Transaction
                 var writeAction = new WriteAction(position, bytes);
 
                 if (OdbConfiguration.IsDebugEnabled(LogId))
-                    DLogger.Debug(string.Format("Loading Write Action # {0} at {1} => {2}", index, fsi.GetPosition(), writeAction));
+                    DLogger.Debug(string.Format("Loading Write Action # {0} at {1} => {2}", index, fsi.GetPosition(),
+                                                writeAction));
 
                 return writeAction;
             }
@@ -163,12 +163,6 @@ namespace NDatabase.Odb.Core.Transaction
                 buffer.Append(" | bytes=null & size=").Append(_size);
 
             return buffer.ToString();
-        }
-
-        public void Clear()
-        {
-            _listOfBytes.Clear();
-            _listOfBytes = null;
         }
     }
 }
