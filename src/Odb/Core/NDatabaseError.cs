@@ -51,8 +51,6 @@ namespace NDatabase.Odb.Core
 
         internal static readonly NDatabaseError UnknownBlockType = new NDatabaseError(211, "Unknown block type @1 at @2");
 
-        internal static readonly NDatabaseError UnsupportedIoType = new NDatabaseError(212, "Unsupported IO Type : @1");
-
         internal static readonly NDatabaseError ObjectDoesNotExistInCache = new NDatabaseError(213,
                                                                                            "Object does not exist in cache");
 
@@ -98,9 +96,6 @@ namespace NDatabase.Odb.Core
 
         internal static readonly NDatabaseError FileInterfaceReadError = new NDatabaseError(231,
                                                                                         "Error reading @1 bytes at @2 : read @3 bytes instead");
-
-        internal static readonly NDatabaseError IndexNotFound = new NDatabaseError(233,
-                                                                               "No index defined on class @1 at index position @2");
 
         internal static readonly NDatabaseError MetaModelClassNameDoesNotExist = new NDatabaseError(235,
                                                                                                 "Class @1 does not exist in meta-model");

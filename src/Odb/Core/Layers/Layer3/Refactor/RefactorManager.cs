@@ -37,7 +37,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Refactor
         {
             var metaModel = _storageEngine.GetSession(true).GetMetaModel();
             var ci = metaModel.GetClassInfo(fullClassName, true);
-            ci.SetFullClassName(newFullClassName);
+            ci.FullClassName = newFullClassName;
             _storageEngine.GetObjectWriter().UpdateClassInfo(ci, true);
         }
 

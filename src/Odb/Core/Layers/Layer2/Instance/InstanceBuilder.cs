@@ -54,7 +54,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
             if (o != null)
                 return o;
 
-            var instanceClazz = OdbType.ClassPool.GetClass(objectInfo.GetClassInfo().GetFullClassName());
+            var instanceClazz = OdbType.ClassPool.GetClass(objectInfo.GetClassInfo().FullClassName);
 
             try
             {
@@ -63,13 +63,13 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
             catch (Exception e)
             {
                 throw new OdbRuntimeException(
-                    NDatabaseError.InstanciationError.AddParameter(objectInfo.GetClassInfo().GetFullClassName()), e);
+                    NDatabaseError.InstanciationError.AddParameter(objectInfo.GetClassInfo().FullClassName), e);
             }
 
             // This can happen if ODB can not create the instance from security reasons
             if (o == null)
                 throw new OdbRuntimeException(
-                    NDatabaseError.InstanciationError.AddParameter(objectInfo.GetClassInfo().GetFullClassName()));
+                    NDatabaseError.InstanciationError.AddParameter(objectInfo.GetClassInfo().FullClassName));
 
             // Keep the initial hash code. In some cases, when the class redefines
             // the hash code method
@@ -95,7 +95,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
                 cache.AddObject(objectInfo.GetOid(), o, objectInfo.GetHeader());
 
             var classInfo = objectInfo.GetClassInfo();
-            var fields = _classIntrospector.GetAllFields(classInfo.GetFullClassName());
+            var fields = _classIntrospector.GetAllFields(classInfo.FullClassName);
 
             object value = null;
 
@@ -152,7 +152,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
                                 {
                                     var warning =
                                         NDatabaseError.AttributeReferencesADeletedObject.AddParameter(
-                                            objectInfo.GetClassInfo().GetFullClassName()).AddParameter(
+                                            objectInfo.GetClassInfo().FullClassName).AddParameter(
                                                 objectInfo.GetOid()).AddParameter(fieldInfo.Name);
                                     DLogger.Info(warning.ToString());
                                 }
@@ -177,17 +177,17 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
                         {
                             throw new OdbRuntimeException(
                                 NDatabaseError.InstanceBuilderWrongObjectContainerType.AddParameter(
-                                    objectInfo.GetClassInfo().GetFullClassName()).AddParameter(value.GetType().FullName)
+                                    objectInfo.GetClassInfo().FullClassName).AddParameter(value.GetType().FullName)
                                     .AddParameter(fieldInfo.GetType().FullName), e);
                         }
                     }
                 }
             }
-            if (!OdbClassUtil.GetFullName(o.GetType()).Equals(objectInfo.GetClassInfo().GetFullClassName()))
+            if (!OdbClassUtil.GetFullName(o.GetType()).Equals(objectInfo.GetClassInfo().FullClassName))
             {
                 throw new OdbRuntimeException(
                     NDatabaseError.InstanceBuilderWrongObjectType.AddParameter(
-                        objectInfo.GetClassInfo().GetFullClassName()).AddParameter(o.GetType().FullName));
+                        objectInfo.GetClassInfo().FullClassName).AddParameter(o.GetType().FullName));
             }
             if (hashCodeIsOk || initialHashCode != o.GetHashCode())
             {
@@ -202,7 +202,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
             }
             if (_triggerManager != null)
             {
-                _triggerManager.ManageSelectTriggerAfter(objectInfo.GetClassInfo().GetFullClassName(), objectInfo,
+                _triggerManager.ManageSelectTriggerAfter(objectInfo.GetClassInfo().FullClassName, objectInfo,
                                                          objectInfo.GetOid());
             }
 

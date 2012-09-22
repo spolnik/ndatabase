@@ -140,11 +140,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 {
                     DLogger.Debug(string.Format(
                         "{0}Reading class header for {1} - oid = {2} prevOid={3} - nextOid={4}", DepthToSpaces(),
-                        classInfo.GetFullClassName(), classOID, classInfo.GetPreviousClassOID(),
-                        classInfo.GetNextClassOID()));
+                        classInfo.FullClassName, classOID, classInfo.PreviousClassOID,
+                        classInfo.NextClassOID));
                 }
                 metaModel.AddClass(classInfo);
-                classOID = classInfo.GetNextClassOID();
+                classOID = classInfo.NextClassOID;
             }
 
             if (!full)
@@ -160,7 +160,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 classInfo = ReadClassInfoBody(tempCi);
 
                 if (OdbConfiguration.IsDebugEnabled(LogId))
-                    DLogger.Debug(DepthToSpaces() + "Reading class body for " + classInfo.GetFullClassName());
+                    DLogger.Debug(DepthToSpaces() + "Reading class body for " + classInfo.FullClassName);
             }
 
             // No need to add it to metamodel, it is already in it.
@@ -171,23 +171,23 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 if (OdbConfiguration.IsDebugEnabled(LogId))
                 {
                     DLogger.Debug(string.Format("{0}Reading class info last instance {1}", DepthToSpaces(),
-                                                actualClassInfo.GetFullClassName()));
+                                                actualClassInfo.FullClassName));
                 }
-                if (actualClassInfo.GetCommitedZoneInfo().HasObjects())
+                if (actualClassInfo.CommitedZoneInfo.HasObjects())
                 {
                     // TODO Check if must use true or false in return object
                     // parameter
                     try
                     {
                         // Retrieve the object by oid instead of position
-                        var oid = actualClassInfo.GetCommitedZoneInfo().Last;
-                        actualClassInfo.SetLastObjectInfoHeader(ReadObjectInfoHeaderFromOid(oid, true));
+                        var oid = actualClassInfo.CommitedZoneInfo.Last;
+                        actualClassInfo.LastObjectInfoHeader = ReadObjectInfoHeaderFromOid(oid, true);
                     }
                     catch (OdbRuntimeException e)
                     {
                         throw new OdbRuntimeException(
-                            NDatabaseError.MetamodelReadingLastObject.AddParameter(actualClassInfo.GetFullClassName()).
-                                AddParameter(actualClassInfo.GetCommitedZoneInfo().Last), e);
+                            NDatabaseError.MetamodelReadingLastObject.AddParameter(actualClassInfo.FullClassName).
+                                AddParameter(actualClassInfo.CommitedZoneInfo.Last), e);
                     }
                 }
             }
@@ -199,7 +199,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             {
                 IOdbList<ClassInfoIndex> indexes = new OdbList<ClassInfoIndex>();
                 IQuery queryClassInfo = new CriteriaQuery(typeof (ClassInfoIndex),
-                                                          Where.Equal("ClassInfoId", actualClassInfo.GetId()));
+                                                          Where.Equal("ClassInfoId", actualClassInfo.ClassInfoId));
                 var classIndexes = GetObjects<ClassInfoIndex>(queryClassInfo, true, -1, -1);
                 indexes.AddAll(classIndexes);
                 // Sets the btree persister
@@ -214,7 +214,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 if (OdbConfiguration.IsDebugEnabled(LogId))
                 {
                     DLogger.Debug(string.Format("{0}Reading indexes for {1} : {2} indexes", DepthToSpaces(),
-                                                actualClassInfo.GetFullClassName(), indexes.Count));
+                                                actualClassInfo.FullClassName, indexes.Count));
                 }
 
                 actualClassInfo.SetIndexes(indexes);
@@ -241,7 +241,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     throw new OdbRuntimeException(
                         NDatabaseError.WrongTypeForBlockType.AddParameter(BlockTypes.BlockTypeIndex).AddParameter(
                             blockType).AddParameter(position).AddParameter("while reading indexes for " +
-                                                                           classInfo.GetFullClassName()));
+                                                                           classInfo.FullClassName));
                 }
                 _fsi.ReadLong("prev index pos"); //previousIndexPosition
                 nextIndexPosition = _fsi.ReadLong("next index pos");
@@ -323,15 +323,14 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     _storageEngine.GetSession(true).GetMetaModel().GetClassInfoFromId(objectInfoHeader.GetClassInfoId());
             oid = objectInfoHeader.GetOid();
             // if class info do not match, reload class info
-            if (!classInfo.GetId().Equals(objectInfoHeader.GetClassInfoId()))
+            if (!classInfo.ClassInfoId.Equals(objectInfoHeader.GetClassInfoId()))
                 classInfo =
                     _storageEngine.GetSession(true).GetMetaModel().GetClassInfoFromId(objectInfoHeader.GetClassInfoId());
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
                 DLogger.Debug(DepthToSpaces() + "Reading Non Native Object info of " + (classInfo == null
                                                                                             ? "?"
-                                                                                            : classInfo.GetFullClassName
-                                                                                                  ()) + " at " +
+                                                                                            : classInfo.FullClassName) + " at " +
                               objectInfoHeader.GetPosition() + " with id " + oid);
                 DLogger.Debug(DepthToSpaces() + "  Object Header is " + objectInfoHeader);
             }
@@ -346,7 +345,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             tmpCache.StartReadingObjectInfoWithOid(objectInfo.GetOid(), objectInfo);
             AbstractObjectInfo aoi;
             IOdbList<PendingReading> pendingReadings = new OdbList<PendingReading>();
-            for (var id = 1; id <= classInfo.GetMaxAttributeId(); id++)
+            for (var id = 1; id <= classInfo.MaxAttributeId; id++)
             {
                 var cai = objectInfo.GetClassInfo().GetAttributeInfoFromId(id);
                 if (cai == null)
@@ -734,10 +733,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                         try
                         {
                             var ci = ReadClassInfoHeader(OIDFactory.BuildClassOID(currentId));
-                            objectType = "Class def. of " + ci.GetFullClassName();
+                            objectType = "Class def. of " + ci.FullClassName;
                             objectToString = ci.ToString();
-                            prevObjectOID = ci.GetPreviousClassOID();
-                            nextObjectOID = ci.GetNextClassOID();
+                            prevObjectOID = ci.PreviousClassOID;
+                            nextObjectOID = ci.NextClassOID;
                             info = new FullIDInfo(currentId, objectPosition, idStatus, blockId, objectType,
                                                   objectToString, prevObjectOID, nextObjectOID);
                             idInfos.Add(info);
@@ -917,19 +916,18 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
             var classInfoCategory = _fsi.ReadByte("class info category");
             var classInfo = new ClassInfo();
-            classInfo.SetClassCategory(classInfoCategory);
-            classInfo.SetPosition(classInfoPosition);
-            classInfo.SetId(OIDFactory.BuildClassOID(_fsi.ReadLong()));
-            classInfo.SetBlockSize(blockSize);
-            classInfo.SetPreviousClassOID(ReadOid("prev class oid"));
-            classInfo.SetNextClassOID(ReadOid("next class oid"));
-            classInfo.GetOriginalZoneInfo().SetNbObjects(_fsi.ReadLong());
-            classInfo.GetOriginalZoneInfo().First = ReadOid("ci first object oid");
-            classInfo.GetOriginalZoneInfo().Last = ReadOid("ci last object oid");
-            classInfo.GetCommitedZoneInfo().Set(classInfo.GetOriginalZoneInfo());
-            classInfo.SetFullClassName(_fsi.ReadString());
-            classInfo.SetMaxAttributeId(_fsi.ReadInt());
-            classInfo.SetAttributesDefinitionPosition(_fsi.ReadLong());
+            classInfo.ClassCategory = classInfoCategory;
+            classInfo.Position = classInfoPosition;
+            classInfo.ClassInfoId = OIDFactory.BuildClassOID(_fsi.ReadLong());
+            classInfo.PreviousClassOID = ReadOid("prev class oid");
+            classInfo.NextClassOID = ReadOid("next class oid");
+            classInfo.OriginalZoneInfo.SetNbObjects(_fsi.ReadLong());
+            classInfo.OriginalZoneInfo.First = ReadOid("ci first object oid");
+            classInfo.OriginalZoneInfo.Last = ReadOid("ci last object oid");
+            classInfo.CommitedZoneInfo.Set(classInfo.OriginalZoneInfo);
+            classInfo.FullClassName = _fsi.ReadString();
+            classInfo.MaxAttributeId = _fsi.ReadInt();
+            classInfo.AttributesDefinitionPosition = _fsi.ReadLong();
             // FIXME Convert block size to long ??
             var realBlockSize = (int) (_fsi.GetPosition() - classInfoPosition);
             if (blockSize != realBlockSize)
@@ -966,29 +964,29 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             if (OdbConfiguration.IsDebugEnabled(LogId))
                 DLogger.Debug(DepthToSpaces() + "Reading new Class info Body at " +
-                              classInfo.GetAttributesDefinitionPosition());
-            _fsi.SetReadPosition(classInfo.GetAttributesDefinitionPosition());
+                              classInfo.AttributesDefinitionPosition);
+            _fsi.SetReadPosition(classInfo.AttributesDefinitionPosition);
             var blockSize = _fsi.ReadInt();
             var blockType = _fsi.ReadByte();
             if (!BlockTypes.IsClassBody(blockType))
             {
                 throw new OdbRuntimeException(
                     NDatabaseError.WrongTypeForBlockType.AddParameter("Class Body").AddParameter(blockType).AddParameter(
-                        classInfo.GetAttributesDefinitionPosition()));
+                        classInfo.AttributesDefinitionPosition));
             }
             // TODO This should be a short instead of long
             var nbAttributes = _fsi.ReadLong();
             IOdbList<ClassAttributeInfo> attributes = new OdbList<ClassAttributeInfo>((int) nbAttributes);
             for (var i = 0; i < nbAttributes; i++)
                 attributes.Add(ReadClassAttributeInfo());
-            classInfo.SetAttributes(attributes);
+            classInfo.Attributes = attributes;
             // FIXME Convert blocksize to long ??
-            var realBlockSize = (int) (_fsi.GetPosition() - classInfo.GetAttributesDefinitionPosition());
+            var realBlockSize = (int) (_fsi.GetPosition() - classInfo.AttributesDefinitionPosition);
             if (blockSize != realBlockSize)
             {
                 throw new OdbRuntimeException(
                     NDatabaseError.WrongBlockSize.AddParameter(blockSize).AddParameter(realBlockSize).AddParameter(
-                        classInfo.GetAttributesDefinitionPosition()));
+                        classInfo.AttributesDefinitionPosition));
             }
             return classInfo;
         }
@@ -1016,7 +1014,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     {
                         var fullClassName =
                             _storageEngine.GetSession(true).GetMetaModel().GetClassInfoFromId(
-                                OIDFactory.BuildClassOID(_fsi.ReadLong())).GetFullClassName();
+                                OIDFactory.BuildClassOID(_fsi.ReadLong())).FullClassName;
 
                         subType = subType.Copy(fullClassName);
                     }
@@ -1029,7 +1027,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     var classInfoId = _fsi.ReadLong();
                     var metaModel = _storageEngine.GetSession(true).GetMetaModel();
                     cai.SetFullClassName(
-                        metaModel.GetClassInfoFromId(OIDFactory.BuildClassOID(classInfoId)).GetFullClassName());
+                        metaModel.GetClassInfoFromId(OIDFactory.BuildClassOID(classInfoId)).FullClassName);
                     // For enum, we need to create a new type just to set the real enum class name
                     type = type.Copy(cai.GetFullClassname());
                     cai.SetAttributeType(type);
@@ -1043,7 +1041,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 // meta-model
                 var metaModel = _storageEngine.GetSession(true).GetMetaModel();
                 var typeId = _fsi.ReadLong();
-                cai.SetFullClassName(metaModel.GetClassInfoFromId(OIDFactory.BuildClassOID(typeId)).GetFullClassName());
+                cai.SetFullClassName(metaModel.GetClassInfoFromId(OIDFactory.BuildClassOID(typeId)).FullClassName);
                 cai.SetClassInfo(metaModel.GetClassInfo(cai.GetFullClassname(), true));
                 cai.SetAttributeType(OdbType.GetFromName(cai.GetFullClassname()));
             }
@@ -1326,7 +1324,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                         {
                             throw new OdbRuntimeException(
                                 NDatabaseError.CriteriaQueryUnknownAttribute.AddParameter(attributeNameToSearch).
-                                    AddParameter(classInfo.GetFullClassName()));
+                                    AddParameter(classInfo.FullClassName));
                         }
                         cai = classInfo.GetAttributeInfoFromId(attributeId);
                         // Gets the identification (id or position from the object
@@ -1358,7 +1356,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                         {
                             throw new OdbRuntimeException(
                                 NDatabaseError.CriteriaQueryUnknownAttribute.AddParameter(attributeNameToSearch).
-                                    AddParameter(classInfo.GetFullClassName()));
+                                    AddParameter(classInfo.FullClassName));
                         }
                     }
                     else
@@ -1368,7 +1366,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                         {
                             throw new OdbRuntimeException(
                                 NDatabaseError.CriteriaQueryUnknownAttribute.AddParameter(attributeNameToSearch).
-                                    AddParameter(classInfo.GetFullClassName()));
+                                    AddParameter(classInfo.FullClassName));
                         }
                         cai = classInfo.GetAttributeInfoFromId(attributeId);
                         // Gets the identification (id or position from the object
@@ -1694,13 +1692,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             {
                 var classIdForNullObject = OIDFactory.BuildClassOID(_fsi.ReadLong("class id of object"));
                 return "null " +
-                       _storageEngine.GetSession(true).GetMetaModel().GetClassInfoFromId(classIdForNullObject).
-                           GetFullClassName();
+                       _storageEngine.GetSession(true).GetMetaModel().GetClassInfoFromId(classIdForNullObject).FullClassName;
             }
             var classIdPosition = objectPosition + StorageEngineConstant.ObjectOffsetClassInfoId;
             _fsi.SetReadPosition(classIdPosition);
             var classId = OIDFactory.BuildClassOID(_fsi.ReadLong("class id of object"));
-            return _storageEngine.GetSession(true).GetMetaModel().GetClassInfoFromId(classId).GetFullClassName();
+            return _storageEngine.GetSession(true).GetMetaModel().GetClassInfoFromId(classId).FullClassName;
         }
 
         /// <param name="blockNumberToFind"> </param>
@@ -1775,10 +1772,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// </remarks>
         public IOdbList<ObjectInfoHeader> GetObjectInfoHeaderList(ClassInfo classInfo)
         {
-            if (classInfo.GetNumberOfObjects() == 0)
+            if (classInfo.NumberOfObjects == 0)
                 return new OdbList<ObjectInfoHeader>();
-            IOdbList<ObjectInfoHeader> list = new OdbList<ObjectInfoHeader>((int) classInfo.GetNumberOfObjects());
-            var oid = classInfo.GetCommitedZoneInfo().First ?? classInfo.GetUncommittedZoneInfo().First;
+            IOdbList<ObjectInfoHeader> list = new OdbList<ObjectInfoHeader>((int) classInfo.NumberOfObjects);
+            var oid = classInfo.CommitedZoneInfo.First ?? classInfo.UncommittedZoneInfo.First;
             while (oid != null)
             {
                 var oih = ReadObjectInfoHeaderFromOid(oid, true);

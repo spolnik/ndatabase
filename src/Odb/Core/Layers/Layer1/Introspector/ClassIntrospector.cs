@@ -52,12 +52,12 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
         private ClassInfo GetClassInfo(String fullClassName, ClassInfo existingClassInfo)
         {
             var classInfo = new ClassInfo(fullClassName);
-            classInfo.SetClassCategory(GetClassCategory(fullClassName));
+            classInfo.ClassCategory = GetClassCategory(fullClassName);
 
             var fields = GetAllFields(fullClassName);
             IOdbList<ClassAttributeInfo> attributes = new OdbList<ClassAttributeInfo>(fields.Count);
 
-            var maxAttributeId = existingClassInfo.GetMaxAttributeId();
+            var maxAttributeId = existingClassInfo.MaxAttributeId;
             foreach (var fieldInfo in fields)
             {
                 // Gets the attribute id from the existing class info
@@ -77,8 +77,8 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                                                       OdbClassUtil.GetFullName(fieldInfo.FieldType), fieldClassInfo));
             }
 
-            classInfo.SetAttributes(attributes);
-            classInfo.SetMaxAttributeId(maxAttributeId);
+            classInfo.Attributes = attributes;
+            classInfo.MaxAttributeId = maxAttributeId;
 
             return classInfo;
         }
@@ -195,9 +195,9 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             // re introspect classes
             foreach (var persistedClassInfo in classInfos)
             {
-                var currentClassInfo = GetClassInfo(persistedClassInfo.GetFullClassName(), persistedClassInfo);
+                var currentClassInfo = GetClassInfo(persistedClassInfo.FullClassName, persistedClassInfo);
 
-                classInfoSet.Add(currentClassInfo.GetFullClassName(), currentClassInfo);
+                classInfoSet.Add(currentClassInfo.FullClassName, currentClassInfo);
             }
 
             return classInfoSet;
@@ -248,7 +248,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             }
 
             var classInfo = new ClassInfo(fullClassName);
-            classInfo.SetClassCategory(GetClassCategory(fullClassName));
+            classInfo.ClassCategory = GetClassCategory(fullClassName);
 
             if (classInfoList == null)
                 classInfoList = new ClassInfoList(classInfo);
@@ -284,8 +284,8 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                 attributes.Add(new ClassAttributeInfo((i + 1), field.Name, field.FieldType,
                                                       OdbClassUtil.GetFullName(field.FieldType), classInfoWithName));
             }
-            classInfo.SetAttributes(attributes);
-            classInfo.SetMaxAttributeId(fields.Count);
+            classInfo.Attributes = attributes;
+            classInfo.MaxAttributeId = fields.Count;
             return classInfoList;
         }
 

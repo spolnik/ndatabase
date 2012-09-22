@@ -85,11 +85,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 if (OdbConfiguration.IsDebugEnabled(LogId))
                 {
                     DLogger.Debug(string.Format("Reading {0} objects of type {1}",
-                                                classInfo.GetCommitedZoneInfo().GetNbObjects(),
-                                                classInfo.GetFullClassName()));
+                                                classInfo.CommitedZoneInfo.GetNbObjects(),
+                                                classInfo.FullClassName));
                 }
 
-                var criteriaQuery = new CriteriaQuery(classInfo.GetFullClassName());
+                var criteriaQuery = new CriteriaQuery(classInfo.FullClassName);
 
                 defragObjects = GetObjects<object>(criteriaQuery, true, -1, -1);
 
@@ -118,11 +118,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 if (OdbConfiguration.IsDebugEnabled(LogId))
                 {
                     DLogger.Debug(string.Format("Reading {0} objects of type {1}",
-                                                classInfo.GetCommitedZoneInfo().GetNbObjects(),
-                                                classInfo.GetFullClassName()));
+                                                classInfo.CommitedZoneInfo.GetNbObjects(),
+                                                classInfo.FullClassName));
                 }
 
-                defragObjects = GetObjects<object>(new CriteriaQuery(classInfo.GetFullClassName()), true, -1, -1);
+                defragObjects = GetObjects<object>(new CriteriaQuery(classInfo.FullClassName), true, -1, -1);
 
                 while (defragObjects.HasNext())
                 {
@@ -216,7 +216,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             Store(classInfoIndex);
 
             // Now The index must be updated with all existing objects.
-            if (classInfo.GetNumberOfObjects() == 0)
+            if (classInfo.NumberOfObjects == 0)
             {
                 // There are no objects. Nothing to do
                 return;
@@ -225,17 +225,17 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             {
                 DLogger.Info(
                     string.Format("Creating index {0} on class {1} - Class has already {2} Objects. Updating index",
-                                  indexName, className, classInfo.GetNumberOfObjects()));
+                                  indexName, className, classInfo.NumberOfObjects));
 
                 DLogger.Info(string.Format("{0} : loading {1} objects from database", indexName,
-                                           classInfo.GetNumberOfObjects()));
+                                           classInfo.NumberOfObjects));
             }
 
             // We must load all objects and insert them in the index!
             var objects = GetObjectInfos<object>(new CriteriaQuery(className), false, -1, -1, false);
 
             if (verbose)
-                DLogger.Info(string.Format("{0} : {1} objects loaded", indexName, classInfo.GetNumberOfObjects()));
+                DLogger.Info(string.Format("{0} : {1} objects loaded", indexName, classInfo.NumberOfObjects));
 
             while (objects.HasNext())
             {

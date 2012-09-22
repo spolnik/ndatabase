@@ -200,10 +200,10 @@ namespace NDatabase.Odb.Core.Query.Execution
                 throw new OdbRuntimeException(
                     NDatabaseError.OdbIsClosed.AddParameter(StorageEngine.GetBaseIdentification().Id));
             }
-            var nbObjects = ClassInfo.GetNumberOfObjects();
+            var nbObjects = ClassInfo.NumberOfObjects;
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
-                DLogger.Debug(string.Format("loading {0} instance(s) of {1}", nbObjects, ClassInfo.GetFullClassName()));
+                DLogger.Debug(string.Format("loading {0} instance(s) of {1}", nbObjects, ClassInfo.FullClassName));
 
             if (ExecuteStartAndEndOfQueryAction())
                 queryResultAction.Start();
@@ -211,13 +211,13 @@ namespace NDatabase.Odb.Core.Query.Execution
             OID currentOID = null;
 
             // TODO check if all instances are in the cache! and then load from the cache
-            NextOID = ClassInfo.GetCommitedZoneInfo().First;
+            NextOID = ClassInfo.CommitedZoneInfo.First;
 
             if (nbObjects > 0 && NextOID == null)
             {
                 // This means that some changes have not been commited!
                 // Take next position from uncommited zone
-                NextOID = ClassInfo.GetUncommittedZoneInfo().First;
+                NextOID = ClassInfo.UncommittedZoneInfo.First;
             }
 
             PrepareQuery();
@@ -240,7 +240,7 @@ namespace NDatabase.Odb.Core.Query.Execution
                     if (OdbConfiguration.ThrowExceptionWhenInconsistencyFound())
                     {
                         throw new OdbRuntimeException(
-                            NDatabaseError.NullNextObjectOid.AddParameter(ClassInfo.GetFullClassName()).AddParameter(i).
+                            NDatabaseError.NullNextObjectOid.AddParameter(ClassInfo.FullClassName).AddParameter(i).
                                 AddParameter(nbObjects).AddParameter(prevOID));
                     }
 
@@ -312,7 +312,7 @@ namespace NDatabase.Odb.Core.Query.Execution
             if (index.BTree.GetPersister() == null)
                 index.BTree.SetPersister(new LazyOdbBtreePersister(StorageEngine));
 
-            var nbObjects = ClassInfo.GetNumberOfObjects();
+            var nbObjects = ClassInfo.NumberOfObjects;
             var btreeSize = index.BTree.GetSize();
 
             // the two values should be equal
@@ -321,12 +321,12 @@ namespace NDatabase.Odb.Core.Query.Execution
                 var classInfo = StorageEngine.GetSession(true).GetMetaModel().GetClassInfoFromId(index.ClassInfoId);
 
                 throw new OdbRuntimeException(
-                    NDatabaseError.IndexIsCorrupted.AddParameter(index.Name).AddParameter(classInfo.GetFullClassName()).
+                    NDatabaseError.IndexIsCorrupted.AddParameter(index.Name).AddParameter(classInfo.FullClassName).
                         AddParameter(nbObjects).AddParameter(btreeSize));
             }
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
-                DLogger.Debug(string.Format("loading {0} instance(s) of {1}", nbObjects, ClassInfo.GetFullClassName()));
+                DLogger.Debug(string.Format("loading {0} instance(s) of {1}", nbObjects, ClassInfo.FullClassName));
 
             if (ExecuteStartAndEndOfQueryAction())
                 queryResultAction.Start();
@@ -392,7 +392,7 @@ namespace NDatabase.Odb.Core.Query.Execution
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
                 DLogger.Debug(string.Format("loading Object with oid {0} - class {1}", Query.GetOidOfObjectToQuery(),
-                                            ClassInfo.GetFullClassName()));
+                                            ClassInfo.FullClassName));
             }
             if (ExecuteStartAndEndOfQueryAction())
                 queryResultAction.Start();

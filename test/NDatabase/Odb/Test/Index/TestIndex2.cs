@@ -1,9 +1,5 @@
 using System;
 using NDatabase.Btree.Exception;
-using NDatabase.Odb;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.Criteria;
 using NUnit.Framework;
@@ -199,16 +195,11 @@ namespace Test.NDatabase.Odb.Test.Index
             clazz.AddUniqueIndexOn("index1", indexFields1, true);
             @base.Close();
             @base = Open(baseName);
-            var session = @base.GetStorageEngine().GetSession(true);
-            var metaModel = session.GetStorageEngine().GetSession(true).GetMetaModel();
-            var ci = metaModel.GetClassInfo(typeof (IndexedObject3), true);
-            AssertEquals(1, ci.GetNumberOfIndexes());
-            AssertEquals(ci.GetIndex(0).Name, "index1");
-            AssertEquals(3, ci.GetIndex(0).AttributeIds.Length);
-            AssertEquals(ClassInfoIndex.Enabled, ci.GetIndex(0).Status);
+            
             IQuery q = new CriteriaQuery(typeof (IndexedObject3),
                                          Where.And().Add(Where.Equal("i1", 10)).Add(Where.Equal("i2", 2)).Add(
                                              Where.Equal("i3", 3)));
+
             var objects = @base.GetObjects<IndexedObject3>(q);
             AssertEquals(true, q.GetExecutionPlan().UseIndex());
             @base.GetClassRepresentation(typeof (IndexedObject3)).DeleteIndex("index1", true);
@@ -277,16 +268,11 @@ namespace Test.NDatabase.Odb.Test.Index
             clazz.AddUniqueIndexOn("index1", indexFields1, true);
             @base.Close();
             @base = Open(baseName);
-            var session = @base.GetStorageEngine().GetSession(true);
-            var metaModel = session.GetStorageEngine().GetSession(true).GetMetaModel();
-            var ci = metaModel.GetClassInfo(typeof (IndexedObject3), true);
-            AssertEquals(1, ci.GetNumberOfIndexes());
-            AssertEquals(ci.GetIndex(0).Name, "index1");
-            AssertEquals(3, ci.GetIndex(0).AttributeIds.Length);
-            AssertEquals(ClassInfoIndex.Enabled, ci.GetIndex(0).Status);
+            
             IQuery q = new CriteriaQuery(typeof (IndexedObject3),
                                          Where.And().Add(Where.Equal("i1", 10)).Add(Where.Equal("i2", 2)).Add(
                                              Where.Equal("i3", 3)));
+
             var objects = @base.GetObjects<IndexedObject3>(q);
             AssertEquals(true, q.GetExecutionPlan().UseIndex());
             @base.GetClassRepresentation(typeof (IndexedObject3)).RebuildIndex("index1", true);
@@ -315,22 +301,7 @@ namespace Test.NDatabase.Odb.Test.Index
             clazz.AddUniqueIndexOn("index4", indexFields4, true);
             @base.Close();
             @base = Open(baseName);
-            var session = @base.GetStorageEngine().GetSession(true);
-            var metaModel = session.GetStorageEngine().GetSession(true).GetMetaModel();
-            var ci = metaModel.GetClassInfo(typeof (IndexedObject3), true);
-            AssertEquals(4, ci.GetNumberOfIndexes());
-            AssertEquals(ci.GetIndex(0).Name, "index1");
-            AssertEquals(3, ci.GetIndex(0).AttributeIds.Length);
-            AssertEquals(ClassInfoIndex.Enabled, ci.GetIndex(0).Status);
-            AssertEquals(ci.GetIndex(1).Name, "index2");
-            AssertEquals(3, ci.GetIndex(1).AttributeIds.Length);
-            AssertEquals(ClassInfoIndex.Enabled, ci.GetIndex(1).Status);
-            AssertEquals(ci.GetIndex(2).Name, "index3");
-            AssertEquals(3, ci.GetIndex(2).AttributeIds.Length);
-            AssertEquals(ClassInfoIndex.Enabled, ci.GetIndex(2).Status);
-            AssertEquals(ci.GetIndex(3).Name, "index4");
-            AssertEquals(9, ci.GetIndex(3).AttributeIds.Length);
-            AssertEquals(ClassInfoIndex.Enabled, ci.GetIndex(3).Status);
+            
             @base.Close();
             @base = Open(baseName);
             for (var i = 0; i < 10; i++)

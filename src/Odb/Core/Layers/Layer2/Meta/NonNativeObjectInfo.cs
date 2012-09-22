@@ -39,7 +39,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
             if (classInfo != null)
             {
-                _maxNbattributes = classInfo.GetMaxAttributeId();
+                _maxNbattributes = classInfo.MaxAttributeId;
                 _attributeValues = new AbstractObjectInfo[_maxNbattributes];
             }
         }
@@ -48,29 +48,29 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         {
             _classInfo = classInfo;
             _objectHeader = new ObjectInfoHeader(-1, null, null, (classInfo != null
-                                                                      ? classInfo.GetId()
+                                                                      ? classInfo.ClassInfoId
                                                                       : null), null, null);
             if (classInfo != null)
             {
-                _maxNbattributes = classInfo.GetMaxAttributeId();
+                _maxNbattributes = classInfo.MaxAttributeId;
                 _attributeValues = new AbstractObjectInfo[_maxNbattributes];
             }
         }
 
         public NonNativeObjectInfo(object @object, ClassInfo info, AbstractObjectInfo[] values,
                                    long[] attributesIdentification, int[] attributeIds)
-            : base(OdbType.GetFromName(info.GetFullClassName()))
+            : base(OdbType.GetFromName(info.FullClassName))
         {
             _theObject = @object;
             _classInfo = info;
             _attributeValues = values;
-            _maxNbattributes = _classInfo.GetMaxAttributeId();
+            _maxNbattributes = _classInfo.MaxAttributeId;
 
             if (_attributeValues == null)
                 _attributeValues = new AbstractObjectInfo[_maxNbattributes];
 
             _objectHeader = new ObjectInfoHeader(-1, null, null, (_classInfo != null
-                                                                      ? _classInfo.GetId()
+                                                                      ? _classInfo.ClassInfoId
                                                                       : null), attributesIdentification, attributeIds);
         }
 
@@ -94,13 +94,13 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             if (classInfo != null)
             {
                 _classInfo = classInfo;
-                _objectHeader.SetClassInfoId(classInfo.GetId());
+                _objectHeader.SetClassInfoId(classInfo.ClassInfoId);
             }
         }
 
         public override string ToString()
         {
-            var buffer = new StringBuilder(_classInfo.GetFullClassName()).Append("(").Append(GetOid()).Append(")=");
+            var buffer = new StringBuilder(_classInfo.FullClassName).Append("(").Append(GetOid()).Append(")=");
 
             if (_attributeValues == null)
             {
@@ -144,7 +144,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                     var nnoi = @object as NonNativeObjectInfo;
                     if (nnoi != null)
                     {
-                        buffer.Append("@").Append(nnoi.GetClassInfo().GetFullClassName()).Append("(id=").Append(
+                        buffer.Append("@").Append(nnoi.GetClassInfo().FullClassName).Append("(id=").Append(
                             nnoi.GetOid()).Append(")");
                         continue;
                     }
@@ -222,7 +222,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             }
 
             throw new OdbRuntimeException(
-                NDatabaseError.ClassInfoDoNotHaveTheAttribute.AddParameter(GetClassInfo().GetFullClassName()).
+                NDatabaseError.ClassInfoDoNotHaveTheAttribute.AddParameter(GetClassInfo().FullClassName).
                     AddParameter(attributeName));
         }
 
@@ -257,7 +257,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             }
 
             throw new OdbRuntimeException(
-                NDatabaseError.ClassInfoDoNotHaveTheAttribute.AddParameter(GetClassInfo().GetFullClassName()).
+                NDatabaseError.ClassInfoDoNotHaveTheAttribute.AddParameter(GetClassInfo().FullClassName).
                     AddParameter(attributeName));
         }
 

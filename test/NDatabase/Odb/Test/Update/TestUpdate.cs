@@ -349,9 +349,9 @@ namespace Test.NDatabase.Odb.Test.Update
 
             var ci = engine.GetSession(true).GetMetaModel().GetClassInfo(fullClassName, true);
             Println(ci);
-            AssertEquals(null, ci.GetCommitedZoneInfo().First);
-            AssertEquals(null, ci.GetCommitedZoneInfo().Last);
-            AssertEquals(1, ci.GetUncommittedZoneInfo().GetNbObjects());
+            AssertEquals(null, ci.CommitedZoneInfo.First);
+            AssertEquals(null, ci.CommitedZoneInfo.Last);
+            AssertEquals(1, ci.UncommittedZoneInfo.GetNbObjects());
             odb.Close();
         }
 

@@ -98,11 +98,11 @@ namespace NDatabase.Odb.Core.Transaction
 
         public void Clear()
         {
-            if (_writeActions != null)
-            {
-                _writeActions.Clear();
-                _writeActions = null;
-            }
+            if (_writeActions == null)
+                return;
+
+            _writeActions.Clear();
+            _writeActions = null;
         }
 
         /// <summary>
@@ -118,17 +118,12 @@ namespace NDatabase.Odb.Core.Transaction
         public string GetName()
         {
             var parameters = _fsiToApplyWriteActions.GetFileIdentification();
-            if (parameters is FileIdentification)
-            {
-                var ifp = (FileIdentification) _fsiToApplyWriteActions.GetFileIdentification();
-                var buffer =
-                    new StringBuilder(ifp.Id).Append("-").Append(_creationDateTime).Append("-").Append(_session.GetId())
-                        .Append(".transaction");
 
-                return buffer.ToString();
-            }
+            var buffer =
+                new StringBuilder(parameters.Id).Append("-").Append(_creationDateTime).Append("-").Append(
+                    _session.GetId()).Append(".transaction");
 
-            throw new OdbRuntimeException(NDatabaseError.UnsupportedIoType.AddParameter(parameters.GetType().FullName));
+            return buffer.ToString();
         }
 
         public void Rollback()
@@ -326,17 +321,11 @@ namespace NDatabase.Odb.Core.Transaction
         {
             var parameters = _fsiToApplyWriteActions.GetFileIdentification();
 
-            if (parameters is FileIdentification)
-            {
-                var ifp = (FileIdentification) _fsiToApplyWriteActions.GetFileIdentification();
-                var buffer =
-                    new StringBuilder(ifp.Directory).Append("/").Append(ifp.Id).Append("-").Append(_creationDateTime).
-                        Append("-").Append(_session.GetId()).Append(".transaction");
+            var buffer =
+                new StringBuilder(parameters.Directory).Append("/").Append(parameters.Id).Append("-").Append(
+                    _creationDateTime).Append("-").Append(_session.GetId()).Append(".transaction");
 
-                return new FileIdentification(buffer.ToString());
-            }
-
-            throw new OdbRuntimeException(NDatabaseError.UnsupportedIoType.AddParameter(parameters.GetType().FullName));
+            return new FileIdentification(buffer.ToString());
         }
 
         private void CheckFileAccess(string fileName)
@@ -441,10 +430,9 @@ namespace NDatabase.Odb.Core.Transaction
             // concurrent access
             var lastCommitedMetaModel = sessionMetaModel;
 
-            // Gets the classes that have changed (that have modified ,deleted or
-            // inserted objects)
-            var enumerator = sessionMetaModel.GetChangedClassInfo().GetEnumerator();
             var writer = _session.GetStorageEngine().GetObjectWriter();
+            // Gets the classes that have changed (that have modified ,deleted or inserted objects)
+            var enumerator = sessionMetaModel.GetChangedClassInfo().GetEnumerator();
 
             // for all changes between old and new meta model
             while (enumerator.MoveNext())
@@ -452,21 +440,21 @@ namespace NDatabase.Odb.Core.Transaction
                 var newClassInfo = enumerator.Current;
                 ClassInfo lastCommittedCI;
 
-                if (lastCommitedMetaModel.ExistClass(newClassInfo.GetFullClassName()))
+                if (lastCommitedMetaModel.ExistClass(newClassInfo.FullClassName))
                 {
                     // The last CI represents the last committed meta model of the
                     // database
-                    lastCommittedCI = lastCommitedMetaModel.GetClassInfoFromId(newClassInfo.GetId());
+                    lastCommittedCI = lastCommitedMetaModel.GetClassInfoFromId(newClassInfo.ClassInfoId);
                     // Just be careful to keep track of current CI committed zone
                     // deleted objects
-                    lastCommittedCI.GetCommitedZoneInfo().SetNbDeletedObjects(
-                        newClassInfo.GetCommitedZoneInfo().GetNbDeletedObjects());
+                    lastCommittedCI.CommitedZoneInfo.SetNbDeletedObjects(
+                        newClassInfo.CommitedZoneInfo.GetNbDeletedObjects());
                 }
                 else
                     lastCommittedCI = newClassInfo;
 
-                var lastCommittedObjectOIDOfThisTransaction = newClassInfo.GetCommitedZoneInfo().Last;
-                var lastCommittedObjectOIDOfPrevTransaction = lastCommittedCI.GetCommitedZoneInfo().Last;
+                var lastCommittedObjectOIDOfThisTransaction = newClassInfo.CommitedZoneInfo.Last;
+                var lastCommittedObjectOIDOfPrevTransaction = lastCommittedCI.CommitedZoneInfo.Last;
                 var lastCommittedObjectOID = lastCommittedObjectOIDOfPrevTransaction;
 
                 // If some object have been created then
@@ -482,7 +470,7 @@ namespace NDatabase.Odb.Core.Transaction
                         // if it has been deleted then use the last object of the
                         // session class info
                         lastCommittedObjectOID = lastCommittedObjectOIDOfThisTransaction;
-                        newClassInfo.GetCommitedZoneInfo().Last = lastCommittedObjectOID;
+                        newClassInfo.CommitedZoneInfo.Last = lastCommittedObjectOID;
                     }
                 }
 
@@ -491,22 +479,22 @@ namespace NDatabase.Odb.Core.Transaction
                 // uncommitted object
                 // make previous oid of first uncommitted object point to
                 // last committed object
-                if (lastCommittedObjectOID != null && newClassInfo.GetUncommittedZoneInfo().HasObjects())
+                if (lastCommittedObjectOID != null && newClassInfo.UncommittedZoneInfo.HasObjects())
                 {
-                    if (newClassInfo.GetCommitedZoneInfo().HasObjects())
+                    if (newClassInfo.CommitedZoneInfo.HasObjects())
                     {
                         // these 2 updates are executed directly without
                         // transaction, because
                         // We are in the commit process.
                         writer.UpdateNextObjectFieldOfObjectInfo(lastCommittedObjectOID,
-                                                                 newClassInfo.GetUncommittedZoneInfo().First, false);
-                        writer.UpdatePreviousObjectFieldOfObjectInfo(newClassInfo.GetUncommittedZoneInfo().First,
+                                                                 newClassInfo.UncommittedZoneInfo.First, false);
+                        writer.UpdatePreviousObjectFieldOfObjectInfo(newClassInfo.UncommittedZoneInfo.First,
                                                                      lastCommittedObjectOID, false);
                     }
                     else
                     {
                         // Committed zone has 0 object
-                        writer.UpdatePreviousObjectFieldOfObjectInfo(newClassInfo.GetUncommittedZoneInfo().First, null,
+                        writer.UpdatePreviousObjectFieldOfObjectInfo(newClassInfo.UncommittedZoneInfo.First, null,
                                                                      false);
                     }
                 }
@@ -518,7 +506,7 @@ namespace NDatabase.Odb.Core.Transaction
                 // object
                 // because it will set the number of objects and the number of
                 // deleted objects
-                newClassInfo.GetCommitedZoneInfo().SetNbObjects(lastCommittedCI.GetCommitedZoneInfo());
+                newClassInfo.CommitedZoneInfo.SetNbObjects(lastCommittedCI.CommitedZoneInfo);
 
                 // and don't forget to set the deleted objects
                 // This sets the number of objects, the first object OID and the
@@ -529,13 +517,13 @@ namespace NDatabase.Odb.Core.Transaction
 
                 if (OdbConfiguration.IsDebugEnabled(LogId))
                 {
-                    DLogger.Debug(string.Format("Analysing class {0}", newClassInfo.GetFullClassName()));
+                    DLogger.Debug(string.Format("Analysing class {0}", newClassInfo.FullClassName));
                     DLogger.Debug(string.Format("\t-Commited CI   = {0}", newClassInfo));
                     DLogger.Debug(
                         string.Format("\t-connect last commited object with oid {0} to first uncommited object {1}",
-                                      lastCommittedObjectOID, newClassInfo.GetUncommittedZoneInfo().First));
+                                      lastCommittedObjectOID, newClassInfo.UncommittedZoneInfo.First));
                     DLogger.Debug(string.Format("\t-Commiting new Number of objects = {0}",
-                                                newClassInfo.GetNumberOfObjects()));
+                                                newClassInfo.NumberOfObjects));
                 }
             }
 
@@ -549,20 +537,20 @@ namespace NDatabase.Odb.Core.Transaction
         /// <returns> The updated class info </returns>
         private static ClassInfo BuildClassInfoForCommit(ClassInfo classInfo)
         {
-            var nbObjects = classInfo.GetNumberOfObjects();
-            classInfo.GetCommitedZoneInfo().SetNbObjects(nbObjects);
+            var nbObjects = classInfo.NumberOfObjects;
+            classInfo.CommitedZoneInfo.SetNbObjects(nbObjects);
 
-            if (classInfo.GetCommitedZoneInfo().First == null)
+            if (classInfo.CommitedZoneInfo.First == null)
             {
                 // nothing to change
-                classInfo.GetCommitedZoneInfo().First = classInfo.GetUncommittedZoneInfo().First;
+                classInfo.CommitedZoneInfo.First = classInfo.UncommittedZoneInfo.First;
             }
 
-            if (classInfo.GetUncommittedZoneInfo().Last != null)
-                classInfo.GetCommitedZoneInfo().Last = classInfo.GetUncommittedZoneInfo().Last;
+            if (classInfo.UncommittedZoneInfo.Last != null)
+                classInfo.CommitedZoneInfo.Last = classInfo.UncommittedZoneInfo.Last;
 
             // Resets the unconnected zone info
-            classInfo.GetUncommittedZoneInfo().Set(new CIZoneInfo(classInfo, null, null, 0));
+            classInfo.UncommittedZoneInfo.Set(new CIZoneInfo(classInfo, null, null, 0));
 
             return classInfo;
         }
@@ -619,12 +607,12 @@ namespace NDatabase.Odb.Core.Transaction
 
             if (_hasAllWriteActionsInMemory)
             {
-                for (var i = 0; i < _writeActions.Count; i++)
+                foreach (var wa in _writeActions)
                 {
-                    var wa = _writeActions[i];
                     wa.ApplyTo(_fsiToApplyWriteActions);
                     wa.Clear();
                 }
+
                 _fsiToApplyWriteActions.Flush();
             }
             else

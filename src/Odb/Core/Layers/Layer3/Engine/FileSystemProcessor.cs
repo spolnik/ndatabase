@@ -300,16 +300,16 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var currentPosition = FileSystemInterface.GetPosition();
             if (OdbConfiguration.IsDebugEnabled(LogIdDebug))
                 DLogger.Debug("Start of updateInstanceFieldsOfClassInfo for " +
-                              classInfo.GetFullClassName());
-            var position = classInfo.GetPosition() + StorageEngineConstant.ClassOffsetClassNbObjects;
+                              classInfo.FullClassName);
+            var position = classInfo.Position + StorageEngineConstant.ClassOffsetClassNbObjects;
             FileSystemInterface.SetWritePosition(position, writeInTransaction);
-            var nbObjects = classInfo.GetNumberOfObjects();
+            var nbObjects = classInfo.NumberOfObjects;
             FileSystemInterface.WriteLong(nbObjects, writeInTransaction, "class info update nb objects");
-            WriteOid(classInfo.GetCommitedZoneInfo().First, writeInTransaction, "class info update first obj oid");
-            WriteOid(classInfo.GetCommitedZoneInfo().Last, writeInTransaction, "class info update last obj oid");
+            WriteOid(classInfo.CommitedZoneInfo.First, writeInTransaction, "class info update first obj oid");
+            WriteOid(classInfo.CommitedZoneInfo.Last, writeInTransaction, "class info update last obj oid");
             if (OdbConfiguration.IsDebugEnabled(LogIdDebug))
                 DLogger.Debug("End of updateInstanceFieldsOfClassInfo for " +
-                              classInfo.GetFullClassName());
+                              classInfo.FullClassName);
             FileSystemInterface.SetWritePosition(currentPosition, writeInTransaction);
         }
 
@@ -347,7 +347,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     {
                         FileSystemInterface.WriteLong(
                             storageEngine.GetSession(true).GetMetaModel().GetClassInfo(
-                                cai.GetAttributeType().SubType.Name, true).GetId().ObjectId,
+                                cai.GetAttributeType().SubType.Name, true).ClassInfoId.ObjectId,
                             writeInTransaction, "class info id of array subtype");
                     }
                 }
@@ -355,14 +355,14 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 if (cai.GetAttributeType().IsEnum())
                 {
                     FileSystemInterface.WriteLong(
-                        storageEngine.GetSession(true).GetMetaModel().GetClassInfo(cai.GetFullClassname(), true).GetId()
+                        storageEngine.GetSession(true).GetMetaModel().GetClassInfo(cai.GetFullClassname(), true).ClassInfoId
                             .ObjectId, writeInTransaction, "class info id");
                 }
             }
             else
             {
                 FileSystemInterface.WriteLong(
-                    storageEngine.GetSession(true).GetMetaModel().GetClassInfo(cai.GetFullClassname(), true).GetId().
+                    storageEngine.GetSession(true).GetMetaModel().GetClassInfo(cai.GetFullClassname(), true).ClassInfoId.
                         ObjectId, writeInTransaction, "class info id");
             }
             FileSystemInterface.WriteString(cai.GetName(), writeInTransaction);

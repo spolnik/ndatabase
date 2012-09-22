@@ -125,8 +125,8 @@ namespace NDatabase.Odb.Core.Transaction
 
             if (_listOfBytes != null)
             {
-                for (var i = 0; i < _listOfBytes.Count; i++)
-                    bytes.Append(DisplayUtility.ByteArrayToString(_listOfBytes[i]));
+                foreach (var bytesToWrite in _listOfBytes)
+                    bytes.Append(DisplayUtility.ByteArrayToString(bytesToWrite));
 
                 buffer.Append(" | bytes=[").Append(bytes).Append("] & size=" + _size);
             }

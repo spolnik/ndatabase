@@ -53,10 +53,10 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         public void AddClass(ClassInfo classInfo)
         {
             if (classInfo.IsSystemClass())
-                _rapidAccessForSystemClassesByName.Add(classInfo.GetFullClassName(), classInfo);
+                _rapidAccessForSystemClassesByName.Add(classInfo.FullClassName, classInfo);
             else
-                _rapidAccessForUserClassesByName.Add(classInfo.GetFullClassName(), classInfo);
-            _rapidAccessForClassesByOid.Add(classInfo.GetId(), classInfo);
+                _rapidAccessForUserClassesByName.Add(classInfo.FullClassName, classInfo);
+            _rapidAccessForClassesByOid.Add(classInfo.ClassInfoId, classInfo);
             _allClassInfos.Add(classInfo);
         }
 

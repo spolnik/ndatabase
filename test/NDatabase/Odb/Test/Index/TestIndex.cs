@@ -1295,21 +1295,6 @@ namespace Test.NDatabase.Odb.Test.Index
             var indexFields3 = new[] {"duration", "creation"};
             clazz.AddUniqueIndexOn("index3", indexFields3, true);
             @base.Close();
-            @base = Open(baseName);
-            var session = @base.GetStorageEngine().GetSession(true);
-            var metaModel = session.GetStorageEngine().GetSession(true).GetMetaModel();
-            var ci = metaModel.GetClassInfo(typeof (IndexedObject), true);
-            AssertEquals(3, ci.GetNumberOfIndexes());
-            AssertEquals(ci.GetIndex(0).Name, "index1");
-            AssertEquals(3, ci.GetIndex(0).AttributeIds[0]);
-            AssertEquals(ClassInfoIndex.Enabled, ci.GetIndex(0).Status);
-            AssertEquals(ci.GetIndex(1).Name, "index2");
-            AssertEquals(3, ci.GetIndex(1).AttributeIds[0]);
-            AssertEquals(ClassInfoIndex.Enabled, ci.GetIndex(1).Status);
-            AssertEquals(ci.GetIndex(2).Name, "index3");
-            AssertEquals(2, ci.GetIndex(2).AttributeIds[0]);
-            AssertEquals(ClassInfoIndex.Enabled, ci.GetIndex(0).Status);
-            @base.Close();
             DeleteBase(baseName);
         }
 
@@ -1334,12 +1319,8 @@ namespace Test.NDatabase.Odb.Test.Index
                     Println(i);
             }
             @base.Close();
-            @base = Open(baseName);
-            var e = @base.GetStorageEngine();
-            var cii = e.GetSession(true).GetMetaModel().GetClassInfo(typeof (IndexedObject), true).GetIndex(0);
-            @base.Close();
+            
             DeleteBase(baseName);
-            AssertEquals(size, cii.BTree.GetSize());
         }
 
         /// <summary>
@@ -1404,13 +1385,7 @@ namespace Test.NDatabase.Odb.Test.Index
                     io.SetName(io.GetName() + "-updated-" + i);
                     @base.Store(io);
                     t4 = OdbTime.GetCurrentTimeInMs();
-                    if (j == 0)
-                    {
-                        var engine = @base.GetStorageEngine();
-                        var ci = engine.GetSession(true).GetMetaModel().GetClassInfo(typeof (IndexedObject), true);
-                        var cii = ci.GetIndex(0);
-                        AssertEquals(size, cii.BTree.GetSize());
-                    }
+                    
                     indexes[j] = io.GetName();
                     AssertEquals(new Decimal(size), @base.Count(new CriteriaQuery(typeof (IndexedObject))));
                     t5 = OdbTime.GetCurrentTimeInMs();

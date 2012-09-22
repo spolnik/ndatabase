@@ -189,7 +189,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             // It happens when the attribute is an interface or superclass of the
             // real attribute class
             // In this case, ci must be updated to the real class info
-            if (classInfo != null && !classInfo.GetFullClassName().Equals(clazz.FullName))
+            if (classInfo != null && !classInfo.FullClassName.Equals(clazz.FullName))
             {
                 classInfo = GetClassInfo(className);
                 nnoi = null;
@@ -228,7 +228,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                     if (attributeId == -1)
                     {
                         throw new OdbRuntimeException(
-                            NDatabaseError.ObjectIntrospectorNoFieldWithName.AddParameter(classInfo.GetFullClassName()).
+                            NDatabaseError.ObjectIntrospectorNoFieldWithName.AddParameter(classInfo.FullClassName).
                                 AddParameter(field.Name));
                     }
 

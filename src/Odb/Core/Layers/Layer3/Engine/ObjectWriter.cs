@@ -95,14 +95,14 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                                               bool addDependentClasses)
         {
             var metaModel = _session.GetMetaModel();
-            var classInfoId = newClassInfo.GetId();
+            var classInfoId = newClassInfo.ClassInfoId;
             if (classInfoId == null)
             {
                 classInfoId = GetIdManager().GetNextClassId(-1);
-                newClassInfo.SetId(classInfoId);
+                newClassInfo.ClassInfoId = classInfoId;
             }
             var writePosition = FileSystemProcessor.FileSystemInterface.GetAvailablePosition();
-            newClassInfo.SetPosition(writePosition);
+            newClassInfo.Position = writePosition;
             GetIdManager().UpdateClassPositionForId(classInfoId, writePosition, true);
 
             #region Logging
@@ -110,10 +110,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
                 DLogger.Debug(string.Format("Persisting class into database : {0} with oid {1} at pos {2}",
-                                            newClassInfo.GetFullClassName(), classInfoId, writePosition));
+                                            newClassInfo.FullClassName, classInfoId, writePosition));
 
-                DLogger.Debug(string.Format("class {0} has {1} attributes : {2}", newClassInfo.GetFullClassName(),
-                                            newClassInfo.GetNumberOfAttributes(), newClassInfo.GetAttributes()));
+                DLogger.Debug(string.Format("class {0} has {1} attributes : {2}", newClassInfo.FullClassName,
+                                            newClassInfo.NumberOfAttributes, newClassInfo.Attributes));
             }
 
             #endregion
@@ -125,7 +125,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                                         ? metaModel.GetLastClassInfo()
                                         : metaModel.GetClassInfo(lastClassInfoIndex);
 
-                lastClassinfo.SetNextClassOID(newClassInfo.GetId());
+                lastClassinfo.NextClassOID = newClassInfo.ClassInfoId;
 
                 #region Logging
 
@@ -133,19 +133,19 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 {
                     DLogger.Debug(
                         string.Format("changing next class oid. of class info {0} @ {1} + offset {2} to {3}({4})",
-                                      lastClassinfo.GetFullClassName(), lastClassinfo.GetPosition(),
-                                      StorageEngineConstant.ClassOffsetNextClassPosition, newClassInfo.GetId(),
-                                      newClassInfo.GetFullClassName()));
+                                      lastClassinfo.FullClassName, lastClassinfo.Position,
+                                      StorageEngineConstant.ClassOffsetNextClassPosition, newClassInfo.ClassInfoId,
+                                      newClassInfo.FullClassName));
                 }
 
                 #endregion
 
-                FileSystemProcessor.FileSystemInterface.SetWritePosition(lastClassinfo.GetPosition() + StorageEngineConstant.ClassOffsetNextClassPosition,
+                FileSystemProcessor.FileSystemInterface.SetWritePosition(lastClassinfo.Position + StorageEngineConstant.ClassOffsetNextClassPosition,
                                       true);
 
-                FileSystemProcessor.FileSystemInterface.WriteLong(newClassInfo.GetId().ObjectId, true, "next class oid");
+                FileSystemProcessor.FileSystemInterface.WriteLong(newClassInfo.ClassInfoId.ObjectId, true, "next class oid");
 
-                newClassInfo.SetPreviousClassOID(lastClassinfo.GetId());
+                newClassInfo.PreviousClassOID = lastClassinfo.ClassInfoId;
             }
 
             if (addClass)
@@ -154,8 +154,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             // updates number of classes
             FileSystemProcessor.WriteNumberOfClasses(metaModel.GetNumberOfClasses(), true);
             // If it is the first class , updates the first class OID
-            if (newClassInfo.GetPreviousClassOID() == null)
-                FileSystemProcessor.WriteFirstClassInfoOID(newClassInfo.GetId(), true);
+            if (newClassInfo.PreviousClassOID == null)
+                FileSystemProcessor.WriteFirstClassInfoOID(newClassInfo.ClassInfoId, true);
 
             // Writes the header of the class - out of transaction (FIXME why out of
             // transaction)
@@ -195,8 +195,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public ClassInfo AddClass(ClassInfo newClassInfo, bool addDependentClasses)
         {
-            var classInfo = _session.GetMetaModel().GetClassInfo(newClassInfo.GetFullClassName(), false);
-            if (classInfo != null && classInfo.GetPosition() != -1)
+            var classInfo = _session.GetMetaModel().GetClassInfo(newClassInfo.FullClassName, false);
+            if (classInfo != null && classInfo.Position != -1)
                 return classInfo;
 
             return PersistClass(newClassInfo, -1, true, addDependentClasses);
@@ -219,11 +219,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <param name="writeInTransaction"> true if the write must be done in transaction, false to write directly </param>
         private void WriteClassInfoHeader(ClassInfo classInfo, long position, bool writeInTransaction)
         {
-            var classId = classInfo.GetId();
+            var classId = classInfo.ClassInfoId;
             if (classId == null)
             {
                 classId = _idManager.GetNextClassId(position);
-                classInfo.SetId(classId);
+                classInfo.ClassInfoId = classId;
             }
             else
                 _idManager.UpdateClassPositionForId(classId, position, true);
@@ -235,26 +235,26 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             // Real value of block size is only known at the end of the writing
             FileSystemProcessor.FileSystemInterface.WriteInt(0, writeInTransaction, "block size");
             FileSystemProcessor.FileSystemInterface.WriteByte(BlockTypes.BlockTypeClassHeader, writeInTransaction, "class header block type");
-            FileSystemProcessor.FileSystemInterface.WriteByte(classInfo.GetClassCategory(), writeInTransaction, "Class info category");
+            FileSystemProcessor.FileSystemInterface.WriteByte(classInfo.ClassCategory, writeInTransaction, "Class info category");
             FileSystemProcessor.FileSystemInterface.WriteLong(classId.ObjectId, writeInTransaction, "class id");
 
-            FileSystemProcessor.WriteOid(classInfo.GetPreviousClassOID(), writeInTransaction, "prev class oid");
+            FileSystemProcessor.WriteOid(classInfo.PreviousClassOID, writeInTransaction, "prev class oid");
 
-            FileSystemProcessor.WriteOid(classInfo.GetNextClassOID(), writeInTransaction, "next class oid");
+            FileSystemProcessor.WriteOid(classInfo.NextClassOID, writeInTransaction, "next class oid");
 
-            FileSystemProcessor.FileSystemInterface.WriteLong(classInfo.GetCommitedZoneInfo().GetNbObjects(), writeInTransaction, "class nb objects");
+            FileSystemProcessor.FileSystemInterface.WriteLong(classInfo.CommitedZoneInfo.GetNbObjects(), writeInTransaction, "class nb objects");
 
-            FileSystemProcessor.WriteOid(classInfo.GetCommitedZoneInfo().First, writeInTransaction, "class first obj pos");
+            FileSystemProcessor.WriteOid(classInfo.CommitedZoneInfo.First, writeInTransaction, "class first obj pos");
 
-            FileSystemProcessor.WriteOid(classInfo.GetCommitedZoneInfo().Last, writeInTransaction, "class last obj pos");
+            FileSystemProcessor.WriteOid(classInfo.CommitedZoneInfo.Last, writeInTransaction, "class last obj pos");
 
             // FIXME : append extra info if not empty (.net compatibility)
-            FileSystemProcessor.FileSystemInterface.WriteString(classInfo.GetFullClassName(), writeInTransaction);
-            FileSystemProcessor.FileSystemInterface.WriteInt(classInfo.GetMaxAttributeId(), writeInTransaction, "Max attribute id");
+            FileSystemProcessor.FileSystemInterface.WriteString(classInfo.FullClassName, writeInTransaction);
+            FileSystemProcessor.FileSystemInterface.WriteInt(classInfo.MaxAttributeId, writeInTransaction, "Max attribute id");
 
-            if (classInfo.GetAttributesDefinitionPosition() != -1)
+            if (classInfo.AttributesDefinitionPosition != -1)
             {
-                FileSystemProcessor.FileSystemInterface.WriteLong(classInfo.GetAttributesDefinitionPosition(), writeInTransaction, "class att def pos");
+                FileSystemProcessor.FileSystemInterface.WriteLong(classInfo.AttributesDefinitionPosition, writeInTransaction, "class att def pos");
             }
             else
             {
@@ -295,9 +295,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 }
             }
             // To force the rewrite of class info body
-            classInfo.SetAttributesDefinitionPosition(-1);
+            classInfo.AttributesDefinitionPosition = -1;
             var newCiPosition = FileSystemProcessor.FileSystemInterface.GetAvailablePosition();
-            classInfo.SetPosition(newCiPosition);
+            classInfo.Position = newCiPosition;
             WriteClassInfoHeader(classInfo, newCiPosition, writeInTransaction);
             WriteClassInfoBody(classInfo, FileSystemProcessor.FileSystemInterface.GetAvailablePosition(), writeInTransaction);
         }
@@ -334,11 +334,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 }
                 // Check consistency : index should have size equal to the class
                 // info element number
-                if (index.BTree.GetSize() != nnoi.GetClassInfo().GetNumberOfObjects())
+                if (index.BTree.GetSize() != nnoi.GetClassInfo().NumberOfObjects)
                 {
                     throw new OdbRuntimeException(
                         NDatabaseError.BtreeSizeDiffersFromClassElementNumber.AddParameter(index.BTree.GetSize()).
-                            AddParameter(nnoi.GetClassInfo().GetNumberOfObjects()));
+                            AddParameter(nnoi.GetClassInfo().NumberOfObjects));
                 }
             }
             return indexes.Count;
@@ -360,11 +360,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 index.BTree.Delete(index.ComputeKey(nnoi), oid);
                 // Check consistency : index should have size equal to the class
                 // info element number
-                if (index.BTree.GetSize() != nnoi.GetClassInfo().GetNumberOfObjects())
+                if (index.BTree.GetSize() != nnoi.GetClassInfo().NumberOfObjects)
                 {
                     throw new OdbRuntimeException(
                         NDatabaseError.BtreeSizeDiffersFromClassElementNumber.AddParameter(index.BTree.GetSize()).
-                            AddParameter(nnoi.GetClassInfo().GetNumberOfObjects()));
+                            AddParameter(nnoi.GetClassInfo().NumberOfObjects));
                 }
             }
             return indexes.Count;
@@ -592,7 +592,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var objectIsInConnectedZone = cache.ObjectWithIdIsInCommitedZone(header.GetOid());
             // triggers
             // FIXME
-            _triggerManager.ManageDeleteTriggerBefore(ci.GetFullClassName(), null, header.GetOid());
+            _triggerManager.ManageDeleteTriggerBefore(ci.FullClassName, null, header.GetOid());
             
             var previousObjectOID = header.GetPreviousObjectOID();
             var nextObjectOID = header.GetNextObjectOID();
@@ -618,12 +618,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     if (objectIsInConnectedZone)
                     {
                         // update first object oid of the class info in memory
-                        ci.GetCommitedZoneInfo().First = nextObjectOID;
+                        ci.CommitedZoneInfo.First = nextObjectOID;
                     }
                     else
                     {
                         // update first object oid of the class info in memory
-                        ci.GetUncommittedZoneInfo().First = nextObjectOID;
+                        ci.UncommittedZoneInfo.First = nextObjectOID;
                     }
                     if (nextObjectOID != null)
                     {
@@ -641,13 +641,13 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     if (objectIsInConnectedZone)
                     {
                         // the object is a committed object
-                        ci.GetCommitedZoneInfo().Last = previousObjectOID;
+                        ci.CommitedZoneInfo.Last = previousObjectOID;
                     }
                     else
                     {
                         // The object is not committed and it is the last and is
                         // being deleted
-                        ci.GetUncommittedZoneInfo().Last = previousObjectOID;
+                        ci.UncommittedZoneInfo.Last = previousObjectOID;
                     }
                     if (previousObjectOID != null)
                     {
@@ -680,18 +680,18 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             {
                 var oih = UpdatePreviousObjectNextPointersInCache(nextObjectOID, previousObjectOID, cache);
                 if (mustUpdateLastObjectOfClassInfo)
-                    ci.SetLastObjectInfoHeader(oih);
+                    ci.LastObjectInfoHeader = oih;
             }
             var metaModel = lsession.GetMetaModel();
             // Saves the fact that something has changed in the class (number of
             // objects and/or last object oid)
             metaModel.AddChangedClass(ci);
             if (objectIsInConnectedZone)
-                ci.GetCommitedZoneInfo().DecreaseNbObjects();
+                ci.CommitedZoneInfo.DecreaseNbObjects();
             else
-                ci.GetUncommittedZoneInfo().DecreaseNbObjects();
+                ci.UncommittedZoneInfo.DecreaseNbObjects();
             // Manage deleting the last object of the committed zone
-            CIZoneInfo commitedZoneInfo = ci.GetCommitedZoneInfo();
+            CIZoneInfo commitedZoneInfo = ci.CommitedZoneInfo;
 
             var isLastObjectOfCommitedZone = oid.Equals(commitedZoneInfo.Last);
             if (isLastObjectOfCommitedZone)
@@ -711,7 +711,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 }
             }
             // Manage deleting the first object of the uncommitted zone
-            var uncommittedZoneInfo = ci.GetUncommittedZoneInfo();
+            var uncommittedZoneInfo = ci.UncommittedZoneInfo;
 
             var isFirstObjectOfUncommitedZone = oid.Equals(uncommittedZoneInfo.First);
             if (isFirstObjectOfUncommitedZone)
@@ -733,7 +733,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 // object
                 // There is no more objects of this type => must set to null the
                 // ClassInfo LastObjectOID
-                ci.SetLastObjectInfoHeader(null);
+                ci.LastObjectInfoHeader = null;
             }
             GetIdManager().UpdateIdStatus(header.GetOid(), IDStatus.Deleted);
             // The update of the place must be done in transaction if object is in
@@ -743,7 +743,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (withIndex)
                 ManageIndexesForDelete(header.GetOid(), nnoi);
             // triggers
-            _triggerManager.ManageDeleteTriggerAfter(ci.GetFullClassName(), null, header.GetOid());
+            _triggerManager.ManageDeleteTriggerAfter(ci.FullClassName, null, header.GetOid());
             return header.GetOid();
         }
 
@@ -766,19 +766,19 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (OdbConfiguration.IsDebugEnabled(LogId))
                 DLogger.Debug("Writing new Class info body at " + position + " : " + classInfo);
             // updates class info
-            classInfo.SetAttributesDefinitionPosition(position);
+            classInfo.AttributesDefinitionPosition = position;
             // FIXME : change this to write only the position and not the whole
             // header
-            WriteClassInfoHeader(classInfo, classInfo.GetPosition(), writeInTransaction);
+            WriteClassInfoHeader(classInfo, classInfo.Position, writeInTransaction);
             FileSystemProcessor.FileSystemInterface.SetWritePosition(position, writeInTransaction);
             // block definition
             FileSystemProcessor.FileSystemInterface.WriteInt(0, writeInTransaction, "block size");
             FileSystemProcessor.FileSystemInterface.WriteByte(BlockTypes.BlockTypeClassBody, writeInTransaction);
             // number of attributes
-            FileSystemProcessor.FileSystemInterface.WriteLong(classInfo.GetAttributes().Count, writeInTransaction, "class nb attributes");
-            for (var i = 0; i < classInfo.GetAttributes().Count; i++)
+            FileSystemProcessor.FileSystemInterface.WriteLong(classInfo.Attributes.Count, writeInTransaction, "class nb attributes");
+            for (var i = 0; i < classInfo.Attributes.Count; i++)
             {
-                var classAttributeInfo = classInfo.GetAttributes()[i];
+                var classAttributeInfo = classInfo.Attributes[i];
                 FileSystemProcessor.WriteClassAttributeInfo(_storageEngine, classAttributeInfo, writeInTransaction);
             }
             var blockSize = (int) (FileSystemProcessor.FileSystemInterface.GetPosition() - position);
@@ -825,12 +825,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public void ManageNewObjectPointers(NonNativeObjectInfo objectInfo, ClassInfo classInfo)
         {
             var cache = _storageEngine.GetSession(true).GetCache();
-            var isFirstUncommitedObject = !classInfo.GetUncommittedZoneInfo().HasObjects();
+            var isFirstUncommitedObject = !classInfo.UncommittedZoneInfo.HasObjects();
             // if it is the first uncommitted object
             if (isFirstUncommitedObject)
             {
-                classInfo.GetUncommittedZoneInfo().First = objectInfo.GetOid();
-                var lastCommittedObjectOid = classInfo.GetCommitedZoneInfo().Last;
+                classInfo.UncommittedZoneInfo.First = objectInfo.GetOid();
+                var lastCommittedObjectOid = classInfo.CommitedZoneInfo.Last;
                 if (lastCommittedObjectOid != null)
                 {
                     // Also updates the last committed object next object oid in
@@ -849,7 +849,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 // pointer to the new object and updates the class info 'last
                 // uncommitted object
                 // oid' field
-                var oip = classInfo.GetLastObjectInfoHeader();
+                var oip = classInfo.LastObjectInfoHeader;
                 if (oip == null)
                 {
                     throw new OdbRuntimeException(
@@ -866,7 +866,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     objectInfo.SetPreviousInstanceOID(oip.GetOid());
                     // Resets the class info oid: In some case,
                     // (client // server) it may be -1.
-                    oip.SetClassInfoId(classInfo.GetId());
+                    oip.SetClassInfoId(classInfo.ClassInfoId);
                     // object info oip has been changed, we must put it
                     // in the cache to turn this change available for current
                     // transaction until the commit
@@ -874,15 +874,15 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 }
             }
             // always set the new last object oid and the number of objects
-            classInfo.GetUncommittedZoneInfo().Last = objectInfo.GetOid();
-            classInfo.GetUncommittedZoneInfo().IncreaseNbObjects();
+            classInfo.UncommittedZoneInfo.Last = objectInfo.GetOid();
+            classInfo.UncommittedZoneInfo.IncreaseNbObjects();
             // Then updates the last info pointers of the class info
             // with this new created object
             // At this moment, the objectInfo.getHeader() do not have the
             // attribute ids.
             // but later in this code, the attributes will be set, so the class
             // info also will have them
-            classInfo.SetLastObjectInfoHeader(objectInfo.GetHeader());
+            classInfo.LastObjectInfoHeader = objectInfo.GetHeader();
             // // Saves the fact that something has changed in the class (number of
             // objects and/or last object oid)
             _storageEngine.GetSession(true).GetMetaModel().AddChangedClass(classInfo);
@@ -1291,7 +1291,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var odbTypeId = anoi.GetOdbTypeId();
             WriteNativeObjectHeader(odbTypeId, anoi.IsNull(), BlockTypes.BlockTypeNativeObject, writeInTransaction);
             // Writes the Enum ClassName
-            FileSystemProcessor.FileSystemInterface.WriteLong(anoi.GetEnumClassInfo().GetId().ObjectId, writeInTransaction, "enum class info id");
+            FileSystemProcessor.FileSystemInterface.WriteLong(anoi.GetEnumClassInfo().ClassInfoId.ObjectId, writeInTransaction, "enum class info id");
             // Write the Enum String value
             FileSystemProcessor.FileSystemInterface.WriteString(anoi.GetObject().ToString(), writeInTransaction);
             return startPosition;

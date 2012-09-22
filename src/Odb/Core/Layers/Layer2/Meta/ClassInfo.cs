@@ -46,41 +46,11 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         private IOdbList<ClassAttributeInfo> _attributes;
 
         /// <summary>
-        ///   Where starts the block of attributes definition of this class ?
-        /// </summary>
-        private long _attributesDefinitionPosition;
-
-        /// <summary>
-        ///   The size (in bytes) of the class block
-        /// </summary>
-        private int _blockSize;
-
-        /// <summary>
-        ///   To specify the type of the class : system class or user class
-        /// </summary>
-        private byte _classCategory;
-
-        /// <summary>
         ///   The full class name with package
         /// </summary>
         private string _fullClassName;
 
         private IOdbList<ClassInfoIndex> _indexes;
-
-        /// <summary>
-        ///   Infos about the last object of this class
-        /// </summary>
-        private ObjectInfoHeader _lastObjectInfoHeader;
-
-        /// <summary>
-        ///   The max id is used to give a unique id for each attribute and allow refactoring like new field and/or removal
-        /// </summary>
-        private int _maxAttributeId;
-
-        /// <summary>
-        ///   Physical location of this class in the file (in byte)
-        /// </summary>
-        private long _position;
 
         public ClassInfo()
         {
@@ -88,30 +58,21 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             _committed = new CommittedCIZoneInfo(this, null, null, 0);
             _uncommitted = new CIZoneInfo(this, null, null, 0);
             _oidInfo = new OidInfo();
-            _blockSize = -1;
-            _position = -1;
-            _maxAttributeId = -1;
-            _classCategory = CategoryUserClass;
+            Position = -1;
+            MaxAttributeId = -1;
+            ClassCategory = CategoryUserClass;
             _attributesCache = new AttributesCache();
         }
 
-        public ClassInfo(string className) : this(className, null)
-        {
-        }
-
-        private ClassInfo(string fullClassName, IOdbList<ClassAttributeInfo> attributes) : this()
+        public ClassInfo(string fullClassName)
+            : this()
         {
             CheckIfTypeIsInstantiable(fullClassName);
 
             _fullClassName = fullClassName;
-            _attributes = attributes;
+            _attributes = null;
 
-            if (attributes != null)
-                FillAttributesMap();
-
-            _maxAttributeId = (attributes == null
-                                   ? 1
-                                   : attributes.Count + 1);
+            MaxAttributeId = 1;
         }
 
         private static void CheckIfTypeIsInstantiable(string fullClassName)
@@ -140,7 +101,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                 _attributesCache.AttributesByName = new OdbHashMap<string, ClassAttributeInfo>();
                 _attributesCache.AttributesById = new OdbHashMap<int, ClassAttributeInfo>();
             }
-            // attributesMap.clear();
+            
             foreach (var classAttributeInfo in _attributes)
             {
                 _attributesCache.AttributesByName[classAttributeInfo.GetName()] = classAttributeInfo;
@@ -152,6 +113,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         {
             if (obj == null || obj.GetType() != typeof (ClassInfo))
                 return false;
+
             var classInfo = (ClassInfo) obj;
             return classInfo._fullClassName.Equals(_fullClassName);
         }
@@ -163,9 +125,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             buffer.Append(" [ ").Append(_fullClassName).Append(" - id=").Append(_oidInfo.ID);
             buffer.Append(" - previousClass=").Append(_oidInfo.PreviousClassOID).Append(" - nextClass=").Append(
                 _oidInfo.NextClassOID).Append(" - attributes=(");
-
-            // buffer.append(" | position=").append(position);
-            // buffer.append(" | class=").append(className).append(" | attributes=[");
 
             if (_attributes != null)
             {
@@ -180,85 +139,61 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return buffer.ToString();
         }
 
-        public IOdbList<ClassAttributeInfo> GetAttributes()
+        public IOdbList<ClassAttributeInfo> Attributes
         {
-            return _attributes;
+            get { return _attributes; }
+            set
+            {
+                _attributes = value;
+                MaxAttributeId = value.Count;
+                FillAttributesMap();
+            }
         }
 
-        public void SetAttributes(IOdbList<ClassAttributeInfo> attributes)
+        public CommittedCIZoneInfo CommitedZoneInfo
         {
-            _attributes = attributes;
-            _maxAttributeId = attributes.Count;
-            FillAttributesMap();
+            get { return _committed; }
         }
 
-        public CommittedCIZoneInfo GetCommitedZoneInfo()
+        /// <summary>
+        ///   Where starts the block of attributes definition of this class ?
+        /// </summary>
+        public long AttributesDefinitionPosition { get; set; }
+
+        public OID NextClassOID
         {
-            return _committed;
+            get { return _oidInfo.NextClassOID; }
+            set { _oidInfo.NextClassOID = value; }
         }
 
-        public long GetAttributesDefinitionPosition()
+        public OID PreviousClassOID
         {
-            return _attributesDefinitionPosition;
+            get { return _oidInfo.PreviousClassOID; }
+            set { _oidInfo.PreviousClassOID = value; }
         }
 
-        public void SetAttributesDefinitionPosition(long definitionPosition)
-        {
-            _attributesDefinitionPosition = definitionPosition;
-        }
+        /// <summary>
+        ///   Physical location of this class in the file (in byte)
+        /// </summary>
+        public long Position { get; set; }
 
-        public OID GetNextClassOID()
+        /// <summary>
+        ///   The full class name with namespace
+        /// </summary>
+        public string FullClassName
         {
-            return _oidInfo.NextClassOID;
-        }
-
-        public void SetNextClassOID(OID nextClassOID)
-        {
-            _oidInfo.NextClassOID = nextClassOID;
-        }
-
-        public OID GetPreviousClassOID()
-        {
-            return _oidInfo.PreviousClassOID;
-        }
-
-        public void SetPreviousClassOID(OID previousClassOID)
-        {
-            _oidInfo.PreviousClassOID = previousClassOID;
-        }
-
-        public long GetPosition()
-        {
-            return _position;
-        }
-
-        public void SetPosition(long position)
-        {
-            _position = position;
-        }
-
-        public int GetBlockSize()
-        {
-            return _blockSize;
-        }
-
-        public void SetBlockSize(int blockSize)
-        {
-            _blockSize = blockSize;
-        }
-
-        public string GetFullClassName()
-        {
-            return _fullClassName;
+            get { return _fullClassName; }
+            set { _fullClassName = value; }
         }
 
         /// <summary>
         ///   This method could be optimized, but it is only on Class creation, one time in the database life time...
         /// </summary>
         /// <remarks>
-        ///   This method could be optimized, but it is only on Class creation, one time in the database life time... This is used to get all (non native) attributes a class info have to store them in the meta model before storing the class itself
+        ///   This method could be optimized, but it is only on Class creation, one time in the database life time... 
+        ///   This is used to get all (non native) attributes a class info have to store them in the meta model
+        ///   before storing the class itself
         /// </remarks>
-        /// <returns> </returns>
         public IOdbList<ClassAttributeInfo> GetAllNonNativeAttributes()
         {
             IOdbList<ClassAttributeInfo> result = new OdbList<ClassAttributeInfo>(_attributes.Count);
@@ -280,9 +215,10 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return result;
         }
 
-        public OID GetId()
+        public OID ClassInfoId
         {
-            return _oidInfo.ID;
+            get { return _oidInfo.ID; }
+            set { _oidInfo.ID = value; }
         }
 
         public override int GetHashCode()
@@ -290,11 +226,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return (_fullClassName != null
                         ? _fullClassName.GetHashCode()
                         : 0);
-        }
-
-        public void SetId(OID id)
-        {
-            _oidInfo.ID = id;
         }
 
         public ClassAttributeInfo GetAttributeInfoFromId(int id)
@@ -333,15 +264,10 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return _attributes[index];
         }
 
-        public int GetMaxAttributeId()
-        {
-            return _maxAttributeId;
-        }
-
-        public void SetMaxAttributeId(int maxAttributeId)
-        {
-            _maxAttributeId = maxAttributeId;
-        }
+        /// <summary>
+        ///   The max id is used to give a unique id for each attribute and allow refactoring like new field and/or removal
+        /// </summary>
+        public int MaxAttributeId { get; set; }
 
         public ClassInfoCompareResult ExtractDifferences(ClassInfo newCI, bool update)
         {
@@ -349,7 +275,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             ClassAttributeInfo cai1;
             ClassAttributeInfo cai2;
 
-            var result = new ClassInfoCompareResult(GetFullClassName());
+            var result = new ClassInfoCompareResult(FullClassName);
             IOdbList<ClassAttributeInfo> attributesToRemove = new OdbList<ClassAttributeInfo>(10);
             IOdbList<ClassAttributeInfo> attributesToAdd = new OdbList<ClassAttributeInfo>(10);
 
@@ -397,8 +323,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                     if (update)
                     {
                         // Sets the right id of attribute
-                        cai2.SetId(_maxAttributeId + 1);
-                        _maxAttributeId++;
+                        cai2.SetId(MaxAttributeId + 1);
+                        MaxAttributeId++;
                         // Then adds the new attribute to the meta-model
                         attributesToAdd.Add(cai2);
                     }
@@ -410,9 +336,9 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return result;
         }
 
-        public int GetNumberOfAttributes()
+        public int NumberOfAttributes
         {
-            return _attributes.Count;
+            get { return _attributes.Count; }
         }
 
         public ClassInfoIndex AddIndexOn(string name, string[] indexFields, bool acceptMultipleValuesForSameKey)
@@ -440,28 +366,9 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return cii;
         }
 
-        /// <summary>
-        ///   Removes an index
-        /// </summary>
-        /// <param name="cii"> </param>
         public void RemoveIndex(ClassInfoIndex cii)
         {
             _indexes.Remove(cii);
-        }
-
-        public int GetNumberOfIndexes()
-        {
-            if (_indexes == null)
-                return 0;
-            return _indexes.Count;
-        }
-
-        public ClassInfoIndex GetIndex(int index)
-        {
-            if (_indexes == null || index >= _indexes.Count)
-                throw new OdbRuntimeException(
-                    NDatabaseError.IndexNotFound.AddParameter(GetFullClassName()).AddParameter(index));
-            return _indexes[index];
         }
 
         public void SetIndexes(IOdbList<ClassInfoIndex> indexes2)
@@ -473,7 +380,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         ///   To detect if a class has cyclic reference
         /// </summary>
         /// <returns> true if this class info has cyclic references </returns>
-        public bool HasCyclicReference()
+        internal bool HasCyclicReference()
         {
             return HasCyclicReference(new OdbHashMap<string, ClassInfo>());
         }
@@ -493,59 +400,49 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             for (var i = 0; i < _attributes.Count; i++)
             {
                 var classAttributeInfo = GetAttributeInfo(i);
-                if (!classAttributeInfo.IsNative())
-                {
-                    IDictionary<string, ClassInfo> localMap = new OdbHashMap<string, ClassInfo>(alreadyVisitedClasses);
-                    var hasCyclicRef = classAttributeInfo.GetClassInfo().HasCyclicReference(localMap);
-                    if (hasCyclicRef)
-                        return true;
-                }
+                if (classAttributeInfo.IsNative())
+                    continue;
+
+                var localMap = new OdbHashMap<string, ClassInfo>(alreadyVisitedClasses);
+                var hasCyclicRef = classAttributeInfo.GetClassInfo().HasCyclicReference(localMap);
+                if (hasCyclicRef)
+                    return true;
             }
             return false;
         }
 
-        public byte GetClassCategory()
-        {
-            return _classCategory;
-        }
+        /// <summary>
+        ///   To specify the type of the class : system class or user class
+        /// </summary>
+        public byte ClassCategory { get; set; }
 
-        public void SetClassCategory(byte classInfoType)
-        {
-            _classCategory = classInfoType;
-        }
+        /// <summary>
+        ///   Infos about the last object of this class
+        /// </summary>
+        public ObjectInfoHeader LastObjectInfoHeader { get; set; }
 
-        public ObjectInfoHeader GetLastObjectInfoHeader()
+        public CIZoneInfo UncommittedZoneInfo
         {
-            return _lastObjectInfoHeader;
-        }
-
-        public void SetLastObjectInfoHeader(ObjectInfoHeader lastObjectInfoHeader)
-        {
-            _lastObjectInfoHeader = lastObjectInfoHeader;
-        }
-
-        public CIZoneInfo GetUncommittedZoneInfo()
-        {
-            return _uncommitted;
+            get { return _uncommitted; }
         }
 
         /// <summary>
         ///   Get number of objects: committed and uncommitted
         /// </summary>
-        /// <returns> The number of committed and uncommitted objects </returns>
-        public long GetNumberOfObjects()
+        /// <value> The number of committed and uncommitted objects </value>
+        public long NumberOfObjects
         {
-            return _committed.GetNbObjects() + _uncommitted.GetNbObjects();
+            get { return _committed.GetNbObjects() + _uncommitted.GetNbObjects(); }
         }
 
-        public CommittedCIZoneInfo GetOriginalZoneInfo()
+        public CommittedCIZoneInfo OriginalZoneInfo
         {
-            return _original;
+            get { return _original; }
         }
 
         public bool IsSystemClass()
         {
-            return _classCategory == CategorySystemClass;
+            return ClassCategory == CategorySystemClass;
         }
 
         public ClassInfoIndex GetIndexWithName(string name)
@@ -553,16 +450,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return _indexes == null
                        ? null
                        : _indexes.FirstOrDefault(classInfoIndex => classInfoIndex.Name.Equals(name));
-        }
-
-        public ClassInfoIndex GetIndexForAttributeId(int attributeId)
-        {
-            if (_indexes == null)
-                return null;
-            return
-                _indexes.FirstOrDefault(
-                    classInfoIndex =>
-                    classInfoIndex.AttributeIds.Length == 1 && classInfoIndex.AttributeIds[0] == attributeId);
         }
 
         public ClassInfoIndex GetIndexForAttributeIds(int[] attributeIds)
@@ -583,22 +470,9 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return names;
         }
 
-        public IList<string> GetAttributeNamesAsList(int[] attributeIds)
-        {
-            var nbIds = attributeIds.Length;
-
-            IList<string> names = new List<string>(attributeIds.Length);
-            for (var i = 0; i < nbIds; i++)
-                names.Add(GetAttributeInfoFromId(attributeIds[i]).GetName());
-
-            return names;
-        }
-
         public IOdbList<ClassInfoIndex> GetIndexes()
         {
-            if (_indexes == null)
-                return new OdbList<ClassInfoIndex>();
-            return _indexes;
+            return _indexes ?? new OdbList<ClassInfoIndex>();
         }
 
         public void RemoveAttribute(ClassAttributeInfo cai)
@@ -609,50 +483,19 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public void AddAttribute(ClassAttributeInfo cai)
         {
-            cai.SetId(_maxAttributeId++);
+            cai.SetId(MaxAttributeId++);
             _attributes.Add(cai);
             _attributesCache.AttributesByName.Add(cai.GetName(), cai);
         }
 
-        public void SetFullClassName(string fullClassName)
-        {
-            _fullClassName = fullClassName;
-        }
-
         public bool HasIndex(string indexName)
         {
-            if (_indexes == null)
-                return false;
-
-            return _indexes.Any(classInfoIndex => indexName.Equals(classInfoIndex.Name));
+            return _indexes != null && _indexes.Any(classInfoIndex => indexName.Equals(classInfoIndex.Name));
         }
 
         public bool HasIndex()
         {
             return _indexes != null && !_indexes.IsEmpty();
-        }
-
-        public ClassInfo Duplicate(bool onlyData)
-        {
-            var ci = new ClassInfo(_fullClassName);
-
-            ci.SetAttributes(_attributes);
-            ci.SetClassCategory(_classCategory);
-            ci.SetMaxAttributeId(_maxAttributeId);
-
-            if (onlyData)
-                return ci;
-
-            ci.SetAttributesDefinitionPosition(_attributesDefinitionPosition);
-            ci.SetBlockSize(_blockSize);
-            ci.SetId(_oidInfo.ID);
-            ci.SetPreviousClassOID(_oidInfo.PreviousClassOID);
-            ci.SetNextClassOID(_oidInfo.NextClassOID);
-            ci.SetLastObjectInfoHeader(_lastObjectInfoHeader);
-            ci.SetPosition(_position);
-            ci.SetIndexes(_indexes);
-
-            return ci;
         }
     }
 }

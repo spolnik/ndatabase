@@ -42,10 +42,10 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
             if (_message != null)
                 buffer.Append(_message).Append(" | ");
 
-            if (_oldCi.GetId() != _newCi.GetId())
-                buffer.Append("old class=").Append(_oldCi.GetFullClassName()).Append(" | new class=").Append(_newCi.GetFullClassName());
+            if (_oldCi.ClassInfoId != _newCi.ClassInfoId)
+                buffer.Append("old class=").Append(_oldCi.FullClassName).Append(" | new class=").Append(_newCi.FullClassName);
             else
-                buffer.Append("class=").Append(_oldCi.GetFullClassName());
+                buffer.Append("class=").Append(_oldCi.FullClassName);
 
             buffer.Append(" | field=").Append(_oldCi.GetAttributeInfo(_fieldIndex).GetName());
             buffer.Append(" | old=").Append(_oldValue).Append(" | new=").Append(_newValue);

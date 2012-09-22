@@ -75,7 +75,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var metaModel = lsession.GetMetaModel();
             // first checks if the class of this object already exist in the
             // metamodel
-            if (!metaModel.ExistClass(objectInfo.GetClassInfo().GetFullClassName()))
+            if (!metaModel.ExistClass(objectInfo.GetClassInfo().FullClassName))
                 _objectWriter.AddClass(objectInfo.GetClassInfo(), true);
 
             // if position is -1, gets the position where to write the object
@@ -149,18 +149,18 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
                 DLogger.Debug(string.Format("Start Writing non native object of type {0} at {1} , oid = {2} : {3}",
-                                            objectInfo.GetClassInfo().GetFullClassName(), position, oid, objectInfo));
+                                            objectInfo.GetClassInfo().FullClassName, position, oid, objectInfo));
             }
 
             #endregion
 
-            if (objectInfo.GetClassInfo() == null || objectInfo.GetClassInfo().GetId() == null)
+            if (objectInfo.GetClassInfo() == null || objectInfo.GetClassInfo().ClassInfoId == null)
             {
                 if (objectInfo.GetClassInfo() != null)
                 {
                     var clinfo =
                         _storageEngine.GetSession(true).GetMetaModel().GetClassInfo(
-                            objectInfo.GetClassInfo().GetFullClassName(), true);
+                            objectInfo.GetClassInfo().FullClassName, true);
                     objectInfo.SetClassInfo(clinfo);
                 }
                 else
@@ -179,7 +179,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             
             _objectWriter.FileSystemProcessor.FileSystemInterface.SetWritePosition(position, writeDataInTransaction);
             objectInfo.SetPosition(position);
-            var nbAttributes = objectInfo.GetClassInfo().GetAttributes().Count;
+            var nbAttributes = objectInfo.GetClassInfo().Attributes.Count;
             // compute the size of the array of byte needed till the attibute
             // positions
             // BlockSize + Block Type + OID  + ClassOid + PrevOid + NextOid + CreatDate + UpdateDate + objectVersion + NbAttributes
@@ -196,7 +196,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             EncodeOid(oid, bytes, 5);
             
             // Class info id
-            LongToByteArray(classInfo.GetId().ObjectId, bytes, 13);
+            LongToByteArray(classInfo.ClassInfoId.ObjectId, bytes, 13);
             
             // previous instance
             EncodeOid(objectInfo.GetPreviousObjectOID(), bytes, 21);
@@ -302,7 +302,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 {
                     throw new OdbRuntimeException(
                         NDatabaseError.NonNativeAttributeStoredByPositionInsteadOfOid.AddParameter(
-                            classInfo.GetAttributeInfo(i).GetName()).AddParameter(classInfo.GetFullClassName()).
+                            classInfo.GetAttributeInfo(i).GetName()).AddParameter(classInfo.FullClassName).
                             AddParameter(attributesIdentification[i]));
                 }
             }
@@ -341,7 +341,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                                 ? objectInfo.GetObject()
                                 : objectInfo;
 
-                _triggerManager.ManageInsertTriggerAfter(objectInfo.GetClassInfo().GetFullClassName(), value, oid);
+                _triggerManager.ManageInsertTriggerAfter(objectInfo.GetClassInfo().FullClassName, value, oid);
             }
 
             return oid;
@@ -378,8 +378,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             NonNativeObjectInfo oldMetaRepresentation = null;
             // Used to check consistency, at the end, the number of
             // nbConnectedObjects must and nbUnconnected must remain unchanged
-            var nbConnectedObjects = nnoi.GetClassInfo().GetCommitedZoneInfo().GetNbObjects();
-            var nbNonConnectedObjects = nnoi.GetClassInfo().GetUncommittedZoneInfo().GetNbObjects();
+            var nbConnectedObjects = nnoi.GetClassInfo().CommitedZoneInfo.GetNbObjects();
+            var nbNonConnectedObjects = nnoi.GetClassInfo().UncommittedZoneInfo.GetNbObjects();
             var objectHasChanged = false;
             try
             {
@@ -414,7 +414,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     DLogger.Debug(message);
                 }
                 // triggers,FIXME passing null to old object representation
-                _storageEngine.GetTriggerManager().ManageUpdateTriggerBefore(nnoi.GetClassInfo().GetFullClassName(),
+                _storageEngine.GetTriggerManager().ManageUpdateTriggerBefore(nnoi.GetClassInfo().FullClassName,
                                                                             null, hasObject ? @object : nnoi, oid);
                 // Use to control if the in place update is ok. The
                 // ObjectInstrospector stores the number of changes
@@ -543,8 +543,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 }
                 
                 _objectWriter.FileSystemProcessor.FileSystemInterface.SetWritePosition(positionAfterWrite, true);
-                var nbConnectedObjectsAfter = nnoi.GetClassInfo().GetCommitedZoneInfo().GetNbObjects();
-                var nbNonConnectedObjectsAfter = nnoi.GetClassInfo().GetUncommittedZoneInfo().GetNbObjects();
+                var nbConnectedObjectsAfter = nnoi.GetClassInfo().CommitedZoneInfo.GetNbObjects();
+                var nbNonConnectedObjectsAfter = nnoi.GetClassInfo().UncommittedZoneInfo.GetNbObjects();
                 if (nbConnectedObjectsAfter != nbConnectedObjects || nbNonConnectedObjectsAfter != nbNonConnectedObjects)
                 {
                     // TODO check this
@@ -570,7 +570,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     // triggers,FIXME passing null to old object representation
                     // (oldMetaRepresentation may be null)
                     _storageEngine.GetTriggerManager().ManageUpdateTriggerAfter(
-                        nnoi.GetClassInfo().GetFullClassName(), oldMetaRepresentation, hasObject ? @object : nnoi, oid);
+                        nnoi.GetClassInfo().FullClassName, oldMetaRepresentation, hasObject ? @object : nnoi, oid);
                 }
                 if (OdbConfiguration.IsDebugEnabled(LogId))
                 {
@@ -607,11 +607,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     btree.Insert(newKey, oid);
                     // Check consistency : index should have size equal to the class
                     // info element number
-                    if (index.BTree.GetSize() != nnoi.GetClassInfo().GetNumberOfObjects())
+                    if (index.BTree.GetSize() != nnoi.GetClassInfo().NumberOfObjects)
                     {
                         throw new OdbRuntimeException(
                             NDatabaseError.BtreeSizeDiffersFromClassElementNumber.AddParameter(index.BTree.GetSize())
-                                .AddParameter(nnoi.GetClassInfo().GetNumberOfObjects()));
+                                .AddParameter(nnoi.GetClassInfo().NumberOfObjects));
                     }
                 }
             }

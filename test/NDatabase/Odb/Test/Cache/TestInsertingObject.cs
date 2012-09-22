@@ -80,7 +80,7 @@ namespace Test.NDatabase.Odb.Test.Cache
         {
             var cache = CacheFactory.GetLocalCache("temp");
             var ci = new ClassInfo(OdbClassUtil.GetFullName(GetType()));
-            ci.SetPosition(1);
+            ci.Position = 1;
             var oih1 = new ObjectInfoHeader();
             var oih2 = new ObjectInfoHeader();
             var oih3 = new ObjectInfoHeader();

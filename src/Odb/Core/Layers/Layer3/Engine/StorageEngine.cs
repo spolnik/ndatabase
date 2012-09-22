@@ -146,7 +146,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             // User classes
             foreach (var persistedCI in GetMetaModel().GetUserClasses())
             {
-                currentCI = currentCIs[persistedCI.GetFullClassName()];
+                currentCI = currentCIs[persistedCI.FullClassName];
                 result = persistedCI.ExtractDifferences(currentCI, true);
 
                 if (!result.IsCompatible())
@@ -158,7 +158,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
            
             foreach (var persistedCI in GetMetaModel().GetSystemClasses())
             {
-                currentCI = currentCIs[persistedCI.GetFullClassName()];
+                currentCI = currentCIs[persistedCI.FullClassName];
                 result = persistedCI.ExtractDifferences(currentCI, true);
 
                 if (!result.IsCompatible())

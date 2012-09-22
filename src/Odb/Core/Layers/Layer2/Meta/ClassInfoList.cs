@@ -31,7 +31,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         public ClassInfoList(ClassInfo mainClassInfo)
         {
             _classInfos = new OdbHashMap<string, ClassInfo>();
-            _classInfos[mainClassInfo.GetFullClassName()] = mainClassInfo;
+            _classInfos[mainClassInfo.FullClassName] = mainClassInfo;
             _mainClassInfo = mainClassInfo;
         }
 
@@ -42,7 +42,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public void AddClassInfo(ClassInfo classInfo)
         {
-            _classInfos[classInfo.GetFullClassName()] = classInfo;
+            _classInfos[classInfo.FullClassName] = classInfo;
         }
 
         public ICollection<ClassInfo> GetClassInfos()

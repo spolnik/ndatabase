@@ -20,7 +20,7 @@ namespace NDatabase.Odb.Core.Trigger
             if (_nnoi.IsNull())
             {
                 throw new OdbRuntimeException(
-                    NDatabaseError.TriggerCalledOnNullObject.AddParameter(_nnoi.GetClassInfo().GetFullClassName()).
+                    NDatabaseError.TriggerCalledOnNullObject.AddParameter(_nnoi.GetClassInfo().FullClassName).
                         AddParameter(attributeName));
             }
             return _nnoi.GetValueOf(attributeName);
@@ -41,7 +41,7 @@ namespace NDatabase.Odb.Core.Trigger
 
         public string GetObjectClassName()
         {
-            return _nnoi.GetClassInfo().GetFullClassName();
+            return _nnoi.GetClassInfo().FullClassName;
         }
 
         #endregion

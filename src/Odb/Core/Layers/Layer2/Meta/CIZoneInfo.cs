@@ -49,7 +49,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             NbObjects--;
             if (NbObjects < 0)
             {
-                var errorMessage = string.Format("nb objects is negative! in {0}", _ci.GetFullClassName());
+                var errorMessage = string.Format("nb objects is negative! in {0}", _ci.FullClassName);
 
                 throw new OdbRuntimeException(
                     NDatabaseError.InternalError.AddParameter(errorMessage));

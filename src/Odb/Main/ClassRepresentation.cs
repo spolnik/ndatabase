@@ -20,12 +20,12 @@ namespace NDatabase.Odb.Main
 
         public void AddUniqueIndexOn(string name, string[] indexFields, bool verbose)
         {
-            _storageEngine.AddIndexOn(_classInfo.GetFullClassName(), name, indexFields, verbose, false);
+            _storageEngine.AddIndexOn(_classInfo.FullClassName, name, indexFields, verbose, false);
         }
 
         public void AddIndexOn(string name, string[] indexFields, bool verbose)
         {
-            _storageEngine.AddIndexOn(_classInfo.GetFullClassName(), name, indexFields, verbose, true);
+            _storageEngine.AddIndexOn(_classInfo.FullClassName, name, indexFields, verbose, true);
         }
 
         public bool ExistIndex(string indexName)
@@ -38,12 +38,12 @@ namespace NDatabase.Odb.Main
         /// </summary>
         public void RebuildIndex(string indexName, bool verbose)
         {
-            _storageEngine.RebuildIndex(_classInfo.GetFullClassName(), indexName, verbose);
+            _storageEngine.RebuildIndex(_classInfo.FullClassName, indexName, verbose);
         }
 
         public void DeleteIndex(string indexName, bool verbose)
         {
-            _storageEngine.DeleteIndex(_classInfo.GetFullClassName(), indexName, verbose);
+            _storageEngine.DeleteIndex(_classInfo.FullClassName, indexName, verbose);
         }
 
         #endregion
