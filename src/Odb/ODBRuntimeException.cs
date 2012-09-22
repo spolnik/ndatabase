@@ -7,8 +7,7 @@ namespace NDatabase.Odb
     /// <summary>
     ///   Generic ODB Runtime exception : Used to report all problems.
     /// </summary>
-    
-    public class OdbRuntimeException : Exception
+    internal class OdbRuntimeException : Exception
     {
         private static readonly string Message1 =
             string.Format("\nNDatabase has thrown an Exception");

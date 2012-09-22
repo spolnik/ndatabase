@@ -6,19 +6,17 @@ namespace NDatabase.Odb
     /// <summary>
     ///   An exception thrown by ODB when a corrupted block is found
     /// </summary>
-    /// <author>olivier</author>
-    
-    public sealed class CorruptedDatabaseException : OdbRuntimeException
+    internal sealed class CorruptedDatabaseException : OdbRuntimeException
     {
-        public CorruptedDatabaseException(IError error, string message) : base(error, message)
+        internal CorruptedDatabaseException(IError error, string message) : base(error, message)
         {
         }
 
-        public CorruptedDatabaseException(IError error, Exception t) : base(error, t)
+        internal CorruptedDatabaseException(IError error, Exception t) : base(error, t)
         {
         }
 
-        public CorruptedDatabaseException(IError error) : base(error)
+        internal CorruptedDatabaseException(IError error) : base(error)
         {
         }
     }

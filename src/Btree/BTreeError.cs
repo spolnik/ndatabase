@@ -9,8 +9,7 @@ namespace NDatabase.Btree
     /// <summary>
     ///   ODB BTree Errors All @ in error description will be replaced by parameters
     /// </summary>
-    /// <author>olivier s</author>
-    public sealed class BTreeError : IError
+    internal sealed class BTreeError : IError
     {
         public static readonly BTreeError MergeWithTwoMoreKeys = new BTreeError(500,
                                                                                 "Trying to merge two node with more keys than allowed! @1 // @2");

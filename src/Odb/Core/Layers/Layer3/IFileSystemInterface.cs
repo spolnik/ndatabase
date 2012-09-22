@@ -65,7 +65,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         int ReadInt(string label);
 
-        void WriteLong(long i, bool writeInTransaction, string label, int writeActionType);
+        void WriteLong(long i, bool writeInTransaction, string label);
 
         byte[] ReadLongBytes();
 

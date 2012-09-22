@@ -277,7 +277,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return i;
         }
 
-        public void WriteLong(long i, bool writeInTransaction, string label, int writeActionType)
+        public void WriteLong(long i, bool writeInTransaction, string label)
         {
             if (OdbConfiguration.IsDebugEnabled(LogId) && label != null)
                 DLogger.Debug(string.Format("writing long {0} at {1} : {2}", i, GetPosition(), label));

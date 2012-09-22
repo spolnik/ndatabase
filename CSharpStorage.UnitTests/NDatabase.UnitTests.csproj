@@ -72,6 +72,7 @@
     <Compile Include="Serialization\Identification\When_we_are_using_db_object_oid.cs" />
     <Compile Include="TestData\Person.cs" />
     <Compile Include="Base\When_we_want_store_simple_object.cs" />
+    <Compile Include="Transaction\When_we_use_write_action_to_save_data.cs" />
     <Compile Include="Utils\When_working_with_class_utils.cs" />
     <Compile Include="Utils\When_working_with_string_utils.cs" />
   </ItemGroup>

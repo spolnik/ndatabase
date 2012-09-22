@@ -34,7 +34,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// </summary>
         void WriteDatabaseCharacterEncoding(bool writeInTransaction);
 
-        void WriteOid(OID oid, bool writeInTransaction, string label, int writeAction);
+        void WriteOid(OID oid, bool writeInTransaction, string label);
 
         /// <summary>
         ///   Resets the position of the first class of the metamodel.

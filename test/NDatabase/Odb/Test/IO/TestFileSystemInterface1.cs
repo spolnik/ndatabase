@@ -3,7 +3,6 @@ using System.Globalization;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Layers.Layer3.IO;
-using NDatabase.Odb.Core.Transaction;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.IO
@@ -162,7 +161,7 @@ namespace Test.NDatabase.Odb.Test.IO
                                                                MultiBuffer.DefaultBufferSizeForData,
                                                                new MockSession("test"));
             fsi.SetWritePosition(0, false);
-            fsi.WriteLong(i, false, "i", WriteAction.PointerWriteAction);
+            fsi.WriteLong(i, false, "i");
             fsi.Close();
             fsi = new FileSystemInterface(new FileIdentification("testLong.neodatis"),
                                           MultiBuffer.DefaultBufferSizeForData, new MockSession("test"));

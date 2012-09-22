@@ -71,7 +71,6 @@
     <Compile Include="Function.cs" />
     <Compile Include="NDatabase\Odb\Test\Acid\TestConsistency.cs" />
     <Compile Include="NDatabase\Odb\Test\Acid\TestStopEngineWithoutCommit.cs" />
-    <Compile Include="NDatabase\Odb\Test\Acid\TestTransactionPersistence.cs" />
     <Compile Include="NDatabase\Odb\Test\Arraycollectionmap\ClassWithNonGenericMap.cs" />
     <Compile Include="NDatabase\Odb\Test\Arraycollectionmap\MyList.cs" />
     <Compile Include="NDatabase\Odb\Test\Arraycollectionmap\MyObject.cs" />

@@ -36,7 +36,7 @@ namespace NDatabase.Odb.Core.Transaction
         /// <summary>
         ///   The same write action is reused for successive writes
         /// </summary>
-        private IWriteAction _currentWriteAction;
+        private WriteAction _currentWriteAction;
 
         /// <summary>
         ///   The position of the next write for WriteAction
@@ -86,7 +86,7 @@ namespace NDatabase.Odb.Core.Transaction
         /// <summary>
         ///   All the pending writing that must be applied to actually commit the transaction
         /// </summary>
-        private IList<IWriteAction> _writeActions;
+        private IList<WriteAction> _writeActions;
 
         public OdbTransaction(ISession session, IFileSystemInterface fsiToApplyTransaction)
         {
@@ -267,7 +267,7 @@ namespace NDatabase.Odb.Core.Transaction
             _session = session;
             _isCommited = false;
             _creationDateTime = OdbTime.GetCurrentTimeInTicks();
-            _writeActions = new List<IWriteAction>(1000);
+            _writeActions = new List<WriteAction>(1000);
             _hasAllWriteActionsInMemory = true;
             _numberOfWriteActions = 0;
             _hasBeenPersisted = false;
@@ -280,7 +280,7 @@ namespace NDatabase.Odb.Core.Transaction
         /// </summary>
         /// <param name="writeAction"> The write action to be added </param>
         /// <param name="persistWriteAcion"> To indicate if write action must be persisted </param>
-        private void AddWriteAction(IWriteAction writeAction, bool persistWriteAcion)
+        private void AddWriteAction(WriteAction writeAction, bool persistWriteAcion)
         {
             if (OdbConfiguration.IsDebugEnabled(LogId))
                 DLogger.Info(string.Format("Adding WA in Transaction of session {0}", _session.GetId()));
@@ -293,7 +293,7 @@ namespace NDatabase.Odb.Core.Transaction
                 Persist();
 
             if (persistWriteAcion)
-                writeAction.Persist(_fsi, _numberOfWriteActions + 1);
+                writeAction.PersistMeTo(_fsi, _numberOfWriteActions + 1);
 
             // Only adds the writeaction to the list if the transaction keeps all in
             // memory
@@ -365,10 +365,10 @@ namespace NDatabase.Odb.Core.Transaction
 
             _fsi.SetWritePosition(0, false);
             _fsi.WriteBoolean(_isCommited, false);
-            _fsi.WriteLong(_creationDateTime, false, "creation date", WriteAction.DirectWriteAction);
+            _fsi.WriteLong(_creationDateTime, false, "creation date");
 
             // Size
-            _fsi.WriteLong(0, false, "size", WriteAction.DirectWriteAction);
+            _fsi.WriteLong(0, false, "size");
             _hasBeenPersisted = true;
         }
 
@@ -383,7 +383,7 @@ namespace NDatabase.Odb.Core.Transaction
             // TODO Check atomicity
             // Writes the number of write actions after the byte and date
             _fsi.SetWritePositionNoVerification(OdbType.Byte.Size + OdbType.Long.Size, false);
-            _fsi.WriteLong(_numberOfWriteActions, false, "nb write actions", WriteAction.DirectWriteAction);
+            _fsi.WriteLong(_numberOfWriteActions, false, "nb write actions");
             // FIXME The fsi.flush should not be called after the last write?
             _fsi.Flush();
             // Only set useBuffer = false when it is a local database to avoid
@@ -584,11 +584,11 @@ namespace NDatabase.Odb.Core.Transaction
 
             for (var i = 0; i < totalNumberOfWriteActions; i++)
             {
-                var defaultWriteAction = WriteAction.Read(_fsi, i + 1);
+                var defaultWriteAction = WriteAction.Read(_fsi);
 
                 if (apply)
                 {
-                    defaultWriteAction.ApplyTo(_fsiToApplyWriteActions, i + 1);
+                    defaultWriteAction.ApplyTo(_fsiToApplyWriteActions);
                     defaultWriteAction.Clear();
                 }
                 else
@@ -622,7 +622,7 @@ namespace NDatabase.Odb.Core.Transaction
                 for (var i = 0; i < _writeActions.Count; i++)
                 {
                     var wa = _writeActions[i];
-                    wa.ApplyTo(_fsiToApplyWriteActions, i + 1);
+                    wa.ApplyTo(_fsiToApplyWriteActions);
                     wa.Clear();
                 }
                 _fsiToApplyWriteActions.Flush();
