@@ -8,10 +8,10 @@ namespace NDatabase.Odb.Core.Transaction
     ///   An ODB Session.
     /// </summary>
     /// <remarks>
-    ///   An ODB Session. Keeps track of all the session operations. Caches objects and manage the transaction. The meta model of the database is stored in the session.
+    ///   An ODB Session. Keeps track of all the session operations. 
+    ///   Caches objects and manage the transaction. The meta model of the database is stored in the session.
     /// </remarks>
-    /// <author>osmadja</author>
-    public abstract class Session : ISession
+    internal abstract class Session : ISession
     {
         public override int GetHashCode()
         {

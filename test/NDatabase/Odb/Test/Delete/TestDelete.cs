@@ -4,6 +4,7 @@ using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Query.Criteria;
+using NDatabase.Odb.Main;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;
@@ -162,9 +163,11 @@ namespace Test.NDatabase.Odb.Test.Delete
             var idf1 = odb.GetObjectId(f1);
             var idf2 = odb.GetObjectId(f2);
             var idf3 = odb.GetObjectId(f3);
-            var p1 = odb.GetStorageEngine().GetObjectReader().GetObjectPositionFromItsOid(idf1, true, false);
-            var p2 = odb.GetStorageEngine().GetObjectReader().GetObjectPositionFromItsOid(idf2, true, false);
-            var p3 = odb.GetStorageEngine().GetObjectReader().GetObjectPositionFromItsOid(idf3, true, false);
+            var storageEngine = ((OdbAdapter) odb).GetStorageEngine();
+
+            var p1 = storageEngine.GetObjectReader().GetObjectPositionFromItsOid(idf1, true, false);
+            var p2 = storageEngine.GetObjectReader().GetObjectPositionFromItsOid(idf2, true, false);
+            var p3 = storageEngine.GetObjectReader().GetObjectPositionFromItsOid(idf3, true, false);
             odb.Close();
             try
             {

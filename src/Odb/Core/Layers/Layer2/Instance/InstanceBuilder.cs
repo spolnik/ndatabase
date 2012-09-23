@@ -18,7 +18,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
     /// <remarks>
     ///   Class used to build instance from Meta Object representation. Layer 2 to Layer 1 conversion.
     /// </remarks>
-    public sealed class InstanceBuilder : IInstanceBuilder
+    internal sealed class InstanceBuilder : IInstanceBuilder
     {
         private const string LogIdDebug = "InstanceBuilder.debug";
 

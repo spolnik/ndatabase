@@ -3,8 +3,7 @@ using NDatabase.Btree;
 using NDatabase.Btree.Tool;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.BTree;
-using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Layers.Layer3.Engine;
+using NDatabase.Odb.Main;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test;
@@ -14,13 +13,11 @@ namespace Test.NDatabase.Test.Btree.Impl.Singlevalue
     [TestFixture]
     public class TestBTreeSingleValue : ODBTest
     {
-        private const string DbName = "testBTreeSingleValue.test.odb";
-
         private IBTreeSingleValuePerKey GetBTree(int degree)
         {
             var odb = OdbFactory.Open(GetBaseName());
 
-            var storageEngine = odb.GetStorageEngine();
+            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
             storageEngine.GetObjectWriter().FileSystemProcessor.FileSystemInterface.GetIo().EnableAutomaticDelete(true);
             return new OdbBtreeSingle("test1", degree, new LazyOdbBtreePersister(storageEngine));
         }

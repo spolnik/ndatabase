@@ -8,7 +8,7 @@ using NDatabase.Odb.Core.Query.Values;
 
 namespace NDatabase.Odb.Core.Query
 {
-    public static class QueryManager
+    internal static class QueryManager
     {
         public static bool Match(IQuery query, object @object)
         {

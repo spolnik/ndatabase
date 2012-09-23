@@ -11,7 +11,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
     /// <summary>
     ///   The local implementation of the Object Instrospector.
     /// </summary>
-    public sealed class ObjectIntrospector : IObjectIntrospector
+    internal sealed class ObjectIntrospector : IObjectIntrospector
     {
         private readonly IClassIntrospector _classIntrospector;
         private IStorageEngine _storageEngine;

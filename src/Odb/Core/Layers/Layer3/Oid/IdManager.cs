@@ -8,7 +8,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Oid
     /// <summary>
     ///   Class to manage the ids of all the objects of the database.
     /// </summary>
-    public sealed class IdManager : IIdManager
+    internal sealed class IdManager : IIdManager
     {
         private const int IdBufferSize = 10;
         private const string LogId = "IdManager";

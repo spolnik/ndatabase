@@ -6,7 +6,7 @@ using NDatabase.Odb.Core.Query.Execution;
 
 namespace NDatabase.Odb.Core.Query.NQ
 {
-    public sealed class NativeQueryExecutor : GenericQueryExecutor
+    internal sealed class NativeQueryExecutor : GenericQueryExecutor
     {
         private readonly IInstanceBuilder _instanceBuilder;
         private object _currentObject;

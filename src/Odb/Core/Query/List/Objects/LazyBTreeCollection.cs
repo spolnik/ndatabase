@@ -12,9 +12,7 @@ namespace NDatabase.Odb.Core.Query.List.Objects
     /// <remarks>
     ///   A collection using a BTtree as a back-end component. Lazy because it only keeps the oids of the objects. When asked for an object, loads it on demand and returns it
     /// </remarks>
-    /// <author>osmadja</author>
-    
-    public sealed class LazyBTreeCollection<T> : AbstractBTreeCollection<T>
+    internal sealed class LazyBTreeCollection<T> : AbstractBTreeCollection<T>
     {
         private readonly bool _returnObjects;
         private readonly IStorageEngine _storageEngine;

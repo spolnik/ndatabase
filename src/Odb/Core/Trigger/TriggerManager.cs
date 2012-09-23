@@ -9,7 +9,7 @@ using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb.Core.Trigger
 {
-    public sealed class TriggerManager : ITriggerManager
+    internal sealed class TriggerManager : ITriggerManager
     {
         private const string AllClassTrigger = "__all_class_";
 

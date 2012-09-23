@@ -3,7 +3,7 @@ using NDatabase.Odb.Core.Trigger;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
-    public interface INonNativeObjectWriter
+    internal interface INonNativeObjectWriter
     {
         /// <param name="oid"> The Oid of the object to be inserted </param>
         /// <param name="nnoi"> The object meta representation The object to be inserted in the database </param>

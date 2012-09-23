@@ -7,7 +7,7 @@ namespace NDatabase.Odb.Core.Transaction
     ///   The session object used when ODB is used in local/embedded mode
     /// </summary>
     /// <author>olivier s</author>
-    public sealed class LocalSession : Session
+    internal sealed class LocalSession : Session
     {
         private IFileSystemInterface _fsiToApplyTransaction;
         private IStorageEngine _storageEngine;

@@ -143,7 +143,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return buffer.ToString();
         }
 
-        public IOdbList<ClassAttributeInfo> Attributes
+        internal IOdbList<ClassAttributeInfo> Attributes
         {
             get { return _attributes; }
             set
@@ -198,7 +198,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         ///   This is used to get all (non native) attributes a class info have to store them in the meta model
         ///   before storing the class itself
         /// </remarks>
-        public IOdbList<ClassAttributeInfo> GetAllNonNativeAttributes()
+        internal IOdbList<ClassAttributeInfo> GetAllNonNativeAttributes()
         {
             IOdbList<ClassAttributeInfo> result = new OdbList<ClassAttributeInfo>(_attributes.Count);
 
@@ -232,7 +232,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                         : 0);
         }
 
-        public ClassAttributeInfo GetAttributeInfoFromId(int id)
+        internal ClassAttributeInfo GetAttributeInfoFromId(int id)
         {
             return _attributesCache.AttributesById[id];
         }
@@ -258,12 +258,12 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return string.Format("<{0}>k__BackingField", name);
         }
 
-        public ClassAttributeInfo GetAttributeInfoFromName(string name)
+        internal ClassAttributeInfo GetAttributeInfoFromName(string name)
         {
             return _attributesCache.AttributesByName[name];
         }
 
-        public ClassAttributeInfo GetAttributeInfo(int index)
+        internal ClassAttributeInfo GetAttributeInfo(int index)
         {
             return _attributes[index];
         }
@@ -479,13 +479,13 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return _indexes ?? new OdbList<ClassInfoIndex>();
         }
 
-        public void RemoveAttribute(ClassAttributeInfo cai)
+        internal void RemoveAttribute(ClassAttributeInfo cai)
         {
             _attributes.Remove(cai);
             _attributesCache.AttributesByName.Remove(cai.GetName());
         }
 
-        public void AddAttribute(ClassAttributeInfo cai)
+        internal void AddAttribute(ClassAttributeInfo cai)
         {
             cai.SetId(MaxAttributeId++);
             _attributes.Add(cai);

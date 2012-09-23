@@ -1,4 +1,3 @@
-using System;
 using NDatabase.Odb.Core;
 
 namespace NDatabase.Odb
@@ -8,14 +7,6 @@ namespace NDatabase.Odb
     /// </summary>
     internal sealed class CorruptedDatabaseException : OdbRuntimeException
     {
-        internal CorruptedDatabaseException(IError error, string message) : base(error, message)
-        {
-        }
-
-        internal CorruptedDatabaseException(IError error, Exception t) : base(error, t)
-        {
-        }
-
         internal CorruptedDatabaseException(IError error) : base(error)
         {
         }

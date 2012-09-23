@@ -7,7 +7,7 @@ namespace NDatabase.Odb.Core.Query.Execution
     ///   <p>A class to execute a query on more than one class and then merges the result. It is used when polymophic is set to true because
     ///     in this case, we must execute query on the main class and all its persistent subclasses</p>
     /// </remarks>
-    public sealed class MultiClassGenericQueryExecutor : IQueryExecutor
+    internal sealed class MultiClassGenericQueryExecutor : IQueryExecutor
     {
         private readonly IMultiClassQueryExecutor _executor;
 

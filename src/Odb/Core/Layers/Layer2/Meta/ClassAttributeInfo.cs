@@ -5,13 +5,12 @@ using NDatabase.Tool.Wrappers;
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {
     /// <summary>
-    ///   to keep informations about an attribute of a class : <pre>- Its type
-    ///                                                          - its name
-    ///                                                          - If it is an index</pre>
+    ///   to keep informations about an attribute of a class : 
+    ///    - Its type
+    ///    - its name
+    ///    - If it is an index
     /// </summary>
-    /// <author>olivier s</author>
-    
-    public sealed class ClassAttributeInfo
+    internal sealed class ClassAttributeInfo
     {
         /// <summary>
         ///   can be null
@@ -30,16 +29,16 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         private string _name;
         private string _namespace;
 
-        public ClassAttributeInfo()
+        internal ClassAttributeInfo()
         {
         }
 
-        public ClassAttributeInfo(int attributeId, string name, string fullClassName, ClassInfo info)
+        internal ClassAttributeInfo(int attributeId, string name, string fullClassName, ClassInfo info)
             : this(attributeId, name, null, fullClassName, info)
         {
         }
 
-        public ClassAttributeInfo(int attributeId, string name, Type nativeClass, string fullClassName, ClassInfo info)
+        internal ClassAttributeInfo(int attributeId, string name, Type nativeClass, string fullClassName, ClassInfo info)
         {
             //private transient static int nb=0;
             _id = attributeId;
@@ -61,47 +60,47 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             _isIndex = false;
         }
 
-        public ClassInfo GetClassInfo()
+        internal ClassInfo GetClassInfo()
         {
             return _classInfo;
         }
 
-        public void SetClassInfo(ClassInfo classInfo)
+        internal void SetClassInfo(ClassInfo classInfo)
         {
             _classInfo = classInfo;
         }
 
-        public bool IsIndex()
+        internal bool IsIndex()
         {
             return _isIndex;
         }
 
-        public void SetIndex(bool isIndex)
+        internal void SetIndex(bool isIndex)
         {
             _isIndex = isIndex;
         }
 
-        public string GetName()
+        internal string GetName()
         {
             return _name;
         }
 
-        public void SetName(string name)
+        internal void SetName(string name)
         {
             _name = name;
         }
 
-        public bool IsNative()
+        internal bool IsNative()
         {
             return _attributeType.IsNative();
         }
 
-        public bool IsNonNative()
+        internal bool IsNonNative()
         {
             return !_attributeType.IsNative();
         }
 
-        public void SetFullClassName(string fullClassName)
+        internal void SetFullClassName(string fullClassName)
         {
             _fullClassName = fullClassName;
             SetClassName(OdbClassUtil.GetClassName(fullClassName));
@@ -118,27 +117,17 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return buffer.ToString();
         }
 
-        public string GetClassName()
-        {
-            return _className;
-        }
-
-        public void SetClassName(string className)
+        internal void SetClassName(string className)
         {
             _className = className;
         }
 
-        public string GetNamespace()
-        {
-            return _namespace;
-        }
-
-        public void SetNamespace(string @namespace)
+        internal void SetNamespace(string @namespace)
         {
             _namespace = @namespace;
         }
 
-        public string GetFullClassname()
+        internal string GetFullClassname()
         {
             if (_fullClassName != null)
                 return _fullClassName;
@@ -153,27 +142,22 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return _fullClassName;
         }
 
-        public void SetAttributeType(OdbType attributeType)
+        internal void SetAttributeType(OdbType attributeType)
         {
             _attributeType = attributeType;
         }
 
-        public OdbType GetAttributeType()
+        internal OdbType GetAttributeType()
         {
             return _attributeType;
         }
 
-        public Type GetNativeClass()
-        {
-            return _nativeClass;
-        }
-
-        public int GetId()
+        internal int GetId()
         {
             return _id;
         }
 
-        public void SetId(int id)
+        internal void SetId(int id)
         {
             _id = id;
         }

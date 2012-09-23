@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.IO;
 using NDatabase.Odb;
+using NDatabase.Odb.Main;
 
 namespace Test.NDatabase.Odb.Test
 {
@@ -39,19 +40,19 @@ namespace Test.NDatabase.Odb.Test
             return string.Format("{0}{1}.neodatis", GetName(), guid.ToString());
         }
 
-        public virtual IOdb Open(String fileName, String user, String password)
+        public virtual OdbAdapter Open(String fileName, String user, String password)
         {
-            return OdbFactory.Open(fileName);
+            return (OdbAdapter) OdbFactory.Open(fileName);
         }
 
-        public virtual IOdb Open(String fileName)
+        public virtual OdbAdapter Open(String fileName)
         {
-            return OdbFactory.Open(fileName);
+            return (OdbAdapter) OdbFactory.Open(fileName);
         }
 
-        public virtual IOdb OpenLocal(String fileName)
+        public virtual OdbAdapter OpenLocal(String fileName)
         {
-            return OdbFactory.Open(fileName);
+            return (OdbAdapter) OdbFactory.Open(fileName);
         }
 
         public virtual void failCS()

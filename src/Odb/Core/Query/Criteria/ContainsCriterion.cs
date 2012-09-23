@@ -108,7 +108,7 @@ namespace NDatabase.Odb.Core.Query.Criteria
 
         private bool CheckIfCollectionContainsValue(IEnumerable collection)
         {
-            var engine = GetQuery().GetStorageEngine();
+            var engine = ((AbstractQuery)GetQuery()).GetStorageEngine();
             if (engine == null)
                 throw new OdbRuntimeException(NDatabaseError.QueryEngineNotSet);
 
@@ -182,7 +182,7 @@ namespace NDatabase.Odb.Core.Query.Criteria
             if (GetQuery() == null)
                 throw new OdbRuntimeException(NDatabaseError.ContainsQueryWithNoQuery);
 
-            var engine = GetQuery().GetStorageEngine();
+            var engine = ((AbstractQuery)GetQuery()).GetStorageEngine();
             if (engine == null)
                 throw new OdbRuntimeException(NDatabaseError.ContainsQueryWithNoStorageEngine);
 

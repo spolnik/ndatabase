@@ -11,7 +11,7 @@ using NDatabase.Tool.Wrappers.List;
 
 namespace Test.NDatabase.Odb.Test.IO
 {
-    public class MockObjectReader : IObjectReader
+    internal class MockObjectReader : IObjectReader
     {
         public MockObjectReader(IStorageEngine engine)
         {

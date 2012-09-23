@@ -16,7 +16,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
     /// <summary>
     ///   Manage all IO writing
     /// </summary>
-    public sealed class ObjectWriter : IObjectWriter
+    internal sealed class ObjectWriter : IObjectWriter
     {
         private const string LogId = "ObjectWriter";
         private const string LogIdDebug = "ObjectWriter.debug";

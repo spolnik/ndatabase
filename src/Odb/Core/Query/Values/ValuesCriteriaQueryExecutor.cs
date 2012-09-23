@@ -7,7 +7,7 @@ using NDatabase.Tool.Wrappers.List;
 
 namespace NDatabase.Odb.Core.Query.Values
 {
-    public sealed class ValuesCriteriaQueryExecutor : GenericQueryExecutor
+    internal sealed class ValuesCriteriaQueryExecutor : GenericQueryExecutor
     {
         private CriteriaQuery _criteriaQuery;
         private IOdbList<string> _involvedFields;

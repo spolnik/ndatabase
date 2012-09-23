@@ -3,14 +3,13 @@ using NDatabase.Odb.Core.Layers.Layer3;
 
 namespace NDatabase.Odb.Main
 {
-    
     public sealed class ClassRepresentation : IClassRepresentation
     {
         private readonly ClassInfo _classInfo;
 
         private readonly IStorageEngine _storageEngine;
 
-        public ClassRepresentation(IStorageEngine storageEngine, ClassInfo classInfo)
+        internal ClassRepresentation(IStorageEngine storageEngine, ClassInfo classInfo)
         {
             _storageEngine = storageEngine;
             _classInfo = classInfo;

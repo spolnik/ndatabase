@@ -7,7 +7,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Refactor
     {
         private readonly IStorageEngine _storageEngine;
 
-        public RefactorManager(IStorageEngine storageEngine)
+        internal RefactorManager(IStorageEngine storageEngine)
         {
             _storageEngine = storageEngine;
         }

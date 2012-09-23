@@ -5,6 +5,7 @@ using System.Text;
 using NDatabase.Btree;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
+using NDatabase.Odb.Main;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
@@ -15,7 +16,7 @@ namespace NDatabase.Odb.Core.BTree
     /// <summary>
     ///   Class that persists the BTree and its node into the NDatabase ODB Database.
     /// </summary>
-    public sealed class LazyOdbBtreePersister : IBTreePersister, ICommitListener
+    internal sealed class LazyOdbBtreePersister : IBTreePersister, ICommitListener
     {
         public static readonly string LogId = "LazyOdbBtreePersister";
 
@@ -57,7 +58,7 @@ namespace NDatabase.Odb.Core.BTree
         /// </summary>
         private IBTree _tree;
 
-        public LazyOdbBtreePersister(IOdb odb) : this(odb.GetStorageEngine())
+        public LazyOdbBtreePersister(IOdb odb) : this(((OdbAdapter)odb).GetStorageEngine())
         {
         }
 

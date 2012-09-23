@@ -3,7 +3,7 @@ using NDatabase.Odb.Core.Transaction;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
-    public interface IFileSystemProcessor
+    internal interface IFileSystemProcessor
     {
         /// <summary>
         ///   Write the current transaction Id, out of transaction

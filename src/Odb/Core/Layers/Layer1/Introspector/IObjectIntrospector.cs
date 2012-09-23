@@ -6,7 +6,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
     /// <summary>
     ///   Interface for ObjectInstropector.
     /// </summary>
-    public interface IObjectIntrospector
+    internal interface IObjectIntrospector
     {
         /// <summary>
         ///   retrieve object data

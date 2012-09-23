@@ -20,8 +20,7 @@ namespace NDatabase.Odb.Core.Transaction
     ///     All WriteActions are written in a transaction file to be sure to be able to commit and in case
     ///     of very big transaction where all WriteActions can not be stored in memory.</pre>
     /// </remarks>
-    /// <author>osmadja</author>
-    public sealed class OdbTransaction : ITransaction
+    internal sealed class OdbTransaction : ITransaction
     {
         /// <summary>
         ///   the log module name

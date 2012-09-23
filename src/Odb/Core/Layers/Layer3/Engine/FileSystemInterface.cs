@@ -9,7 +9,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
     /// <summary>
     ///   Class that knows how to read/write all language native types : byte, char, String, int, long,....
     /// </summary>
-    public sealed class FileSystemInterface : IFileSystemInterface
+    internal sealed class FileSystemInterface : IFileSystemInterface
     {
         private const byte ReservedSpace = 128;
 

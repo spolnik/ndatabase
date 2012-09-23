@@ -8,7 +8,7 @@ using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Query.Values
 {
-    public sealed class ValuesQueryResultAction : IMatchingObjectAction
+    internal sealed class ValuesQueryResultAction : IMatchingObjectAction
     {
         private readonly IStorageEngine _engine;
         private readonly IValuesQuery _query;

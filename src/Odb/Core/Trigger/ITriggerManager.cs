@@ -2,7 +2,7 @@ using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
 namespace NDatabase.Odb.Core.Trigger
 {
-    public interface ITriggerManager
+    internal interface ITriggerManager
     {
         bool ManageInsertTriggerBefore(string className, object @object);
 

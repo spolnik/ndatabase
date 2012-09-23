@@ -1,5 +1,4 @@
 using System;
-using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Query.Execution;
 
 namespace NDatabase.Odb.Core.Query
@@ -34,10 +33,6 @@ namespace NDatabase.Odb.Core.Query
 
         /// <returns> the type of the order by - ORDER_BY_NONE,ORDER_BY_DESC,ORDER_BY_ASC </returns>
         OrderByConstants GetOrderByType();
-
-        IStorageEngine GetStorageEngine();
-
-        void SetStorageEngine(IStorageEngine storageEngine);
 
         IQueryExecutionPlan GetExecutionPlan();
 

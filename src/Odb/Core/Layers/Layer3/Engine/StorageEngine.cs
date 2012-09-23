@@ -30,7 +30,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
     ///                        All session related operations are executed by The Session class. Session Class using the Transaction
     ///                        class are responsible for ACID behavior.</pre>
     /// </remarks>
-    public sealed class StorageEngine : AbstractStorageEngineReader
+    internal sealed class StorageEngine : AbstractStorageEngineReader
     {
         private readonly IOdbList<ICommitListener> _commitListeners;
         private ISession _session;

@@ -8,7 +8,7 @@ using NDatabase.Tool.Wrappers.List;
 
 namespace NDatabase.Odb.Core.Layers.Layer3
 {
-    public interface IObjectReader
+    internal interface IObjectReader
     {
         /// <summary>
         ///   Reads the database header

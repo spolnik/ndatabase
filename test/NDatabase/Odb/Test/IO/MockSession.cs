@@ -6,7 +6,7 @@ using NDatabase.Odb.Core.Transaction;
 
 namespace Test.NDatabase.Odb.Test.IO
 {
-    public class MockSession : global::NDatabase.Odb.Core.Transaction.Session
+    internal class MockSession : global::NDatabase.Odb.Core.Transaction.Session
     {
         public MockSession(String baseIdentification) : base("mock", baseIdentification)
         {

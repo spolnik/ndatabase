@@ -6,6 +6,7 @@ using NDatabase.Odb.Core.Layers.Layer2.Meta.Compare;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Oid;
+using NDatabase.Odb.Main;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.Map;
 using NUnit.Framework;
@@ -48,7 +49,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
                                 new Profile("operator", new VO.Login.Function("login")));
             var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
-            var storageEngine = odb.GetStorageEngine();
+            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
@@ -75,7 +76,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
                                 new Profile("operator", new VO.Login.Function("login")));
             var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
-            var storageEngine = odb.GetStorageEngine();
+            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
@@ -101,7 +102,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
-            var storageEngine = odb.GetStorageEngine();
+            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
@@ -150,7 +151,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
-            var storageEngine = odb.GetStorageEngine();
+            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
@@ -204,7 +205,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
-            var storageEngine = odb.GetStorageEngine();
+            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
@@ -260,7 +261,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
-            var storageEngine = odb.GetStorageEngine();
+            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
@@ -321,7 +322,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
-            var storageEngine = odb.GetStorageEngine();
+            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
@@ -378,7 +379,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
-            var storageEngine = odb.GetStorageEngine();
+            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
@@ -427,7 +428,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
-            var storageEngine = odb.GetStorageEngine();
+            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
@@ -480,7 +481,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
-            var storageEngine = odb.GetStorageEngine();
+            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
@@ -528,7 +529,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
-            var storageEngine = odb.GetStorageEngine();
+            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
@@ -573,7 +574,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
-            var storageEngine = odb.GetStorageEngine();
+            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
@@ -631,7 +632,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
-            var storageEngine = odb.GetStorageEngine();
+            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
@@ -684,7 +685,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
-            var storageEngine = odb.GetStorageEngine();
+            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
@@ -737,7 +738,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var callback = new DependentObjectIntrospectingCallback();
             var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
-            var storageEngine = odb.GetStorageEngine();
+            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
@@ -767,7 +768,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var user = new User("olivier smadja", "olivier@neodatis.org", profile);
             var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
-            var storageEngine = odb.GetStorageEngine();
+            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)

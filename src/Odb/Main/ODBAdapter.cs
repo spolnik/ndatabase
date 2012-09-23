@@ -4,7 +4,6 @@ using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Core.Query.Values;
-using NDatabase.Odb.Core.Transaction;
 using NDatabase.Odb.Core.Trigger;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
@@ -22,7 +21,7 @@ namespace NDatabase.Odb.Main
         private readonly IStorageEngine _storageEngine;
         private IOdbExt _ext;
 
-        protected OdbAdapter(IStorageEngine storageEngine)
+        internal OdbAdapter(IStorageEngine storageEngine)
         {
             _storageEngine = storageEngine;
             _classIntrospector = ClassIntrospector.Instance;
@@ -83,7 +82,7 @@ namespace NDatabase.Odb.Main
         public virtual IObjects<T> GetObjects<T>(IQuery query)
         {
             query.SetFullClassName(typeof (T));
-            query.SetStorageEngine(_storageEngine);
+            ((AbstractQuery)query).SetStorageEngine(_storageEngine);
             return _storageEngine.GetObjects<T>(query, true, -1, -1);
         }
 
@@ -214,9 +213,9 @@ namespace NDatabase.Odb.Main
             return _storageEngine.GetBaseIdentification().Id;
         }
 
-        public IStorageEngine GetStorageEngine()
+        internal IStorageEngine GetStorageEngine()
         {
-            return GetSession().GetStorageEngine();
+            return _storageEngine.GetSession(true).GetStorageEngine();
         }
 
         public void Dispose()
@@ -236,11 +235,6 @@ namespace NDatabase.Odb.Main
         {
             _storageEngine.Commit();
             _storageEngine.Close();
-        }
-
-        public virtual ISession GetSession()
-        {
-            return _storageEngine.GetSession(true);
         }
 
         /// <summary>

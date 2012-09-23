@@ -1,12 +1,11 @@
 using System;
 using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Transaction;
 using NDatabase.Odb.Core.Trigger;
 
 namespace NDatabase.Odb.Main
 {
-    public sealed class OdbForTrigger : OdbAdapter
+    internal sealed class OdbForTrigger : OdbAdapter
     {
         public OdbForTrigger(IStorageEngine storageEngine) : base(storageEngine)
         {
@@ -68,11 +67,6 @@ namespace NDatabase.Odb.Main
         }
 
         public override IRefactorManager GetRefactorManager()
-        {
-            throw new OdbRuntimeException(NDatabaseError.OperationNotAllowedInTrigger);
-        }
-
-        public override ISession GetSession()
         {
             throw new OdbRuntimeException(NDatabaseError.OperationNotAllowedInTrigger);
         }

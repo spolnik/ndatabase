@@ -1,4 +1,3 @@
-using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NUnit.Framework;
@@ -6,7 +5,7 @@ using NUnit.Framework;
 namespace Test.NDatabase.Odb.Test.IO
 {
     [TestFixture]
-    public class TestReservingSpace : ODBTest
+    internal class TestReservingSpace : ODBTest
     {
         /// <exception cref="System.IO.IOException"></exception>
         public virtual void Write(IFileSystemInterface fsi, bool writeInTransaction)

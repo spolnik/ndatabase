@@ -9,7 +9,7 @@ using NDatabase.Tool;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
-    public sealed class FileSystemProcessor : IFileSystemProcessor
+    internal sealed class FileSystemProcessor : IFileSystemProcessor
     {
         private const string LogId = "FileSystemProcessor";
         private const string LogIdDebug = "FileSystemProcessor.debug";

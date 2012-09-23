@@ -8,7 +8,7 @@ namespace NDatabase.Odb.Main
     {
         private readonly IStorageEngine _storageEngine;
 
-        public OdbExt(IStorageEngine storageEngine)
+        internal OdbExt(IStorageEngine storageEngine)
         {
             _storageEngine = storageEngine;
         }

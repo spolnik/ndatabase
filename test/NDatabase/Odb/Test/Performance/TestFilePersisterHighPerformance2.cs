@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
+using NDatabase.Odb.Main;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Attribute;
@@ -96,11 +97,11 @@ namespace Test.NDatabase.Odb.Test.Performance
                 if (i % 20000 == 0)
                 {
                     Console.Out.Write(".");
-                    Println("After insert=" + odb.GetStorageEngine().GetSession(true).GetCache().ToString());
+                    Println("After insert=" + ((OdbAdapter)odb).GetStorageEngine().GetSession(true).GetCache().ToString());
                 }
             }
             //
-            var engine = odb.GetStorageEngine();
+            var engine = ((OdbAdapter)odb).GetStorageEngine();
 
             // println("NB WA="+WriteAction.count);
             Println("NB WAs=" + engine.GetSession(true).GetTransaction().GetNumberOfWriteActions());
@@ -145,7 +146,7 @@ namespace Test.NDatabase.Odb.Test.Performance
                     Println("update " + k);
                     Println("after update : NB WAs=" +
                             engine.GetSession(true).GetTransaction().GetNumberOfWriteActions());
-                    Println("After update=" + odb.GetStorageEngine().GetSession(true).GetCache().ToString());
+                    Println("After update=" + ((OdbAdapter)odb).GetStorageEngine().GetSession(true).GetCache().ToString());
                 }
                 k++;
             }

@@ -5,7 +5,7 @@ using NDatabase.Odb.Core.Trigger;
 
 namespace NDatabase.Odb.Core.Layers.Layer3
 {
-    public interface IObjectWriter : ITwoPhaseInit, IDisposable
+    internal interface IObjectWriter : ITwoPhaseInit, IDisposable
     {
         ClassInfoList AddClasses(ClassInfoList classInfoList);
 

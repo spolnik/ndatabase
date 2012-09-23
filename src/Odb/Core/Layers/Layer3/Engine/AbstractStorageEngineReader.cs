@@ -18,7 +18,7 @@ using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
-    public abstract class AbstractStorageEngineReader : IStorageEngine
+    internal abstract class AbstractStorageEngineReader : IStorageEngine
     {
         private const string LogId = "LocalStorageEngine";
 

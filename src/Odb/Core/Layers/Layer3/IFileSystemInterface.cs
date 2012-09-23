@@ -4,7 +4,7 @@ using NDatabase.Odb.Core.Layers.Layer3.IO;
 
 namespace NDatabase.Odb.Core.Layers.Layer3
 {
-    public interface IFileSystemInterface : IDisposable
+    internal interface IFileSystemInterface : IDisposable
     {
         void UseBuffer(bool useBuffer);
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer2.Meta.Compare;
 using NDatabase.Odb.Core.Layers.Layer3.Block;
@@ -9,7 +10,7 @@ using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
-    public sealed class NonNativeObjectWriter : INonNativeObjectWriter
+    internal sealed class NonNativeObjectWriter : INonNativeObjectWriter
     {
         private const string LogId = "NonNativeObjectWriter";
         private const string LogIdDebug = "NonNativeObjectWriter.debug";
@@ -643,17 +644,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             _objectWriter.FileSystemProcessor.FileSystemInterface.SetWritePosition(currentPosition, writeInTransaction);
         }
 
-        private static void BooleanToByteArray(bool b, byte[] arrayWhereToWrite, int offset)
-        {
-            const byte byteForTrue = 1;
-            const byte byteForFalse = 0;
-
-            arrayWhereToWrite[offset] = b
-                                            ? byteForTrue
-                                            : byteForFalse;
-        }
-
-        private static void LongToByteArray(long l, byte[] arrayWhereToWrite, int offset)
+        private static void LongToByteArray(long l, IList<byte> arrayWhereToWrite, int offset)
         {
             int i;
             var bytes = BitConverter.GetBytes(l);
@@ -661,7 +652,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 arrayWhereToWrite[offset + i] = bytes[i];
         }
 
-        private static void IntToByteArray(int l, byte[] arrayWhereToWrite, int offset)
+        private static void IntToByteArray(int l, IList<byte> arrayWhereToWrite, int offset)
         {
             int i;
             var bytes = BitConverter.GetBytes(l);

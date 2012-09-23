@@ -1,6 +1,6 @@
 namespace NDatabase.Odb.Core.Query.Execution
 {
-    public interface IQueryExecutor
+    internal interface IQueryExecutor
     {
         /// <summary>
         ///   The main query execution method

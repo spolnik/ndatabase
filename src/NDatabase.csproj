@@ -207,7 +207,6 @@
     <Compile Include="Odb\DatabaseId.cs" />
     <Compile Include="Odb\ExternalOID.cs" />
     <Compile Include="Odb\Core\BTree\LazyODBBTreeIteratorMultiple.cs" />
-    <Compile Include="Odb\Core\BTree\LazyODBBTreeIteratorSIngle.cs" />
     <Compile Include="Odb\Core\BTree\LazyODBBTreePersister.cs" />
     <Compile Include="Odb\Core\BTree\ODBBTreeMultiple.cs" />
     <Compile Include="Odb\Core\BTree\ODBBTreeNodeMultiple.cs" />

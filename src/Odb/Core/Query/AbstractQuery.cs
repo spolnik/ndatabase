@@ -58,16 +58,6 @@ namespace NDatabase.Odb.Core.Query
             return !_orderByType.IsOrderByNone();
         }
 
-        public virtual IStorageEngine GetStorageEngine()
-        {
-            return _storageEngine;
-        }
-
-        public virtual void SetStorageEngine(IStorageEngine storageEngine)
-        {
-            _storageEngine = storageEngine;
-        }
-
         public virtual IQueryExecutionPlan GetExecutionPlan()
         {
             if (ExecutionPlan == null)
@@ -96,6 +86,16 @@ namespace NDatabase.Odb.Core.Query
         public abstract void SetFullClassName(Type type);
 
         #endregion
+
+        internal IStorageEngine GetStorageEngine()
+        {
+            return _storageEngine;
+        }
+
+        internal void SetStorageEngine(IStorageEngine storageEngine)
+        {
+            _storageEngine = storageEngine;
+        }
 
         public virtual void SetOrderByFields(string[] orderByFields)
         {

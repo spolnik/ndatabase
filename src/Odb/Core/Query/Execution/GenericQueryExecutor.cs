@@ -21,7 +21,7 @@ namespace NDatabase.Odb.Core.Query.Execution
     ///                                         execution. The query execution plan is calculated by subclasses (using
     ///                                         abstract method getExecutionPlan).</P>
     /// </remarks>
-    public abstract class GenericQueryExecutor : IMultiClassQueryExecutor
+    internal abstract class GenericQueryExecutor : IMultiClassQueryExecutor
     {
         public static readonly string LogId = "GenericQueryExecutor";
         

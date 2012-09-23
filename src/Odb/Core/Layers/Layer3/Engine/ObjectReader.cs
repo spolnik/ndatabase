@@ -25,7 +25,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
     ///   Manage all IO Reading
     /// </summary>
     /// <author>olivier smadja</author>
-    public sealed class ObjectReader : IObjectReader
+    internal sealed class ObjectReader : IObjectReader
     {
         private const string LogId = "ObjectReader";
         

@@ -15,7 +15,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
     /// <summary>
     ///   The interface of all that a StorageEngine (Main concept in ODB) must do.
     /// </summary>
-    public interface IStorageEngine
+    internal interface IStorageEngine
     {
         OID Store(OID oid, object @object);
 

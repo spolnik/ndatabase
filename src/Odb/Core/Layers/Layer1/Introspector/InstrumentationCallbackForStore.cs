@@ -5,8 +5,7 @@ using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 {
-    /// <author>olivier</author>
-    public sealed class InstrumentationCallbackForStore : IIntrospectionCallback
+    internal sealed class InstrumentationCallbackForStore : IIntrospectionCallback
     {
         private readonly ICrossSessionCache _crossSessionCache;
         private readonly IStorageEngine _engine;

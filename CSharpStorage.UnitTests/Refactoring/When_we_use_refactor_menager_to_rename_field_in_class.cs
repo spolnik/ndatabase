@@ -4,6 +4,7 @@ using NDatabase.Odb;
 #if USER1
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Layers.Layer3.Refactor;
+using NDatabase.Odb.Main;
 using NDatabase.Tool.Wrappers;
 #endif
 using NUnit.Framework;
@@ -34,7 +35,7 @@ namespace NDatabase.UnitTests.Refactoring
         {
             using (var odb = OdbFactory.Open(RefactoringDbName))
             {
-                var refactorManager = new RefactorManager(odb.GetStorageEngine());
+                var refactorManager = new RefactorManager(((OdbAdapter)odb).GetStorageEngine());
                 refactorManager.RenameField(OdbClassUtil.GetFullName(typeof(User)), "age", "_age");
                 refactorManager.RenameField(OdbClassUtil.GetFullName(typeof(User)), "name", "_name");
             }

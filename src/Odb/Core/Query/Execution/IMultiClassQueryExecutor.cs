@@ -3,7 +3,7 @@ using NDatabase.Odb.Core.Layers.Layer3;
 
 namespace NDatabase.Odb.Core.Query.Execution
 {
-    public interface IMultiClassQueryExecutor : IQueryExecutor
+    internal interface IMultiClassQueryExecutor : IQueryExecutor
     {
         /// <summary>
         ///   Used to indicate if the execute method must call start and end method of the queryResultAction.
