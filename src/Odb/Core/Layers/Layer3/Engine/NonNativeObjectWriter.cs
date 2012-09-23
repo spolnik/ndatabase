@@ -378,8 +378,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             NonNativeObjectInfo oldMetaRepresentation = null;
             // Used to check consistency, at the end, the number of
             // nbConnectedObjects must and nbUnconnected must remain unchanged
-            var nbConnectedObjects = nnoi.GetClassInfo().CommitedZoneInfo.GetNbObjects();
-            var nbNonConnectedObjects = nnoi.GetClassInfo().UncommittedZoneInfo.GetNbObjects();
+            var nbConnectedObjects = nnoi.GetClassInfo().CommitedZoneInfo.GetNumberbOfObjects();
+            var nbNonConnectedObjects = nnoi.GetClassInfo().UncommittedZoneInfo.GetNumberbOfObjects();
             var objectHasChanged = false;
             try
             {
@@ -543,8 +543,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 }
                 
                 _objectWriter.FileSystemProcessor.FileSystemInterface.SetWritePosition(positionAfterWrite, true);
-                var nbConnectedObjectsAfter = nnoi.GetClassInfo().CommitedZoneInfo.GetNbObjects();
-                var nbNonConnectedObjectsAfter = nnoi.GetClassInfo().UncommittedZoneInfo.GetNbObjects();
+                var nbConnectedObjectsAfter = nnoi.GetClassInfo().CommitedZoneInfo.GetNumberbOfObjects();
+                var nbNonConnectedObjectsAfter = nnoi.GetClassInfo().UncommittedZoneInfo.GetNumberbOfObjects();
                 if (nbConnectedObjectsAfter != nbConnectedObjects || nbNonConnectedObjectsAfter != nbNonConnectedObjects)
                 {
                     // TODO check this

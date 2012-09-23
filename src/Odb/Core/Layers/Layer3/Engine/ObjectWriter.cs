@@ -242,7 +242,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             FileSystemProcessor.WriteOid(classInfo.NextClassOID, writeInTransaction, "next class oid");
 
-            FileSystemProcessor.FileSystemInterface.WriteLong(classInfo.CommitedZoneInfo.GetNbObjects(), writeInTransaction, "class nb objects");
+            FileSystemProcessor.FileSystemInterface.WriteLong(classInfo.CommitedZoneInfo.GetNumberbOfObjects(), writeInTransaction, "class nb objects");
 
             FileSystemProcessor.WriteOid(classInfo.CommitedZoneInfo.First, writeInTransaction, "class first obj pos");
 
@@ -707,7 +707,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     throw new OdbRuntimeException(
                         NDatabaseError.InternalError.AddParameter(
                             "The last object of the commited zone has been deleted but the Zone still have objects : nbobjects=" +
-                            commitedZoneInfo.GetNbObjects()));
+                            commitedZoneInfo.GetNumberbOfObjects()));
                 }
             }
             // Manage deleting the first object of the uncommitted zone

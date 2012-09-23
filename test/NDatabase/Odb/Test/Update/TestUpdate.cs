@@ -351,7 +351,7 @@ namespace Test.NDatabase.Odb.Test.Update
             Println(ci);
             AssertEquals(null, ci.CommitedZoneInfo.First);
             AssertEquals(null, ci.CommitedZoneInfo.Last);
-            AssertEquals(1, ci.UncommittedZoneInfo.GetNbObjects());
+            AssertEquals(1, ci.UncommittedZoneInfo.GetNumberbOfObjects());
             odb.Close();
         }
 

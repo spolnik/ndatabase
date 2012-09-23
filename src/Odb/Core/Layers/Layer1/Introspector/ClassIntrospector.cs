@@ -51,8 +51,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
         /// <returns> A ClassInfo - a meta representation of the class </returns>
         private ClassInfo GetClassInfo(String fullClassName, ClassInfo existingClassInfo)
         {
-            var classInfo = new ClassInfo(fullClassName);
-            classInfo.ClassCategory = GetClassCategory(fullClassName);
+            var classInfo = new ClassInfo(fullClassName) {ClassCategory = GetClassCategory(fullClassName)};
 
             var fields = GetAllFields(fullClassName);
             IOdbList<ClassAttributeInfo> attributes = new OdbList<ClassAttributeInfo>(fields.Count);
@@ -70,7 +69,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                     attributeId = maxAttributeId;
                 }
                 var fieldClassInfo = !OdbType.GetFromClass(fieldInfo.FieldType).IsNative()
-                                         ? new ClassInfo(OdbClassUtil.GetFullName(fieldInfo.FieldType))
+                                         ? new ClassInfo(fieldInfo.FieldType)
                                          : null;
 
                 attributes.Add(new ClassAttributeInfo(attributeId, fieldInfo.Name, fieldInfo.FieldType,
@@ -218,6 +217,11 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             return FormatterServices.GetUninitializedObject(clazz);
         }
 
+        private byte GetClassCategory(Type type)
+        {
+            return GetClassCategory(OdbClassUtil.GetFullName(type));
+        }
+
         private byte GetClassCategory(string fullClassName)
         {
             if ((_systemClasses.Count == 0))
@@ -230,15 +234,12 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 
         #endregion
 
-        /// <summary>
-        /// </summary>
-        /// <param name="clazz"> The class to instrospect </param>
+        /// <param name="type"> The class to instrospect </param>
         /// <param name="recursive"> If true, goes does the hierarchy to try to analyse all classes </param>
         /// <param name="classInfoList"> map with classname that are being introspected, to avoid recursive calls </param>
-        /// <returns> </returns>
-        private ClassInfoList InternalIntrospect(Type clazz, bool recursive, ClassInfoList classInfoList)
+        private ClassInfoList InternalIntrospect(Type type, bool recursive, ClassInfoList classInfoList)
         {
-            var fullClassName = OdbClassUtil.GetFullName(clazz);
+            var fullClassName = OdbClassUtil.GetFullName(type);
 
             if (classInfoList != null)
             {
@@ -247,24 +248,20 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                     return classInfoList;
             }
 
-            var classInfo = new ClassInfo(fullClassName);
-            classInfo.ClassCategory = GetClassCategory(fullClassName);
+            var classInfo = new ClassInfo(type) {ClassCategory = GetClassCategory(type)};
 
             if (classInfoList == null)
                 classInfoList = new ClassInfoList(classInfo);
             else
                 classInfoList.AddClassInfo(classInfo);
 
-            // Field[] fields = clazz.getDeclaredFields();
-            //UPGRADE_TODO: The equivalent in .NET for method 'java.lang.Class.getName' may return a different value. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1043'"
-            //m by cristi
             var fields = GetAllFields(fullClassName);
             IOdbList<ClassAttributeInfo> attributes = new OdbList<ClassAttributeInfo>(fields.Count);
 
             for (var i = 0; i < fields.Count; i++)
             {
                 var field = fields[i];
-                //Console.WriteLine("Field " + field.Name + " , type = " + field.FieldType);
+                
                 ClassInfo classInfoWithName;
 
                 if (!OdbType.GetFromClass(field.FieldType).IsNative())

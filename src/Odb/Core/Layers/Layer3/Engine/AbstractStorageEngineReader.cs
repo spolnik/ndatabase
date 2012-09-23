@@ -85,7 +85,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 if (OdbConfiguration.IsDebugEnabled(LogId))
                 {
                     DLogger.Debug(string.Format("Reading {0} objects of type {1}",
-                                                classInfo.CommitedZoneInfo.GetNbObjects(),
+                                                classInfo.CommitedZoneInfo.GetNumberbOfObjects(),
                                                 classInfo.FullClassName));
                 }
 
@@ -118,7 +118,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 if (OdbConfiguration.IsDebugEnabled(LogId))
                 {
                     DLogger.Debug(string.Format("Reading {0} objects of type {1}",
-                                                classInfo.CommitedZoneInfo.GetNbObjects(),
+                                                classInfo.CommitedZoneInfo.GetNumberbOfObjects(),
                                                 classInfo.FullClassName));
                 }
 

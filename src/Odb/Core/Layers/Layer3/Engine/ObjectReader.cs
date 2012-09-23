@@ -915,16 +915,18 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                         AddParameter(classInfoPosition));
             }
             var classInfoCategory = _fsi.ReadByte("class info category");
-            var classInfo = new ClassInfo();
-            classInfo.ClassCategory = classInfoCategory;
-            classInfo.Position = classInfoPosition;
-            classInfo.ClassInfoId = OIDFactory.BuildClassOID(_fsi.ReadLong());
-            classInfo.PreviousClassOID = ReadOid("prev class oid");
-            classInfo.NextClassOID = ReadOid("next class oid");
+            var classInfo = new ClassInfo
+                {
+                    ClassCategory = classInfoCategory,
+                    Position = classInfoPosition,
+                    ClassInfoId = OIDFactory.BuildClassOID(_fsi.ReadLong()),
+                    PreviousClassOID = ReadOid("prev class oid"),
+                    NextClassOID = ReadOid("next class oid")
+                };
             classInfo.OriginalZoneInfo.SetNbObjects(_fsi.ReadLong());
             classInfo.OriginalZoneInfo.First = ReadOid("ci first object oid");
             classInfo.OriginalZoneInfo.Last = ReadOid("ci last object oid");
-            classInfo.CommitedZoneInfo.Set(classInfo.OriginalZoneInfo);
+            classInfo.CommitedZoneInfo.SetBasedOn(classInfo.OriginalZoneInfo);
             classInfo.FullClassName = _fsi.ReadString();
             classInfo.MaxAttributeId = _fsi.ReadInt();
             classInfo.AttributesDefinitionPosition = _fsi.ReadLong();

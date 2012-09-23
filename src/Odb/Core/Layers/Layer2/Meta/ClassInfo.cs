@@ -54,14 +54,18 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public ClassInfo()
         {
-            _original = new CommittedCIZoneInfo(this, null, null, 0);
-            _committed = new CommittedCIZoneInfo(this, null, null, 0);
-            _uncommitted = new CIZoneInfo(this, null, null, 0);
+            _original = new CommittedCIZoneInfo();
+            _committed = new CommittedCIZoneInfo();
+            _uncommitted = new CIZoneInfo();
             _oidInfo = new OidInfo();
             Position = -1;
             MaxAttributeId = -1;
             ClassCategory = CategoryUserClass;
             _attributesCache = new AttributesCache();
+        }
+
+        public ClassInfo(Type type) : this(OdbClassUtil.GetFullName(type))
+        {
         }
 
         public ClassInfo(string fullClassName)
@@ -150,7 +154,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             }
         }
 
-        public CommittedCIZoneInfo CommitedZoneInfo
+        internal CommittedCIZoneInfo CommitedZoneInfo
         {
             get { return _committed; }
         }
@@ -421,7 +425,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// </summary>
         public ObjectInfoHeader LastObjectInfoHeader { get; set; }
 
-        public CIZoneInfo UncommittedZoneInfo
+        internal CIZoneInfo UncommittedZoneInfo
         {
             get { return _uncommitted; }
         }
@@ -432,10 +436,10 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// <value> The number of committed and uncommitted objects </value>
         public long NumberOfObjects
         {
-            get { return _committed.GetNbObjects() + _uncommitted.GetNbObjects(); }
+            get { return _committed.GetNumberbOfObjects() + _uncommitted.GetNumberbOfObjects(); }
         }
 
-        public CommittedCIZoneInfo OriginalZoneInfo
+        internal CommittedCIZoneInfo OriginalZoneInfo
         {
             get { return _original; }
         }

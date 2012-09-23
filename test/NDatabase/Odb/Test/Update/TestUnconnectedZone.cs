@@ -27,10 +27,10 @@ namespace Test.NDatabase.Odb.Test.Update
             var fullClassName = OdbClassUtil.GetFullName(typeof (VO.Login.Function));
             var classInfo = storageEngine.GetSession(true).GetMetaModel().GetClassInfo(fullClassName, true);
             odb.Close();
-            AssertEquals(1, classInfo.CommitedZoneInfo.GetNbObjects());
+            AssertEquals(1, classInfo.CommitedZoneInfo.GetNumberbOfObjects());
             AssertNotNull(classInfo.CommitedZoneInfo.First);
             AssertNotNull(classInfo.CommitedZoneInfo.Last);
-            AssertEquals(0, classInfo.UncommittedZoneInfo.GetNbObjects());
+            AssertEquals(0, classInfo.UncommittedZoneInfo.GetNumberbOfObjects());
             AssertNull(classInfo.UncommittedZoneInfo.First);
             AssertNull(classInfo.UncommittedZoneInfo.Last);
             odb = Open("unconnected");

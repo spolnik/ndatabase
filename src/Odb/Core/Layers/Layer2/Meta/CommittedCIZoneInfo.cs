@@ -6,43 +6,42 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// <remarks>
     ///   Used for committed zone info. It has one more attribute than the super class. It is used to keep track of committed deleted objects
     /// </remarks>
-    
-    public sealed class CommittedCIZoneInfo : CIZoneInfo
+    internal sealed class CommittedCIZoneInfo : CIZoneInfo
     {
         private long _nbDeletedObjects;
 
-        public CommittedCIZoneInfo(ClassInfo ci, OID first, OID last, long nbObjects) : base(ci, first, last, nbObjects)
+        internal CommittedCIZoneInfo()
         {
             _nbDeletedObjects = 0;
         }
 
-        public override void DecreaseNbObjects()
+        internal override void DecreaseNbObjects()
         {
             _nbDeletedObjects++;
         }
 
-        public long GetNbDeletedObjects()
+        internal long GetNbDeletedObjects()
         {
             return _nbDeletedObjects;
         }
 
-        public void SetNbDeletedObjects(long nbDeletedObjects)
+        internal void SetNbDeletedObjects(long nbDeletedObjects)
         {
             _nbDeletedObjects = nbDeletedObjects;
         }
 
-        public override long GetNbObjects()
+        internal override long GetNumberbOfObjects()
         {
             return NbObjects - _nbDeletedObjects;
         }
 
-        public override void SetNbObjects(long nb)
+        internal override void SetNbObjects(long nb)
         {
             NbObjects = nb;
             _nbDeletedObjects = 0;
         }
 
-        public void SetNbObjects(CommittedCIZoneInfo cizi)
+        internal void SetNbObjects(CommittedCIZoneInfo cizi)
         {
             NbObjects = cizi.NbObjects;
             _nbDeletedObjects = cizi._nbDeletedObjects;

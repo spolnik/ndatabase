@@ -549,8 +549,7 @@ namespace NDatabase.Odb.Core.Transaction
             if (classInfo.UncommittedZoneInfo.Last != null)
                 classInfo.CommitedZoneInfo.Last = classInfo.UncommittedZoneInfo.Last;
 
-            // Resets the unconnected zone info
-            classInfo.UncommittedZoneInfo.Set(new CIZoneInfo(classInfo, null, null, 0));
+            classInfo.UncommittedZoneInfo.Reset();
 
             return classInfo;
         }
