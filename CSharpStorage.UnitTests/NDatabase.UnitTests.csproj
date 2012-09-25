@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\When_we_use_storage_positions.cs" />
+    <Compile Include="Bugs\When_we_want_to_store_generic_types.cs" />
     <Compile Include="Class_names.cs" />
     <Compile Include="CodeSnippets\Data\Game.cs" />
     <Compile Include="CodeSnippets\Data\IHero.cs" />

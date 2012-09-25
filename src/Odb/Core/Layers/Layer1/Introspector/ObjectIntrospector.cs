@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Tool.Wrappers;
@@ -15,6 +17,9 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
     {
         private readonly IClassIntrospector _classIntrospector;
         private IStorageEngine _storageEngine;
+
+        private static readonly MethodInfo GenericMapIntrospector =
+            typeof (ObjectIntrospector).GetMethod("IntrospectGenericMap", BindingFlags.Instance | BindingFlags.NonPublic);
 
         public ObjectIntrospector(IStorageEngine storageEngine)
         {
@@ -120,21 +125,28 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                             {
                                 MapObjectInfo moi;
                                 var realMapClassName = OdbClassUtil.GetFullName(o.GetType());
-                                var isGeneric = o.GetType().IsGenericType;
-
-                                if (isGeneric)
-                                {
-                                    moi =
-                                        new MapObjectInfo(
-                                            IntrospectGenericMap((IDictionary<object, object>) o, recursive,
-                                                                 alreadyReadObjects, callback), type, realMapClassName);
-                                }
-                                else
+                                
+                                if (o is IDictionary)
                                 {
                                     moi =
                                         new MapObjectInfo(
                                             IntrospectNonGenericMap((IDictionary) o, recursive, alreadyReadObjects,
                                                                     callback), type, realMapClassName);
+                                }
+                                else
+                                {
+                                    // Must be an instance of the generic IDictionary.
+                                    var mapType =
+                                        o.GetType().GetInterfaces().First(
+                                            it =>
+                                            it.IsGenericType && it.GetGenericTypeDefinition() == typeof (IDictionary<,>));
+
+                                   var methodInfo = GenericMapIntrospector.MakeGenericMethod(mapType.GetGenericArguments());
+                                   var map =
+                                        (IDictionary<AbstractObjectInfo, AbstractObjectInfo>)
+                                        methodInfo.Invoke(this, new[] {o, recursive, alreadyReadObjects, callback});
+
+                                   moi = new MapObjectInfo(map, type, realMapClassName);
                                 }
                                 aoi = moi;
                             }
