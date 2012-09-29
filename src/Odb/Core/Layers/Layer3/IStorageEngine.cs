@@ -144,11 +144,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         void SetCurrentTransactionId(ITransactionId transactionId);
 
         /// <summary>
-        ///   Used to reconnect an object to the current session
-        /// </summary>
-        void Reconnect(object @object);
-
-        /// <summary>
         ///   Used to disconnect the object from the current session.
         /// </summary>
         /// <remarks>

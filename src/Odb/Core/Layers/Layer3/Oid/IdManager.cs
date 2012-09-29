@@ -38,8 +38,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Oid
             _objectReader = objectReader;
             _currentBlockIdPosition = currentIdBlock.CurrentIdBlockPosition;
             _currentBlockIdNumber = currentIdBlock.CurrentIdBlockNumber;
-            _maxId = new OdbObjectOID((long)currentIdBlock.CurrentIdBlockNumber * OdbConfiguration.GetNbIdsPerBlock());
-            _nextId = new OdbObjectOID(currentIdBlock.CurrentIdBlockMaxOid.ObjectId + 1);
+            _maxId = new ObjectOID((long)currentIdBlock.CurrentIdBlockNumber * OdbConfiguration.GetNbIdsPerBlock());
+            _nextId = new ObjectOID(currentIdBlock.CurrentIdBlockMaxOid.ObjectId + 1);
 
             _lastIds = new OID[IdBufferSize];
             for (var i = 0; i < IdBufferSize; i++)
@@ -141,7 +141,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Oid
                 if (idType == IdTypes.Class)
                 {
                     // If its a class, build a class OID instead.
-                    currentNextId = new OdbClassOID(currentNextId.ObjectId);
+                    currentNextId = new ClassOID(currentNextId.ObjectId);
                 }
 
                 // Compute the new index to be used to store id and its position in the lastIds and lastIdPositions array
@@ -188,7 +188,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Oid
             var idPosition = _objectWriter.FileSystemProcessor.AssociateIdToObject(idType, idStatus, _currentBlockIdPosition, _nextId,
                                                                objectPosition, false);
 
-            _nextId = new OdbObjectOID(_nextId.ObjectId + 1);
+            _nextId = new ObjectOID(_nextId.ObjectId + 1);
 
             return idPosition;
         }
@@ -205,7 +205,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Oid
 
             _currentBlockIdNumber++;
             _currentBlockIdPosition = newBlockPosition;
-            _maxId = new OdbObjectOID((long) _currentBlockIdNumber * OdbConfiguration.GetNbIdsPerBlock());
+            _maxId = new ObjectOID((long) _currentBlockIdNumber * OdbConfiguration.GetNbIdsPerBlock());
         }
 
         private void MarkBlockAsFull(long currentBlockIdPosition, long nextBlockPosition)

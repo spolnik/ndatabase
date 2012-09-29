@@ -204,7 +204,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             // triggers after - fixme
             // triggerManager.manageInsertTriggerAfter(object.getClass().getName(),
             // object, newOid);
-            GetSession(true).GetCache().ClearInsertingObjects();
+            GetSession(true).GetInMemoryStorage().ClearInsertingObjects();
             return newOid;
         }
 
@@ -214,13 +214,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public override void DeleteObjectWithOid(OID oid)
         {
             var lsession = GetSession(true);
-            var cache = lsession.GetCache();
+            var cache = lsession.GetInMemoryStorage();
             // Check if oih is in the cache
             var objectInfoHeader = cache.GetObjectInfoHeaderFromOid(oid, false) ??
                                    ObjectReader.ReadObjectInfoHeaderFromOid(oid, true);
-
-            if (OdbConfiguration.ReconnectObjectsToSession())
-                CacheFactory.GetCrossSessionCache(GetBaseIdentification().Id).RemoveOid(oid);
 
             _objectWriter.Delete(objectInfoHeader);
             // removes the object from the cache
@@ -242,24 +239,16 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (@object == null)
                 throw new OdbRuntimeException(NDatabaseError.OdbCanNotDeleteNullObject);
 
-            var cache = lsession.GetCache();
-            const bool throwExceptionIfNotInCache = false;
+            var cache = lsession.GetInMemoryStorage();
 
             // Get header of the object (position, previous object position, next
             // object position and class info position)
             // Header must come from cache because it may have been updated before.
-            var header = cache.GetObjectInfoHeaderFromObject(@object, throwExceptionIfNotInCache);
+            var header = cache.GetObjectInfoHeaderFromObject(@object);
             if (header == null)
             {
-                var cachedOid = cache.GetOid(@object, false);
-                //reconnect object is turn on tries to get object from cross session
-                if (cachedOid == null && OdbConfiguration.ReconnectObjectsToSession())
-                {
-                    var crossSessionCache =
-                        CacheFactory.GetCrossSessionCache(GetBaseIdentification().Id);
-                    cachedOid = crossSessionCache.GetOid(@object);
-                }
-
+                var cachedOid = cache.GetOid(@object);
+                
                 if (cachedOid == null)
                 {
                     throw new OdbRuntimeException(
@@ -275,9 +264,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             _triggerManager.ManageDeleteTriggerAfter(@object.GetType().FullName, @object, oid);
             // removes the object from the cache
             cache.RemoveObjectWithOid(header.GetOid());
-
-            if (OdbConfiguration.ReconnectObjectsToSession())
-                CacheFactory.GetCrossSessionCache(GetBaseIdentification().Id).RemoveObject(@object);
 
             return oid;
         }
@@ -366,19 +352,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             if (@object != null)
             {
-                var oid = GetSession(true).GetCache().GetOid(@object, false);
-                // If cross cache session is on, just check if current object has the OID on the cache
-                if (oid == null && OdbConfiguration.ReconnectObjectsToSession())
-                {
-                    var cache =
-                        CacheFactory.GetCrossSessionCache(GetBaseIdentification().Id);
-
-                    oid = cache.GetOid(@object);
-                    if (oid != null)
-                        return oid;
-                }
-
-                oid = GetSession(true).GetCache().GetOid(@object, false);
+                var oid = GetSession(true).GetInMemoryStorage().GetOid(@object);
                 
                 if (oid == null && throwExceptionIfDoesNotExist)
                     throw new OdbRuntimeException(NDatabaseError.UnknownObjectToGetOid.AddParameter(@object.ToString()));
@@ -399,13 +373,16 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (nnoi.IsDeletedObject())
                 throw new OdbRuntimeException(NDatabaseError.ObjectIsMarkedAsDeletedForOid.AddParameter(oid));
 
-            var objectFromOid = nnoi.GetObject() ?? GetObjectReader().GetInstanceBuilder().BuildOneInstance(nnoi);
+            var objectFromOid = nnoi.GetObject() ??
+                                GetObjectReader().GetInstanceBuilder().BuildOneInstance(nnoi,
+                                                                                        GetSession(true).
+                                                                                            GetInMemoryStorage());
 
             var lsession = GetSession(true);
             // Here oid can be different from nnoi.getOid(). This is the case when
             // the oid is an external oid. That`s why we use
             // nnoi.getOid() to put in the cache
-            lsession.GetCache().AddObject(nnoi.GetOid(), objectFromOid, nnoi.GetHeader());
+            lsession.GetInMemoryStorage().AddObject(nnoi.GetOid(), objectFromOid, nnoi.GetHeader());
             lsession.GetTmpCache().ClearObjectInfos();
 
             return objectFromOid;
@@ -518,58 +495,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public override void Disconnect(object @object)
         {
             GetSession(true).RemoveObjectFromCache(@object);
-
-            //remove from cross session cache
-            if (OdbConfiguration.ReconnectObjectsToSession())
-                CacheFactory.GetCrossSessionCache(GetBaseIdentification().Id).RemoveObject(@object);
-        }
-
-        /// <summary>
-        ///   Reconnect an object to the current session.
-        /// </summary>
-        /// <remarks>
-        ///   Reconnect an object to the current session. It connects the object and all the dependent objects (Objects accessible from the object graph of the root object
-        /// </remarks>
-        public override void Reconnect(object @object)
-        {
-            if (@object == null)
-                throw new OdbRuntimeException(NDatabaseError.ReconnectCanReconnectNullObject);
-
-            var crossSessionCache = CacheFactory.GetCrossSessionCache(GetBaseIdentification().Id);
-
-            var oid = crossSessionCache.GetOid(@object);
-            //in some situation the user can control the disconnect and reconnect
-            //so before throws an exception test if in the current session 
-            //there is the object on the cache
-            if (oid == null)
-                throw new OdbRuntimeException(NDatabaseError.CrossSessionCacheNullOidForObject.AddParameter(@object));
-
-            var objectInfoHeader = ObjectReader.ReadObjectInfoHeaderFromOid(oid, false);
-            GetSession(true).AddObjectToCache(oid, @object, objectInfoHeader);
-
-            // Retrieve Dependent Objects
-            var getObjectsCallback = new DependentObjectIntrospectingCallback();
-            var classInfo = GetSession(true).GetMetaModel().GetClassInfoFromId(objectInfoHeader.GetClassInfoId());
-
-            _objectIntrospector.GetMetaRepresentation(@object, classInfo, true, null, getObjectsCallback);
-
-            var dependentObjects = getObjectsCallback.GetObjects();
-            var iterator = dependentObjects.GetEnumerator();
-
-            while (iterator.MoveNext())
-            {
-                var current = iterator.Current;
-
-                if (current == null)
-                    continue;
-
-                oid = crossSessionCache.GetOid(current);
-                if (oid == null)
-                    throw new OdbRuntimeException(NDatabaseError.CrossSessionCacheNullOidForObject.AddParameter(current));
-
-                objectInfoHeader = ObjectReader.ReadObjectInfoHeaderFromOid(oid, false);
-                GetSession(true).AddObjectToCache(oid, current, objectInfoHeader);
-            }
         }
 
         public override ITriggerManager GetTriggerManager()
@@ -722,7 +647,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             // first detects if we must perform an insert or an update
             // If object is in the cache, we must perform an update, else an insert
-            var cache = GetSession(true).GetCache();
+            var cache = GetSession(true).GetInMemoryStorage();
             
             var cacheOid = cache.IdOfInsertingObject(@object);
             if (cacheOid != null)
@@ -730,7 +655,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             // throw new ODBRuntimeException("Inserting meta representation of
             // an object without the object itself is not yet supported");
-            var mustUpdate = cache.ExistObject(@object);
+            var mustUpdate = cache.Contains(@object);
 
             // The introspection callback is used to execute some specific task (like calling trigger, for example) while introspecting the object
             var callback = _introspectionCallbackForInsert;

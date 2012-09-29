@@ -225,28 +225,5 @@ namespace NDatabase.Odb.Main
         }
 
         #endregion
-
-        public virtual void Reconnect(object @object)
-        {
-            _storageEngine.Reconnect(@object);
-        }
-
-        public virtual void CommitAndClose()
-        {
-            _storageEngine.Commit();
-            _storageEngine.Close();
-        }
-
-        /// <summary>
-        ///   or shutdown hook
-        /// </summary>
-        public virtual void Run()
-        {
-            if (!_storageEngine.IsClosed())
-            {
-                DLogger.Debug("ODBFactory has not been closed and VM is exiting : force ODBFactory close");
-                _storageEngine.Close();
-            }
-        }
     }
 }

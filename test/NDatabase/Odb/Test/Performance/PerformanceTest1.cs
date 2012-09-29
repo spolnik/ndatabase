@@ -17,7 +17,6 @@ namespace Test.NDatabase.Odb.Test.Performance
         [Test]
         public virtual void TestInsertSimpleObjectODB()
         {
-            var reconnectStatus = OdbConfiguration.ReconnectObjectsToSession();
             //OdbConfiguration.setReconnectObjectsToSession(false);
             // Thread.sleep(20000);
             var doUpdate = true;
@@ -130,7 +129,6 @@ namespace Test.NDatabase.Odb.Test.Performance
 
             Thread.Sleep(500);
 
-            OdbConfiguration.SetReconnectObjectsToSession(reconnectStatus);
             DisplayResult("ODB " + TestSize + " SimpleObject objects ", t1, t2, t3, t4, t5, t6, t7, t77, t8);
         }
 

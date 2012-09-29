@@ -480,21 +480,21 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
                 case OdbType.OidId:
                     {
-                        var oid = ((OdbObjectOID) @object).ObjectId;
+                        var oid = ((ObjectOID) @object).ObjectId;
                         FileSystemProcessor.FileSystemInterface.WriteLong(oid, writeInTransaction, "ODB OID");
                         break;
                     }
 
                 case OdbType.ObjectOidId:
                     {
-                        var ooid = ((OdbObjectOID) @object).ObjectId;
+                        var ooid = ((ObjectOID) @object).ObjectId;
                         FileSystemProcessor.FileSystemInterface.WriteLong(ooid, writeInTransaction, "ODB OID");
                         break;
                     }
 
                 case OdbType.ClassOidId:
                     {
-                        var coid = ((OdbClassOID) @object).ObjectId;
+                        var coid = ((ClassOID) @object).ObjectId;
                         FileSystemProcessor.FileSystemInterface.WriteLong(coid, writeInTransaction, "ODB OID");
                         break;
                     }
@@ -572,7 +572,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public OID Delete(ObjectInfoHeader header)
         {
             var lsession = _session;
-            var cache = lsession.GetCache();
+            var cache = lsession.GetInMemoryStorage();
             var objectPosition = header.GetPosition();
             var classInfoId = header.GetClassInfoId();
             var oid = header.GetOid();
@@ -824,7 +824,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <param name="classInfo"> The class of the object being inserted </param>
         public void ManageNewObjectPointers(NonNativeObjectInfo objectInfo, ClassInfo classInfo)
         {
-            var cache = _storageEngine.GetSession(true).GetCache();
+            var cache = _storageEngine.GetSession(true).GetInMemoryStorage();
             var isFirstUncommitedObject = !classInfo.UncommittedZoneInfo.HasObjects();
             // if it is the first uncommitted object
             if (isFirstUncommitedObject)
@@ -870,7 +870,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     // object info oip has been changed, we must put it
                     // in the cache to turn this change available for current
                     // transaction until the commit
-                    _storageEngine.GetSession(true).GetCache().AddObjectInfo(oip);
+                    _storageEngine.GetSession(true).GetInMemoryStorage().AddObjectInfo(oip);
                 }
             }
             // always set the new last object oid and the number of objects
@@ -916,7 +916,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             // If object is in the cache, we must perform an update, else an insert
             var @object = nnoi.GetObject();
             var mustUpdate = false;
-            var cache = _session.GetCache();
+            var cache = _session.GetInMemoryStorage();
             if (@object != null)
             {
                 var cacheOid = cache.IdOfInsertingObject(@object);
@@ -924,25 +924,14 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     return cacheOid;
                 // throw new ODBRuntimeException("Inserting meta representation of
                 // an object without the object itself is not yet supported");
-                mustUpdate = cache.ExistObject(@object);
+                mustUpdate = cache.Contains(@object);
             }
             if (!mustUpdate)
                 mustUpdate = !Equals(nnoi.GetOid(), StorageEngineConstant.NullObjectId);
-            // To enable auto - reconnect object loaded from previous sessions
-            // auto reconnect is on
-            if (!mustUpdate && OdbConfiguration.ReconnectObjectsToSession())
-            {
-                var crossSessionCache =
-                    CacheFactory.GetCrossSessionCache(_storageEngine.GetBaseIdentification().Id);
-                if (crossSessionCache.ExistObject(@object))
-                {
-                    _storageEngine.Reconnect(@object);
-                    mustUpdate = true;
-                }
-            }
-            if (mustUpdate)
-                return UpdateNonNativeObjectInfo(nnoi, false);
-            return InsertNonNativeObject(oid, nnoi, true);
+            
+            return mustUpdate
+                       ? UpdateNonNativeObjectInfo(nnoi, false)
+                       : InsertNonNativeObject(oid, nnoi, true);
         }
 
         /// <summary>
@@ -970,7 +959,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         }
 
         public ObjectInfoHeader UpdateNextObjectPreviousPointersInCache(OID nextObjectOID, OID previousObjectOID,
-                                                                                ICache cache)
+                                                                                IOdbInMemoryStorage cache)
         {
             var oip = cache.GetObjectInfoHeaderFromOid(nextObjectOID, false);
             // If object is not in the cache, then read the header from the file
@@ -984,7 +973,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         }
 
         public ObjectInfoHeader UpdatePreviousObjectNextPointersInCache(OID nextObjectOID, OID previousObjectOID,
-                                                                                ICache cache)
+                                                                                IOdbInMemoryStorage cache)
         {
             var oip = cache.GetObjectInfoHeaderFromOid(previousObjectOID, false);
             // If object is not in the cache, then read the header from the file

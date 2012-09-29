@@ -43,18 +43,17 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 
         #endregion
 
-        private NonNativeObjectInfo BuildNnoi(object o, ClassInfo classInfo, AbstractObjectInfo[] values,
-                                              long[] attributesIdentification, int[] attributeIds)
+        private NonNativeObjectInfo BuildNnoi(object o, ClassInfo classInfo)
         {
-            var nnoi = new NonNativeObjectInfo(o, classInfo, values, attributesIdentification, attributeIds);
+            var nnoi = new NonNativeObjectInfo(o, classInfo, null, null, null);
 
             if (_storageEngine != null)
             {
                 // for unit test purpose
-                var cache = _storageEngine.GetSession(true).GetCache();
+                var cache = _storageEngine.GetSession(true).GetInMemoryStorage();
 
                 // Check if object is in the cache, if so sets its oid
-                var oid = cache.GetOid(o, false);
+                var oid = cache.GetOid(o);
                 if (oid != null)
                 {
                     nnoi.SetOid(oid);
@@ -225,7 +224,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                 callback.ObjectFound(o);
 
             if (mainAoi == null)
-                mainAoi = BuildNnoi(o, classInfo, null, null, null);
+                mainAoi = BuildNnoi(o, classInfo);
 
             alreadyReadObjects[o] = mainAoi;
             var fields = _classIntrospector.GetAllFields(className);
@@ -377,8 +376,8 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             return mapCopy;
         }
 
-        private IDictionary<AbstractObjectInfo, AbstractObjectInfo> IntrospectGenericMap(
-            IDictionary<object, object> map, bool introspect,
+        internal IDictionary<AbstractObjectInfo, AbstractObjectInfo> IntrospectGenericMap<TKey, TValue>(
+            IDictionary<TKey, TValue> map, bool introspect,
             IDictionary<object, NonNativeObjectInfo> alreadyReadObjects, IIntrospectionCallback callback)
         {
             var mapCopy = new OdbHashMap<AbstractObjectInfo, AbstractObjectInfo>();

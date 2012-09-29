@@ -97,7 +97,7 @@ namespace Test.NDatabase.Odb.Test.Performance
                 if (i % 20000 == 0)
                 {
                     Console.Out.Write(".");
-                    Println("After insert=" + ((OdbAdapter)odb).GetStorageEngine().GetSession(true).GetCache().ToString());
+                    Println("After insert=" + ((OdbAdapter)odb).GetStorageEngine().GetSession(true).GetInMemoryStorage().ToString());
                 }
             }
             //
@@ -146,7 +146,7 @@ namespace Test.NDatabase.Odb.Test.Performance
                     Println("update " + k);
                     Println("after update : NB WAs=" +
                             engine.GetSession(true).GetTransaction().GetNumberOfWriteActions());
-                    Println("After update=" + ((OdbAdapter)odb).GetStorageEngine().GetSession(true).GetCache().ToString());
+                    Println("After update=" + ((OdbAdapter)odb).GetStorageEngine().GetSession(true).GetInMemoryStorage().ToString());
                 }
                 k++;
             }

@@ -290,8 +290,8 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
         {
             _systemClasses.Add(typeof(ClassInfoIndex).FullName, typeof (ClassInfoIndex));
             _systemClasses.Add(typeof(OID).FullName, typeof (OID));
-            _systemClasses.Add(typeof(OdbObjectOID).FullName, typeof (OdbObjectOID));
-            _systemClasses.Add(typeof(OdbClassOID).FullName, typeof (OdbClassOID));
+            _systemClasses.Add(typeof(ObjectOID).FullName, typeof (ObjectOID));
+            _systemClasses.Add(typeof(ClassOID).FullName, typeof (ClassOID));
             _systemClasses.Add(typeof(OdbBtreeNodeSingle).FullName, typeof (OdbBtreeNodeSingle));
             _systemClasses.Add(typeof(OdbBtreeNodeMultiple).FullName, typeof (OdbBtreeNodeMultiple));
             _systemClasses.Add(typeof(OdbBtreeSingle).FullName, typeof (OdbBtreeSingle));

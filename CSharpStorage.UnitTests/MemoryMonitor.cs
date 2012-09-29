@@ -1,7 +1,6 @@
 using System;
 using System.Diagnostics;
 using System.Text;
-using NDatabase.Odb.Core.Transaction;
 
 namespace NDatabase.Odb.Impl.Tool
 {
@@ -14,9 +13,6 @@ namespace NDatabase.Odb.Impl.Tool
             var buffer = new StringBuilder();
 
             buffer.Append(label).Append(":Free=").Append(Memory.NextValue()).Append("k / Total=").Append("?").Append("k");
-
-            if (all)
-                buffer.Append(" - Cache Usage = ").Append(Cache.Usage());
 
             Console.Out.WriteLine(buffer.ToString());
         }

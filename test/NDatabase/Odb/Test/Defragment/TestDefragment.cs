@@ -71,7 +71,7 @@ namespace Test.NDatabase.Odb.Test.Defragment
         {
             DeleteBase(OdbFileName1);
             DeleteBase(OdbFileName2);
-            OdbConfiguration.SetAutomaticallyIncreaseCacheSize(true);
+            
             var odb = Open(OdbFileName1);
             for (var i = 0; i < 1500; i++)
             {

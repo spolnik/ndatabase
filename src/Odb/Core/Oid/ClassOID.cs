@@ -1,15 +1,14 @@
 namespace NDatabase.Odb.Core.Oid
 {
-    
-    public class OdbClassOID : OdbAbstractOID
+    public class ClassOID : BaseOID
     {
-        public OdbClassOID(long oid) : base(oid)
+        public ClassOID(long oid) : base(oid)
         {
         }
 
         public override int CompareTo(object @object)
         {
-            if (@object == null || !(@object is OdbClassOID))
+            if (@object == null || !(@object is ClassOID))
                 return -1000;
 
             var otherOid = (OID)@object;

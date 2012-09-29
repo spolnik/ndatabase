@@ -6,14 +6,14 @@ namespace NDatabase.UnitTests.Layer2
 {
     internal class When_we_use_class_info_zone_info : InstanceSpecification<CIZoneInfo>
     {
-        private OdbObjectOID _firstOid;
+        private ObjectOID _firstOid;
         private long _numberOfObjects;
-        private OdbObjectOID _secondOid;
+        private ObjectOID _secondOid;
 
         protected override void Establish_context()
         {
-            _firstOid = new OdbObjectOID(1L);
-            _secondOid = new OdbObjectOID(2L);
+            _firstOid = new ObjectOID(1L);
+            _secondOid = new ObjectOID(2L);
             _numberOfObjects = 4L;
         }
 

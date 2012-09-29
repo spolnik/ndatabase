@@ -25,11 +25,9 @@ namespace Test.NDatabase.Odb.Test.Index
             IOdb odb = null;
             var size = 1000;
             var start = OdbTime.GetCurrentTimeInMs();
-            
-            OdbConfiguration.SetReconnectObjectsToSession(false);
+
             try
             {
-                Println("MaxNbObjects/cache = " + OdbConfiguration.GetMaxNumberOfObjectInCache());
                 DeleteBase(OdbFileName);
                 odb = Open(OdbFileName);
                 for (var i = 0; i < size; i++)

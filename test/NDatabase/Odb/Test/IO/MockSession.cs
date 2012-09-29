@@ -13,11 +13,6 @@ namespace Test.NDatabase.Odb.Test.IO
             MetaModel = new MetaModel();
         }
 
-        public override ICache BuildCache()
-        {
-            return CacheFactory.GetLocalCache("mock");
-        }
-
         public override void Commit()
         {
         }

@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Serialization.Identification
 {
-    public class When_we_are_using_db_class_oid : InstanceSpecification<OdbClassOID>
+    public class When_we_are_using_db_class_oid : InstanceSpecification<ClassOID>
     {
         private long _oid;
         private long _returnValue;
@@ -14,9 +14,9 @@ namespace NDatabase.UnitTests.Serialization.Identification
             _oid = 12345678L;
         }
 
-        protected override OdbClassOID Create_subject_under_test()
+        protected override ClassOID Create_subject_under_test()
         {
-            return new OdbClassOID(_oid);
+            return new ClassOID(_oid);
         }
 
         protected override void Because()

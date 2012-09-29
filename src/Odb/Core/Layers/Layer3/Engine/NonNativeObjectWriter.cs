@@ -41,7 +41,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var @object = nnoi.GetObject();
             // First check if object is already being inserted
             // This method returns -1 if object is not being inserted
-            var cachedOid = _session.GetCache().IdOfInsertingObject(@object);
+            var cachedOid = _session.GetInMemoryStorage().IdOfInsertingObject(@object);
             if (cachedOid != null)
                 return cachedOid;
             // Then checks if the class of this object already exist in the
@@ -53,12 +53,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             // Mark this object as being inserted. To manage cyclic relations
             // The oid may be equal to -1
             // Later in the process the cache will be updated with the right oid
-            _session.GetCache().StartInsertingObjectWithOid(@object, oid, nnoi);
+            _session.GetInMemoryStorage().StartInsertingObjectWithOid(@object, oid, nnoi);
             // false : do not write data in transaction. Data are always written
             // directly to disk. Pointers are written in transaction
             var newOid = WriteNonNativeObjectInfo(oid, nnoi, -1, false, isNewObject);
             if (newOid != StorageEngineConstant.NullObjectId)
-                _session.GetCache().AddObject(newOid, @object, nnoi.GetHeader());
+                _session.GetInMemoryStorage().AddObject(newOid, @object, nnoi.GetHeader());
             return newOid;
         }
 
@@ -66,7 +66,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                                                     bool writeDataInTransaction, bool isNewObject)
         {
             var lsession = _session;
-            var cache = lsession.GetCache();
+            var cache = lsession.GetInMemoryStorage();
             var hasObject = objectInfo.GetObject() != null;
 
             // Checks if object is null,for null objects,there is nothing to do
@@ -133,15 +133,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             // Only add the oid to unconnected zone if it is a new object
             if (isNewObject)
-            {
                 cache.AddOIDToUnconnectedZone(oid);
-                if (OdbConfiguration.ReconnectObjectsToSession())
-                {
-                    var crossSessionCache =
-                        CacheFactory.GetCrossSessionCache(_storageEngine.GetBaseIdentification().Id);
-                    crossSessionCache.AddObject(objectInfo.GetObject(), oid);
-                }
-            }
 
             objectInfo.SetOid(oid);
 
@@ -387,7 +379,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 var lsession = _session;
                 var positionBeforeWrite = _objectWriter.FileSystemProcessor.FileSystemInterface.GetPosition();
                 var tmpCache = lsession.GetTmpCache();
-                var cache = lsession.GetCache();
+                var cache = lsession.GetInMemoryStorage();
                 // Get header of the object (position, previous object position,
                 // next
                 // object position and class info position)

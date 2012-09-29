@@ -39,7 +39,6 @@ namespace Test.NDatabase.Odb.Test.Update
         [TearDown]
         public override void TearDown()
         {
-            OdbConfiguration.SetMaxNumberOfObjectInCache(300000);
             DeleteBase(FileName);
         }
 
@@ -171,75 +170,60 @@ namespace Test.NDatabase.Odb.Test.Update
         {
             DeleteBase(FileName);
             var odb = Open(FileName);
-            OdbConfiguration.SetMaxNumberOfObjectInCache(10);
-            try
+            IList list = new ArrayList();
+            for (var i = 0; i < 15; i++)
             {
-                IList list = new ArrayList();
-                for (var i = 0; i < 15; i++)
+                var function = new VO.Login.Function("function " + i);
+                try
                 {
-                    var function = new VO.Login.Function("function " + i);
-                    try
-                    {
-                        odb.Store(function);
-                    }
-                    catch (Exception e)
-                    {
-                        odb.Rollback();
-                        odb.Close();
-                        AssertTrue(e.Message.IndexOf("Cache is full!") != -1);
-                        return;
-                    }
-                    list.Add(function);
+                    odb.Store(function);
                 }
-                odb.Close();
-                odb = Open(FileName);
-                var l = odb.GetObjects<VO.Login.Function>(true);
-                l.Next();
-                l.Next();
-                odb.Store(l.Next());
-                odb.Close();
-                odb = Open(FileName);
-                AssertEquals(15, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
-                odb.Close();
+                catch (Exception e)
+                {
+                    odb.Rollback();
+                    odb.Close();
+                    AssertTrue(e.Message.IndexOf("Cache is full!") != -1);
+                    return;
+                }
+                list.Add(function);
             }
-            finally
-            {
-                OdbConfiguration.SetMaxNumberOfObjectInCache(300000);
-            }
+            odb.Close();
+            odb = Open(FileName);
+            var l = odb.GetObjects<VO.Login.Function>(true);
+            l.Next();
+            l.Next();
+            odb.Store(l.Next());
+            odb.Close();
+            odb = Open(FileName);
+            AssertEquals(15, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
+            odb.Close();
         }
 
         /// <exception cref="System.Exception"></exception>
         [Test]
         public virtual void Test5()
         {
-            try
+            DeleteBase(FileName);
+            var odb = Open(FileName);
+            IList list = new ArrayList();
+            for (var i = 0; i < 15; i++)
             {
-                DeleteBase(FileName);
-                var odb = Open(FileName);
-                IList list = new ArrayList();
-                for (var i = 0; i < 15; i++)
-                {
-                    var function = new VO.Login.Function("function " + i);
-                    odb.Store(function);
-                    list.Add(function);
-                }
-                odb.Close();
-                OdbConfiguration.SetMaxNumberOfObjectInCache(15);
-                odb = Open(FileName);
-                IQuery query = new CriteriaQuery(Where.Or().Add(Where.Like("name", "%9")).Add(Where.Like("name", "%8")));
-                var l = odb.GetObjects<VO.Login.Function>(query, false);
-                AssertEquals(2, l.Count);
-                l.Next();
-                odb.Store(l.Next());
-                odb.Close();
-                odb = Open(FileName);
-                AssertEquals(15, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
-                odb.Close();
+                var function = new VO.Login.Function("function " + i);
+                odb.Store(function);
+                list.Add(function);
             }
-            finally
-            {
-                OdbConfiguration.SetMaxNumberOfObjectInCache(300000);
-            }
+            odb.Close();
+                
+            odb = Open(FileName);
+            IQuery query = new CriteriaQuery(Where.Or().Add(Where.Like("name", "%9")).Add(Where.Like("name", "%8")));
+            var l = odb.GetObjects<VO.Login.Function>(query, false);
+            AssertEquals(2, l.Count);
+            l.Next();
+            odb.Store(l.Next());
+            odb.Close();
+            odb = Open(FileName);
+            AssertEquals(15, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
+            odb.Close();
         }
 
         /// <exception cref="System.Exception"></exception>

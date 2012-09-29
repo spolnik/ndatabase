@@ -30,9 +30,9 @@ namespace NDatabase.Odb
         void Close();
 
         /// <summary>
-        ///   Store a plain java Object in the ODB Database
+        ///   Store a plain Object in the ODB Database
         /// </summary>
-        /// <param name="object"> A plain Java Object </param>
+        /// <param name="object"> A plain Object </param>
         OID Store(object @object);
 
         /// <summary>

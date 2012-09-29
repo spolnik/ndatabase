@@ -349,9 +349,9 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                 case DecimalId:
                     return typeof (decimal);
                 case ObjectOidId:
-                    return typeof (OdbObjectOID);
+                    return typeof (ObjectOID);
                 case ClassOidId:
-                    return typeof (OdbClassOID);
+                    return typeof (ClassOID);
                 case OidId:
                     return typeof (OID);
             }
@@ -607,12 +607,12 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                                                          typeof (OID));
 
         public static readonly OdbType ObjectOid = new OdbType(false, ObjectOidId,
-                                                               OdbClassUtil.GetFullName(typeof (OdbObjectOID)), 0,
-                                                               typeof (OdbObjectOID));
+                                                               OdbClassUtil.GetFullName(typeof (ObjectOID)), 0,
+                                                               typeof (ObjectOID));
 
         public static readonly OdbType ClassOid = new OdbType(false, ClassOidId,
-                                                              OdbClassUtil.GetFullName(typeof (OdbClassOID)), 0,
-                                                              typeof (OdbClassOID));
+                                                              OdbClassUtil.GetFullName(typeof (ClassOID)), 0,
+                                                              typeof (ClassOID));
 
         public static readonly OdbType NonNative = new OdbType(false, NonNativeId, "non native", 0);
 

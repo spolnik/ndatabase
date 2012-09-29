@@ -27,30 +27,29 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
         private readonly IStorageEngine _engine;
         private readonly ITriggerManager _triggerManager;
 
-        private readonly ISession _session;
-
         public InstanceBuilder(IStorageEngine engine)
         {
             _triggerManager = engine.GetLocalTriggerManager();
             _classIntrospector = ClassIntrospector.Instance;
             _engine = engine;
-
-            _session = engine.GetSession(true);
         }
 
         #region IInstanceBuilder Members
 
         public object BuildOneInstance(NonNativeObjectInfo objectInfo)
         {
-            var cache = _session.GetCache();
+            return BuildOneInstance(objectInfo, _engine.GetSession(true).GetInMemoryStorage());
+        }
 
+        public object BuildOneInstance(NonNativeObjectInfo objectInfo, IOdbInMemoryStorage inMemoryStorage)
+        {
             // verify if the object is check to delete
             if (objectInfo.IsDeletedObject())
                 throw new OdbRuntimeException(
                     NDatabaseError.ObjectIsMarkedAsDeletedForOid.AddParameter(objectInfo.GetOid()));
 
             // Then check if object is in cache
-            var o = cache.GetObjectWithOid(objectInfo.GetOid());
+            var o = inMemoryStorage.GetObject(objectInfo.GetOid());
             if (o != null)
                 return o;
 
@@ -92,7 +91,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
 
             // Adds this incomplete instance in the cache to manage cyclic reference
             if (hashCodeIsOk)
-                cache.AddObject(objectInfo.GetOid(), o, objectInfo.GetHeader());
+                inMemoryStorage.AddObject(objectInfo.GetOid(), o, objectInfo.GetHeader());
 
             var classInfo = objectInfo.GetClassInfo();
             var fields = _classIntrospector.GetAllFields(classInfo.FullClassName);
@@ -196,22 +195,14 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
                 // method and depends on the field values
                 // Then, we have to remove object from the cache and re-insert to
                 // correct map hash code
-                cache.RemoveObjectWithOid(objectInfo.GetOid());
+                inMemoryStorage.RemoveObjectWithOid(objectInfo.GetOid());
                 // re-Adds instance in the cache
-                cache.AddObject(objectInfo.GetOid(), o, objectInfo.GetHeader());
+                inMemoryStorage.AddObject(objectInfo.GetOid(), o, objectInfo.GetHeader());
             }
             if (_triggerManager != null)
             {
                 _triggerManager.ManageSelectTriggerAfter(objectInfo.GetClassInfo().FullClassName, objectInfo,
                                                          objectInfo.GetOid());
-            }
-
-            if (OdbConfiguration.ReconnectObjectsToSession())
-            {
-                var crossSessionCache =
-                    CacheFactory.GetCrossSessionCache(_engine.GetBaseIdentification().Id);
-
-                crossSessionCache.AddObject(o, objectInfo.GetOid());
             }
 
             return o;

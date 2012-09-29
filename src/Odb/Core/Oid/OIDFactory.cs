@@ -4,12 +4,12 @@ namespace NDatabase.Odb.Core.Oid
     {
         public static OID BuildObjectOID(long oid)
         {
-            return new OdbObjectOID(oid);
+            return new ObjectOID(oid);
         }
 
         public static OID BuildClassOID(long oid)
         {
-            return new OdbClassOID(oid);
+            return new ClassOID(oid);
         }
     }
 }

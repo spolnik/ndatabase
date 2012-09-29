@@ -10,9 +10,6 @@ namespace Test
         [Test]
         public void test1()
         {
-            //OdbConfiguration.SetDebugEnabled(true);
-            OdbConfiguration.SetReconnectObjectsToSession(false);
-           
             try
             {
                 string file = "Test.NDatabase";
@@ -39,9 +36,6 @@ namespace Test
         [Test]
         public void test2()
         {
-            //OdbConfiguration.SetDebugEnabled(true);
-            OdbConfiguration.SetReconnectObjectsToSession(false);
-
             try
             {
                 int size = 1000;
@@ -70,9 +64,6 @@ namespace Test
         [Test]
         public void test4()
         {
-            //OdbConfiguration.SetDebugEnabled(true);
-            OdbConfiguration.SetReconnectObjectsToSession(false);
-
             try
             {
                 int size = 1000;

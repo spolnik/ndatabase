@@ -36,7 +36,8 @@ namespace NDatabase.Odb.Core.Query.NQ
             if (!aoitemp.IsDeletedObject())
             {
                 CurrentNnoi = (NonNativeObjectInfo) aoitemp;
-                _currentObject = _instanceBuilder.BuildOneInstance(CurrentNnoi);
+                _currentObject = _instanceBuilder.BuildOneInstance(CurrentNnoi,
+                                                                   StorageEngine.GetSession(true).GetInMemoryStorage());
                 objectMatches = Query == null || QueryManager.Match(Query, _currentObject);
                 NextOID = CurrentNnoi.GetNextObjectOID();
             }

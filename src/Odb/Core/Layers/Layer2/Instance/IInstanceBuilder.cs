@@ -1,4 +1,5 @@
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Layers.Layer3;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Instance
 {
@@ -7,14 +8,14 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
         /// <summary>
         ///   Builds a Non Native Object instance
         /// </summary>
-        /// <param name="objectInfo"> </param>
         /// <returns> The instance </returns>
-        object BuildOneInstance(NonNativeObjectInfo objectInfo);
+        object BuildOneInstance(NonNativeObjectInfo objectInfo, IOdbInMemoryStorage inMemoryStorage);
 
         /// <summary>
         ///   Returns the session id of this instance builder (odb database identifier)
         /// </summary>
-        /// <returns> </returns>
         string GetSessionId();
+
+        object BuildOneInstance(NonNativeObjectInfo objectInfo);
     }
 }

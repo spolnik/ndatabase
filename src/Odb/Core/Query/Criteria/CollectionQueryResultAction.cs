@@ -105,10 +105,8 @@ namespace NDatabase.Odb.Core.Query.Criteria
 
         public object GetCurrentInstance(NonNativeObjectInfo nnoi)
         {
-            //FIXME no need
-            if (nnoi.GetObject() != null)
-                return nnoi.GetObject();
-            return _instanceBuilder.BuildOneInstance(nnoi);
+            return nnoi.GetObject() ??
+                   _instanceBuilder.BuildOneInstance(nnoi, _storageEngine.GetSession(true).GetInMemoryStorage());
         }
     }
 }

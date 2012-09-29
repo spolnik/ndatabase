@@ -139,9 +139,6 @@ namespace NDatabase.Odb.Core
         internal static readonly NDatabaseError MethodShouldNotBeCalled = new NDatabaseError(267,
                                                                                          "Method @1 should not be called on @2");
 
-        internal static readonly NDatabaseError CacheNegativePosition = new NDatabaseError(268,
-                                                                                       "Caching an ObjectInfoHeader with negative position @1");
-
         internal static readonly NDatabaseError ErrorWhileGettingObjectFromListAtIndex = new NDatabaseError(269,
                                                                                                         "Error while getting object from list at index @1");
 

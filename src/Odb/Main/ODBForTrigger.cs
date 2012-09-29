@@ -41,11 +41,6 @@ namespace NDatabase.Odb.Main
             throw new OdbRuntimeException(NDatabaseError.OperationNotAllowedInTrigger);
         }
 
-        public override void CommitAndClose()
-        {
-            throw new OdbRuntimeException(NDatabaseError.OperationNotAllowedInTrigger);
-        }
-
         public override void DefragmentTo(string newFileName)
         {
             throw new OdbRuntimeException(NDatabaseError.OperationNotAllowedInTrigger);
@@ -71,17 +66,7 @@ namespace NDatabase.Odb.Main
             throw new OdbRuntimeException(NDatabaseError.OperationNotAllowedInTrigger);
         }
 
-        public override void Reconnect(object @object)
-        {
-            throw new OdbRuntimeException(NDatabaseError.OperationNotAllowedInTrigger);
-        }
-
         public override void Rollback()
-        {
-            throw new OdbRuntimeException(NDatabaseError.OperationNotAllowedInTrigger);
-        }
-
-        public override void Run()
         {
             throw new OdbRuntimeException(NDatabaseError.OperationNotAllowedInTrigger);
         }

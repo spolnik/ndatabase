@@ -20,8 +20,10 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             _isUpdate = isUpdate;
             // Just for junits
             if (engine != null)
-                _crossSessionCache =
-                    CacheFactory.GetCrossSessionCache(engine.GetBaseIdentification().Id);
+            {
+                string identification = engine.GetBaseIdentification().Id;
+                _crossSessionCache = CrossSessionCache.GetInstance(identification);
+            }
         }
 
         #region IIntrospectionCallback Members
@@ -37,42 +39,9 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                 }
             }
 
-            if (OdbConfiguration.ReconnectObjectsToSession())
-                CheckIfObjectMustBeReconnected(@object);
-
             return true;
         }
 
         #endregion
-
-        /// <summary>
-        ///   Used to check if object must be reconnected to current session <pre>An object must be reconnected to session if OdbConfiguration.reconnectObjectsToSession() is true
-        ///                                                                    and object is not in local cache and is in cross session cache.</pre>
-        /// </summary>
-        /// <remarks>
-        ///   Used to check if object must be reconnected to current session <pre>An object must be reconnected to session if OdbConfiguration.reconnectObjectsToSession() is true
-        ///                                                                    and object is not in local cache and is in cross session cache. In this case
-        ///                                                                    we had it to local cache</pre>
-        /// </remarks>
-        private void CheckIfObjectMustBeReconnected(object @object)
-        {
-            if (_engine == null)
-            {
-                // This protection is for JUnit
-                return;
-            }
-            var session = _engine.GetSession(true);
-            // If object is in local cache, no need to reconnect it
-            if (session.GetCache().ExistObject(@object))
-                return;
-
-            var oidCrossSession = _crossSessionCache.GetOid(@object);
-            if (oidCrossSession != null)
-            {
-                // reconnect object
-                var objectInfoHeader = _engine.GetObjectInfoHeaderFromOid(oidCrossSession);
-                session.AddObjectToCache(oidCrossSession, @object, objectInfoHeader);
-            }
-        }
     }
 }

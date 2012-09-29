@@ -342,8 +342,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public abstract bool IsClosed();
 
-        public abstract void Reconnect(object arg1);
-
         public abstract void ResetCommitListeners();
 
         public abstract void Rollback();

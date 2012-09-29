@@ -128,7 +128,7 @@ namespace NDatabase.Odb.Core.Query.Values
             // So we must load it here
             if (value is OID)
             {
-                var oid = (OdbObjectOID) value;
+                var oid = (ObjectOID) value;
                 value = _engine.GetObjectFromOid(oid);
             }
 

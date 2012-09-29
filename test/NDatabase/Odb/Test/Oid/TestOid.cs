@@ -45,8 +45,8 @@ namespace Test.NDatabase.Odb.Test.Oid
             var oidb = (odb.GetObjectId(b1)).ObjectId;
             odb.Close();
             odb = Open("test-oid");
-            var a2 = (A) odb.GetObjectFromId(new OdbObjectOID(oida));
-            var b2 = (B) odb.GetObjectFromId(new OdbObjectOID(oidb));
+            var a2 = (A) odb.GetObjectFromId(new ObjectOID(oida));
+            var b2 = (B) odb.GetObjectFromId(new ObjectOID(oidb));
             odb.Close();
             AssertNotNull(a2);
             AssertNotNull(b2);
@@ -61,7 +61,7 @@ namespace Test.NDatabase.Odb.Test.Oid
             var odb = Open("test-oid");
             try
             {
-                var a2 = (A) odb.GetObjectFromId(new OdbObjectOID(34));
+                var a2 = (A) odb.GetObjectFromId(new ObjectOID(34));
                 Fail("Should have thrown Exception");
             }
             catch (Exception)

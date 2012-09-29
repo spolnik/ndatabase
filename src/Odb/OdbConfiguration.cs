@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using NDatabase.Odb.Core;
 using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb
@@ -29,8 +27,6 @@ namespace NDatabase.Odb
         private static bool _infoEnabled;
 
         private static int _maxNumberOfWriteObjectPerTransaction = 10000;
-
-        private static long _maxNumberOfObjectInCache = 3000000;
 
         private static bool _useMultiBuffer = true;
 
@@ -65,11 +61,6 @@ namespace NDatabase.Odb
         /// </summary>
         private static long _defaultFileCreationTime = 500;
 
-        /// <summary>
-        ///   Automatically increase cache size when it is full
-        /// </summary>
-        private static bool _automaticallyIncreaseCacheSize;
-
         private static bool _useCache = true;
 
         /// <summary>
@@ -93,29 +84,9 @@ namespace NDatabase.Odb
         private static int _roundTypeForAverageDivision;
 
         /// <summary>
-        ///   To specify if NDatabase must automatically reconnect objects loaded in previous session.
-        /// </summary>
-        /// <remarks>
-        ///   To specify if NDatabase must automatically reconnect objects loaded in previous session. With with flag on, user does not need to manually reconnect an object. Default value = true
-        /// </remarks>
-        private static bool _reconnectObjectsToSession;
-
-        /// <summary>
         ///   To activate or desactivate the use of index
         /// </summary>
         private static bool _useIndex = true;
-
-        // For multi thread
-        /// <returns> </returns>
-        public static bool ReconnectObjectsToSession()
-        {
-            return _reconnectObjectsToSession;
-        }
-
-        public static void SetReconnectObjectsToSession(bool reconnectObjectsToSession)
-        {
-            _reconnectObjectsToSession = reconnectObjectsToSession;
-        }
 
         public static void AddLogId(string logId)
         {
@@ -175,16 +146,6 @@ namespace NDatabase.Odb
         public static void SetMaxNumberOfWriteObjectPerTransaction(int maxNumberOfWriteObjectPerTransaction)
         {
             _maxNumberOfWriteObjectPerTransaction = maxNumberOfWriteObjectPerTransaction;
-        }
-
-        public static long GetMaxNumberOfObjectInCache()
-        {
-            return _maxNumberOfObjectInCache;
-        }
-
-        public static void SetMaxNumberOfObjectInCache(long maxNumberOfObjectInCache)
-        {
-            _maxNumberOfObjectInCache = maxNumberOfObjectInCache;
         }
 
         public static int GetNumberOfRetryToOpenFile()
@@ -255,16 +216,6 @@ namespace NDatabase.Odb
         public static void SetThrowExceptionWhenInconsistencyFound(bool throwExceptionWhenInconsistencyFound)
         {
             _throwExceptionWhenInconsistencyFound = throwExceptionWhenInconsistencyFound;
-        }
-
-        public static bool AutomaticallyIncreaseCacheSize()
-        {
-            return _automaticallyIncreaseCacheSize;
-        }
-
-        public static void SetAutomaticallyIncreaseCacheSize(bool automaticallyIncreaseCache)
-        {
-            _automaticallyIncreaseCacheSize = automaticallyIncreaseCache;
         }
 
         public static int GetIdBlockSize()

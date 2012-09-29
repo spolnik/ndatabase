@@ -60,6 +60,7 @@
     <Compile Include="Layer2\When_we_use_class_info_zone_info.cs" />
     <Compile Include="Layer2\When_we_use_existing_odb_types.cs" />
     <Compile Include="Layer3\When_we_use_byte_array_converter.cs" />
+    <Compile Include="Layer3\When_we_use_odb_inmemory_storage.cs" />
     <Compile Include="Layer3\When_we_use_multi_buffered_file_io.cs" />
     <Compile Include="Layer3\When_we_use_multi_buffered_file_io_with_turned_off_buffer.cs" />
     <Compile Include="Layer3\When_we_use_multi_buffer_vo.cs" />

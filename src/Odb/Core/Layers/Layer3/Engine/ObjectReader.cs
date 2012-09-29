@@ -270,7 +270,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             if (useCache)
             {
-                var objectInfoHeader = GetSession().GetCache().GetObjectInfoHeaderFromOid(oid, false);
+                var objectInfoHeader = GetSession().GetInMemoryStorage().GetObjectInfoHeaderFromOid(oid, false);
                 if (objectInfoHeader != null)
                     return objectInfoHeader;
             }
@@ -308,7 +308,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var lsession = _storageEngine.GetSession(true);
             // Get a temporary cache just to cache NonNativeObjectInfo being read to
             // avoid duplicated reads
-            var cache = lsession.GetCache();
+            var cache = lsession.GetInMemoryStorage();
             var tmpCache = lsession.GetTmpCache();
             // ICache tmpCache =cache;
             // We are dealing with a non native object
@@ -581,7 +581,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (useCache)
             {
                 // This return -1 if not in the cache
-                position = _storageEngine.GetSession(true).GetCache().GetObjectPositionByOid(oid);
+                position = _storageEngine.GetSession(true).GetInMemoryStorage().GetObjectPositionByOid(oid);
             }
             // FIXME Check if we need this. Removing it causes the TestDelete.test6 to fail 
             if (position == StorageEngineConstant.DeletedObjectPosition)
@@ -779,7 +779,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public object BuildOneInstance(NonNativeObjectInfo objectInfo)
         {
-            return _instanceBuilder.BuildOneInstance(objectInfo);
+            return _instanceBuilder.BuildOneInstance(objectInfo, _storageEngine.GetSession(true).GetInMemoryStorage());
         }
 
         public IObjects<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex)
@@ -1070,7 +1070,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (!returnInstance)
                 return nnoi;
             // Then converts it to the real object
-            var o = _instanceBuilder.BuildOneInstance(nnoi);
+            var o = _instanceBuilder.BuildOneInstance(nnoi, _storageEngine.GetSession(true).GetInMemoryStorage());
             return o;
         }
 
@@ -1153,7 +1153,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 if (useCache)
                 {
                     // the object info does not exist in the cache
-                    _storageEngine.GetSession(true).GetCache().AddObjectInfo(oip);
+                    _storageEngine.GetSession(true).GetInMemoryStorage().AddObjectInfo(oip);
                 }
                 return oip;
             }
@@ -1263,7 +1263,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 throw new OdbRuntimeException(
                     NDatabaseError.InstancePositionOutOfFile.AddParameter(position).AddParameter(_fsi.GetLength()));
             }
-            var cache = _storageEngine.GetSession(true).GetCache();
+            var cache = _storageEngine.GetSession(true).GetInMemoryStorage();
             // If object is already being read, simply return its cache - to avoid
             // stackOverflow for cyclic references
             // FIXME check this : should we use cache?
@@ -1425,7 +1425,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
         }
 
-        public ObjectInfoHeader GetObjectInfoHeader(OID oid, long position, bool useCache, ICache cache)
+        public ObjectInfoHeader GetObjectInfoHeader(OID oid, long position, bool useCache, IOdbInMemoryStorage cache)
         {
             // first check if the object info pointers exist in the cache
             ObjectInfoHeader objectInfoHeader = null;

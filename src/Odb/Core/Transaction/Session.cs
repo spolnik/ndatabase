@@ -20,7 +20,7 @@ namespace NDatabase.Odb.Core.Transaction
                         : 0);
         }
 
-        private readonly ICache _cache;
+        private readonly IOdbInMemoryStorage _cache;
 
         /// <summary>
         ///   A temporary cache used for object info read
@@ -36,7 +36,7 @@ namespace NDatabase.Odb.Core.Transaction
 
         protected Session(string id, string baseIdentification)
         {
-            _cache = BuildCache();
+            _cache = BuildInMemoryStorage();
             _tmpCache = BuildTmpCache();
             _id = id;
             _baseIdentification = baseIdentification;
@@ -57,7 +57,7 @@ namespace NDatabase.Odb.Core.Transaction
 
         #region ISession Members
 
-        public virtual ICache GetCache()
+        public virtual IOdbInMemoryStorage GetInMemoryStorage()
         {
             return _cache;
         }
@@ -164,14 +164,14 @@ namespace NDatabase.Odb.Core.Transaction
 
         #endregion
 
-        public virtual ICache BuildCache()
+        public IOdbInMemoryStorage BuildInMemoryStorage()
         {
-            return CacheFactory.GetLocalCache("permanent");
+            return new OdbInMemoryStorage();
         }
 
         public ITmpCache BuildTmpCache()
         {
-            return CacheFactory.GetLocalTmpCache();
+            return new TmpCache();
         }
 
         public override string ToString()

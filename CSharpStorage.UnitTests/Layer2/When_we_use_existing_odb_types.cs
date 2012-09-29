@@ -367,12 +367,12 @@ namespace NDatabase.UnitTests.Layer2
         {
             var odbType = OdbType.ObjectOid;
 
-            Assert.That(odbType.BaseClass, Is.EqualTo(typeof(OdbObjectOID)));
+            Assert.That(odbType.BaseClass, Is.EqualTo(typeof(ObjectOID)));
             Assert.That(odbType.Id, Is.EqualTo(OdbType.ObjectOidId));
-            Assert.That(odbType.Name, Is.EqualTo("NDatabase.Odb.Core.Oid.OdbObjectOID,NDatabase"));
+            Assert.That(odbType.Name, Is.EqualTo("NDatabase.Odb.Core.Oid.ObjectOID,NDatabase"));
             Assert.That(odbType.Size, Is.EqualTo(0));
             Assert.That(odbType.SubType, Is.Null);
-            Assert.That(odbType.GetNativeClass(), Is.EqualTo(typeof(OdbObjectOID)));
+            Assert.That(odbType.GetNativeClass(), Is.EqualTo(typeof(ObjectOID)));
             Assert.That(odbType.HasFixSize(), Is.True); //TODO: is that correct?
 
             Assert.That(odbType.IsArray(), Is.False);
@@ -394,12 +394,12 @@ namespace NDatabase.UnitTests.Layer2
         {
             var odbType = OdbType.ClassOid;
 
-            Assert.That(odbType.BaseClass, Is.EqualTo(typeof(OdbClassOID)));
+            Assert.That(odbType.BaseClass, Is.EqualTo(typeof(ClassOID)));
             Assert.That(odbType.Id, Is.EqualTo(OdbType.ClassOidId));
-            Assert.That(odbType.Name, Is.EqualTo("NDatabase.Odb.Core.Oid.OdbClassOID,NDatabase"));
+            Assert.That(odbType.Name, Is.EqualTo("NDatabase.Odb.Core.Oid.ClassOID,NDatabase"));
             Assert.That(odbType.Size, Is.EqualTo(0));
             Assert.That(odbType.SubType, Is.Null);
-            Assert.That(odbType.GetNativeClass(), Is.EqualTo(typeof(OdbClassOID)));
+            Assert.That(odbType.GetNativeClass(), Is.EqualTo(typeof(ClassOID)));
             Assert.That(odbType.HasFixSize(), Is.True); //TODO: is that correct?
 
             Assert.That(odbType.IsArray(), Is.False);

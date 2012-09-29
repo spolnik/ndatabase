@@ -13,9 +13,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
     {
         private const byte ReservedSpace = 128;
 
-        private static readonly int IntSize = OdbType.Integer.Size;
-
-        private static readonly int IntSizeX2 = IntSize * 2;
+        private static readonly int IntSizeX2 = OdbType.Integer.Size * 2;
 
         public static readonly string LogId = "FileSystemInterface";
 
@@ -483,7 +481,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var totalSize = ByteArrayConverter.ByteArrayToInt(sizeBytes);
 
             // Use offset of int size to read real size
-            var stringSize = ByteArrayConverter.ByteArrayToInt(sizeBytes, IntSize);
+            var stringSize = ByteArrayConverter.ByteArrayToInt(sizeBytes, OdbType.Integer.Size);
             var bytes = ReadBytes(stringSize);
 
             // Reads extra bytes

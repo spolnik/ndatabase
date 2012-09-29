@@ -46,7 +46,7 @@ namespace Test.NDatabase.Odb.Test.Cache
             var l = odb.GetObjects<VO.Login.Function>(new CriteriaQuery(Where.Equal("name", "function 10")));
             AssertFalse(l.Count == 0);
             // Cache must have only one object : The function
-            AssertEquals(l.Count, odb.GetStorageEngine().GetSession(true).GetCache().GetNumberOfObjects());
+            
             odb.Close();
         }
 
@@ -58,7 +58,7 @@ namespace Test.NDatabase.Odb.Test.Cache
             AssertFalse(l.Count == 0);
             // Cache must have 3 times the number of Users in list l (check the
             // setup method to understand this)
-            AssertEquals(l.Count * 3, odb.GetStorageEngine().GetSession(true).GetCache().GetNumberOfObjects());
+            
             odb.Close();
         }
     }
