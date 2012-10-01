@@ -169,46 +169,50 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (isNewObject)
                 _objectWriter.ManageNewObjectPointers(objectInfo, classInfo);
 
-            
+
             _objectWriter.FileSystemProcessor.FileSystemInterface.SetWritePosition(position, writeDataInTransaction);
             objectInfo.SetPosition(position);
             var nbAttributes = objectInfo.GetClassInfo().Attributes.Count;
             // compute the size of the array of byte needed till the attibute
             // positions
-            // BlockSize + Block Type + OID  + ClassOid + PrevOid + NextOid + CreatDate + UpdateDate + objectVersion + NbAttributes
-            // Int       + Byte        + Long + Long     + Long    + Long    + Long      + Long       + int          + int
+            // BlockSize + Block Type + OID  + ClassOid + PrevOid + NextOid + CreatDate + UpdateDate + objectVersion + NbAttributes + RefCoutner + IsRoot
+            // Int       + Byte        + Long + Long     + Long    + Long    + Long      + Long       + int          + int          + long       + byte
             // 6 Longs + 3Ints + Byte
-            var tsize = 6 * OdbType.SizeOfLong + 3 * OdbType.SizeOfInt + 1 * OdbType.SizeOfByte;
+            var tsize = 7 * OdbType.SizeOfLong + 3 * OdbType.SizeOfInt + 2 * OdbType.SizeOfByte;
             var bytes = new byte[tsize];
             // Block size
             IntToByteArray(0, bytes, 0);
             // Block type
             bytes[4] = BlockTypes.BlockTypeNonNativeObject;
-            
+
             // The object id
             EncodeOid(oid, bytes, 5);
-            
+
             // Class info id
             LongToByteArray(classInfo.ClassInfoId.ObjectId, bytes, 13);
-            
+
             // previous instance
             EncodeOid(objectInfo.GetPreviousObjectOID(), bytes, 21);
-            
+
             // next instance
             EncodeOid(objectInfo.GetNextObjectOID(), bytes, 29);
-            
+
             // creation date, for update operation must be the original one
             LongToByteArray(objectInfo.GetHeader().GetCreationDate(), bytes, 37);
-            
+
             LongToByteArray(OdbTime.GetCurrentTimeInTicks(), bytes, 45);
-           
+
             IntToByteArray(objectInfo.GetHeader().GetObjectVersion(), bytes, 53);
-           
+
+            LongToByteArray(objectInfo.GetHeader().RefCounter, bytes, 57);
+
+            BooleanToByteArray(objectInfo.GetHeader().IsRoot, bytes, 65);
+
             // now write the number of attributes and the position of all
             // attributes, we do not know them yet, so write 00 but at the end of the write operation
             // These positions will be updated The positions that is going to be written are 'int' representing
             // the offset position of the attribute first write the number of attributes
-            IntToByteArray(nbAttributes, bytes, 57);
+            IntToByteArray(nbAttributes, bytes, 66);
 
             // Then write the array of bytes
             _objectWriter.FileSystemProcessor.FileSystemInterface.WriteBytes(bytes, writeDataInTransaction, "NonNativeObjectInfoHeader");
@@ -283,7 +287,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             {
                 IntToByteArray(attributeIds[i], abytes, i * attributeSize);
                 LongToByteArray(attributesIdentification[i], abytes,
-                                i*(attributeSize) + OdbType.SizeOfInt);
+                                i * (attributeSize) + OdbType.SizeOfInt);
                 // fsi.writeInt(attributeIds[i], writeDataInTransaction, "attr id");
                 // fsi.writeLong(attributesIdentification[i],
                 // writeDataInTransaction, "att real pos",
@@ -534,7 +538,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     // update cache
                     cache.AddObject(oid, @object, nnoi.GetHeader());
                 }
-                
+
                 _objectWriter.FileSystemProcessor.FileSystemInterface.SetWritePosition(positionAfterWrite, true);
                 var nbConnectedObjectsAfter = nnoi.GetClassInfo().CommitedZoneInfo.GetNumberbOfObjects();
                 var nbNonConnectedObjectsAfter = nnoi.GetClassInfo().UncommittedZoneInfo.GetNumberbOfObjects();
@@ -634,6 +638,16 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             _objectWriter.FileSystemProcessor.FileSystemInterface.WriteInt(blockSize, writeInTransaction, "block size");
             // goes back where we were
             _objectWriter.FileSystemProcessor.FileSystemInterface.SetWritePosition(currentPosition, writeInTransaction);
+        }
+
+        private static void BooleanToByteArray(bool b, byte[] arrayWhereToWrite, int offset)
+        {
+            const byte byteForTrue = 1;
+            const byte byteForFalse = 0;
+
+            arrayWhereToWrite[offset] = b
+                                            ? byteForTrue
+                                            : byteForFalse;
         }
 
         private static void LongToByteArray(long l, IList<byte> arrayWhereToWrite, int offset)

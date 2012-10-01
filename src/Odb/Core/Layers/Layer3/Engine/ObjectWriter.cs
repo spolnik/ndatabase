@@ -959,7 +959,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         }
 
         public ObjectInfoHeader UpdateNextObjectPreviousPointersInCache(OID nextObjectOID, OID previousObjectOID,
-                                                                                IOdbInMemoryStorage cache)
+                                                                                IOdbCache cache)
         {
             var oip = cache.GetObjectInfoHeaderFromOid(nextObjectOID, false);
             // If object is not in the cache, then read the header from the file
@@ -973,7 +973,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         }
 
         public ObjectInfoHeader UpdatePreviousObjectNextPointersInCache(OID nextObjectOID, OID previousObjectOID,
-                                                                                IOdbInMemoryStorage cache)
+                                                                                IOdbCache cache)
         {
             var oip = cache.GetObjectInfoHeaderFromOid(previousObjectOID, false);
             // If object is not in the cache, then read the header from the file

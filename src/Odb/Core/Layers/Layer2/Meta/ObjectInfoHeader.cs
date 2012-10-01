@@ -198,6 +198,10 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             _objectVersion = objectVersion;
         }
 
+        public long RefCounter { get; set; }
+
+        public bool IsRoot { get; set; }
+
         public override int GetHashCode()
         {
             var result = 1;
@@ -243,6 +247,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             objectInfoHeader.SetPosition(_position);
             objectInfoHeader.SetPreviousObjectOID(_previousObjectOID);
             objectInfoHeader.SetUpdateDate(_updateDate);
+            objectInfoHeader.IsRoot = IsRoot;
+            objectInfoHeader.RefCounter = 0;
 
             return objectInfoHeader;
         }

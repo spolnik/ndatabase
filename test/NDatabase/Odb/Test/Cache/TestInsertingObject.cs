@@ -15,7 +15,7 @@ namespace Test.NDatabase.Odb.Test.Cache
         [Test]
         public virtual void Test1()
         {
-            var cache = (IOdbInMemoryStorage) new OdbInMemoryStorage();
+            var cache = (IOdbCache) new OdbCache();
             var s1 = "ola1";
             var s2 = "ola2";
             var s3 = "ola3";
@@ -37,7 +37,7 @@ namespace Test.NDatabase.Odb.Test.Cache
         [Test]
         public virtual void Test2()
         {
-            var cache = (IOdbInMemoryStorage) new OdbInMemoryStorage();
+            var cache = (IOdbCache) new OdbCache();
             var s1 = "ola1";
             var s2 = "ola2";
             var s3 = "ola3";

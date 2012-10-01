@@ -11,7 +11,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
     /// <summary>
     ///   A cache of objects.
     /// </summary>
-    public sealed class OdbInMemoryStorage : IOdbInMemoryStorage
+    public sealed class OdbCache : IOdbCache
     {
         /// <summary>
         ///   To resolve cyclic reference, keep track of objects being inserted
@@ -58,7 +58,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         /// </summary>
         private IDictionary<OID, OID> _unconnectedZoneOids;
 
-        public OdbInMemoryStorage()
+        public OdbCache()
         {
             _objects = new OdbHashMap<object, OID>();
             _oids = new OdbHashMap<OID, object>();

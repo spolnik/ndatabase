@@ -45,7 +45,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 
         private NonNativeObjectInfo BuildNnoi(object o, ClassInfo classInfo)
         {
-            var nnoi = new NonNativeObjectInfo(o, classInfo, null, null, null);
+            var nnoi = new NonNativeObjectInfo(o, classInfo);
 
             if (_storageEngine != null)
             {

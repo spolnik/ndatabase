@@ -41,7 +41,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
             return BuildOneInstance(objectInfo, _engine.GetSession(true).GetInMemoryStorage());
         }
 
-        public object BuildOneInstance(NonNativeObjectInfo objectInfo, IOdbInMemoryStorage inMemoryStorage)
+        public object BuildOneInstance(NonNativeObjectInfo objectInfo, IOdbCache cache)
         {
             // verify if the object is check to delete
             if (objectInfo.IsDeletedObject())
@@ -49,7 +49,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
                     NDatabaseError.ObjectIsMarkedAsDeletedForOid.AddParameter(objectInfo.GetOid()));
 
             // Then check if object is in cache
-            var o = inMemoryStorage.GetObject(objectInfo.GetOid());
+            var o = cache.GetObject(objectInfo.GetOid());
             if (o != null)
                 return o;
 
@@ -91,7 +91,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
 
             // Adds this incomplete instance in the cache to manage cyclic reference
             if (hashCodeIsOk)
-                inMemoryStorage.AddObject(objectInfo.GetOid(), o, objectInfo.GetHeader());
+                cache.AddObject(objectInfo.GetOid(), o, objectInfo.GetHeader());
 
             var classInfo = objectInfo.GetClassInfo();
             var fields = _classIntrospector.GetAllFields(classInfo.FullClassName);
@@ -195,9 +195,9 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
                 // method and depends on the field values
                 // Then, we have to remove object from the cache and re-insert to
                 // correct map hash code
-                inMemoryStorage.RemoveObjectWithOid(objectInfo.GetOid());
+                cache.RemoveObjectWithOid(objectInfo.GetOid());
                 // re-Adds instance in the cache
-                inMemoryStorage.AddObject(objectInfo.GetOid(), o, objectInfo.GetHeader());
+                cache.AddObject(objectInfo.GetOid(), o, objectInfo.GetHeader());
             }
             if (_triggerManager != null)
             {

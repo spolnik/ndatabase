@@ -20,7 +20,7 @@ namespace NDatabase.Odb.Core.Transaction
                         : 0);
         }
 
-        private readonly IOdbInMemoryStorage _cache;
+        private readonly IOdbCache _cache;
 
         /// <summary>
         ///   A temporary cache used for object info read
@@ -57,7 +57,7 @@ namespace NDatabase.Odb.Core.Transaction
 
         #region ISession Members
 
-        public virtual IOdbInMemoryStorage GetInMemoryStorage()
+        public virtual IOdbCache GetInMemoryStorage()
         {
             return _cache;
         }
@@ -164,9 +164,9 @@ namespace NDatabase.Odb.Core.Transaction
 
         #endregion
 
-        public IOdbInMemoryStorage BuildInMemoryStorage()
+        public IOdbCache BuildInMemoryStorage()
         {
-            return new OdbInMemoryStorage();
+            return new OdbCache();
         }
 
         public ITmpCache BuildTmpCache()

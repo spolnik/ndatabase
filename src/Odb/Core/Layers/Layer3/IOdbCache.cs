@@ -2,7 +2,7 @@ using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
 namespace NDatabase.Odb.Core.Layers.Layer3
 {
-    public interface IOdbInMemoryStorage
+    public interface IOdbCache
     {
         void AddObject(OID oid, object @object, ObjectInfoHeader objectInfoHeader);
 

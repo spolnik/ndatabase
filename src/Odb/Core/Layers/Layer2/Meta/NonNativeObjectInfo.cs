@@ -57,7 +57,12 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             }
         }
 
-        public NonNativeObjectInfo(object @object, ClassInfo info, AbstractObjectInfo[] values,
+        public NonNativeObjectInfo(object @object, ClassInfo info)
+            : this(@object, info, null, null, null)
+        {
+        }
+
+        private NonNativeObjectInfo(object @object, ClassInfo info, AbstractObjectInfo[] values,
                                    long[] attributesIdentification, int[] attributeIds)
             : base(OdbType.GetFromName(info.FullClassName))
         {

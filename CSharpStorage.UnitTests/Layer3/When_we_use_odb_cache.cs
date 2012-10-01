@@ -6,14 +6,13 @@ using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Layer3
 {
-    public class When_we_use_odb_inmemory_storage : InstanceSpecification<IOdbInMemoryStorage>
+    public class When_we_use_odb_cache : InstanceSpecification<IOdbCache>
     {
         private class Employee
         {
             public string Name { get; set; }
         }
 
-        private string _name;
         private Employee _object;
         private ObjectOID _oid;
         private NonNativeObjectInfo _objectInfo;
@@ -22,19 +21,18 @@ namespace NDatabase.UnitTests.Layer3
         {
             var classIntrospector = new ClassIntrospector();
 
-            _name = "in-memory";
             _object = new Employee {Name = "Object"};
             _oid = new ObjectOID(1234L);
 
             var classInfoList = classIntrospector.Introspect(typeof (Employee), true);
 
-            _objectInfo = new NonNativeObjectInfo(_object, classInfoList.GetMainClassInfo(), null, null, null);
+            _objectInfo = new NonNativeObjectInfo(_object, classInfoList.GetMainClassInfo());
 
         }
 
-        protected override IOdbInMemoryStorage Create_subject_under_test()
+        protected override IOdbCache Create_subject_under_test()
         {
-            return new OdbInMemoryStorage();
+            return new OdbCache();
         }
 
         protected override void Because()
