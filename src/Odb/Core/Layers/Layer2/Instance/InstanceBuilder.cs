@@ -38,7 +38,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
 
         public object BuildOneInstance(NonNativeObjectInfo objectInfo)
         {
-            return BuildOneInstance(objectInfo, _engine.GetSession(true).GetInMemoryStorage());
+            return BuildOneInstance(objectInfo, _engine.GetSession(true).GetCache());
         }
 
         public object BuildOneInstance(NonNativeObjectInfo objectInfo, IOdbCache cache)

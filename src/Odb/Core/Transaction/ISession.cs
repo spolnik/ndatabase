@@ -6,7 +6,7 @@ namespace NDatabase.Odb.Core.Transaction
 {
     internal interface ISession : IComparable
     {
-        IOdbCache GetInMemoryStorage();
+        IOdbCache GetCache();
 
         ITmpCache GetTmpCache();
 

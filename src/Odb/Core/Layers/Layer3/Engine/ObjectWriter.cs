@@ -572,7 +572,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public OID Delete(ObjectInfoHeader header)
         {
             var lsession = _session;
-            var cache = lsession.GetInMemoryStorage();
+            var cache = lsession.GetCache();
             var objectPosition = header.GetPosition();
             var classInfoId = header.GetClassInfoId();
             var oid = header.GetOid();
@@ -824,7 +824,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <param name="classInfo"> The class of the object being inserted </param>
         public void ManageNewObjectPointers(NonNativeObjectInfo objectInfo, ClassInfo classInfo)
         {
-            var cache = _storageEngine.GetSession(true).GetInMemoryStorage();
+            var cache = _storageEngine.GetSession(true).GetCache();
             var isFirstUncommitedObject = !classInfo.UncommittedZoneInfo.HasObjects();
             // if it is the first uncommitted object
             if (isFirstUncommitedObject)
@@ -870,7 +870,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     // object info oip has been changed, we must put it
                     // in the cache to turn this change available for current
                     // transaction until the commit
-                    _storageEngine.GetSession(true).GetInMemoryStorage().AddObjectInfo(oip);
+                    _storageEngine.GetSession(true).GetCache().AddObjectInfoOfNonCommitedObject(oip);
                 }
             }
             // always set the new last object oid and the number of objects
@@ -916,7 +916,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             // If object is in the cache, we must perform an update, else an insert
             var @object = nnoi.GetObject();
             var mustUpdate = false;
-            var cache = _session.GetInMemoryStorage();
+            var cache = _session.GetCache();
             if (@object != null)
             {
                 var cacheOid = cache.IdOfInsertingObject(@object);
@@ -966,7 +966,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (oip == null)
             {
                 oip = _objectReader.ReadObjectInfoHeaderFromOid(nextObjectOID, false);
-                cache.AddObjectInfo(oip);
+                cache.AddObjectInfoOfNonCommitedObject(oip);
             }
             oip.SetPreviousObjectOID(previousObjectOID);
             return oip;
@@ -980,7 +980,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (oip == null)
             {
                 oip = _objectReader.ReadObjectInfoHeaderFromOid(previousObjectOID, false);
-                cache.AddObjectInfo(oip);
+                cache.AddObjectInfoOfNonCommitedObject(oip);
             }
             oip.SetNextObjectOID(nextObjectOID);
             return oip;

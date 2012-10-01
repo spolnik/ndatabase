@@ -16,12 +16,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         /// <summary>
         ///   To resolve cyclic reference, keep track of objects being inserted
         /// </summary>
-        private IDictionary<object, ObjectInsertingInfo> _insertingObjects;
+        private IDictionary<object, OID> _insertingObjects;
 
         /// <summary>
         ///   Entry to get object info pointers (position,next object pos, previous object pos and class info pos) from the id
         /// </summary>
-        private IDictionary<OID, ObjectInfoHeader> _objectInfoPointersCacheFromOid;
+        private IDictionary<OID, ObjectInfoHeader> _objectInfoHeadersCacheFromOid;
 
         /// <summary>
         ///   <pre>To resolve the update of an id object position:
@@ -63,13 +63,13 @@ namespace NDatabase.Odb.Core.Layers.Layer3
             _objects = new OdbHashMap<object, OID>();
             _oids = new OdbHashMap<OID, object>();
             _unconnectedZoneOids = new OdbHashMap<OID, OID>();
-            _objectInfoPointersCacheFromOid = new OdbHashMap<OID, ObjectInfoHeader>();
-            _insertingObjects = new OdbHashMap<object, ObjectInsertingInfo>();
+            _objectInfoHeadersCacheFromOid = new OdbHashMap<OID, ObjectInfoHeader>();
+            _insertingObjects = new OdbHashMap<object, OID>();
             _readingObjectInfo = new OdbHashMap<OID, object[]>();
             _objectPositionsByIds = new OdbHashMap<OID, IdInfo>();
         }
 
-        #region IInMemoryStorage Members
+        #region IOdbCache Members
 
         public void AddObject(OID oid, object o, ObjectInfoHeader objectInfoHeader)
         {
@@ -78,25 +78,22 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
             _oids[oid] = o;
             _objects[o] = oid;
-            _objectInfoPointersCacheFromOid[oid] = objectInfoHeader;
+            _objectInfoHeadersCacheFromOid[oid] = objectInfoHeader;
         }
 
         /// <summary>
         ///   Only adds the Object info - used for non committed objects
         /// </summary>
-        public void AddObjectInfo(ObjectInfoHeader objectInfoHeader)
+        public void AddObjectInfoOfNonCommitedObject(ObjectInfoHeader objectInfoHeader)
         {
             if (objectInfoHeader.GetOid() == null)
                 throw new OdbRuntimeException(NDatabaseError.CacheNullOid);
 
             if (objectInfoHeader.GetClassInfoId() == null)
-            {
                 throw new OdbRuntimeException(
                     NDatabaseError.CacheObjectInfoHeaderWithoutClassId.AddParameter(objectInfoHeader.GetOid()));
-            }
 
-            _objectInfoPointersCacheFromOid[objectInfoHeader.GetOid()] = objectInfoHeader;
-            // For monitoring purpose
+            _objectInfoHeadersCacheFromOid[objectInfoHeader.GetOid()] = objectInfoHeader;
         }
 
         public void StartInsertingObjectWithOid(object o, OID oid, NonNativeObjectInfo nnoi)
@@ -106,34 +103,21 @@ namespace NDatabase.Odb.Core.Layers.Layer3
             if (o == null)
                 return;
 
-            ObjectInsertingInfo objectInsertingInfo;
-            _insertingObjects.TryGetValue(o, out objectInsertingInfo);
+            OID objectInsertingOID;
+            _insertingObjects.TryGetValue(o, out objectInsertingOID);
 
-            if (objectInsertingInfo == null)
-                _insertingObjects[o] = new ObjectInsertingInfo(oid, 1);
-            else
-                objectInsertingInfo.Level++;
+            if (objectInsertingOID == null)
+                _insertingObjects[o] = oid;
         }
 
-        // No need to update the map, it is a reference.
         public void UpdateIdOfInsertingObject(object o, OID oid)
         {
             if (oid == null)
                 throw new OdbRuntimeException(NDatabaseError.CacheNullOid);
 
-            var objectInsertingInfo = _insertingObjects[o];
-            if (objectInsertingInfo != null)
-                objectInsertingInfo.OID = oid;
-        }
-
-        public void EndInsertingObject(object o)
-        {
-            var objectInsertingInfo = _insertingObjects[o];
-
-            if (objectInsertingInfo.Level == 1)
-                _insertingObjects.Remove(o);
-            else
-                objectInsertingInfo.Level--;
+            var insertingObjectOid = _insertingObjects[o];
+            if (insertingObjectOid != null)
+                _insertingObjects[o] = oid;
         }
 
         public void RemoveObjectWithOid(OID oid)
@@ -148,10 +132,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3
             if (value != null)
                 _objects.Remove(value);
 
-            // FIXME URL in HashMap What should we do?
-            _objectInfoPointersCacheFromOid.Remove(oid);
+            _objectInfoHeadersCacheFromOid.Remove(oid);
             _unconnectedZoneOids.Remove(oid);
-            // For monitoring purpose
         }
 
         public void RemoveObject(object o)
@@ -162,16 +144,13 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
             OID oid;
             var success = _objects.TryGetValue(o, out oid);
-            if (success)
-            {
-                _oids.Remove(oid);
-                _objects.Remove(o);
-            }
+            if (!success)
+                return;
 
-            // FIXME URL in HashMap What should we do?
-            _objectInfoPointersCacheFromOid.Remove(oid);
+            _oids.Remove(oid);
+            _objects.Remove(o);
+            _objectInfoHeadersCacheFromOid.Remove(oid);
             _unconnectedZoneOids.Remove(oid);
-            // For monitoring purpose
         }
 
         public bool Contains(object @object)
@@ -186,18 +165,21 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
             object value;
             _oids.TryGetValue(oid, out value);
-            
+
             return value;
         }
 
         public ObjectInfoHeader GetObjectInfoHeaderFromObject(object o)
         {
             OID oid;
-            _objects.TryGetValue(o, out oid);
+            var success = _objects.TryGetValue(o, out oid);
+
+            if (!success)
+                return null;
 
             ObjectInfoHeader objectInfoHeader;
-            _objectInfoPointersCacheFromOid.TryGetValue(oid, out objectInfoHeader);
-            
+            _objectInfoHeadersCacheFromOid.TryGetValue(oid, out objectInfoHeader);
+
             return objectInfoHeader;
         }
 
@@ -207,7 +189,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
                 throw new OdbRuntimeException(NDatabaseError.CacheNullOid);
 
             ObjectInfoHeader objectInfoHeader;
-            _objectInfoPointersCacheFromOid.TryGetValue(oid, out objectInfoHeader);
+            _objectInfoHeadersCacheFromOid.TryGetValue(oid, out objectInfoHeader);
             if (objectInfoHeader == null && throwExceptionIfNotFound)
                 throw new OdbRuntimeException(NDatabaseError.ObjectWithOidDoesNotExistInCache.AddParameter(oid));
 
@@ -218,7 +200,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         {
             OID oid;
             _objects.TryGetValue(o, out oid);
-            
+
             return oid ?? StorageEngineConstant.NullObjectId;
         }
 
@@ -229,7 +211,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
             var idInfo = new IdInfo(oid, objectPosition, IDStatus.Active);
             _objectPositionsByIds[oid] = idInfo;
-            // For monitoring purpose
         }
 
         public void MarkIdAsDeleted(OID oid)
@@ -294,23 +275,23 @@ namespace NDatabase.Odb.Core.Layers.Layer3
             {
                 _objects.Clear();
                 _oids.Clear();
-                _objectInfoPointersCacheFromOid.Clear();
+                _objectInfoHeadersCacheFromOid.Clear();
                 _insertingObjects.Clear();
                 _objectPositionsByIds.Clear();
                 _readingObjectInfo.Clear();
                 _unconnectedZoneOids.Clear();
             }
 
-            if (setToNull)
-            {
-                _objects = null;
-                _oids = null;
-                _objectInfoPointersCacheFromOid = null;
-                _insertingObjects = null;
-                _objectPositionsByIds = null;
-                _readingObjectInfo = null;
-                _unconnectedZoneOids = null;
-            }
+            if (!setToNull)
+                return;
+
+            _objects = null;
+            _oids = null;
+            _objectInfoHeadersCacheFromOid = null;
+            _insertingObjects = null;
+            _objectPositionsByIds = null;
+            _readingObjectInfo = null;
+            _unconnectedZoneOids = null;
         }
 
         public void ClearInsertingObjects()
@@ -323,13 +304,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3
             if (o == null)
                 return StorageEngineConstant.NullObjectId;
 
-            ObjectInsertingInfo objectInsertingInfo;
+            OID objectInsertingOid;
+            _insertingObjects.TryGetValue(o, out objectInsertingOid);
 
-            _insertingObjects.TryGetValue(o, out objectInsertingInfo);
-
-            return objectInsertingInfo != null
-                       ? objectInsertingInfo.OID
-                       : StorageEngineConstant.NullObjectId;
+            return objectInsertingOid ?? StorageEngineConstant.NullObjectId;
         }
 
         public bool ObjectWithIdIsInCommitedZone(OID oid)
@@ -347,11 +325,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         public override string ToString()
         {
             var buffer = new StringBuilder();
-            buffer.Append("C=");
+            buffer.Append("Cache=");
             buffer.Append(_objects.Count).Append(" objects ");
             buffer.Append(_oids.Count).Append(" oids ");
-            buffer.Append(_objectInfoPointersCacheFromOid.Count).Append(" pointers");
-            buffer.Append(_objectPositionsByIds.Count).Append(" pos by oid");
+            buffer.Append(_objectInfoHeadersCacheFromOid.Count).Append(" object headers ");
+            buffer.Append(_objectPositionsByIds.Count).Append(" positions by oid");
             return buffer.ToString();
         }
     }

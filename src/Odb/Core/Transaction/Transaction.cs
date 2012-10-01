@@ -166,7 +166,7 @@ namespace NDatabase.Odb.Core.Transaction
                     _fsi = null;
                 }
                 if (_session != null)
-                    _session.GetInMemoryStorage().ClearOnCommit();
+                    _session.GetCache().ClearOnCommit();
                 return;
             }
 
@@ -186,7 +186,7 @@ namespace NDatabase.Odb.Core.Transaction
             }
 
             if (_session != null)
-                _session.GetInMemoryStorage().ClearOnCommit();
+                _session.GetCache().ClearOnCommit();
 
             ManageCommitListenersAfter();
         }
@@ -461,7 +461,7 @@ namespace NDatabase.Odb.Core.Transaction
                 {
                     // Checks if last object of committed meta model has not been
                     // deleted
-                    if (_session.GetInMemoryStorage().IsDeleted(lastCommittedObjectOIDOfPrevTransaction))
+                    if (_session.GetCache().IsDeleted(lastCommittedObjectOIDOfPrevTransaction))
                     {
                         // TODO This is wrong: if a committed transaction deleted a
                         // committed object and creates x new

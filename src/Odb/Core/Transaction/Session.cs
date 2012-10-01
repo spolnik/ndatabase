@@ -57,7 +57,7 @@ namespace NDatabase.Odb.Core.Transaction
 
         #region ISession Members
 
-        public virtual IOdbCache GetInMemoryStorage()
+        public virtual IOdbCache GetCache()
         {
             return _cache;
         }

@@ -10,9 +10,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         void UpdateIdOfInsertingObject(object @object, OID oid);
 
-        void EndInsertingObject(object @object);
-
-        void AddObjectInfo(ObjectInfoHeader objectInfoHeader);
+        void AddObjectInfoOfNonCommitedObject(ObjectInfoHeader objectInfoHeader);
 
         void RemoveObjectWithOid(OID oid);
 

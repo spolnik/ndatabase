@@ -50,7 +50,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             if (_storageEngine != null)
             {
                 // for unit test purpose
-                var cache = _storageEngine.GetSession(true).GetInMemoryStorage();
+                var cache = _storageEngine.GetSession(true).GetCache();
 
                 // Check if object is in the cache, if so sets its oid
                 var oid = cache.GetOid(o);

@@ -197,14 +197,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
             }
 
-            // triggers before
-            // triggerManager.manageInsertTriggerBefore(object.getClass().getName(),
-            // object);
             var newOid = InternalStore(oid, @object);
-            // triggers after - fixme
-            // triggerManager.manageInsertTriggerAfter(object.getClass().getName(),
-            // object, newOid);
-            GetSession(true).GetInMemoryStorage().ClearInsertingObjects();
+            GetSession(true).GetCache().ClearInsertingObjects();
+
             return newOid;
         }
 
@@ -214,7 +209,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public override void DeleteObjectWithOid(OID oid)
         {
             var lsession = GetSession(true);
-            var cache = lsession.GetInMemoryStorage();
+            var cache = lsession.GetCache();
             // Check if oih is in the cache
             var objectInfoHeader = cache.GetObjectInfoHeaderFromOid(oid, false) ??
                                    ObjectReader.ReadObjectInfoHeaderFromOid(oid, true);
@@ -239,7 +234,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (@object == null)
                 throw new OdbRuntimeException(NDatabaseError.OdbCanNotDeleteNullObject);
 
-            var cache = lsession.GetInMemoryStorage();
+            var cache = lsession.GetCache();
 
             // Get header of the object (position, previous object position, next
             // object position and class info position)
@@ -352,7 +347,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             if (@object != null)
             {
-                var oid = GetSession(true).GetInMemoryStorage().GetOid(@object);
+                var oid = GetSession(true).GetCache().GetOid(@object);
                 
                 if (oid == null && throwExceptionIfDoesNotExist)
                     throw new OdbRuntimeException(NDatabaseError.UnknownObjectToGetOid.AddParameter(@object.ToString()));
@@ -376,13 +371,13 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var objectFromOid = nnoi.GetObject() ??
                                 GetObjectReader().GetInstanceBuilder().BuildOneInstance(nnoi,
                                                                                         GetSession(true).
-                                                                                            GetInMemoryStorage());
+                                                                                            GetCache());
 
             var lsession = GetSession(true);
             // Here oid can be different from nnoi.getOid(). This is the case when
             // the oid is an external oid. That`s why we use
             // nnoi.getOid() to put in the cache
-            lsession.GetInMemoryStorage().AddObject(nnoi.GetOid(), objectFromOid, nnoi.GetHeader());
+            lsession.GetCache().AddObject(nnoi.GetOid(), objectFromOid, nnoi.GetHeader());
             lsession.GetTmpCache().ClearObjectInfos();
 
             return objectFromOid;
@@ -647,7 +642,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             // first detects if we must perform an insert or an update
             // If object is in the cache, we must perform an update, else an insert
-            var cache = GetSession(true).GetInMemoryStorage();
+            var cache = GetSession(true).GetCache();
             
             var cacheOid = cache.IdOfInsertingObject(@object);
             if (cacheOid != null)
