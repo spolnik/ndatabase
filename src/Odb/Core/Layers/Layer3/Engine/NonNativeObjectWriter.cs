@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer2.Meta.Compare;
 using NDatabase.Odb.Core.Layers.Layer3.Block;
@@ -75,9 +76,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 return StorageEngineConstant.NullObjectId;
 
             var metaModel = lsession.GetMetaModel();
+            
             // first checks if the class of this object already exist in the
             // metamodel
-            if (!metaModel.ExistClass(objectInfo.GetClassInfo().FullClassName))
+            var type = OdbClassPool.GetClass(objectInfo.GetClassInfo().FullClassName);
+            if (!metaModel.ExistClass(type))
                 _objectWriter.AddClass(objectInfo.GetClassInfo(), true);
 
             // if position is -1, gets the position where to write the object

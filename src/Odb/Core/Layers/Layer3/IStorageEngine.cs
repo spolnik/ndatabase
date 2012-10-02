@@ -151,14 +151,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         /// </remarks>
         void Disconnect(object @object);
 
-        /// <param name="className"> </param>
-        /// <param name="indexName"> </param>
-        /// <param name="verbose"> </param>
         void RebuildIndex(string className, string indexName, bool verbose);
 
-        /// <param name="className"> </param>
-        /// <param name="indexName"> </param>
-        /// <param name="verbose"> </param>
         void DeleteIndex(string className, string indexName, bool verbose);
 
         /// <summary>

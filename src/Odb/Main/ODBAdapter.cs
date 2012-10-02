@@ -81,7 +81,6 @@ namespace NDatabase.Odb.Main
 
         public virtual IObjects<T> GetObjects<T>(IQuery query)
         {
-            query.SetFullClassName(typeof (T));
             ((AbstractQuery)query).SetStorageEngine(_storageEngine);
             return _storageEngine.GetObjects<T>(query, true, -1, -1);
         }
@@ -136,17 +135,11 @@ namespace NDatabase.Odb.Main
 
         public virtual IClassRepresentation GetClassRepresentation(Type clazz)
         {
-            var fullName = OdbClassUtil.GetFullName(clazz);
-            return GetClassRepresentation(fullName);
-        }
-
-        public virtual IClassRepresentation GetClassRepresentation(string fullClassName)
-        {
-            var classInfo = _storageEngine.GetSession(true).GetMetaModel().GetClassInfo(fullClassName, false);
+            var classInfo = _storageEngine.GetSession(true).GetMetaModel().GetClassInfo(clazz, false);
 
             if (classInfo == null)
             {
-                var classInfoList = _classIntrospector.Introspect(fullClassName, true);
+                var classInfoList = _classIntrospector.Introspect(clazz, true);
                 _storageEngine.AddClasses(classInfoList);
                 classInfo = classInfoList.GetMainClassInfo();
             }

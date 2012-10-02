@@ -105,7 +105,7 @@ namespace Test.NDatabase.Odb.Test.Update
             odb.Store(login);
             odb.Close();
             odb = Open("t1u2.neodatis");
-            login = odb.GetObjects<VO.Login.Function>(new CriteriaQuery(Where.IsNull("name"))).GetFirst();
+            login = odb.GetObjects<VO.Login.Function>(new CriteriaQuery(typeof(VO.Login.Function), Where.IsNull("name"))).GetFirst();
             AssertTrue(login.GetName() == null);
             login.SetName("login");
             odb.Store(login);

@@ -1,3 +1,4 @@
+using System;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3;
@@ -27,19 +28,19 @@ namespace NDatabase.Odb.Core.Query
             throw new OdbRuntimeException(NDatabaseError.QueryTypeNotImplemented.AddParameter(query.GetType().FullName));
         }
 
-        public static string GetFullClassName(IQuery query)
+        public static Type GetUnderlyingType(IQuery query)
         {
             var nativeQuery = query as NativeQuery;
             if (nativeQuery != null)
-                return NativeQueryManager.GetClass(nativeQuery);
+                return nativeQuery.GetObjectType();
 
             var simpleNativeQuery = query as SimpleNativeQuery;
             if (simpleNativeQuery != null)
-                return NativeQueryManager.GetFullClassName(simpleNativeQuery);
+                return NativeQueryManager.GetUnderlyingType(simpleNativeQuery);
 
             var criteriaQuery = query as CriteriaQuery;
             if (criteriaQuery != null)
-                return criteriaQuery.GetFullClassName();
+                return criteriaQuery.UnderlyingType;
 
             throw new OdbRuntimeException(NDatabaseError.QueryTypeNotImplemented.AddParameter(query.GetType().FullName));
         }

@@ -13,7 +13,6 @@ using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Core.Query.Execution;
 using NDatabase.Odb.Core.Query.Values;
-using NDatabase.Odb.Core.Transaction;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
@@ -270,7 +269,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             if (useCache)
             {
-                var objectInfoHeader = GetSession().GetCache().GetObjectInfoHeaderByOid(oid, false);
+                var objectInfoHeader = _storageEngine.GetSession(true).GetCache().GetObjectInfoHeaderByOid(oid, false);
                 if (objectInfoHeader != null)
                     return objectInfoHeader;
             }
@@ -561,7 +560,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var position = GetObjectPositionFromItsOid(oid, useCache, true);
             var o = ReadNonNativeObjectAtPosition(position, useCache, returnInstance);
             // Clear the tmp cache. This cache is use to resolve cyclic references
-            GetSession().GetTmpCache().ClearObjectInfos();
+            _storageEngine.GetSession(true).GetTmpCache().ClearObjectInfos();
             return o;
         }
 
@@ -1060,7 +1059,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <param name="useCache"> To indicate if cache must be used </param>
         /// <param name="returnInstance"> indicate if an instance must be return of just the meta info </param>
         /// <returns> The object with position @ </returns>
-        public object ReadNonNativeObjectAtPosition(long position, bool useCache, bool returnInstance)
+        private object ReadNonNativeObjectAtPosition(long position, bool useCache, bool returnInstance)
         {
             // First reads the object info - which is a meta representation of the
             // object
@@ -1074,7 +1073,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return o;
         }
 
-        public AbstractObjectInfo ReadObjectInfo(long objectIdentification, bool useCache, bool returnObjects)
+        private AbstractObjectInfo ReadObjectInfo(long objectIdentification, bool useCache, bool returnObjects)
         {
             // If object identification is negative, it is an oid.
             if (objectIdentification < 0)
@@ -1085,7 +1084,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return ReadObjectInfoFromPosition(null, objectIdentification, useCache, returnObjects);
         }
 
-        public ObjectInfoHeader ReadObjectInfoHeaderFromPosition(OID oid, long position, bool useCache)
+        private ObjectInfoHeader ReadObjectInfoHeaderFromPosition(OID oid, long position, bool useCache)
         {
             if (position > _fsi.GetLength())
             {
@@ -1180,7 +1179,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <param name="useCache"> To indicate if cache must be used. If not, the old version of the object will read </param>
         /// <param name="returnObjects"> </param>
         /// <returns> The object abstract meta representation @ </returns>
-        public AbstractObjectInfo ReadObjectInfoFromPosition(ClassInfo classInfo, long objectPosition, bool useCache,
+        private AbstractObjectInfo ReadObjectInfoFromPosition(ClassInfo classInfo, long objectPosition, bool useCache,
                                                              bool returnObjects)
         {
             _currentDepth++;
@@ -1428,7 +1427,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
         }
 
-        public ObjectInfoHeader GetObjectInfoHeader(OID oid, long position, bool useCache, IOdbCache cache)
+        private ObjectInfoHeader GetObjectInfoHeader(OID oid, long position, bool useCache, IOdbCache cache)
         {
             // first check if the object info pointers exist in the cache
             ObjectInfoHeader objectInfoHeader = null;
@@ -1547,7 +1546,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             var enumClassInfoId = _fsi.ReadLong("EnumClassInfoId");
             var enumValue = _fsi.ReadString();
-            var enumCi = GetSession().GetMetaModel().GetClassInfoFromId(OIDFactory.BuildClassOID(enumClassInfoId));
+            var enumCi = _storageEngine.GetSession(true).GetMetaModel().GetClassInfoFromId(OIDFactory.BuildClassOID(enumClassInfoId));
             return new EnumNativeObjectInfo(enumCi, enumValue);
         }
 
@@ -1743,51 +1742,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             else
                 number = objectId / OdbConfiguration.GetNbIdsPerBlock() + 1;
             return number;
-        }
-
-        public IObjects<T> GetObjects<T>(Type clazz, bool inMemory, int startIndex, int endIndex)
-        {
-            return GetObjects<T>(new CriteriaQuery(clazz), inMemory, startIndex, endIndex);
-        }
-
-        public IObjects<T> GetObjects<T>(string fullClassName, bool inMemory, int startIndex, int endIndex)
-        {
-            return GetObjects<T>(new CriteriaQuery(fullClassName), inMemory, startIndex, endIndex);
-        }
-
-        public ISession GetSession()
-        {
-            return _storageEngine.GetSession(true);
-        }
-
-        public IObjects<T> GetObjectInfos<T>(string fullClassName, bool inMemory, int startIndex, int endIndex,
-                                             bool returnOjects)
-        {
-            IQuery query = new CriteriaQuery(fullClassName);
-            IMatchingObjectAction queryResultAction = new CollectionQueryResultAction<T>(query, inMemory, _storageEngine,
-                                                                                         returnOjects, _instanceBuilder);
-            return GetObjectInfos<T>(query, inMemory, startIndex, endIndex, returnOjects, queryResultAction);
-        }
-
-        /// <summary>
-        ///   This is an utility method to get the linked list of All Object Info Header.
-        /// </summary>
-        /// <remarks>
-        ///   This is an utility method to get the linked list of All Object Info Header. For debug purpose
-        /// </remarks>
-        public IOdbList<ObjectInfoHeader> GetObjectInfoHeaderList(ClassInfo classInfo)
-        {
-            if (classInfo.NumberOfObjects == 0)
-                return new OdbList<ObjectInfoHeader>();
-            IOdbList<ObjectInfoHeader> list = new OdbList<ObjectInfoHeader>((int) classInfo.NumberOfObjects);
-            var oid = classInfo.CommitedZoneInfo.First ?? classInfo.UncommittedZoneInfo.First;
-            while (oid != null)
-            {
-                var oih = ReadObjectInfoHeaderFromOid(oid, true);
-                list.Add(oih);
-                oid = oih.GetNextObjectOID();
-            }
-            return list;
         }
     }
 }

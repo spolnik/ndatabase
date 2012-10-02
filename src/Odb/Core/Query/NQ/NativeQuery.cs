@@ -26,10 +26,5 @@ namespace NDatabase.Odb.Core.Query.NQ
         {
             ExecutionPlan = plan;
         }
-
-        public override void SetFullClassName(Type type)
-        {
-            //fullClassName = OdbClassUtil.GetFullName(type);
-        }
     }
 }

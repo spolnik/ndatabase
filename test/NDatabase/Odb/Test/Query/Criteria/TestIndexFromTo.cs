@@ -90,7 +90,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             }
             odb.Close();
             odb = Open(baseName);
-            IQuery q = new CriteriaQuery(Where.Like("name", "FUNCTION%"));
+            IQuery q = new CriteriaQuery(typeof(VO.Login.Function), Where.Like("name", "FUNCTION%"));
             var os = odb.GetObjects<VO.Login.Function>(q, true, 0, 10);
             AssertEquals(10, os.Count);
             for (var i = size / 2; i < size / 2 + 10; i++)
@@ -118,7 +118,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             }
             odb.Close();
             odb = Open(baseName);
-            IQuery q = new CriteriaQuery(Where.Like("name", "FUNCTION%"));
+            IQuery q = new CriteriaQuery(typeof(VO.Login.Function), Where.Like("name", "FUNCTION%"));
             var os = odb.GetObjects<VO.Login.Function>(q, true, 10, 20);
             AssertEquals(10, os.Count);
             for (var i = size / 2 + 10; i < size / 2 + 20; i++)

@@ -78,7 +78,7 @@ namespace Test
                 odb.Close();
 
                 odb = OdbFactory.Open(file);
-                IObjects<Function> functions = odb.GetObjects<Function>(new CriteriaQuery(Where.Equal("name","function 199")));
+                IObjects<Function> functions = odb.GetObjects<Function>(new CriteriaQuery(typeof(Function), Where.Equal("name", "function 199")));
                 Console.WriteLine(" Number of functions = " + functions.Count);
 
                 odb.Close();

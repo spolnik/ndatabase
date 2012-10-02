@@ -9,10 +9,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3
     {
         void RenameClass(string className, string newClassName);
 
-        void RenameField(string className, string attributeName, string newAttributeName);
+        void RenameField(Type type, string attributeName, string newAttributeName);
 
-        void AddField(string className, Type fieldType, string fieldName);
+        void AddField(Type type, Type fieldType, string fieldName);
 
-        void RemoveField(string className, string attributeName);
+        void RemoveField(Type type, string attributeName);
     }
 }

@@ -96,7 +96,6 @@
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\IClassIntrospector.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\IIntrospectionCallback.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\IObjectIntrospector.cs" />
-    <Compile Include="Odb\Core\Layers\Layer2\Instance\IClassPool.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Instance\IInstanceBuilder.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\AbstractObjectInfo.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\ArrayObjectInfo.cs" />

@@ -43,7 +43,7 @@ namespace Test.NDatabase.Odb.Test.Cache
         public virtual void Test1()
         {
             var odb = Open("cache.neodatis");
-            var l = odb.GetObjects<VO.Login.Function>(new CriteriaQuery(Where.Equal("name", "function 10")));
+            var l = odb.GetObjects<VO.Login.Function>(new CriteriaQuery(typeof(VO.Login.Function), Where.Equal("name", "function 10")));
             AssertFalse(l.Count == 0);
             // Cache must have only one object : The function
             
@@ -54,7 +54,7 @@ namespace Test.NDatabase.Odb.Test.Cache
         public virtual void Test2()
         {
             var odb = Open("cache.neodatis");
-            var l = odb.GetObjects<User>(new CriteriaQuery(Where.Equal("name", "olivier 10")));
+            var l = odb.GetObjects<User>(new CriteriaQuery(typeof(User), Where.Equal("name", "olivier 10")));
             AssertFalse(l.Count == 0);
             // Cache must have 3 times the number of Users in list l (check the
             // setup method to understand this)

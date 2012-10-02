@@ -623,13 +623,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             // The object must be transformed into meta representation
             ClassInfo classInfo;
-            var className = OdbClassUtil.GetFullName(type);
-
+            
             // first checks if the class of this object already exist in the
             // metamodel
-            if (GetMetaModel().ExistClass(className))
+            if (GetMetaModel().ExistClass(type))
             {
-                classInfo = GetMetaModel().GetClassInfo(className, true);
+                classInfo = GetMetaModel().GetClassInfo(type, true);
             }
             else
             {

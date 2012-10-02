@@ -5,6 +5,7 @@ using System.Diagnostics;
 using NDatabase.Btree;
 using NDatabase.Odb.Core.BTree;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
+using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3.Oid;
 using NDatabase.Odb.Core.Query;
@@ -61,7 +62,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             if (IsDbClosed)
                 throw new OdbRuntimeException(NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
-            query.SetFullClassName(typeof (T));
+            
             return ObjectReader.GetObjects<T>(query, inMemory, startIndex, endIndex);
         }
 
@@ -89,7 +90,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                                                 classInfo.FullClassName));
                 }
 
-                var criteriaQuery = new CriteriaQuery(classInfo.FullClassName);
+                var type = OdbClassPool.GetClass(classInfo.FullClassName);
+                var criteriaQuery = new CriteriaQuery(type);
 
                 defragObjects = GetObjects<object>(criteriaQuery, true, -1, -1);
 
@@ -122,7 +124,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                                                 classInfo.FullClassName));
                 }
 
-                defragObjects = GetObjects<object>(new CriteriaQuery(classInfo.FullClassName), true, -1, -1);
+                var type = OdbClassPool.GetClass(classInfo.FullClassName);
+                defragObjects = GetObjects<object>(new CriteriaQuery(type), true, -1, -1);
 
                 while (defragObjects.HasNext())
                 {
@@ -151,7 +154,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public abstract ISession GetSession(bool throwExceptionIfDoesNotExist);
 
-        public virtual void DeleteIndex(string className, string indexName, bool verbose)
+        public void DeleteIndex(string className, string indexName, bool verbose)
         {
             var classInfo = GetMetaModel().GetClassInfo(className, true);
 
@@ -232,7 +235,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
 
             // We must load all objects and insert them in the index!
-            var objects = GetObjectInfos<object>(new CriteriaQuery(className), false, -1, -1, false);
+            var type = OdbClassPool.GetClass(className);
+            var objects = GetObjectInfos<object>(new CriteriaQuery(type), false, -1, -1, false);
 
             if (verbose)
                 DLogger.Info(string.Format("{0} : {1} objects loaded", indexName, classInfo.NumberOfObjects));
@@ -264,7 +268,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (IsDbClosed)
                 throw new OdbRuntimeException(NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
 
-            return ObjectReader.GetObjects<T>(new CriteriaQuery(OdbClassUtil.GetFullName(clazz)), inMemory, startIndex,
+            return ObjectReader.GetObjects<T>(new CriteriaQuery(clazz), inMemory, startIndex,
                                               endIndex);
         }
 

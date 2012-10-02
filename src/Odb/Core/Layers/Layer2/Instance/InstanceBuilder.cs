@@ -53,7 +53,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
             if (o != null)
                 return o;
 
-            var instanceClazz = OdbType.ClassPool.GetClass(objectInfo.GetClassInfo().FullClassName);
+            var instanceClazz = OdbClassPool.GetClass(objectInfo.GetClassInfo().FullClassName);
 
             try
             {
@@ -229,7 +229,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
 
         public object BuildCollectionInstance(CollectionObjectInfo coi)
         {
-            var type = OdbType.ClassPool.GetClass(coi.GetRealCollectionClassName());
+            var type = OdbClassPool.GetClass(coi.GetRealCollectionClassName());
 
             return type.IsGenericType
                        ? BuildGenericCollectionInstance(coi, type)
@@ -265,7 +265,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
 
         public object BuildNonGenericCollectionInstance(CollectionObjectInfo coi, Type t)
         {
-            var newCollection = (IList)Activator.CreateInstance(OdbType.ClassPool.GetClass(coi.GetRealCollectionClassName()));
+            var newCollection = (IList)Activator.CreateInstance(OdbClassPool.GetClass(coi.GetRealCollectionClassName()));
             IEnumerator iterator = coi.GetCollection().GetEnumerator();
 
             while (iterator.MoveNext())
@@ -310,7 +310,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
 
         public object BuildMapInstance(MapObjectInfo moi)
         {
-            var type = OdbType.ClassPool.GetClass(moi.GetRealMapClassName());
+            var type = OdbClassPool.GetClass(moi.GetRealMapClassName());
 
             return type.IsGenericType
                        ? BuildGenericMapInstance(moi, type)
@@ -328,8 +328,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
             }
             catch (Exception e)
             {
-                throw new OdbRuntimeException(NDatabaseError.MapInstanciationError.AddParameter(map.GetType().FullName),
-                                              e);
+                throw new OdbRuntimeException(
+                    NDatabaseError.MapInstanciationError.AddParameter(map.GetType().FullName), e);
             }
 
             foreach (var key in map.Keys)

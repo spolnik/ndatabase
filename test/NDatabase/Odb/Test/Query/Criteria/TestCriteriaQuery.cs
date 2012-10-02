@@ -32,7 +32,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             SetUp(baseName);
             var odb = Open(baseName);
             var aq =
-                new CriteriaQuery(
+                new CriteriaQuery(typeof(VO.Login.Function),
                     Where.Or().Add(Where.Equal("name", "function 2")).Add(Where.Equal("name", "function 3")));
             var l = odb.GetObjects<VO.Login.Function>(aq, true, -1, -1);
             AssertEquals(2, l.Count);

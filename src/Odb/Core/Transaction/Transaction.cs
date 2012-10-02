@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text;
+using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
@@ -439,7 +440,8 @@ namespace NDatabase.Odb.Core.Transaction
                 var newClassInfo = enumerator.Current;
                 ClassInfo lastCommittedCI;
 
-                if (lastCommitedMetaModel.ExistClass(newClassInfo.FullClassName))
+                var type = OdbClassPool.GetClass(newClassInfo.FullClassName);
+                if (lastCommitedMetaModel.ExistClass(type))
                 {
                     // The last CI represents the last committed meta model of the
                     // database

@@ -2,48 +2,27 @@ using System;
 using System.Collections;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Query.Execution;
-using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
 
 namespace NDatabase.Odb.Core.Query.Criteria
 {
-    
     public class CriteriaQuery : AbstractQuery
     {
         private ICriterion _criterion;
-        private string _fullClassName;
+        private readonly Type _underlyingType;
 
-        public CriteriaQuery(Type aClass, ICriterion criteria) : this(OdbClassUtil.GetFullName(aClass), criteria)
+        public CriteriaQuery(Type underlyingType, ICriterion criteria)
         {
+            _underlyingType = underlyingType;
+            if (criteria == null)
+                return;
+
+            _criterion = criteria;
+            _criterion.SetQuery(this);
         }
 
-        public CriteriaQuery(Type aClass) : this(OdbClassUtil.GetFullName(aClass))
+        public CriteriaQuery(Type underlyingType) : this(underlyingType, null)
         {
-        }
-
-        public CriteriaQuery(ICriterion criteria)
-        {
-            if (criteria != null)
-            {
-                _criterion = criteria;
-                _criterion.SetQuery(this);
-            }
-        }
-
-        public CriteriaQuery(string aFullClassName)
-        {
-            _fullClassName = aFullClassName;
-            _criterion = null;
-        }
-
-        public CriteriaQuery(string aFullClassName, ICriterion criteria)
-        {
-            _fullClassName = aFullClassName;
-            if (criteria != null)
-            {
-                _criterion = criteria;
-                _criterion.SetQuery(this);
-            }
         }
 
         public static CriteriaQuery New<T>()
@@ -70,14 +49,9 @@ namespace NDatabase.Odb.Core.Query.Criteria
             return _criterion.Match(map);
         }
 
-        public override void SetFullClassName(Type type)
+        public Type UnderlyingType
         {
-            _fullClassName = OdbClassUtil.GetFullName(type);
-        }
-
-        public string GetFullClassName()
-        {
-            return _fullClassName;
+            get { return _underlyingType; }
         }
 
         public ICriterion GetCriteria()

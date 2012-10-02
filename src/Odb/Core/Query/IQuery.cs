@@ -52,7 +52,5 @@ namespace NDatabase.Odb.Core.Query
         /// </summary>
         /// <returns> </returns>
         OID GetOidOfObjectToQuery();
-
-        void SetFullClassName(Type type);
     }
 }

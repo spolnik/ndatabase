@@ -47,20 +47,12 @@ namespace Test.NDatabase.Odb.Test.Performance
             return so;
         }
 
-        public static void Main2(string[] args)
-        {
-            // Thread.sleep(15000);
-            // OdbConfiguration.setMessageStreamerClass(HessianMessageStreamer.class);
-            var pt = new TestBatchInsert();
-            pt.T1est1();
-        }
-
         [Test]
         public virtual void TestSelect()
         {
             var odb = Open(OdbFileName);
             var functions =
-                odb.GetObjects<SimpleObject>(new CriteriaQuery(Where.Equal("name", "Bonjour, comment allez vous?100")));
+                odb.GetObjects<SimpleObject>(new CriteriaQuery(typeof(SimpleObject), Where.Equal("name", "Bonjour, comment allez vous?100")));
             odb.Close();
             AssertEquals(1, functions.Count);
         }

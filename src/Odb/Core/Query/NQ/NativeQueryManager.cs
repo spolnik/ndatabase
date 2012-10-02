@@ -6,7 +6,7 @@ using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb.Core.Query.NQ
 {
-    public static class NativeQueryManager
+    internal static class NativeQueryManager
     {
         private const string MatchMethodName = "Match";
 
@@ -17,7 +17,7 @@ namespace NDatabase.Odb.Core.Query.NQ
             return OdbClassUtil.GetFullName(query.GetObjectType());
         }
 
-        public static string GetFullClassName(SimpleNativeQuery query)
+        public static Type GetUnderlyingType(SimpleNativeQuery query)
         {
             var clazz = query.GetType();
             var methods = OdbReflection.GetMethods(clazz);
@@ -26,12 +26,12 @@ namespace NDatabase.Odb.Core.Query.NQ
             {
                 var attributes = OdbReflection.GetAttributeTypes(method);
 
-                if (method.Name.Equals(MatchMethodName) && attributes.Length == 1)
-                {
-                    clazz = attributes[0];
-                    MethodsCache.Add(query, method);
-                    return OdbClassUtil.GetFullName(clazz);
-                }
+                if (!method.Name.Equals(MatchMethodName) || attributes.Length != 1)
+                    continue;
+
+                clazz = attributes[0];
+                MethodsCache.Add(query, method);
+                return clazz;
             }
 
             throw new OdbRuntimeException(

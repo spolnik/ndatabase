@@ -25,7 +25,8 @@ namespace Test.NDatabase.Odb.Test.Newbie
                 var car = new Car("car1", 4, "ranger", marcelo);
                 odb.Store(car);
 
-                var query = new CriteriaQuery(Where.Equal("Driver.Name", "marcelo"));
+                var query = new CriteriaQuery(typeof(Car),
+                    Where.Equal("Driver.Name", "marcelo"));
                 var newCar = odb.GetObjects<Car>(query).GetFirst();
 
                 newCar.Driver = new Driver("dani");
@@ -34,7 +35,7 @@ namespace Test.NDatabase.Odb.Test.Newbie
 
             using (var odb = Open(NewbieOdb))
             {
-                var query = new CriteriaQuery(Where.Equal("Driver.Name", "dani"));
+                var query = new CriteriaQuery(typeof(Car), Where.Equal("Driver.Name", "dani"));
                 AssertEquals(1, odb.GetObjects<Car>(query).Count);
             }
 

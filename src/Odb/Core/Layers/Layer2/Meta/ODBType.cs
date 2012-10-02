@@ -12,8 +12,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// </summary>
     public sealed class OdbType
     {
-        public static readonly IClassPool ClassPool = new OdbClassPool();
-
         private static readonly IDictionary<int, OdbType> TypesById = new Dictionary<int, OdbType>();
 
         private static readonly IDictionary<string, OdbType> TypesByName = new Dictionary<string, OdbType>();
@@ -356,7 +354,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                     return typeof (OID);
             }
 
-            return ClassPool.GetClass(Name);
+            return OdbClassPool.GetClass(Name);
         }
 
         public bool IsNonNative()

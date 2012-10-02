@@ -40,7 +40,7 @@ namespace Test.NDatabase.Odb.Test.Delete
             odb.Store(function3);
             odb.Close();
             odb = Open(baseName);
-            var l = odb.GetObjects<VO.Login.Function>(new CriteriaQuery(Where.Equal("name", "function2")));
+            var l = odb.GetObjects<VO.Login.Function>(new CriteriaQuery(typeof(VO.Login.Function), Where.Equal("name", "function2")));
             var function = l.GetFirst();
             odb.Delete(function);
             odb.Close();
@@ -505,7 +505,7 @@ namespace Test.NDatabase.Odb.Test.Delete
             // checks functions
             var lfunctions = odb.GetObjects<VO.Login.Function>(true);
             AssertEquals(nbFunctions + 3, lfunctions.Count);
-            var l = odb.GetObjects<VO.Login.Function>(new CriteriaQuery(Where.Equal("name", "function2")));
+            var l = odb.GetObjects<VO.Login.Function>(new CriteriaQuery(typeof(VO.Login.Function), Where.Equal("name", "function2")));
             var function = l.GetFirst();
             odb.Delete(function);
             odb.Close();
@@ -513,7 +513,7 @@ namespace Test.NDatabase.Odb.Test.Delete
             AssertEquals(nbFunctions + 2, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
             var l2 = odb.GetObjects<VO.Login.Function>(true);
             // check Profile 1
-            var lprofile = odb.GetObjects<Profile>(new CriteriaQuery(Where.Equal("name", "profile1")));
+            var lprofile = odb.GetObjects<Profile>(new CriteriaQuery(typeof(Profile), Where.Equal("name", "profile1")));
             var p1 = lprofile.GetFirst();
             AssertEquals(2, p1.GetFunctions().Count);
             odb.Close();
@@ -547,7 +547,7 @@ namespace Test.NDatabase.Odb.Test.Delete
             var f1 = new VO.Login.Function("function1");
             odb.Store(f1);
             odb.Commit();
-            var objects = odb.GetObjects<VO.Login.Function>(new CriteriaQuery(Where.Like("name", "func%")));
+            var objects = odb.GetObjects<VO.Login.Function>(new CriteriaQuery(typeof(VO.Login.Function), Where.Like("name", "func%")));
             AssertEquals(1, objects.Count);
             var f2 = objects.GetFirst();
             var oid = odb.GetObjectId(f2);

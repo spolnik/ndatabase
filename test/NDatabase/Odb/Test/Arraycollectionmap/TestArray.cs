@@ -413,7 +413,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
                 odb.Store(player);
                 odb.Close();
                 odb = Open("array4.neodatis");
-                var l = odb.GetObjects<PlayerWithArray>(new CriteriaQuery(Where.Contain("games", "tennis")));
+                var l = odb.GetObjects<PlayerWithArray>(new CriteriaQuery(typeof(PlayerWithArray), Where.Contain("games", "tennis")));
                 AssertEquals(nb + 1, l.Count);
             }
             catch (Exception)

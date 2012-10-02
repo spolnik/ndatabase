@@ -36,8 +36,8 @@ namespace NDatabase.UnitTests.Refactoring
             using (var odb = OdbFactory.Open(RefactoringDbName))
             {
                 var refactorManager = new RefactorManager(((OdbAdapter)odb).GetStorageEngine());
-                refactorManager.RenameField(OdbClassUtil.GetFullName(typeof(User)), "age", "_age");
-                refactorManager.RenameField(OdbClassUtil.GetFullName(typeof(User)), "name", "_name");
+                refactorManager.RenameField(typeof(User), "age", "_age");
+                refactorManager.RenameField(typeof(User), "name", "_name");
             }
         }
 #else
@@ -56,7 +56,7 @@ namespace NDatabase.UnitTests.Refactoring
                 Assert.That(first.Age, Is.EqualTo(25));
             }
 
-            OdbFile.Delete(RefactoringDbName);
+            OdbFactory.Delete(RefactoringDbName);
         }
 #endif
     }

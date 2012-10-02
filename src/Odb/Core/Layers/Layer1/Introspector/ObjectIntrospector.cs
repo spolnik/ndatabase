@@ -159,12 +159,11 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                                     aoi = new NullNativeObjectInfo(type.Size);
                                 else
                                 {
-                                    var enumClassName = OdbClassUtil.GetFullName(enumObject.GetType());
                                     // Here we must check if the enum is already in the meta model. Enum must be stored in the meta
                                     // model to optimize its storing as we need to keep track of the enum class
                                     // for each enum stored. So instead of storing the enum class name, we can store enum class id, a long
                                     // instead of the full enum class name string
-                                    var classInfo = GetClassInfo(enumClassName);
+                                    var classInfo = GetClassInfo(enumObject.GetType());
                                     var enumValue = enumObject.ToString();
                                     aoi = new EnumNativeObjectInfo(classInfo, enumValue);
                                 }
@@ -192,7 +191,6 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 
             var clazz = o.GetType();
             var type = OdbType.GetFromClass(clazz);
-            var className = OdbClassUtil.GetFullName(clazz);
             if (type.IsNative())
                 return GetNativeObjectInfoInternal(type, o, recursive, alreadyReadObjects, callback);
 
@@ -202,7 +200,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             // In this case, ci must be updated to the real class info
             if (classInfo != null && !classInfo.FullClassName.Equals(clazz.FullName))
             {
-                classInfo = GetClassInfo(className);
+                classInfo = GetClassInfo(clazz);
                 nnoi = null;
             }
             var mainAoi = (NonNativeObjectInfo) nnoi;
@@ -227,6 +225,8 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                 mainAoi = BuildNnoi(o, classInfo);
 
             alreadyReadObjects[o] = mainAoi;
+            var className = OdbClassUtil.GetFullName(clazz);
+
             var fields = _classIntrospector.GetAllFields(className);
             // For all fields
 
@@ -261,14 +261,14 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                         // Non Native Objects
                         if (value == null)
                         {
-                            var classInfo1 = GetClassInfo(OdbClassUtil.GetFullName(field.GetType()));
+                            var classInfo1 = GetClassInfo(field.GetType());
 
                             abstractObjectInfo = new NonNativeNullObjectInfo(classInfo1);
                             mainAoi.SetAttributeValue(attributeId, abstractObjectInfo);
                         }
                         else
                         {
-                            var classInfo2 = GetClassInfo(OdbClassUtil.GetFullName(value.GetType()));
+                            var classInfo2 = GetClassInfo(value.GetType());
                             if (recursive)
                             {
                                 abstractObjectInfo = GetObjectInfoInternal(null, value, classInfo2, true,
@@ -325,7 +325,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                 if (o == null)
                     continue;
 
-                var classInfo = GetClassInfo(OdbClassUtil.GetFullName(o.GetType()));
+                var classInfo = GetClassInfo(o.GetType());
                 var abstractObjectInfo = GetObjectInfo(o, classInfo, introspect, alreadyReadObjects, callback);
 
                 collectionCopy.Add(abstractObjectInfo);
@@ -364,9 +364,9 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                 if (key == null)
                     continue;
 
-                var classInfoKey = GetClassInfo(OdbClassUtil.GetFullName(key.GetType()));
+                var classInfoKey = GetClassInfo(key.GetType());
                 if (value != null)
-                    ciValue = GetClassInfo(OdbClassUtil.GetFullName(value.GetType()));
+                    ciValue = GetClassInfo(value.GetType());
 
                 var abstractObjectInfoForKey = GetObjectInfo(key, classInfoKey, introspect, alreadyReadObjects, callback);
                 var abstractObjectInfoForValue = GetObjectInfo(value, ciValue, introspect, alreadyReadObjects, callback);
@@ -390,9 +390,9 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                 if (key == null)
                     continue;
 
-                var classInfoKey = GetClassInfo(OdbClassUtil.GetFullName(key.GetType()));
+                var classInfoKey = GetClassInfo(key.GetType());
                 if (value != null)
-                    ciValue = GetClassInfo(OdbClassUtil.GetFullName(value.GetType()));
+                    ciValue = GetClassInfo(value.GetType());
 
                 var abstractObjectInfoForKey = GetObjectInfo(key, classInfoKey, introspect, alreadyReadObjects,
                                                              callback);
@@ -404,17 +404,18 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             return mapCopy;
         }
 
-        private ClassInfo GetClassInfo(string fullClassName)
+        private ClassInfo GetClassInfo(Type type)
         {
-            if (OdbType.GetFromName(fullClassName).IsNative())
+            var odbType = OdbType.GetFromClass(type);
+            if (odbType.IsNative() && !odbType.IsEnum())
                 return null;
 
             var session = _storageEngine.GetSession(true);
             var metaModel = session.GetMetaModel();
-            if (metaModel.ExistClass(fullClassName))
-                return metaModel.GetClassInfo(fullClassName, true);
+            if (metaModel.ExistClass(type))
+                return metaModel.GetClassInfo(type, true);
 
-            var classInfoList = _classIntrospector.Introspect(fullClassName, true);
+            var classInfoList = _classIntrospector.Introspect(type, true);
 
             // to enable junit tests
             if (_storageEngine != null)
@@ -422,7 +423,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             else
                 metaModel.AddClasses(classInfoList);
 
-            return metaModel.GetClassInfo(fullClassName, true);
+            return metaModel.GetClassInfo(type, true);
         }
 
         private ArrayObjectInfo IntrospectArray(object array, bool introspect,
@@ -445,7 +446,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                 var o = OdbArray.GetArrayElement(array, i);
                 if (o != null)
                 {
-                    var classInfo = GetClassInfo(OdbClassUtil.GetFullName(o.GetType()));
+                    var classInfo = GetClassInfo(o.GetType());
                     var abstractObjectInfo = GetObjectInfo(o, classInfo, true, alreadyReadObjects, callback);
                     arrayCopy[i] = abstractObjectInfo;
                 }

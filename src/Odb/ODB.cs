@@ -128,13 +128,6 @@ namespace NDatabase.Odb
         IClassRepresentation GetClassRepresentation(Type clazz);
 
         /// <summary>
-        ///   Get an abstract representation of a class
-        /// </summary>
-        /// <param name="fullClassName"> </param>
-        /// <returns> a public meta-representation of a class </returns>
-        IClassRepresentation GetClassRepresentation(string fullClassName);
-
-        /// <summary>
         ///   Used to add an update trigger callback for the specific class
         /// </summary>
         void AddUpdateTrigger(Type clazz, UpdateTrigger trigger);

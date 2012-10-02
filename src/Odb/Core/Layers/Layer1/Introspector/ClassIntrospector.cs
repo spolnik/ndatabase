@@ -7,6 +7,7 @@ using System.Runtime.Serialization;
 using NDatabase.Btree;
 using NDatabase.Btree.Impl;
 using NDatabase.Odb.Core.BTree;
+using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Oid;
 using NDatabase.Tool.Wrappers;
@@ -90,7 +91,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
         {
             IList<Type> result = new List<Type>();
 
-            var clazz = OdbType.ClassPool.GetClass(fullClassName);
+            var clazz = OdbClassPool.GetClass(fullClassName);
 
             if (clazz == null)
                 return result;
@@ -204,7 +205,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 
         public ClassInfoList Introspect(String fullClassName, bool recursive)
         {
-            return Introspect(OdbType.ClassPool.GetClass(fullClassName), true);
+            return Introspect(OdbClassPool.GetClass(fullClassName), true);
         }
 
         public void Reset()

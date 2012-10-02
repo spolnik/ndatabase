@@ -515,7 +515,7 @@ namespace Test.NDatabase.Odb.Test.Update.Nullobject
             at = ats.GetFirst();
             AT newAT = null;
             SensorAT newSensor = null;
-            IQuery query = new CriteriaQuery(Where.Equal("at.name", at.GetName()));
+            IQuery query = new CriteriaQuery(typeof(SensorAT), Where.Equal("at.name", at.GetName()));
             query.OrderByAsc("lane");
             var sensors = odb.GetObjects<SensorAT>(query);
             Println("Duplicando AT " + at.GetName());

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
 using NDatabase.Tool.Wrappers.Map;
@@ -11,8 +12,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// <summary>
     ///   The database meta-model
     /// </summary>
-    
-    public sealed class MetaModel
+    internal sealed class MetaModel
     {
         /// <summary>
         ///   A simple list to hold all class infos.
@@ -52,10 +52,13 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public void AddClass(ClassInfo classInfo)
         {
+            var fullClassName = classInfo.FullClassName;
+
             if (classInfo.IsSystemClass())
-                _rapidAccessForSystemClassesByName.Add(classInfo.FullClassName, classInfo);
+                _rapidAccessForSystemClassesByName.Add(fullClassName, classInfo);
             else
-                _rapidAccessForUserClassesByName.Add(classInfo.FullClassName, classInfo);
+                _rapidAccessForUserClassesByName.Add(fullClassName, classInfo);
+
             _rapidAccessForClassesByOid.Add(classInfo.ClassInfoId, classInfo);
             _allClassInfos.Add(classInfo);
         }
@@ -66,14 +69,16 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                 AddClass(classInfo);
         }
 
-        public bool ExistClass(string fullClassName)
+        public bool ExistClass(Type type)
         {
+            var fullName = OdbClassUtil.GetFullName(type);
+
             // Check if it is a system class
-            var exist = _rapidAccessForSystemClassesByName.ContainsKey(fullClassName);
+            var exist = _rapidAccessForSystemClassesByName.ContainsKey(fullName);
             if (exist)
                 return true;
             // Check if it is user class
-            exist = _rapidAccessForUserClassesByName.ContainsKey(fullClassName);
+            exist = _rapidAccessForUserClassesByName.ContainsKey(fullName);
             return exist;
         }
 
@@ -117,8 +122,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public ClassInfo GetClassInfo(Type type, bool throwExceptionIfDoesNotExist)
         {
-            var fullName = OdbClassUtil.GetFullName(type);
-            return GetClassInfo(fullName, throwExceptionIfDoesNotExist);
+            var fullClassName = OdbClassUtil.GetFullName(type);
+            return GetClassInfo(fullClassName, throwExceptionIfDoesNotExist);
         }
 
         public ClassInfo GetClassInfo(string fullClassName, bool throwExceptionIfDoesNotExist)
@@ -136,7 +141,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                 return classInfo;
 
             if (throwExceptionIfDoesNotExist)
-                throw new OdbRuntimeException(NDatabaseError.MetaModelClassNameDoesNotExist.AddParameter(fullClassName));
+                throw new OdbRuntimeException(
+                    NDatabaseError.MetaModelClassNameDoesNotExist.AddParameter(fullClassName));
 
             return null;
         }
@@ -195,12 +201,13 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         ///   Gets all the persistent classes that are subclasses or equal to the parameter class
         /// </summary>
         /// <returns> The list of class info of persistent classes that are subclasses or equal to the class </returns>
-        public IOdbList<ClassInfo> GetPersistentSubclassesOf(string fullClassName)
+        public IOdbList<ClassInfo> GetPersistentSubclassesOf(Type type)
         {
             IOdbList<ClassInfo> result = new OdbList<ClassInfo>();
             var classNames = _rapidAccessForUserClassesByName.Keys.GetEnumerator();
 
-            var theClass = OdbType.ClassPool.GetClass(fullClassName);
+            var fullClassName = OdbClassUtil.GetFullName(type);
+            var theClass = type;
             while (classNames.MoveNext())
             {
                 var oneClassName = classNames.Current;
@@ -212,7 +219,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                 }
                 else
                 {
-                    var oneClass = OdbType.ClassPool.GetClass(oneClassName);
+                    var oneClass = OdbClassPool.GetClass(oneClassName);
                     if (theClass.IsAssignableFrom(oneClass))
                         result.Add(GetClassInfo(oneClassName, true));
                 }

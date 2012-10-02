@@ -7,20 +7,19 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
     /// <summary>
     ///   A simple class pool, to optimize instance creation
     /// </summary>
-    public sealed class OdbClassPool : IClassPool
+    public static class OdbClassPool
     {
         private static readonly IDictionary<string, Type> ClassMap = new OdbHashMap<string, Type>();
+        private static readonly object Access = new object();
 
-        #region IClassPool Members
-
-        public void Reset()
+        public static void Reset()
         {
             ClassMap.Clear();
         }
 
-        public Type GetClass(string className)
+        public static Type GetClass(string className)
         {
-            lock (this)
+            lock (Access)
             {
                 Type clazz;
                 var success = ClassMap.TryGetValue(className, out clazz);
@@ -40,7 +39,5 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
                 return clazz;
             }
         }
-
-        #endregion
     }
 }

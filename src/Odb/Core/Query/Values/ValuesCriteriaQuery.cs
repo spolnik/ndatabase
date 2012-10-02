@@ -34,33 +34,23 @@ namespace NDatabase.Odb.Core.Query.Values
         /// </summary>
         private bool _returnInstance;
 
-        public ValuesCriteriaQuery(Type aClass, OID oid) : base(OdbClassUtil.GetFullName(aClass))
+        public ValuesCriteriaQuery(Type underlyingType, OID oid) : base(underlyingType)
         {
             SetOidOfObjectToQuery(oid);
             Init();
         }
 
-        public ValuesCriteriaQuery(Type aClass, ICriterion criteria) : base(OdbClassUtil.GetFullName(aClass), criteria)
+        public ValuesCriteriaQuery(Type underlyingType, ICriterion criteria) : base(underlyingType, criteria)
         {
             Init();
         }
 
-        public ValuesCriteriaQuery(Type aClass) : base(OdbClassUtil.GetFullName(aClass))
+        public ValuesCriteriaQuery(Type underlyingType) : base(underlyingType)
         {
             Init();
         }
 
-        public ValuesCriteriaQuery(string aFullClassName) : base(aFullClassName)
-        {
-            Init();
-        }
-
-        public ValuesCriteriaQuery(string aFullClassName, ICriterion criteria) : base(aFullClassName, criteria)
-        {
-            Init();
-        }
-
-        public ValuesCriteriaQuery(CriteriaQuery query) : this(query.GetFullClassName(), query.GetCriteria())
+        public ValuesCriteriaQuery(CriteriaQuery query) : this(query.UnderlyingType, query.GetCriteria())
         {
         }
 

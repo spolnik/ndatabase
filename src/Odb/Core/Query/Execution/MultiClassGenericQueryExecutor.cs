@@ -43,12 +43,12 @@ namespace NDatabase.Odb.Core.Query.Execution
                 throw new OdbRuntimeException(NDatabaseError.OdbHasBeenRollbacked);
 
             // Get the main class
-            var fullClassName = QueryManager.GetFullClassName(_executor.GetQuery());
+            var underlyingType = QueryManager.GetUnderlyingType(_executor.GetQuery());
 
             // this is done once.
             queryResultAction.Start();
             var allClassInfos =
-                _executor.GetStorageEngine().GetSession(true).GetMetaModel().GetPersistentSubclassesOf(fullClassName);
+                _executor.GetStorageEngine().GetSession(true).GetMetaModel().GetPersistentSubclassesOf(underlyingType);
 
             var nbClasses = allClassInfos.Count;
             for (var i = 0; i < nbClasses; i++)

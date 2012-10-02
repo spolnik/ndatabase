@@ -56,11 +56,6 @@ namespace NDatabase.Odb.Main
             throw new OdbRuntimeException(NDatabaseError.OperationNotAllowedInTrigger);
         }
 
-        public override IClassRepresentation GetClassRepresentation(string fullClassName)
-        {
-            throw new OdbRuntimeException(NDatabaseError.OperationNotAllowedInTrigger);
-        }
-
         public override IRefactorManager GetRefactorManager()
         {
             throw new OdbRuntimeException(NDatabaseError.OperationNotAllowedInTrigger);
