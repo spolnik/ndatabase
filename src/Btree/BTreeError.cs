@@ -42,7 +42,7 @@ namespace NDatabase.Btree
 
         #region IError Members
 
-        public IError AddParameter(object o)
+        public IError AddParameter<T>(T o) where T : class
         {
             var value = o != null
                             ? o.ToString()
@@ -97,7 +97,7 @@ namespace NDatabase.Btree
                     var parameterName = string.Format("@{0}", (i + 1));
                     var parameterValue = _parameters[i];
                     var parameterIndex = token.IndexOf(parameterName, System.StringComparison.Ordinal);
-                    
+
                     if (parameterIndex != -1)
                         token = OdbString.ReplaceToken(token, parameterName, parameterValue, 1);
                 }

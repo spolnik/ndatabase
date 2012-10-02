@@ -42,8 +42,8 @@ namespace NDatabase.Tool.Wrappers.Map
         public void Add(TKey key, TValue v)
         {
             TValue vnull;
-            TryGetValue(key, out vnull);
-            if (vnull != null)
+            var success =TryGetValue(key, out vnull);
+            if (success)
                 Remove(key);
 
             _dictionary.Add(key, v);
@@ -145,8 +145,8 @@ namespace NDatabase.Tool.Wrappers.Map
         public TValue Remove2(TKey key)
         {
             TValue value;
-            TryGetValue(key, out value);
-            if (value != null)
+            var success = TryGetValue(key, out value);
+            if (success)
                 Remove(key);
 
             return value;

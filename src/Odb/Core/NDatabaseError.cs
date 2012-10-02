@@ -329,7 +329,7 @@ namespace NDatabase.Odb.Core
 
         #region IError Members
 
-        public IError AddParameter(object o)
+        public IError AddParameter<T>(T o) where T : class
         {
             if (_parameters == null)
                 _parameters = new OdbList<object>();
