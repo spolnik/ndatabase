@@ -11,7 +11,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
     /// <summary>
     ///   A cache of objects.
     /// </summary>
-    public sealed class OdbCache : IOdbCache
+    internal sealed class OdbCache : IOdbCache
     {
         /// <summary>
         ///   To resolve cyclic reference, keep track of objects being inserted
@@ -120,7 +120,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
                 _insertingObjects[o] = oid;
         }
 
-        public void RemoveObjectWithOid(OID oid)
+        public void RemoveObjectByOid(OID oid)
         {
             if (oid == null)
                 throw new OdbRuntimeException(NDatabaseError.CacheNullOid);
@@ -183,7 +183,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
             return objectInfoHeader;
         }
 
-        public ObjectInfoHeader GetObjectInfoHeaderFromOid(OID oid, bool throwExceptionIfNotFound)
+        public ObjectInfoHeader GetObjectInfoHeaderByOid(OID oid, bool throwExceptionIfNotFound)
         {
             if (oid == null)
                 throw new OdbRuntimeException(NDatabaseError.CacheNullOid);
@@ -310,7 +310,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
             return objectInsertingOid ?? StorageEngineConstant.NullObjectId;
         }
 
-        public bool ObjectWithIdIsInCommitedZone(OID oid)
+        public bool IsInCommitedZone(OID oid)
         {
             return !_unconnectedZoneOids.ContainsKey(oid);
         }

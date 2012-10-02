@@ -589,7 +589,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             // This will be used to know if work can be done out of transaction
             // for unconnected object,changes can be written directly, else we must
             // use Transaction (using WriteAction)
-            var objectIsInConnectedZone = cache.ObjectWithIdIsInCommitedZone(header.GetOid());
+            var objectIsInConnectedZone = cache.IsInCommitedZone(header.GetOid());
             // triggers
             // FIXME
             _triggerManager.ManageDeleteTriggerBefore(ci.FullClassName, null, header.GetOid());
@@ -836,7 +836,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     // Also updates the last committed object next object oid in
                     // memory to connect the committed
                     // zone with unconnected for THIS transaction (only in memory)
-                    var oih = cache.GetObjectInfoHeaderFromOid(lastCommittedObjectOid, true);
+                    var oih = cache.GetObjectInfoHeaderByOid(lastCommittedObjectOid, true);
                     oih.SetNextObjectOID(objectInfo.GetOid());
                     // And sets the previous oid of the current object with the last
                     // committed oid
@@ -961,7 +961,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public ObjectInfoHeader UpdateNextObjectPreviousPointersInCache(OID nextObjectOID, OID previousObjectOID,
                                                                                 IOdbCache cache)
         {
-            var oip = cache.GetObjectInfoHeaderFromOid(nextObjectOID, false);
+            var oip = cache.GetObjectInfoHeaderByOid(nextObjectOID, false);
             // If object is not in the cache, then read the header from the file
             if (oip == null)
             {
@@ -975,7 +975,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public ObjectInfoHeader UpdatePreviousObjectNextPointersInCache(OID nextObjectOID, OID previousObjectOID,
                                                                                 IOdbCache cache)
         {
-            var oip = cache.GetObjectInfoHeaderFromOid(previousObjectOID, false);
+            var oip = cache.GetObjectInfoHeaderByOid(previousObjectOID, false);
             // If object is not in the cache, then read the header from the file
             if (oip == null)
             {

@@ -25,7 +25,7 @@ namespace NDatabase.Odb.Core.Transaction
         /// <summary>
         ///   A temporary cache used for object info read
         /// </summary>
-        private readonly ITmpCache _tmpCache;
+        private readonly IReadObjectsCache _readObjectsCache;
 
         private string _baseIdentification;
 
@@ -37,7 +37,7 @@ namespace NDatabase.Odb.Core.Transaction
         protected Session(string id, string baseIdentification)
         {
             _cache = BuildInMemoryStorage();
-            _tmpCache = BuildTmpCache();
+            _readObjectsCache = BuildTmpCache();
             _id = id;
             _baseIdentification = baseIdentification;
         }
@@ -62,9 +62,9 @@ namespace NDatabase.Odb.Core.Transaction
             return _cache;
         }
 
-        public virtual ITmpCache GetTmpCache()
+        public virtual IReadObjectsCache GetTmpCache()
         {
-            return _tmpCache;
+            return _readObjectsCache;
         }
 
         public virtual void Rollback()
@@ -169,9 +169,9 @@ namespace NDatabase.Odb.Core.Transaction
             return new OdbCache();
         }
 
-        public ITmpCache BuildTmpCache()
+        public IReadObjectsCache BuildTmpCache()
         {
-            return new TmpCache();
+            return new ReadObjectsCache();
         }
 
         public override string ToString()

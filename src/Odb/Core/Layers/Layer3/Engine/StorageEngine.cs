@@ -211,12 +211,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var lsession = GetSession(true);
             var cache = lsession.GetCache();
             // Check if oih is in the cache
-            var objectInfoHeader = cache.GetObjectInfoHeaderFromOid(oid, false) ??
+            var objectInfoHeader = cache.GetObjectInfoHeaderByOid(oid, false) ??
                                    ObjectReader.ReadObjectInfoHeaderFromOid(oid, true);
 
             _objectWriter.Delete(objectInfoHeader);
             // removes the object from the cache
-            cache.RemoveObjectWithOid(objectInfoHeader.GetOid());
+            cache.RemoveObjectByOid(objectInfoHeader.GetOid());
         }
 
         /// <summary>
@@ -258,7 +258,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var oid = _objectWriter.Delete(header);
             _triggerManager.ManageDeleteTriggerAfter(@object.GetType().FullName, @object, oid);
             // removes the object from the cache
-            cache.RemoveObjectWithOid(header.GetOid());
+            cache.RemoveObjectByOid(header.GetOid());
 
             return oid;
         }

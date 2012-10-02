@@ -389,14 +389,14 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 // next
                 // object position and class info position)
                 // The header must be in the cache.
-                var lastHeader = cache.GetObjectInfoHeaderFromOid(oid, true);
+                var lastHeader = cache.GetObjectInfoHeaderByOid(oid, true);
                 if (lastHeader == null)
                     throw new OdbRuntimeException(
                         NDatabaseError.UnexpectedSituation.AddParameter("Header is null in update"));
                 if (lastHeader.GetOid() == null)
                     throw new OdbRuntimeException(
                         NDatabaseError.InternalError.AddParameter("Header oid is null for oid " + oid));
-                var objectIsInConnectedZone = cache.ObjectWithIdIsInCommitedZone(oid);
+                var objectIsInConnectedZone = cache.IsInCommitedZone(oid);
                 var currentPosition = lastHeader.GetPosition();
 
                 if (currentPosition == -1)

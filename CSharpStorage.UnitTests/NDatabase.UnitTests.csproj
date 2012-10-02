@@ -67,6 +67,7 @@
     <Compile Include="Layer3\When_we_use_file_identification_as_db_identification.cs" />
     <Compile Include="Layer3\When_we_use_odb_directory.cs" />
     <Compile Include="Layer3\When_we_use_odb_file_stream.cs" />
+    <Compile Include="Layer3\When_we_use_read_objects_cache.cs" />
     <Compile Include="MemoryMonitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Refactoring\When_we_use_refactor_menager_to_rename_field_in_class.cs" />

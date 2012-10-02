@@ -60,7 +60,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                     // Sets some values to the new header to keep track of the infos when
                     // executing NDatabase without closing it, just committing.
                     // Bug reported by Andy
-                    var objectInfoHeader = cache.GetObjectInfoHeaderFromOid(oid, true);
+                    var objectInfoHeader = cache.GetObjectInfoHeaderByOid(oid, true);
                     nnoi.GetHeader().SetObjectVersion(objectInfoHeader.GetObjectVersion());
                     nnoi.GetHeader().SetUpdateDate(objectInfoHeader.GetUpdateDate());
                     nnoi.GetHeader().SetCreationDate(objectInfoHeader.GetCreationDate());

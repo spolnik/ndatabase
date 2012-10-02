@@ -8,7 +8,7 @@ namespace NDatabase.Odb.Core.Transaction
     {
         IOdbCache GetCache();
 
-        ITmpCache GetTmpCache();
+        IReadObjectsCache GetTmpCache();
 
         void Rollback();
 

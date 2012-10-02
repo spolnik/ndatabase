@@ -195,7 +195,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
                 // method and depends on the field values
                 // Then, we have to remove object from the cache and re-insert to
                 // correct map hash code
-                cache.RemoveObjectWithOid(objectInfo.GetOid());
+                cache.RemoveObjectByOid(objectInfo.GetOid());
                 // re-Adds instance in the cache
                 cache.AddObject(objectInfo.GetOid(), o, objectInfo.GetHeader());
             }

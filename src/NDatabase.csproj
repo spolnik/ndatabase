@@ -195,7 +195,7 @@
     <Compile Include="Odb\Core\Layers\Layer3\IOdbCache.cs" />
     <Compile Include="Odb\Core\Transaction\ICrossSessionCache.cs" />
     <Compile Include="Odb\Core\Transaction\ISession.cs" />
-    <Compile Include="Odb\Core\Transaction\ITmpCache.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IReadObjectsCache.cs" />
     <Compile Include="Odb\Core\Transaction\ITransaction.cs" />
     <Compile Include="Odb\Core\Trigger\DeleteTrigger.cs" />
     <Compile Include="Odb\Core\Trigger\InsertTrigger.cs" />
@@ -289,7 +289,7 @@
     <Compile Include="Odb\Core\Transaction\IdInfo.cs" />
     <Compile Include="Odb\Core\Transaction\LocalSession.cs" />
     <Compile Include="Odb\Core\Transaction\Session.cs" />
-    <Compile Include="Odb\Core\Transaction\TmpCache.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\ReadObjectsCache.cs" />
     <Compile Include="Odb\Core\Trigger\TriggerManager.cs" />
     <Compile Include="Odb\Main\ClassRepresentation.cs" />
     <Compile Include="Odb\Main\Odb.cs" />

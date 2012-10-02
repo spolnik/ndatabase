@@ -9,14 +9,9 @@ namespace NDatabase.UnitTests.Layer3
 {
     public class When_we_use_odb_cache : InstanceSpecification<IOdbCache>
     {
-        private class Employee
-        {
-            public string Name { get; set; }
-        }
-
         private Employee _object;
-        private ObjectOID _oid;
         private NonNativeObjectInfo _objectInfo;
+        private ObjectOID _oid;
 
         protected override void Establish_context()
         {
@@ -27,8 +22,10 @@ namespace NDatabase.UnitTests.Layer3
 
             var classInfoList = classIntrospector.Introspect(typeof (Employee), true);
 
-            _objectInfo = new NonNativeObjectInfo(_object, classInfoList.GetMainClassInfo());
-
+            var mainClassInfo = classInfoList.GetMainClassInfo();
+            mainClassInfo.ClassInfoId = new ClassOID(12345L);
+            _objectInfo = new NonNativeObjectInfo(_object, mainClassInfo);
+            _objectInfo.SetOid(_oid);
         }
 
         protected override IOdbCache Create_subject_under_test()
@@ -54,7 +51,7 @@ namespace NDatabase.UnitTests.Layer3
         public void It_should_properly_store_object_info_header_in_memory()
         {
             Assert.That(SubjectUnderTest.GetObjectInfoHeaderFromObject(_object), Is.EqualTo(_objectInfo.GetHeader()));
-            Assert.That(SubjectUnderTest.GetObjectInfoHeaderFromOid(_oid, false), Is.EqualTo(_objectInfo.GetHeader()));
+            Assert.That(SubjectUnderTest.GetObjectInfoHeaderByOid(_oid, false), Is.EqualTo(_objectInfo.GetHeader()));
         }
 
         [Test]
@@ -73,7 +70,19 @@ namespace NDatabase.UnitTests.Layer3
             Assert.That(SubjectUnderTest.GetObject(_oid), Is.Null);
 
             Assert.That(SubjectUnderTest.GetObjectInfoHeaderFromObject(_object), Is.Null);
-            Assert.That(SubjectUnderTest.GetObjectInfoHeaderFromOid(_oid, false), Is.Null);
+            Assert.That(SubjectUnderTest.GetObjectInfoHeaderByOid(_oid, false), Is.Null);
+        }
+
+        [Test]
+        public void It_should_allow_on_removing_already_added_object_by_oid()
+        {
+            SubjectUnderTest.RemoveObjectByOid(_oid);
+
+            Assert.That(SubjectUnderTest.GetOid(_object), Is.EqualTo(StorageEngineConstant.NullObjectId));
+            Assert.That(SubjectUnderTest.GetObject(_oid), Is.Null);
+
+            Assert.That(SubjectUnderTest.GetObjectInfoHeaderFromObject(_object), Is.Null);
+            Assert.That(SubjectUnderTest.GetObjectInfoHeaderByOid(_oid, false), Is.Null);
         }
 
         [Test]
@@ -85,7 +94,7 @@ namespace NDatabase.UnitTests.Layer3
             Assert.That(SubjectUnderTest.GetObject(_oid), Is.Null);
 
             Assert.That(SubjectUnderTest.GetObjectInfoHeaderFromObject(_object), Is.Null);
-            Assert.That(SubjectUnderTest.GetObjectInfoHeaderFromOid(_oid, false), Is.Null);
+            Assert.That(SubjectUnderTest.GetObjectInfoHeaderByOid(_oid, false), Is.Null);
         }
 
         [Test]
@@ -111,12 +120,52 @@ namespace NDatabase.UnitTests.Layer3
         }
 
         [Test]
-        public void It_should_allow_on_inserting_object_in_more_than_one_step()
+        public void It_should_allow_on_inserting_object_in_longer_way_to_resolve_circular_references()
         {
             SubjectUnderTest.RemoveObject(_object);
             SubjectUnderTest.StartInsertingObjectWithOid(_object, _oid, _objectInfo);
 
             Assert.That(SubjectUnderTest.IdOfInsertingObject(_object), Is.EqualTo(_oid));
+
+            var objectOID = new ObjectOID(2345L);
+            SubjectUnderTest.UpdateIdOfInsertingObject(_object, objectOID);
+
+            Assert.That(SubjectUnderTest.IdOfInsertingObject(_object), Is.EqualTo(objectOID));
+
+            SubjectUnderTest.ClearInsertingObjects();
+
+            Assert.That(SubjectUnderTest.IdOfInsertingObject(_object), Is.EqualTo(StorageEngineConstant.NullObjectId));
         }
+
+        [Test]
+        public void It_should_allow_on_inserting_object_header_for_uncommited_object()
+        {
+            SubjectUnderTest.RemoveObject(_object);
+            SubjectUnderTest.AddObjectInfoOfNonCommitedObject(_objectInfo.GetHeader());
+
+            Assert.That(SubjectUnderTest.GetObjectInfoHeaderByOid(_oid, false), Is.EqualTo(_objectInfo.GetHeader()));
+        }
+
+        [Test]
+        public void It_should_allow_on_adding_object_to_uncommited_zone()
+        {
+            Assert.That(SubjectUnderTest.IsInCommitedZone(_oid), Is.True);
+            SubjectUnderTest.AddOIDToUnconnectedZone(_oid);
+
+            Assert.That(SubjectUnderTest.IsInCommitedZone(_oid), Is.False);
+
+            SubjectUnderTest.ClearOnCommit();
+
+            Assert.That(SubjectUnderTest.IsInCommitedZone(_oid), Is.True);
+        }
+
+        #region Nested type: Employee
+
+        private class Employee
+        {
+            public string Name { get; set; }
+        }
+
+        #endregion
     }
 }

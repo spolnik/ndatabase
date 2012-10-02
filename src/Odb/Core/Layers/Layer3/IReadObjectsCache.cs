@@ -1,20 +1,18 @@
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
-namespace NDatabase.Odb.Core.Transaction
+namespace NDatabase.Odb.Core.Layers.Layer3
 {
     /// <summary>
     ///   An interface for temporary cache
     /// </summary>
-    public interface ITmpCache
+    public interface IReadObjectsCache
     {
-        NonNativeObjectInfo GetReadingObjectInfoFromOid(OID oid);
+        NonNativeObjectInfo GetObjectInfoByOid(OID oid);
 
         bool IsReadingObjectInfoWithOid(OID oid);
 
         void StartReadingObjectInfoWithOid(OID oid, NonNativeObjectInfo objectInfo);
 
         void ClearObjectInfos();
-
-        int Size();
     }
 }

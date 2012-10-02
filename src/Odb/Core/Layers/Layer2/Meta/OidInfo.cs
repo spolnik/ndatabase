@@ -1,7 +1,6 @@
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {
-    
-    public sealed class OidInfo
+    internal sealed class OidInfo
     {
         public OidInfo()
         {

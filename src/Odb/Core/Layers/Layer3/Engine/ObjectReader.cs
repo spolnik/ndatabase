@@ -270,7 +270,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             if (useCache)
             {
-                var objectInfoHeader = GetSession().GetCache().GetObjectInfoHeaderFromOid(oid, false);
+                var objectInfoHeader = GetSession().GetCache().GetObjectInfoHeaderByOid(oid, false);
                 if (objectInfoHeader != null)
                     return objectInfoHeader;
             }
@@ -316,7 +316,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 DLogger.Debug(DepthToSpaces() + "Reading Non Native Object info with oid " + oid);
             // If the object is already being read, then return from the cache
             if (tmpCache.IsReadingObjectInfoWithOid(oid))
-                return tmpCache.GetReadingObjectInfoFromOid(oid);
+                return tmpCache.GetObjectInfoByOid(oid);
             var objectInfoHeader = GetObjectInfoHeader(oid, position, useCache, cache);
             if (classInfo == null)
                 classInfo =
@@ -395,7 +395,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             {
                 // If object is not in connected zone , the cache must be used
                 var useCacheForAttribute = useCache ||
-                                           !cache.ObjectWithIdIsInCommitedZone(pendingReading.GetAttributeOID());
+                                           !cache.IsInCommitedZone(pendingReading.GetAttributeOID());
                 aoi = ReadNonNativeObjectInfoFromOid(pendingReading.GetCi(), pendingReading.GetAttributeOID(),
                                                      useCacheForAttribute, returnInstance);
                 objectInfo.SetAttributeValue(pendingReading.GetId(), aoi);
@@ -1433,7 +1433,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             // first check if the object info pointers exist in the cache
             ObjectInfoHeader objectInfoHeader = null;
             if (useCache && oid != null)
-                objectInfoHeader = cache.GetObjectInfoHeaderFromOid(oid, false);
+                objectInfoHeader = cache.GetObjectInfoHeaderByOid(oid, false);
             if (objectInfoHeader == null)
             {
                 // Here we read by position because it is possible to have the
@@ -1447,7 +1447,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     if (oidWasNull)
                     {
                         // The oid was null, now we have it, check the cache again !
-                        var cachedOih = cache.GetObjectInfoHeaderFromOid(oid, false);
+                        var cachedOih = cache.GetObjectInfoHeaderByOid(oid, false);
                         if (cachedOih != null)
                         {
                             // Then use the one from the cache

@@ -12,7 +12,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         void AddObjectInfoOfNonCommitedObject(ObjectInfoHeader objectInfoHeader);
 
-        void RemoveObjectWithOid(OID oid);
+        void RemoveObjectByOid(OID oid);
 
         void RemoveObject(object @object);
 
@@ -22,7 +22,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         ObjectInfoHeader GetObjectInfoHeaderFromObject(object @object);
 
-        ObjectInfoHeader GetObjectInfoHeaderFromOid(OID oid, bool throwExceptionIfNotFound);
+        ObjectInfoHeader GetObjectInfoHeaderByOid(OID oid, bool throwExceptionIfNotFound);
 
         OID GetOid(object @object);
 
@@ -45,7 +45,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         OID IdOfInsertingObject(object @object);
 
-        bool ObjectWithIdIsInCommitedZone(OID oid);
+        bool IsInCommitedZone(OID oid);
 
         void AddOIDToUnconnectedZone(OID oid);
     }
