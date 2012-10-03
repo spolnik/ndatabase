@@ -163,10 +163,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         IObjectIntrospector BuildObjectIntrospector();
 
-        IObjectWriter BuildObjectWriter();
-
-        IObjectReader BuildObjectReader();
-
         ITriggerManager BuildTriggerManager();
 
         /// <param name="clazz"> </param>

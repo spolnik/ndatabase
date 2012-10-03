@@ -290,10 +290,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public abstract IObjectIntrospector BuildObjectIntrospector();
 
-        public abstract IObjectReader BuildObjectReader();
-
-        public abstract IObjectWriter BuildObjectWriter();
-
         public abstract ITriggerManager BuildTriggerManager();
 
         public abstract CheckMetaModelResult CheckMetaModelCompatibility(IDictionary<string, ClassInfo> arg1);

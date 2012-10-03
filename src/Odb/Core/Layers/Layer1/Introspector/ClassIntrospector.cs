@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization;
 using NDatabase.Btree;
 using NDatabase.Btree.Impl;
 using NDatabase.Odb.Core.BTree;
@@ -22,25 +21,103 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
     /// <remarks>
     ///   The ClassIntrospector is used to introspect classes. It uses Reflection to extract class information. It transforms a native Class into a ClassInfo (a meta representation of the class) that contains all informations about the class.
     /// </remarks>
-    internal sealed class ClassIntrospector : IClassIntrospector
+    internal static class ClassIntrospector
     {
-        public static readonly IClassIntrospector Instance = new ClassIntrospector();
-
-        private readonly IDictionary<string, IOdbList<FieldInfo>> _fields =
+        private static readonly IDictionary<string, IOdbList<FieldInfo>> Fields =
             new OdbHashMap<string, IOdbList<FieldInfo>>();
 
-        private readonly IDictionary<string, Type> _systemClasses = new OdbHashMap<string, Type>();
+        private static readonly IDictionary<string, Type> SystemClasses = new OdbHashMap<string, Type>();
 
-        #region IClassIntrospector Members
+        private static readonly object FieldsAccess = new object();
+
+        static ClassIntrospector()
+        {
+            FillSystemClasses();
+        }
 
         /// <summary>
         /// </summary>
         /// <param name="clazz"> The class to instrospect </param>
         /// <param name="recursive"> If true, goes does the hierarchy to try to analyse all classes </param>
         /// <returns> </returns>
-        public ClassInfoList Introspect(Type clazz, bool recursive)
+        public static ClassInfoList Introspect(Type clazz, bool recursive)
         {
             return InternalIntrospect(clazz, recursive, null);
+        }
+
+        public static FieldInfo GetField(Type type, string fieldName)
+        {
+            return type.GetField(fieldName);
+        }
+
+        public static IOdbList<FieldInfo> GetAllFields(string fullClassName)
+        {
+            IOdbList<FieldInfo> result;
+            lock (FieldsAccess)
+            {
+                Fields.TryGetValue(fullClassName, out result);
+
+                if (result != null)
+                    return result;
+            }
+
+            IDictionary attributesNames = new Hashtable();
+            result = new OdbList<FieldInfo>(50);
+            var classes = GetSuperClasses(fullClassName, true);
+
+            foreach (var clazz1 in classes)
+            {
+                var superClassfields =
+                    clazz1.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public |
+                                     BindingFlags.DeclaredOnly | BindingFlags.Static);
+                foreach (var fieldInfo in superClassfields)
+                {
+                    // Only adds the attribute if it does not exist one with same name
+                    if (attributesNames[fieldInfo.Name] == null)
+                    {
+                        result.Add(fieldInfo);
+                        attributesNames[fieldInfo.Name] = fieldInfo.Name;
+                    }
+                }
+            }
+
+            result = RemoveUnnecessaryFields(result);
+            
+            lock (FieldsAccess)
+            {
+                Fields[fullClassName] = result;
+            }
+
+            attributesNames.Clear();
+
+            return result;
+        }
+
+        /// <summary>
+        ///   introspect a list of classes This method return the current meta model based on the classes that currently exist in the execution classpath.
+        /// </summary>
+        /// <remarks>
+        ///   introspect a list of classes This method return the current meta model based on the classes that currently exist in the execution classpath. The result will be used to check meta model compatiblity between the meta model that is currently persisted in the database and the meta model currently executing in JVM. This is used b the automatic meta model refactoring
+        /// </remarks>
+        /// <returns> </returns>
+        /// <returns> A map where the key is the class name and the key is the ClassInfo: the class meta representation </returns>
+        public static IDictionary<string, ClassInfo> Instrospect(IEnumerable<ClassInfo> classInfos)
+        {
+            IDictionary<string, ClassInfo> classInfoSet = new Dictionary<string, ClassInfo>();
+
+            foreach (var persistedClassInfo in classInfos)
+            {
+                var currentClassInfo = GetClassInfo(persistedClassInfo.FullClassName, persistedClassInfo);
+
+                classInfoSet.Add(currentClassInfo.FullClassName, currentClassInfo);
+            }
+
+            return classInfoSet;
+        }
+
+        public static ClassInfoList Introspect(String fullClassName, bool recursive)
+        {
+            return Introspect(OdbClassPool.GetClass(fullClassName), true);
         }
 
         /// <summary>
@@ -50,7 +127,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
         /// <param name="fullClassName"> The name of the class to get info </param>
         /// <param name="existingClassInfo"> </param>
         /// <returns> A ClassInfo - a meta representation of the class </returns>
-        private ClassInfo GetClassInfo(String fullClassName, ClassInfo existingClassInfo)
+        private static ClassInfo GetClassInfo(String fullClassName, ClassInfo existingClassInfo)
         {
             var classInfo = new ClassInfo(fullClassName) {ClassCategory = GetClassCategory(fullClassName)};
 
@@ -110,46 +187,6 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             return result;
         }
 
-        public FieldInfo GetField(Type type, string fieldName)
-        {
-            return type.GetField(fieldName);
-        }
-
-        public IOdbList<FieldInfo> GetAllFields(string fullClassName)
-        {
-            IOdbList<FieldInfo> result;
-            _fields.TryGetValue(fullClassName, out result);
-
-            if (result != null)
-                return result;
-
-            IDictionary attributesNames = new Hashtable();
-            result = new OdbList<FieldInfo>(50);
-            var classes = GetSuperClasses(fullClassName, true);
-
-            foreach (var clazz1 in classes)
-            {
-                var superClassfields =
-                    clazz1.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public |
-                                     BindingFlags.DeclaredOnly | BindingFlags.Static);
-                foreach (var fieldInfo in superClassfields)
-                {
-                    // Only adds the attribute if it does not exist one with same name
-                    if (attributesNames[fieldInfo.Name] == null)
-                    {
-                        result.Add(fieldInfo);
-                        attributesNames[fieldInfo.Name] = fieldInfo.Name;
-                    }
-                }
-            }
-
-            result = RemoveUnnecessaryFields(result);
-            _fields[fullClassName] = result;
-            attributesNames.Clear();
-
-            return result;
-        }
-
         private static IOdbList<FieldInfo> RemoveUnnecessaryFields(IOdbList<FieldInfo> fields)
         {
             IOdbList<FieldInfo> fieldsToRemove = new OdbList<FieldInfo>(fields.Count);
@@ -180,59 +217,22 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             return fields;
         }
 
-        /// <summary>
-        ///   introspect a list of classes This method return the current meta model based on the classes that currently exist in the execution classpath.
-        /// </summary>
-        /// <remarks>
-        ///   introspect a list of classes This method return the current meta model based on the classes that currently exist in the execution classpath. The result will be used to check meta model compatiblity between the meta model that is currently persisted in the database and the meta model currently executing in JVM. This is used b the automatic meta model refactoring
-        /// </remarks>
-        /// <returns> </returns>
-        /// <returns> A map where the key is the class name and the key is the ClassInfo: the class meta representation </returns>
-        public IDictionary<string, ClassInfo> Instrospect(IEnumerable<ClassInfo> classInfos)
-        {
-            IDictionary<string, ClassInfo> classInfoSet = new Dictionary<string, ClassInfo>();
-            
-            foreach (var persistedClassInfo in classInfos)
-            {
-                var currentClassInfo = GetClassInfo(persistedClassInfo.FullClassName, persistedClassInfo);
-
-                classInfoSet.Add(currentClassInfo.FullClassName, currentClassInfo);
-            }
-
-            return classInfoSet;
-        }
-
-        public ClassInfoList Introspect(String fullClassName, bool recursive)
-        {
-            return Introspect(OdbClassPool.GetClass(fullClassName), true);
-        }
-
-        public Object NewInstanceOf(Type clazz)
-        {
-            return FormatterServices.GetUninitializedObject(clazz);
-        }
-
-        private byte GetClassCategory(Type type)
+        private static byte GetClassCategory(Type type)
         {
             return GetClassCategory(OdbClassUtil.GetFullName(type));
         }
 
-        private byte GetClassCategory(string fullClassName)
+        private static byte GetClassCategory(string fullClassName)
         {
-            if ((_systemClasses.Count == 0))
-                FillSystemClasses();
-
-            if (_systemClasses.ContainsKey(fullClassName))
-                return ClassInfo.CategorySystemClass;
-            return ClassInfo.CategoryUserClass;
+            return SystemClasses.ContainsKey(fullClassName)
+                       ? ClassInfo.CategorySystemClass
+                       : ClassInfo.CategoryUserClass;
         }
-
-        #endregion
 
         /// <param name="type"> The class to instrospect </param>
         /// <param name="recursive"> If true, goes does the hierarchy to try to analyse all classes </param>
         /// <param name="classInfoList"> map with classname that are being introspected, to avoid recursive calls </param>
-        private ClassInfoList InternalIntrospect(Type type, bool recursive, ClassInfoList classInfoList)
+        private static ClassInfoList InternalIntrospect(Type type, bool recursive, ClassInfoList classInfoList)
         {
             var fullClassName = OdbClassUtil.GetFullName(type);
 
@@ -256,7 +256,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             for (var i = 0; i < fields.Count; i++)
             {
                 var field = fields[i];
-                
+
                 ClassInfo classInfoWithName;
 
                 if (!OdbType.GetFromClass(field.FieldType).IsNative())
@@ -267,9 +267,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                         classInfoWithName = classInfoList.GetClassInfoWithName(OdbClassUtil.GetFullName(field.FieldType));
                     }
                     else
-                    {
                         classInfoWithName = new ClassInfo(OdbClassUtil.GetFullName(field.FieldType));
-                    }
                 }
                 else
                     classInfoWithName = null;
@@ -281,19 +279,19 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             return classInfoList;
         }
 
-        private void FillSystemClasses()
+        private static void FillSystemClasses()
         {
-            _systemClasses.Add(typeof(ClassInfoIndex).FullName, typeof (ClassInfoIndex));
-            _systemClasses.Add(typeof(OID).FullName, typeof (OID));
-            _systemClasses.Add(typeof(ObjectOID).FullName, typeof (ObjectOID));
-            _systemClasses.Add(typeof(ClassOID).FullName, typeof (ClassOID));
-            _systemClasses.Add(typeof(OdbBtreeNodeSingle).FullName, typeof (OdbBtreeNodeSingle));
-            _systemClasses.Add(typeof(OdbBtreeNodeMultiple).FullName, typeof (OdbBtreeNodeMultiple));
-            _systemClasses.Add(typeof(OdbBtreeSingle).FullName, typeof (OdbBtreeSingle));
-            _systemClasses.Add(typeof(IBTree).FullName, typeof (IBTree));
-            _systemClasses.Add(typeof(IBTreeNodeOneValuePerKey).FullName, typeof (IBTreeNodeOneValuePerKey));
-            _systemClasses.Add(typeof(IKeyAndValue).FullName, typeof (IKeyAndValue));
-            _systemClasses.Add(typeof(KeyAndValue).FullName, typeof (KeyAndValue));
+            SystemClasses.Add(typeof (ClassInfoIndex).FullName, typeof (ClassInfoIndex));
+            SystemClasses.Add(typeof (OID).FullName, typeof (OID));
+            SystemClasses.Add(typeof (ObjectOID).FullName, typeof (ObjectOID));
+            SystemClasses.Add(typeof (ClassOID).FullName, typeof (ClassOID));
+            SystemClasses.Add(typeof (OdbBtreeNodeSingle).FullName, typeof (OdbBtreeNodeSingle));
+            SystemClasses.Add(typeof (OdbBtreeNodeMultiple).FullName, typeof (OdbBtreeNodeMultiple));
+            SystemClasses.Add(typeof (OdbBtreeSingle).FullName, typeof (OdbBtreeSingle));
+            SystemClasses.Add(typeof (IBTree).FullName, typeof (IBTree));
+            SystemClasses.Add(typeof (IBTreeNodeOneValuePerKey).FullName, typeof (IBTreeNodeOneValuePerKey));
+            SystemClasses.Add(typeof (IKeyAndValue).FullName, typeof (IKeyAndValue));
+            SystemClasses.Add(typeof (KeyAndValue).FullName, typeof (KeyAndValue));
         }
     }
 }

@@ -27,7 +27,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         private static byte[] _nativeHeaderBlockSizeByte;
         internal static int NbNormalUpdates;
 
-        private readonly IClassIntrospector _classIntrospector;
         private readonly IObjectInfoComparator _comparator;
         private readonly ISession _session;
 
@@ -42,12 +41,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         private IStorageEngine _storageEngine;
 
-        public ObjectWriter(IStorageEngine engine, IClassIntrospector classIntrospector)
+        public ObjectWriter(IStorageEngine engine)
         {
             _storageEngine = engine;
             _objectReader = _storageEngine.GetObjectReader();
 
-            _classIntrospector = classIntrospector;
             _nativeHeaderBlockSizeByte = ByteArrayConverter.IntToByteArray(NativeHeaderBlockSize);
             _comparator = new ObjectInfoComparator();
 
@@ -174,8 +172,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                         var existingClassInfo = metaModel.GetClassInfo(classAttributeInfo.GetFullClassname(), false);
                         if (existingClassInfo == null)
                         {
-                            // TODO check if this getClassInfo is ok. Maybe, should use a buffered one
-                            AddClasses(_classIntrospector.Introspect(classAttributeInfo.GetFullClassname(), true));
+                            AddClasses(ClassIntrospector.Introspect(classAttributeInfo.GetFullClassname(), true));
                         }
                         else
                         {
@@ -284,8 +281,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     var existingClassInfo = metaModel.GetClassInfo(classAttributeInfo.GetFullClassname(), false);
                     if (existingClassInfo == null)
                     {
-                        // TODO check if this getClassInfo is ok. Maybe, should use a buffered one
-                        AddClasses(_classIntrospector.Introspect(classAttributeInfo.GetFullClassname(), true));
+                        AddClasses(ClassIntrospector.Introspect(classAttributeInfo.GetFullClassname(), true));
                     }
                     else
                     {

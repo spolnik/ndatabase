@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Globalization;
+using System.Runtime.Serialization;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3;
@@ -22,15 +23,12 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
     {
         private const string LogIdDebug = "InstanceBuilder.debug";
 
-        private readonly IClassIntrospector _classIntrospector;
-
         private readonly IStorageEngine _engine;
         private readonly ITriggerManager _triggerManager;
 
         public InstanceBuilder(IStorageEngine engine)
         {
             _triggerManager = engine.GetLocalTriggerManager();
-            _classIntrospector = ClassIntrospector.Instance;
             _engine = engine;
         }
 
@@ -57,7 +55,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
 
             try
             {
-                o = _classIntrospector.NewInstanceOf(instanceClazz);
+                o = FormatterServices.GetUninitializedObject(instanceClazz);
             }
             catch (Exception e)
             {
@@ -94,7 +92,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
                 cache.AddObject(objectInfo.GetOid(), o, objectInfo.GetHeader());
 
             var classInfo = objectInfo.GetClassInfo();
-            var fields = _classIntrospector.GetAllFields(classInfo.FullClassName);
+            var fields = ClassIntrospector.GetAllFields(classInfo.FullClassName);
 
             object value = null;
 
@@ -249,14 +247,12 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
                     NDatabaseError.CollectionInstanciationError.AddParameter(coi.GetRealCollectionClassName()));
             }
 
-            IEnumerator iterator = coi.GetCollection().GetEnumerator();
             var method = t.GetMethod("Add");
 
-            while (iterator.MoveNext())
+            foreach (var abstractObjectInfo in coi.GetCollection())
             {
-                var abstractObjectInfo = (AbstractObjectInfo) iterator.Current;
                 if (!abstractObjectInfo.IsDeletedObject())
-                    method.Invoke(newCollection, new[] {BuildOneInstance(abstractObjectInfo)});
+                    method.Invoke(newCollection, new[] { BuildOneInstance(abstractObjectInfo) });
             }
 
             return newCollection;

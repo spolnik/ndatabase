@@ -17,8 +17,6 @@ namespace Test.NDatabase.Odb.Test.Intropector
 {
     public class InstrospectorTest : ODBTest
     {
-        internal static IClassIntrospector classIntrospector = ClassIntrospector.Instance;
-
         public override void SetUp()
         {
             base.SetUp();
@@ -31,7 +29,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         {
             var user = new User("olivier smadja", "olivier@neodatis.com",
                                 new Profile("operator", new VO.Login.Function("login")));
-            var classInfoList = classIntrospector.Introspect(user.GetType(), true);
+            var classInfoList = ClassIntrospector.Introspect(user.GetType(), true);
             AssertEquals(OdbClassUtil.GetFullName(user.GetType()), classInfoList.GetMainClassInfo().FullClassName);
             AssertEquals(3, classInfoList.GetMainClassInfo().Attributes.Count);
             AssertEquals(2, classInfoList.GetClassInfos().Count);
@@ -46,7 +44,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var user = new User("olivier smadja", "olivier@neodatis.com",
                                 new Profile("operator", new VO.Login.Function("login")));
-            var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
+            var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
@@ -72,7 +70,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var user = new User("olivier smadja", "olivier@neodatis.com",
                                 new Profile("operator", new VO.Login.Function("login")));
-            var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
+            var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
@@ -97,7 +95,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var user = new User("olivier smadja", "olivier@neodatis.com",
                                 new Profile("operator", new VO.Login.Function("login")));
             IObjectInfoComparator comparator = new ObjectInfoComparator();
-            var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
+            var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
@@ -144,7 +142,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var user = new User("olivier smadja", "olivier@neodatis.com",
                                 new Profile("operator", new VO.Login.Function("login")));
             IObjectInfoComparator comparator = new ObjectInfoComparator();
-            var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
+            var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
@@ -196,7 +194,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
                                 new Profile("operator", new VO.Login.Function("login")));
 
             IObjectInfoComparator comparator = new ObjectInfoComparator();
-            var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
+            var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
@@ -250,7 +248,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var function = new VO.Login.Function("login");
             var user = new User("olivier smadja", "olivier@neodatis.com", new Profile("operator", function));
             IObjectInfoComparator comparator = new ObjectInfoComparator();
-            var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
+            var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
@@ -309,7 +307,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var function = new VO.Login.Function("login");
             var user = new User("olivier smadja", "olivier@neodatis.com", new Profile("operator", function));
 
-            var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
+            var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
@@ -364,7 +362,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var profile = new Profile("operator", function);
             var user = new User("olivier smadja", "olivier@neodatis.com", profile);
             IObjectInfoComparator comparator = new ObjectInfoComparator();
-            var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
+            var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
@@ -411,7 +409,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var profile = new Profile("operator", function);
             var user = new User("olivier smadja", "olivier@neodatis.com", profile);
             IObjectInfoComparator comparator = new ObjectInfoComparator();
-            var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
+            var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
@@ -462,7 +460,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var profile = new Profile("operator", function);
             var user = new User("olivier smadja", "olivier@neodatis.com", profile);
             IObjectInfoComparator comparator = new ObjectInfoComparator();
-            var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
+            var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
@@ -508,7 +506,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var profile = new Profile("operator", function);
             var user = new User("olivier smadja", "olivier@neodatis.com", profile);
             IObjectInfoComparator comparator = new ObjectInfoComparator();
-            var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
+            var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
@@ -551,7 +549,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var profile = new Profile("operator", function);
             var user = new User("olivier smadja", "olivier@neodatis.com", profile);
             IObjectInfoComparator comparator = new ObjectInfoComparator();
-            var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
+            var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
@@ -591,7 +589,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         [Test]
         public virtual void TestGetAllFields()
         {
-            var allFields = classIntrospector.GetAllFields(OdbClassUtil.GetFullName(typeof (FootballPlayer)));
+            var allFields = ClassIntrospector.GetAllFields(OdbClassUtil.GetFullName(typeof (FootballPlayer)));
             AssertEquals(3, allFields.Count);
             AssertEquals("role", (allFields[0]).Name);
             AssertEquals("groundName", (allFields[1]).Name);
@@ -607,7 +605,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var user = new User("olivier smadja", "olivier@neodatis.com", null);
             IObjectInfoComparator comparator = new ObjectInfoComparator();
-            var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
+            var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
@@ -658,7 +656,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var user = new User("olivier smadja", "olivier@neodatis.com", null);
             IObjectInfoComparator comparator = new ObjectInfoComparator();
-            var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
+            var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
@@ -709,7 +707,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var user = new User("olivier smadja", "olivier@neodatis.com",
                                 new Profile("operator", new VO.Login.Function("login")));
             var callback = new DependentObjectIntrospectingCallback();
-            var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
+            var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
@@ -739,7 +737,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var function = new VO.Login.Function("login");
             var profile = new Profile("operator", function);
             var user = new User("olivier smadja", "olivier@neodatis.org", profile);
-            var ci = classIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
+            var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 

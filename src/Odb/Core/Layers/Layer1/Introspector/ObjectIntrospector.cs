@@ -15,7 +15,6 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
     /// </summary>
     internal sealed class ObjectIntrospector : IObjectIntrospector
     {
-        private readonly IClassIntrospector _classIntrospector;
         private IStorageEngine _storageEngine;
 
         private static readonly MethodInfo GenericMapIntrospector =
@@ -24,7 +23,6 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
         public ObjectIntrospector(IStorageEngine storageEngine)
         {
             _storageEngine = storageEngine;
-            _classIntrospector = ClassIntrospector.Instance;
         }
 
         #region IObjectIntrospector Members
@@ -227,7 +225,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             alreadyReadObjects[o] = mainAoi;
             var className = OdbClassUtil.GetFullName(clazz);
 
-            var fields = _classIntrospector.GetAllFields(className);
+            var fields = ClassIntrospector.GetAllFields(className);
             // For all fields
 
             foreach (var field in fields)
@@ -417,7 +415,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             if (metaModel.ExistClass(type))
                 return metaModel.GetClassInfo(type, true);
 
-            var classInfoList = _classIntrospector.Introspect(type, true);
+            var classInfoList = ClassIntrospector.Introspect(type, true);
 
             // to enable junit tests
             if (_storageEngine != null)

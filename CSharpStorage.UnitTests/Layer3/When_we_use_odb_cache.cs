@@ -15,12 +15,10 @@ namespace NDatabase.UnitTests.Layer3
 
         protected override void Establish_context()
         {
-            var classIntrospector = new ClassIntrospector();
-
             _object = new Employee {Name = "Object"};
             _oid = new ObjectOID(1234L);
 
-            var classInfoList = classIntrospector.Introspect(typeof (Employee), true);
+            var classInfoList = ClassIntrospector.Introspect(typeof (Employee), true);
 
             var mainClassInfo = classInfoList.GetMainClassInfo();
             mainClassInfo.ClassInfoId = new ClassOID(12345L);

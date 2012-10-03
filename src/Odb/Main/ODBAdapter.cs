@@ -16,15 +16,12 @@ namespace NDatabase.Odb.Main
     /// <author>osmadja</author>
     public abstract class OdbAdapter : IOdb
     {
-        private readonly IClassIntrospector _classIntrospector;
-
         private readonly IStorageEngine _storageEngine;
         private IOdbExt _ext;
 
         internal OdbAdapter(IStorageEngine storageEngine)
         {
             _storageEngine = storageEngine;
-            _classIntrospector = ClassIntrospector.Instance;
         }
 
         #region IOdb Members
@@ -139,7 +136,7 @@ namespace NDatabase.Odb.Main
 
             if (classInfo == null)
             {
-                var classInfoList = _classIntrospector.Introspect(clazz, true);
+                var classInfoList = ClassIntrospector.Introspect(clazz, true);
                 _storageEngine.AddClasses(classInfoList);
                 classInfo = classInfoList.GetMainClassInfo();
             }

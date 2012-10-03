@@ -62,7 +62,7 @@ namespace Test.NDatabase.Odb.Test.Insert
         {
             var tc = new TestClass();
             var classInfo =
-                ClassIntrospector.Instance.Introspect(tc.GetType(), true).
+                ClassIntrospector.Introspect(tc.GetType(), true).
                     GetMainClassInfo();
             AssertEquals(0, classInfo.GetAllNonNativeAttributes().Count);
         }

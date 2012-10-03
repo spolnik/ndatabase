@@ -79,12 +79,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var session = BuildDefaultSession();
 
             // Object Writer must be created before object Reader
-            _objectWriter = BuildObjectWriter();
+            _objectWriter = new ObjectWriter(this);
 
             // Object writer is a two Phase init object
             _objectWriter.Init2();
 
-            ObjectReader = BuildObjectReader();
+            ObjectReader = new ObjectReader(this);
             AddSession(session, false);
 
             // If the file does not exist, then a default header must be created
@@ -102,7 +102,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             // This forces the initialization of the meta model
             var metaModel = GetMetaModel();
 
-            CheckMetaModelCompatibility(ClassIntrospector.Instance.Instrospect(metaModel.GetAllClasses()));
+            CheckMetaModelCompatibility(ClassIntrospector.Instrospect(metaModel.GetAllClasses()));
 
             // logically locks access to the file (only for this machine)
             FileMutex.GetInstance().OpenFile(GetStorageDeviceName());
@@ -555,16 +555,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return new ObjectIntrospector(this);
         }
 
-        public override IObjectReader BuildObjectReader()
-        {
-            return new ObjectReader(this);
-        }
-
-        public override IObjectWriter BuildObjectWriter()
-        {
-            return new ObjectWriter(this, ClassIntrospector.Instance);
-        }
-
         public override ITriggerManager BuildTriggerManager()
         {
             return GetLocalTriggerManager();
@@ -631,7 +621,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
             else
             {
-                var classInfoList = ClassIntrospector.Instance.Introspect(@object.GetType(), true);
+                var classInfoList = ClassIntrospector.Introspect(@object.GetType(), true);
 
                 // All new classes found
                 _objectWriter.AddClasses(classInfoList);
