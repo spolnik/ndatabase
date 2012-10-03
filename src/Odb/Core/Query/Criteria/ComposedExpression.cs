@@ -35,7 +35,7 @@ namespace NDatabase.Odb.Core.Query.Criteria
                 // check duplicate
                 for (var i = 0; i < allInvolvedFields.Count; i++)
                 {
-                    var involvedFields = allInvolvedFields.Get(i);
+                    var involvedFields = allInvolvedFields[i];
                     if (!fields.Contains(involvedFields))
                         fields.Add(involvedFields);
                 }

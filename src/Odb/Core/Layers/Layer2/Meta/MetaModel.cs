@@ -20,7 +20,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// <remarks>
         ///   A simple list to hold all class infos. It is redundant with the maps, but in some cases, we need sequential access to classes :-(
         /// </remarks>
-        private readonly IOdbList<ClassInfo> _allClassInfos;
+        private readonly IList<ClassInfo> _allClassInfos;
 
         /// <summary>
         ///   A list of changed classes - that must be persisted back when commit is done
@@ -46,7 +46,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             _rapidAccessForUserClassesByName = new OdbHashMap<string, ClassInfo>(10);
             _rapidAccessForSystemClassesByName = new OdbHashMap<string, ClassInfo>(10);
             _rapidAccessForClassesByOid = new OdbHashMap<OID, ClassInfo>(10);
-            _allClassInfos = new OdbList<ClassInfo>();
+            _allClassInfos = new List<ClassInfo>();
             _changedClasses = new OdbHashMap<ClassInfo, ClassInfo>();
         }
 
@@ -87,7 +87,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return string.Format("{0}/{1}", _rapidAccessForUserClassesByName.Values, _rapidAccessForSystemClassesByName.Values);
         }
 
-        public IOdbList<ClassInfo> GetAllClasses()
+        public IEnumerable<ClassInfo> GetAllClasses()
         {
             return _allClassInfos;
         }

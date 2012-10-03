@@ -22,7 +22,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
     /// <remarks>
     ///   The ClassIntrospector is used to introspect classes. It uses Reflection to extract class information. It transforms a native Class into a ClassInfo (a meta representation of the class) that contains all informations about the class.
     /// </remarks>
-    public sealed class ClassIntrospector : IClassIntrospector
+    internal sealed class ClassIntrospector : IClassIntrospector
     {
         public static readonly IClassIntrospector Instance = new ClassIntrospector();
 
@@ -188,11 +188,10 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
         /// </remarks>
         /// <returns> </returns>
         /// <returns> A map where the key is the class name and the key is the ClassInfo: the class meta representation </returns>
-        public IDictionary<string, ClassInfo> Instrospect(IOdbList<ClassInfo> classInfos)
+        public IDictionary<string, ClassInfo> Instrospect(IEnumerable<ClassInfo> classInfos)
         {
             IDictionary<string, ClassInfo> classInfoSet = new Dictionary<string, ClassInfo>();
             
-            // re introspect classes
             foreach (var persistedClassInfo in classInfos)
             {
                 var currentClassInfo = GetClassInfo(persistedClassInfo.FullClassName, persistedClassInfo);
@@ -206,11 +205,6 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
         public ClassInfoList Introspect(String fullClassName, bool recursive)
         {
             return Introspect(OdbClassPool.GetClass(fullClassName), true);
-        }
-
-        public void Reset()
-        {
-            _fields.Clear();
         }
 
         public Object NewInstanceOf(Type clazz)

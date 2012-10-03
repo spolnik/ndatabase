@@ -8,8 +8,7 @@ namespace NDatabase.Tool.Wrappers.List
         bool RemoveAll(ICollection<TItem> collection);
 
         TItem Get(int index);
-        void Set(int index, TItem element);
-
+        
         bool IsEmpty();
     }
 }

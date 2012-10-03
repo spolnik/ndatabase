@@ -32,14 +32,9 @@ namespace NDatabase.Tool.Wrappers.List
             return base[index];
         }
 
-        public virtual bool IsEmpty()
+        public bool IsEmpty()
         {
             return Count == 0;
-        }
-
-        public void Set(int index, TItem element)
-        {
-            Insert(index, element);
         }
 
         #endregion

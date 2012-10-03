@@ -39,8 +39,6 @@ namespace NDatabase.Odb
         /// </summary>
         private static int _idBlockSize = 34 + NbIdsPerBlock * IdBlockRepetitionSize;
 
-        private static bool _checkModelCompatibility = true;
-
         /// <summary>
         ///   a boolean value to specify if ODBFactory waits a little to re-open a file when a file is locked
         /// </summary>
@@ -258,16 +256,6 @@ namespace NDatabase.Odb
         public static void SetUseMultiBuffer(bool useMultiBuffer)
         {
             _useMultiBuffer = useMultiBuffer;
-        }
-
-        public static bool CheckModelCompatibility()
-        {
-            return _checkModelCompatibility;
-        }
-
-        public static void SetCheckModelCompatibility(bool checkModelCompatibility)
-        {
-            _checkModelCompatibility = checkModelCompatibility;
         }
 
         public static bool AutomaticCloseFileOnExit()

@@ -150,13 +150,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 return;
 
             var allClasses = metaModel.GetAllClasses();
-            IEnumerator iterator = allClasses.GetEnumerator();
 
             // Read class info bodies
-            while (iterator.MoveNext())
+            foreach (var currentClassInfo in allClasses)
             {
-                var tempCi = (ClassInfo) iterator.Current;
-                classInfo = ReadClassInfoBody(tempCi);
+                classInfo = ReadClassInfoBody(currentClassInfo);
 
                 if (OdbConfiguration.IsDebugEnabled(LogId))
                     DLogger.Debug(DepthToSpaces() + "Reading class body for " + classInfo.FullClassName);

@@ -102,8 +102,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             // This forces the initialization of the meta model
             var metaModel = GetMetaModel();
 
-            if (OdbConfiguration.CheckModelCompatibility())
-                CheckMetaModelCompatibility(ClassIntrospector.Instance.Instrospect(metaModel.GetAllClasses()));
+            CheckMetaModelCompatibility(ClassIntrospector.Instance.Instrospect(metaModel.GetAllClasses()));
 
             // logically locks access to the file (only for this machine)
             FileMutex.GetInstance().OpenFile(GetStorageDeviceName());
