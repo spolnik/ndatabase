@@ -376,6 +376,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             return mapCopy;
         }
 
+        //TODO: how to remove boxing from this code?
         internal IDictionary<AbstractObjectInfo, AbstractObjectInfo> IntrospectGenericMap<TKey, TValue>(
             IDictionary<TKey, TValue> map, bool introspect,
             IDictionary<object, NonNativeObjectInfo> alreadyReadObjects, IIntrospectionCallback callback)
@@ -386,9 +387,10 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 
             foreach (var key in map.Keys)
             {
-                var value = map[key];
                 if (key == null)
                     continue;
+
+                var value = map[key];
 
                 var classInfoKey = GetClassInfo(key.GetType());
                 if (value != null)

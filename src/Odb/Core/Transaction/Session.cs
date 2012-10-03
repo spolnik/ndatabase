@@ -31,7 +31,7 @@ namespace NDatabase.Odb.Core.Transaction
 
         private readonly string _id;
 
-        protected MetaModel MetaModel;
+        private MetaModel _metaModel;
         private bool _rollbacked;
 
         protected Session(string id, string baseIdentification)
@@ -91,8 +91,8 @@ namespace NDatabase.Odb.Core.Transaction
         public virtual void Clear()
         {
             _cache.Clear(true);
-            if (MetaModel != null)
-                MetaModel.Clear();
+            if (_metaModel != null)
+                _metaModel.Clear();
         }
 
         public virtual string GetId()
@@ -117,7 +117,7 @@ namespace NDatabase.Odb.Core.Transaction
 
         public virtual MetaModel GetMetaModel()
         {
-            if (MetaModel == null)
+            if (_metaModel == null)
             {
                 // MetaModel can be null (this happens at the end of the
                 // Transaction.commitMetaModel() method)when the user commited the
@@ -125,22 +125,22 @@ namespace NDatabase.Odb.Core.Transaction
                 // And continue using it. In this case, after the commit, the
                 // metamodel is set to null
                 // and lazy-reloaded when the user use the odb again.
-                MetaModel = new MetaModel();
+                _metaModel = new MetaModel();
                 try
                 {
-                    GetStorageEngine().GetObjectReader().LoadMetaModel(MetaModel, true);
+                    GetStorageEngine().GetObjectReader().LoadMetaModel(_metaModel, true);
                 }
                 catch (Exception e)
                 {
                     throw new OdbRuntimeException(NDatabaseError.InternalError.AddParameter("Session.getMetaModel"), e);
                 }
             }
-            return MetaModel;
+            return _metaModel;
         }
 
         public virtual void SetMetaModel(MetaModel metaModel2)
         {
-            MetaModel = metaModel2;
+            _metaModel = metaModel2;
         }
 
         public virtual void RemoveObjectFromCache(object @object)
@@ -180,7 +180,7 @@ namespace NDatabase.Odb.Core.Transaction
             if (transaction == null)
                 return string.Format("name={0} sid={1} - no transaction", _baseIdentification, _id);
 
-            var n = transaction.GetNumberOfWriteActions();
+            var n = transaction.GetNumberOfWriteActions().ToString();
             return string.Format("name={0} - sid={1} - Nb Actions = {2}", _baseIdentification, _id, n);
         }
 

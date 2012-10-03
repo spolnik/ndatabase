@@ -1,5 +1,4 @@
 using System;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Transaction;
@@ -10,7 +9,6 @@ namespace Test.NDatabase.Odb.Test.IO
     {
         public MockSession(String baseIdentification) : base("mock", baseIdentification)
         {
-            MetaModel = new MetaModel();
         }
 
         public override void Commit()
@@ -42,11 +40,6 @@ namespace Test.NDatabase.Odb.Test.IO
         public override bool TransactionIsPending()
         {
             return false;
-        }
-
-        public override MetaModel GetMetaModel()
-        {
-            return MetaModel;
         }
     }
 }

@@ -137,8 +137,11 @@ namespace NDatabase.Odb.Core.Transaction
         {
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
-                DLogger.Info(string.Format("Commiting {0} write actions - In Memory : {1} - sid={2}",
-                                           _numberOfWriteActions, _hasAllWriteActionsInMemory, _session.GetId()));
+                var numberOfWriteActionsAsString = _numberOfWriteActions.ToString();
+                var hasAllWriteActionsInMemoryAsString = _hasAllWriteActionsInMemory.ToString();
+
+                DLogger.Info("Commiting " + numberOfWriteActionsAsString + " write actions - In Memory : " +
+                             hasAllWriteActionsInMemoryAsString + string.Format(" - sid={0}", _session.GetId()));
             }
 
             // Check if database has been rollbacked
@@ -309,10 +312,13 @@ namespace NDatabase.Odb.Core.Transaction
 
                 if (OdbConfiguration.IsDebugEnabled(LogId))
                 {
-                    DLogger.Info(
-                        string.Format(
-                            "Number of objects has exceeded the max number {0}/{1}: switching to persistent transaction managment",
-                            _numberOfWriteActions, OdbConfiguration.GetMaxNumberOfWriteObjectPerTransaction()));
+                    var numberOfWriteActions = _numberOfWriteActions.ToString();
+                    var maxNumberOfWriteObjectPerTransactionAsString =
+                        OdbConfiguration.GetMaxNumberOfWriteObjectPerTransaction().ToString();
+
+                    DLogger.Info("Number of objects has exceeded the max number " + numberOfWriteActions + "/" +
+                                 maxNumberOfWriteObjectPerTransactionAsString +
+                                 ": switching to persistent transaction managment");
                 }
             }
         }
@@ -523,8 +529,7 @@ namespace NDatabase.Odb.Core.Transaction
                     DLogger.Debug(
                         string.Format("\t-connect last commited object with oid {0} to first uncommited object {1}",
                                       lastCommittedObjectOID, newClassInfo.UncommittedZoneInfo.First));
-                    DLogger.Debug(string.Format("\t-Commiting new Number of objects = {0}",
-                                                newClassInfo.NumberOfObjects));
+                    DLogger.Debug(string.Concat("\t-Commiting new Number of objects = ", newClassInfo.NumberOfObjects.ToString()));
                 }
             }
 
@@ -568,7 +573,7 @@ namespace NDatabase.Odb.Core.Transaction
             var totalNumberOfWriteActions = _fsi.ReadLong();
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
-                DLogger.Info(string.Format("{0} write actions in file", _writeActions.Count));
+                DLogger.Info(string.Concat(_writeActions.Count.ToString(), " write actions in file"));
 
             for (var i = 0; i < totalNumberOfWriteActions; i++)
             {

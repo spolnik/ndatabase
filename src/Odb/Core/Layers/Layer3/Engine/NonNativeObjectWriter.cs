@@ -145,8 +145,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
+                var positionAsString = position.ToString();
                 DLogger.Debug(string.Format("Start Writing non native object of type {0} at {1} , oid = {2} : {3}",
-                                            objectInfo.GetClassInfo().FullClassName, position, oid, objectInfo));
+                                            objectInfo.GetClassInfo().FullClassName, positionAsString, oid, objectInfo));
             }
 
             #endregion
@@ -316,18 +317,17 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
             catch (OdbRuntimeException)
             {
-                DLogger.Debug("Error while writing block size. pos after write " + positionAfterWrite +
-                              " / start pos = " + position);
-                // throw new ODBRuntimeException(storageEngine,"Error while writing
-                // block size. pos after write " + positionAfterWrite + " / start
-                // pos = " + position,e);
+                DLogger.Debug(string.Concat("Error while writing block size. pos after write ", positionAfterWrite.ToString(),
+                              " / start pos = ", position.ToString()));
+
                 throw;
             }
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
                 DLogger.Debug("  Attributes positions of object with oid " + oid + " are " +
                               DisplayUtility.LongArrayToString(attributesIdentification));
-                DLogger.Debug("End Writing non native object at " + position + " with oid " + oid +
+                var positionAsString = position.ToString();
+                DLogger.Debug("End Writing non native object at " + positionAsString + " with oid " + oid +
                               " - prev oid=" + objectInfo.GetPreviousObjectOID() + " / next oid=" +
                               objectInfo.GetNextObjectOID());
                 if (OdbConfiguration.IsDebugEnabled(LogIdDebug))
@@ -410,8 +410,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 }
                 if (OdbConfiguration.IsDebugEnabled(LogId))
                 {
+                    var position = currentPosition.ToString();
                     message = string.Format("start updating object at {0}, oid={1} : {2}",
-                                            currentPosition, oid, nnoi);
+                                            position, oid, nnoi);
                     DLogger.Debug(message);
                 }
                 // triggers,FIXME passing null to old object representation
@@ -459,9 +460,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     }
                     catch (OdbRuntimeException e)
                     {
+                        var position = currentPosition.ToString();
+
                         throw new OdbRuntimeException(
-                            NDatabaseError.InternalError.AddParameter("Error while reading old Object Info of oid " + oid +
-                                                                     " at pos " + currentPosition), e);
+                            NDatabaseError.InternalError.AddParameter("Error while reading old Object Info of oid " +
+                                                                      oid + " at pos " + position), e);
                     }
                     // Make sure we work with the last version of the object
                     var onDiskVersion = oldMetaRepresentation.GetHeader().GetObjectVersion();
@@ -493,8 +496,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     }
                     if (OdbConfiguration.IsDebugEnabled(LogId))
                     {
-                        DLogger.Debug("\tmax recursion level is " +
-                                      _comparator.GetMaxObjectRecursionLevel());
+                        DLogger.Debug(string.Concat("\tmax recursion level is ",
+                                                    _comparator.GetMaxObjectRecursionLevel().ToString()));
                         DLogger.Debug("\tattribute actions are : " +
                                       _comparator.GetChangedAttributeActions());
                         DLogger.Debug("\tnew objects are : " + _comparator.GetNewObjects());
@@ -518,7 +521,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 if (OdbConfiguration.IsDebugEnabled(LogId))
                 {
                     DLogger.Debug("Updating object " + nnoi);
-                    DLogger.Debug("position =  " + currentPosition + " | prev instance = " +
+                    var position = currentPosition.ToString();
+                    DLogger.Debug("position =  " + position + " | prev instance = " +
                                   previousObjectOID + " | next instance = " + nextObjectOid);
                 }
                 
@@ -564,8 +568,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 }
                 if (OdbConfiguration.IsDebugEnabled(LogId))
                 {
+                    var position = nnoi.GetPosition().ToString();
                     DLogger.Debug("end updating object with oid=" + oid + " at pos " +
-                                  nnoi.GetPosition() + " => " + nnoi);
+                                  position + " => " + nnoi);
                 }
             }
         }

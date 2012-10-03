@@ -109,8 +109,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             FileSystemInterface.SetWritePosition(positionToWrite, inTransaction);
             WriteOid(classInfoId, inTransaction, "first class info oid");
             if (OdbConfiguration.IsDebugEnabled(LogId))
-                DLogger.Debug("Updating first class info oid at " + positionToWrite + " with oid " +
-                              classInfoId);
+            {
+                var positionToWriteAsString = positionToWrite.ToString();
+                DLogger.Debug("Updating first class info oid at " + positionToWriteAsString + " with oid " + classInfoId);
+            }
         }
 
         /// <summary>
@@ -151,7 +153,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             FileSystemInterface.WriteByte(0, writeInTransaction);
 
             if (OdbConfiguration.IsDebugEnabled(LogIdDebug))
-                DLogger.Debug(string.Format("After create block, available position is {0}", FileSystemInterface.GetAvailablePosition()));
+                DLogger.Debug(string.Concat("After create block, available position is ", FileSystemInterface.GetAvailablePosition().ToString()));
 
             return position;
         }

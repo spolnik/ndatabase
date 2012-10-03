@@ -85,7 +85,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Oid
             _objectWriter.FileSystemProcessor.UpdateObjectPositionForObjectOIDWithPosition(idPosition, objectPosition, writeInTransaction);
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
-                DLogger.Debug(string.Format("IDManager : Updating id {0} with position {1}", oid, objectPosition));
+            {
+                var positionAsString = objectPosition.ToString();
+                DLogger.Debug(string.Format("IDManager : Updating id {0} with position ", oid) + positionAsString);
+            }
         }
 
         public void UpdateClassPositionForId(OID classId, long objectPosition, bool writeInTransaction)
@@ -94,7 +97,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Oid
             _objectWriter.FileSystemProcessor.UpdateClassPositionForClassOIDWithPosition(idPosition, objectPosition, writeInTransaction);
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
-                DLogger.Debug(string.Format("Updating id {0} with position {1}", classId, objectPosition));
+            {
+                var positionAsString = objectPosition.ToString();
+                DLogger.Debug(string.Format("Updating id {0} with position ", classId) + positionAsString);
+            }
         }
 
         public void UpdateIdStatus(OID id, byte newStatus)
@@ -131,7 +137,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Oid
             lock (this)
             {
                 if (OdbConfiguration.IsDebugEnabled(LogId))
-                    DLogger.Debug(string.Format("  Start of {0} for object with position {1}", label, objectPosition));
+                {
+                    var positionAsString = objectPosition.ToString();
+                    DLogger.Debug(string.Format("  Start of {0} for object with position ", label) + positionAsString);
+                }
 
                 if (MustShift())
                     ShiftBlock();
@@ -157,8 +166,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Oid
                 _lastIdPositions[currentIndex] = idPosition;
 
                 if (OdbConfiguration.IsDebugEnabled(LogId))
-                    DLogger.Debug(string.Format("  End of {0} for object with position {1} : returning {2}", label,
-                                                idPosition, currentNextId));
+                {
+                    var positionAsString = idPosition.ToString();
+                    DLogger.Debug(string.Format("  End of {0} for object with position ", label) + positionAsString +
+                                  " : returning " + currentNextId);
+                }
 
                 // Update the id buffer index
                 _lastIdIndex = currentIndex;

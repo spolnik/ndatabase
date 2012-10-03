@@ -18,22 +18,22 @@ namespace NDatabase.Odb.Core.Trigger
         /// <summary>
         ///   key is class Name, value is the collection of triggers for the class
         /// </summary>
-        private IDictionary<string, IOdbList<Odb.Core.Trigger.Trigger>> _listOfDeleteTriggers;
+        private IDictionary<string, IOdbList<Trigger>> _listOfDeleteTriggers;
 
         /// <summary>
         ///   key is class Name, value is the collection of triggers for the class
         /// </summary>
-        private IDictionary<string, IOdbList<Odb.Core.Trigger.Trigger>> _listOfInsertTriggers;
+        private IDictionary<string, IOdbList<Trigger>> _listOfInsertTriggers;
 
         /// <summary>
         ///   key is class Name, value is the collection of triggers for the class
         /// </summary>
-        private IDictionary<string, IOdbList<Odb.Core.Trigger.Trigger>> _listOfSelectTriggers;
+        private IDictionary<string, IOdbList<Trigger>> _listOfSelectTriggers;
 
         /// <summary>
         ///   key is class Name, value is the collection of triggers for the class
         /// </summary>
-        private IDictionary<string, IOdbList<Odb.Core.Trigger.Trigger>> _listOfUpdateTriggers;
+        private IDictionary<string, IOdbList<Trigger>> _listOfUpdateTriggers;
 
         public TriggerManager(IStorageEngine engine)
         {
@@ -138,8 +138,7 @@ namespace NDatabase.Odb.Core.Trigger
             }
         }
 
-        public bool ManageUpdateTriggerBefore(string className, NonNativeObjectInfo oldNnoi, object newObject,
-                                                      OID oid)
+        public bool ManageUpdateTriggerBefore(string className, NonNativeObjectInfo oldNnoi, object newObject, OID oid)
         {
             if (HasUpdateTriggersFor(className))
             {
@@ -166,8 +165,7 @@ namespace NDatabase.Odb.Core.Trigger
             return true;
         }
 
-        public void ManageUpdateTriggerAfter(string className, NonNativeObjectInfo oldNnoi, object newObject,
-                                                     OID oid)
+        public void ManageUpdateTriggerAfter(string className, NonNativeObjectInfo oldNnoi, object newObject, OID oid)
         {
             if (!HasUpdateTriggersFor(className))
                 return;
@@ -272,8 +270,8 @@ namespace NDatabase.Odb.Core.Trigger
         #endregion
 
         private static void AddTriggerFor<TTrigger>(string className, TTrigger trigger,
-                                                    IDictionary<string, IOdbList<Odb.Core.Trigger.Trigger>>
-                                                        listOfTriggers) where TTrigger : Odb.Core.Trigger.Trigger
+                                                    IDictionary<string, IOdbList<Trigger>> listOfTriggers)
+            where TTrigger : Trigger
         {
             if (className == null)
                 className = AllClassTrigger;
@@ -281,7 +279,7 @@ namespace NDatabase.Odb.Core.Trigger
 
             if (triggers == null)
             {
-                triggers = new OdbList<Odb.Core.Trigger.Trigger>();
+                triggers = new OdbList<Trigger>();
                 listOfTriggers.Add(className, triggers);
             }
 
@@ -290,10 +288,10 @@ namespace NDatabase.Odb.Core.Trigger
 
         private void Init()
         {
-            _listOfUpdateTriggers = new OdbHashMap<string, IOdbList<Odb.Core.Trigger.Trigger>>();
-            _listOfDeleteTriggers = new OdbHashMap<string, IOdbList<Odb.Core.Trigger.Trigger>>();
-            _listOfSelectTriggers = new OdbHashMap<string, IOdbList<Odb.Core.Trigger.Trigger>>();
-            _listOfInsertTriggers = new OdbHashMap<string, IOdbList<Odb.Core.Trigger.Trigger>>();
+            _listOfUpdateTriggers = new OdbHashMap<string, IOdbList<Trigger>>();
+            _listOfDeleteTriggers = new OdbHashMap<string, IOdbList<Trigger>>();
+            _listOfSelectTriggers = new OdbHashMap<string, IOdbList<Trigger>>();
+            _listOfInsertTriggers = new OdbHashMap<string, IOdbList<Trigger>>();
         }
 
         /// <summary>
@@ -301,28 +299,28 @@ namespace NDatabase.Odb.Core.Trigger
         /// </summary>
         /// <param name="className"> </param>
         /// <returns> </returns>
-        public IOdbList<Odb.Core.Trigger.Trigger> GetListOfDeleteTriggersFor(string className)
+        public IOdbList<Trigger> GetListOfDeleteTriggersFor(string className)
         {
             return GetListOfTriggersFor(className, _listOfDeleteTriggers);
         }
 
-        public IOdbList<Odb.Core.Trigger.Trigger> GetListOfInsertTriggersFor(string className)
+        public IOdbList<Trigger> GetListOfInsertTriggersFor(string className)
         {
             return GetListOfTriggersFor(className, _listOfInsertTriggers);
         }
 
-        public IOdbList<Odb.Core.Trigger.Trigger> GetListOfSelectTriggersFor(string className)
+        public IOdbList<Trigger> GetListOfSelectTriggersFor(string className)
         {
             return GetListOfTriggersFor(className, _listOfSelectTriggers);
         }
 
-        public IOdbList<Odb.Core.Trigger.Trigger> GetListOfUpdateTriggersFor(string className)
+        public IOdbList<Trigger> GetListOfUpdateTriggersFor(string className)
         {
             return GetListOfTriggersFor(className, _listOfUpdateTriggers);
         }
 
-        private static IOdbList<Odb.Core.Trigger.Trigger> GetListOfTriggersFor(string className,
-                                                                               IDictionary<string, IOdbList<Odb.Core.Trigger.Trigger>> listOfTriggers)
+        private static IOdbList<Trigger> GetListOfTriggersFor(string className,
+                                                              IDictionary<string, IOdbList<Trigger>> listOfTriggers)
         {
             var listOfTriggersBuClassName = listOfTriggers[className];
             var listOfTriggersByAllClassTrigger = listOfTriggers[AllClassTrigger];
@@ -333,7 +331,7 @@ namespace NDatabase.Odb.Core.Trigger
                 if (listOfTriggersBuClassName != null)
                     size = size + listOfTriggersBuClassName.Count;
 
-                IOdbList<Odb.Core.Trigger.Trigger> listOfTriggersToReturn = new OdbList<Odb.Core.Trigger.Trigger>(size);
+                IOdbList<Trigger> listOfTriggersToReturn = new OdbList<Trigger>(size);
 
                 if (listOfTriggersBuClassName != null)
                     listOfTriggersToReturn.AddAll(listOfTriggersBuClassName);

@@ -7,7 +7,6 @@ namespace NDatabase.Odb.Core.Query.Values
     /// <summary>
     ///   An action to compute the max value of a field
     /// </summary>
-    
     public sealed class MaxValueAction : AbstractQueryFieldAction
     {
         private Decimal _maxValue;

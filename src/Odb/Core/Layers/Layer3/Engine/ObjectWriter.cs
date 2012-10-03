@@ -109,11 +109,13 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
-                DLogger.Debug(string.Format("Persisting class into database : {0} with oid {1} at pos {2}",
-                                            newClassInfo.FullClassName, classInfoId, writePosition));
+                var writePositionAsString = writePosition.ToString();
+                DLogger.Debug(
+                    string.Format("Persisting class into database : {0} with oid {1} at pos ",
+                                  newClassInfo.FullClassName, classInfoId) + writePositionAsString);
 
-                DLogger.Debug(string.Format("class {0} has {1} attributes : {2}", newClassInfo.FullClassName,
-                                            newClassInfo.NumberOfAttributes, newClassInfo.Attributes));
+                var numberOfAttributesAsString = newClassInfo.NumberOfAttributes.ToString();
+                DLogger.Debug("class " + newClassInfo.FullClassName + " has " + numberOfAttributesAsString + " attributes");
             }
 
             #endregion
@@ -131,11 +133,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
                 if (OdbConfiguration.IsDebugEnabled(LogId))
                 {
-                    DLogger.Debug(
-                        string.Format("changing next class oid. of class info {0} @ {1} + offset {2} to {3}({4})",
-                                      lastClassinfo.FullClassName, lastClassinfo.Position,
-                                      StorageEngineConstant.ClassOffsetNextClassPosition, newClassInfo.ClassInfoId,
-                                      newClassInfo.FullClassName));
+                    var positionAsString = lastClassinfo.Position.ToString();
+                    var classOffsetAsString = StorageEngineConstant.ClassOffsetNextClassPosition.ToString();
+                    DLogger.Debug("changing next class oid. of class info " + lastClassinfo.FullClassName + "@ " +
+                                  positionAsString + " + offset " + classOffsetAsString +
+                                  string.Format(" to {0}({1})", newClassInfo.ClassInfoId, newClassInfo.FullClassName));
                 }
 
                 #endregion
@@ -230,7 +232,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             FileSystemProcessor.FileSystemInterface.SetWritePosition(position, writeInTransaction);
             if (OdbConfiguration.IsDebugEnabled(LogId))
-                DLogger.Debug(string.Format("Writing new Class info header at {0} : {1}", position, classInfo));
+            {
+                var positionAsString = position.ToString();
+                DLogger.Debug("Writing new Class info header at " + positionAsString + " : " + classInfo);
+            }
 
             // Real value of block size is only known at the end of the writing
             FileSystemProcessor.FileSystemInterface.WriteInt(0, writeInTransaction, "block size");
@@ -501,9 +506,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
                 default:
                 {
-                    var message = string.Format(
-                        "native type with odb type id {0} ({1}) for attribute ? is not suported", odbTypeId,
-                        OdbType.GetNameFromId(odbTypeId));
+                    var typeId = odbTypeId.ToString();
+                    var message = 
+                        "native type with odb type id " + typeId + " (" + OdbType.GetNameFromId(odbTypeId) + ") for attribute ? is not suported";
 
                     throw new OdbRuntimeException(NDatabaseError.InternalError.AddParameter(message));
                 }
@@ -598,9 +603,13 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var nextObjectOID = header.GetNextObjectOID();
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
+                var isInConnectedZone = objectIsInConnectedZone.ToString();
+                var hasIndex = withIndex.ToString();
                 DLogger.Debug("Deleting object with id " + header.GetOid() + " - In connected zone =" +
-                              objectIsInConnectedZone + " -  with index =" + withIndex);
-                DLogger.Debug("position =  " + objectPosition + " | prev oid = " + previousObjectOID + " | next oid = " +
+                              isInConnectedZone + " -  with index =" + hasIndex);
+                
+                var positionAsString = objectPosition.ToString();
+                DLogger.Debug("position =  " + positionAsString + " | prev oid = " + previousObjectOID + " | next oid = " +
                               nextObjectOID);
             }
             var isFirstObject = previousObjectOID == null;
@@ -704,10 +713,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 // A simple check, if commitedZI.last is null, nbObject must be 0
                 if (commitedZoneInfo.Last == null && commitedZoneInfo.HasObjects())
                 {
+                    var numberbOfObjectsAsString = commitedZoneInfo.GetNumberbOfObjects().ToString();
+
                     throw new OdbRuntimeException(
                         NDatabaseError.InternalError.AddParameter(
                             "The last object of the commited zone has been deleted but the Zone still have objects : nbobjects=" +
-                            commitedZoneInfo.GetNumberbOfObjects()));
+                            numberbOfObjectsAsString));
                 }
             }
             // Manage deleting the first object of the uncommitted zone
@@ -764,7 +775,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         private void WriteClassInfoBody(ClassInfo classInfo, long position, bool writeInTransaction)
         {
             if (OdbConfiguration.IsDebugEnabled(LogId))
-                DLogger.Debug("Writing new Class info body at " + position + " : " + classInfo);
+            {
+                var positionAsString = position.ToString();
+                DLogger.Debug("Writing new Class info body at " + positionAsString + " : " + classInfo);
+            }
             // updates class info
             classInfo.AttributesDefinitionPosition = position;
             // FIXME : change this to write only the position and not the whole
@@ -796,8 +810,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             if (OdbConfiguration.IsDebugEnabled(LogIdDebug))
             {
-                DLogger.Debug(string.Format("Writing native object at {0} : Type={1} | Value={2}",
-                                            position, OdbType.GetNameFromId(noi.GetOdbTypeId()), noi));
+                var positionAsString = position.ToString();
+                DLogger.Debug(string.Concat("Writing native object at", positionAsString,
+                                            string.Format(" : Type={0} | Value={1}",
+                                                          OdbType.GetNameFromId(noi.GetOdbTypeId()), noi)));
             }
             if (noi.IsAtomicNativeObject())
                 return WriteAtomicNativeObject((AtomicNativeObjectInfo) noi, writeInTransaction);
@@ -1300,7 +1316,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public void StoreFreeSpace(long currentPosition, int blockSize)
         {
             if (OdbConfiguration.IsDebugEnabled(LogId))
-                DLogger.Debug("Storing free space at position " + currentPosition + " | block size = " + blockSize);
+                DLogger.Debug(string.Concat("Storing free space at position ", currentPosition.ToString(),
+                                            " | block size = ", blockSize.ToString()));
         }
 
         public static int GetNbNormalUpdates()

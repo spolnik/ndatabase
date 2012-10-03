@@ -102,7 +102,7 @@ namespace NDatabase.Btree.Tool
                 if (child != null)
                     BuildDisplay(child, currentHeight + 1, node.GetId(), withIds);
                 else
-                    _lines[currentHeight + 1].AppendFormat("[Child {0} null!] ", (i + 1));
+                    _lines[currentHeight + 1].Append(string.Concat("[Child {0} null!] ", (i + 1).ToString()));
             }
         }
     }

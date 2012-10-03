@@ -212,8 +212,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
                 if (OdbConfiguration.IsDebugEnabled(LogId))
                 {
-                    DLogger.Debug(string.Format("{0}Reading indexes for {1} : {2} indexes", DepthToSpaces(),
-                                                actualClassInfo.FullClassName, indexes.Count));
+                    var count = indexes.Count.ToString();
+                    DLogger.Debug(
+                        string.Format("{0}Reading indexes for {1} : ", DepthToSpaces(), actualClassInfo.FullClassName) +
+                        count + " indexes");
                 }
 
                 actualClassInfo.SetIndexes(indexes);
@@ -325,14 +327,17 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (!classInfo.ClassInfoId.Equals(objectInfoHeader.GetClassInfoId()))
                 classInfo =
                     _storageEngine.GetSession(true).GetMetaModel().GetClassInfoFromId(objectInfoHeader.GetClassInfoId());
+            
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
+                var positionAsString = objectInfoHeader.GetPosition().ToString();
                 DLogger.Debug(DepthToSpaces() + "Reading Non Native Object info of " + (classInfo == null
                                                                                             ? "?"
                                                                                             : classInfo.FullClassName) + " at " +
-                              objectInfoHeader.GetPosition() + " with id " + oid);
+                              positionAsString + " with id " + oid);
                 DLogger.Debug(DepthToSpaces() + "  Object Header is " + objectInfoHeader);
             }
+
             var objectInfo = new NonNativeObjectInfo(objectInfoHeader, classInfo);
             objectInfo.SetOid(oid);
             objectInfo.SetClassInfo(classInfo);
@@ -542,15 +547,22 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var blockPosition = GetIdBlockPositionFromNumber(blockNumber);
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
-                DLogger.Debug(string.Format("  Block number of oid {0} is {1} / block position = {2}", oid, blockNumber,
-                                            blockPosition));
+            {
+                var blockNumberAsString = blockNumber.ToString();
+                var blockPositionAsString = blockPosition.ToString();
+                DLogger.Debug(string.Format("  Block number of oid {0} is ", oid) + blockNumberAsString +
+                              " / block position = " + blockPositionAsString);
+            }
 
             var position = blockPosition + StorageEngineConstant.BlockIdOffsetForStartOfRepetition +
                            ((oid.ObjectId - 1) % OdbConfiguration.GetNbIdsPerBlock()) *
                            OdbConfiguration.GetIdBlockRepetitionSize();
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
-                DLogger.Debug(string.Format("  End of readOidPosition for oid {0} returning position {1}", oid, position));
+            {
+                var positionAsString = position.ToString();
+                DLogger.Debug(string.Format("  End of readOidPosition for oid {0} returning position ", oid) + positionAsString);
+            }
 
             return position;
         }
@@ -612,7 +624,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 return StorageEngineConstant.DeletedObjectPosition;
             }
             if (OdbConfiguration.IsDebugEnabled(LogId))
-                DLogger.Debug("  object position of object with oid " + oid + " is " + objectPosition);
+            {
+                var positionAsString = objectPosition.ToString();
+                DLogger.Debug("  object position of object with oid " + oid + " is " + positionAsString);
+            }
             return objectPosition;
         }
 
@@ -660,7 +675,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             while (currentBlockPosition != -1)
             {
-                DLogger.Debug("Current block position = " + currentBlockPosition);
+                var positionAsString = currentBlockPosition.ToString();
+                DLogger.Debug("Current block position = " + positionAsString);
+
                 _fsi.SetReadPosition(currentBlockPosition + StorageEngineConstant.BlockIdOffsetForBlockNumber);
                 _fsi.SetReadPosition(currentBlockPosition + StorageEngineConstant.BlockIdOffsetForNextBlock);
                 var nextBlockPosition = _fsi.ReadLong();
@@ -964,8 +981,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         private ClassInfo ReadClassInfoBody(ClassInfo classInfo)
         {
             if (OdbConfiguration.IsDebugEnabled(LogId))
-                DLogger.Debug(DepthToSpaces() + "Reading new Class info Body at " +
-                              classInfo.AttributesDefinitionPosition);
+            {
+                var attributesDefinitionPositionAsString = classInfo.AttributesDefinitionPosition.ToString();
+                DLogger.Debug(DepthToSpaces() + "Reading new Class info Body at " + attributesDefinitionPositionAsString);
+            }
             _fsi.SetReadPosition(classInfo.AttributesDefinitionPosition);
             var blockSize = _fsi.ReadInt();
             var blockType = _fsi.ReadByte();
@@ -1161,9 +1180,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
             if (BlockTypes.IsPointer(blockType))
                 throw new CorruptedDatabaseException(NDatabaseError.FoundPointer.AddParameter(oid).AddParameter(position));
+            
+            var positionAsString = position.ToString();
             throw new CorruptedDatabaseException(
                 NDatabaseError.WrongTypeForBlockType.AddParameter(BlockTypes.BlockTypeNonNativeObject).AddParameter(
-                    blockType).AddParameter(position + "/oid=" + oid));
+                    blockType).AddParameter(positionAsString + "/oid=" + oid));
         }
 
         /// <summary>
@@ -1509,8 +1530,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
+                var positionAsString = position.ToString();
                 DLogger.Debug(DepthToSpaces() + "Reading native object of type " +
-                              OdbType.GetNameFromId(odbDeclaredTypeId) + " at position " + position);
+                              OdbType.GetNameFromId(odbDeclaredTypeId) + " at position " + positionAsString);
             }
             // The realType is initialized with the declared type
             var realTypeId = odbDeclaredTypeId;
@@ -1565,7 +1587,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             // build a n array to store all element positions
             var objectIdentifications = new long[collectionSize];
             for (var i = 0; i < collectionSize; i++)
-                objectIdentifications[i] = _fsi.ReadLong("position of element " + (i + 1));
+            {
+                var index = (i + 1).ToString();
+                objectIdentifications[i] = _fsi.ReadLong("position of element " + index);
+            }
             for (var i = 0; i < collectionSize; i++)
             {
                 try
@@ -1576,9 +1601,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 }
                 catch (Exception e)
                 {
+                    var positionAsString = position.ToString();
                     throw new OdbRuntimeException(
                         NDatabaseError.InternalError.AddParameter("in ObjectReader.readCollection - at position " +
-                                                                 position), e);
+                                                                 positionAsString), e);
                 }
             }
             var coi = new CollectionObjectInfo(c);
@@ -1599,8 +1625,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var arraySize = _fsi.ReadInt();
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
+                var size = arraySize.ToString();
                 DLogger.Debug(DepthToSpaces() + "reading an array of " + realArrayComponentClassName + " with " +
-                              arraySize + " elements");
+                              size + " elements");
             }
             // Class clazz = ODBClassPool.getClass(realArrayClassName);
             // Object array = Array.newInstance(clazz, arraySize);
@@ -1629,9 +1656,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 }
                 catch (Exception e)
                 {
+                    var positionAsString = position.ToString();
                     throw new OdbRuntimeException(
-                        NDatabaseError.InternalError.AddParameter("in ObjectReader.readArray - at position " + position),
-                        e);
+                        NDatabaseError.InternalError.AddParameter("in ObjectReader.readArray - at position " + positionAsString),e);
                 }
             }
             var aoi = new ArrayObjectInfo(array);
@@ -1675,8 +1702,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 }
                 catch (Exception e)
                 {
+                    var positionAsString = position.ToString();
                     throw new OdbRuntimeException(
-                        NDatabaseError.InternalError.AddParameter("in ObjectReader.readMap - at position " + position), e);
+                        NDatabaseError.InternalError.AddParameter("in ObjectReader.readMap - at position " + positionAsString), e);
                 }
             }
             return new MapObjectInfo(map, realMapClassName);

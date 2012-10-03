@@ -94,7 +94,7 @@ namespace NDatabase.Btree
             {
                 for (var i = 0; i < _parameters.Count; i++)
                 {
-                    var parameterName = string.Format("@{0}", (i + 1));
+                    var parameterName = string.Concat("@", (i + 1).ToString());
                     var parameterValue = _parameters[i];
                     var parameterIndex = token.IndexOf(parameterName, System.StringComparison.Ordinal);
 

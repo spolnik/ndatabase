@@ -300,8 +300,11 @@ namespace NDatabase.Odb.Core.BTree
             _nbPersist++;
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
-                DLogger.Debug(string.Format("persist {0} : Saving {1} objects - {2}", _nbPersist,
-                                            _modifiedObjectOids.Count, GetHashCode()));
+            {
+                var count = _modifiedObjectOids.Count.ToString();
+                DLogger.Debug(string.Concat("persist ", _nbPersist.ToString(), "  : Saving " + count + " objects - ",
+                                            GetHashCode().ToString()));
+            }
 
             var nbCommited = 0;
             var i = 0;
@@ -333,13 +336,14 @@ namespace NDatabase.Odb.Core.BTree
                 }
 
                 if (OdbConfiguration.IsDebugEnabled(LogId))
-                    DLogger.Debug(string.Format("Committing oid {0} | {1}/{2} | {3} ms", oid, i, size, (t1 - t0)));
+                    DLogger.Debug(string.Concat("Committing oid " + oid, " | ", i.ToString(), "/", size.ToString(),
+                                                " | ", (t1 - t0).ToString(), " ms"));
 
                 i++;
             }
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
-                DLogger.Debug(string.Format("{0} commits / {1}", nbCommited, size));
+                DLogger.Debug(string.Concat(nbCommited.ToString(), " commits / ", size.ToString()));
         }
 
         public static void ResetCounters()

@@ -21,8 +21,8 @@ namespace NDatabase.Btree.Impl.Multiplevalue
         {
             if (_children[index] == null && throwExceptionIfNotExist)
             {
-                throw new BTreeException("Trying to load null child node at index "
-                                         + index);
+                var indexAsString = index.ToString();
+                throw new BTreeException("Trying to load null child node at index " + indexAsString);
             }
             return _children[index];
         }
@@ -88,7 +88,7 @@ namespace NDatabase.Btree.Impl.Multiplevalue
         {
             if (_children[sourceIndex] == null && throwExceptionIfDoesNotExist)
             {
-                var errorMessage = string.Format("Trying to move null child node at index {0}", sourceIndex);
+                var errorMessage = string.Concat("Trying to move null child node at index ", sourceIndex.ToString());
                 throw new BTreeException(errorMessage);
             }
             _children[destinationIndex] = _children[sourceIndex];
@@ -103,10 +103,13 @@ namespace NDatabase.Btree.Impl.Multiplevalue
         {
             if (_children[childIndex] == null && throwExceptionIfDoesNotExist)
             {
-                throw new BTreeException("Trying to move null child node at index "
-                                         + childIndex);
+                var index = childIndex.ToString();
+                throw new BTreeException("Trying to move null child node at index " + index);
             }
-            return _children[childIndex].GetId();
+            
+            return _children[childIndex] != null
+                       ? _children[childIndex].GetId()
+                       : null;
         }
 
         public override object GetParentId()

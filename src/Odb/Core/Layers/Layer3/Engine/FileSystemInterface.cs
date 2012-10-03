@@ -75,7 +75,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 {
                     throw new OdbRuntimeException(
                         NDatabaseError.InternalError.AddParameter(
-                            string.Format("Trying to write in Protected area at position {0}", position)));
+                            string.Concat("Trying to write in Protected area at position ", position.ToString())));
                 }
             }
 
@@ -110,7 +110,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
-                var message = string.Format("writing byte {0} at {1}{2}", i, GetPosition(), (label != null
+                var byteAsString = i.ToString();
+                var position = GetPosition().ToString();
+                var message = string.Format("writing byte {0} at {1}{2}", byteAsString, position, (label != null
                                                                                                  ? string.Format(" : {0}", label)
                                                                                                  : string.Empty));
                 DLogger.Debug(message);
@@ -139,7 +141,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
-                var message = string.Format("reading byte {0} at {1}{2}", i, currentPosition, (label != null
+                var byteAsString = i.ToString();
+                var positionAsString = currentPosition.ToString();
+                var message = string.Format("reading byte {0} at {1}{2}", byteAsString, positionAsString, (label != null
                                                                                                    ? string.Format(" : {0}", label)
                                                                                                    : string.Empty));
                 DLogger.Debug(message);
@@ -152,7 +156,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
-                var message = string.Format("writing {0} bytes at {1}{2} = {3}", bytes.Length, GetPosition(),
+                var length = bytes.Length.ToString();
+                var position = GetPosition().ToString();
+                var message = string.Format("writing {0} bytes at {1}{2} = {3}", length, position,
                                             (label != null
                                                  ? string.Format(" : {0}", label)
                                                  : string.Empty), DisplayUtility.ByteArrayToString(bytes));
@@ -207,7 +213,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var toChar = ByteArrayConverter.ByteArrayToChar(ReadCharBytes());
 
             if (OdbConfiguration.IsDebugEnabled(LogId) && label != null)
-                DLogger.Debug(string.Format("reading char {0} at {1} : {2}", toChar, currentPosition, label));
+            {
+                var charAsString = toChar.ToString();
+                var positionAsString = currentPosition.ToString();
+
+                DLogger.Debug(string.Format("reading char {0} at {1} : {2}", charAsString, positionAsString, label));
+            }
 
             return toChar;
         }
@@ -215,7 +226,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public void WriteShort(short s, bool writeInTransaction)
         {
             if (OdbConfiguration.IsDebugEnabled(LogId))
-                DLogger.Debug(string.Format("writing short {0} at {1}", s, GetPosition()));
+                DLogger.Debug(string.Concat("writing short ", s.ToString(), " at ", GetPosition().ToString()));
 
             WriteValue(s, writeInTransaction, ByteArrayConverter.ShortToByteArray, OdbType.Short);
         }
@@ -236,7 +247,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var toShort = ByteArrayConverter.ByteArrayToShort(ReadShortBytes());
 
             if (OdbConfiguration.IsDebugEnabled(LogId) && label != null)
-                DLogger.Debug(string.Format("reading short {0} at {1} : {2}", toShort, position, label));
+            {
+                var shortAsString = toShort.ToString();
+                var positionAsString = position.ToString();
+                DLogger.Debug(string.Format("reading short {0} at {1} : {2}", shortAsString, positionAsString, label));
+            }
 
             return toShort;
         }
@@ -244,7 +259,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public void WriteInt(int i, bool writeInTransaction, string label)
         {
             if (OdbConfiguration.IsDebugEnabled(LogId))
-                DLogger.Debug(string.Format("writing int {0} at {1} : {2}", i, GetPosition(), label));
+            {
+                var intAsString = i.ToString();
+                var positionAsString = GetPosition().ToString();
+                DLogger.Debug(string.Format("writing int {0} at {1} : {2}", intAsString, positionAsString, label));
+            }
 
             WriteValue(i, writeInTransaction, ByteArrayConverter.IntToByteArray, OdbType.Integer);
         }
@@ -266,7 +285,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
-                var message = string.Format("reading int {0} at {1}{2}", i, currentPosition, (label != null
+                var intAsString = i.ToString();
+                var positionAsString = currentPosition.ToString();
+
+                var message = string.Format("reading int {0} at {1}{2}", intAsString, positionAsString, (label != null
                                                                                                   ? string.Format(" : {0}", label)
                                                                                                   : string.Empty));
                 DLogger.Debug(message);
@@ -278,7 +300,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public void WriteLong(long i, bool writeInTransaction, string label)
         {
             if (OdbConfiguration.IsDebugEnabled(LogId) && label != null)
-                DLogger.Debug(string.Format("writing long {0} at {1} : {2}", i, GetPosition(), label));
+            {
+                var longAsString = i.ToString();
+                var positionAsString = GetPosition().ToString();
+                DLogger.Debug(string.Format("writing long {0} at {1} : {2}", longAsString, positionAsString, label));
+            }
 
             WriteValue(i, writeInTransaction, ByteArrayConverter.LongToByteArray, OdbType.Long);
         }
@@ -300,7 +326,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
-                var message = string.Format("reading long {0} at {1}{2}", toLong, position, (label != null
+                var longAsString = toLong.ToString();
+                var positionAsString = position.ToString();
+                var message = string.Format("reading long {0} at {1}{2}", longAsString, positionAsString, (label != null
                                                                                                  ? string.Format(" : {0}", label)
                                                                                                  : string.Empty));
                 DLogger.Debug(message);
@@ -331,9 +359,13 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
-                var message = string.Format("Reading float '{0}' at {1}{2}", toFloat, currentPosition, (label != null
-                                                                                                            ? string.Format(" : {0}", label)
-                                                                                                            : string.Empty));
+                var floatAsString = toFloat.ToString();
+                var positionAsString = currentPosition.ToString();
+
+                var message = string.Format("Reading float '{0}' at {1}{2}", floatAsString, positionAsString,
+                                            (label != null
+                                                 ? string.Format(" : {0}", label)
+                                                 : string.Empty));
                 DLogger.Debug(message);
             }
 
@@ -362,9 +394,13 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
-                var message = string.Format("Reading double '{0}' at {1}{2}", toDouble, currentPosition, (label != null
-                                                                                                             ? string.Format(" : {0}", label)
-                                                                                                             : string.Empty));
+                var doubleAsString = toDouble.ToString();
+                var positionAsString = currentPosition.ToString();
+
+                var message = string.Format("Reading double '{0}' at {1}{2}", doubleAsString, positionAsString,
+                                            (label != null
+                                                 ? string.Format(" : {0}", label)
+                                                 : string.Empty));
                 DLogger.Debug(message);
             }
 
@@ -376,7 +412,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var bytes = ByteArrayConverter.DecimalToByteArray(d);
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
-                DLogger.Debug(string.Format("writing Decimal {0} at {1}", d, GetPosition()));
+                DLogger.Debug(string.Concat("writing Decimal ", d.ToString(), " at ", GetPosition().ToString()));
 
             if (!writeInTransaction)
                 _io.WriteBytes(bytes);
@@ -405,7 +441,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
-                var message = string.Format("Reading bigDecimal '{0}' at {1}{2}", toBigDecimal, currentPosition,
+                var bigDecimalAsString = toBigDecimal.ToString();
+                var positionAsString = currentPosition.ToString();
+
+                var message = string.Format("Reading bigDecimal '{0}' at {1}{2}", bigDecimalAsString, positionAsString,
                                             (label != null
                                                  ? string.Format(" : {0}", label)
                                                  : string.Empty));
@@ -418,7 +457,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public void WriteDate(DateTime d, bool writeInTransaction)
         {
             if (OdbConfiguration.IsDebugEnabled(LogId))
-                DLogger.Debug(string.Format("writing Date {0} at {1}", d.Ticks, GetPosition()));
+                DLogger.Debug(string.Concat("writing Date ", d.Ticks.ToString(), " at ", GetPosition().ToString()));
 
             WriteValue(d, writeInTransaction, ByteArrayConverter.DateToByteArray, OdbType.Date);
         }
@@ -440,9 +479,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
-                var message = string.Format("Reading date '{0}' at {1}{2}", date, currentPosition, (label != null
-                                                                                                        ? string.Format(" : {0}", label)
-                                                                                                        : string.Empty));
+                var positionAsString = currentPosition.ToString();
+                var dateAsString = date.ToString();
+                var message = string.Format("Reading date '{0}' at {1}{2}", dateAsString, positionAsString,
+                                            (label != null
+                                                 ? string.Format(" : {0}", label)
+                                                 : string.Empty));
                 DLogger.Debug(message);
             }
 
@@ -460,8 +502,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
-                var position = GetPosition();
-                DLogger.Debug(string.Format("Writing string '{0}' at {1} size={2} bytes", s, position, bytes.Length));
+                var position = GetPosition().ToString();
+                var length = bytes.Length.ToString();
+                DLogger.Debug(string.Format("Writing string '{0}' at {1} size={2} bytes", s, position, length));
             }
 
             if (!writeInTransaction)
@@ -509,10 +552,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
-                var startPosition = _io.CurrentPosition;
-                var message = string.Format("Reading string '{0}' at {1}{2}", toString, startPosition, (label != null
-                                                                                                            ? string.Format(" : {0}", label)
-                                                                                                            : string.Empty));
+                var startPosition = _io.CurrentPosition.ToString();
+                var format = "Reading string '{0}' at " + startPosition + "{1}";
+                var message = string.Format(format, toString, (label != null
+                                                                   ? string.Format(" : {0}", label)
+                                                                   : string.Empty));
                 DLogger.Debug(message);
             }
 
@@ -527,7 +571,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public void WriteBoolean(bool b, bool writeInTransaction, string label)
         {
             if (OdbConfiguration.IsDebugEnabled(LogId) && label != null)
-                DLogger.Debug(string.Format("writing boolean {0} at {1} : {2}", b, GetPosition(), label));
+            {
+                var booleanAsString = b.ToString();
+                var positionAsString = GetPosition().ToString();
+                DLogger.Debug("writing boolean " + booleanAsString + " at " + positionAsString + " : " + label);
+            }
 
             WriteValue(b, writeInTransaction, ByteArrayConverter.BooleanToByteArray, OdbType.Boolean);
         }
@@ -548,7 +596,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var toBoolean = ByteArrayConverter.ByteArrayToBoolean(ReadBooleanBytes(), 0);
 
             if (OdbConfiguration.IsDebugEnabled(LogId) && label != null)
-                DLogger.Debug(string.Format("reading boolean {0} at {1} : {2}", toBoolean, currentPosition, label));
+            {
+                var booleanAsString = toBoolean.ToString();
+                var positionAsString = currentPosition.ToString();
+                DLogger.Debug("reading boolean " + booleanAsString + " at " + positionAsString + " : " + label);
+            }
 
             return toBoolean;
         }

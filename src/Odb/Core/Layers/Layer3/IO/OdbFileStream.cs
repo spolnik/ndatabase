@@ -65,7 +65,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             }
             catch (Exception ex)
             {
-                var parameter = string.Format("Error during seek operation, position: {0}", position);
+                var parameter = string.Concat("Error during seek operation, position: ", position.ToString());
                 throw new OdbRuntimeException(NDatabaseError.InternalError.AddParameter(parameter), ex);
             }
         }

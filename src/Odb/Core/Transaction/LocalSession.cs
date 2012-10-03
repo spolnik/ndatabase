@@ -20,7 +20,7 @@ namespace NDatabase.Odb.Core.Transaction
         }
 
         public LocalSession(IStorageEngine engine)
-            : this(engine, string.Format("local {0}{1}", OdbTime.GetCurrentTimeInTicks(), OdbRandom.GetRandomInteger()))
+            : this(engine, string.Concat("local ", OdbTime.GetCurrentTimeInTicks().ToString(), OdbRandom.GetRandomInteger().ToString()))
         {
         }
 
@@ -33,8 +33,7 @@ namespace NDatabase.Odb.Core.Transaction
 
         public override ITransaction GetTransaction()
         {
-            return _transaction ??
-                   (_transaction = new OdbTransaction(this, _fsiToApplyTransaction));
+            return _transaction ?? (_transaction = new OdbTransaction(this, _fsiToApplyTransaction));
         }
 
         public override bool TransactionIsPending()

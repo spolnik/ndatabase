@@ -55,7 +55,10 @@ namespace NDatabase.Btree.Tool
 
             var nbKeys = node.GetNbKeys();
             if (node.HasParent() && nbKeys < node.GetDegree() - 1)
-                throw new BTreeNodeValidationException("Node with less than " + (node.GetDegree() - 1) + " keys");
+            {
+                var degree = (node.GetDegree() - 1).ToString();
+                throw new BTreeNodeValidationException("Node with less than " + degree + " keys");
+            }
 
             var maxNbKeys = node.GetDegree() * 2 - 1;
             var nbChildren = node.GetNbChildren();
@@ -67,7 +70,10 @@ namespace NDatabase.Btree.Tool
             for (var i = 0; i < nbKeys; i++)
             {
                 if (node.GetKeyAndValueAt(i) == null)
-                    throw new BTreeNodeValidationException("Null key at " + i + " on node " + node);
+                {
+                    var keyIndex = i.ToString();
+                    throw new BTreeNodeValidationException("Null key at " + keyIndex + " on node " + node);
+                }
 
                 CheckValuesOfChild(node.GetKeyAndValueAt(i), node.GetChildAt(i, false));
             }
@@ -75,7 +81,7 @@ namespace NDatabase.Btree.Tool
             for (var i = nbKeys; i < maxNbKeys; i++)
             {
                 if (node.GetKeyAndValueAt(i) != null)
-                    throw new BTreeNodeValidationException("Not Null key at " + i + " on node " + node);
+                    throw new BTreeNodeValidationException(string.Concat("Not Null key at ", i.ToString(), " on node " + node));
             }
 
             IBTreeNode previousNode = null;
@@ -83,10 +89,10 @@ namespace NDatabase.Btree.Tool
             for (var i = 0; i < nbChildren; i++)
             {
                 if (node.GetChildAt(i, false) == null)
-                    throw new BTreeNodeValidationException("Null child at index " + i + " on node " + node);
+                    throw new BTreeNodeValidationException(string.Concat("Null child at index ", i.ToString(), " on node " + node));
 
                 if (previousNode != null && previousNode == node.GetChildAt(i, false))
-                    throw new BTreeNodeValidationException("Two equals children at index " + i + " : " + previousNode);
+                    throw new BTreeNodeValidationException(string.Concat("Two equals children at index ", i.ToString(), " : " + previousNode));
 
                 previousNode = node.GetChildAt(i, false);
             }
@@ -94,7 +100,7 @@ namespace NDatabase.Btree.Tool
             for (var i = nbChildren; i < maxNbChildren; i++)
             {
                 if (node.GetChildAt(i, false) != null)
-                    throw new BTreeNodeValidationException("Not Null child at " + i + " on node " + node);
+                    throw new BTreeNodeValidationException(string.Concat("Not Null child at ", i.ToString(), " on node " + node));
             }
         }
 

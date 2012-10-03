@@ -153,8 +153,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
 
             // else the read have to use various buffers
             if (OdbConfiguration.IsDebugEnabled(LogId))
-                DLogger.Debug(string.Format("Data is larger than buffer size {0} > {1} : cutting the data", bytes.Length,
-                                            _buffer.Size));
+            {
+                var length = bytes.Length.ToString();
+                var sizeAsString = _buffer.Size.ToString();
+                DLogger.Debug(string.Format("Data is larger than buffer size {0} > {1} : cutting the data", length,
+                                            sizeAsString));
+            }
 
             var nbBuffersNeeded = bytes.Length / _buffer.Size + 1;
             var currentStart = 0;
@@ -287,7 +291,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             var length = Length;
             if (isReading && newPosition >= length)
             {
-                var message = string.Format("End Of File reached - position = {0} : Length = {1}", newPosition, length);
+                var message = string.Concat("End Of File reached - position = ", newPosition.ToString(), " : Length = ",
+                                            length.ToString());
                 DLogger.Error(message);
                 throw new OdbRuntimeException(
                     NDatabaseError.EndOfFileReached.AddParameter(newPosition).AddParameter(length));
@@ -319,9 +324,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
             {
-                DLogger.Debug(string.Format("Creating buffer {0} : [{1},{2}]", bufferIndex,
-                                            _buffer.BufferPositions[bufferIndex].Start,
-                                            _buffer.BufferPositions[bufferIndex].End));
+                var index = bufferIndex.ToString();
+                var start = _buffer.BufferPositions[bufferIndex].Start.ToString();
+                var end = _buffer.BufferPositions[bufferIndex].End.ToString();
+
+                DLogger.Debug(string.Format("Creating buffer {0} : [{1},{2}]", index, start, end));
             }
 
             return bufferIndex;
@@ -344,10 +351,14 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
 
                 if (OdbConfiguration.IsDebugEnabled(LogId))
                 {
+                    var indexAsString = bufferIndex.ToString();
+                    var start = _buffer.BufferPositions[bufferIndex].Start.ToString();
+                    var end = _buffer.BufferPositions[bufferIndex].End.ToString();
+                    var sizeToFlush = bufferSizeToFlush.ToString();
+                    var numberOfFlush = NumberOfFlush.ToString();
+
                     DLogger.Debug(string.Format("Flushing buffer {0} : [{1}:{2}] - flush size={3}  flush number = {4}",
-                                                bufferIndex, _buffer.BufferPositions[bufferIndex].Start,
-                                                _buffer.BufferPositions[bufferIndex].End, bufferSizeToFlush,
-                                                NumberOfFlush));
+                                                indexAsString, start, end, sizeToFlush, numberOfFlush));
                 }
 
                 _buffer.ClearBuffer(bufferIndex);
@@ -356,9 +367,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             {
                 if (OdbConfiguration.IsDebugEnabled(LogId))
                 {
-                    DLogger.Debug(string.Format("Flushing buffer {0} : [{1}:{2}] - Nothing to flush!", bufferIndex,
-                                                _buffer.BufferPositions[bufferIndex].Start,
-                                                _buffer.BufferPositions[bufferIndex].End));
+                    var start = _buffer.BufferPositions[bufferIndex].Start.ToString();
+                    var end = _buffer.BufferPositions[bufferIndex].End.ToString();
+                    var indexAsString = bufferIndex.ToString();
+
+                    DLogger.Debug(string.Format("Flushing buffer {0} : [{1}:{2}] - Nothing to flush!", indexAsString,
+                                                start, end));
                 }
 
                 _buffer.ClearBuffer(bufferIndex);

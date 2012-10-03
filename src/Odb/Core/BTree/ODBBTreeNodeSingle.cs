@@ -41,7 +41,10 @@ namespace NDatabase.Odb.Core.BTree
             if (oid == null)
             {
                 if (throwExceptionIfNotExist)
-                    throw new BTreeException(string.Format("Trying to load null child node at index {0}", index));
+                {
+                    var indexAsString = index.ToString();
+                    throw new BTreeException(string.Format("Trying to load null child node at index {0}", indexAsString));
+                }
 
                 return null;
             }
@@ -131,7 +134,10 @@ namespace NDatabase.Odb.Core.BTree
         public override void MoveChildFromTo(int sourceIndex, int destinationIndex, bool throwExceptionIfDoesNotExist)
         {
             if (throwExceptionIfDoesNotExist && _childrenOids[sourceIndex] == null)
-                throw new BTreeException(string.Format("Trying to load null child node at index {0}", sourceIndex));
+            {
+                var index = sourceIndex.ToString();
+                throw new BTreeException(string.Format("Trying to load null child node at index {0}", index));
+            }
 
             _childrenOids[destinationIndex] = _childrenOids[sourceIndex];
         }
@@ -159,7 +165,10 @@ namespace NDatabase.Odb.Core.BTree
         public override object GetChildIdAt(int childIndex, bool throwExceptionIfDoesNotExist)
         {
             if (throwExceptionIfDoesNotExist && _childrenOids[childIndex] == null)
-                throw new BTreeException(string.Format("Trying to load null child node at index {0}", childIndex));
+            {
+                var index = childIndex.ToString();
+                throw new BTreeException("Trying to load null child node at index " + index);
+            }
 
             return _childrenOids[childIndex];
         }

@@ -103,8 +103,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
                 // Gets the id of this field
                 var attributeId = classInfo.GetAttributeId(fieldInfo.Name);
                 if (OdbConfiguration.IsDebugEnabled(LogIdDebug))
-                    DLogger.Debug(String.Format("getting field with name {0}, attribute id is {1}", fieldInfo.Name,
-                                                attributeId));
+                    DLogger.Debug(string.Concat("getting field with name ", fieldInfo.Name, ", attribute id is ", attributeId.ToString()));
 
                 var abstractObjectInfo = objectInfo.GetAttributeValueFromId(attributeId);
 

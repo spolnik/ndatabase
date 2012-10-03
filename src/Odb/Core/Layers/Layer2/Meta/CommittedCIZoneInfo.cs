@@ -49,7 +49,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public override string ToString()
         {
-            return string.Format("(first={0},last={1},nb={2}-{3})", First, Last, NbObjects, _nbDeletedObjects);
+            return string.Concat("(first=" + First, ",last=" + Last, ",nb=", NbObjects.ToString(), "-",
+                                 _nbDeletedObjects.ToString(), ")");
         }
     }
 }

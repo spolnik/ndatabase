@@ -313,7 +313,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public override string ToString()
         {
-            return string.Format("{0} - {1}", _id, _name);
+            return string.Concat(_id.ToString(), " - ", _name);
         }
 
         public override bool Equals(object obj)

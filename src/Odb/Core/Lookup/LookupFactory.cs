@@ -3,10 +3,9 @@ using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb.Core.Lookup
 {
-    /// <author>olivier</author>
-    public static class LookupFactory
+    internal static class LookupFactory
     {
-        internal static IDictionary<string, ILookup> Lookups = new OdbHashMap<string, ILookup>();
+        private static readonly IDictionary<string, ILookup> Lookups = new OdbHashMap<string, ILookup>();
 
         public static ILookup Get(string key)
         {

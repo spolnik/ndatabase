@@ -422,8 +422,8 @@ namespace NDatabase.Btree.Impl
         {
             if (NbKeys + node.GetNbKeys() > _maxNbKeys)
             {
-                var errorMessage = string.Format("Trying to merge two nodes with too many keys {0} + {1} > {2}", NbKeys,
-                                                 node.GetNbKeys(), _maxNbKeys);
+                var errorMessage = string.Concat("Trying to merge two nodes with too many keys ", NbKeys.ToString(), " + ",
+                                                 node.GetNbKeys().ToString(), " > ", _maxNbKeys.ToString());
 
                 throw new BTreeException(errorMessage);
             }

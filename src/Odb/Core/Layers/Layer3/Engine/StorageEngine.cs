@@ -110,8 +110,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             // Updates the Transaction Id in the file
             _objectWriter.FileSystemProcessor.WriteLastTransactionId(GetCurrentTransactionId());
             _objectWriter.SetTriggerManager(_triggerManager);
-            _introspectionCallbackForInsert = new InstrumentationCallbackForStore(this, _triggerManager, false);
-            _introspectionCallbackForUpdate = new InstrumentationCallbackForStore(this, _triggerManager, true);
+            _introspectionCallbackForInsert = new InstrumentationCallbackForStore(_triggerManager, false);
+            _introspectionCallbackForUpdate = new InstrumentationCallbackForStore(_triggerManager, true);
         }
 
         public override void AddSession(ISession session, bool readMetamodel)

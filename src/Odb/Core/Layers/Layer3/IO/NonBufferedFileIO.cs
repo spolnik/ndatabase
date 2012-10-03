@@ -101,7 +101,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             try
             {
                 if (OdbConfiguration.IsDebugEnabled(LogId))
-                    DLogger.Debug("Closing file with size " + _fileWriter.Length);
+                {
+                    var length = _fileWriter.Length.ToString();
+                    DLogger.Debug("Closing file with size " + length);
+                }
 
                 _fileWriter.Dispose();
             }

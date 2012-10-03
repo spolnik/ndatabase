@@ -192,7 +192,6 @@
     <Compile Include="Odb\Core\Query\Values\AbstractQueryFieldAction.cs" />
     <Compile Include="Odb\Core\Query\Values\ICustomQueryFieldAction.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IOdbCache.cs" />
-    <Compile Include="Odb\Core\Transaction\ICrossSessionCache.cs" />
     <Compile Include="Odb\Core\Transaction\ISession.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IReadObjectsCache.cs" />
     <Compile Include="Odb\Core\Transaction\ITransaction.cs" />
@@ -282,7 +281,6 @@
     <Compile Include="Odb\Core\Query\Values\ValuesUtil.cs" />
     <Compile Include="Odb\Core\Trigger\ObjectRepresentation.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\OdbCache.cs" />
-    <Compile Include="Odb\Core\Transaction\CrossSessionCache.cs" />
     <Compile Include="Odb\Core\Transaction\Transaction.cs" />
     <Compile Include="Odb\Core\Transaction\WriteAction.cs" />
     <Compile Include="Odb\Core\Transaction\IdInfo.cs" />

@@ -20,7 +20,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public override string ToString()
         {
-            return string.Format("(first={0},last={1},nb={2})", First, Last, NbObjects);
+            var nbObjects = NbObjects.ToString();
+            return string.Format("(first={0},last={1},nb={2})", First, Last, nbObjects);
         }
 
         internal void Reset()
