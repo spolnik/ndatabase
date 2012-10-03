@@ -589,7 +589,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         [Test]
         public virtual void TestGetAllFields()
         {
-            var allFields = ClassIntrospector.GetAllFields(OdbClassUtil.GetFullName(typeof (FootballPlayer)));
+            var allFields = ClassIntrospector.GetAllFields(typeof (FootballPlayer));
             AssertEquals(3, allFields.Count);
             AssertEquals("role", (allFields[0]).Name);
             AssertEquals("groundName", (allFields[1]).Name);

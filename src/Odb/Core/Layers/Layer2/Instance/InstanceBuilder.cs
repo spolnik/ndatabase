@@ -92,7 +92,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
                 cache.AddObject(objectInfo.GetOid(), o, objectInfo.GetHeader());
 
             var classInfo = objectInfo.GetClassInfo();
-            var fields = ClassIntrospector.GetAllFields(classInfo.FullClassName);
+            var type = OdbClassPool.GetClass(classInfo.FullClassName);
+            var fields = ClassIntrospector.GetAllFields(type);
 
             object value = null;
 

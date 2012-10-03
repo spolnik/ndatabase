@@ -23,8 +23,8 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
     /// </remarks>
     internal static class ClassIntrospector
     {
-        private static readonly IDictionary<string, IOdbList<FieldInfo>> Fields =
-            new OdbHashMap<string, IOdbList<FieldInfo>>();
+        private static readonly IDictionary<Type, IOdbList<FieldInfo>> Fields =
+            new OdbHashMap<Type, IOdbList<FieldInfo>>();
 
         private static readonly IDictionary<string, Type> SystemClasses = new OdbHashMap<string, Type>();
 
@@ -50,12 +50,12 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             return type.GetField(fieldName);
         }
 
-        public static IOdbList<FieldInfo> GetAllFields(string fullClassName)
+        public static IOdbList<FieldInfo> GetAllFields(Type type)
         {
             IOdbList<FieldInfo> result;
             lock (FieldsAccess)
             {
-                Fields.TryGetValue(fullClassName, out result);
+                Fields.TryGetValue(type, out result);
 
                 if (result != null)
                     return result;
@@ -63,7 +63,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 
             IDictionary attributesNames = new Hashtable();
             result = new OdbList<FieldInfo>(50);
-            var classes = GetSuperClasses(fullClassName, true);
+            var classes = GetSuperClasses(type, true);
 
             foreach (var clazz1 in classes)
             {
@@ -85,7 +85,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             
             lock (FieldsAccess)
             {
-                Fields[fullClassName] = result;
+                Fields[type] = result;
             }
 
             attributesNames.Clear();
@@ -131,7 +131,8 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
         {
             var classInfo = new ClassInfo(fullClassName) {ClassCategory = GetClassCategory(fullClassName)};
 
-            var fields = GetAllFields(fullClassName);
+            var type = OdbClassPool.GetClass(fullClassName);
+            var fields = GetAllFields(type);
             IOdbList<ClassAttributeInfo> attributes = new OdbList<ClassAttributeInfo>(fields.Count);
 
             var maxAttributeId = existingClassInfo.MaxAttributeId;
@@ -164,11 +165,9 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
         ///   Get The list of super classes
         /// </summary>
         /// <returns> The list of super classes </returns>
-        private static IEnumerable<Type> GetSuperClasses(string fullClassName, bool includingThis)
+        private static IEnumerable<Type> GetSuperClasses(Type clazz, bool includingThis)
         {
             IList<Type> result = new List<Type>();
-
-            var clazz = OdbClassPool.GetClass(fullClassName);
 
             if (clazz == null)
                 return result;
@@ -250,7 +249,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             else
                 classInfoList.AddClassInfo(classInfo);
 
-            var fields = GetAllFields(fullClassName);
+            var fields = GetAllFields(type);
             IOdbList<ClassAttributeInfo> attributes = new OdbList<ClassAttributeInfo>(fields.Count);
 
             for (var i = 0; i < fields.Count; i++)
