@@ -93,7 +93,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
 
             var classInfo = objectInfo.GetClassInfo();
             var type = OdbClassPool.GetClass(classInfo.FullClassName);
-            var fields = ClassIntrospector.GetAllFields(type);
+            var fields = ClassIntrospector.GetAllFieldsFrom(type);
 
             object value = null;
 

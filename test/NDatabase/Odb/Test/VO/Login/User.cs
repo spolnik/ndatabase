@@ -2,9 +2,9 @@ namespace Test.NDatabase.Odb.Test.VO.Login
 {
     public class User
     {
-        private string name;
-        private Profile profile;
-        private string email;
+        private string name;        //2
+        private Profile profile;    //3
+        private string email;       //1
 
         public User()
         {

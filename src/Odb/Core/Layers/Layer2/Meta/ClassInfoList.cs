@@ -22,7 +22,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// </summary>
         private readonly IDictionary<string, ClassInfo> _classInfos;
 
-        private ClassInfo _mainClassInfo;
+        private readonly ClassInfo _mainClassInfo;
 
         public ClassInfoList()
         {
@@ -57,7 +57,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         /// <param name="name"> </param>
         /// <returns> null if it does not exist </returns>
-        public ClassInfo GetClassInfoWithName(string name)
+        public ClassInfo GetClassInfoBy(string name)
         {
             ClassInfo classInfo;
             _classInfos.TryGetValue(name, out classInfo);
@@ -69,11 +69,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             var buffer = new StringBuilder();
             buffer.Append(_classInfos.Count).Append(" - ").Append(_classInfos.Keys);
             return buffer.ToString();
-        }
-
-        public void SetMainClassInfo(ClassInfo classInfo)
-        {
-            _mainClassInfo = classInfo;
         }
     }
 }

@@ -224,7 +224,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 
             alreadyReadObjects[o] = mainAoi;
             
-            var fields = ClassIntrospector.GetAllFields(clazz);
+            var fields = ClassIntrospector.GetAllFieldsFrom(clazz);
             
             foreach (var field in fields)
             {

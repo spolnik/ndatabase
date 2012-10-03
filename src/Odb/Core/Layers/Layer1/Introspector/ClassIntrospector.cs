@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -11,7 +10,6 @@ using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Oid;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
-using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 {
@@ -19,20 +17,31 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
     ///   The ClassIntrospector is used to introspect classes.
     /// </summary>
     /// <remarks>
-    ///   The ClassIntrospector is used to introspect classes. It uses Reflection to extract class information. It transforms a native Class into a ClassInfo (a meta representation of the class) that contains all informations about the class.
+    ///   The ClassIntrospector is used to introspect classes. 
+    ///   It uses Reflection to extract class information. 
+    ///   It transforms a native Class into a ClassInfo (a meta representation of the class) 
+    ///    that contains all informations about the class.
     /// </remarks>
     internal static class ClassIntrospector
     {
-        private static readonly IDictionary<Type, IOdbList<FieldInfo>> Fields =
-            new OdbHashMap<Type, IOdbList<FieldInfo>>();
+        private static readonly IDictionary<Type, IList<FieldInfo>> Fields =
+            new Dictionary<Type, IList<FieldInfo>>();
 
-        private static readonly IDictionary<string, Type> SystemClasses = new OdbHashMap<string, Type>();
-
-        private static readonly object FieldsAccess = new object();
+        private static readonly IDictionary<string, Type> SystemClasses = new Dictionary<string, Type>();
 
         static ClassIntrospector()
         {
-            FillSystemClasses();
+            SystemClasses.Add(typeof (ClassInfoIndex).FullName, typeof (ClassInfoIndex));
+            SystemClasses.Add(typeof (OID).FullName, typeof (OID));
+            SystemClasses.Add(typeof (ObjectOID).FullName, typeof (ObjectOID));
+            SystemClasses.Add(typeof (ClassOID).FullName, typeof (ClassOID));
+            SystemClasses.Add(typeof (OdbBtreeNodeSingle).FullName, typeof (OdbBtreeNodeSingle));
+            SystemClasses.Add(typeof (OdbBtreeNodeMultiple).FullName, typeof (OdbBtreeNodeMultiple));
+            SystemClasses.Add(typeof (OdbBtreeSingle).FullName, typeof (OdbBtreeSingle));
+            SystemClasses.Add(typeof (IBTree).FullName, typeof (IBTree));
+            SystemClasses.Add(typeof (IBTreeNodeOneValuePerKey).FullName, typeof (IBTreeNodeOneValuePerKey));
+            SystemClasses.Add(typeof (IKeyAndValue).FullName, typeof (IKeyAndValue));
+            SystemClasses.Add(typeof (KeyAndValue).FullName, typeof (KeyAndValue));
         }
 
         /// <summary>
@@ -45,50 +54,42 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             return InternalIntrospect(clazz, recursive, null);
         }
 
-        public static FieldInfo GetField(Type type, string fieldName)
+        public static IList<FieldInfo> GetAllFieldsFrom(Type type)
         {
-            return type.GetField(fieldName);
-        }
+            if (type == null)
+                throw new ArgumentNullException("type", "Type cannot be null.");
 
-        public static IOdbList<FieldInfo> GetAllFields(Type type)
-        {
-            IOdbList<FieldInfo> result;
-            lock (FieldsAccess)
+            IList<FieldInfo> result;
+            Fields.TryGetValue(type, out result);
+
+            if (result != null)
+                return result;
+
+            const int capacity = 50;
+            var attributesNames = new List<string>(capacity);
+            result = new List<FieldInfo>(capacity);
+
+            var classes = GetAllClasses(type);
+
+            foreach (var class1 in classes)
             {
-                Fields.TryGetValue(type, out result);
+                var baseClassfields =
+                    class1.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public |
+                                     BindingFlags.DeclaredOnly);
 
-                if (result != null)
-                    return result;
-            }
-
-            IDictionary attributesNames = new Hashtable();
-            result = new OdbList<FieldInfo>(50);
-            var classes = GetSuperClasses(type, true);
-
-            foreach (var clazz1 in classes)
-            {
-                var superClassfields =
-                    clazz1.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public |
-                                     BindingFlags.DeclaredOnly | BindingFlags.Static);
-                foreach (var fieldInfo in superClassfields)
+                foreach (var fieldInfo in baseClassfields)
                 {
-                    // Only adds the attribute if it does not exist one with same name
-                    if (attributesNames[fieldInfo.Name] == null)
-                    {
-                        result.Add(fieldInfo);
-                        attributesNames[fieldInfo.Name] = fieldInfo.Name;
-                    }
+                    if (attributesNames.Contains(fieldInfo.Name))
+                        continue;
+
+                    result.Add(fieldInfo);
+                    attributesNames.Add(fieldInfo.Name);
                 }
             }
 
-            result = RemoveUnnecessaryFields(result);
-            
-            lock (FieldsAccess)
-            {
-                Fields[type] = result;
-            }
+            result = FilterFields(result).OrderBy(field => field.Name).ToList();
 
-            attributesNames.Clear();
+            Fields[type] = result;
 
             return result;
         }
@@ -97,9 +98,10 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
         ///   introspect a list of classes This method return the current meta model based on the classes that currently exist in the execution classpath.
         /// </summary>
         /// <remarks>
-        ///   introspect a list of classes This method return the current meta model based on the classes that currently exist in the execution classpath. The result will be used to check meta model compatiblity between the meta model that is currently persisted in the database and the meta model currently executing in JVM. This is used b the automatic meta model refactoring
+        ///   introspect a list of classes This method return the current meta model based on the classes that currently exist in the execution classpath. 
+        ///   The result will be used to check meta model compatiblity between the meta model that is currently persisted in the database and the meta 
+        ///   model currently executing in JVM. This is used b the automatic meta model refactoring
         /// </remarks>
-        /// <returns> </returns>
         /// <returns> A map where the key is the class name and the key is the ClassInfo: the class meta representation </returns>
         public static IDictionary<string, ClassInfo> Instrospect(IEnumerable<ClassInfo> classInfos)
         {
@@ -121,8 +123,8 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
         }
 
         /// <summary>
-        ///   Builds a class info from a class and an existing class info <pre>The existing class info is used to make sure that fields with the same name will have
-        ///                                                                 the same id</pre>
+        ///   Builds a class info from a class and an existing class info 
+        ///   The existing class info is used to make sure that fields with the same name will have the same id
         /// </summary>
         /// <param name="fullClassName"> The name of the class to get info </param>
         /// <param name="existingClassInfo"> </param>
@@ -132,7 +134,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             var classInfo = new ClassInfo(fullClassName) {ClassCategory = GetClassCategory(fullClassName)};
 
             var type = OdbClassPool.GetClass(fullClassName);
-            var fields = GetAllFields(type);
+            var fields = GetAllFieldsFrom(type);
             IOdbList<ClassAttributeInfo> attributes = new OdbList<ClassAttributeInfo>(fields.Count);
 
             var maxAttributeId = existingClassInfo.MaxAttributeId;
@@ -161,21 +163,11 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             return classInfo;
         }
 
-        /// <summary>
-        ///   Get The list of super classes
-        /// </summary>
-        /// <returns> The list of super classes </returns>
-        private static IEnumerable<Type> GetSuperClasses(Type clazz, bool includingThis)
+        private static IEnumerable<Type> GetAllClasses(Type type)
         {
-            IList<Type> result = new List<Type>();
+            var result = new List<Type> {type};
 
-            if (clazz == null)
-                return result;
-
-            if (includingThis)
-                result.Add(clazz);
-
-            var baseType = clazz.BaseType;
+            var baseType = type.BaseType;
 
             while (baseType != null && baseType != typeof (Object))
             {
@@ -186,33 +178,31 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             return result;
         }
 
-        private static IOdbList<FieldInfo> RemoveUnnecessaryFields(IOdbList<FieldInfo> fields)
+        private static IEnumerable<FieldInfo> FilterFields(ICollection<FieldInfo> fields)
         {
-            IOdbList<FieldInfo> fieldsToRemove = new OdbList<FieldInfo>(fields.Count);
+            var fieldsToRemove = new OdbList<FieldInfo>(fields.Count);
 
-            // Remove static fields
             foreach (var fieldInfo in fields)
             {
-                // by osmadja
-                if (fieldInfo.IsNotSerialized || fieldInfo.IsStatic)
+                if (fieldInfo.IsNotSerialized)
                     fieldsToRemove.Add(fieldInfo);
-
-                //by cristi
-                if (fieldInfo.FieldType == typeof (IntPtr))
+                else if (fieldInfo.FieldType == typeof (IntPtr))
                     fieldsToRemove.Add(fieldInfo);
-
-                var oattr = fieldInfo.GetCustomAttributes(true);
-                var isNonPersistent = oattr.OfType<NonPersistentAttribute>().Any();
-
-                if (isNonPersistent || fieldInfo.IsStatic)
+                else if (fieldInfo.Name.StartsWith("this$"))
                     fieldsToRemove.Add(fieldInfo);
+                else
+                {
+                    var oattr = fieldInfo.GetCustomAttributes(true);
+                    var isNonPersistent = oattr.OfType<NonPersistentAttribute>().Any();
 
-                // Remove inner class fields
-                if (fieldInfo.Name.StartsWith("this$"))
-                    fieldsToRemove.Add(fieldInfo);
+                    if (isNonPersistent)
+                        fieldsToRemove.Add(fieldInfo);
+                }
             }
 
-            fields.RemoveAll(fieldsToRemove);
+            foreach (var item in fieldsToRemove)
+                fields.Remove(item);
+            
             return fields;
         }
 
@@ -233,11 +223,11 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
         /// <param name="classInfoList"> map with classname that are being introspected, to avoid recursive calls </param>
         private static ClassInfoList InternalIntrospect(Type type, bool recursive, ClassInfoList classInfoList)
         {
-            var fullClassName = OdbClassUtil.GetFullName(type);
-
             if (classInfoList != null)
             {
-                var existingClassInfo = classInfoList.GetClassInfoWithName(fullClassName);
+                var fullClassName = OdbClassUtil.GetFullName(type);
+                var existingClassInfo = classInfoList.GetClassInfoBy(fullClassName);
+
                 if (existingClassInfo != null)
                     return classInfoList;
             }
@@ -249,48 +239,38 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             else
                 classInfoList.AddClassInfo(classInfo);
 
-            var fields = GetAllFields(type);
-            IOdbList<ClassAttributeInfo> attributes = new OdbList<ClassAttributeInfo>(fields.Count);
+            var fields = GetAllFieldsFrom(type);
+            var attributes = new OdbList<ClassAttributeInfo>(fields.Count);
 
             for (var i = 0; i < fields.Count; i++)
             {
                 var field = fields[i];
 
-                ClassInfo classInfoWithName;
+                ClassInfo classInfoByName;
 
-                if (!OdbType.GetFromClass(field.FieldType).IsNative())
+                if (OdbType.GetFromClass(field.FieldType).IsNative())
+                {
+                    classInfoByName = null;
+                }
+                else
                 {
                     if (recursive)
                     {
                         classInfoList = InternalIntrospect(field.FieldType, true, classInfoList);
-                        classInfoWithName = classInfoList.GetClassInfoWithName(OdbClassUtil.GetFullName(field.FieldType));
+                        classInfoByName = classInfoList.GetClassInfoBy(OdbClassUtil.GetFullName(field.FieldType));
                     }
                     else
-                        classInfoWithName = new ClassInfo(OdbClassUtil.GetFullName(field.FieldType));
+                        classInfoByName = new ClassInfo(OdbClassUtil.GetFullName(field.FieldType));
                 }
-                else
-                    classInfoWithName = null;
+
                 attributes.Add(new ClassAttributeInfo((i + 1), field.Name, field.FieldType,
-                                                      OdbClassUtil.GetFullName(field.FieldType), classInfoWithName));
+                                                      OdbClassUtil.GetFullName(field.FieldType), classInfoByName));
             }
+
             classInfo.Attributes = attributes;
             classInfo.MaxAttributeId = fields.Count;
-            return classInfoList;
-        }
 
-        private static void FillSystemClasses()
-        {
-            SystemClasses.Add(typeof (ClassInfoIndex).FullName, typeof (ClassInfoIndex));
-            SystemClasses.Add(typeof (OID).FullName, typeof (OID));
-            SystemClasses.Add(typeof (ObjectOID).FullName, typeof (ObjectOID));
-            SystemClasses.Add(typeof (ClassOID).FullName, typeof (ClassOID));
-            SystemClasses.Add(typeof (OdbBtreeNodeSingle).FullName, typeof (OdbBtreeNodeSingle));
-            SystemClasses.Add(typeof (OdbBtreeNodeMultiple).FullName, typeof (OdbBtreeNodeMultiple));
-            SystemClasses.Add(typeof (OdbBtreeSingle).FullName, typeof (OdbBtreeSingle));
-            SystemClasses.Add(typeof (IBTree).FullName, typeof (IBTree));
-            SystemClasses.Add(typeof (IBTreeNodeOneValuePerKey).FullName, typeof (IBTreeNodeOneValuePerKey));
-            SystemClasses.Add(typeof (IKeyAndValue).FullName, typeof (IKeyAndValue));
-            SystemClasses.Add(typeof (KeyAndValue).FullName, typeof (KeyAndValue));
+            return classInfoList;
         }
     }
 }
