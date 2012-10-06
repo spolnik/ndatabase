@@ -1,5 +1,4 @@
 using System;
-using System.Threading;
 using NDatabase.Odb.Core;
 
 namespace NDatabase.Odb
@@ -7,36 +6,32 @@ namespace NDatabase.Odb
     /// <summary>
     ///   Generic ODB Runtime exception : Used to report all problems.
     /// </summary>
-    internal class OdbRuntimeException : Exception
+    public class OdbRuntimeException : Exception
     {
         private static readonly string Message1 =
             string.Format("\nNDatabase has thrown an Exception");
 
         public OdbRuntimeException(IError error, Exception t)
             : base(
-                string.Format("{0}\n Thread={1}\nError:{2}", Message1,
-                              Thread.CurrentThread.Name, error), t)
+                string.Format("{0}\nError:{1}", Message1, error), t)
         {
         }
 
         public OdbRuntimeException(IError error)
             : base(
-                string.Format("{0}\nThread={1}\nError:{2}", Message1,
-                              Thread.CurrentThread.Name, error))
+                string.Format("{0}\nError:{1}", Message1, error))
         {
         }
 
         public OdbRuntimeException(IError error, string message)
             : base(
-                string.Format("{0}\nThread={1}\nError:{2}\nStackTrace:{3}", Message1,
-                              Thread.CurrentThread.Name, error, message))
+                string.Format("{0}\nError:{1}\nStackTrace:{2}", Message1, error, message))
         {
         }
 
         public OdbRuntimeException(Exception e, string message)
             : base(
-                string.Format("{0}\nThread={1}\nStackTrace:{2}", Message1,
-                              Thread.CurrentThread.Name, message), e)
+                string.Format("{0}\nStackTrace:{1}", Message1, message), e)
         {
         }
     }
