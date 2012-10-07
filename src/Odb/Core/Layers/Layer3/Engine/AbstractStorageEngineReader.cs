@@ -62,7 +62,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             if (IsDbClosed)
                 throw new OdbRuntimeException(NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
-            
+
             return ObjectReader.GetObjects<T>(query, inMemory, startIndex, endIndex);
         }
 
@@ -71,7 +71,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var start = OdbTime.GetCurrentTimeInMs();
             var totalNbObjects = 0L;
 
-            var newStorageEngine = (IStorageEngine) new StorageEngine(new FileIdentification(newFileName));
+            var newStorageEngine = (IStorageEngine)new StorageEngine(new FileIdentification(newFileName));
             IObjects<object> defragObjects;
             var j = 0;
             ClassInfo classInfo;
@@ -80,7 +80,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             IEnumerator iterator = GetMetaModel().GetUserClasses().GetEnumerator();
             while (iterator.MoveNext())
             {
-                classInfo = (ClassInfo) iterator.Current;
+                classInfo = (ClassInfo)iterator.Current;
                 Debug.Assert(classInfo != null, "classInfo != null");
 
                 if (OdbConfiguration.IsDebugEnabled(LogId))
@@ -114,7 +114,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             iterator = GetMetaModel().GetSystemClasses().GetEnumerator();
             while (iterator.MoveNext())
             {
-                classInfo = (ClassInfo) iterator.Current;
+                classInfo = (ClassInfo)iterator.Current;
                 Debug.Assert(classInfo != null, "classInfo != null");
 
                 if (OdbConfiguration.IsDebugEnabled(LogId))
@@ -243,7 +243,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             while (objects.HasNext())
             {
-                var nnoi = (NonNativeObjectInfo) objects.Next();
+                var nnoi = (NonNativeObjectInfo)objects.Next();
 
                 btree.Insert(classInfoIndex.ComputeKey(nnoi), nnoi.GetOid());
             }
@@ -308,7 +308,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public abstract void DeleteObjectWithOid(OID arg1);
 
-        public abstract void Disconnect(object arg1);
+        public abstract void Disconnect<T>(T plainObject) where T : class;
 
         public abstract IList<FullIDInfo> GetAllObjectIdInfos(string arg1, bool arg2);
 

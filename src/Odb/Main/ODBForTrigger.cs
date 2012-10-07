@@ -46,12 +46,12 @@ namespace NDatabase.Odb.Main
             throw new OdbRuntimeException(NDatabaseError.OperationNotAllowedInTrigger);
         }
 
-        public override void Disconnect(object @object)
+        public override void Disconnect<T>(T @object)
         {
             throw new OdbRuntimeException(NDatabaseError.OperationNotAllowedInTrigger);
         }
 
-        public override IClassRepresentation GetClassRepresentation(Type clazz)
+        public override IClassRepresentation GetClassRepresentation<T>()
         {
             throw new OdbRuntimeException(NDatabaseError.OperationNotAllowedInTrigger);
         }

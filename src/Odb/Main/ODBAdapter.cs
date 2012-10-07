@@ -43,17 +43,17 @@ namespace NDatabase.Odb.Main
 
         public virtual IObjects<T> GetObjects<T>()
         {
-            return _storageEngine.GetObjects<T>(new CriteriaQuery(typeof (T)), true, -1, -1);
+            return _storageEngine.GetObjects<T>(new CriteriaQuery(typeof(T)), true, -1, -1);
         }
 
         public virtual IObjects<T> GetObjects<T>(bool inMemory)
         {
-            return _storageEngine.GetObjects<T>(typeof (T), inMemory, -1, -1);
+            return _storageEngine.GetObjects<T>(typeof(T), inMemory, -1, -1);
         }
 
         public virtual IObjects<T> GetObjects<T>(bool inMemory, int startIndex, int endIndex)
         {
-            return _storageEngine.GetObjects<T>(typeof (T), inMemory, startIndex, endIndex);
+            return _storageEngine.GetObjects<T>(typeof(T), inMemory, startIndex, endIndex);
         }
 
         public virtual void Close()
@@ -90,10 +90,10 @@ namespace NDatabase.Odb.Main
         public virtual long Count(CriteriaQuery query)
         {
             var valuesQuery = new ValuesCriteriaQuery(query).Count("count");
-            
+
             var values = _storageEngine.GetValues(valuesQuery, -1, -1);
 
-            var count = (Decimal) values.NextValues().GetByIndex(0);
+            var count = (Decimal)values.NextValues().GetByIndex(0);
             return Decimal.ToInt64(count);
         }
 
@@ -130,8 +130,9 @@ namespace NDatabase.Odb.Main
             _storageEngine.DefragmentTo(newFileName);
         }
 
-        public virtual IClassRepresentation GetClassRepresentation(Type clazz)
+        public virtual IClassRepresentation GetClassRepresentation<T>() where T : class
         {
+            var clazz = typeof (T);
             var classInfo = _storageEngine.GetSession(true).GetMetaModel().GetClassInfo(clazz, false);
 
             if (classInfo == null)
@@ -178,9 +179,9 @@ namespace NDatabase.Odb.Main
             return _ext ?? (_ext = new OdbExt(_storageEngine));
         }
 
-        public virtual void Disconnect(object @object)
+        public virtual void Disconnect<T>(T plainObject) where T : class
         {
-            _storageEngine.Disconnect(@object);
+            _storageEngine.Disconnect(plainObject);
         }
 
         public virtual bool IsClosed()

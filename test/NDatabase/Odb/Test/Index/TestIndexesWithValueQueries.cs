@@ -5,7 +5,6 @@ using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Index
 {
-    /// <author>olivier</author>
     [TestFixture]
     public class TestIndexesWithValueQueries : ODBTest
     {
@@ -13,10 +12,9 @@ namespace Test.NDatabase.Odb.Test.Index
         public virtual void Test1()
         {
             var baseName = GetBaseName();
-            IOdb odb = null;
-            var size = 1000;
-            odb = Open(baseName);
-            odb.GetClassRepresentation(typeof (VO.Login.Function)).AddIndexOn("index1", new[] {"name"}, true);
+            const int size = 1000;
+            IOdb odb = Open(baseName);
+            odb.GetClassRepresentation<VO.Login.Function>().AddIndexOn("index1", new[] {"name"}, true);
             for (var i = 0; i < size; i++)
                 odb.Store(new VO.Login.Function("function " + i));
 

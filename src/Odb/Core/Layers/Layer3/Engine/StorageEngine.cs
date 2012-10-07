@@ -488,9 +488,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             _currentTransactionId = transactionId;
         }
 
-        public override void Disconnect(object @object)
+        public override void Disconnect<T>(T plainObject)
         {
-            GetSession(true).RemoveObjectFromCache(@object);
+            GetSession(true).RemoveObjectFromCache(plainObject);
         }
 
         public override ITriggerManager GetTriggerManager()

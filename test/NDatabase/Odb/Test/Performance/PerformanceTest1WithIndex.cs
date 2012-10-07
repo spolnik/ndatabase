@@ -48,7 +48,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             t1 = OdbTime.GetCurrentTimeInMs();
             odb = Open(OdbFileName);
             var fields = new[] {"name"};
-            odb.GetClassRepresentation(typeof (SimpleObject)).AddUniqueIndexOn("index1", fields, true);
+            odb.GetClassRepresentation<SimpleObject>().AddUniqueIndexOn("index1", fields, true);
             for (var i = 0; i < TestSize; i++)
             {
                 object o = GetSimpleObjectInstance(i);

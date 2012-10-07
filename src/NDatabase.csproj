@@ -296,7 +296,7 @@
     <Compile Include="Odb\ObjectRepresentation.cs" />
     <Compile Include="Odb\Objects.cs" />
     <Compile Include="Odb\ObjectValues.cs" />
-    <Compile Include="Odb\ODB.cs" />
+    <Compile Include="Odb\IOdb.cs" />
     <Compile Include="Odb\BaseOID.cs" />
     <Compile Include="Odb\OdbConfiguration.cs" />
     <Compile Include="Odb\ODBExt.cs" />

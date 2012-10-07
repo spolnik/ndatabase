@@ -2,8 +2,6 @@ using System;
 using NDatabase.Btree.Exception;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.BTree;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.Criteria;
@@ -21,7 +19,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var baseName = GetBaseName();
             DeleteBase(baseName);
             var odb = Open(baseName);
-            var clazz = odb.GetClassRepresentation(typeof (VO.Login.Function));
+            var clazz = odb.GetClassRepresentation<VO.Login.Function>();
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("index", indexFields, true);
             odb.Close();
@@ -53,14 +51,14 @@ namespace Test.NDatabase.Odb.Test.Index
             var baseName = GetBaseName();
             DeleteBase(baseName);
             var odb = Open(baseName);
-            var clazz = odb.GetClassRepresentation(typeof (VO.Login.Function));
+            var clazz = odb.GetClassRepresentation<VO.Login.Function>();
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("my-index", indexFields, true);
             odb.Store(new VO.Login.Function("test"));
             odb.Close();
             odb = Open(baseName);
-            AssertTrue(odb.GetClassRepresentation(typeof (VO.Login.Function)).ExistIndex("my-index"));
-            AssertFalse(odb.GetClassRepresentation(typeof (VO.Login.Function)).ExistIndex("my-indexdhfdjkfhdjkhj"));
+            AssertTrue(odb.GetClassRepresentation<VO.Login.Function>().ExistIndex("my-index"));
+            AssertFalse(odb.GetClassRepresentation<VO.Login.Function>().ExistIndex("my-indexdhfdjkfhdjkhj"));
             odb.Close();
         }
 
@@ -70,13 +68,13 @@ namespace Test.NDatabase.Odb.Test.Index
             var baseName = GetBaseName();
             DeleteBase(baseName);
             var odb = Open(baseName);
-            var clazz = odb.GetClassRepresentation(typeof (VO.Login.Function));
+            var clazz = odb.GetClassRepresentation<VO.Login.Function>();
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("my-index", indexFields, true);
             odb.Close();
             odb = Open(baseName);
-            AssertTrue(odb.GetClassRepresentation(typeof (VO.Login.Function)).ExistIndex("my-index"));
-            AssertFalse(odb.GetClassRepresentation(typeof (VO.Login.Function)).ExistIndex("my-indexdhfdjkfhdjkhj"));
+            AssertTrue(odb.GetClassRepresentation<VO.Login.Function>().ExistIndex("my-index"));
+            AssertFalse(odb.GetClassRepresentation<VO.Login.Function>().ExistIndex("my-indexdhfdjkfhdjkhj"));
             odb.Close();
         }
 
@@ -86,7 +84,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var baseName = GetBaseName();
             DeleteBase(baseName);
             var @base = Open(baseName);
-            var clazz = @base.GetClassRepresentation(typeof (IndexedObject));
+            var clazz = @base.GetClassRepresentation<IndexedObject>();
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("index1", indexFields, true);
             @base.Close();
@@ -112,7 +110,7 @@ namespace Test.NDatabase.Odb.Test.Index
             DeleteBase(baseName);
             var @base = Open(baseName);
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation(typeof (IndexedObject));
+            var clazz = @base.GetClassRepresentation<IndexedObject>();
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("index1", indexFields, true);
             @base.Close();
@@ -186,7 +184,7 @@ namespace Test.NDatabase.Odb.Test.Index
             DeleteBase(baseName);
             var @base = Open(baseName);
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation(typeof (IndexedObject));
+            var clazz = @base.GetClassRepresentation<IndexedObject>();
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("index1", indexFields, true);
             @base.Close();
@@ -219,7 +217,7 @@ namespace Test.NDatabase.Odb.Test.Index
             DeleteBase(baseName);
             var @base = Open(baseName);
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation(typeof (IndexedObject));
+            var clazz = @base.GetClassRepresentation<IndexedObject>();
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("index1", indexFields, true);
             @base.Close();
@@ -317,7 +315,7 @@ namespace Test.NDatabase.Odb.Test.Index
             DeleteBase(baseName);
             var @base = Open(baseName);
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation(typeof (IndexedObject));
+            var clazz = @base.GetClassRepresentation<IndexedObject>();
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("index1", indexFields, true);
             @base.Close();
@@ -404,7 +402,7 @@ namespace Test.NDatabase.Odb.Test.Index
             DeleteBase(baseName);
             var @base = Open(baseName);
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation(typeof (IndexedObject));
+            var clazz = @base.GetClassRepresentation<IndexedObject>();
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("index1", indexFields, true);
             @base.Close();
@@ -493,7 +491,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var @base = Open(baseName);
             // Configuration.setUseLazyCache(true);
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation(typeof (IndexedObject));
+            var clazz = @base.GetClassRepresentation<IndexedObject>();
             var indexFields3 = new[] {"name"};
             clazz.AddUniqueIndexOn("index3", indexFields3, true);
             var indexFields2 = new[] {"name", "creation"};
@@ -555,7 +553,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var @base = Open(baseName);
 
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation(typeof (IndexedObject));
+            var clazz = @base.GetClassRepresentation<IndexedObject>();
             var indexFields = new[] {"duration"};
             clazz.AddIndexOn("index1", indexFields, true);
             var indexFields2 = new[] {"creation"};
@@ -623,7 +621,7 @@ namespace Test.NDatabase.Odb.Test.Index
             DeleteBase(baseName);
             var @base = Open(baseName);
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation(typeof (IndexedObject));
+            var clazz = @base.GetClassRepresentation<IndexedObject>();
             var indexFields = new[] {"name", "duration", "creation"};
             clazz.AddUniqueIndexOn("index", indexFields, true);
             @base.Close();
@@ -692,7 +690,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var @base = Open(baseName);
             // Configuration.setUseLazyCache(true);
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation(typeof (IndexedObject));
+            var clazz = @base.GetClassRepresentation<IndexedObject>();
             var indexField1 = new[] {"duration"};
             clazz.AddUniqueIndexOn("inde1", indexField1, true);
             var indexFields3 = new[] {"name"};
@@ -751,7 +749,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var @base = Open(baseName);
 
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation(typeof (IndexedObject));
+            var clazz = @base.GetClassRepresentation<IndexedObject>();
             var indexFields = new[] {"creation"};
             clazz.AddUniqueIndexOn("index1", indexFields, true);
             @base.Close();
@@ -804,7 +802,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var baseName = GetBaseName();
             DeleteBase(baseName);
             var @base = Open(baseName);
-            var clazz = @base.GetClassRepresentation(typeof (IndexedObject));
+            var clazz = @base.GetClassRepresentation<IndexedObject>();
             var indexFields = new[] {"name", "duration"};
             clazz.AddUniqueIndexOn("index1", indexFields, true);
             @base.Close();
@@ -830,7 +828,7 @@ namespace Test.NDatabase.Odb.Test.Index
             DeleteBase(baseName);
             var @base = Open(baseName);
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation(typeof (IndexedObject));
+            var clazz = @base.GetClassRepresentation<IndexedObject>();
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("index1", indexFields, true);
             @base.Close();
@@ -895,7 +893,7 @@ namespace Test.NDatabase.Odb.Test.Index
             DeleteBase(baseName);
             var @base = Open(baseName);
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation(typeof (IndexedObject));
+            var clazz = @base.GetClassRepresentation<IndexedObject>();
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("index1", indexFields, true);
             var size = 1000;
@@ -971,7 +969,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var @base = Open(baseName);
 
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation(typeof (IndexedObject));
+            var clazz = @base.GetClassRepresentation<IndexedObject>();
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("index1", indexFields, true);
             @base.Close();
@@ -1049,7 +1047,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var @base = Open(baseName);
 
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation(typeof (IndexedObject));
+            var clazz = @base.GetClassRepresentation<IndexedObject>();
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("index1", indexFields, true);
             @base.Close();
@@ -1121,7 +1119,7 @@ namespace Test.NDatabase.Odb.Test.Index
             DeleteBase(baseName);
             var @base = Open(baseName);
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation(typeof (IndexedObject));
+            var clazz = @base.GetClassRepresentation<IndexedObject>();
             var indexFields3 = new[] {"name"};
             clazz.AddUniqueIndexOn("index3", indexFields3, true);
             var indexFields2 = new[] {"name", "creation"};
@@ -1192,7 +1190,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var @base = Open(baseName);
 
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation(typeof (IndexedObject));
+            var clazz = @base.GetClassRepresentation<IndexedObject>();
             var indexFields = new[] {"duration"};
             clazz.AddUniqueIndexOn("index1", indexFields, true);
             @base.Close();
@@ -1287,7 +1285,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var baseName = GetBaseName();
             DeleteBase(baseName);
             var @base = Open(baseName);
-            var clazz = @base.GetClassRepresentation(typeof (IndexedObject));
+            var clazz = @base.GetClassRepresentation<IndexedObject>();
             var indexFields = new[] {"name", "duration"};
             clazz.AddUniqueIndexOn("index1", indexFields, true);
             var indexFields2 = new[] {"name", "creation"};
@@ -1305,7 +1303,7 @@ namespace Test.NDatabase.Odb.Test.Index
             DeleteBase(baseName);
             var @base = Open(baseName);
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation(typeof (IndexedObject));
+            var clazz = @base.GetClassRepresentation<IndexedObject>();
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("index1", indexFields, true);
             @base.Close();
@@ -1337,7 +1335,7 @@ namespace Test.NDatabase.Odb.Test.Index
             DeleteBase(baseName);
             var @base = Open(baseName);
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation(typeof (IndexedObject));
+            var clazz = @base.GetClassRepresentation<IndexedObject>();
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("index", indexFields, true);
             @base.Close();

@@ -149,7 +149,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         /// <remarks>
         ///   Used to disconnect the object from the current session. The object is removed from the cache
         /// </remarks>
-        void Disconnect(object @object);
+        void Disconnect<T>(T plainObject) where T : class;
 
         void RebuildIndex(string className, string indexName, bool verbose);
 

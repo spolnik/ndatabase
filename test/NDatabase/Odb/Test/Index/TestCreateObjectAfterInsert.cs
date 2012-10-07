@@ -41,7 +41,7 @@ namespace Test.NDatabase.Odb.Test.Index
                 Println("\n\n END OF INSERT \n\n");
                 odb = Open(OdbFileName);
                 var names = new[] {"name"};
-                odb.GetClassRepresentation(typeof (IndexedObject)).AddUniqueIndexOn("index1", names, true);
+                odb.GetClassRepresentation<IndexedObject>().AddUniqueIndexOn("index1", names, true);
                 Println("\n\n after create index\n\n");
                 var objects =
                     odb.GetObjects<IndexedObject>(
@@ -95,7 +95,7 @@ namespace Test.NDatabase.Odb.Test.Index
                 Println("\n\n END OF INSERT \n\n");
                 odb = Open(OdbFileName);
                 var names = new[] {"duration"};
-                odb.GetClassRepresentation(typeof (IndexedObject)).AddUniqueIndexOn("index1", names, true);
+                odb.GetClassRepresentation<IndexedObject>().AddUniqueIndexOn("index1", names, true);
                 Println("\n\n after create index\n\n");
                 var objects =
                     odb.GetObjects<IndexedObject>(
@@ -139,7 +139,7 @@ namespace Test.NDatabase.Odb.Test.Index
             using (var odb = Open(odbFileName))
             {
                 var names = new[] {"name"};
-                odb.GetClassRepresentation(typeof (IndexedObject)).AddUniqueIndexOn("index1", names, true);
+                odb.GetClassRepresentation<IndexedObject>().AddUniqueIndexOn("index1", names, true);
                 var objects =
                     odb.GetObjects<IndexedObject>(
                         new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", "name")), true);
@@ -174,7 +174,7 @@ namespace Test.NDatabase.Odb.Test.Index
                 odb.Close();
                 odb = Open(OdbFileName);
                 var names = new[] {"name"};
-                odb.GetClassRepresentation(typeof (IndexedObject)).AddUniqueIndexOn("index1", names, true);
+                odb.GetClassRepresentation<IndexedObject>().AddUniqueIndexOn("index1", names, true);
                 var objects =
                     odb.GetObjects<IndexedObject>(
                         new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", "name0")), true);

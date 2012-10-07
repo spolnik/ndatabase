@@ -19,7 +19,7 @@ namespace Test.NDatabase.Odb.Test.Explorer
             OdbFactory.Delete("base1.neodatis");
             var odb = OdbFactory.Open("base1.neodatis");
             var fields = new[] {"int1"};
-            odb.GetClassRepresentation(typeof (TestClass)).AddUniqueIndexOn("index1", fields, true);
+            odb.GetClassRepresentation<TestClass>().AddUniqueIndexOn("index1", fields, true);
             var start = OdbTime.GetCurrentTimeInMs();
             var size = 50;
             for (var i = 0; i < size; i++)

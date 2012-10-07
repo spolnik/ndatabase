@@ -22,7 +22,7 @@ namespace Test.NDatabase.Odb.Test.Index
             DeleteBase("index-object");
             var odb = Open("index-object");
             var fields = new[] {"object"};
-            odb.GetClassRepresentation(typeof (IndexedObject2)).AddUniqueIndexOn("index1", fields, true);
+            odb.GetClassRepresentation<IndexedObject2>().AddUniqueIndexOn("index1", fields, true);
             var o1 = new IndexedObject2("Object1", new IndexedObject("Inner Object 1", 10, new DateTime()));
             odb.Store(o1);
             odb.Close();
@@ -52,7 +52,7 @@ namespace Test.NDatabase.Odb.Test.Index
             DeleteBase("index-object");
             var odb = Open("index-object");
             var fields = new[] {"object"};
-            odb.GetClassRepresentation(typeof (IndexedObject2)).AddUniqueIndexOn("index1", fields, true);
+            odb.GetClassRepresentation<IndexedObject2>().AddUniqueIndexOn("index1", fields, true);
             var size = 500;
             for (var i = 0; i < size; i++)
                 odb.Store(new IndexedObject2("Object " + i, new IndexedObject("Inner Object " + i, i, new DateTime())));
@@ -92,7 +92,7 @@ namespace Test.NDatabase.Odb.Test.Index
             {
                 odb = Open(baseName);
                 var fields = new[] {fieldName};
-                odb.GetClassRepresentation(typeof (IndexedObject2)).AddUniqueIndexOn("index1", fields, true);
+                odb.GetClassRepresentation<IndexedObject2>().AddUniqueIndexOn("index1", fields, true);
                 Fail("Should have thrown an exception because the field " + fieldName + " does not exist");
             }
             catch (Exception)
@@ -112,9 +112,9 @@ namespace Test.NDatabase.Odb.Test.Index
             var baseName = GetBaseName();
             var odb = Open(baseName);
             var fields = new[] {"object"};
-            odb.GetClassRepresentation(typeof (IndexedObject2)).AddUniqueIndexOn("index1", fields, true);
+            odb.GetClassRepresentation<IndexedObject2>().AddUniqueIndexOn("index1", fields, true);
             var fields2 = new[] {"name"};
-            odb.GetClassRepresentation(typeof (IndexedObject)).AddUniqueIndexOn("index2", fields2, true);
+            odb.GetClassRepresentation<IndexedObject>().AddUniqueIndexOn("index2", fields2, true);
             var size = 500;
             for (var i = 0; i < size; i++)
                 odb.Store(new IndexedObject2("Object " + i, new IndexedObject("Inner Object " + i, i, new DateTime())));

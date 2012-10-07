@@ -123,9 +123,8 @@ namespace NDatabase.Odb
         /// <summary>
         ///   Get an abstract representation of a class
         /// </summary>
-        /// <param name="clazz"> </param>
         /// <returns> a public meta-representation of a class </returns>
-        IClassRepresentation GetClassRepresentation(Type clazz);
+        IClassRepresentation GetClassRepresentation<T>() where T : class ;
 
         /// <summary>
         ///   Used to add an update trigger callback for the specific class
@@ -163,7 +162,7 @@ namespace NDatabase.Odb
         /// <remarks>
         ///   Used to disconnect the object from the current session. The object is removed from the cache
         /// </remarks>
-        void Disconnect(object @object);
+        void Disconnect<T>(T plainObject) where T : class;
 
         bool IsClosed();
 
