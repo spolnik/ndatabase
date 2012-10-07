@@ -166,9 +166,9 @@ namespace NDatabase.Odb
 
         bool IsClosed();
 
-        CriteriaQuery CriteriaQuery(Type clazz, ICriterion criterio);
+        CriteriaQuery CriteriaQuery<T>(ICriterion criterio) where T : class;
 
-        CriteriaQuery CriteriaQuery(Type clazz);
+        CriteriaQuery CriteriaQuery<T>() where T : class;
 
         /// <summary>
         ///   Return the name of the database

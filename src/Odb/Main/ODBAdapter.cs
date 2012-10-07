@@ -189,14 +189,14 @@ namespace NDatabase.Odb.Main
             return _storageEngine.IsClosed();
         }
 
-        public virtual CriteriaQuery CriteriaQuery(Type clazz, ICriterion criterion)
+        public virtual CriteriaQuery CriteriaQuery<T>(ICriterion criterion) where T : class 
         {
-            return _storageEngine.CriteriaQuery(clazz, criterion);
+            return _storageEngine.CriteriaQuery<T>(criterion);
         }
 
-        public virtual CriteriaQuery CriteriaQuery(Type clazz)
+        public virtual CriteriaQuery CriteriaQuery<T>() where T : class 
         {
-            return _storageEngine.CriteriaQuery(clazz);
+            return _storageEngine.CriteriaQuery<T>();
         }
 
         public virtual string GetName()

@@ -31,7 +31,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var objects = odb.GetObjects<IndexedObject>();
             var io = objects.GetFirst();
 
-            IQuery q = odb.CriteriaQuery(typeof (IndexedObject2), Where.Equal("object", io));
+            IQuery q = odb.CriteriaQuery<IndexedObject2>(Where.Equal("object", io));
 
             var objects2 = odb.GetObjects<IndexedObject2>(q);
             var o2 = objects2.GetFirst();
@@ -67,7 +67,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var io = objects.GetFirst();
             Println("d0=" + (end0 - start0));
             Println(q.GetExecutionPlan().GetDetails());
-            q = odb.CriteriaQuery(typeof (IndexedObject2), Where.Equal("object", io));
+            q = odb.CriteriaQuery<IndexedObject2>(Where.Equal("object", io));
             var start = OdbTime.GetCurrentTimeInMs();
 
             var objects2 = odb.GetObjects<IndexedObject2>(q);
@@ -131,7 +131,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var io = objects.GetFirst();
             Println("d0=" + (end0 - start0));
             Println(q.GetExecutionPlan().GetDetails());
-            q = odb.CriteriaQuery(typeof (IndexedObject2), Where.Equal("object", io));
+            q = odb.CriteriaQuery<IndexedObject2>(Where.Equal("object", io));
             var start = OdbTime.GetCurrentTimeInMs();
 
             var objects2 = odb.GetObjects<IndexedObject2>(q);

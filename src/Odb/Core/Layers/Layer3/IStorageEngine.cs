@@ -165,14 +165,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         ITriggerManager BuildTriggerManager();
 
-        /// <param name="clazz"> </param>
-        /// <param name="criterion"> </param>
-        /// <returns> </returns>
-        CriteriaQuery CriteriaQuery(Type clazz, ICriterion criterion);
+        CriteriaQuery CriteriaQuery<T>(ICriterion criterion) where T : class;
 
-        /// <param name="clazz"> </param>
-        /// <returns> </returns>
-        CriteriaQuery CriteriaQuery(Type clazz);
+        CriteriaQuery CriteriaQuery<T>() where T : class;
 
         CurrentIdBlockInfo GetCurrentIdBlockInfo();
 

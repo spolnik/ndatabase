@@ -98,7 +98,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Close();
             odb = Open(baseName);
             var f2bis = odb.GetObjects<VO.Login.Function>(new CriteriaQuery(typeof(VO.Login.Function), Where.Equal("name", "f2"))).GetFirst();
-            var query = odb.CriteriaQuery(typeof (User), Where.Contain("profile.functions", f2bis));
+            var query = odb.CriteriaQuery<User>(Where.Contain("profile.functions", f2bis));
             var l = odb.GetObjects<User>(query);
             AssertEquals(1, l.Count);
             user = l.GetFirst();
@@ -125,7 +125,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Close();
             odb = Open(baseName);
             var f2bis = odb.GetObjects<VO.Login.Function>(new CriteriaQuery(typeof(VO.Login.Function), Where.Equal("name", "f2"))).GetFirst();
-            var query = odb.CriteriaQuery(typeof (Profile), Where.Contain("functions", f2bis));
+            var query = odb.CriteriaQuery<Profile>(Where.Contain("functions", f2bis));
             var l = odb.GetObjects<Profile>(query);
             AssertEquals(1, l.Count);
             p1 = l.GetFirst();
@@ -184,7 +184,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Close();
             odb = Open(baseName);
             var f2bis = odb.GetObjects<VO.Login.Function>(new CriteriaQuery(typeof(VO.Login.Function), Where.Equal("name", "f22"))).GetFirst();
-            var query = odb.CriteriaQuery(typeof (User), Where.Contain("profile.functions", f2bis));
+            var query = odb.CriteriaQuery<User>(Where.Contain("profile.functions", f2bis));
             var l = odb.GetObjects<User>(query);
             AssertEquals(1, l.Count);
             user = l.GetFirst();

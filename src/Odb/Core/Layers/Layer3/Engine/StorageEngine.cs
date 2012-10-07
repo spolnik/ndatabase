@@ -518,9 +518,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             _triggerManager.AddUpdateTriggerFor(className, trigger);
         }
 
-        public override CriteriaQuery CriteriaQuery(Type clazz, ICriterion criterion)
+        public override CriteriaQuery CriteriaQuery<T>(ICriterion criterion)
         {
-            var criteriaQuery = new CriteriaQuery(clazz, criterion);
+            var criteriaQuery = new CriteriaQuery(typeof(T), criterion);
             criteriaQuery.SetStorageEngine(this);
 
             if (criterion != null)
@@ -529,9 +529,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return criteriaQuery;
         }
 
-        public override CriteriaQuery CriteriaQuery(Type clazz)
+        public override CriteriaQuery CriteriaQuery<T>()
         {
-            var criteriaQuery = new CriteriaQuery(clazz);
+            var criteriaQuery = new CriteriaQuery(typeof(T));
             criteriaQuery.SetStorageEngine(this);
             return criteriaQuery;
         }
