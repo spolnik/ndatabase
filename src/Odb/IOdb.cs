@@ -124,27 +124,27 @@ namespace NDatabase.Odb
         ///   Get an abstract representation of a class
         /// </summary>
         /// <returns> a public meta-representation of a class </returns>
-        IClassRepresentation GetClassRepresentation<T>() where T : class ;
+        IClassRepresentation GetClassRepresentation<T>() where T : class;
 
         /// <summary>
         ///   Used to add an update trigger callback for the specific class
         /// </summary>
-        void AddUpdateTrigger(Type clazz, UpdateTrigger trigger);
+        void AddUpdateTrigger<T>(UpdateTrigger trigger) where T : class;
 
         /// <summary>
         ///   Used to add an insert trigger callback for the specific class
         /// </summary>
-        void AddInsertTrigger(Type clazz, InsertTrigger trigger);
+        void AddInsertTrigger<T>(InsertTrigger trigger) where T : class;
 
         /// <summary>
         ///   USed to add a delete trigger callback for the specific class
         /// </summary>
-        void AddDeleteTrigger(Type clazz, DeleteTrigger trigger);
+        void AddDeleteTrigger<T>(DeleteTrigger trigger) where T : class;
 
         /// <summary>
         ///   Used to add a select trigger callback for the specific class
         /// </summary>
-        void AddSelectTrigger(Type clazz, SelectTrigger trigger);
+        void AddSelectTrigger<T>(SelectTrigger trigger) where T : class;
 
         /// <summary>
         ///   Returns the object used to refactor the database

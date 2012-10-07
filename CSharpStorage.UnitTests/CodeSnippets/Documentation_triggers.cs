@@ -45,7 +45,7 @@ namespace NDatabase.UnitTests.CodeSnippets
 
             using (var odb = OdbFactory.Open("inserting_trigger.db"))
             {
-                odb.AddInsertTrigger(typeof(Mage), myTrigger);
+                odb.AddInsertTrigger<Mage>(myTrigger);
                 odb.Store(mage);
             }
 

@@ -17,7 +17,7 @@ namespace Test.NDatabase.Odb.Test.Trigger
             try
             {
                 odb = Open(Base);
-                odb.AddInsertTrigger(typeof (ObjectWithAutoIncrementId), new LocalAutoIncrementTrigger());
+                odb.AddInsertTrigger<ObjectWithAutoIncrementId>(new LocalAutoIncrementTrigger());
                 var o = new ObjectWithAutoIncrementId("Object 1");
                 odb.Store(o);
                 AssertEquals(1, o.GetId());
@@ -38,7 +38,7 @@ namespace Test.NDatabase.Odb.Test.Trigger
             try
             {
                 odb = Open(Base);
-                odb.AddInsertTrigger(typeof (ObjectWithAutoIncrementId), new LocalAutoIncrementTrigger());
+                odb.AddInsertTrigger<ObjectWithAutoIncrementId>(new LocalAutoIncrementTrigger());
                 for (var i = 0; i < 1000; i++)
                 {
                     var o = new ObjectWithAutoIncrementId("Object " + (i + 1));
@@ -47,7 +47,7 @@ namespace Test.NDatabase.Odb.Test.Trigger
                 }
                 odb.Close();
                 odb = Open(Base);
-                odb.AddInsertTrigger(typeof (ObjectWithAutoIncrementId), new LocalAutoIncrementTrigger());
+                odb.AddInsertTrigger<ObjectWithAutoIncrementId>(new LocalAutoIncrementTrigger());
                 for (var i = 0; i < 1000; i++)
                 {
                     var o = new ObjectWithAutoIncrementId("Object - bis - " + (i + 1));
@@ -70,13 +70,13 @@ namespace Test.NDatabase.Odb.Test.Trigger
             try
             {
                 odb = Open(Base);
-                odb.AddInsertTrigger(typeof (ObjectWithAutoIncrementId), new LocalAutoIncrementTrigger());
+                odb.AddInsertTrigger<ObjectWithAutoIncrementId>(new LocalAutoIncrementTrigger());
                 var o = new ObjectWithAutoIncrementId("Object 1");
                 odb.Store(o);
                 AssertEquals(1, o.GetId());
                 odb.Close();
                 odb = Open(Base);
-                odb.AddInsertTrigger(typeof (ObjectWithAutoIncrementId), new LocalAutoIncrementTrigger());
+                odb.AddInsertTrigger<ObjectWithAutoIncrementId>(new LocalAutoIncrementTrigger());
                 o = new ObjectWithAutoIncrementId("Object 2");
                 odb.Store(o);
                 AssertEquals(2, o.GetId());

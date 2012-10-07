@@ -40,6 +40,11 @@ namespace NDatabase.Tool.Wrappers
                        : fullClassName.Substring(0, index);
         }
 
+        public static String GetFullName<T>()
+        {
+            return GetFullName(typeof (T));
+        }
+
         public static String GetFullName(Type type)
         {
             string value;

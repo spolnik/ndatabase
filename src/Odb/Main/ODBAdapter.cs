@@ -145,27 +145,27 @@ namespace NDatabase.Odb.Main
             return new ClassRepresentation(_storageEngine, classInfo);
         }
 
-        public virtual void AddUpdateTrigger(Type clazz, UpdateTrigger trigger)
+        public virtual void AddUpdateTrigger<T>(UpdateTrigger trigger) where T : class 
         {
-            var classFullName = OdbClassUtil.GetFullName(clazz);
+            var classFullName = OdbClassUtil.GetFullName<T>();
             _storageEngine.AddUpdateTriggerFor(classFullName, trigger);
         }
 
-        public virtual void AddInsertTrigger(Type clazz, InsertTrigger trigger)
+        public virtual void AddInsertTrigger<T>(InsertTrigger trigger) where T : class 
         {
-            var classFullName = OdbClassUtil.GetFullName(clazz);
+            var classFullName = OdbClassUtil.GetFullName<T>();
             _storageEngine.AddInsertTriggerFor(classFullName, trigger);
         }
 
-        public virtual void AddDeleteTrigger(Type clazz, DeleteTrigger trigger)
+        public virtual void AddDeleteTrigger<T>(DeleteTrigger trigger) where T : class 
         {
-            var classFullName = OdbClassUtil.GetFullName(clazz);
+            var classFullName = OdbClassUtil.GetFullName<T>();
             _storageEngine.AddDeleteTriggerFor(classFullName, trigger);
         }
 
-        public virtual void AddSelectTrigger(Type clazz, SelectTrigger trigger)
+        public virtual void AddSelectTrigger<T>(SelectTrigger trigger) where T : class 
         {
-            var classFullName = OdbClassUtil.GetFullName(clazz);
+            var classFullName = OdbClassUtil.GetFullName<T>();
             _storageEngine.AddSelectTriggerFor(classFullName, trigger);
         }
 
