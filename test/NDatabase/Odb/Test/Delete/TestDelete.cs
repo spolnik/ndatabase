@@ -731,31 +731,6 @@ namespace Test.NDatabase.Odb.Test.Delete
         }
 
         [Test]
-        public virtual void Test5_deleteNullObject()
-        {
-            IOdb odb = null;
-            var baseName = GetBaseName();
-            odb = Open(baseName);
-            var f = new VO.Login.Function("function1");
-            odb.Store(f);
-            var oid = odb.GetObjectId(f);
-            try
-            {
-                odb.Delete(null);
-                Fail("Should have thrown an exception: trying to delete a null object");
-            }
-            catch (OdbRuntimeException)
-            {
-                odb.Close();
-                DeleteBase(baseName);
-            }
-            catch (Exception)
-            {
-                Fail("Should have thrown an OdbRuntimeException: trying to delete a null object");
-            }
-        }
-
-        [Test]
         public virtual void Test6()
         {
             IOdb odb = null;

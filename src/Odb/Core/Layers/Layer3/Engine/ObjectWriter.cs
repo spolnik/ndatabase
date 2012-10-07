@@ -52,18 +52,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             _session = engine.GetSession(true);
 
             _nonNativeObjectWriter = new NonNativeObjectWriter(this, _storageEngine, _comparator);
+
+            FileSystemProcessor = new FileSystemProcessor();
+            FileSystemProcessor.BuildFileSystemInterface(engine, _session);
         }
 
         #region IObjectWriter Members
-
-        /// <summary>
-        ///   The init2 method is the two phase init implementation The FileSystemInterface depends on the session creation which is done by subclasses after the ObjectWriter constructor So we can not execute the buildFSI in the constructor as it would result in a non initialized object reference (the session)
-        /// </summary>
-        public void Init2()
-        {
-            FileSystemProcessor = new FileSystemProcessor();
-            FileSystemProcessor.BuildFileSystemInterface(_storageEngine, _session);
-        }
 
         public void AfterInit()
         {

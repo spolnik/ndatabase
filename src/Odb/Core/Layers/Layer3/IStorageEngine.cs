@@ -17,7 +17,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
     /// </summary>
     internal interface IStorageEngine
     {
-        OID Store(OID oid, object @object);
+        OID Store<T>(OID oid, T plainObject) where T : class;
 
         /// <summary>
         ///   Store an object in an database.
@@ -25,11 +25,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         /// <remarks>
         ///   Store an object in an database. To detect if object must be updated or insert, we use the cache. To update an object, it must be first selected from the database. When an object is to be stored, if it exist in the cache, then it will be updated, else it will be inserted as a new object. If the object is null, the cache will be used to check if the meta representation is in the cache
         /// </remarks>
-        OID Store(object @object);
+        OID Store<T>(T plainObject) where T : class;
 
         void DeleteObjectWithOid(OID oid);
 
-        OID Delete(object @object);
+        OID Delete<T>(T plainObject) where T : class;
 
         void Close();
 
@@ -66,7 +66,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         void Rollback();
 
-        OID GetObjectId(object @object, bool throwExceptionIfDoesNotExist);
+        OID GetObjectId<T>(T plainObject, bool throwExceptionIfDoesNotExist) where T : class;
 
         object GetObjectFromOid(OID oid);
 

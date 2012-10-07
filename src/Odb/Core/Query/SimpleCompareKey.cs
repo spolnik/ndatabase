@@ -5,7 +5,6 @@ namespace NDatabase.Odb.Core.Query
     /// <summary>
     ///   A simple compare key : an object that contains various values used for indexing query result <p></p>
     /// </summary>
-    
     public sealed class SimpleCompareKey : CompareKey
     {
         private readonly IComparable _key;

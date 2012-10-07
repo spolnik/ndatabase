@@ -7,7 +7,7 @@ using NDatabase.Odb.Core;
 
 namespace NDatabase.Tool.Wrappers
 {
-    public static class OdbString
+    internal static class OdbString
     {
         private static readonly IDictionary<string, Regex> Cache = new Dictionary<string, Regex>();
 
@@ -20,7 +20,7 @@ namespace NDatabase.Tool.Wrappers
         /// <param name="inNewToken"> The new Token </param>
         /// <param name="inNbTimes"> The number of time, the replace operation must be done. -1 means replace all </param>
         /// <returns> String The new String </returns>
-        public static String ReplaceToken(String inSourceString, String inTokenToReplace, String inNewToken,
+        internal static String ReplaceToken(String inSourceString, String inTokenToReplace, String inNewToken,
                                           int inNbTimes)
         {
             var nIndex = 0;
@@ -69,7 +69,7 @@ namespace NDatabase.Tool.Wrappers
             return sResult.ToString();
         }
 
-        public static bool Matches(string regExp, string valueToCheck)
+        internal static bool Matches(string regExp, string valueToCheck)
         {
             Regex value;
             var success = Cache.TryGetValue(regExp, out value);

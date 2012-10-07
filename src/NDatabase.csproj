@@ -92,7 +92,6 @@
     <Compile Include="Btree\Tool\BTreeValidator.cs" />
     <Compile Include="Odb\ClassRepresentation.cs" />
     <Compile Include="Odb\Core\IError.cs" />
-    <Compile Include="Odb\Core\ITwoPhaseInit.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\IIntrospectionCallback.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\IObjectIntrospector.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Instance\IInstanceBuilder.cs" />
@@ -320,7 +319,6 @@
     <Compile Include="Tool\Wrappers\OdbClassUtil.cs" />
     <Compile Include="Tool\Wrappers\OdbComparable.cs" />
     <Compile Include="Tool\Wrappers\OdbRandom.cs" />
-    <Compile Include="Tool\Wrappers\OdbReflection.cs" />
     <Compile Include="Tool\Wrappers\OdbString.cs" />
     <Compile Include="Tool\Wrappers\OdbTime.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

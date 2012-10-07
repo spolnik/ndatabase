@@ -245,20 +245,17 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             OdbType odbType;
 
             TypesByName.TryGetValue(OdbClassUtil.GetFullName(clazz), out odbType);
+            
             if (odbType != null)
                 return true;
+
             if (clazz.IsArray)
-            {
-                //ODBType type = new ODBType(ODBType.ARRAY.isPrimitive,ODBType.ARRAY_ID,ODBType.ARRAY.getName(),0);
-                //type.subType = getFromClass(clazz.getComponentType());
                 return true;
-            }
+
             if (Map._baseClass.IsAssignableFrom(clazz))
                 return true;
-            // check if it is a list
-            if (Collection._baseClass.IsAssignableFrom(clazz))
-                return true;
-            return false;
+
+            return Collection._baseClass.IsAssignableFrom(clazz);
         }
 
         public static bool Exist(string name)

@@ -20,11 +20,11 @@ namespace NDatabase.Odb.Core.Query.NQ
         public static Type GetUnderlyingType(SimpleNativeQuery query)
         {
             var clazz = query.GetType();
-            var methods = OdbReflection.GetMethods(clazz);
+            var methods = GetMethods(clazz);
             
             foreach (var method in methods)
             {
-                var attributes = OdbReflection.GetAttributeTypes(method);
+                var attributes = GetAttributeTypes(method);
 
                 if (!method.Name.Equals(MatchMethodName) || attributes.Length != 1)
                     continue;
@@ -58,6 +58,22 @@ namespace NDatabase.Odb.Core.Query.NQ
                     NDatabaseError.QueryNqExceptionRaisedByNativeQueryExecution.AddParameter(query.GetType().FullName), e);
             }
             return ((bool) result);
+        }
+
+        private static IEnumerable<MethodInfo> GetMethods(IReflect type)
+        {
+            return type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+        }
+
+        private static Type[] GetAttributeTypes(MethodInfo method)
+        {
+            var parameterInfoList = method.GetParameters();
+            var types = new Type[parameterInfoList.Length];
+
+            for (var i = 0; i < parameterInfoList.Length; i++)
+                types[i] = parameterInfoList[i].ParameterType;
+
+            return types;
         }
     }
 }

@@ -2,14 +2,14 @@ using System;
 
 namespace NDatabase.Tool.Wrappers
 {
-    public static class OdbTime
+    internal static class OdbTime
     {
-        public static long GetCurrentTimeInTicks()
+        internal static long GetCurrentTimeInTicks()
         {
             return DateTime.Now.Ticks;
         }
 
-        public static long GetCurrentTimeInMs()
+        internal static long GetCurrentTimeInMs()
         {
             return (long) TimeSpan.FromTicks(GetCurrentTimeInTicks()).TotalMilliseconds;
         }

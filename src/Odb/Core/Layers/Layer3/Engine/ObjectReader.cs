@@ -69,9 +69,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         #region IObjectReader Members
 
-        /// <summary>
-        ///   see http://wiki.neodatis.org/odb-file-format
-        /// </summary>
         public void ReadDatabaseHeader()
         {
             // Reads the version of the database file

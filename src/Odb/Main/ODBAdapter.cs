@@ -36,9 +36,9 @@ namespace NDatabase.Odb.Main
             _storageEngine.Rollback();
         }
 
-        public virtual OID Store(object o)
+        public OID Store<T>(T plainObject) where T : class
         {
-            return _storageEngine.Store(o);
+            return _storageEngine.Store(plainObject);
         }
 
         public virtual IObjects<T> GetObjects<T>()
@@ -62,9 +62,9 @@ namespace NDatabase.Odb.Main
             _storageEngine.Close();
         }
 
-        public virtual OID Delete(object @object)
+        public OID Delete<T>(T plainObject) where T : class
         {
-            return _storageEngine.Delete(@object);
+            return _storageEngine.Delete(plainObject);
         }
 
         /// <summary>
@@ -115,9 +115,9 @@ namespace NDatabase.Odb.Main
             }
         }
 
-        public virtual OID GetObjectId(object @object)
+        public OID GetObjectId<T>(T plainObject) where T : class
         {
-            return _storageEngine.GetObjectId(@object, true);
+            return _storageEngine.GetObjectId(plainObject, true);
         }
 
         public virtual object GetObjectFromId(OID id)

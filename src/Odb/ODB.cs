@@ -32,8 +32,8 @@ namespace NDatabase.Odb
         /// <summary>
         ///   Store a plain Object in the ODB Database
         /// </summary>
-        /// <param name="object"> A plain Object </param>
-        OID Store(object @object);
+        /// <param name="plainObject"> A plain Object </param>
+        OID Store<T>(T plainObject) where T : class;
 
         /// <summary>
         ///   Get all objects of a specific type
@@ -57,7 +57,7 @@ namespace NDatabase.Odb
         /// <summary>
         ///   Delete an object from database
         /// </summary>
-        OID Delete(object @object);
+        OID Delete<T>(T plainObject) where T : class;
 
         /// <summary>
         ///   Delete an object from the database with the id
@@ -104,9 +104,9 @@ namespace NDatabase.Odb
         /// <summary>
         ///   Get the id of an ODB-aware object
         /// </summary>
-        /// <param name="object"> </param>
+        /// <param name="plainObject"> </param>
         /// <returns> The ODB internal object id </returns>
-        OID GetObjectId(object @object);
+        OID GetObjectId<T>(T plainObject) where T : class;
 
         /// <summary>
         ///   Get the object with a specific id

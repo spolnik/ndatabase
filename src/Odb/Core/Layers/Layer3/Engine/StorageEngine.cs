@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
@@ -80,9 +79,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             // Object Writer must be created before object Reader
             _objectWriter = new ObjectWriter(this);
-
-            // Object writer is a two Phase init object
-            _objectWriter.Init2();
 
             ObjectReader = new ObjectReader(this);
             AddSession(session, false);
@@ -183,12 +179,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return checkMetaModelResult;
         }
 
-        public override OID Store(object @object)
-        {
-            return Store(null, @object);
-        }
-
-        public override OID Store(OID oid, object @object)
+        public override OID Store<T>(T plainObject)
         {
             if (IsDbClosed)
             {
@@ -196,7 +187,21 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
             }
 
-            var newOid = InternalStore(oid, @object);
+            var newOid = InternalStore(null, plainObject);
+            GetSession(true).GetCache().ClearInsertingObjects();
+
+            return newOid;
+        }
+
+        public override OID Store<T>(OID oid, T plainObject)
+        {
+            if (IsDbClosed)
+            {
+                throw new OdbRuntimeException(
+                    NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
+            }
+
+            var newOid = InternalStore(oid, plainObject);
             GetSession(true).GetCache().ClearInsertingObjects();
 
             return newOid;
@@ -221,7 +226,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <summary>
         ///   Actually deletes an object database
         /// </summary>
-        public override OID Delete(object @object)
+        public override OID Delete<T>(T plainObject)
         {
             var lsession = GetSession(true);
             if (lsession.IsRollbacked())
@@ -230,32 +235,29 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     NDatabaseError.OdbHasBeenRollbacked.AddParameter(FileIdentification.ToString()));
             }
 
-            if (@object == null)
-                throw new OdbRuntimeException(NDatabaseError.OdbCanNotDeleteNullObject);
-
             var cache = lsession.GetCache();
 
             // Get header of the object (position, previous object position, next
             // object position and class info position)
             // Header must come from cache because it may have been updated before.
-            var header = cache.GetObjectInfoHeaderFromObject(@object);
+            var header = cache.GetObjectInfoHeaderFromObject(plainObject);
             if (header == null)
             {
-                var cachedOid = cache.GetOid(@object);
+                var cachedOid = cache.GetOid(plainObject);
                 
                 if (cachedOid == null)
                 {
                     throw new OdbRuntimeException(
-                        NDatabaseError.ObjectDoesNotExistInCacheForDelete.AddParameter(@object.GetType().FullName).
-                            AddParameter(@object.ToString()));
+                        NDatabaseError.ObjectDoesNotExistInCacheForDelete.AddParameter(plainObject.GetType().FullName).
+                            AddParameter(plainObject.ToString()));
                 }
 
                 header = ObjectReader.ReadObjectInfoHeaderFromOid(cachedOid, false);
             }
 
-            _triggerManager.ManageDeleteTriggerBefore(@object.GetType().FullName, @object, header.GetOid());
+            _triggerManager.ManageDeleteTriggerBefore(plainObject.GetType().FullName, plainObject, header.GetOid());
             var oid = _objectWriter.Delete(header);
-            _triggerManager.ManageDeleteTriggerAfter(@object.GetType().FullName, @object, oid);
+            _triggerManager.ManageDeleteTriggerAfter(plainObject.GetType().FullName, plainObject, oid);
             // removes the object from the cache
             cache.RemoveObjectByOid(header.GetOid());
 
@@ -342,14 +344,14 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             GetSession(true).Rollback();
         }
 
-        public override OID GetObjectId(object @object, bool throwExceptionIfDoesNotExist)
+        public override OID GetObjectId<T>(T plainObject, bool throwExceptionIfDoesNotExist)
         {
-            if (@object != null)
+            if (plainObject != null)
             {
-                var oid = GetSession(true).GetCache().GetOid(@object);
+                var oid = GetSession(true).GetCache().GetOid(plainObject);
                 
                 if (oid == null && throwExceptionIfDoesNotExist)
-                    throw new OdbRuntimeException(NDatabaseError.UnknownObjectToGetOid.AddParameter(@object.ToString()));
+                    throw new OdbRuntimeException(NDatabaseError.UnknownObjectToGetOid.AddParameter(plainObject.ToString()));
 
                 return oid;
             }
@@ -562,18 +564,16 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public void UpdateMetaModel()
         {
-            var metaModel = GetMetaModel();
-            DLogger.Info("Automatic refactoring : updating meta model");
+            if (OdbConfiguration.IsDebugEnabled())
+                DLogger.Info("Automatic refactoring : updating meta model");
             
-            // User classes
-            IEnumerator iterator = metaModel.GetUserClasses().GetEnumerator();
-            while (iterator.MoveNext())
-                _objectWriter.UpdateClassInfo((ClassInfo) iterator.Current, true);
+            var metaModel = GetMetaModel();
 
-            // System classes
-            iterator = metaModel.GetSystemClasses().GetEnumerator();
-            while (iterator.MoveNext())
-                _objectWriter.UpdateClassInfo((ClassInfo) iterator.Current, true);
+            foreach (var userClass in metaModel.GetUserClasses())
+                _objectWriter.UpdateClassInfo(userClass, true);
+
+            foreach (var systemClass in metaModel.GetSystemClasses())
+                _objectWriter.UpdateClassInfo(systemClass, true);
         }
 
         private string GetStorageDeviceName()
@@ -590,8 +590,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         ///   Store an object with the specific id
         /// </summary>
         /// <param name="oid"> </param>
-        /// <param name="object"> </param>
-        private OID InternalStore(OID oid, object @object)
+        /// <param name="plainObject"> </param>
+        private OID InternalStore<T>(OID oid, T plainObject) where T : class
         {
             if (GetSession(true).IsRollbacked())
             {
@@ -599,10 +599,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     NDatabaseError.OdbHasBeenRollbacked.AddParameter(GetBaseIdentification().ToString()));
             }
 
-            if (@object == null)
+            if (plainObject == null)
                 throw new OdbRuntimeException(NDatabaseError.OdbCanNotStoreNullObject);
 
-            var type = @object.GetType();
+            var type = typeof(T);
             if (OdbType.IsNative(type))
             {
                 throw new OdbRuntimeException(
@@ -612,7 +612,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             // The object must be transformed into meta representation
             ClassInfo classInfo;
-            
+
             // first checks if the class of this object already exist in the
             // metamodel
             if (GetMetaModel().ExistClass(type))
@@ -621,7 +621,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
             else
             {
-                var classInfoList = ClassIntrospector.Introspect(@object.GetType(), true);
+                var classInfoList = ClassIntrospector.Introspect(plainObject.GetType(), true);
 
                 // All new classes found
                 _objectWriter.AddClasses(classInfoList);
@@ -631,14 +631,14 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             // first detects if we must perform an insert or an update
             // If object is in the cache, we must perform an update, else an insert
             var cache = GetSession(true).GetCache();
-            
-            var cacheOid = cache.IdOfInsertingObject(@object);
+
+            var cacheOid = cache.IdOfInsertingObject(plainObject);
             if (cacheOid != null)
                 return cacheOid;
 
             // throw new ODBRuntimeException("Inserting meta representation of
             // an object without the object itself is not yet supported");
-            var mustUpdate = cache.Contains(@object);
+            var mustUpdate = cache.Contains(plainObject);
 
             // The introspection callback is used to execute some specific task (like calling trigger, for example) while introspecting the object
             var callback = _introspectionCallbackForInsert;
@@ -648,7 +648,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             // Transform the object into an ObjectInfo
             var nnoi =
                 (NonNativeObjectInfo)
-                _objectIntrospector.GetMetaRepresentation(@object, classInfo, true, null, callback);
+                _objectIntrospector.GetMetaRepresentation(plainObject, classInfo, true, null, callback);
 
             // During the introspection process, if object is to be updated, then the oid has been set
             mustUpdate = nnoi.GetOid() != null;

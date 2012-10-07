@@ -304,7 +304,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public abstract CriteriaQuery CriteriaQuery(Type arg1);
 
-        public abstract OID Delete(object arg1);
+        public abstract OID Delete<T>(T plainObject) where T : class;
 
         public abstract void DeleteObjectWithOid(OID arg1);
 
@@ -326,7 +326,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public abstract object GetObjectFromOid(OID arg1);
 
-        public abstract OID GetObjectId(object arg1, bool arg2);
+        public abstract OID GetObjectId<T>(T plainObject, bool throwExceptionIfDoesNotExist) where T : class;
 
         public abstract ObjectInfoHeader GetObjectInfoHeaderFromOid(OID arg1);
 
@@ -352,9 +352,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public abstract void SetDatabaseId(IDatabaseId arg1);
 
-        public abstract OID Store(OID arg1, object arg2);
+        public abstract OID Store<T>(OID oid, T plainObject) where T : class;
 
-        public abstract OID Store(object arg1);
+        public abstract OID Store<T>(T plainObject) where T : class;
 
         public abstract OID UpdateObject(NonNativeObjectInfo arg1, bool arg2);
 

@@ -306,9 +306,6 @@ namespace NDatabase.Odb.Core
         internal static readonly IError TriggerCalledOnNullObject = new NDatabaseError(1058,
                                                                                     "Trigger has been called on class @1 on a null object so it cannot retrieve the value of the '@2' attribute");
 
-        internal static readonly NDatabaseError OdbCanNotDeleteNullObject = new NDatabaseError(1061,
-                                                                                           "NDatabase can not delete null object");
-
         internal static readonly NDatabaseError InternalError = new NDatabaseError(10, "Internal error : @1 ");
 
         private readonly int _code;
