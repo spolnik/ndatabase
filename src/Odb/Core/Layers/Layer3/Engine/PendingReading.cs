@@ -2,7 +2,7 @@ using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
-    public sealed class PendingReading
+    internal sealed class PendingReading
     {
         private readonly OID _attributeOID;
         private readonly ClassInfo _ci;

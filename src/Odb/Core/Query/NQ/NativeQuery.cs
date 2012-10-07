@@ -3,7 +3,6 @@ using NDatabase.Odb.Core.Query.Execution;
 
 namespace NDatabase.Odb.Core.Query.NQ
 {
-    
     public abstract class NativeQuery : AbstractQuery
     {
         public abstract bool Match(object @object);
@@ -22,7 +21,7 @@ namespace NDatabase.Odb.Core.Query.NQ
             return new string[0];
         }
 
-        public override void SetExecutionPlan(IQueryExecutionPlan plan)
+        internal new void SetExecutionPlan(IQueryExecutionPlan plan)
         {
             ExecutionPlan = plan;
         }

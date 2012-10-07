@@ -69,7 +69,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             IQuery q = new CriteriaQuery(typeof(Profile));
             var objects = odb.GetObjects<Profile>(q, false);
             Println(objects.Count);
-            Console.Out.WriteLine(q.GetExecutionPlan().GetDetails());
+            Console.Out.WriteLine(((AbstractQuery)q).GetExecutionPlan().GetDetails());
             AssertEquals(20, objects.Count);
             odb.Close();
         }
@@ -82,7 +82,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             var q = new ValuesCriteriaQuery(typeof (User2), Where.Equal("nbLogins", 10)).Field("name");
             var v = odb.GetValues(q);
             Println(v.Count);
-            Console.Out.WriteLine(q.GetExecutionPlan().GetDetails());
+            Console.Out.WriteLine(((AbstractQuery)q).GetExecutionPlan().GetDetails());
             AssertEquals(1, v.Count);
             odb.Close();
         }

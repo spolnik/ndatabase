@@ -1,6 +1,6 @@
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
 {
-    public sealed class SetAttributeToNullAction
+    internal sealed class SetAttributeToNullAction
     {
         private int _attributeId;
         private NonNativeObjectInfo _nnoi;

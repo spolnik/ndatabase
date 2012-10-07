@@ -13,9 +13,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     ///       For example, if we have a class Class1 that has a field of type Class2. And Class2 has a field of type Class3.
     ///       Introspecting Class1 return a ClassInfoList with the classes Class1, Class2, Class3. Class1 being the main class info</pre>
     /// </remarks>
-    /// <author>osmadja</author>
-    
-    public sealed class ClassInfoList
+    internal sealed class ClassInfoList
     {
         /// <summary>
         ///   key=ClassInfoName,value=ClassInfo

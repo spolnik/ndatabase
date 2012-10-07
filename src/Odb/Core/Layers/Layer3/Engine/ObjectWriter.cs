@@ -587,7 +587,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var objectIsInConnectedZone = cache.IsInCommitedZone(header.GetOid());
             // triggers
             // FIXME
-            _triggerManager.ManageDeleteTriggerBefore(ci.FullClassName, null, header.GetOid());
+            _triggerManager.ManageDeleteTriggerBefore(ci.UnderlyingType, null, header.GetOid());
             
             var previousObjectOID = header.GetPreviousObjectOID();
             var nextObjectOID = header.GetNextObjectOID();
@@ -744,7 +744,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (withIndex)
                 ManageIndexesForDelete(header.GetOid(), nnoi);
             // triggers
-            _triggerManager.ManageDeleteTriggerAfter(ci.FullClassName, null, header.GetOid());
+            _triggerManager.ManageDeleteTriggerAfter(ci.UnderlyingType, null, header.GetOid());
             return header.GetOid();
         }
 

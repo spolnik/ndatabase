@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.Refactor
@@ -38,7 +39,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Refactor
         {
             var metaModel = _storageEngine.GetSession(true).GetMetaModel();
             var ci = metaModel.GetClassInfo(fullClassName, true);
-            ci.FullClassName = newFullClassName;
+
+            var setFullClassName = ci.GetType().GetProperty("FullClassName", BindingFlags.SetField | BindingFlags.NonPublic);
+            var setMethod = setFullClassName.GetSetMethod(true);
+            setMethod.Invoke(ci, new object[] {newFullClassName});
+            
             _storageEngine.GetObjectWriter().UpdateClassInfo(ci, true);
         }
 

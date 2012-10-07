@@ -82,13 +82,13 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         bool IsClosed();
 
-        void AddUpdateTriggerFor(string className, UpdateTrigger trigger);
+        void AddUpdateTriggerFor(Type type, UpdateTrigger trigger);
 
-        void AddInsertTriggerFor(string className, InsertTrigger trigger);
+        void AddInsertTriggerFor(Type type, InsertTrigger trigger);
 
-        void AddDeleteTriggerFor(string className, DeleteTrigger trigger);
+        void AddDeleteTriggerFor(Type type, DeleteTrigger trigger);
 
-        void AddSelectTriggerFor(string className, SelectTrigger trigger);
+        void AddSelectTriggerFor(Type type, SelectTrigger trigger);
 
         void SetDatabaseId(IDatabaseId databaseId);
 

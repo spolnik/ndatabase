@@ -5,8 +5,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
     /// <summary>
     ///   A callback interface - not used
     /// </summary>
-    /// <author>osmadja</author>
-    public interface IObjectWriterCallback
+    internal interface IObjectWriterCallback
     {
         void MetaObjectHasBeenInserted(long oid, NonNativeObjectInfo nnoi);
 

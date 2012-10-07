@@ -6,7 +6,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
     /// <summary>
     ///   A temporary cache of objects.
     /// </summary>
-    public sealed class ReadObjectsCache : IReadObjectsCache
+    internal sealed class ReadObjectsCache : IReadObjectsCache
     {
         /// <summary>
         ///   To resolve cyclic reference, keep track of objects being read

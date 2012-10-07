@@ -30,9 +30,9 @@ namespace NDatabase.Odb.Main
             return _storageEngine.GetDatabaseId();
         }
 
-        public IExternalOID GetObjectExternalOID(object @object)
+        public IExternalOID GetObjectExternalOID<T>(T plainObject) where T : class 
         {
-            return ConvertToExternalOID(_storageEngine.GetObjectId(@object, true));
+            return ConvertToExternalOID(_storageEngine.GetObjectId(plainObject, true));
         }
 
         public int GetObjectVersion(OID oid)

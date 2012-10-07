@@ -11,7 +11,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// <summary>
     ///   A meta representation of a class
     /// </summary>
-    public sealed class ClassInfo
+    internal sealed class ClassInfo
     {
         /// <summary>
         ///   Constant used for the classCategory variable to indicate a system class
@@ -31,12 +31,19 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// </summary>
         private readonly CommittedCIZoneInfo _committed;
 
+        /// <summary>
+        ///   The full class name with package
+        /// </summary>
+        private readonly string _fullClassName;
+
         private readonly OidInfo _oidInfo;
 
         /// <summary>
         ///   To keep session original numbers, original number of committed objects,first and last object position
         /// </summary>
         private readonly CommittedCIZoneInfo _original;
+
+        private readonly Type _underlyingType;
 
         /// <summary>
         ///   To keep session uncommitted numbers, number of uncommitted objects,first and last object position
@@ -45,15 +52,11 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         private IOdbList<ClassAttributeInfo> _attributes;
 
-        /// <summary>
-        ///   The full class name with package
-        /// </summary>
-        private string _fullClassName;
-
         private IOdbList<ClassInfoIndex> _indexes;
 
-        public ClassInfo()
+        private ClassInfo()
         {
+            _attributes = null;
             _original = new CommittedCIZoneInfo();
             _committed = new CommittedCIZoneInfo();
             _uncommitted = new CIZoneInfo();
@@ -64,83 +67,21 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             _attributesCache = new AttributesCache();
         }
 
-        public ClassInfo(Type type) : this(OdbClassUtil.GetFullName(type))
+        public ClassInfo(Type underlyingType) : this()
         {
+            _underlyingType = underlyingType;
+
+            _fullClassName = OdbClassUtil.GetFullName(underlyingType);
+
+            if (!TypeCache.ContainsKey(_fullClassName))
+                TypeCache.Add(_fullClassName, UnderlyingType);
         }
 
-        public ClassInfo(string fullClassName)
-            : this()
+        public ClassInfo(string fullClassName) : this()
         {
-            CheckIfTypeIsInstantiable(fullClassName);
+            _underlyingType = CheckIfTypeIsInstantiable(fullClassName);
 
             _fullClassName = fullClassName;
-            _attributes = null;
-
-            MaxAttributeId = 1;
-        }
-
-        private static void CheckIfTypeIsInstantiable(string fullClassName)
-        {
-            Type type;
-            var success = TypeCache.TryGetValue(fullClassName, out type);
-
-            if (success)
-                return;
-
-            type = Type.GetType(fullClassName);
-
-            if (type == null)
-            {
-                throw new ArgumentException(
-                    string.Format("Given full class name is not enough to create the Type from that: {0}", fullClassName));
-            }
-
-            TypeCache.Add(fullClassName, type);
-        }
-
-        private void FillAttributesMap()
-        {
-            if (_attributesCache.AttributesByName == null)
-            {
-                _attributesCache.AttributesByName = new OdbHashMap<string, ClassAttributeInfo>();
-                _attributesCache.AttributesById = new OdbHashMap<int, ClassAttributeInfo>();
-            }
-            
-            foreach (var classAttributeInfo in _attributes)
-            {
-                _attributesCache.AttributesByName[classAttributeInfo.GetName()] = classAttributeInfo;
-                _attributesCache.AttributesById[classAttributeInfo.GetId()] = classAttributeInfo;
-            }
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj == null || obj.GetType() != typeof (ClassInfo))
-                return false;
-
-            var classInfo = (ClassInfo) obj;
-            return classInfo._fullClassName.Equals(_fullClassName);
-        }
-
-        public override string ToString()
-        {
-            var buffer = new StringBuilder();
-
-            buffer.Append(" [ ").Append(_fullClassName).Append(" - id=").Append(_oidInfo.ID);
-            buffer.Append(" - previousClass=").Append(_oidInfo.PreviousClassOID).Append(" - nextClass=").Append(
-                _oidInfo.NextClassOID).Append(" - attributes=(");
-
-            if (_attributes != null)
-            {
-                foreach (var classAttributeInfo in _attributes)
-                    buffer.Append(classAttributeInfo.GetName()).Append(",");
-            }
-            else
-                buffer.Append("not yet defined");
-
-            buffer.Append(") ]");
-
-            return buffer.ToString();
         }
 
         internal IOdbList<ClassAttributeInfo> Attributes
@@ -187,7 +128,121 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         public string FullClassName
         {
             get { return _fullClassName; }
-            set { _fullClassName = value; }
+        }
+
+        public OID ClassInfoId
+        {
+            get { return _oidInfo.ID; }
+            set { _oidInfo.ID = value; }
+        }
+
+        /// <summary>
+        ///   The max id is used to give a unique id for each attribute and allow refactoring like new field and/or removal
+        /// </summary>
+        public int MaxAttributeId { get; set; }
+
+        public int NumberOfAttributes
+        {
+            get { return _attributes.Count; }
+        }
+
+        /// <summary>
+        ///   To specify the type of the class : system class or user class
+        /// </summary>
+        public byte ClassCategory { get; set; }
+
+        /// <summary>
+        ///   Infos about the last object of this class
+        /// </summary>
+        public ObjectInfoHeader LastObjectInfoHeader { get; set; }
+
+        internal CIZoneInfo UncommittedZoneInfo
+        {
+            get { return _uncommitted; }
+        }
+
+        /// <summary>
+        ///   Get number of objects: committed and uncommitted
+        /// </summary>
+        /// <value> The number of committed and uncommitted objects </value>
+        public long NumberOfObjects
+        {
+            get { return _committed.GetNumberbOfObjects() + _uncommitted.GetNumberbOfObjects(); }
+        }
+
+        internal CommittedCIZoneInfo OriginalZoneInfo
+        {
+            get { return _original; }
+        }
+
+        public Type UnderlyingType
+        {
+            get { return _underlyingType; }
+        }
+
+        private static Type CheckIfTypeIsInstantiable(string fullClassName)
+        {
+            Type type;
+            var success = TypeCache.TryGetValue(fullClassName, out type);
+
+            if (success)
+                return type;
+
+            type = Type.GetType(fullClassName);
+
+            if (type == null)
+            {
+                throw new ArgumentException(
+                    string.Format("Given full class name is not enough to create the Type from that: {0}", fullClassName));
+            }
+
+            TypeCache.Add(fullClassName, type);
+            return type;
+        }
+
+        private void FillAttributesMap()
+        {
+            if (_attributesCache.AttributesByName == null)
+            {
+                _attributesCache.AttributesByName = new OdbHashMap<string, ClassAttributeInfo>();
+                _attributesCache.AttributesById = new OdbHashMap<int, ClassAttributeInfo>();
+            }
+
+            foreach (var classAttributeInfo in _attributes)
+            {
+                _attributesCache.AttributesByName[classAttributeInfo.GetName()] = classAttributeInfo;
+                _attributesCache.AttributesById[classAttributeInfo.GetId()] = classAttributeInfo;
+            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || obj.GetType() != typeof (ClassInfo))
+                return false;
+
+            var classInfo = (ClassInfo) obj;
+            return classInfo._fullClassName.Equals(_fullClassName);
+        }
+
+        public override string ToString()
+        {
+            var buffer = new StringBuilder();
+
+            buffer.Append(" [ ").Append(_fullClassName).Append(" - id=").Append(_oidInfo.ID);
+            buffer.Append(" - previousClass=").Append(_oidInfo.PreviousClassOID).Append(" - nextClass=").Append(
+                _oidInfo.NextClassOID).Append(" - attributes=(");
+
+            if (_attributes != null)
+            {
+                foreach (var classAttributeInfo in _attributes)
+                    buffer.Append(classAttributeInfo.GetName()).Append(",");
+            }
+            else
+                buffer.Append("not yet defined");
+
+            buffer.Append(") ]");
+
+            return buffer.ToString();
         }
 
         /// <summary>
@@ -211,18 +266,11 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                     if (classAttributeInfo.GetAttributeType().IsArray() &&
                         !classAttributeInfo.GetAttributeType().SubType.IsNative())
                         result.Add(new ClassAttributeInfo(-1, "subtype",
-                                                          classAttributeInfo.GetAttributeType().SubType.Name,
-                                                          null));
+                                                          classAttributeInfo.GetAttributeType().SubType.Name, null));
                 }
             }
 
             return result;
-        }
-
-        public OID ClassInfoId
-        {
-            get { return _oidInfo.ID; }
-            set { _oidInfo.ID = value; }
         }
 
         public override int GetHashCode()
@@ -267,11 +315,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         {
             return _attributes[index];
         }
-
-        /// <summary>
-        ///   The max id is used to give a unique id for each attribute and allow refactoring like new field and/or removal
-        /// </summary>
-        public int MaxAttributeId { get; set; }
 
         public ClassInfoCompareResult ExtractDifferences(ClassInfo newCI, bool update)
         {
@@ -338,11 +381,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             _attributes.AddAll(attributesToAdd);
             FillAttributesMap();
             return result;
-        }
-
-        public int NumberOfAttributes
-        {
-            get { return _attributes.Count; }
         }
 
         public ClassInfoIndex AddIndexOn(string name, string[] indexFields, bool acceptMultipleValuesForSameKey)
@@ -413,35 +451,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                     return true;
             }
             return false;
-        }
-
-        /// <summary>
-        ///   To specify the type of the class : system class or user class
-        /// </summary>
-        public byte ClassCategory { get; set; }
-
-        /// <summary>
-        ///   Infos about the last object of this class
-        /// </summary>
-        public ObjectInfoHeader LastObjectInfoHeader { get; set; }
-
-        internal CIZoneInfo UncommittedZoneInfo
-        {
-            get { return _uncommitted; }
-        }
-
-        /// <summary>
-        ///   Get number of objects: committed and uncommitted
-        /// </summary>
-        /// <value> The number of committed and uncommitted objects </value>
-        public long NumberOfObjects
-        {
-            get { return _committed.GetNumberbOfObjects() + _uncommitted.GetNumberbOfObjects(); }
-        }
-
-        internal CommittedCIZoneInfo OriginalZoneInfo
-        {
-            get { return _original; }
         }
 
         public bool IsSystemClass()

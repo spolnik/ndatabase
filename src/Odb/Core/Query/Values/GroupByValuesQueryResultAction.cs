@@ -8,7 +8,7 @@ using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb.Core.Query.Values
 {
-    public sealed class GroupByValuesQueryResultAction : IMatchingObjectAction
+    internal sealed class GroupByValuesQueryResultAction : IMatchingObjectAction
     {
         private readonly string[] _groupByFieldList;
 
@@ -34,7 +34,7 @@ namespace NDatabase.Odb.Core.Query.Values
             _query = query;
             _queryHasOrderBy = query.HasOrderBy();
             _instanceBuilder = instanceBuilder;
-            _returnArraySize = query.GetObjectActions().Count;
+            _returnArraySize = ((ValuesCriteriaQuery)query).GetObjectActions().Count;
             _groupByFieldList = query.GetGroupByFieldList();
             _groupByResult = new OdbHashMap<IOdbComparable, ValuesQueryResultAction>();
         }

@@ -1,32 +1,33 @@
+using System;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
 namespace NDatabase.Odb.Core.Trigger
 {
     internal interface ITriggerManager
     {
-        bool ManageInsertTriggerBefore(string className, object @object);
+        bool ManageInsertTriggerBefore(Type type, object @object);
 
-        void ManageInsertTriggerAfter(string className, object @object, OID oid);
+        void ManageInsertTriggerAfter(Type type, object @object, OID oid);
 
-        bool ManageUpdateTriggerBefore(string className, NonNativeObjectInfo oldObjectRepresentation, object newObject,
+        bool ManageUpdateTriggerBefore(Type type, NonNativeObjectInfo oldObjectRepresentation, object newObject,
                                        OID oid);
 
-        void ManageUpdateTriggerAfter(string className, NonNativeObjectInfo oldObjectRepresentation, object newObject,
+        void ManageUpdateTriggerAfter(Type type, NonNativeObjectInfo oldObjectRepresentation, object newObject,
                                       OID oid);
 
-        bool ManageDeleteTriggerBefore(string className, object @object, OID oid);
+        bool ManageDeleteTriggerBefore(Type type, object @object, OID oid);
 
-        void ManageDeleteTriggerAfter(string className, object @object, OID oid);
+        void ManageDeleteTriggerAfter(Type type, object @object, OID oid);
 
-        void ManageSelectTriggerAfter(string className, object @object, OID oid);
+        void ManageSelectTriggerAfter(Type type, object @object, OID oid);
 
-        void AddUpdateTriggerFor(string className, UpdateTrigger trigger);
+        void AddUpdateTriggerFor(Type type, UpdateTrigger trigger);
 
-        void AddInsertTriggerFor(string className, InsertTrigger trigger);
+        void AddInsertTriggerFor(Type type, InsertTrigger trigger);
 
-        void AddDeleteTriggerFor(string className, DeleteTrigger trigger);
+        void AddDeleteTriggerFor(Type type, DeleteTrigger trigger);
 
-        void AddSelectTriggerFor(string className, SelectTrigger trigger);
+        void AddSelectTriggerFor(Type type, SelectTrigger trigger);
 
         /// <summary>
         ///   used to transform object before real trigger call.
@@ -36,12 +37,12 @@ namespace NDatabase.Odb.Core.Trigger
         /// </remarks>
         object Transform(object @object);
 
-        bool HasDeleteTriggersFor(string classsName);
+        bool HasDeleteTriggersFor(Type type);
 
-        bool HasInsertTriggersFor(string className);
+        bool HasInsertTriggersFor(Type type);
 
-        bool HasSelectTriggersFor(string className);
+        bool HasSelectTriggersFor(Type type);
 
-        bool HasUpdateTriggersFor(string className);
+        bool HasUpdateTriggersFor(Type type);
     }
 }

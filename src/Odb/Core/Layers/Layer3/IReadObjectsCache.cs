@@ -5,7 +5,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
     /// <summary>
     ///   An interface for temporary cache
     /// </summary>
-    public interface IReadObjectsCache
+    internal interface IReadObjectsCache
     {
         NonNativeObjectInfo GetObjectInfoByOid(OID oid);
 

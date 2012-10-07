@@ -6,7 +6,6 @@ using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Core.Query.Values;
 using NDatabase.Odb.Core.Trigger;
 using NDatabase.Tool;
-using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Main
 {
@@ -147,26 +146,22 @@ namespace NDatabase.Odb.Main
 
         public virtual void AddUpdateTrigger<T>(UpdateTrigger trigger) where T : class 
         {
-            var classFullName = OdbClassUtil.GetFullName<T>();
-            _storageEngine.AddUpdateTriggerFor(classFullName, trigger);
+            _storageEngine.AddUpdateTriggerFor(typeof(T), trigger);
         }
 
         public virtual void AddInsertTrigger<T>(InsertTrigger trigger) where T : class 
         {
-            var classFullName = OdbClassUtil.GetFullName<T>();
-            _storageEngine.AddInsertTriggerFor(classFullName, trigger);
+            _storageEngine.AddInsertTriggerFor(typeof(T), trigger);
         }
 
         public virtual void AddDeleteTrigger<T>(DeleteTrigger trigger) where T : class 
         {
-            var classFullName = OdbClassUtil.GetFullName<T>();
-            _storageEngine.AddDeleteTriggerFor(classFullName, trigger);
+            _storageEngine.AddDeleteTriggerFor(typeof(T), trigger);
         }
 
         public virtual void AddSelectTrigger<T>(SelectTrigger trigger) where T : class 
         {
-            var classFullName = OdbClassUtil.GetFullName<T>();
-            _storageEngine.AddSelectTriggerFor(classFullName, trigger);
+            _storageEngine.AddSelectTriggerFor(typeof(T), trigger);
         }
 
         public virtual IRefactorManager GetRefactorManager()

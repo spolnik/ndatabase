@@ -342,7 +342,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                                 ? objectInfo.GetObject()
                                 : objectInfo;
 
-                _triggerManager.ManageInsertTriggerAfter(objectInfo.GetClassInfo().FullClassName, value, oid);
+                _triggerManager.ManageInsertTriggerAfter(objectInfo.GetClassInfo().UnderlyingType, value, oid);
             }
 
             return oid;
@@ -416,7 +416,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     DLogger.Debug(message);
                 }
                 // triggers,FIXME passing null to old object representation
-                _storageEngine.GetTriggerManager().ManageUpdateTriggerBefore(nnoi.GetClassInfo().FullClassName,
+                var fullClassName = nnoi.GetClassInfo().FullClassName;
+                var type = OdbClassPool.GetClass(fullClassName);
+                _storageEngine.GetTriggerManager().ManageUpdateTriggerBefore(type,
                                                                             null, hasObject ? @object : nnoi, oid);
                 // Use to control if the in place update is ok. The
                 // ObjectInstrospector stores the number of changes
@@ -563,8 +565,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                         ManageIndexesForUpdate(oid, nnoi, oldMetaRepresentation);
                     // triggers,FIXME passing null to old object representation
                     // (oldMetaRepresentation may be null)
+                    var fullClassName = nnoi.GetClassInfo().FullClassName;
+                    var type = OdbClassPool.GetClass(fullClassName);
                     _storageEngine.GetTriggerManager().ManageUpdateTriggerAfter(
-                        nnoi.GetClassInfo().FullClassName, oldMetaRepresentation, hasObject ? @object : nnoi, oid);
+                        type, oldMetaRepresentation, hasObject ? @object : nnoi, oid);
                 }
                 if (OdbConfiguration.IsDebugEnabled(LogId))
                 {

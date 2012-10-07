@@ -8,7 +8,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// <summary>
     ///   An index of a class info
     /// </summary>
-    public sealed class ClassInfoIndex
+    internal sealed class ClassInfoIndex
     {
         public const byte Enabled = 1;
         public const byte Disabled = 2;

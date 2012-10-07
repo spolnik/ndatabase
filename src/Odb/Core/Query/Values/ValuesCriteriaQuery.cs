@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Core.Query.Execution;
-using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
 using NDatabase.Tool.Wrappers.Map;
 
@@ -139,7 +138,7 @@ namespace NDatabase.Odb.Core.Query.Values
             return this;
         }
 
-        public IOdbList<IQueryFieldAction> GetObjectActions()
+        internal IOdbList<IQueryFieldAction> GetObjectActions()
         {
             return _objectActions;
         }

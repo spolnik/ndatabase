@@ -1,4 +1,3 @@
-using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
 namespace NDatabase.Odb.Core.Query.Execution
@@ -9,7 +8,6 @@ namespace NDatabase.Odb.Core.Query.Execution
     /// <remarks>
     ///   Used to implement generic action on matching object. The Generic query executor is responsible for checking if an object meets the criteria conditions. Then an(some) object actions are called to execute what must be done with matching objects. A ValuesQuery can contain more than one QueryFieldAction.
     /// </remarks>
-    /// <author>osmadja</author>
     public interface IQueryFieldAction
     {
         void Start();
@@ -35,10 +33,6 @@ namespace NDatabase.Odb.Core.Query.Execution
         ///   used to create a copy!
         /// </summary>
         IQueryFieldAction Copy();
-
-        void SetInstanceBuilder(IInstanceBuilder builder);
-
-        IInstanceBuilder GetInstanceBuilder();
 
         /// <param name="returnInstance"> </param>
         void SetReturnInstance(bool returnInstance);

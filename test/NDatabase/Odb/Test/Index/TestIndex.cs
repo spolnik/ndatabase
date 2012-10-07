@@ -97,8 +97,8 @@ namespace Test.NDatabase.Odb.Test.Index
                                          Where.And().Add(Where.Equal("name", "olivier")).Add(Where.Equal("duration", 15)));
             var objects = @base.GetObjects<IndexedObject>(q, true);
             @base.Close();
-            Println(q.GetExecutionPlan().ToString());
-            AssertEquals(false, q.GetExecutionPlan().UseIndex());
+            Println(((AbstractQuery)q).GetExecutionPlan().ToString());
+            AssertEquals(false, ((AbstractQuery)q).GetExecutionPlan().UseIndex());
             AssertEquals(1, objects.Count);
             DeleteBase(baseName);
         }
@@ -525,7 +525,7 @@ namespace Test.NDatabase.Odb.Test.Index
                                                                                                          dates[i])));
                 var objects = @base.GetObjects<IndexedObject>(q, true);
                 AssertEquals(1, objects.Count);
-                AssertTrue(q.GetExecutionPlan().UseIndex());
+                AssertTrue(((AbstractQuery)q).GetExecutionPlan().UseIndex());
             }
             var end = OdbTime.GetCurrentTimeInMs();
             double duration = (end - start);
@@ -653,8 +653,8 @@ namespace Test.NDatabase.Odb.Test.Index
             // first search without index
             IQuery q = new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", theName));
             var objects = @base.GetObjects<IndexedObject>(q, true);
-            AssertFalse(q.GetExecutionPlan().UseIndex());
-            Println(q.GetExecutionPlan().GetDetails());
+            AssertFalse(((AbstractQuery)q).GetExecutionPlan().UseIndex());
+            Println(((AbstractQuery)q).GetExecutionPlan().GetDetails());
             AssertEquals(1, objects.Count);
             var io3 = objects.GetFirst();
             AssertEquals(theName, io3.GetName());
@@ -667,9 +667,9 @@ namespace Test.NDatabase.Odb.Test.Index
                                   Where.And().Add(Where.Equal("name", theName)).Add(Where.Equal("creation", theDate)).
                                       Add(Where.Equal("duration", theDuration)));
             objects = @base.GetObjects<IndexedObject>(q, true);
-            AssertTrue(q.GetExecutionPlan().UseIndex());
-            AssertEquals("index", q.GetExecutionPlan().GetIndex().Name);
-            Println(q.GetExecutionPlan().GetDetails());
+            AssertTrue(((AbstractQuery)q).GetExecutionPlan().UseIndex());
+            AssertEquals("index", ((AbstractQuery)q).GetExecutionPlan().GetIndex().Name);
+            Println(((AbstractQuery)q).GetExecutionPlan().GetDetails());
             AssertEquals(1, objects.Count);
             io3 = objects.GetFirst();
             AssertEquals(theName, io3.GetName());
@@ -818,7 +818,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var io2 = objects.GetFirst();
             AssertEquals("olivier", io2.GetName());
             AssertEquals(15, io2.GetDuration());
-            AssertFalse(q.GetExecutionPlan().GetDetails().IndexOf("index1") != -1);
+            AssertFalse(((AbstractQuery)q).GetExecutionPlan().GetDetails().IndexOf("index1") != -1);
         }
 
         [Test]
@@ -1162,7 +1162,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var start = OdbTime.GetCurrentTimeInMs();
             var objects = @base.GetObjects<IndexedObject>(q, true);
             var end = OdbTime.GetCurrentTimeInMs();
-            AssertEquals("index3", q.GetExecutionPlan().GetIndex().Name);
+            AssertEquals("index3", ((AbstractQuery)q).GetExecutionPlan().GetIndex().Name);
             AssertEquals(1, objects.Count);
             var io2 = objects.GetFirst();
             AssertEquals(theName, io2.GetName());
@@ -1370,7 +1370,7 @@ namespace Test.NDatabase.Odb.Test.Index
                     t1 = OdbTime.GetCurrentTimeInMs();
                     @base = Open(baseName);
                     t2 = OdbTime.GetCurrentTimeInMs();
-                    IQuery q = new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", indexes[j]));
+                    var q = new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", indexes[j]));
                     var os = @base.GetObjects<IndexedObject>(q);
                     t3 = OdbTime.GetCurrentTimeInMs();
                     AssertTrue(q.GetExecutionPlan().UseIndex());

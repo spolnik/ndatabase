@@ -4,7 +4,6 @@ using NDatabase.Odb.Core.Query.Execution;
 
 namespace NDatabase.Odb.Core.Query.Values
 {
-    
     public abstract class AbstractQueryFieldAction : IQueryFieldAction
     {
         protected string Alias;
@@ -45,12 +44,12 @@ namespace NDatabase.Odb.Core.Query.Values
             _isMultiRow = isMultiRow;
         }
 
-        public virtual IInstanceBuilder GetInstanceBuilder()
+        internal IInstanceBuilder GetInstanceBuilder()
         {
             return _instanceBuilder;
         }
 
-        public virtual void SetInstanceBuilder(IInstanceBuilder instanceBuilder)
+        internal void SetInstanceBuilder(IInstanceBuilder instanceBuilder)
         {
             _instanceBuilder = instanceBuilder;
         }

@@ -1,4 +1,5 @@
 using NDatabase.Odb;
+using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Core.Query.Values;
 using NUnit.Framework;
@@ -26,8 +27,8 @@ namespace Test.NDatabase.Odb.Test.Index
                     ("name");
             var values = odb.GetValues(vq);
             AssertEquals(1, values.Count);
-            Println(vq.GetExecutionPlan().GetDetails());
-            AssertEquals(true, vq.GetExecutionPlan().UseIndex());
+            Println(((AbstractQuery)vq).GetExecutionPlan().GetDetails());
+            AssertEquals(true, ((AbstractQuery)vq).GetExecutionPlan().UseIndex());
             odb.Close();
 
             DeleteBase(baseName);

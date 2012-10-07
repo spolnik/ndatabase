@@ -255,9 +255,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 header = ObjectReader.ReadObjectInfoHeaderFromOid(cachedOid, false);
             }
 
-            _triggerManager.ManageDeleteTriggerBefore(plainObject.GetType().FullName, plainObject, header.GetOid());
+            _triggerManager.ManageDeleteTriggerBefore(plainObject.GetType(), plainObject, header.GetOid());
             var oid = _objectWriter.Delete(header);
-            _triggerManager.ManageDeleteTriggerAfter(plainObject.GetType().FullName, plainObject, oid);
+            _triggerManager.ManageDeleteTriggerAfter(plainObject.GetType(), plainObject, oid);
             // removes the object from the cache
             cache.RemoveObjectByOid(header.GetOid());
 
@@ -498,24 +498,24 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return _triggerManager;
         }
 
-        public override void AddDeleteTriggerFor(string className, DeleteTrigger trigger)
+        public override void AddDeleteTriggerFor(Type type, DeleteTrigger trigger)
         {
-            _triggerManager.AddDeleteTriggerFor(className, trigger);
+            _triggerManager.AddDeleteTriggerFor(type, trigger);
         }
 
-        public override void AddInsertTriggerFor(string className, InsertTrigger trigger)
+        public override void AddInsertTriggerFor(Type type, InsertTrigger trigger)
         {
-            _triggerManager.AddInsertTriggerFor(className, trigger);
+            _triggerManager.AddInsertTriggerFor(type, trigger);
         }
 
-        public override void AddSelectTriggerFor(string className, SelectTrigger trigger)
+        public override void AddSelectTriggerFor(Type type, SelectTrigger trigger)
         {
-            _triggerManager.AddSelectTriggerFor(className, trigger);
+            _triggerManager.AddSelectTriggerFor(type, trigger);
         }
 
-        public override void AddUpdateTriggerFor(string className, UpdateTrigger trigger)
+        public override void AddUpdateTriggerFor(Type type, UpdateTrigger trigger)
         {
-            _triggerManager.AddUpdateTriggerFor(className, trigger);
+            _triggerManager.AddUpdateTriggerFor(type, trigger);
         }
 
         public override CriteriaQuery CriteriaQuery<T>(ICriterion criterion)

@@ -92,8 +92,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
                 cache.AddObject(objectInfo.GetOid(), o, objectInfo.GetHeader());
 
             var classInfo = objectInfo.GetClassInfo();
-            var type = OdbClassPool.GetClass(classInfo.FullClassName);
-            var fields = ClassIntrospector.GetAllFieldsFrom(type);
+            var fields = ClassIntrospector.GetAllFieldsFrom(classInfo.UnderlyingType);
 
             object value = null;
 
@@ -199,7 +198,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
             }
             if (_triggerManager != null)
             {
-                _triggerManager.ManageSelectTriggerAfter(objectInfo.GetClassInfo().FullClassName, objectInfo,
+                _triggerManager.ManageSelectTriggerAfter(objectInfo.GetClassInfo().UnderlyingType, objectInfo,
                                                          objectInfo.GetOid());
             }
 

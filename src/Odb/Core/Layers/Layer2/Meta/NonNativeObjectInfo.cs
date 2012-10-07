@@ -14,8 +14,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     ///                                            - Its Pointers : its position, the previous object OID, the next object OID
     ///                                            - The Object being represented by The meta information</pre>
     /// </summary>
-    /// <author>olivier s</author>
-    public class NonNativeObjectInfo : AbstractObjectInfo
+    internal class NonNativeObjectInfo : AbstractObjectInfo
     {
         private readonly int _maxNbattributes;
         private AbstractObjectInfo[] _attributeValues;

@@ -6,7 +6,7 @@ namespace NDatabase.Odb.Core.Query
 {
     public abstract class AbstractQuery : IQuery
     {
-        protected IQueryExecutionPlan ExecutionPlan;
+        internal IQueryExecutionPlan ExecutionPlan;
         protected string[] OrderByFields;
 
         /// <summary>
@@ -56,14 +56,14 @@ namespace NDatabase.Odb.Core.Query
             return !_orderByType.IsOrderByNone();
         }
 
-        public virtual IQueryExecutionPlan GetExecutionPlan()
+        internal IQueryExecutionPlan GetExecutionPlan()
         {
             if (ExecutionPlan == null)
                 throw new OdbRuntimeException(NDatabaseError.ExecutionPlanIsNullQueryHasNotBeenExecuted);
             return ExecutionPlan;
         }
 
-        public virtual void SetExecutionPlan(IQueryExecutionPlan plan)
+        internal void SetExecutionPlan(IQueryExecutionPlan plan)
         {
             ExecutionPlan = plan;
         }

@@ -8,7 +8,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// <remarks>
     ///   Meta representation of an enum. Which is internally represented by a string : Its name
     /// </remarks>
-    public sealed class EnumNativeObjectInfo : NativeObjectInfo
+    internal sealed class EnumNativeObjectInfo : NativeObjectInfo
     {
         private ClassInfo _enumClassInfo;
 

@@ -10,8 +10,7 @@ namespace NDatabase.Odb.Core.Query.Values
     /// <summary>
     ///   An action to retrieve an object field
     /// </summary>
-    /// <author>osmadja</author>
-    public sealed class FieldValueAction : AbstractQueryFieldAction
+    internal sealed class FieldValueAction : AbstractQueryFieldAction
     {
         /// <summary>
         ///   The value of the attribute

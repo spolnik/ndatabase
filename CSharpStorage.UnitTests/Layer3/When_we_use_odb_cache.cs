@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Layer3
 {
-    public class When_we_use_odb_cache : InstanceSpecification<IOdbCache>
+    internal class When_we_use_odb_cache : InstanceSpecification<IOdbCache>
     {
         private Employee _object;
         private NonNativeObjectInfo _objectInfo;

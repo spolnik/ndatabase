@@ -28,15 +28,16 @@ namespace NDatabase.Odb.Core.Query.Values
             _engine = storageEngine;
             _query = query;
             _queryHasOrderBy = query.HasOrderBy();
-            _returnArraySize = query.GetObjectActions().Count;
+            var valuesCriteriaQuery = ((ValuesCriteriaQuery) query);
+            _returnArraySize = valuesCriteriaQuery.GetObjectActions().Count;
             _queryFieldActions = new IQueryFieldAction[_returnArraySize];
             
             var i = 0;
-            foreach (var action in query.GetObjectActions())
+            foreach (var action in valuesCriteriaQuery.GetObjectActions())
             {
                 _queryFieldActions[i] = action.Copy();
                 _queryFieldActions[i].SetReturnInstance(query.ReturnInstance());
-                _queryFieldActions[i].SetInstanceBuilder(instanceBuilder);
+                ((AbstractQueryFieldAction)_queryFieldActions[i]).SetInstanceBuilder(instanceBuilder);
                 i++;
             }
         }

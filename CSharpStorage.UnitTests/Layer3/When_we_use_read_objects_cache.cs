@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Layer3
 {
-    public class When_we_use_read_objects_cache : InstanceSpecification<IReadObjectsCache>
+    internal class When_we_use_read_objects_cache : InstanceSpecification<IReadObjectsCache>
     {
         private NonNativeObjectInfo _objectInfo;
         private ObjectOID _oid;

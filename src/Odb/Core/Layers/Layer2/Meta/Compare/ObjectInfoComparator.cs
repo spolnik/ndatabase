@@ -12,7 +12,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
     /// <remarks>
     ///   Manage Object info differences. compares two object info and tells which objects in the object hierarchy has changed. This is used by the update to process to optimize it and actually update what has changed
     /// </remarks>
-    public sealed class ObjectInfoComparator : IObjectInfoComparator
+    internal sealed class ObjectInfoComparator : IObjectInfoComparator
     {
         private const int Size = 5;
         private readonly IDictionary<NonNativeObjectInfo, int> _alreadyCheckingObjects;

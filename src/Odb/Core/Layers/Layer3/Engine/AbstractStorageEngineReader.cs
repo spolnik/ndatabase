@@ -276,15 +276,15 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public abstract void AddCommitListener(ICommitListener arg1);
 
-        public abstract void AddDeleteTriggerFor(string arg1, DeleteTrigger arg2);
+        public abstract void AddDeleteTriggerFor(Type type, DeleteTrigger arg2);
 
-        public abstract void AddInsertTriggerFor(string arg1, InsertTrigger arg2);
+        public abstract void AddInsertTriggerFor(Type type, InsertTrigger arg2);
 
-        public abstract void AddSelectTriggerFor(string arg1, SelectTrigger arg2);
+        public abstract void AddSelectTriggerFor(Type type, SelectTrigger arg2);
+
+        public abstract void AddUpdateTriggerFor(Type type, UpdateTrigger arg2);
 
         public abstract void AddSession(ISession arg1, bool arg2);
-
-        public abstract void AddUpdateTriggerFor(string arg1, UpdateTrigger arg2);
 
         public abstract ISession BuildDefaultSession();
 

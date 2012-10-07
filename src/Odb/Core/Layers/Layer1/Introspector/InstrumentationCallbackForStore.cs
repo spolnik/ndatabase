@@ -24,7 +24,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                 if (_triggerManager != null)
                 {
                     var type = @object.GetType();
-                    _triggerManager.ManageInsertTriggerBefore(OdbClassUtil.GetFullName(type), @object);
+                    _triggerManager.ManageInsertTriggerBefore(type, @object);
                 }
             }
 

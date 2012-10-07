@@ -1,6 +1,3 @@
-using System;
-using NDatabase.Odb.Core.Query.Execution;
-
 namespace NDatabase.Odb.Core.Query
 {
     public interface IQuery
@@ -33,10 +30,6 @@ namespace NDatabase.Odb.Core.Query
 
         /// <returns> the type of the order by - ORDER_BY_NONE,ORDER_BY_DESC,ORDER_BY_ASC </returns>
         OrderByConstants GetOrderByType();
-
-        IQueryExecutionPlan GetExecutionPlan();
-
-        void SetExecutionPlan(IQueryExecutionPlan plan);
 
         /// <summary>
         ///   To indicate if a query must be executed on a single object with the specific OID.

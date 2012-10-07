@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
 {
-    public interface IObjectInfoComparator
+    internal interface IObjectInfoComparator
     {
         bool HasChanged(AbstractObjectInfo aoi1, AbstractObjectInfo aoi2);
 

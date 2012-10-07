@@ -34,7 +34,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var iis = @base.GetObjects<IndexedObject3>(q);
             @base.Close();
             AssertEquals(1, iis.Count);
-            AssertTrue(q.GetExecutionPlan().UseIndex());
+            AssertTrue(((AbstractQuery)q).GetExecutionPlan().UseIndex());
             DeleteBase(baseName);
         }
 
@@ -68,12 +68,12 @@ namespace Test.NDatabase.Odb.Test.Index
                                              Where.Equal("i3", 3)));
 
             var objects = @base.GetObjects<IndexedObject3>(q);
-            AssertEquals(true, q.GetExecutionPlan().UseIndex());
+            AssertEquals(true, ((AbstractQuery)q).GetExecutionPlan().UseIndex());
             @base.GetClassRepresentation<IndexedObject3>().DeleteIndex("index1", true);
             @base.Close();
             @base = Open(baseName);
             objects = @base.GetObjects<IndexedObject3>(q);
-            AssertEquals(false, q.GetExecutionPlan().UseIndex());
+            AssertEquals(false, ((AbstractQuery)q).GetExecutionPlan().UseIndex());
             @base.Close();
             DeleteBase(baseName);
         }
@@ -141,12 +141,12 @@ namespace Test.NDatabase.Odb.Test.Index
                                              Where.Equal("i3", 3)));
 
             var objects = @base.GetObjects<IndexedObject3>(q);
-            AssertEquals(true, q.GetExecutionPlan().UseIndex());
+            AssertEquals(true, ((AbstractQuery)q).GetExecutionPlan().UseIndex());
             @base.GetClassRepresentation<IndexedObject3>().RebuildIndex("index1", true);
             @base.Close();
             @base = Open(baseName);
             objects = @base.GetObjects<IndexedObject3>(q);
-            AssertEquals(true, q.GetExecutionPlan().UseIndex());
+            AssertEquals(true, ((AbstractQuery)q).GetExecutionPlan().UseIndex());
             @base.Close();
             DeleteBase(baseName);
         }

@@ -1,4 +1,3 @@
-using NDatabase.Odb.Core.Query.Execution;
 using NDatabase.Tool.Wrappers.List;
 
 namespace NDatabase.Odb.Core.Query
@@ -42,11 +41,6 @@ namespace NDatabase.Odb.Core.Query
         bool HasGroupBy();
 
         IOdbList<string> GetAllInvolvedFields();
-
-        /// <summary>
-        ///   A collection of IQueryFieldAction
-        /// </summary>
-        IOdbList<IQueryFieldAction> GetObjectActions();
 
         /// <summary>
         ///   To indicate if a query will return one row (for example, sum, average, max and min, or will return more than one row

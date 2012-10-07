@@ -10,9 +10,7 @@ namespace NDatabase.Odb.Core.Query.Criteria
     /// <summary>
     ///   A simple Criteria execution plan Check if the query can use index and tries to find the best index to be used
     /// </summary>
-    /// <author>osmadja</author>
-    
-    public sealed class CriteriaQueryExecutionPlan : IQueryExecutionPlan
+    internal sealed class CriteriaQueryExecutionPlan : IQueryExecutionPlan
     {
         [NonPersistent]
         private readonly ClassInfo _classInfo;

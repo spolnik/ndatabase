@@ -8,9 +8,7 @@ namespace NDatabase.Odb.Core.Query.NQ
     /// <summary>
     ///   A simple Criteria execution plan Check if the query can use index and tries to find the best index to be used
     /// </summary>
-    /// <author>osmadja</author>
-    
-    public sealed class NativeQueryExecutionPlan : IQueryExecutionPlan
+    internal sealed class NativeQueryExecutionPlan : IQueryExecutionPlan
     {
         /// <summary>
         ///   to keep track of the end date time of the plan
@@ -26,7 +24,7 @@ namespace NDatabase.Odb.Core.Query.NQ
         
         public NativeQueryExecutionPlan(IQuery query)
         {
-            query.SetExecutionPlan(this);
+            ((AbstractQuery)query).SetExecutionPlan(this);
             Init();
         }
 

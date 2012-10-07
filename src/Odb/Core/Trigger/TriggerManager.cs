@@ -11,83 +11,84 @@ namespace NDatabase.Odb.Core.Trigger
 {
     internal sealed class TriggerManager : ITriggerManager
     {
-        private const string AllClassTrigger = "__all_class_";
-
         private readonly IStorageEngine _storageEngine;
 
         /// <summary>
         ///   key is class Name, value is the collection of triggers for the class
         /// </summary>
-        private IDictionary<string, IOdbList<Trigger>> _listOfDeleteTriggers;
+        private readonly IDictionary<Type, IOdbList<Trigger>> _listOfDeleteTriggers;
 
         /// <summary>
         ///   key is class Name, value is the collection of triggers for the class
         /// </summary>
-        private IDictionary<string, IOdbList<Trigger>> _listOfInsertTriggers;
+        private readonly IDictionary<Type, IOdbList<Trigger>> _listOfInsertTriggers;
 
         /// <summary>
         ///   key is class Name, value is the collection of triggers for the class
         /// </summary>
-        private IDictionary<string, IOdbList<Trigger>> _listOfSelectTriggers;
+        private readonly IDictionary<Type, IOdbList<Trigger>> _listOfSelectTriggers;
 
         /// <summary>
         ///   key is class Name, value is the collection of triggers for the class
         /// </summary>
-        private IDictionary<string, IOdbList<Trigger>> _listOfUpdateTriggers;
+        private readonly IDictionary<Type, IOdbList<Trigger>> _listOfUpdateTriggers;
 
         public TriggerManager(IStorageEngine engine)
         {
             _storageEngine = engine;
-            Init();
+            _listOfUpdateTriggers = new OdbHashMap<Type, IOdbList<Trigger>>();
+            _listOfDeleteTriggers = new OdbHashMap<Type, IOdbList<Trigger>>();
+            _listOfSelectTriggers = new OdbHashMap<Type, IOdbList<Trigger>>();
+            _listOfInsertTriggers = new OdbHashMap<Type, IOdbList<Trigger>>();
         }
 
         #region ITriggerManager Members
 
-        public void AddUpdateTriggerFor(string className, UpdateTrigger trigger)
+        public void AddUpdateTriggerFor(Type type, UpdateTrigger trigger)
         {
-            AddTriggerFor(className, trigger, _listOfUpdateTriggers);
+            AddTriggerFor(type, trigger, _listOfUpdateTriggers);
         }
 
-        public void AddInsertTriggerFor(string className, InsertTrigger trigger)
+        public void AddInsertTriggerFor(Type type, InsertTrigger trigger)
         {
-            AddTriggerFor(className, trigger, _listOfInsertTriggers);
+            AddTriggerFor(type, trigger, _listOfInsertTriggers);
         }
 
-        public void AddDeleteTriggerFor(string className, DeleteTrigger trigger)
+        public void AddDeleteTriggerFor(Type type, DeleteTrigger trigger)
         {
-            AddTriggerFor(className, trigger, _listOfDeleteTriggers);
+            AddTriggerFor(type, trigger, _listOfDeleteTriggers);
         }
 
-        public void AddSelectTriggerFor(string className, SelectTrigger trigger)
+        public void AddSelectTriggerFor(Type type, SelectTrigger trigger)
         {
-            AddTriggerFor(className, trigger, _listOfSelectTriggers);
+            AddTriggerFor(type, trigger, _listOfSelectTriggers);
         }
 
-        public bool HasDeleteTriggersFor(string classsName)
+        public bool HasDeleteTriggersFor(Type type)
         {
-            return _listOfDeleteTriggers.ContainsKey(classsName) || _listOfDeleteTriggers.ContainsKey(AllClassTrigger);
+            return _listOfDeleteTriggers.ContainsKey(type) || _listOfDeleteTriggers.ContainsKey(typeof(object));
         }
 
-        public bool HasInsertTriggersFor(string className)
+        public bool HasInsertTriggersFor(Type type)
         {
-            return _listOfInsertTriggers.ContainsKey(className) || _listOfInsertTriggers.ContainsKey(AllClassTrigger);
+            return _listOfInsertTriggers.ContainsKey(type) || _listOfInsertTriggers.ContainsKey(typeof(object));
         }
 
-        public bool HasSelectTriggersFor(string className)
+        public bool HasSelectTriggersFor(Type type)
         {
-            return _listOfSelectTriggers.ContainsKey(className) || _listOfSelectTriggers.ContainsKey(AllClassTrigger);
+            return _listOfSelectTriggers.ContainsKey(type) || _listOfSelectTriggers.ContainsKey(typeof(object));
         }
 
-        public bool HasUpdateTriggersFor(string className)
+        public bool HasUpdateTriggersFor(Type type)
         {
-            return _listOfUpdateTriggers.ContainsKey(className) || _listOfUpdateTriggers.ContainsKey(AllClassTrigger);
+            return _listOfUpdateTriggers.ContainsKey(type) || _listOfUpdateTriggers.ContainsKey(typeof(object));
         }
 
-        public bool ManageInsertTriggerBefore(string className, object @object)
+        public bool ManageInsertTriggerBefore(Type type, object @object)
         {
-            if (HasInsertTriggersFor(className))
+            if (HasInsertTriggersFor(type))
             {
-                foreach (InsertTrigger trigger in GetListOfInsertTriggersFor(className))
+                foreach (InsertTrigger trigger in GetListOfInsertTriggersFor(type))
                 {
                     if (trigger.Odb == null)
                         trigger.Odb = new OdbForTrigger(_storageEngine);
@@ -112,12 +113,12 @@ namespace NDatabase.Odb.Core.Trigger
             return true;
         }
 
-        public void ManageInsertTriggerAfter(string className, object @object, OID oid)
+        public void ManageInsertTriggerAfter(Type type, object @object, OID oid)
         {
-            if (!HasInsertTriggersFor(className))
+            if (!HasInsertTriggersFor(type))
                 return;
 
-            foreach (InsertTrigger trigger in GetListOfInsertTriggersFor(className))
+            foreach (InsertTrigger trigger in GetListOfInsertTriggersFor(type))
             {
                 if (trigger.Odb == null)
                     trigger.Odb = new OdbForTrigger(_storageEngine);
@@ -138,11 +139,11 @@ namespace NDatabase.Odb.Core.Trigger
             }
         }
 
-        public bool ManageUpdateTriggerBefore(string className, NonNativeObjectInfo oldNnoi, object newObject, OID oid)
+        public bool ManageUpdateTriggerBefore(Type type, NonNativeObjectInfo oldNnoi, object newObject, OID oid)
         {
-            if (HasUpdateTriggersFor(className))
+            if (HasUpdateTriggersFor(type))
             {
-                foreach (UpdateTrigger trigger in GetListOfUpdateTriggersFor(className))
+                foreach (UpdateTrigger trigger in GetListOfUpdateTriggersFor(type))
                 {
                     if (trigger.Odb == null)
                         trigger.Odb = new OdbForTrigger(_storageEngine);
@@ -165,12 +166,12 @@ namespace NDatabase.Odb.Core.Trigger
             return true;
         }
 
-        public void ManageUpdateTriggerAfter(string className, NonNativeObjectInfo oldNnoi, object newObject, OID oid)
+        public void ManageUpdateTriggerAfter(Type type, NonNativeObjectInfo oldNnoi, object newObject, OID oid)
         {
-            if (!HasUpdateTriggersFor(className))
+            if (!HasUpdateTriggersFor(type))
                 return;
 
-            foreach (UpdateTrigger trigger in GetListOfUpdateTriggersFor(className))
+            foreach (UpdateTrigger trigger in GetListOfUpdateTriggersFor(type))
             {
                 if (trigger.Odb == null)
                     trigger.Odb = new OdbForTrigger(_storageEngine);
@@ -191,11 +192,11 @@ namespace NDatabase.Odb.Core.Trigger
             }
         }
 
-        public bool ManageDeleteTriggerBefore(string className, object @object, OID oid)
+        public bool ManageDeleteTriggerBefore(Type type, object @object, OID oid)
         {
-            if (HasDeleteTriggersFor(className))
+            if (HasDeleteTriggersFor(type))
             {
-                foreach (DeleteTrigger trigger in GetListOfDeleteTriggersFor(className))
+                foreach (DeleteTrigger trigger in GetListOfDeleteTriggersFor(type))
                 {
                     if (trigger.Odb == null)
                         trigger.Odb = new OdbForTrigger(_storageEngine);
@@ -218,12 +219,12 @@ namespace NDatabase.Odb.Core.Trigger
             return true;
         }
 
-        public void ManageDeleteTriggerAfter(string className, object @object, OID oid)
+        public void ManageDeleteTriggerAfter(Type type, object @object, OID oid)
         {
-            if (!HasDeleteTriggersFor(className))
+            if (!HasDeleteTriggersFor(type))
                 return;
 
-            foreach (DeleteTrigger trigger in GetListOfDeleteTriggersFor(className))
+            foreach (DeleteTrigger trigger in GetListOfDeleteTriggersFor(type))
             {
                 if (trigger.Odb == null)
                     trigger.Odb = new OdbForTrigger(_storageEngine);
@@ -244,12 +245,12 @@ namespace NDatabase.Odb.Core.Trigger
             }
         }
 
-        public void ManageSelectTriggerAfter(string className, object @object, OID oid)
+        public void ManageSelectTriggerAfter(Type type, object @object, OID oid)
         {
-            if (!HasSelectTriggersFor(className))
+            if (!HasSelectTriggersFor(type))
                 return;
 
-            foreach (SelectTrigger trigger in GetListOfSelectTriggersFor(className))
+            foreach (SelectTrigger trigger in GetListOfSelectTriggersFor(type))
             {
                 if (trigger.Odb == null)
                     trigger.Odb = new OdbForTrigger(_storageEngine);
@@ -269,61 +270,51 @@ namespace NDatabase.Odb.Core.Trigger
 
         #endregion
 
-        private static void AddTriggerFor<TTrigger>(string className, TTrigger trigger,
-                                                    IDictionary<string, IOdbList<Trigger>> listOfTriggers)
+        private static void AddTriggerFor<TTrigger>(Type type, TTrigger trigger,
+                                                    IDictionary<Type, IOdbList<Trigger>> listOfTriggers)
             where TTrigger : Trigger
         {
-            if (className == null)
-                className = AllClassTrigger;
-            var triggers = listOfTriggers[className];
+            var triggers = listOfTriggers[type];
 
             if (triggers == null)
             {
                 triggers = new OdbList<Trigger>();
-                listOfTriggers.Add(className, triggers);
+                listOfTriggers.Add(type, triggers);
             }
 
             triggers.Add(trigger);
         }
 
-        private void Init()
-        {
-            _listOfUpdateTriggers = new OdbHashMap<string, IOdbList<Trigger>>();
-            _listOfDeleteTriggers = new OdbHashMap<string, IOdbList<Trigger>>();
-            _listOfSelectTriggers = new OdbHashMap<string, IOdbList<Trigger>>();
-            _listOfInsertTriggers = new OdbHashMap<string, IOdbList<Trigger>>();
-        }
-
         /// <summary>
         ///   FIXME try to cache l1+l2
         /// </summary>
-        /// <param name="className"> </param>
+        /// <param name="type"> </param>
         /// <returns> </returns>
-        public IOdbList<Trigger> GetListOfDeleteTriggersFor(string className)
+        public IOdbList<Trigger> GetListOfDeleteTriggersFor(Type type)
         {
-            return GetListOfTriggersFor(className, _listOfDeleteTriggers);
+            return GetListOfTriggersFor(type, _listOfDeleteTriggers);
         }
 
-        public IOdbList<Trigger> GetListOfInsertTriggersFor(string className)
+        public IOdbList<Trigger> GetListOfInsertTriggersFor(Type type)
         {
-            return GetListOfTriggersFor(className, _listOfInsertTriggers);
+            return GetListOfTriggersFor(type, _listOfInsertTriggers);
         }
 
-        public IOdbList<Trigger> GetListOfSelectTriggersFor(string className)
+        public IOdbList<Trigger> GetListOfSelectTriggersFor(Type type)
         {
-            return GetListOfTriggersFor(className, _listOfSelectTriggers);
+            return GetListOfTriggersFor(type, _listOfSelectTriggers);
         }
 
-        public IOdbList<Trigger> GetListOfUpdateTriggersFor(string className)
+        public IOdbList<Trigger> GetListOfUpdateTriggersFor(Type type)
         {
-            return GetListOfTriggersFor(className, _listOfUpdateTriggers);
+            return GetListOfTriggersFor(type, _listOfUpdateTriggers);
         }
 
-        private static IOdbList<Trigger> GetListOfTriggersFor(string className,
-                                                              IDictionary<string, IOdbList<Trigger>> listOfTriggers)
+        private static IOdbList<Trigger> GetListOfTriggersFor(Type type,
+                                                              IDictionary<Type, IOdbList<Trigger>> listOfTriggers)
         {
-            var listOfTriggersBuClassName = listOfTriggers[className];
-            var listOfTriggersByAllClassTrigger = listOfTriggers[AllClassTrigger];
+            var listOfTriggersBuClassName = listOfTriggers[type];
+            var listOfTriggersByAllClassTrigger = listOfTriggers[typeof(object)];
 
             if (listOfTriggersByAllClassTrigger != null)
             {

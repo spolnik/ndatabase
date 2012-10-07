@@ -5,7 +5,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
     /// <summary>
     ///   Used to store informations about object changes
     /// </summary>
-    public sealed class ChangedObjectInfo
+    internal sealed class ChangedObjectInfo
     {
         private readonly int _fieldIndex;
 

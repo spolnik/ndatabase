@@ -5,7 +5,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
     /// <summary>
     ///   Used to store informations about object changes at attribute level
     /// </summary>
-    public sealed class ChangedNativeAttributeAction : IChangedAttribute
+    internal sealed class ChangedNativeAttributeAction : IChangedAttribute
     {
         private readonly string _attributeName;
 

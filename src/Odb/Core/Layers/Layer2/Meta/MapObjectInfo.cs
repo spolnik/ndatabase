@@ -6,8 +6,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// <summary>
     ///   Meta representation of a Map
     /// </summary>
-    
-    public sealed class MapObjectInfo : GroupObjectInfo
+    internal sealed class MapObjectInfo : GroupObjectInfo
     {
         private string _realMapClassName;
 

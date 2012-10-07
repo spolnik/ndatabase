@@ -5,9 +5,9 @@ using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Query.Execution
 {
-    public static class IndexTool
+    internal static class IndexTool
     {
-        public static IOdbComparable BuildIndexKey(string indexName, NonNativeObjectInfo oi, int[] fieldIds)
+        internal static IOdbComparable BuildIndexKey(string indexName, NonNativeObjectInfo oi, int[] fieldIds)
         {
             var keys = new IOdbComparable[fieldIds.Length];
 
@@ -42,7 +42,7 @@ namespace NDatabase.Odb.Core.Query.Execution
             return new ComposedCompareKey(keys);
         }
 
-        public static IOdbComparable BuildIndexKey(string indexName, AttributeValuesMap values, string[] fields)
+        internal static IOdbComparable BuildIndexKey(string indexName, AttributeValuesMap values, string[] fields)
         {
             if (fields.Length == 1)
                 return new SimpleCompareKey(values.GetComparable(fields[0]));
@@ -76,7 +76,7 @@ namespace NDatabase.Odb.Core.Query.Execution
         /// <param name="index"> The index </param>
         /// <param name="query"> </param>
         /// <returns> The key of the index </returns>
-        public static IOdbComparable ComputeKey(ClassInfo ci, ClassInfoIndex index, CriteriaQuery query)
+        internal static IOdbComparable ComputeKey(ClassInfo ci, ClassInfoIndex index, CriteriaQuery query)
         {
             var attributesNames = ci.GetAttributeNames(index.AttributeIds);
             var values = query.GetCriteria().GetValues();

@@ -1,10 +1,9 @@
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer3;
 
 namespace NDatabase.Odb.Core.Trigger
 {
-    public sealed class ObjectRepresentation : IObjectRepresentation
+    internal sealed class ObjectRepresentation : IObjectRepresentation
     {
         private readonly NonNativeObjectInfo _nnoi;
 

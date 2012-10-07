@@ -2,8 +2,7 @@ using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
 namespace NDatabase.Odb.Core.Query.Execution
 {
-    
-    public sealed class EmptyExecutionPlan : IQueryExecutionPlan
+    internal sealed class EmptyExecutionPlan : IQueryExecutionPlan
     {
         #region IQueryExecutionPlan Members
 

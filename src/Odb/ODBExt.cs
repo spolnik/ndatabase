@@ -15,7 +15,7 @@ namespace NDatabase.Odb
         ///   as it should be unique across databases. It can be used for example 
         ///   to implement a replication process.
         /// </remarks>
-        IExternalOID GetObjectExternalOID(object @object);
+        IExternalOID GetObjectExternalOID<T>(T plainObject) where T : class;
 
         /// <summary>
         ///   Get the Database ID

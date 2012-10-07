@@ -926,21 +926,33 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                         AddParameter(classInfoPosition));
             }
             var classInfoCategory = _fsi.ReadByte("class info category");
-            var classInfo = new ClassInfo
+            
+            var classInfoId = OIDFactory.BuildClassOID(_fsi.ReadLong());
+            var previousClassOID = ReadOid("prev class oid");
+            var nextClassOID = ReadOid("next class oid");
+            var nbObjects = _fsi.ReadLong();
+            var originalZoneInfoFirst = ReadOid("ci first object oid");
+            var originalZoneInfoLast = ReadOid("ci last object oid");
+            var fullClassName = _fsi.ReadString();
+            var maxAttributeId = _fsi.ReadInt();
+            var attributesDefinitionPosition = _fsi.ReadLong();
+
+            var classInfo = new ClassInfo(fullClassName)
                 {
                     ClassCategory = classInfoCategory,
                     Position = classInfoPosition,
-                    ClassInfoId = OIDFactory.BuildClassOID(_fsi.ReadLong()),
-                    PreviousClassOID = ReadOid("prev class oid"),
-                    NextClassOID = ReadOid("next class oid")
+                    ClassInfoId = classInfoId,
+                    PreviousClassOID = previousClassOID,
+                    NextClassOID = nextClassOID,
+                    MaxAttributeId = maxAttributeId,
+                    AttributesDefinitionPosition = attributesDefinitionPosition
                 };
-            classInfo.OriginalZoneInfo.SetNbObjects(_fsi.ReadLong());
-            classInfo.OriginalZoneInfo.First = ReadOid("ci first object oid");
-            classInfo.OriginalZoneInfo.Last = ReadOid("ci last object oid");
+
+            classInfo.OriginalZoneInfo.SetNbObjects(nbObjects);
+            classInfo.OriginalZoneInfo.First = originalZoneInfoFirst;
+            classInfo.OriginalZoneInfo.Last = originalZoneInfoLast;
             classInfo.CommitedZoneInfo.SetBasedOn(classInfo.OriginalZoneInfo);
-            classInfo.FullClassName = _fsi.ReadString();
-            classInfo.MaxAttributeId = _fsi.ReadInt();
-            classInfo.AttributesDefinitionPosition = _fsi.ReadLong();
+
             // FIXME Convert block size to long ??
             var realBlockSize = (int) (_fsi.GetPosition() - classInfoPosition);
             if (blockSize != realBlockSize)

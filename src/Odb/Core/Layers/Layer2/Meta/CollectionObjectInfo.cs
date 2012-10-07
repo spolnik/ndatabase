@@ -7,9 +7,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// <summary>
     ///   Meta representation of a collection
     /// </summary>
-    /// <author>osmadja</author>
-    
-    public sealed class CollectionObjectInfo : GroupObjectInfo
+    internal sealed class CollectionObjectInfo : GroupObjectInfo
     {
         private string _realCollectionClassName;
 

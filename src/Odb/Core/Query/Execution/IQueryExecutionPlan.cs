@@ -2,7 +2,7 @@ using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
 namespace NDatabase.Odb.Core.Query.Execution
 {
-    public interface IQueryExecutionPlan
+    internal interface IQueryExecutionPlan
     {
         bool UseIndex();
 

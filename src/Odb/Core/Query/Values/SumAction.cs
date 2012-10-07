@@ -4,8 +4,7 @@ using NDatabase.Odb.Core.Query.Execution;
 
 namespace NDatabase.Odb.Core.Query.Values
 {
-    
-    public sealed class SumAction : AbstractQueryFieldAction
+    internal sealed class SumAction : AbstractQueryFieldAction
     {
         private Decimal _sum;
 

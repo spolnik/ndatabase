@@ -78,7 +78,7 @@ namespace NDatabase.Odb.Core.Query.Criteria
             _criterion = criterion;
         }
 
-        public override void SetExecutionPlan(IQueryExecutionPlan plan)
+        internal new void SetExecutionPlan(IQueryExecutionPlan plan)
         {
             ExecutionPlan = plan;
         }

@@ -1,6 +1,6 @@
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
 {
-    public sealed class ArrayModifyElement
+    internal sealed class ArrayModifyElement
     {
         private readonly int _arrayElementIndexToChange;
 

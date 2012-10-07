@@ -3,8 +3,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// <summary>
     ///   To keep info about a non native null instance
     /// </summary>
-    
-    public sealed class NonNativeNullObjectInfo : NonNativeObjectInfo
+    internal sealed class NonNativeNullObjectInfo : NonNativeObjectInfo
     {
         public NonNativeNullObjectInfo() : base(null)
         {

@@ -3,7 +3,7 @@ using NDatabase.Odb.Core.Layers.Layer3;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Instance
 {
-    public interface IInstanceBuilder
+    internal interface IInstanceBuilder
     {
         /// <summary>
         ///   Builds a Non Native Object instance
