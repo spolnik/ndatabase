@@ -90,8 +90,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                                                 classInfo.FullClassName));
                 }
 
-                var type = OdbClassPool.GetClass(classInfo.FullClassName);
-                var criteriaQuery = new CriteriaQuery(type);
+                var criteriaQuery = new CriteriaQuery(classInfo.UnderlyingType);
 
                 defragObjects = GetObjects<object>(criteriaQuery, true, -1, -1);
 
@@ -124,8 +123,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                                                 classInfo.FullClassName));
                 }
 
-                var type = OdbClassPool.GetClass(classInfo.FullClassName);
-                defragObjects = GetObjects<object>(new CriteriaQuery(type), true, -1, -1);
+                defragObjects = GetObjects<object>(new CriteriaQuery(classInfo.UnderlyingType), true, -1, -1);
 
                 while (defragObjects.HasNext())
                 {

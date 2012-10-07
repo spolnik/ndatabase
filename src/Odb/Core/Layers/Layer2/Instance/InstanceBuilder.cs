@@ -6,10 +6,8 @@ using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Oid;
-using NDatabase.Odb.Core.Transaction;
 using NDatabase.Odb.Core.Trigger;
 using NDatabase.Tool;
-using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Instance
 {
@@ -51,11 +49,9 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
             if (o != null)
                 return o;
 
-            var instanceClazz = OdbClassPool.GetClass(objectInfo.GetClassInfo().FullClassName);
-
             try
             {
-                o = FormatterServices.GetUninitializedObject(instanceClazz);
+                o = FormatterServices.GetUninitializedObject(objectInfo.GetClassInfo().UnderlyingType);
             }
             catch (Exception e)
             {
@@ -179,7 +175,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
                     }
                 }
             }
-            if (!OdbClassUtil.GetFullName(o.GetType()).Equals(objectInfo.GetClassInfo().FullClassName))
+            if (o.GetType() != objectInfo.GetClassInfo().UnderlyingType)
             {
                 throw new OdbRuntimeException(
                     NDatabaseError.InstanceBuilderWrongObjectType.AddParameter(

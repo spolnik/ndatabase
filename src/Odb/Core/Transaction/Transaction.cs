@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Text;
-using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
@@ -437,6 +436,7 @@ namespace NDatabase.Odb.Core.Transaction
             var lastCommitedMetaModel = sessionMetaModel;
 
             var writer = _session.GetStorageEngine().GetObjectWriter();
+
             // Gets the classes that have changed (that have modified ,deleted or inserted objects)
             var enumerator = sessionMetaModel.GetChangedClassInfo().GetEnumerator();
 
@@ -444,10 +444,13 @@ namespace NDatabase.Odb.Core.Transaction
             while (enumerator.MoveNext())
             {
                 var newClassInfo = enumerator.Current;
+
+                if (newClassInfo == null)
+                    continue;
+
                 ClassInfo lastCommittedCI;
 
-                var type = OdbClassPool.GetClass(newClassInfo.FullClassName);
-                if (lastCommitedMetaModel.ExistClass(type))
+                if (lastCommitedMetaModel.ExistClass(newClassInfo.UnderlyingType))
                 {
                     // The last CI represents the last committed meta model of the
                     // database

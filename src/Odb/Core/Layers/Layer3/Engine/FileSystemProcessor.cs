@@ -300,18 +300,20 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public void UpdateInstanceFieldsOfClassInfo(ClassInfo classInfo, bool writeInTransaction)
         {
             var currentPosition = FileSystemInterface.GetPosition();
+
             if (OdbConfiguration.IsDebugEnabled(LogIdDebug))
-                DLogger.Debug("Start of updateInstanceFieldsOfClassInfo for " +
-                              classInfo.FullClassName);
+                DLogger.Debug("Start of updateInstanceFieldsOfClassInfo for " + classInfo.FullClassName);
+
             var position = classInfo.Position + StorageEngineConstant.ClassOffsetClassNbObjects;
             FileSystemInterface.SetWritePosition(position, writeInTransaction);
             var nbObjects = classInfo.NumberOfObjects;
             FileSystemInterface.WriteLong(nbObjects, writeInTransaction, "class info update nb objects");
             WriteOid(classInfo.CommitedZoneInfo.First, writeInTransaction, "class info update first obj oid");
             WriteOid(classInfo.CommitedZoneInfo.Last, writeInTransaction, "class info update last obj oid");
+            
             if (OdbConfiguration.IsDebugEnabled(LogIdDebug))
-                DLogger.Debug("End of updateInstanceFieldsOfClassInfo for " +
-                              classInfo.FullClassName);
+                DLogger.Debug("End of updateInstanceFieldsOfClassInfo for " + classInfo.FullClassName);
+
             FileSystemInterface.SetWritePosition(currentPosition, writeInTransaction);
         }
 

@@ -79,8 +79,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             
             // first checks if the class of this object already exist in the
             // metamodel
-            var type = OdbClassPool.GetClass(objectInfo.GetClassInfo().FullClassName);
-            if (!metaModel.ExistClass(type))
+            if (!metaModel.ExistClass(objectInfo.GetClassInfo().UnderlyingType))
                 _objectWriter.AddClass(objectInfo.GetClassInfo(), true);
 
             // if position is -1, gets the position where to write the object
@@ -416,9 +415,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     DLogger.Debug(message);
                 }
                 // triggers,FIXME passing null to old object representation
-                var fullClassName = nnoi.GetClassInfo().FullClassName;
-                var type = OdbClassPool.GetClass(fullClassName);
-                _storageEngine.GetTriggerManager().ManageUpdateTriggerBefore(type,
+                _storageEngine.GetTriggerManager().ManageUpdateTriggerBefore(nnoi.GetClassInfo().UnderlyingType,
                                                                             null, hasObject ? @object : nnoi, oid);
                 // Use to control if the in place update is ok. The
                 // ObjectInstrospector stores the number of changes
@@ -563,12 +560,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 {
                     if (withIndex)
                         ManageIndexesForUpdate(oid, nnoi, oldMetaRepresentation);
+                    
                     // triggers,FIXME passing null to old object representation
                     // (oldMetaRepresentation may be null)
-                    var fullClassName = nnoi.GetClassInfo().FullClassName;
-                    var type = OdbClassPool.GetClass(fullClassName);
                     _storageEngine.GetTriggerManager().ManageUpdateTriggerAfter(
-                        type, oldMetaRepresentation, hasObject ? @object : nnoi, oid);
+                        nnoi.GetClassInfo().UnderlyingType, oldMetaRepresentation, hasObject ? @object : nnoi, oid);
                 }
                 if (OdbConfiguration.IsDebugEnabled(LogId))
                 {
