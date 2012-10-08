@@ -102,7 +102,7 @@ namespace NDatabase.Odb.Core.Query.List
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return _tree.Iterator<object>(_orderByType);
+            return _tree.Iterator<TItem>(_orderByType);
         }
 
         public virtual IEnumerator<TItem> Iterator(OrderByConstants newOrderByType)

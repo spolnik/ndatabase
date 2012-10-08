@@ -91,7 +91,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 if (OdbConfiguration.IsDebugEnabled(LogId))
                 {
                     if (j % 10000 == 0)
-                        DLogger.Info("\n" + totalNbObjects + " objects saved.");
+                        DLogger.Info(string.Concat("\n", totalNbObjects.ToString(), " objects saved."));
                 }
 
                 j++;
@@ -103,8 +103,13 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var time = OdbTime.GetCurrentTimeInMs() - start;
 
             if (OdbConfiguration.IsDebugEnabled(LogId))
+            {
+                var nbObjectsAsString = totalNbObjects.ToString();
+                var timeAsString = time.ToString();
+
                 DLogger.Info(string.Format("New storage {0} created with {1} objects in {2} ms.", newFileName,
-                                           totalNbObjects, time));
+                                           nbObjectsAsString, timeAsString));
+            }
         }
 
         private static IQuery PrepareCriteriaQuery(Type type)
@@ -195,22 +200,26 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
             if (verbose)
             {
+                var numberOfObjectsAsString = classInfo.NumberOfObjects.ToString();
                 DLogger.Info(
                     string.Format("Creating index {0} on class {1} - Class has already {2} Objects. Updating index",
-                                  indexName, className, classInfo.NumberOfObjects));
+                                  indexName, className, numberOfObjectsAsString));
 
                 DLogger.Info(string.Format("{0} : loading {1} objects from database", indexName,
-                                           classInfo.NumberOfObjects));
+                                           numberOfObjectsAsString));
             }
 
             // We must load all objects and insert them in the index!
             var criteriaQuery = PrepareCriteriaQuery(classInfo.UnderlyingType);
 
             var methodInfo = GenericGetObjectInfos.MakeGenericMethod(classInfo.UnderlyingType);
-            var objects = (IObjects<object>) methodInfo.Invoke(this, new object[] {criteriaQuery, false, -1, -1, false});
+            var objects = (IObjects<object>) methodInfo.Invoke(this, new object[] {criteriaQuery});
 
             if (verbose)
-                DLogger.Info(string.Format("{0} : {1} objects loaded", indexName, classInfo.NumberOfObjects));
+            {
+                var numberOfObjectsAsString = classInfo.NumberOfObjects.ToString();
+                DLogger.Info(string.Format("{0} : {1} objects loaded", indexName, numberOfObjectsAsString));
+            }
 
             while (objects.HasNext())
             {
@@ -225,15 +234,15 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         /// <summary>
         ///   Invoked by reflection!
+        ///   //TODO: analyse what should be returned instead of object if  possible
         /// </summary>
-        internal IObjects<object> GetObjectInfos<T>(IQuery query, bool inMemory, int startIndex, int endIndex,
-                                                     bool returnObjects) where T : class
+        internal IObjects<object> GetObjectInfos<T>(IQuery query) where T : class
         {
             // Returns the query result handler for normal query result (that return a collection of objects)
-            var queryResultAction = new CollectionQueryResultAction<object>(query, inMemory, this, returnObjects,
+            var queryResultAction = new CollectionQueryResultAction<object>(query, false, this, false,
                                                                             GetObjectReader().GetInstanceBuilder());
 
-            return ObjectReader.GetObjectInfos<object,T>(query, inMemory, startIndex, endIndex, returnObjects,
+            return ObjectReader.GetObjectInfos<object,T>(query, false, -1, -1, false,
                                                   queryResultAction);
         }
 
