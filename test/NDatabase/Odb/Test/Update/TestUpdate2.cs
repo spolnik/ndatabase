@@ -99,7 +99,7 @@ namespace Test.NDatabase.Odb.Test.Update
             odb.Store(new Profile("new profile"));
             odb.Close();
             odb = Open(Name);
-            var p = odb.GetObjects<Profile>(new CriteriaQuery(typeof(Profile), Where.Equal("name", "new profile"))).GetFirst();
+            var p = odb.GetObjects<Profile>(new CriteriaQuery<Profile>( Where.Equal("name", "new profile"))).GetFirst();
             p.SetName("new profile2");
             var user2 = odb.GetObjects<User>().GetFirst();
             user2.SetProfile(p);

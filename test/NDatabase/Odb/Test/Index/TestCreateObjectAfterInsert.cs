@@ -45,14 +45,14 @@ namespace Test.NDatabase.Odb.Test.Index
                 Println("\n\n after create index\n\n");
                 var objects =
                     odb.GetObjects<IndexedObject>(
-                        new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", "name0")), true);
+                        new CriteriaQuery<IndexedObject>( Where.Equal("name", "name0")), true);
                 Println("\n\nafter get Objects\n\n");
                 AssertEquals(1, objects.Count);
                 objects =
                     odb.GetObjects<IndexedObject>(
-                        new CriteriaQuery(typeof (IndexedObject), Where.Equal("duration", 9)), true);
+                        new CriteriaQuery<IndexedObject>( Where.Equal("duration", 9)), true);
                 AssertEquals(1, objects.Count);
-                objects = odb.GetObjects<IndexedObject>(new CriteriaQuery(typeof (IndexedObject)), true);
+                objects = odb.GetObjects<IndexedObject>(new CriteriaQuery<IndexedObject>(), true);
                 AssertEquals(size, objects.Count);
             }
             finally
@@ -99,14 +99,14 @@ namespace Test.NDatabase.Odb.Test.Index
                 Println("\n\n after create index\n\n");
                 var objects =
                     odb.GetObjects<IndexedObject>(
-                        new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", "name0")), true);
+                        new CriteriaQuery<IndexedObject>( Where.Equal("name", "name0")), true);
                 Println("\n\nafter get Objects\n\n");
                 AssertEquals(1, objects.Count);
                 objects =
                     odb.GetObjects<IndexedObject>(
-                        new CriteriaQuery(typeof (IndexedObject), Where.Equal("duration", 10)), true);
+                        new CriteriaQuery<IndexedObject>( Where.Equal("duration", 10)), true);
                 AssertEquals(1, objects.Count);
-                objects = odb.GetObjects<IndexedObject>(new CriteriaQuery(typeof (IndexedObject)), true);
+                objects = odb.GetObjects<IndexedObject>(new CriteriaQuery<IndexedObject>(), true);
                 AssertEquals(size, objects.Count);
             }
             finally
@@ -142,7 +142,7 @@ namespace Test.NDatabase.Odb.Test.Index
                 odb.GetClassRepresentation<IndexedObject>().AddUniqueIndexOn("index1", names, true);
                 var objects =
                     odb.GetObjects<IndexedObject>(
-                        new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", "name")), true);
+                        new CriteriaQuery<IndexedObject>( Where.Equal("name", "name")), true);
                 AssertEquals(1, objects.Count);
             }
         }
@@ -177,9 +177,9 @@ namespace Test.NDatabase.Odb.Test.Index
                 odb.GetClassRepresentation<IndexedObject>().AddUniqueIndexOn("index1", names, true);
                 var objects =
                     odb.GetObjects<IndexedObject>(
-                        new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", "name0")), true);
+                        new CriteriaQuery<IndexedObject>( Where.Equal("name", "name0")), true);
                 AssertEquals(1, objects.Count);
-                objects = odb.GetObjects<IndexedObject>(new CriteriaQuery(typeof (IndexedObject)), true);
+                objects = odb.GetObjects<IndexedObject>(new CriteriaQuery<IndexedObject>(), true);
                 MemoryMonitor.DisplayCurrentMemory("BTREE", true);
                 AssertEquals(size, objects.Count);
             }

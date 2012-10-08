@@ -46,12 +46,12 @@ namespace Test.NDatabase.Odb.Test.Newbie
                 AssertEquals("The objects weren't added correctly", 5, cars.Count);
 
                 // find for a specific car object
-                var query = new CriteriaQuery(typeof (Car), Where.Equal("Name", "car1"));
+                var query = new CriteriaQuery<Car>( Where.Equal("Name", "car1"));
                 cars = odb.GetObjects<Car>(query);
                 AssertEquals("The objects couldn't be found correctly", 1, cars.Count);
 
                 // find for a specific composition
-                query = new CriteriaQuery(typeof (Car), Where.Equal("Driver.Name", "marcelo"));
+                query = new CriteriaQuery<Car>( Where.Equal("Driver.Name", "marcelo"));
                 cars = odb.GetObjects<Car>(query);
                 AssertEquals("The objects couldn't be found correctly", 2, cars.Count);
             }

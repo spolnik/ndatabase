@@ -22,7 +22,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Store(new Woman("Karine"));
             odb.Close();
             odb = Open("multi");
-            IQuery q = new CriteriaQuery(typeof (object));
+            IQuery q = new CriteriaQuery<object>();
 
             var os = odb.GetObjects<object>(q);
             Println(os);
@@ -43,7 +43,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Store(new Woman("Karine"));
             odb.Close();
             odb = Open("multi");
-            IQuery q = new CriteriaQuery(typeof (Human));
+            IQuery q = new CriteriaQuery<Human>();
 
             var os = odb.GetObjects<Human>(q);
             Println(os);
@@ -64,9 +64,9 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Store(new Woman("Karine"));
             odb.Close();
             odb = Open("multi");
-            var q = new ValuesCriteriaQuery(typeof (object)).Field("specie");
+            var q = new ValuesCriteriaQuery<object>().Field("specie");
 
-            var os = odb.GetValues(q);
+            var os = odb.GetValues<object>(q);
             Println(os);
             odb.Close();
             AssertEquals(4, os.Count);
@@ -85,9 +85,9 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Store(new Woman("Karine"));
             odb.Close();
             odb = Open("multi");
-            var q = new ValuesCriteriaQuery(typeof (Human)).Field("specie");
+            var q = new ValuesCriteriaQuery<Human>().Field("specie");
 
-            var os = odb.GetValues(q);
+            var os = odb.GetValues<Human>(q);
             Println(os);
             odb.Close();
             AssertEquals(2, os.Count);
@@ -106,9 +106,9 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Store(new Woman("Karine"));
             odb.Close();
             odb = Open("multi");
-            var q = new ValuesCriteriaQuery(typeof (Man)).Field("specie");
+            var q = new ValuesCriteriaQuery<Man>().Field("specie");
 
-            var os = odb.GetValues(q);
+            var os = odb.GetValues<Man>(q);
             Println(os);
             odb.Close();
             AssertEquals(1, os.Count);
@@ -127,7 +127,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Store(new Woman("Karine"));
             odb.Close();
             odb = Open("multi");
-            var q = new CriteriaQuery(typeof (object));
+            var q = new CriteriaQuery<object>();
 
             Decimal nb = odb.Count(q);
             Println(nb);
@@ -152,7 +152,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             }
             odb.Close();
             odb = Open(baseName);
-            var q = new CriteriaQuery(typeof (object));
+            var q = new CriteriaQuery<object>();
 
             Decimal nb = odb.Count(q);
             Println(nb);
@@ -177,7 +177,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             }
             odb.Close();
             odb = Open(baseName);
-            var q = new CriteriaQuery(typeof (object), Where.Equal("specie", "man"));
+            var q = new CriteriaQuery<object>(Where.Equal("specie", "man"));
 
             Decimal nb = odb.Count(q);
             Println(nb);

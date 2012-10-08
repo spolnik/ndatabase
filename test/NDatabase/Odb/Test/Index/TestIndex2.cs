@@ -30,7 +30,7 @@ namespace Test.NDatabase.Odb.Test.Index
             }
             @base.Close();
             @base = Open(baseName);
-            IQuery q = new CriteriaQuery(typeof (IndexedObject3), Where.Equal("i1", 1));
+            IQuery q = new CriteriaQuery<IndexedObject3>(Where.Equal("i1", 1));
             var iis = @base.GetObjects<IndexedObject3>(q);
             @base.Close();
             AssertEquals(1, iis.Count);
@@ -63,7 +63,7 @@ namespace Test.NDatabase.Odb.Test.Index
             @base.Close();
             @base = Open(baseName);
             
-            IQuery q = new CriteriaQuery(typeof (IndexedObject3),
+            IQuery q = new CriteriaQuery<IndexedObject3>(
                                          Where.And().Add(Where.Equal("i1", 10)).Add(Where.Equal("i2", 2)).Add(
                                              Where.Equal("i3", 3)));
 
@@ -136,7 +136,7 @@ namespace Test.NDatabase.Odb.Test.Index
             @base.Close();
             @base = Open(baseName);
             
-            IQuery q = new CriteriaQuery(typeof (IndexedObject3),
+            IQuery q = new CriteriaQuery<IndexedObject3>(
                                          Where.And().Add(Where.Equal("i1", 10)).Add(Where.Equal("i2", 2)).Add(
                                              Where.Equal("i3", 3)));
 

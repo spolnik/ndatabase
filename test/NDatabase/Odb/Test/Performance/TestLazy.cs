@@ -55,7 +55,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             // t2 = OdbTime.getCurrentTimeInMs();
             // println(t2-t1);
             var endget1 = OdbTime.GetCurrentTimeInTicks();
-            AssertEquals(odb.Count(new CriteriaQuery(typeof (User))), lazyList.Count);
+            AssertEquals(odb.Count(new CriteriaQuery<User>()), lazyList.Count);
             odb.Close();
             var t01 = end1 - start1;
             var tget1 = endget1 - startget1;

@@ -1,3 +1,5 @@
+using System;
+
 namespace NDatabase.Odb.Core.Query
 {
     public interface IQuery
@@ -45,5 +47,9 @@ namespace NDatabase.Odb.Core.Query
         /// </summary>
         /// <returns> </returns>
         OID GetOidOfObjectToQuery();
+
+        bool Match(object @object);
+
+        Type UnderlyingType { get; }
     }
 }

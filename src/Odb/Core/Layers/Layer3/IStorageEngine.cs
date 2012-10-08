@@ -33,24 +33,13 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         void Close();
 
-        long Count(CriteriaQuery query);
+        long Count<T>(CriteriaQuery<T> query) where T : class;
 
-        IValues GetValues(IValuesQuery query, int startIndex, int endIndex);
+        IValues GetValues<T>(IValuesQuery query, int startIndex, int endIndex) where T : class;
 
-        IObjects<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex);
+        IObjects<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex) where T : class;
 
-        IObjects<T> GetObjects<T>(Type clazz, bool inMemory, int startIndex, int endIndex);
-
-        /// <summary>
-        ///   Return Meta representation of objects
-        /// </summary>
-        /// <param name="query"> The query to select objects </param>
-        /// <param name="inMemory"> To indicate if object must be all loaded in memory </param>
-        /// <param name="startIndex"> First object index </param>
-        /// <param name="endIndex"> Last object index </param>
-        /// <param name="returnOjects"> To indicate if object instances must be created </param>
-        /// <returns> The list of objects @ </returns>
-        IObjects<T> GetObjectInfos<T>(IQuery query, bool inMemory, int startIndex, int endIndex, bool returnOjects);
+        IObjects<T> GetObjects<T>(bool inMemory, int startIndex, int endIndex) where T : class;
 
         IObjectReader GetObjectReader();
 
@@ -165,9 +154,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         ITriggerManager BuildTriggerManager();
 
-        CriteriaQuery CriteriaQuery<T>(ICriterion criterion) where T : class;
+        CriteriaQuery<T> CriteriaQuery<T>(ICriterion criterion) where T : class;
 
-        CriteriaQuery CriteriaQuery<T>() where T : class;
+        CriteriaQuery<T> CriteriaQuery<T>() where T : class;
 
         CurrentIdBlockInfo GetCurrentIdBlockInfo();
 

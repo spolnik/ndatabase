@@ -8,25 +8,25 @@ namespace Test.NDatabase.Odb.Test.Query.NQ
     [TestFixture]
     public class TestPolyMorphic : ODBTest
     {
-        internal sealed class _SimpleNativeQuery_31 : SimpleNativeQuery
+        internal sealed class SimpleNativeQuery31 : SimpleNativeQuery<Animal>
         {
-            public bool Match(Animal animal)
+            public override bool Match(Animal animal)
             {
                 return true;
             }
         }
 
-        internal sealed class _SimpleNativeQuery_60 : SimpleNativeQuery
+        internal sealed class SimpleNativeQuery60 : SimpleNativeQuery<Human>
         {
-            public bool Match(Human human)
+            public override bool Match(Human human)
             {
                 return true;
             }
         }
 
-        internal sealed class _SimpleNativeQuery_91 : SimpleNativeQuery
+        internal sealed class SimpleNativeQuery91 : SimpleNativeQuery<Animal>
         {
-            public bool Match(Animal @object)
+            public override bool Match(Animal @object)
             {
                 return @object.GetName().StartsWith("my ");
             }
@@ -44,7 +44,7 @@ namespace Test.NDatabase.Odb.Test.Query.NQ
             odb.Store(new Woman("Karine"));
             odb.Close();
             odb = Open("multi");
-            IQuery q = new _SimpleNativeQuery_31();
+            IQuery q = new SimpleNativeQuery31();
 
             var os = odb.GetObjects<Animal>(q);
             Println(os);
@@ -65,7 +65,7 @@ namespace Test.NDatabase.Odb.Test.Query.NQ
             odb.Store(new Woman("Karine"));
             odb.Close();
             odb = Open("multi");
-            IQuery q = new _SimpleNativeQuery_60();
+            IQuery q = new SimpleNativeQuery60();
 
             var os = odb.GetObjects<Human>(q);
             Println(os);
@@ -90,7 +90,7 @@ namespace Test.NDatabase.Odb.Test.Query.NQ
             }
             odb.Close();
             odb = Open("multi");
-            IQuery q = new _SimpleNativeQuery_91();
+            IQuery q = new SimpleNativeQuery91();
 
             var objects = odb.GetObjects<Animal>(q);
             odb.Close();

@@ -58,7 +58,7 @@ namespace Test.NDatabase.Odb.Test.Index
                 odb.Store(new IndexedObject2("Object " + i, new IndexedObject("Inner Object " + i, i, new DateTime())));
             odb.Close();
             odb = Open("index-object");
-            IQuery q = new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", "Inner Object " + (size - 1)));
+            IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("name", "Inner Object " + (size - 1)));
             // First get the object used to index, the last one. There is no index
             // on the class and field
             var start0 = OdbTime.GetCurrentTimeInMs();
@@ -120,7 +120,7 @@ namespace Test.NDatabase.Odb.Test.Index
                 odb.Store(new IndexedObject2("Object " + i, new IndexedObject("Inner Object " + i, i, new DateTime())));
             odb.Close();
             odb = Open(baseName);
-            IQuery q = new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", "Inner Object " + (size - 1)));
+            IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("name", "Inner Object " + (size - 1)));
             // First get the object used to index, the last one. There is no index
             // on the class and field
             var start0 = OdbTime.GetCurrentTimeInMs();

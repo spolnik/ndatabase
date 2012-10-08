@@ -4,8 +4,7 @@ using Test.NDatabase.Odb.Test.VO.School;
 
 namespace Test.NDatabase.Odb.Test.School
 {
-    
-    public class SchoolNativeQueryStudent : NativeQuery
+    public class SchoolNativeQueryStudent : NativeQuery<Student>
     {
         private readonly string name;
 
@@ -17,15 +16,9 @@ namespace Test.NDatabase.Odb.Test.School
             this.age = age;
         }
 
-        public override bool Match(object @object)
+        public override bool Match(Student @object)
         {
-            var s = (Student) @object;
-            return s.GetName().Equals(name);
-        }
-
-        public override Type GetObjectType()
-        {
-            return typeof (Student);
+            return @object.GetName().Equals(name);
         }
 
         public override Type[] GetObjectTypes()

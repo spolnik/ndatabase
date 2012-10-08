@@ -9,17 +9,17 @@ namespace Test.NDatabase.Odb.Test.Query.NQ
     [TestFixture]
     public class TestNativeQuery : ODBTest
     {
-        public class Query1 : SimpleNativeQuery
+        public class Query1 : SimpleNativeQuery<ClassWithArrayOfBoolean>
         {
-            public bool Match(ClassWithArrayOfBoolean o)
+            public override bool Match(ClassWithArrayOfBoolean o)
             {
                 return true;
             }
         }
 
-        public class Query2 : SimpleNativeQuery
+        public class Query2 : SimpleNativeQuery<Player>
         {
-            public bool Match(Player player)
+            public override bool Match(Player player)
             {
                 return player.GetFavoriteSport().GetName().ToLower().StartsWith("volley");
             }

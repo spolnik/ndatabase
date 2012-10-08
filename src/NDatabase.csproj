@@ -262,7 +262,6 @@
     <Compile Include="Odb\Core\Query\List\Values\SimpleListForValues.cs" />
     <Compile Include="Odb\Core\Query\NQ\NativeQueryExecutionPlan.cs" />
     <Compile Include="Odb\Core\Query\NQ\NativeQueryExecutor.cs" />
-    <Compile Include="Odb\Core\Query\NQ\NativeQueryManager.cs" />
     <Compile Include="Odb\Core\Query\Values\AverageValueAction.cs" />
     <Compile Include="Odb\Core\Query\Values\CountAction.cs" />
     <Compile Include="Odb\Core\Query\Values\CustomQueryFieldAction.cs" />

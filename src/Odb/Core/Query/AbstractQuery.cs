@@ -1,3 +1,4 @@
+using System;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Query.Execution;
@@ -72,6 +73,10 @@ namespace NDatabase.Odb.Core.Query
         {
             return _oidOfObjectToQuery;
         }
+
+        public abstract bool Match(object @object);
+
+        public abstract Type UnderlyingType { get; }
 
         /// <summary>
         ///   Returns true is query must apply on a single object OID

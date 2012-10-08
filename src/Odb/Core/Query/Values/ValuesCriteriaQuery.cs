@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Core.Query.Execution;
@@ -20,7 +19,7 @@ namespace NDatabase.Odb.Core.Query.Values
     ///    - The Average value of a specific numeric value
     /// </remarks>
     /// <author>osmadja</author>
-    public sealed class ValuesCriteriaQuery : CriteriaQuery, IValuesQuery
+    public sealed class ValuesCriteriaQuery<T> : CriteriaQuery<T>, IValuesQuery where T : class
     {
         private string[] _groupByFieldList;
 
@@ -33,23 +32,23 @@ namespace NDatabase.Odb.Core.Query.Values
         /// </summary>
         private bool _returnInstance;
 
-        public ValuesCriteriaQuery(Type underlyingType, OID oid) : base(underlyingType)
+        public ValuesCriteriaQuery(OID oid)
         {
             SetOidOfObjectToQuery(oid);
             Init();
         }
 
-        public ValuesCriteriaQuery(Type underlyingType, ICriterion criteria) : base(underlyingType, criteria)
+        public ValuesCriteriaQuery(ICriterion criteria) : base(criteria)
         {
             Init();
         }
 
-        public ValuesCriteriaQuery(Type underlyingType) : base(underlyingType)
+        public ValuesCriteriaQuery()
         {
             Init();
         }
 
-        public ValuesCriteriaQuery(CriteriaQuery query) : this(query.UnderlyingType, query.GetCriteria())
+        public ValuesCriteriaQuery(CriteriaQuery<T> query) : this(query.GetCriteria())
         {
         }
 
@@ -138,7 +137,7 @@ namespace NDatabase.Odb.Core.Query.Values
             return this;
         }
 
-        internal IOdbList<IQueryFieldAction> GetObjectActions()
+        public IOdbList<IQueryFieldAction> GetObjectActions()
         {
             return _objectActions;
         }
@@ -278,6 +277,8 @@ namespace NDatabase.Odb.Core.Query.Values
         {
             _returnInstance = returnInstance;
         }
+
+        public int ObjectActionsCount { get { return _objectActions.Count; } }
 
         #endregion
 

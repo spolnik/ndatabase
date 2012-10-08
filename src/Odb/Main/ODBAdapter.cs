@@ -40,19 +40,19 @@ namespace NDatabase.Odb.Main
             return _storageEngine.Store(plainObject);
         }
 
-        public virtual IObjects<T> GetObjects<T>()
+        public virtual IObjects<T> GetObjects<T>() where T : class
         {
-            return _storageEngine.GetObjects<T>(new CriteriaQuery(typeof(T)), true, -1, -1);
+            return _storageEngine.GetObjects<T>(new CriteriaQuery<T>(), true, -1, -1);
         }
 
-        public virtual IObjects<T> GetObjects<T>(bool inMemory)
+        public virtual IObjects<T> GetObjects<T>(bool inMemory) where T : class
         {
-            return _storageEngine.GetObjects<T>(typeof(T), inMemory, -1, -1);
+            return _storageEngine.GetObjects<T>(inMemory, -1, -1);
         }
 
-        public virtual IObjects<T> GetObjects<T>(bool inMemory, int startIndex, int endIndex)
+        public virtual IObjects<T> GetObjects<T>(bool inMemory, int startIndex, int endIndex) where T : class
         {
-            return _storageEngine.GetObjects<T>(typeof(T), inMemory, startIndex, endIndex);
+            return _storageEngine.GetObjects<T>(inMemory, startIndex, endIndex);
         }
 
         public virtual void Close()
@@ -75,33 +75,33 @@ namespace NDatabase.Odb.Main
             _storageEngine.DeleteObjectWithOid(oid);
         }
 
-        public virtual IObjects<T> GetObjects<T>(IQuery query)
+        public virtual IObjects<T> GetObjects<T>(IQuery query) where T : class
         {
             ((AbstractQuery)query).SetStorageEngine(_storageEngine);
             return _storageEngine.GetObjects<T>(query, true, -1, -1);
         }
 
-        public virtual IValues GetValues(IValuesQuery query)
+        public virtual IValues GetValues<T>(IValuesQuery query) where T : class
         {
-            return _storageEngine.GetValues(query, -1, -1);
+            return _storageEngine.GetValues<T>(query, -1, -1);
         }
 
-        public virtual long Count(CriteriaQuery query)
+        public virtual long Count<T>(CriteriaQuery<T> query) where T : class
         {
-            var valuesQuery = new ValuesCriteriaQuery(query).Count("count");
+            var valuesQuery = new ValuesCriteriaQuery<T>(query).Count("count");
 
-            var values = _storageEngine.GetValues(valuesQuery, -1, -1);
+            var values = _storageEngine.GetValues<T>(valuesQuery, -1, -1);
 
             var count = (Decimal)values.NextValues().GetByIndex(0);
             return Decimal.ToInt64(count);
         }
 
-        public virtual IObjects<T> GetObjects<T>(IQuery query, bool inMemory)
+        public virtual IObjects<T> GetObjects<T>(IQuery query, bool inMemory) where T : class
         {
             return _storageEngine.GetObjects<T>(query, inMemory, -1, -1);
         }
 
-        public virtual IObjects<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex)
+        public virtual IObjects<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex) where T : class
         {
             try
             {
@@ -184,12 +184,12 @@ namespace NDatabase.Odb.Main
             return _storageEngine.IsClosed();
         }
 
-        public virtual CriteriaQuery CriteriaQuery<T>(ICriterion criterion) where T : class 
+        public virtual CriteriaQuery<T> CriteriaQuery<T>(ICriterion criterion) where T : class 
         {
             return _storageEngine.CriteriaQuery<T>(criterion);
         }
 
-        public virtual CriteriaQuery CriteriaQuery<T>() where T : class 
+        public virtual CriteriaQuery<T> CriteriaQuery<T>() where T : class 
         {
             return _storageEngine.CriteriaQuery<T>();
         }

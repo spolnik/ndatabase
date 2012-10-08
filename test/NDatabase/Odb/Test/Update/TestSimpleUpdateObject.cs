@@ -105,7 +105,7 @@ namespace Test.NDatabase.Odb.Test.Update
             odb.Store(login);
             odb.Close();
             odb = Open("t1u2.neodatis");
-            login = odb.GetObjects<VO.Login.Function>(new CriteriaQuery(typeof(VO.Login.Function), Where.IsNull("name"))).GetFirst();
+            login = odb.GetObjects<VO.Login.Function>(new CriteriaQuery<VO.Login.Function>(Where.IsNull("name"))).GetFirst();
             AssertTrue(login.GetName() == null);
             login.SetName("login");
             odb.Store(login);
@@ -123,9 +123,9 @@ namespace Test.NDatabase.Odb.Test.Update
         {
             DeleteBase("t5.neodatis");
             var odb = Open("t5.neodatis");
-            var nbFunctions = odb.Count(new CriteriaQuery(typeof (VO.Login.Function)));
-            var nbProfiles = odb.Count(new CriteriaQuery(typeof (Profile)));
-            var nbUsers = odb.Count(new CriteriaQuery(typeof (User)));
+            var nbFunctions = odb.Count(new CriteriaQuery<VO.Login.Function>());
+            var nbProfiles = odb.Count(new CriteriaQuery<Profile>());
+            var nbUsers = odb.Count(new CriteriaQuery<User>());
             var login = new VO.Login.Function("login");
             var logout = new VO.Login.Function("logout");
             var list = new List<VO.Login.Function>();

@@ -93,7 +93,7 @@ namespace Test.NDatabase.Odb.Test.Index
             @base.Store(io1);
             @base.Close();
             @base = Open(baseName);
-            IQuery q = new CriteriaQuery(typeof (IndexedObject),
+            IQuery q = new CriteriaQuery<IndexedObject>(
                                          Where.And().Add(Where.Equal("name", "olivier")).Add(Where.Equal("duration", 15)));
             var objects = @base.GetObjects<IndexedObject>(q, true);
             @base.Close();
@@ -138,7 +138,7 @@ namespace Test.NDatabase.Odb.Test.Index
             long minTime = 100000;
             for (var i = 0; i < size; i++)
             {
-                IQuery query = new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", "olivier" + (i + 1)));
+                IQuery query = new CriteriaQuery<IndexedObject>( Where.Equal("name", "olivier" + (i + 1)));
                 var start = OdbTime.GetCurrentTimeInMs();
                 var objects = @base.GetObjects<IndexedObject>(query, true);
                 var end = OdbTime.GetCurrentTimeInMs();
@@ -156,11 +156,11 @@ namespace Test.NDatabase.Odb.Test.Index
             }
             @base.Close();
             @base = Open(baseName);
-            IQuery q = new CriteriaQuery(typeof (IndexedObject));
+            IQuery q = new CriteriaQuery<IndexedObject>();
             var oos = @base.GetObjects<IndexedObject>(q, true);
             for (var i = 0; i < size; i++)
             {
-                q = new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", "olivier" + (i + 1)));
+                q = new CriteriaQuery<IndexedObject>( Where.Equal("name", "olivier" + (i + 1)));
                 oos = @base.GetObjects<IndexedObject>(q, true);
                 AssertEquals(0, oos.Count);
             }
@@ -198,7 +198,7 @@ namespace Test.NDatabase.Odb.Test.Index
             @base.Close();
             Console.Out.WriteLine("----ola");
             @base = Open(baseName);
-            IQuery q = new CriteriaQuery(typeof (IndexedObject));
+            IQuery q = new CriteriaQuery<IndexedObject>();
             var objects = @base.GetObjects<IndexedObject>(q);
             while (objects.HasNext())
             {
@@ -251,7 +251,7 @@ namespace Test.NDatabase.Odb.Test.Index
             long totalTimeSelect = 0;
             for (var j = 0; j < size; j++)
             {
-                IQuery q = new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", "olivier" + (j + 1)));
+                IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("name", "olivier" + (j + 1)));
                 var start = OdbTime.GetCurrentTimeInMs();
                 var objects = @base.GetObjects<IndexedObject>(q, true);
                 var end = OdbTime.GetCurrentTimeInMs();
@@ -287,7 +287,7 @@ namespace Test.NDatabase.Odb.Test.Index
             @base = Open(baseName);
             for (var i = 0; i < size; i++)
             {
-                IQuery q = new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", "olivier" + (i + 1)));
+                IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("name", "olivier" + (i + 1)));
                 var start = OdbTime.GetCurrentTimeInMs();
                 var objects = @base.GetObjects<IndexedObject>(q, true);
                 var end = OdbTime.GetCurrentTimeInMs();
@@ -345,7 +345,7 @@ namespace Test.NDatabase.Odb.Test.Index
             long t1 = 0;
             for (var i = 0; i < size; i++)
             {
-                IQuery q = new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", "olivier" + (i + 1)));
+                IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("name", "olivier" + (i + 1)));
                 var start = OdbTime.GetCurrentTimeInMs();
                 var objects = @base.GetObjects<IndexedObject>(q, true);
                 var end = OdbTime.GetCurrentTimeInMs();
@@ -372,7 +372,7 @@ namespace Test.NDatabase.Odb.Test.Index
             @base = Open(baseName);
             for (var i = 0; i < size; i++)
             {
-                IQuery q = new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", "olivier" + (i + 1)));
+                IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("name", "olivier" + (i + 1)));
                 var start = OdbTime.GetCurrentTimeInMs();
                 var objects = @base.GetObjects<IndexedObject>(q, true);
                 var end = OdbTime.GetCurrentTimeInMs();
@@ -432,7 +432,7 @@ namespace Test.NDatabase.Odb.Test.Index
             long t1 = 0;
             for (var i = 0; i < size; i++)
             {
-                IQuery q = new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", "olivier" + (i + 1)));
+                IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("name", "olivier" + (i + 1)));
                 var start = OdbTime.GetCurrentTimeInMs();
                 var objects = @base.GetObjects<IndexedObject>(q, true);
                 var end = OdbTime.GetCurrentTimeInMs();
@@ -458,7 +458,7 @@ namespace Test.NDatabase.Odb.Test.Index
             @base = Open(baseName);
             for (var i = 0; i < size; i++)
             {
-                IQuery q = new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", "olivier" + (i + 1)));
+                IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("name", "olivier" + (i + 1)));
                 var start = OdbTime.GetCurrentTimeInMs();
                 var objects = @base.GetObjects<IndexedObject>(q, true);
                 var end = OdbTime.GetCurrentTimeInMs();
@@ -520,7 +520,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var start = OdbTime.GetCurrentTimeInMs();
             for (var i = 0; i < size; i++)
             {
-                IQuery q = new CriteriaQuery(typeof (IndexedObject),
+                IQuery q = new CriteriaQuery<IndexedObject>(
                                              Where.And().Add(Where.Equal("duration", i)).Add(Where.Equal("creation",
                                                                                                          dates[i])));
                 var objects = @base.GetObjects<IndexedObject>(q, true);
@@ -584,7 +584,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var start = OdbTime.GetCurrentTimeInMs();
             for (var i = 0; i < size; i++)
             {
-                IQuery q = new CriteriaQuery(typeof (IndexedObject), Where.Equal("duration", i));
+                IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("duration", i));
                 var objects = @base.GetObjects<IndexedObject>(q, false);
                 // println("olivier" + (i+1));
                 AssertEquals(1, objects.Count);
@@ -651,7 +651,7 @@ namespace Test.NDatabase.Odb.Test.Index
             @base.Close();
             @base = Open(baseName);
             // first search without index
-            IQuery q = new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", theName));
+            IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("name", theName));
             var objects = @base.GetObjects<IndexedObject>(q, true);
             AssertFalse(((AbstractQuery)q).GetExecutionPlan().UseIndex());
             Println(((AbstractQuery)q).GetExecutionPlan().GetDetails());
@@ -663,7 +663,7 @@ namespace Test.NDatabase.Odb.Test.Index
             @base.Close();
             @base = Open(baseName);
             // Then search usin index
-            q = new CriteriaQuery(typeof (IndexedObject),
+            q = new CriteriaQuery<IndexedObject>(
                                   Where.And().Add(Where.Equal("name", theName)).Add(Where.Equal("creation", theDate)).
                                       Add(Where.Equal("duration", theDuration)));
             objects = @base.GetObjects<IndexedObject>(q, true);
@@ -722,7 +722,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var start = OdbTime.GetCurrentTimeInMs();
             for (var i = 0; i < size; i++)
             {
-                IQuery q = new CriteriaQuery(typeof (IndexedObject), Where.Equal("duration", i));
+                IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("duration", i));
                 var objects = @base.GetObjects<IndexedObject>(q, false);
                 // println("olivier" + (i+1));
                 AssertEquals(1, objects.Count);
@@ -774,7 +774,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var start = OdbTime.GetCurrentTimeInMs();
             for (var i = 0; i < size; i++)
             {
-                IQuery q = new CriteriaQuery(typeof (IndexedObject), Where.Equal("creation", new DateTime(start0 + i)));
+                IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("creation", new DateTime(start0 + i)));
                 var objects = @base.GetObjects<IndexedObject>(q, false);
                 // println("olivier" + (i+1));
                 AssertEquals(1, objects.Count);
@@ -811,7 +811,7 @@ namespace Test.NDatabase.Odb.Test.Index
             @base.Store(io1);
             @base.Close();
             @base = Open(baseName);
-            IQuery q = new CriteriaQuery(typeof (IndexedObject), Where.IsNotNull("name"));
+            IQuery q = new CriteriaQuery<IndexedObject>( Where.IsNotNull("name"));
             var objects = @base.GetObjects<IndexedObject>(q, true);
             @base.Close();
             AssertEquals(1, objects.Count);
@@ -856,7 +856,7 @@ namespace Test.NDatabase.Odb.Test.Index
             long minTime = 100000;
             for (var i = 0; i < size; i++)
             {
-                IQuery q = new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", "olivier" + (i + 1)));
+                IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("name", "olivier" + (i + 1)));
                 var start = OdbTime.GetCurrentTimeInMs();
                 var objects = @base.GetObjects<IndexedObject>(q, true);
                 var end = OdbTime.GetCurrentTimeInMs();
@@ -921,7 +921,7 @@ namespace Test.NDatabase.Odb.Test.Index
             long t1 = 0;
             for (var i = 0; i < size; i++)
             {
-                IQuery q = new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", "olivier" + (i + 1)));
+                IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("name", "olivier" + (i + 1)));
                 var start = OdbTime.GetCurrentTimeInMs();
                 var objects = @base.GetObjects<IndexedObject>(q, true);
                 var end = OdbTime.GetCurrentTimeInMs();
@@ -1012,7 +1012,7 @@ namespace Test.NDatabase.Odb.Test.Index
             // println(new
             // BTreeDisplay().build(engine.getSession(true).getMetaModel().getClassInfo(IndexedObject.class.Name,
             // true).getIndex(0).getBTree(), true));
-            IQuery q = new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", "olivier" + size));
+            IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("name", "olivier" + size));
             var start = OdbTime.GetCurrentTimeInMs();
             var objects = @base.GetObjects<IndexedObject>(q, false);
             var end = OdbTime.GetCurrentTimeInMs();
@@ -1084,7 +1084,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var baseName = "index.neodatis";
             var size = 1300;
             var @base = Open(baseName);
-            IQuery q = new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", "olivier" + size));
+            IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("name", "olivier" + size));
             var start = OdbTime.GetCurrentTimeInMs();
             var objects = @base.GetObjects<IndexedObject>(q, false);
             var end = OdbTime.GetCurrentTimeInMs();
@@ -1158,7 +1158,7 @@ namespace Test.NDatabase.Odb.Test.Index
             // IQuery q = new
             // CriteriaQuery(IndexedObject.class,Restrictions.and().add(Restrictions.equal("name",theName)).add(Restrictions.equal("creation",
             // theDate)));
-            IQuery q = new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", theName));
+            IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("name", theName));
             var start = OdbTime.GetCurrentTimeInMs();
             var objects = @base.GetObjects<IndexedObject>(q, true);
             var end = OdbTime.GetCurrentTimeInMs();
@@ -1214,7 +1214,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var start = OdbTime.GetCurrentTimeInMs();
             for (var i = 0; i < size; i++)
             {
-                IQuery q = new CriteriaQuery(typeof (IndexedObject), Where.Equal("duration", i));
+                IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("duration", i));
                 var objects = @base.GetObjects<IndexedObject>(q, false);
                 // println("olivier" + (i+1));
                 AssertEquals(1, objects.Count);
@@ -1259,7 +1259,7 @@ namespace Test.NDatabase.Odb.Test.Index
             Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
             Println("inserting time with index=" + (end0 - start0));
             @base = Open(baseName);
-            IQuery q = new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", "olivier" + size));
+            IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("name", "olivier" + size));
             var start = OdbTime.GetCurrentTimeInMs();
             var objects = @base.GetObjects<IndexedObject>(q, false);
             var end = OdbTime.GetCurrentTimeInMs();
@@ -1370,7 +1370,7 @@ namespace Test.NDatabase.Odb.Test.Index
                     t1 = OdbTime.GetCurrentTimeInMs();
                     @base = Open(baseName);
                     t2 = OdbTime.GetCurrentTimeInMs();
-                    var q = new CriteriaQuery(typeof (IndexedObject), Where.Equal("name", indexes[j]));
+                    var q = new CriteriaQuery<IndexedObject>( Where.Equal("name", indexes[j]));
                     var os = @base.GetObjects<IndexedObject>(q);
                     t3 = OdbTime.GetCurrentTimeInMs();
                     AssertTrue(q.GetExecutionPlan().UseIndex());
@@ -1385,7 +1385,7 @@ namespace Test.NDatabase.Odb.Test.Index
                     t4 = OdbTime.GetCurrentTimeInMs();
                     
                     indexes[j] = io.GetName();
-                    AssertEquals(new Decimal(size), @base.Count(new CriteriaQuery(typeof (IndexedObject))));
+                    AssertEquals(new Decimal(size), @base.Count(new CriteriaQuery<IndexedObject>()));
                     t5 = OdbTime.GetCurrentTimeInMs();
                     @base.Commit();
                     @base.Close();

@@ -6,24 +6,24 @@ using NDatabase.Tool.Wrappers.List;
 
 namespace NDatabase.Odb.Core.Query.Criteria
 {
-    internal sealed class CriteriaQueryExecutor : GenericQueryExecutor
+    internal sealed class CriteriaQueryExecutor<T> : GenericQueryExecutor where T : class 
     {
-        private CriteriaQuery _criteriaQuery;
+        private CriteriaQuery<T> _criteriaQuery;
         private IOdbList<string> _involvedFields;
 
         public CriteriaQueryExecutor(IQuery query, IStorageEngine engine) : base(query, engine)
         {
-            _criteriaQuery = (CriteriaQuery) query;
+            _criteriaQuery = (CriteriaQuery<T>) query;
         }
 
         public override IQueryExecutionPlan GetExecutionPlan()
         {
-            return new CriteriaQueryExecutionPlan(ClassInfo, (CriteriaQuery) Query);
+            return new CriteriaQueryExecutionPlan<T>(ClassInfo, (CriteriaQuery<T>)Query);
         }
 
         public override void PrepareQuery()
         {
-            _criteriaQuery = (CriteriaQuery) Query;
+            _criteriaQuery = (CriteriaQuery<T>) Query;
             _criteriaQuery.SetStorageEngine(StorageEngine);
             _involvedFields = _criteriaQuery.GetAllInvolvedFields();
         }
@@ -89,14 +89,14 @@ namespace NDatabase.Odb.Core.Query.Criteria
 
         public override IComparable ComputeIndexKey(ClassInfo ci, ClassInfoIndex index)
         {
-            var query = (CriteriaQuery) Query;
+            var query = (CriteriaQuery<T>) Query;
             var values = query.GetCriteria().GetValues();
 
             // if values.hasOid() is true, this means that we are working of the full object,
             // the index key is then the oid and not the object itself
             if (values.HasOid())
                 return new SimpleCompareKey(values.GetOid());
-            return IndexTool.ComputeKey(ClassInfo, index, (CriteriaQuery) Query);
+            return IndexTool.ComputeKey(ClassInfo, index, (CriteriaQuery<T>) Query);
         }
 
         public override object GetCurrentObjectMetaRepresentation()

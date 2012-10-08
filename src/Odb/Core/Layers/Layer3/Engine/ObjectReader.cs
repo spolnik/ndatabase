@@ -192,8 +192,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             foreach (var actualClassInfo in allClasses)
             {
                 IOdbList<ClassInfoIndex> indexes = new OdbList<ClassInfoIndex>();
-                IQuery queryClassInfo = new CriteriaQuery(typeof (ClassInfoIndex),
-                                                          Where.Equal("ClassInfoId", actualClassInfo.ClassInfoId));
+                IQuery queryClassInfo = new CriteriaQuery<ClassInfoIndex>(Where.Equal("ClassInfoId", actualClassInfo.ClassInfoId));
                 var classIndexes = GetObjects<ClassInfoIndex>(queryClassInfo, true, -1, -1);
                 indexes.AddAll(classIndexes);
                 // Sets the btree persister
@@ -793,33 +792,33 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return _instanceBuilder.BuildOneInstance(objectInfo, _storageEngine.GetSession(true).GetCache());
         }
 
-        public IObjects<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex)
+        public IObjects<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex) where T : class
         {
             IMatchingObjectAction queryResultAction = new CollectionQueryResultAction<T>(query, inMemory, _storageEngine,
                                                                                          true, _instanceBuilder);
             
-            var queryExecutor = QueryManager.GetQueryExecutor(query, _storageEngine, _instanceBuilder);
+            var queryExecutor = QueryManager.GetQueryExecutor<T>(query, _storageEngine, _instanceBuilder);
 
             return queryExecutor.Execute<T>(inMemory, startIndex, endIndex, true, queryResultAction);
         }
 
-        public IValues GetValues(IValuesQuery valuesQuery, int startIndex, int endIndex)
+        public IValues GetValues<T>(IValuesQuery valuesQuery, int startIndex, int endIndex) where T : class
         {
             IMatchingObjectAction queryResultAction;
             if (valuesQuery.HasGroupBy())
                 queryResultAction = new GroupByValuesQueryResultAction(valuesQuery, _instanceBuilder);
             else
                 queryResultAction = new ValuesQueryResultAction(valuesQuery, _storageEngine, _instanceBuilder);
-            var objects = GetObjectInfos<IObjectValues>(valuesQuery, true, startIndex, endIndex, false,
+            var objects = GetObjectInfos<IObjectValues, T>(valuesQuery, true, startIndex, endIndex, false,
                                                         queryResultAction);
             return (IValues) objects;
         }
 
-        public IObjects<T> GetObjectInfos<T>(IQuery query, bool inMemory, int startIndex, int endIndex,
-                                             bool returnObjects, IMatchingObjectAction queryResultAction)
+        public IObjects<TResult> GetObjectInfos<TResult, TObject>(IQuery query, bool inMemory, int startIndex, int endIndex,
+                                             bool returnObjects, IMatchingObjectAction queryResultAction) where TObject : class
         {
-            var executor = QueryManager.GetQueryExecutor(query, _storageEngine, _instanceBuilder);
-            return executor.Execute<T>(inMemory, startIndex, endIndex, returnObjects, queryResultAction);
+            var executor = QueryManager.GetQueryExecutor<TObject>(query, _storageEngine, _instanceBuilder);
+            return executor.Execute<TResult>(inMemory, startIndex, endIndex, returnObjects, queryResultAction);
         }
 
         public string GetBaseIdentification()

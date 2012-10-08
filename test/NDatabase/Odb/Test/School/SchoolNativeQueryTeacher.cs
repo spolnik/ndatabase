@@ -5,7 +5,7 @@ using Test.NDatabase.Odb.Test.VO.School;
 namespace Test.NDatabase.Odb.Test.School
 {
     
-    public class SchoolNativeQueryTeacher : NativeQuery
+    public class SchoolNativeQueryTeacher : NativeQuery<History>
     {
         private readonly string name;
 
@@ -14,17 +14,11 @@ namespace Test.NDatabase.Odb.Test.School
             this.name = name;
         }
 
-        public override bool Match(object @object)
+        public override bool Match(History @object)
         {
-            var s = (History) @object;
             var dateTime = new DateTime(2005, 6, 1);
 
-            return s.GetTeacher().GetName().Equals(name) && s.GetDate().Millisecond > (dateTime.Millisecond);
-        }
-
-        public override Type GetObjectType()
-        {
-            return typeof (History);
+            return @object.GetTeacher().GetName().Equals(name) && @object.GetDate().Millisecond > (dateTime.Millisecond);
         }
 
         public override Type[] GetObjectTypes()

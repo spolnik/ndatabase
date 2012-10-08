@@ -6,14 +6,14 @@ using NDatabase.Tool.Wrappers.List;
 
 namespace NDatabase.Odb.Core.Query.Criteria
 {
-    public class CriteriaQuery : AbstractQuery
+    public class CriteriaQuery<T> : AbstractQuery where T : class
     {
         private ICriterion _criterion;
         private readonly Type _underlyingType;
 
-        public CriteriaQuery(Type underlyingType, ICriterion criteria)
+        public CriteriaQuery(ICriterion criteria)
         {
-            _underlyingType = underlyingType;
+            _underlyingType = typeof(T);
             if (criteria == null)
                 return;
 
@@ -21,13 +21,8 @@ namespace NDatabase.Odb.Core.Query.Criteria
             _criterion.SetQuery(this);
         }
 
-        public CriteriaQuery(Type underlyingType) : this(underlyingType, null)
+        public CriteriaQuery() : this(null)
         {
-        }
-
-        public static CriteriaQuery New<T>()
-        {
-            return new CriteriaQuery(typeof (T));
         }
 
         public bool HasCriteria()
@@ -49,7 +44,12 @@ namespace NDatabase.Odb.Core.Query.Criteria
             return _criterion.Match(map);
         }
 
-        public Type UnderlyingType
+        public override bool Match(object @object)
+        {
+            return Match((AbstractObjectInfo) @object);
+        }
+
+        public override Type UnderlyingType
         {
             get { return _underlyingType; }
         }

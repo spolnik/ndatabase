@@ -40,7 +40,7 @@ namespace Test.NDatabase.Odb.Test.Instantiationhelper
             var car = cars.GetFirst();
             AssertEquals(car.GetModel(), "Ranger");
             AssertEquals(car.GetYear(), 2006);
-            var query = new CriteriaQuery(typeof (Car), Where.Equal("model", "Ranger"));
+            var query = new CriteriaQuery<Car>( Where.Equal("model", "Ranger"));
             cars = odb.GetObjects<Car>(query);
             car = cars.GetFirst();
             AssertEquals(car.GetModel(), "Ranger");

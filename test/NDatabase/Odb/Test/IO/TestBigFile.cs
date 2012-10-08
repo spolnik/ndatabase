@@ -60,7 +60,7 @@ namespace Test.NDatabase.Odb.Test.IO
             {
                 var start = OdbTime.GetCurrentTimeInMs();
                 odb = Open(baseName);
-                IQuery q = new CriteriaQuery(typeof (VO.Login.Function), Where.Equal("name", "login10000"));
+                IQuery q = new CriteriaQuery<VO.Login.Function>( Where.Equal("name", "login10000"));
                 var functions = odb.GetObjects<VO.Login.Function>(q, true, 0, 1);
                 Console.Out.WriteLine(((AbstractQuery)q).GetExecutionPlan().GetDetails());
                 Console.Out.WriteLine(functions.Count);

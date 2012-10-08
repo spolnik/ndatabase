@@ -1,9 +1,6 @@
 using System.Collections;
-using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Query.Values;
 using NUnit.Framework;
 
@@ -33,8 +30,8 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             odb.Close();
             odb = Open(baseName);
             var values =
-                odb.GetValues(
-                    new ValuesCriteriaQuery(typeof (Handler), oid).Field("parameters").Sublist("parameters", "sub1", 1,
+                odb.GetValues<Handler>(
+                    new ValuesCriteriaQuery<Handler>(oid).Field("parameters").Sublist("parameters", "sub1", 1,
                                                                                                5, true).Sublist(
                                                                                                    "parameters", "sub2",
                                                                                                    1, 10).Size(

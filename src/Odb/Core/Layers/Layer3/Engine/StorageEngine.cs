@@ -302,7 +302,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             RemoveLocalTriggerManager();
         }
 
-        public override long Count(CriteriaQuery query)
+        public override long Count<T>(CriteriaQuery<T> query)
         {
             if (IsDbClosed)
             {
@@ -310,8 +310,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
             }
 
-            var valuesQuery = new ValuesCriteriaQuery(query).Count("count");
-            var values = GetValues(valuesQuery, -1, -1);
+            var valuesQuery = new ValuesCriteriaQuery<T>(query).Count("count");
+            var values = GetValues<T>(valuesQuery, -1, -1);
             var count = (long) values.NextValues().GetByIndex(0);
 
             return count;
@@ -447,7 +447,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return _objectWriter.UpdateNonNativeObjectInfo(nnoi, forceUpdate);
         }
 
-        public override IValues GetValues(IValuesQuery query, int startIndex, int endIndex)
+        public override IValues GetValues<T>(IValuesQuery query, int startIndex, int endIndex)
         {
             if (IsDbClosed)
             {
@@ -455,7 +455,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
             }
 
-            return ObjectReader.GetValues(query, startIndex, endIndex);
+            return ObjectReader.GetValues<T>(query, startIndex, endIndex);
         }
 
         public override void AddCommitListener(ICommitListener commitListener)
@@ -518,9 +518,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             _triggerManager.AddUpdateTriggerFor(type, trigger);
         }
 
-        public override CriteriaQuery CriteriaQuery<T>(ICriterion criterion)
+        public override CriteriaQuery<T> CriteriaQuery<T>(ICriterion criterion)
         {
-            var criteriaQuery = new CriteriaQuery(typeof(T), criterion);
+            var criteriaQuery = new CriteriaQuery<T>(criterion);
             criteriaQuery.SetStorageEngine(this);
 
             if (criterion != null)
@@ -529,9 +529,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return criteriaQuery;
         }
 
-        public override CriteriaQuery CriteriaQuery<T>()
+        public override CriteriaQuery<T> CriteriaQuery<T>()
         {
-            var criteriaQuery = new CriteriaQuery(typeof(T));
+            var criteriaQuery = new CriteriaQuery<T>();
             criteriaQuery.SetStorageEngine(this);
             return criteriaQuery;
         }

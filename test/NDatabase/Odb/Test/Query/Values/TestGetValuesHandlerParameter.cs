@@ -21,7 +21,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             odb.Store(handler);
             odb.Close();
             odb = Open("valuesA1");
-            var values = odb.GetValues(new ValuesCriteriaQuery(typeof (Handler)).Field("parameters"));
+            var values = odb.GetValues<Handler>(new ValuesCriteriaQuery<Handler>().Field("parameters"));
             Println(values);
             var ov = values.NextValues();
             var l = (IList) ov.GetByAlias("parameters");
@@ -45,7 +45,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             // ValuesQuery in getObjects
             try
             {
-                var objects = odb.GetObjects<Handler>(new ValuesCriteriaQuery(typeof (Handler)).Field("parameters"));
+                var objects = odb.GetObjects<Handler>(new ValuesCriteriaQuery<Handler>().Field("parameters"));
                 Fail("Should throw exception");
             }
             catch (Exception)

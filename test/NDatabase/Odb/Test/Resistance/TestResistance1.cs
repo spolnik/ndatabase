@@ -122,7 +122,7 @@ namespace Test.NDatabase.Odb.Test.Resistance
             odb.Close();
             odb = Open(FileName);
             AssertEquals(0, odb.GetObjects<User>().Count);
-            AssertEquals(0, odb.Count(new CriteriaQuery(typeof (User))));
+            AssertEquals(0, odb.Count(new CriteriaQuery<User>()));
             Println("deleted");
             odb.Close();
             stopWatch.End();
@@ -143,7 +143,7 @@ namespace Test.NDatabase.Odb.Test.Resistance
             DeleteBase(FileName);
             var odb = Open(FileName);
             var f1 = new VO.Login.Function("function 1");
-            Println(odb.Count(new CriteriaQuery(typeof (User))));
+            Println(odb.Count(new CriteriaQuery<User>()));
             // Create Objects
             for (var i = 0; i < size; i++)
             {
@@ -218,7 +218,7 @@ namespace Test.NDatabase.Odb.Test.Resistance
             odb.Close();
             odb = Open(FileName);
             AssertEquals(0, odb.GetObjects<User>().Count);
-            AssertEquals(0, odb.Count(new CriteriaQuery(typeof (User))));
+            AssertEquals(0, odb.Count(new CriteriaQuery<User>()));
             Println("deleted");
             odb.Close();
             stopWatch.End();
@@ -236,7 +236,7 @@ namespace Test.NDatabase.Odb.Test.Resistance
             DeleteBase(FileName);
             var odb = Open(FileName);
             var f1 = new VO.Login.Function("function 1");
-            Println(odb.Count(new CriteriaQuery(typeof (User))));
+            Println(odb.Count(new CriteriaQuery<User>()));
             var p = new Profile("profile number 0", f1);
             p.AddFunction(new VO.Login.Function("f1"));
             var user = new User("user name 0", "user email 0", p);
@@ -390,7 +390,7 @@ namespace Test.NDatabase.Odb.Test.Resistance
             }
             AssertEquals(size2, a);
             AssertEquals(0, odb.GetObjects<User>().Count);
-            AssertEquals(0, odb.Count(new CriteriaQuery(typeof (User))));
+            AssertEquals(0, odb.Count(new CriteriaQuery<User>()));
             Println("deleted");
             odb.Close();
             stopWatch.End();

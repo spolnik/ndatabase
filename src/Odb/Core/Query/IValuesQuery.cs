@@ -1,3 +1,4 @@
+using NDatabase.Odb.Core.Query.Execution;
 using NDatabase.Tool.Wrappers.List;
 
 namespace NDatabase.Odb.Core.Query
@@ -54,5 +55,8 @@ namespace NDatabase.Odb.Core.Query
         ///   To indicate if query execution must build instances or return object representation, Default value is true(return instance)
         /// </summary>
         void SetReturnInstance(bool returnInstance);
+
+        int ObjectActionsCount { get; }
+        IOdbList<IQueryFieldAction> GetObjectActions();
     }
 }

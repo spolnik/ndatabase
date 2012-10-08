@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using NDatabase.Odb;
-using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Main;
 using NDatabase.Tool.Wrappers;
@@ -31,7 +29,7 @@ namespace Test.NDatabase.Odb.Test.Delete
         {
             var baseName = GetBaseName();
             var odb = Open(baseName);
-            decimal n = odb.Count(new CriteriaQuery(typeof (VO.Login.Function)));
+            decimal n = odb.Count(new CriteriaQuery<VO.Login.Function>());
             var function1 = new VO.Login.Function("function1");
             var function2 = new VO.Login.Function("function2");
             var function3 = new VO.Login.Function("function3");
@@ -40,13 +38,13 @@ namespace Test.NDatabase.Odb.Test.Delete
             odb.Store(function3);
             odb.Close();
             odb = Open(baseName);
-            var l = odb.GetObjects<VO.Login.Function>(new CriteriaQuery(typeof(VO.Login.Function), Where.Equal("name", "function2")));
+            var l = odb.GetObjects<VO.Login.Function>(new CriteriaQuery<VO.Login.Function>(Where.Equal("name", "function2")));
             var function = l.GetFirst();
             odb.Delete(function);
             odb.Close();
             odb = Open(baseName);
             var l2 = odb.GetObjects<VO.Login.Function>(true);
-            AssertEquals(n + 2, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
+            AssertEquals(n + 2, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             odb.Close();
             DeleteBase(baseName);
         }
@@ -89,7 +87,7 @@ namespace Test.NDatabase.Odb.Test.Delete
             var baseName = GetBaseName();
             IOdb odb = null;
             odb = Open(baseName);
-            var size = odb.Count(new CriteriaQuery(typeof (VO.Login.Function)));
+            var size = odb.Count(new CriteriaQuery<VO.Login.Function>());
             var f1 = new VO.Login.Function("function1");
             odb.Store(f1);
             odb.Close();
@@ -215,7 +213,7 @@ namespace Test.NDatabase.Odb.Test.Delete
             odb.Store(f3);
             odb.Store(f4);
             odb.Store(f5);
-            AssertEquals(5, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
+            AssertEquals(5, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             odb.Close();
             try
             {
@@ -224,7 +222,7 @@ namespace Test.NDatabase.Odb.Test.Delete
                 var f7 = new VO.Login.Function("function7");
                 odb.Store(f6);
                 odb.Store(f7);
-                AssertEquals(7, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
+                AssertEquals(7, odb.Count(new CriteriaQuery<VO.Login.Function>()));
                 var objects = odb.GetObjects<VO.Login.Function>();
                 var i = 0;
                 while (objects.HasNext() && i < 4)
@@ -232,10 +230,10 @@ namespace Test.NDatabase.Odb.Test.Delete
                     odb.Delete(objects.Next());
                     i++;
                 }
-                AssertEquals(3, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
+                AssertEquals(3, odb.Count(new CriteriaQuery<VO.Login.Function>()));
                 odb.Close();
                 odb = Open(baseName);
-                AssertEquals(3, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
+                AssertEquals(3, odb.Count(new CriteriaQuery<VO.Login.Function>()));
                 objects = odb.GetObjects<VO.Login.Function>();
                 // println(objects);
                 AssertEquals("function5", (objects.Next()).GetName());
@@ -268,13 +266,13 @@ namespace Test.NDatabase.Odb.Test.Delete
             var f2 = new VO.Login.Function("function2");
             odb.Store(f1);
             odb.Store(f2);
-            AssertEquals(2, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
+            AssertEquals(2, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             odb.Delete(f1);
             odb.Delete(f2);
-            AssertEquals(0, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
+            AssertEquals(0, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             odb.Store(f1);
             odb.Store(f2);
-            AssertEquals(2, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
+            AssertEquals(2, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             odb.Close();
             odb = Open(baseName);
             AssertEquals(2, odb.GetObjects<VO.Login.Function>().Count);
@@ -299,13 +297,13 @@ namespace Test.NDatabase.Odb.Test.Delete
             var f2 = new VO.Login.Function("function2");
             var oid1 = odb.Store(f1);
             var oid2 = odb.Store(f2);
-            AssertEquals(2, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
+            AssertEquals(2, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             odb.DeleteObjectWithId(oid1);
             odb.DeleteObjectWithId(oid2);
-            AssertEquals(0, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
+            AssertEquals(0, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             odb.Store(f1);
             odb.Store(f2);
-            AssertEquals(2, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
+            AssertEquals(2, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             odb.Close();
             odb = Open(baseName);
             AssertEquals(2, odb.GetObjects<VO.Login.Function>().Count);
@@ -331,15 +329,15 @@ namespace Test.NDatabase.Odb.Test.Delete
             var f2 = new VO.Login.Function("function2");
             var oid1 = odb.Store(f1);
             var oid2 = odb.Store(f2);
-            AssertEquals(2, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
+            AssertEquals(2, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             odb.Close();
             odb = Open(baseName);
             odb.DeleteObjectWithId(oid1);
             odb.DeleteObjectWithId(oid2);
-            AssertEquals(0, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
+            AssertEquals(0, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             odb.Store(f1);
             odb.Store(f2);
-            AssertEquals(2, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
+            AssertEquals(2, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             odb.Close();
             odb = Open(baseName);
             AssertEquals(2, odb.GetObjects<VO.Login.Function>().Count);
@@ -365,13 +363,13 @@ namespace Test.NDatabase.Odb.Test.Delete
             var oids = new OID[size];
             for (var i = 0; i < size; i++)
                 oids[i] = odb.Store(new VO.Login.Function("function" + i));
-            AssertEquals(size, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
+            AssertEquals(size, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             for (var i = 0; i < size; i++)
                 odb.DeleteObjectWithId(oids[i]);
-            AssertEquals(0, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
+            AssertEquals(0, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             for (var i = 0; i < size; i++)
                 oids[i] = odb.Store(new VO.Login.Function("function" + i));
-            AssertEquals(size, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
+            AssertEquals(size, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             odb.Close();
             odb = Open(baseName);
             AssertEquals(size, odb.GetObjects<VO.Login.Function>().Count);
@@ -399,13 +397,13 @@ namespace Test.NDatabase.Odb.Test.Delete
             odb.Store(f1);
             odb.Store(f2);
             odb.Store(f3);
-            AssertEquals(3, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
+            AssertEquals(3, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             odb.Delete(f2);
-            AssertEquals(2, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
+            AssertEquals(2, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             // odb.store(f1);
             odb.Store(f2);
             // odb.store(f3);
-            AssertEquals(3, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
+            AssertEquals(3, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             odb.Close();
             odb = Open(baseName);
             AssertEquals(3, odb.GetObjects<VO.Login.Function>().Count);
@@ -434,17 +432,17 @@ namespace Test.NDatabase.Odb.Test.Delete
             var oid1 = odb.Store(f1);
             var oid2 = odb.Store(f2);
             var oid3 = odb.Store(f3);
-            AssertEquals(3, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
+            AssertEquals(3, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             odb.Close();
             odb = Open(baseName);
             odb.DeleteObjectWithId(oid2);
-            AssertEquals(2, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
+            AssertEquals(2, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             // odb.store(f1);
             odb.Store(new VO.Login.Function("f11"));
             odb.Store(new VO.Login.Function("f12"));
             odb.Store(new VO.Login.Function("f13"));
             // odb.store(f3);
-            AssertEquals(5, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
+            AssertEquals(5, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             odb.Close();
             odb = Open(baseName);
             AssertEquals(5, odb.GetObjects<VO.Login.Function>().Count);
@@ -487,8 +485,8 @@ namespace Test.NDatabase.Odb.Test.Delete
         {
             var baseName = GetBaseName();
             var odb = Open(baseName);
-            var nbFunctions = odb.Count(new CriteriaQuery(typeof (VO.Login.Function)));
-            decimal nbProfiles = odb.Count(new CriteriaQuery(typeof (Profile)));
+            var nbFunctions = odb.Count(new CriteriaQuery<VO.Login.Function>());
+            decimal nbProfiles = odb.Count(new CriteriaQuery<Profile>());
             var function1 = new VO.Login.Function("function1");
             var function2 = new VO.Login.Function("function2");
             var function3 = new VO.Login.Function("function3");
@@ -505,15 +503,15 @@ namespace Test.NDatabase.Odb.Test.Delete
             // checks functions
             var lfunctions = odb.GetObjects<VO.Login.Function>(true);
             AssertEquals(nbFunctions + 3, lfunctions.Count);
-            var l = odb.GetObjects<VO.Login.Function>(new CriteriaQuery(typeof(VO.Login.Function), Where.Equal("name", "function2")));
+            var l = odb.GetObjects<VO.Login.Function>(new CriteriaQuery<VO.Login.Function>(Where.Equal("name", "function2")));
             var function = l.GetFirst();
             odb.Delete(function);
             odb.Close();
             odb = Open(baseName);
-            AssertEquals(nbFunctions + 2, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
+            AssertEquals(nbFunctions + 2, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             var l2 = odb.GetObjects<VO.Login.Function>(true);
             // check Profile 1
-            var lprofile = odb.GetObjects<Profile>(new CriteriaQuery(typeof(Profile), Where.Equal("name", "profile1")));
+            var lprofile = odb.GetObjects<Profile>(new CriteriaQuery<Profile>( Where.Equal("name", "profile1")));
             var p1 = lprofile.GetFirst();
             AssertEquals(2, p1.GetFunctions().Count);
             odb.Close();
@@ -547,7 +545,7 @@ namespace Test.NDatabase.Odb.Test.Delete
             var f1 = new VO.Login.Function("function1");
             odb.Store(f1);
             odb.Commit();
-            var objects = odb.GetObjects<VO.Login.Function>(new CriteriaQuery(typeof(VO.Login.Function), Where.Like("name", "func%")));
+            var objects = odb.GetObjects<VO.Login.Function>(new CriteriaQuery<VO.Login.Function>(Where.Like("name", "func%")));
             AssertEquals(1, objects.Count);
             var f2 = objects.GetFirst();
             var oid = odb.GetObjectId(f2);
@@ -586,7 +584,7 @@ namespace Test.NDatabase.Odb.Test.Delete
             odb.Delete(f1);
             odb.Close();
             odb = Open(baseName);
-            var objects = odb.GetObjects<VO.Login.Function>(new CriteriaQuery(typeof (VO.Login.Function)));
+            var objects = odb.GetObjects<VO.Login.Function>(new CriteriaQuery<VO.Login.Function>());
             AssertEquals(2, objects.Count);
             odb.Close();
         }
@@ -622,13 +620,13 @@ namespace Test.NDatabase.Odb.Test.Delete
             }
             odb.Close();
             odb = Open(baseName);
-            AssertEquals(1, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
+            AssertEquals(1, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             odb.Close();
             odb = Open(baseName);
             odb.DefragmentTo(baseName2);
             odb.Close();
             odb = Open(baseName2);
-            AssertEquals(1, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
+            AssertEquals(1, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             odb.Close();
             DeleteBase(baseName);
             DeleteBase(baseName2);
@@ -660,12 +658,12 @@ namespace Test.NDatabase.Odb.Test.Delete
             var baseName = GetBaseName();
             var n = 100;
             var odb = Open(baseName);
-            var size = odb.Count(new CriteriaQuery(typeof (VO.Login.Function)));
+            var size = odb.Count(new CriteriaQuery<VO.Login.Function>());
             for (var i = 0; i < n; i++)
             {
                 var login = new VO.Login.Function("login - " + (i + 1));
                 odb.Store(login);
-                AssertEquals(size + i + 1, odb.Count(new CriteriaQuery(typeof (VO.Login.Function))));
+                AssertEquals(size + i + 1, odb.Count(new CriteriaQuery<VO.Login.Function>()));
                 Console.WriteLine(i);
             }
             // IStorageEngine engine = Dummy.getEngine(odb);

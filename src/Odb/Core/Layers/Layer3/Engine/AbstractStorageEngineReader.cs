@@ -1,11 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Reflection;
 using NDatabase.Btree;
 using NDatabase.Odb.Core.BTree;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
-using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3.Oid;
 using NDatabase.Odb.Core.Query;
@@ -22,6 +20,14 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
     internal abstract class AbstractStorageEngineReader : IStorageEngine
     {
         private const string LogId = "LocalStorageEngine";
+
+        private static readonly Type UnclosedCriteriaQueryType = typeof (CriteriaQuery<>);
+
+        private static readonly MethodInfo GenericGetObjectInfos =
+            typeof(AbstractStorageEngineReader).GetMethod("GetObjectInfos", BindingFlags.Instance | BindingFlags.NonPublic);
+
+        private static readonly IDictionary<Type, Type> CriteriaQueryTypeCache =
+            new Dictionary<Type, Type>();
 
         private static readonly IDictionary<IStorageEngine, ITriggerManager> TriggerManagers =
             new OdbHashMap<IStorageEngine, ITriggerManager>();
@@ -58,7 +64,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             TriggerManagers.Remove(this);
         }
 
-        public virtual IObjects<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex)
+        public virtual IObjects<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex) where T : class
         {
             if (IsDbClosed)
                 throw new OdbRuntimeException(NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
@@ -71,73 +77,24 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var start = OdbTime.GetCurrentTimeInMs();
             var totalNbObjects = 0L;
 
-            var newStorageEngine = (IStorageEngine)new StorageEngine(new FileIdentification(newFileName));
-            IObjects<object> defragObjects;
+            var newStorageEngine = new StorageEngine(new FileIdentification(newFileName));
             var j = 0;
-            ClassInfo classInfo;
 
-            // User classes
-            IEnumerator iterator = GetMetaModel().GetUserClasses().GetEnumerator();
-            while (iterator.MoveNext())
+            var criteriaQuery = new CriteriaQuery<object>();
+            var defragObjects = GetObjects<object>(criteriaQuery, true, -1, -1);
+
+            foreach (var defragObject in defragObjects)
             {
-                classInfo = (ClassInfo)iterator.Current;
-                Debug.Assert(classInfo != null, "classInfo != null");
+                newStorageEngine.Store(defragObject);
+                totalNbObjects++;
 
                 if (OdbConfiguration.IsDebugEnabled(LogId))
                 {
-                    DLogger.Debug(string.Format("Reading {0} objects of type {1}",
-                                                classInfo.CommitedZoneInfo.GetNumberbOfObjects(),
-                                                classInfo.FullClassName));
+                    if (j % 10000 == 0)
+                        DLogger.Info("\n" + totalNbObjects + " objects saved.");
                 }
 
-                var criteriaQuery = new CriteriaQuery(classInfo.UnderlyingType);
-
-                defragObjects = GetObjects<object>(criteriaQuery, true, -1, -1);
-
-                while (defragObjects.HasNext())
-                {
-                    newStorageEngine.Store(defragObjects.Next());
-                    totalNbObjects++;
-
-                    if (OdbConfiguration.IsDebugEnabled(LogId))
-                    {
-                        if (j % 10000 == 0)
-                            DLogger.Info("\n" + totalNbObjects + " objects saved.");
-                    }
-
-                    j++;
-                }
-            }
-
-            // System classes
-            iterator = GetMetaModel().GetSystemClasses().GetEnumerator();
-            while (iterator.MoveNext())
-            {
-                classInfo = (ClassInfo)iterator.Current;
-                Debug.Assert(classInfo != null, "classInfo != null");
-
-                if (OdbConfiguration.IsDebugEnabled(LogId))
-                {
-                    DLogger.Debug(string.Format("Reading {0} objects of type {1}",
-                                                classInfo.CommitedZoneInfo.GetNumberbOfObjects(),
-                                                classInfo.FullClassName));
-                }
-
-                defragObjects = GetObjects<object>(new CriteriaQuery(classInfo.UnderlyingType), true, -1, -1);
-
-                while (defragObjects.HasNext())
-                {
-                    newStorageEngine.Store(defragObjects.Next());
-                    totalNbObjects++;
-
-                    if (OdbConfiguration.IsDebugEnabled(LogId))
-                    {
-                        if (j % 10000 == 0)
-                            DLogger.Info("\n" + totalNbObjects + " objects saved.");
-                    }
-
-                    j++;
-                }
+                j++;
             }
 
             newStorageEngine.Commit();
@@ -148,6 +105,20 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (OdbConfiguration.IsDebugEnabled(LogId))
                 DLogger.Info(string.Format("New storage {0} created with {1} objects in {2} ms.", newFileName,
                                            totalNbObjects, time));
+        }
+
+        private static IQuery PrepareCriteriaQuery(Type type)
+        {
+            Type criteriaQueryType;
+            var success = CriteriaQueryTypeCache.TryGetValue(type, out criteriaQueryType);
+
+            if (!success)
+            {
+                criteriaQueryType = UnclosedCriteriaQueryType.MakeGenericType(type);
+                CriteriaQueryTypeCache.Add(type, criteriaQueryType);
+            }
+
+            return (IQuery) Activator.CreateInstance(criteriaQueryType);
         }
 
         public abstract ISession GetSession(bool throwExceptionIfDoesNotExist);
@@ -233,8 +204,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
 
             // We must load all objects and insert them in the index!
-            var type = OdbClassPool.GetClass(className);
-            var objects = GetObjectInfos<object>(new CriteriaQuery(type), false, -1, -1, false);
+            var criteriaQuery = PrepareCriteriaQuery(classInfo.UnderlyingType);
+
+            var methodInfo = GenericGetObjectInfos.MakeGenericMethod(classInfo.UnderlyingType);
+            var objects = (IObjects<object>) methodInfo.Invoke(this, new object[] {criteriaQuery, false, -1, -1, false});
 
             if (verbose)
                 DLogger.Info(string.Format("{0} : {1} objects loaded", indexName, classInfo.NumberOfObjects));
@@ -250,24 +223,28 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 DLogger.Info(string.Format("{0} created!", indexName));
         }
 
-        public virtual IObjects<T> GetObjectInfos<T>(IQuery query, bool inMemory, int startIndex, int endIndex,
-                                                     bool returnObjects)
+        /// <summary>
+        ///   Invoked by reflection!
+        /// </summary>
+        internal IObjects<object> GetObjectInfos<T>(IQuery query, bool inMemory, int startIndex, int endIndex,
+                                                     bool returnObjects) where T : class
         {
             // Returns the query result handler for normal query result (that return a collection of objects)
             var queryResultAction = new CollectionQueryResultAction<object>(query, inMemory, this, returnObjects,
                                                                             GetObjectReader().GetInstanceBuilder());
 
-            return ObjectReader.GetObjectInfos<T>(query, inMemory, startIndex, endIndex, returnObjects,
+            return ObjectReader.GetObjectInfos<object,T>(query, inMemory, startIndex, endIndex, returnObjects,
                                                   queryResultAction);
         }
 
-        public virtual IObjects<T> GetObjects<T>(Type clazz, bool inMemory, int startIndex, int endIndex)
+        public virtual IObjects<T> GetObjects<T>(bool inMemory, int startIndex, int endIndex) where T : class
         {
             if (IsDbClosed)
                 throw new OdbRuntimeException(NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
 
-            return ObjectReader.GetObjects<T>(new CriteriaQuery(clazz), inMemory, startIndex,
-                                              endIndex);
+            var criteriaQuery = PrepareCriteriaQuery(typeof(T));
+
+            return ObjectReader.GetObjects<T>(criteriaQuery, inMemory, startIndex, endIndex);
         }
 
         public abstract ClassInfoList AddClasses(ClassInfoList arg1);
@@ -296,11 +273,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public abstract void Commit();
 
-        public abstract long Count(CriteriaQuery arg1);
+        public abstract long Count<T>(CriteriaQuery<T> arg1) where T : class;
 
-        public abstract CriteriaQuery CriteriaQuery<T>(ICriterion criteria) where T : class;
+        public abstract CriteriaQuery<T> CriteriaQuery<T>(ICriterion criteria) where T : class;
 
-        public abstract CriteriaQuery CriteriaQuery<T>()  where T : class;
+        public abstract CriteriaQuery<T> CriteriaQuery<T>()  where T : class;
 
         public abstract OID Delete<T>(T plainObject) where T : class;
 
@@ -336,7 +313,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public abstract ITriggerManager GetTriggerManager();
 
-        public abstract IValues GetValues(IValuesQuery arg1, int arg2, int arg3);
+        public abstract IValues GetValues<T>(IValuesQuery arg1, int arg2, int arg3) where T : class;
 
         public abstract bool IsClosed();
 

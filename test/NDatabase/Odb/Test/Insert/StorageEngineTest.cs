@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.NQ;
@@ -13,17 +12,17 @@ namespace Test.NDatabase.Odb.Test.Insert
     [TestFixture]
     public class StorageEngineTest : ODBTest
     {
-        private sealed class _SimpleNativeQuery_146 : SimpleNativeQuery
+        private sealed class SimpleNativeQuery146 : SimpleNativeQuery<TestClass>
         {
-            public bool Match(TestClass @object)
+            public override bool Match(TestClass @object)
             {
                 return true;
             }
         }
 
-        private sealed class _SimpleNativeQuery_217 : SimpleNativeQuery
+        private sealed class SimpleNativeQuery217 : SimpleNativeQuery<TestClass>
         {
-            public bool Match(TestClass @object)
+            public override bool Match(TestClass @object)
             {
                 return true;
             }
@@ -150,7 +149,7 @@ namespace Test.NDatabase.Odb.Test.Insert
             odb.Store(tc2);
             odb.Close();
             odb = Open("t-simple-instance.neodatis");
-            IQuery q = new _SimpleNativeQuery_146();
+            IQuery q = new SimpleNativeQuery146();
             var l = odb.GetObjects<TestClass>(q);
             var tc12 = l.GetFirst();
             // println("#### " + l.size() + " : " + l);
@@ -205,7 +204,7 @@ namespace Test.NDatabase.Odb.Test.Insert
             odb.Store(tc2);
             odb.Close();
             odb = Open("t-simple-instance.neodatis");
-            IQuery q = new _SimpleNativeQuery_217();
+            IQuery q = new SimpleNativeQuery217();
             var l = odb.GetObjects<TestClass>(q);
             var tc12 = l.GetFirst();
             // println("#### " + l.size() + " : " + l);

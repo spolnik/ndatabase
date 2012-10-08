@@ -7,27 +7,27 @@ using NDatabase.Tool.Wrappers.List;
 
 namespace NDatabase.Odb.Core.Query.Values
 {
-    internal sealed class ValuesCriteriaQueryExecutor : GenericQueryExecutor
+    internal sealed class ValuesCriteriaQueryExecutor<T> : GenericQueryExecutor where T : class
     {
-        private CriteriaQuery _criteriaQuery;
+        private CriteriaQuery<T> _criteriaQuery;
         private IOdbList<string> _involvedFields;
 
         private AttributeValuesMap _values;
 
         public ValuesCriteriaQueryExecutor(IQuery query, IStorageEngine engine) : base(query, engine)
         {
-            _criteriaQuery = (CriteriaQuery) query;
+            _criteriaQuery = (CriteriaQuery<T>) query;
         }
 
         public override IQueryExecutionPlan GetExecutionPlan()
         {
-            IQueryExecutionPlan plan = new CriteriaQueryExecutionPlan(ClassInfo, (CriteriaQuery) Query);
+            IQueryExecutionPlan plan = new CriteriaQueryExecutionPlan<T>(ClassInfo, (CriteriaQuery<T>) Query);
             return plan;
         }
 
         public override void PrepareQuery()
         {
-            _criteriaQuery = (CriteriaQuery) Query;
+            _criteriaQuery = (CriteriaQuery<T>) Query;
             _criteriaQuery.SetStorageEngine(StorageEngine);
             _involvedFields = _criteriaQuery.GetAllInvolvedFields();
         }
@@ -55,7 +55,7 @@ namespace NDatabase.Odb.Core.Query.Values
 
         public override IComparable ComputeIndexKey(ClassInfo ci, ClassInfoIndex index)
         {
-            return IndexTool.ComputeKey(ClassInfo, index, (CriteriaQuery) Query);
+            return IndexTool.ComputeKey(ClassInfo, index, (CriteriaQuery<T>) Query);
         }
 
         public override object GetCurrentObjectMetaRepresentation()

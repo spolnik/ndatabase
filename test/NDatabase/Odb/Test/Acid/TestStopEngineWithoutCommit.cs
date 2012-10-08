@@ -435,14 +435,14 @@ namespace Test.NDatabase.Odb.Test.Acid
             var odb = test.Open("acid1");
             if (simpleObject)
             {
-                var objects = odb.GetObjects<VO.Login.Function>(new CriteriaQuery(typeof(VO.Login.Function), Where.Equal("name", "f1000")));
+                var objects = odb.GetObjects<VO.Login.Function>(new CriteriaQuery<VO.Login.Function>(Where.Equal("name", "f1000")));
                 var f = objects.GetFirst();
                 f.SetName("new name");
                 odb.Store(f);
             }
             else
             {
-                var objects = odb.GetObjects<User>(new CriteriaQuery(typeof(User), Where.Equal("name", "f1000")));
+                var objects = odb.GetObjects<User>(new CriteriaQuery<User>(Where.Equal("name", "f1000")));
                 var f = objects.GetFirst();
                 f.SetName("new name");
                 odb.Store(f);
@@ -455,12 +455,12 @@ namespace Test.NDatabase.Odb.Test.Acid
             var odb = test.Open("acid1");
             if (simpleObject)
             {
-                var objects = odb.GetObjects<VO.Login.Function>(new CriteriaQuery(typeof(VO.Login.Function), Where.Equal("name", "new name")));
+                var objects = odb.GetObjects<VO.Login.Function>(new CriteriaQuery<VO.Login.Function>(Where.Equal("name", "new name")));
                 odb.Delete(objects.GetFirst());
             }
             else
             {
-                var objects = odb.GetObjects<User>(new CriteriaQuery(typeof(User), Where.Equal("name", "new name")));
+                var objects = odb.GetObjects<User>(new CriteriaQuery<User>(Where.Equal("name", "new name")));
                 odb.Delete(objects.GetFirst());
             }
             odb.Commit();
@@ -472,12 +472,12 @@ namespace Test.NDatabase.Odb.Test.Acid
             var nb = 0;
             if (simpleObject)
             {
-                var objects = odb.GetObjects<VO.Login.Function>(new CriteriaQuery(typeof(VO.Login.Function), Where.Equal("name", "f1000")));
+                var objects = odb.GetObjects<VO.Login.Function>(new CriteriaQuery<VO.Login.Function>(Where.Equal("name", "f1000")));
                 nb = objects.Count;
             }
             else
             {
-                var objects = odb.GetObjects<User>(new CriteriaQuery(typeof(User), Where.Equal("name", "f1000")));
+                var objects = odb.GetObjects<User>(new CriteriaQuery<User>(Where.Equal("name", "f1000")));
                 nb = objects.Count;
             }
             if (nb != 0)

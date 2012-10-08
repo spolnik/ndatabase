@@ -52,7 +52,7 @@ namespace Test.NDatabase.Odb.Test.Performance
         {
             var odb = Open(OdbFileName);
             var functions =
-                odb.GetObjects<SimpleObject>(new CriteriaQuery(typeof(SimpleObject), Where.Equal("name", "Bonjour, comment allez vous?100")));
+                odb.GetObjects<SimpleObject>(new CriteriaQuery<SimpleObject>(Where.Equal("name", "Bonjour, comment allez vous?100")));
             odb.Close();
             AssertEquals(1, functions.Count);
         }

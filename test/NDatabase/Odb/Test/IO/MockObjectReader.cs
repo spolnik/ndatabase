@@ -48,6 +48,11 @@ namespace Test.NDatabase.Odb.Test.IO
             return null;
         }
 
+        public IObjects<TResult> GetObjectInfos<TResult, TObject>(IQuery query, bool inMemory, int startIndex, int endIndex, bool returnObjects, IMatchingObjectAction queryResultAction) where TObject : class
+        {
+            throw new NotImplementedException();
+        }
+
         public String GetBaseIdentification()
         {
             return null;
@@ -74,7 +79,7 @@ namespace Test.NDatabase.Odb.Test.IO
         }
 
         public IObjects<T> GetObjectInfos<T>(IQuery query, bool inMemory, int startIndex, int endIndex,
-                                             bool returnObjects, IMatchingObjectAction queryResultAction)
+                                             bool returnObjects, IMatchingObjectAction queryResultAction) where T : class
         {
             return null;
         }
@@ -84,7 +89,12 @@ namespace Test.NDatabase.Odb.Test.IO
             return 0;
         }
 
-        public IObjects<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex)
+        public IObjects<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex) where T : class
+        {
+            return null;
+        }
+
+        public IValues GetValues<T>(IValuesQuery query, int startIndex, int endIndex) where T : class
         {
             return null;
         }

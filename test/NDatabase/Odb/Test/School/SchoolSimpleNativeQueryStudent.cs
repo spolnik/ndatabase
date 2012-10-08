@@ -1,11 +1,10 @@
-using System;
 using NDatabase.Odb.Core.Query.NQ;
 using Test.NDatabase.Odb.Test.VO.School;
 
 namespace Test.NDatabase.Odb.Test.School
 {
     
-    public class SchoolSimpleNativeQueryStudent : SimpleNativeQuery
+    public class SchoolSimpleNativeQueryStudent : SimpleNativeQuery<Student>
     {
         private readonly string name;
 
@@ -14,7 +13,7 @@ namespace Test.NDatabase.Odb.Test.School
             this.name = name;
         }
 
-        public virtual bool Match(Student @object)
+        public override bool Match(Student @object)
         {
             return @object.GetName().Equals(name);
         }

@@ -39,20 +39,20 @@ namespace NDatabase.Odb
         ///   Get all objects of a specific type
         /// </summary>
         /// <returns> The list of objects </returns>
-        IObjects<T> GetObjects<T>();
+        IObjects<T> GetObjects<T>() where T : class;
 
         /// <summary>
         ///   Get all objects of a specific type
         /// </summary>
         /// <param name="inMemory"> if true, preload all objects,if false,load on demand </param>
         /// <returns> The list of objects </returns>
-        IObjects<T> GetObjects<T>(bool inMemory);
+        IObjects<T> GetObjects<T>(bool inMemory) where T : class;
 
         /// <param name="inMemory"> if true, preload all objects,if false,load on demand </param>
         /// <param name="startIndex"> The index of the first object </param>
         /// <param name="endIndex"> The index of the last object that must be returned </param>
         /// <returns> A List of objects </returns>
-        IObjects<T> GetObjects<T>(bool inMemory, int startIndex, int endIndex);
+        IObjects<T> GetObjects<T>(bool inMemory, int startIndex, int endIndex) where T : class;
 
         /// <summary>
         ///   Delete an object from database
@@ -69,19 +69,19 @@ namespace NDatabase.Odb
         ///   Search for objects that matches the query.
         /// </summary>
         /// <returns> The list of values </returns>
-        IValues GetValues(IValuesQuery query);
+        IValues GetValues<T>(IValuesQuery query) where T : class;
 
         /// <summary>
         ///   Search for objects that matches the query.
         /// </summary>
         /// <returns> The list of objects </returns>
-        IObjects<T> GetObjects<T>(IQuery query);
+        IObjects<T> GetObjects<T>(IQuery query) where T : class;
 
         /// <summary>
         ///   Search for objects that matches the native query.
         /// </summary>
         /// <returns> The list of objects </returns>
-        IObjects<T> GetObjects<T>(IQuery query, bool inMemory);
+        IObjects<T> GetObjects<T>(IQuery query, bool inMemory) where T : class;
 
         /// <summary>
         ///   Return a list of objects that matches the query
@@ -92,14 +92,14 @@ namespace NDatabase.Odb
         /// <param name="endIndex"> The index of the last object that must be returned </param>
         /// <returns> A List of objects, if start index and end index are -1, they are ignored. 
         /// If not, the length of the sublist is endIndex - startIndex </returns>
-        IObjects<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex);
+        IObjects<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex) where T : class;
 
         /// <summary>
         ///   Returns the number of objects that satisfy the query
         /// </summary>
         /// <param name="query"> </param>
         /// <returns> The number of objects that satisfy the query </returns>
-        long Count(CriteriaQuery query);
+        long Count<T>(CriteriaQuery<T> query) where T : class;
 
         /// <summary>
         ///   Get the id of an ODB-aware object
@@ -166,9 +166,9 @@ namespace NDatabase.Odb
 
         bool IsClosed();
 
-        CriteriaQuery CriteriaQuery<T>(ICriterion criterio) where T : class;
+        CriteriaQuery<T> CriteriaQuery<T>(ICriterion criterio) where T : class;
 
-        CriteriaQuery CriteriaQuery<T>() where T : class;
+        CriteriaQuery<T> CriteriaQuery<T>() where T : class;
 
         /// <summary>
         ///   Return the name of the database

@@ -34,7 +34,7 @@ namespace NDatabase.Odb.Core.Query.Values
             _query = query;
             _queryHasOrderBy = query.HasOrderBy();
             _instanceBuilder = instanceBuilder;
-            _returnArraySize = ((ValuesCriteriaQuery)query).GetObjectActions().Count;
+            _returnArraySize = query.ObjectActionsCount;
             _groupByFieldList = query.GetGroupByFieldList();
             _groupByResult = new OdbHashMap<IOdbComparable, ValuesQueryResultAction>();
         }

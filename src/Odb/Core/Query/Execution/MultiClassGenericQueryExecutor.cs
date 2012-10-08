@@ -43,7 +43,7 @@ namespace NDatabase.Odb.Core.Query.Execution
                 throw new OdbRuntimeException(NDatabaseError.OdbHasBeenRollbacked);
 
             // Get the main class
-            var underlyingType = QueryManager.GetUnderlyingType(_executor.GetQuery());
+            var underlyingType = _executor.GetQuery().UnderlyingType;
 
             // this is done once.
             queryResultAction.Start();

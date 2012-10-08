@@ -38,7 +38,7 @@ namespace NDatabase.Odb.Core.Query.NQ
                 CurrentNnoi = (NonNativeObjectInfo) aoitemp;
                 _currentObject = _instanceBuilder.BuildOneInstance(CurrentNnoi,
                                                                    StorageEngine.GetSession(true).GetCache());
-                objectMatches = Query == null || QueryManager.Match(Query, _currentObject);
+                objectMatches = Query == null || Query.Match(_currentObject);
                 NextOID = CurrentNnoi.GetNextObjectOID();
             }
             return objectMatches;

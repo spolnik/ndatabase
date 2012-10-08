@@ -5,7 +5,7 @@ using Test.NDatabase.Odb.Test.VO.Login;
 namespace Test.NDatabase.Odb.Test.Query.NQ
 {
     [TestFixture]
-    public class TestNQQuery : ODBTest
+    public class TestNqQuery : ODBTest
     {
         #region Setup/Teardown
 
@@ -39,78 +39,75 @@ namespace Test.NDatabase.Odb.Test.Query.NQ
 
         public static int NbObjects = 10;
 
-        // println("NbFunctions " + odb.count(Function.class));
-        // println("NbUsers " + odb.count(User.class));
-
-        private sealed class _SimpleNativeQuery_70 : SimpleNativeQuery
+        private sealed class SimpleNativeQuery70 : SimpleNativeQuery<VO.Login.Function>
         {
-            public bool Match(VO.Login.Function function)
+            public override bool Match(VO.Login.Function function)
             {
                 return true;
             }
         }
 
-        private sealed class _SimpleNativeQuery_89 : SimpleNativeQuery
+        private sealed class SimpleNativeQuery89 : SimpleNativeQuery<VO.Login.Function>
         {
-            public bool Match(VO.Login.Function function)
+            public override bool Match(VO.Login.Function function)
             {
                 return function.GetName().Equals("function 5");
             }
         }
 
-        private sealed class _SimpleNativeQuery_105 : SimpleNativeQuery
+        private sealed class SimpleNativeQuery105 : SimpleNativeQuery<User>
         {
-            public bool Match(User user)
+            public override bool Match(User user)
             {
                 return user.GetProfile().GetName().Equals("profile 5");
             }
         }
 
-        private sealed class _SimpleNativeQuery_121 : SimpleNativeQuery
+        private sealed class SimpleNativeQuery121 : SimpleNativeQuery<User>
         {
-            public bool Match(User user)
+            public override bool Match(User user)
             {
                 return user.GetProfile().GetName().StartsWith("profile");
             }
         }
 
-        private sealed class _SimpleNativeQuery_139 : SimpleNativeQuery
+        private sealed class SimpleNativeQuery139 : SimpleNativeQuery<User>
         {
-            public bool Match(User user)
+            public override bool Match(User user)
             {
                 return user.GetProfile().GetName().StartsWith("profile");
             }
         }
 
-        private sealed class _SimpleNativeQuery_158 : SimpleNativeQuery
+        private sealed class SimpleNativeQuery158 : SimpleNativeQuery<User>
         {
-            public bool Match(User user)
+            public override bool Match(User user)
             {
                 return user.GetProfile().GetName().StartsWith("profile") &&
                        user.GetEmail().StartsWith("olivier@neodatis.org 1");
             }
         }
 
-        private sealed class _SimpleNativeQuery_183 : SimpleNativeQuery
+        private sealed class SimpleNativeQuery183 : SimpleNativeQuery<User>
         {
-            public bool Match(User user)
+            public override bool Match(User user)
             {
                 return user.GetProfile().GetName().StartsWith("profile") &&
                        user.GetEmail().StartsWith("olivier@neodatis.org 2");
             }
         }
 
-        private sealed class _SimpleNativeQuery_208 : SimpleNativeQuery
+        private sealed class SimpleNativeQuery208 : SimpleNativeQuery<User>
         {
-            public bool Match(User user)
+            public override bool Match(User user)
             {
                 return user.GetProfile().GetName().StartsWith("profile");
             }
         }
 
-        private sealed class _SimpleNativeQuery_235 : SimpleNativeQuery
+        private sealed class SimpleNativeQuery235 : SimpleNativeQuery<User>
         {
-            public bool Match(User user)
+            public override bool Match(User user)
             {
                 return user.GetProfile().GetName().StartsWith("profile");
             }
@@ -125,7 +122,7 @@ namespace Test.NDatabase.Odb.Test.Query.NQ
             odb.Close();
             odb = Open("get.neodatis");
             // println("TestNQQuery.test1:"+odb.getObjects (Function.class,true));
-            var l = odb.GetObjects<VO.Login.Function>(new _SimpleNativeQuery_70());
+            var l = odb.GetObjects<VO.Login.Function>(new SimpleNativeQuery70());
             odb.Close();
             AssertFalse(l.Count == 0);
             AssertEquals(NbObjects * 4, l.Count);
@@ -138,7 +135,7 @@ namespace Test.NDatabase.Odb.Test.Query.NQ
             var odb = Open("get.neodatis");
             // println("++++TestNQQuery.test2:"+odb.getObjects
             // (Function.class,true));
-            var l = odb.GetObjects<VO.Login.Function>(new _SimpleNativeQuery_89());
+            var l = odb.GetObjects<VO.Login.Function>(new SimpleNativeQuery89());
             odb.Close();
             AssertFalse(l.Count == 0);
             AssertEquals(1, l.Count);
@@ -149,7 +146,7 @@ namespace Test.NDatabase.Odb.Test.Query.NQ
         public virtual void Test3()
         {
             var odb = Open("get.neodatis");
-            var l = odb.GetObjects<User>(new _SimpleNativeQuery_105());
+            var l = odb.GetObjects<User>(new SimpleNativeQuery105());
             odb.Close();
             AssertFalse(l.Count == 0);
             AssertEquals(3, l.Count);
@@ -160,7 +157,7 @@ namespace Test.NDatabase.Odb.Test.Query.NQ
         public virtual void Test4()
         {
             var odb = Open("get.neodatis");
-            SimpleNativeQuery query = new _SimpleNativeQuery_121();
+            var query = new SimpleNativeQuery121();
             var l = odb.GetObjects<User>(query, true, 0, 5);
             odb.Close();
             AssertFalse(l.Count == 0);
@@ -172,7 +169,7 @@ namespace Test.NDatabase.Odb.Test.Query.NQ
         public virtual void Test5()
         {
             var odb = Open("get.neodatis");
-            SimpleNativeQuery query = new _SimpleNativeQuery_139();
+            var query = new SimpleNativeQuery139();
             var l = odb.GetObjects<User>(query, true, 5, 6);
             odb.Close();
             AssertFalse(l.Count == 0);
@@ -184,7 +181,7 @@ namespace Test.NDatabase.Odb.Test.Query.NQ
         public virtual void Test6Ordering()
         {
             var odb = Open("get.neodatis");
-            SimpleNativeQuery query = new _SimpleNativeQuery_158();
+            var query = new SimpleNativeQuery158();
             query.OrderByAsc("name");
             var l = odb.GetObjects<User>(query, true);
             var i = 0;
@@ -204,7 +201,7 @@ namespace Test.NDatabase.Odb.Test.Query.NQ
         public virtual void Test7Ordering()
         {
             var odb = Open("get.neodatis");
-            SimpleNativeQuery query = new _SimpleNativeQuery_183();
+            var query = new SimpleNativeQuery183();
             query.OrderByDesc("name");
             var l = odb.GetObjects<User>(query, true);
             var i = l.Count - 1;
@@ -224,7 +221,7 @@ namespace Test.NDatabase.Odb.Test.Query.NQ
         public virtual void Test8Ordering()
         {
             var odb = Open("get.neodatis");
-            SimpleNativeQuery query = new _SimpleNativeQuery_208();
+            var query = new SimpleNativeQuery208();
             query.OrderByAsc("name,email");
             var l = odb.GetObjects<User>(query, true);
             AssertFalse(l.Count == 0);
@@ -245,7 +242,7 @@ namespace Test.NDatabase.Odb.Test.Query.NQ
         public virtual void Test9Ordering()
         {
             var odb = Open("get.neodatis");
-            SimpleNativeQuery query = new _SimpleNativeQuery_235();
+            var query = new SimpleNativeQuery235();
             query.OrderByDesc("name,email");
             var l = odb.GetObjects<User>(query, true);
             var i = l.Count - 1;

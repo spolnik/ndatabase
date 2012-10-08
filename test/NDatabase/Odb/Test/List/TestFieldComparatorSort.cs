@@ -26,7 +26,7 @@ namespace Test.NDatabase.Odb.Test.List
             }
             odb.Close();
             odb = Open(baseName);
-            var q = new CriteriaQuery(typeof (User)).OrderByAsc("name,id");
+            var q = new CriteriaQuery<User>().OrderByAsc("name,id");
             var users = odb.GetObjects<User>(q);
             odb.Close();
             if (k < 11)
@@ -55,7 +55,7 @@ namespace Test.NDatabase.Odb.Test.List
             }
             odb.Close();
             odb = Open(baseName);
-            var q = new CriteriaQuery(typeof (User)).OrderByDesc("name,id");
+            var q = new CriteriaQuery<User>().OrderByDesc("name,id");
             var users = odb.GetObjects<User>(q);
             odb.Close();
             if (k < 11)
@@ -85,7 +85,7 @@ namespace Test.NDatabase.Odb.Test.List
             }
             odb.Close();
             odb = Open(baseName);
-            var q = new CriteriaQuery(typeof (User)).OrderByAsc("ok,id,name");
+            var q = new CriteriaQuery<User>().OrderByAsc("ok,id,name");
             var users = odb.GetObjects<User>(q);
             odb.Close();
             if (k < 11)
@@ -115,7 +115,7 @@ namespace Test.NDatabase.Odb.Test.List
             }
             odb.Close();
             odb = Open(baseName);
-            var q = new CriteriaQuery(typeof (User)).OrderByDesc("ok,id,name");
+            var q = new CriteriaQuery<User>().OrderByDesc("ok,id,name");
             var users = odb.GetObjects<User>(q);
             odb.Close();
             if (k < 11)

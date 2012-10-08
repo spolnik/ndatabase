@@ -1,5 +1,4 @@
 using System;
-using NDatabase.Odb;
 using NDatabase.Odb.Core.Query.Criteria;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;
@@ -30,11 +29,11 @@ namespace Test.NDatabase.Odb.Test.Defragment
             odb.DefragmentTo(OdbFileName2);
             var newOdb = Open(OdbFileName2);
 
-            Decimal nbUser = odb.Count(new CriteriaQuery(typeof (User)));
-            Decimal nbNewUser = newOdb.Count(new CriteriaQuery(typeof (User)));
+            Decimal nbUser = odb.Count(new CriteriaQuery<User>());
+            Decimal nbNewUser = newOdb.Count(new CriteriaQuery<User>());
             AssertEquals(nbUser, nbNewUser);
-            AssertEquals(odb.Count(new CriteriaQuery(typeof (Profile))),
-                         newOdb.Count(new CriteriaQuery(typeof (Profile))));
+            AssertEquals(odb.Count(new CriteriaQuery<Profile>()),
+                         newOdb.Count(new CriteriaQuery<Profile>()));
             odb.Close();
             newOdb.Close();
             DeleteBase(OdbFileName1);
@@ -57,9 +56,9 @@ namespace Test.NDatabase.Odb.Test.Defragment
             odb = Open(OdbFileName1);
             odb.DefragmentTo(OdbFileName2);
             var newOdb = Open(OdbFileName2);
-            AssertEquals(odb.Count(new CriteriaQuery(typeof (User))), newOdb.Count(new CriteriaQuery(typeof (User))));
-            AssertEquals(odb.Count(new CriteriaQuery(typeof (Profile))),
-                         newOdb.Count(new CriteriaQuery(typeof (Profile))));
+            AssertEquals(odb.Count(new CriteriaQuery<User>()), newOdb.Count(new CriteriaQuery<User>()));
+            AssertEquals(odb.Count(new CriteriaQuery<Profile>()),
+                         newOdb.Count(new CriteriaQuery<Profile>()));
             odb.Close();
             newOdb.Close();
             DeleteBase(OdbFileName1);
@@ -82,7 +81,7 @@ namespace Test.NDatabase.Odb.Test.Defragment
             odb = Open(OdbFileName1);
             odb.DefragmentTo(OdbFileName2);
             var newOdb = Open(OdbFileName2);
-            AssertEquals(odb.Count(new CriteriaQuery(typeof (User))), newOdb.Count(new CriteriaQuery(typeof (User))));
+            AssertEquals(odb.Count(new CriteriaQuery<User>()), newOdb.Count(new CriteriaQuery<User>()));
             odb.Close();
             newOdb.Close();
             DeleteBase(OdbFileName1);
