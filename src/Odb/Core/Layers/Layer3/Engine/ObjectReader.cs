@@ -1650,14 +1650,20 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     {
                         object o = ReadObjectInfo(objectIdentifications[i], useCache, returnObjects);
                         if (!(o is NonNativeDeletedObjectInfo))
-                            OdbArray.SetValue(array, i, o);
+                        {
+                            ((Array) array).SetValue(o, i);
+                        }
                     }
                     else
                     {
                         if (componentIsNative)
-                            OdbArray.SetValue(array, i, NullNativeObjectInfo.GetInstance());
+                        {
+                            ((Array) array).SetValue(NullNativeObjectInfo.GetInstance(), i);
+                        }
                         else
-                            OdbArray.SetValue(array, i, new NonNativeNullObjectInfo());
+                        {
+                            ((Array) array).SetValue(new NonNativeNullObjectInfo(), i);
+                        }
                     }
                 }
                 catch (Exception e)

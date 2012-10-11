@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
@@ -13,10 +14,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
     /// </summary>
     internal sealed class OdbCache : IOdbCache
     {
-        /// <summary>
-        ///   To resolve cyclic reference, keep track of objects being inserted
-        /// </summary>
-        private IDictionary<object, OID> _insertingObjects;
+        private static readonly List<Action> CleanMethods = new List<Action>();
 
         /// <summary>
         ///   Entry to get object info pointers (position,next object pos, previous object pos and class info pos) from the id
@@ -49,11 +47,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         private IDictionary<OID, object> _oids;
 
         /// <summary>
-        ///   To resolve cyclic reference, keep track of objects being read
-        /// </summary>
-        private IDictionary<OID, object[]> _readingObjectInfo;
-
-        /// <summary>
         ///   To keep track of the oid that have been created or modified in the current transaction
         /// </summary>
         private IDictionary<OID, OID> _unconnectedZoneOids;
@@ -64,8 +57,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
             _oids = new OdbHashMap<OID, object>();
             _unconnectedZoneOids = new OdbHashMap<OID, OID>();
             _objectInfoHeadersCacheFromOid = new OdbHashMap<OID, ObjectInfoHeader>();
-            _insertingObjects = new OdbHashMap<object, OID>();
-            _readingObjectInfo = new OdbHashMap<OID, object[]>();
             _objectPositionsByIds = new OdbHashMap<OID, IdInfo>();
         }
 
@@ -96,28 +87,28 @@ namespace NDatabase.Odb.Core.Layers.Layer3
             _objectInfoHeadersCacheFromOid[objectInfoHeader.GetOid()] = objectInfoHeader;
         }
 
-        public void StartInsertingObjectWithOid(object o, OID oid, NonNativeObjectInfo nnoi)
+        public void StartInsertingObjectWithOid<T>(T plainObject, OID oid, NonNativeObjectInfo nnoi) where T : class
         {
             // In this case oid can be -1,because object is beeing inserted and do
             // not have yet a defined oid.
-            if (o == null)
+            if (plainObject == null)
                 return;
 
             OID objectInsertingOID;
-            _insertingObjects.TryGetValue(o, out objectInsertingOID);
+            Cache<T>.InsertingObjects.TryGetValue(plainObject, out objectInsertingOID);
 
             if (objectInsertingOID == null)
-                _insertingObjects[o] = oid;
+                Cache<T>.InsertingObjects[plainObject] = oid;
         }
 
-        public void UpdateIdOfInsertingObject(object o, OID oid)
+        public void UpdateIdOfInsertingObject<T>(T plainObject, OID oid) where T : class
         {
             if (oid == null)
                 throw new OdbRuntimeException(NDatabaseError.CacheNullOid);
 
-            var insertingObjectOid = _insertingObjects[o];
+            var insertingObjectOid = Cache<T>.InsertingObjects[plainObject];
             if (insertingObjectOid != null)
-                _insertingObjects[o] = oid;
+                Cache<T>.InsertingObjects[plainObject] = oid;
         }
 
         public void RemoveObjectByOid(OID oid)
@@ -276,9 +267,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3
                 _objects.Clear();
                 _oids.Clear();
                 _objectInfoHeadersCacheFromOid.Clear();
-                _insertingObjects.Clear();
+
+                foreach (var clear in CleanMethods)
+                    clear();
+
                 _objectPositionsByIds.Clear();
-                _readingObjectInfo.Clear();
                 _unconnectedZoneOids.Clear();
             }
 
@@ -288,24 +281,23 @@ namespace NDatabase.Odb.Core.Layers.Layer3
             _objects = null;
             _oids = null;
             _objectInfoHeadersCacheFromOid = null;
-            _insertingObjects = null;
             _objectPositionsByIds = null;
-            _readingObjectInfo = null;
             _unconnectedZoneOids = null;
         }
 
         public void ClearInsertingObjects()
         {
-            _insertingObjects.Clear();
+            foreach (var clear in CleanMethods)
+                clear();
         }
 
-        public OID IdOfInsertingObject(object o)
+        public OID IdOfInsertingObject<T>(T plainObject) where T : class
         {
-            if (o == null)
+            if (plainObject == null)
                 return StorageEngineConstant.NullObjectId;
 
             OID objectInsertingOid;
-            _insertingObjects.TryGetValue(o, out objectInsertingOid);
+            Cache<T>.InsertingObjects.TryGetValue(plainObject, out objectInsertingOid);
 
             return objectInsertingOid ?? StorageEngineConstant.NullObjectId;
         }
@@ -332,5 +324,22 @@ namespace NDatabase.Odb.Core.Layers.Layer3
             buffer.Append(_objectPositionsByIds.Count).Append(" positions by oid");
             return buffer.ToString();
         }
+
+        #region Nested type: Cache
+
+        private static class Cache<T>
+        {
+            /// <summary>
+            ///   To resolve cyclic reference, keep track of objects being inserted
+            /// </summary>
+            public static readonly IDictionary<T, OID> InsertingObjects = new OdbHashMap<T, OID>();
+
+            static Cache()
+            {
+                CleanMethods.Add(InsertingObjects.Clear);
+            }
+        }
+
+        #endregion
     }
 }

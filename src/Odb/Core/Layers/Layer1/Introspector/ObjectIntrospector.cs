@@ -428,7 +428,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                                                 IDictionary<object, NonNativeObjectInfo> alreadyReadObjects,
                                                 OdbType valueType, IIntrospectionCallback callback)
         {
-            var length = OdbArray.GetArrayLength(array);
+            var length = ((Array) array).GetLength(0);
             var elementType = array.GetType().GetElementType();
             var type = OdbType.GetFromClass(elementType);
 
@@ -441,7 +441,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             var arrayCopy = new object[length];
             for (var i = 0; i < length; i++)
             {
-                var o = OdbArray.GetArrayElement(array, i);
+                var o = ((Array) array).GetValue(i);
                 if (o != null)
                 {
                     var classInfo = GetClassInfo(o.GetType());
@@ -457,11 +457,11 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 
         private static ArrayObjectInfo IntropectAtomicNativeArray(object array, OdbType type)
         {
-            var length = OdbArray.GetArrayLength(array);
+            var length = ((Array) array).GetLength(0);
             var arrayCopy = new object[length];
             for (var i = 0; i < length; i++)
             {
-                var o = OdbArray.GetArrayElement(array, i);
+                var o = ((Array) array).GetValue(i);
                 if (o != null)
                 {
                     // If object is not null, try to get the exact type

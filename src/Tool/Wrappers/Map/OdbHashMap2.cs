@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace NDatabase.Tool.Wrappers.Map
 {
-    
     public sealed class OdbHashMap<TKey, TValue> : IDictionary<TKey, TValue>
     {
         private readonly IDictionary<TKey, TValue> _dictionary;
@@ -23,8 +22,6 @@ namespace NDatabase.Tool.Wrappers.Map
             _dictionary = new Dictionary<TKey, TValue>();
             PutAll(dic);
         }
-
-        // allow array-like access
 
         #region IDictionary<TKey,TValue> Members
 

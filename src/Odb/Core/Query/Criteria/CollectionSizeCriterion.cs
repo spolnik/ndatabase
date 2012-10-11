@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Tool.Wrappers;
@@ -54,7 +55,7 @@ namespace NDatabase.Odb.Core.Query.Criteria
             var clazz = valueToMatch.GetType();
             if (clazz.IsArray)
             {
-                var arrayLength = OdbArray.GetArrayLength(valueToMatch);
+                var arrayLength = ((Array) valueToMatch).GetLength(0);
                 return MatchSize(arrayLength, _size, _sizeType);
             }
 

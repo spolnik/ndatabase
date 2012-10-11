@@ -15,8 +15,8 @@ namespace Test.NDatabase.Odb.Test.Intropector
             o.SetValue(2, 1);
             AssertEquals(true, o.GetType().IsArray);
             AssertEquals("System.Int32", o.GetType().GetElementType().FullName);
-            AssertEquals(1, OdbArray.GetArrayElement(o, 0));
-            AssertEquals(2, OdbArray.GetArrayElement(o, 1));
+            AssertEquals(1, ((Array) o).GetValue(0));
+            AssertEquals(2, ((Array) o).GetValue(1));
         }
     }
 }

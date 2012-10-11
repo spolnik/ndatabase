@@ -6,9 +6,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3
     {
         void AddObject(OID oid, object @object, ObjectInfoHeader objectInfoHeader);
 
-        void StartInsertingObjectWithOid(object @object, OID oid, NonNativeObjectInfo nnoi);
+        void StartInsertingObjectWithOid<T>(T plainObject, OID oid, NonNativeObjectInfo nnoi) where T : class;
 
-        void UpdateIdOfInsertingObject(object @object, OID oid);
+        void UpdateIdOfInsertingObject<T>(T plainObject, OID oid) where T : class;
 
         void AddObjectInfoOfNonCommitedObject(ObjectInfoHeader objectInfoHeader);
 
@@ -43,7 +43,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         void ClearInsertingObjects();
 
-        OID IdOfInsertingObject(object @object);
+        OID IdOfInsertingObject<T>(T plainObject) where T : class;
 
         bool IsInCommitedZone(OID oid);
 

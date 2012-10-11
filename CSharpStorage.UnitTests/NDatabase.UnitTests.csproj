@@ -58,6 +58,7 @@
     <Compile Include="CodeSnippets\Data\Sport.cs" />
     <Compile Include="InstanceSpecification.cs" />
     <Compile Include="Layer1\When_we_use_class_introspector.cs" />
+    <Compile Include="Layer2\When_we_use_class_info.cs" />
     <Compile Include="Layer2\When_we_use_class_info_zone_info.cs" />
     <Compile Include="Layer2\When_we_use_existing_odb_types.cs" />
     <Compile Include="Layer3\When_we_use_byte_array_converter.cs" />

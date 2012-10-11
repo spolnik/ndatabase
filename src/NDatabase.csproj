@@ -311,10 +311,8 @@
     <Compile Include="Odb\Core\Layers\Layer3\IO\OdbDirectory.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IO\OdbFileStream.cs" />
     <Compile Include="Tool\Wrappers\List\IOdbList.cs" />
-    <Compile Include="Tool\Wrappers\List\OdbCollectionUtil.cs" />
     <Compile Include="Tool\Wrappers\List\OdbList.cs" />
     <Compile Include="Tool\Wrappers\Map\OdbHashMap2.cs" />
-    <Compile Include="Tool\Wrappers\OdbArray.cs" />
     <Compile Include="Tool\Wrappers\OdbClassUtil.cs" />
     <Compile Include="Tool\Wrappers\OdbComparable.cs" />
     <Compile Include="Tool\Wrappers\OdbRandom.cs" />

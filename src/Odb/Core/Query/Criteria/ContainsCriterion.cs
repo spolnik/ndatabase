@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Tool.Wrappers;
@@ -154,10 +155,10 @@ namespace NDatabase.Odb.Core.Query.Criteria
 
         private bool CheckIfArrayContainsValue(object valueToMatch)
         {
-            var arrayLength = OdbArray.GetArrayLength(valueToMatch);
+            var arrayLength = ((Array) valueToMatch).GetLength(0);
             for (var i = 0; i < arrayLength; i++)
             {
-                var element = OdbArray.GetArrayElement(valueToMatch, i);
+                var element = ((Array) valueToMatch).GetValue(i);
                 if (element == null && _criterionValue == null)
                     return true;
 
