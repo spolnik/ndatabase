@@ -355,10 +355,10 @@ namespace NDatabase2.Odb.Core.Layers.Layer1.Introspector
 
             foreach (var key in keySet)
             {
-                var value = map[key];
-
                 if (key == null)
                     continue;
+                
+                var value = map[key];
 
                 var classInfoKey = GetClassInfo(key.GetType());
                 if (value != null)
@@ -392,10 +392,8 @@ namespace NDatabase2.Odb.Core.Layers.Layer1.Introspector
                 if (value != null)
                     ciValue = GetClassInfo(value.GetType());
 
-                var abstractObjectInfoForKey = GetObjectInfo(key, classInfoKey, introspect, alreadyReadObjects,
-                                                             callback);
-                var abstractObjectInfoForValue = GetObjectInfo(value, ciValue, introspect, alreadyReadObjects,
-                                                               callback);
+                var abstractObjectInfoForKey = GetObjectInfo(key, classInfoKey, introspect, alreadyReadObjects, callback);
+                var abstractObjectInfoForValue = GetObjectInfo(value, ciValue, introspect, alreadyReadObjects, callback);
                 mapCopy.Add(abstractObjectInfoForKey, abstractObjectInfoForValue);
             }
 
