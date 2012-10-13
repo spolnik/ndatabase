@@ -213,11 +213,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
             }
 
             var firstDotIndex = attributeName.IndexOf(".", StringComparison.Ordinal);
-            var firstAttributeName = attributeName.Substring(0, firstDotIndex);
-            attributeId = GetClassInfo().GetAttributeId(firstAttributeName);
-
-            object @object = _attributeValues[attributeId];
-            var nnoi = @object as NonNativeObjectInfo;
+            var nnoi = GetNonNativeObjectInfo(attributeName, firstDotIndex);
 
             if (nnoi != null)
             {
@@ -230,6 +226,14 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
                     AddParameter(attributeName));
         }
 
+        private NonNativeObjectInfo GetNonNativeObjectInfo(string attributeName, int firstDotIndex)
+        {
+            var firstAttributeName = attributeName.Substring(0, firstDotIndex);
+            var attributeId = GetClassInfo().GetAttributeId(firstAttributeName);
+
+            return _attributeValues[attributeId] as NonNativeObjectInfo;
+        }
+
         /// <summary>
         ///   Used to change the value of an attribute
         /// </summary>
@@ -237,22 +241,18 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
         /// <param name="aoi"> </param>
         public void SetValueOf(string attributeName, AbstractObjectInfo aoi)
         {
-            int attributeId;
             var isRelation = attributeName.IndexOf(".", StringComparison.Ordinal) != -1;
 
             if (!isRelation)
             {
-                attributeId = GetClassInfo().GetAttributeId(attributeName);
+                var attributeId = GetClassInfo().GetAttributeId(attributeName);
                 SetAttributeValue(attributeId, aoi);
                 return;
             }
 
             var firstDotIndex = attributeName.IndexOf(".", StringComparison.Ordinal);
 
-            var firstAttributeName = attributeName.Substring(0, firstDotIndex);
-            attributeId = GetClassInfo().GetAttributeId(firstAttributeName);
-            object @object = _attributeValues[attributeId];
-            var nnoi = @object as NonNativeObjectInfo;
+            var nnoi = GetNonNativeObjectInfo(attributeName, firstDotIndex);
 
             if (nnoi != null)
             {

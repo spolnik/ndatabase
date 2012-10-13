@@ -28,7 +28,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
 
         public static readonly string DefaultArrayComponentClassName = OdbClassUtil.GetFullName(typeof (object));
 
-        
         private readonly Type _baseClass;
 
         private readonly int _id;
@@ -213,9 +212,14 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
 
             var types = clazz.GetInterfaces();
 
+            return IsCollection(types, "System.Collections.Generic.IDictionary");
+        }
+
+        private static bool IsCollection(IEnumerable<Type> types, string collectionName)
+        {
             foreach (var type in types)
             {
-                var ind = type.FullName.IndexOf("System.Collections.Generic.IDictionary", StringComparison.Ordinal);
+                var ind = type.FullName.IndexOf(collectionName, StringComparison.Ordinal);
                 if (ind != -1)
                     return true;
             }
@@ -230,14 +234,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
                 return true;
             var types = clazz.GetInterfaces();
 
-            foreach (var type in types)
-            {
-                var ind = type.FullName.IndexOf("System.Collections.Generic.ICollection", StringComparison.Ordinal);
-                if (ind != -1)
-                    return true;
-            }
-
-            return false;
+            return IsCollection(types, "System.Collections.Generic.ICollection");
         }
 
         public static bool IsNative(Type clazz)
@@ -245,7 +242,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
             OdbType odbType;
 
             TypesByName.TryGetValue(OdbClassUtil.GetFullName(clazz), out odbType);
-            
+
             if (odbType != null)
                 return true;
 
@@ -624,6 +621,5 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
         public static readonly int SizeOfByte = Byte.Size;
 
         #endregion
-
     }
 }
