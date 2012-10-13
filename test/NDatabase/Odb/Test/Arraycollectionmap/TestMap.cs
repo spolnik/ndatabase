@@ -1,5 +1,5 @@
-using NDatabase.Odb.Core.Query;
-using NDatabase.Odb.Core.Query.Criteria;
+using NDatabase2.Odb.Core.Query;
+using NDatabase2.Odb.Core.Query.Criteria;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Arraycollectionmap;
 

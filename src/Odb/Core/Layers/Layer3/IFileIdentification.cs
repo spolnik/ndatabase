@@ -1,4 +1,4 @@
-namespace NDatabase.Odb.Core.Layers.Layer3
+namespace NDatabase2.Odb.Core.Layers.Layer3
 {
     /// <summary>
     ///   An interface to get info about database parameters

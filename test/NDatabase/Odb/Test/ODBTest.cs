@@ -22,7 +22,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.IO;
 using NDatabase.Odb;
-using NDatabase.Odb.Main;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Main;
 
 namespace Test.NDatabase.Odb.Test
 {

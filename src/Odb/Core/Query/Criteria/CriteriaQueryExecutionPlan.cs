@@ -1,11 +1,11 @@
 using System.Text;
-using NDatabase.Odb.Core.Layers.Layer1.Introspector;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Query.Execution;
-using NDatabase.Tool.Wrappers;
-using NDatabase.Tool.Wrappers.List;
+using NDatabase2.Odb.Core.Layers.Layer1.Introspector;
+using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+using NDatabase2.Odb.Core.Query.Execution;
+using NDatabase2.Tool.Wrappers;
+using NDatabase2.Tool.Wrappers.List;
 
-namespace NDatabase.Odb.Core.Query.Criteria
+namespace NDatabase2.Odb.Core.Query.Criteria
 {
     /// <summary>
     ///   A simple Criteria execution plan Check if the query can use index and tries to find the best index to be used

@@ -1,6 +1,6 @@
 using System;
 
-namespace NDatabase.Tool.Wrappers
+namespace NDatabase2.Tool.Wrappers
 {
     internal static class OdbRandom
     {

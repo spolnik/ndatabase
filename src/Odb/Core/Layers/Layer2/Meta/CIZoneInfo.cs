@@ -1,4 +1,4 @@
-namespace NDatabase.Odb.Core.Layers.Layer2.Meta
+namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
 {
     /// <summary>
     ///   Class keep track of object pointers and number of objects of a class info for a specific zone. 

@@ -1,12 +1,10 @@
 using System;
 using System.Collections;
 using NDatabase.Odb;
-using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Layers.Layer3.Engine;
-using NDatabase.Odb.Core.Query;
-using NDatabase.Odb.Core.Query.Criteria;
-using NDatabase.Odb.Core.Query.NQ;
-using NDatabase.Tool.Wrappers;
+using NDatabase2.Odb.Core.Query;
+using NDatabase2.Odb.Core.Query.Criteria;
+using NDatabase2.Odb.Core.Query.NQ;
+using NDatabase2.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;
 

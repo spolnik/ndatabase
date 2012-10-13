@@ -1,9 +1,9 @@
-using NDatabase.Odb.Core.Layers.Layer3.Block;
-using NDatabase.Odb.Core.Layers.Layer3.Engine;
-using NDatabase.Odb.Core.Oid;
-using NDatabase.Tool;
+using NDatabase2.Odb.Core.Layers.Layer3.Block;
+using NDatabase2.Odb.Core.Layers.Layer3.Engine;
+using NDatabase2.Odb.Core.Oid;
+using NDatabase2.Tool;
 
-namespace NDatabase.Odb.Core.Layers.Layer3.Oid
+namespace NDatabase2.Odb.Core.Layers.Layer3.Oid
 {
     /// <summary>
     ///   Class to manage the ids of all the objects of the database.

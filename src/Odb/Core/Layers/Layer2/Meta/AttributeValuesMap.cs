@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 
-namespace NDatabase.Odb.Core.Layers.Layer2.Meta
+namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
 {
     /// <summary>
     ///   A Map to contain values of attributes of an object.

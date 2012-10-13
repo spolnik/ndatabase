@@ -1,5 +1,4 @@
 using System;
-using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Intropector

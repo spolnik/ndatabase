@@ -1,9 +1,9 @@
 using System;
-using NDatabase.Odb.Core.Layers.Layer1.Introspector;
-using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Query.Execution;
+using NDatabase2.Odb.Core.Layers.Layer1.Introspector;
+using NDatabase2.Odb.Core.Layers.Layer3;
+using NDatabase2.Odb.Core.Query.Execution;
 
-namespace NDatabase.Odb.Core.Query
+namespace NDatabase2.Odb.Core.Query
 {
     public abstract class AbstractQuery<T> : IQuery, IInternalQuery where T : class
     {

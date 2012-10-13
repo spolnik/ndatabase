@@ -1,10 +1,11 @@
 using System;
-using NDatabase.Btree;
-using NDatabase.Btree.Tool;
 using NDatabase.Odb;
-using NDatabase.Odb.Core.BTree;
-using NDatabase.Odb.Main;
-using NDatabase.Tool.Wrappers;
+using NDatabase2.Btree;
+using NDatabase2.Btree.Tool;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core.BTree;
+using NDatabase2.Odb.Main;
+using NDatabase2.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test;
 

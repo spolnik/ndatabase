@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using NDatabase.Odb;
+using NDatabase2.Odb;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Attribute;
 using Test.NDatabase.Odb.Test.VO.Login;

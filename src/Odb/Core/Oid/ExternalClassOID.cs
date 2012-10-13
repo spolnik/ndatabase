@@ -1,4 +1,4 @@
-namespace NDatabase.Odb.Core.Oid
+namespace NDatabase2.Odb.Core.Oid
 {
     
     public sealed class ExternalClassOID : ClassOID, IExternalOID

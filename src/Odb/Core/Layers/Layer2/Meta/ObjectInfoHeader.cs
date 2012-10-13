@@ -1,8 +1,8 @@
 using System.Text;
-using NDatabase.Odb.Core.Layers.Layer3.Engine;
-using NDatabase.Tool.Wrappers;
+using NDatabase2.Odb.Core.Layers.Layer3.Engine;
+using NDatabase2.Tool.Wrappers;
 
-namespace NDatabase.Odb.Core.Layers.Layer2.Meta
+namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
 {
     /// <summary>
     ///   Some basic info about an object info like position, its class info,...

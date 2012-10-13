@@ -1,4 +1,4 @@
-using NDatabase.Odb.Core.Query.NQ;
+using NDatabase2.Odb.Core.Query.NQ;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;
 

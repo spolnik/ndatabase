@@ -1,7 +1,7 @@
 using System.Text;
-using NDatabase.Tool.Wrappers;
+using NDatabase2.Tool.Wrappers;
 
-namespace NDatabase.Odb.Core.Query
+namespace NDatabase2.Odb.Core.Query
 {
     /// <summary>
     ///   A composed key : an object that contains various values used for indexing query result 

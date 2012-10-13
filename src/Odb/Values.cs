@@ -1,4 +1,4 @@
-namespace NDatabase.Odb
+namespace NDatabase2.Odb
 {
     /// <summary>
     ///   The main interface of all Object Values query results of NDatabase ODB

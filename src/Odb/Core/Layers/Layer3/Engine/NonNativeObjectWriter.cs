@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer2.Meta.Compare;
-using NDatabase.Odb.Core.Layers.Layer3.Block;
-using NDatabase.Odb.Core.Transaction;
-using NDatabase.Odb.Core.Trigger;
-using NDatabase.Tool;
-using NDatabase.Tool.Wrappers;
+using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+using NDatabase2.Odb.Core.Layers.Layer2.Meta.Compare;
+using NDatabase2.Odb.Core.Layers.Layer3.Block;
+using NDatabase2.Odb.Core.Transaction;
+using NDatabase2.Odb.Core.Trigger;
+using NDatabase2.Tool;
+using NDatabase2.Tool.Wrappers;
 
-namespace NDatabase.Odb.Core.Layers.Layer3.Engine
+namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
 {
     internal sealed class NonNativeObjectWriter : INonNativeObjectWriter
     {

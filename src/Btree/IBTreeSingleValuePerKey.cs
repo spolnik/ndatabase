@@ -1,6 +1,6 @@
 using System;
 
-namespace NDatabase.Btree
+namespace NDatabase2.Btree
 {
     public interface IBTreeSingleValuePerKey : IBTree
     {

@@ -1,12 +1,12 @@
-using NDatabase.Odb.Core.Layers.Layer2.Instance;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Query.Criteria;
-using NDatabase.Odb.Core.Query.Execution;
-using NDatabase.Odb.Core.Query.NQ;
-using NDatabase.Odb.Core.Query.Values;
+using NDatabase2.Odb.Core.Layers.Layer2.Instance;
+using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+using NDatabase2.Odb.Core.Layers.Layer3;
+using NDatabase2.Odb.Core.Query.Criteria;
+using NDatabase2.Odb.Core.Query.Execution;
+using NDatabase2.Odb.Core.Query.NQ;
+using NDatabase2.Odb.Core.Query.Values;
 
-namespace NDatabase.Odb.Core.Query
+namespace NDatabase2.Odb.Core.Query
 {
     internal static class QueryManager
     {

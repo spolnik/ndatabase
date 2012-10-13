@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Query.Execution;
-using NDatabase.Odb.Core.Query.List.Objects;
-using NDatabase.Tool.Wrappers.List;
+using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+using NDatabase2.Odb.Core.Query.Execution;
+using NDatabase2.Odb.Core.Query.List.Objects;
+using NDatabase2.Tool.Wrappers.List;
 
-namespace NDatabase.Odb.Core.Query.Values
+namespace NDatabase2.Odb.Core.Query.Values
 {
     /// <summary>
     ///   An action to retrieve a sublist of list.

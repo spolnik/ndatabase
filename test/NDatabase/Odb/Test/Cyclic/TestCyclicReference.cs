@@ -1,6 +1,7 @@
 using NDatabase.Odb;
-using NDatabase.Odb.Core.Query.Criteria;
-using NDatabase.Odb.Main;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core.Query.Criteria;
+using NDatabase2.Odb.Main;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Country;
 using Test.NDatabase.Odb.Test.VO.Login;

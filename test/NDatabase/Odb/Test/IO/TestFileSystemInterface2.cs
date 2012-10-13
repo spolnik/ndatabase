@@ -1,7 +1,7 @@
-using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Layers.Layer3.Engine;
-using NDatabase.Odb.Core.Layers.Layer3.IO;
-using NDatabase.Tool.Wrappers;
+using NDatabase2.Odb.Core.Layers.Layer3;
+using NDatabase2.Odb.Core.Layers.Layer3.Engine;
+using NDatabase2.Odb.Core.Layers.Layer3.IO;
+using NDatabase2.Tool.Wrappers;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.IO

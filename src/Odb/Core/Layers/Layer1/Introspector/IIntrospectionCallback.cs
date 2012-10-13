@@ -1,4 +1,4 @@
-namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
+namespace NDatabase2.Odb.Core.Layers.Layer1.Introspector
 {
     /// <author>olivier
     ///   A simple callback used by the introspection API to inform when object are found</author>

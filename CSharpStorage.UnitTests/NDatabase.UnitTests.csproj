@@ -30,6 +30,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework">
       <HintPath>..\External-Lib\nunit.framework.dll</HintPath>
@@ -84,9 +91,9 @@
     <Compile Include="Utils\When_working_with_string_utils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\NDatabase.csproj">
+    <ProjectReference Include="..\src\NDatabase2.csproj">
       <Project>{4B6993D5-995D-4AAA-BBCE-423D1B5451F6}</Project>
-      <Name>NDatabase</Name>
+      <Name>NDatabase2</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

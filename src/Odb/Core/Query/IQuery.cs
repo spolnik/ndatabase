@@ -1,6 +1,6 @@
 using System;
 
-namespace NDatabase.Odb.Core.Query
+namespace NDatabase2.Odb.Core.Query
 {
     public interface IQuery
     {

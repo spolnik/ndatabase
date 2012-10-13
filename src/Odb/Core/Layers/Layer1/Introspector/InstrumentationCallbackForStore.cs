@@ -1,8 +1,6 @@
-using NDatabase.Odb.Core.Transaction;
-using NDatabase.Odb.Core.Trigger;
-using NDatabase.Tool.Wrappers;
+using NDatabase2.Odb.Core.Trigger;
 
-namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
+namespace NDatabase2.Odb.Core.Layers.Layer1.Introspector
 {
     internal sealed class InstrumentationCallbackForStore : IIntrospectionCallback
     {

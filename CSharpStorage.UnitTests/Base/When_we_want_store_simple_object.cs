@@ -2,6 +2,7 @@
 using System.Linq;
 using NDatabase.Odb;
 using NDatabase.UnitTests.TestData;
+using NDatabase2.Odb;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Base
@@ -22,7 +23,7 @@ namespace NDatabase.UnitTests.Base
 
         protected override IOdb Create_subject_under_test()
         {
-            return Odb.OdbFactory.Open(_dbFileName);
+            return OdbFactory.Open(_dbFileName);
         }
 
         protected override void Because()
@@ -35,7 +36,7 @@ namespace NDatabase.UnitTests.Base
         {
             SubjectUnderTest.Dispose();
 
-            using (var db = Odb.OdbFactory.Open(_dbFileName))
+            using (var db = OdbFactory.Open(_dbFileName))
             {
                 var restoredPerson = db.GetObjects<Person>().First();
                 Assert.That(restoredPerson.Name, Is.EqualTo(_person.Name));

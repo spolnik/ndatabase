@@ -1,8 +1,8 @@
 using System.Text;
-using NDatabase.Tool.Wrappers;
-using NDatabase.Tool.Wrappers.List;
+using NDatabase2.Tool.Wrappers;
+using NDatabase2.Tool.Wrappers.List;
 
-namespace NDatabase.Odb.Core
+namespace NDatabase2.Odb.Core
 {
     /// <summary>
     ///   All NDatabase ODB Errors.

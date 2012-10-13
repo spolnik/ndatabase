@@ -2,16 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using NDatabase.Btree;
-using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Layers.Layer3.Engine;
-using NDatabase.Odb.Main;
-using NDatabase.Tool;
-using NDatabase.Tool.Wrappers;
-using NDatabase.Tool.Wrappers.List;
-using NDatabase.Tool.Wrappers.Map;
+using NDatabase2.Btree;
+using NDatabase2.Odb.Core.Layers.Layer3;
+using NDatabase2.Odb.Core.Layers.Layer3.Engine;
+using NDatabase2.Odb.Main;
+using NDatabase2.Tool;
+using NDatabase2.Tool.Wrappers;
+using NDatabase2.Tool.Wrappers.List;
+using NDatabase2.Tool.Wrappers.Map;
 
-namespace NDatabase.Odb.Core.BTree
+namespace NDatabase2.Odb.Core.BTree
 {
     /// <summary>
     ///   Class that persists the BTree and its node into the NDatabase ODB Database.

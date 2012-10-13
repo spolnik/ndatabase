@@ -1,11 +1,11 @@
 using System;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Query.Criteria;
-using NDatabase.Odb.Core.Query.Execution;
-using NDatabase.Tool.Wrappers.List;
+using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+using NDatabase2.Odb.Core.Layers.Layer3;
+using NDatabase2.Odb.Core.Query.Criteria;
+using NDatabase2.Odb.Core.Query.Execution;
+using NDatabase2.Tool.Wrappers.List;
 
-namespace NDatabase.Odb.Core.Query.Values
+namespace NDatabase2.Odb.Core.Query.Values
 {
     internal sealed class ValuesCriteriaQueryExecutor<T> : GenericQueryExecutor where T : class
     {

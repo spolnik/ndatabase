@@ -1,9 +1,10 @@
 using System;
 using System.Threading;
 using NDatabase.Odb;
-using NDatabase.Odb.Core;
-using NDatabase.Odb.Core.Query.Criteria;
-using NDatabase.Odb.Core.Trigger;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core;
+using NDatabase2.Odb.Core.Query.Criteria;
+using NDatabase2.Odb.Core.Trigger;
 
 namespace Test.NDatabase.Odb.Test.Trigger
 {

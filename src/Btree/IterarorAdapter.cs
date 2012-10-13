@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace NDatabase.Btree
+namespace NDatabase2.Btree
 {
     public abstract class IterarorAdapter : IEnumerator
     {

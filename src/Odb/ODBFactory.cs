@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace NDatabase.Odb
+namespace NDatabase2.Odb
 {
     /// <summary>
     ///   The NDatabase Factory to open new instance of local odb.

@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Text;
 
-namespace NDatabase.Odb.Core.Oid
+namespace NDatabase2.Odb.Core.Oid
 {
     
     public sealed class TransactionIdImpl : ITransactionId

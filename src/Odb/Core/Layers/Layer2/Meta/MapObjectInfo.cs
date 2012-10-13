@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using NDatabase.Tool.Wrappers.Map;
+using NDatabase2.Tool.Wrappers.Map;
 
-namespace NDatabase.Odb.Core.Layers.Layer2.Meta
+namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
 {
     /// <summary>
     ///   Meta representation of a Map

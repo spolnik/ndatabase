@@ -1,7 +1,7 @@
 using System;
-using NDatabase.Btree.Exception;
+using NDatabase2.Btree.Exception;
 
-namespace NDatabase.Btree.Impl.Singlevalue
+namespace NDatabase2.Btree.Impl.Singlevalue
 {
     
     public abstract class BTreeNodeSingleValuePerKey : AbstractBTreeNode, IBTreeNodeOneValuePerKey

@@ -1,6 +1,6 @@
-using NDatabase.Tool.Wrappers;
+using NDatabase2.Tool.Wrappers;
 
-namespace NDatabase.Odb.Core.Query.Execution
+namespace NDatabase2.Odb.Core.Query.Execution
 {
     /// <summary>
     ///   The interface used to implement the classes that are called by the generic query executor when an object matches the query

@@ -2,7 +2,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 
-namespace NDatabase.Odb.Core.Oid
+namespace NDatabase2.Odb.Core.Oid
 {
     
     public sealed class DatabaseIdImpl : IDatabaseId

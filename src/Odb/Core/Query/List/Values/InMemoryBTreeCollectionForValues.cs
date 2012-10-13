@@ -1,7 +1,7 @@
-using NDatabase.Btree;
-using NDatabase.Btree.Impl.Multiplevalue;
+using NDatabase2.Btree;
+using NDatabase2.Btree.Impl.Multiplevalue;
 
-namespace NDatabase.Odb.Core.Query.List.Values
+namespace NDatabase2.Odb.Core.Query.List.Values
 {
     /// <summary>
     ///   An ordered Collection to hold values (not objects) based on a BTree implementation.

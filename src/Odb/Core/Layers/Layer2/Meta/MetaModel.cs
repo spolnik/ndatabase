@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using NDatabase.Odb.Core.Layers.Layer2.Instance;
-using NDatabase.Tool.Wrappers;
-using NDatabase.Tool.Wrappers.List;
-using NDatabase.Tool.Wrappers.Map;
+using NDatabase2.Odb.Core.Layers.Layer2.Instance;
+using NDatabase2.Tool.Wrappers;
+using NDatabase2.Tool.Wrappers.List;
+using NDatabase2.Tool.Wrappers.Map;
 
-namespace NDatabase.Odb.Core.Layers.Layer2.Meta
+namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
 {
     /// <summary>
     ///   The database meta-model

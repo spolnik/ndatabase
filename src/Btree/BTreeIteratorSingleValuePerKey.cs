@@ -1,6 +1,6 @@
-using NDatabase.Odb.Core;
+using NDatabase2.Odb.Core;
 
-namespace NDatabase.Btree
+namespace NDatabase2.Btree
 {
     /// <summary>
     ///   An iterator to iterate over NDatabase BTree.

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using NDatabase.Odb.Core;
-using NDatabase.Tool.Wrappers;
+using NDatabase2.Odb.Core;
+using NDatabase2.Tool.Wrappers;
 
-namespace NDatabase.Odb
+namespace NDatabase2.Odb
 {
     /// <summary>
     ///   The main interface of all query results of NDatabase ODB.

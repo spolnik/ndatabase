@@ -1,6 +1,6 @@
 using System;
 
-namespace NDatabase.Odb.Core.Layers.Layer3
+namespace NDatabase2.Odb.Core.Layers.Layer3
 {
     /// <summary>
     ///   <p>An interface for refactoring</p>

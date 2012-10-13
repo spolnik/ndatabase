@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
-using NDatabase.Btree.Exception;
-using NDatabase.Btree.Tool;
+using NDatabase2.Btree.Exception;
+using NDatabase2.Btree.Tool;
 
-namespace NDatabase.Btree.Impl.Multiplevalue
+namespace NDatabase2.Btree.Impl.Multiplevalue
 {
     
     public abstract class BTreeNodeMultipleValuesPerKey : AbstractBTreeNode, IBTreeNodeMultipleValuesPerKey

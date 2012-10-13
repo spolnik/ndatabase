@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Linq;
 using System.Text;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Query.Execution;
-using NDatabase.Odb.Core.Query.List.Objects;
+using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+using NDatabase2.Odb.Core.Query.Execution;
+using NDatabase2.Odb.Core.Query.List.Objects;
 
-namespace NDatabase.Odb.Core.Query.Values
+namespace NDatabase2.Odb.Core.Query.Values
 {
     /// <summary>
     ///   An action to retrieve an object field

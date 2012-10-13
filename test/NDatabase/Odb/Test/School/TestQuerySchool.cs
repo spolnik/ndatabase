@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections;
 using NDatabase.Odb;
-using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Layers.Layer3.Engine;
-using NDatabase.Odb.Main;
-using NDatabase.Tool.Wrappers.Map;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Main;
+using NDatabase2.Tool.Wrappers.Map;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.School;
 

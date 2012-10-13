@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
-using NDatabase.Odb.Core;
+using NDatabase2.Odb.Core;
 
-namespace NDatabase.Btree
+namespace NDatabase2.Btree
 {
     public interface IBTree
     {

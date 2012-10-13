@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Main;
-using NDatabase.Tool;
-using NDatabase.Tool.Wrappers.List;
-using NDatabase.Tool.Wrappers.Map;
+using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+using NDatabase2.Odb.Core.Layers.Layer3;
+using NDatabase2.Odb.Main;
+using NDatabase2.Tool;
+using NDatabase2.Tool.Wrappers.List;
+using NDatabase2.Tool.Wrappers.Map;
 
-namespace NDatabase.Odb.Core.Trigger
+namespace NDatabase2.Odb.Core.Trigger
 {
     internal sealed class TriggerManager : ITriggerManager
     {

@@ -1,6 +1,6 @@
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase2.Odb.Core.Layers.Layer2.Meta;
 
-namespace NDatabase.Odb.Core.Layers.Layer3
+namespace NDatabase2.Odb.Core.Layers.Layer3
 {
     /// <summary>
     ///   An interface for temporary cache

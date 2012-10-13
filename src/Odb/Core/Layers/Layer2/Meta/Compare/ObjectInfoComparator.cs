@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using NDatabase.Tool;
-using NDatabase.Tool.Wrappers.Map;
+using NDatabase2.Tool;
+using NDatabase2.Tool.Wrappers.Map;
 
-namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
+namespace NDatabase2.Odb.Core.Layers.Layer2.Meta.Compare
 {
     /// <summary>
     ///   Manage Object info differences.

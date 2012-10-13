@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using NDatabase.Tool.Wrappers.List;
+using NDatabase2.Tool.Wrappers.List;
 
-namespace NDatabase.Odb.Core.Layers.Layer2.Meta
+namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
 {
     /// <summary>
     ///   Meta representation of a collection

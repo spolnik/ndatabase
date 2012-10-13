@@ -1,7 +1,7 @@
 using System;
-using NDatabase.Btree.Exception;
-using NDatabase.Odb.Core.Query;
-using NDatabase.Odb.Core.Query.Criteria;
+using NDatabase2.Btree.Exception;
+using NDatabase2.Odb.Core.Query;
+using NDatabase2.Odb.Core.Query.Criteria;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Index

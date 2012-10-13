@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using NDatabase.Odb.Core.Query.Values;
+using NDatabase2.Odb.Core.Query.Values;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Query.Values

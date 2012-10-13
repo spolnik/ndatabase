@@ -1,8 +1,8 @@
-using NDatabase.Odb.Core;
-using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Oid;
+using NDatabase2.Odb.Core;
+using NDatabase2.Odb.Core.Layers.Layer3;
+using NDatabase2.Odb.Core.Oid;
 
-namespace NDatabase.Odb.Main
+namespace NDatabase2.Odb.Main
 {
     public sealed class OdbExt : IOdbExt
     {

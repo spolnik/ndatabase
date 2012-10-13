@@ -1,10 +1,10 @@
 using System;
-using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Query;
-using NDatabase.Odb.Core.Query.Criteria;
-using NDatabase.Odb.Core.Trigger;
+using NDatabase2.Odb.Core.Layers.Layer3;
+using NDatabase2.Odb.Core.Query;
+using NDatabase2.Odb.Core.Query.Criteria;
+using NDatabase2.Odb.Core.Trigger;
 
-namespace NDatabase.Odb
+namespace NDatabase2.Odb
 {
     /// <summary>
     ///   The main ODB public interface: It is what the user sees.

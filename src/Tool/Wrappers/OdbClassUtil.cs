@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace NDatabase.Tool.Wrappers
+namespace NDatabase2.Tool.Wrappers
 {
     public static class OdbClassUtil
     {

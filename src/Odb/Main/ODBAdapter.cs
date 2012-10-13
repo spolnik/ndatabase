@@ -1,13 +1,13 @@
 using System;
-using NDatabase.Odb.Core.Layers.Layer1.Introspector;
-using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Query;
-using NDatabase.Odb.Core.Query.Criteria;
-using NDatabase.Odb.Core.Query.Values;
-using NDatabase.Odb.Core.Trigger;
-using NDatabase.Tool;
+using NDatabase2.Odb.Core.Layers.Layer1.Introspector;
+using NDatabase2.Odb.Core.Layers.Layer3;
+using NDatabase2.Odb.Core.Query;
+using NDatabase2.Odb.Core.Query.Criteria;
+using NDatabase2.Odb.Core.Query.Values;
+using NDatabase2.Odb.Core.Trigger;
+using NDatabase2.Tool;
 
-namespace NDatabase.Odb.Main
+namespace NDatabase2.Odb.Main
 {
     /// <summary>
     ///   A basic adapter for ODB interface

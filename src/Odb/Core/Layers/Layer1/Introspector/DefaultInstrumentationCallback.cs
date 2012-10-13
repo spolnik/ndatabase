@@ -1,4 +1,4 @@
-namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
+namespace NDatabase2.Odb.Core.Layers.Layer1.Introspector
 {
     public sealed class DefaultInstrumentationCallback : IIntrospectionCallback
     {

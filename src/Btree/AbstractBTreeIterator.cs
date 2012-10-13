@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using NDatabase.Odb;
-using NDatabase.Odb.Core;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core;
 
-namespace NDatabase.Btree
+namespace NDatabase2.Btree
 {
     public abstract class AbstractBTreeIterator<T> : IterarorAdapter, IEnumerator<T>
     {

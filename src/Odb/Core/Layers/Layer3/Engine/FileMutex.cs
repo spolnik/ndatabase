@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading;
-using NDatabase.Tool.Wrappers.Map;
+using NDatabase2.Tool.Wrappers.Map;
 
-namespace NDatabase.Odb.Core.Layers.Layer3.Engine
+namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
 {
     /// <summary>
     ///   A mutex to logically lock ODB database file

@@ -1,7 +1,5 @@
 using NDatabase.Odb;
-using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Layers.Layer3.Engine;
-using NDatabase.Tool.Wrappers;
+using NDatabase2.Tool.Wrappers;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Update

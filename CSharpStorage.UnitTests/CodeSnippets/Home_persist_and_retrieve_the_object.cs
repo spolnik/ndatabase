@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using NDatabase.Odb;
 using NDatabase.UnitTests.CodeSnippets.Data;
+using NDatabase2.Odb;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.CodeSnippets
@@ -16,7 +17,7 @@ namespace NDatabase.UnitTests.CodeSnippets
             var sport = new Sport("volley-ball");
 
             // Open the database
-            using (var odb = Odb.OdbFactory.Open("test.db"))
+            using (var odb = OdbFactory.Open("test.db"))
             {
                 // Store the object
                 odb.Store(sport);
@@ -25,7 +26,7 @@ namespace NDatabase.UnitTests.CodeSnippets
             //=================================
 
             // Open the database
-            using (var odb1 = Odb.OdbFactory.Open("test.db"))
+            using (var odb1 = OdbFactory.Open("test.db"))
             {
                 var sports = odb1.GetObjects<Sport>();
                 // code working on sports list

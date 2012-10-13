@@ -1,8 +1,8 @@
 using System;
 
-namespace NDatabase.Odb
+namespace NDatabase2.Odb
 {
-    public interface OID : IComparable
+    public interface OID : IComparable<OID>, IComparable
     {
         long ObjectId { get; }
     }

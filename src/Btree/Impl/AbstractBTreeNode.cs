@@ -1,11 +1,11 @@
 using System;
 using System.Collections;
 using System.Text;
-using NDatabase.Btree.Exception;
-using NDatabase.Btree.Tool;
-using NDatabase.Odb.Core.Layers.Layer1.Introspector;
+using NDatabase2.Btree.Exception;
+using NDatabase2.Btree.Tool;
+using NDatabase2.Odb.Core.Layers.Layer1.Introspector;
 
-namespace NDatabase.Btree.Impl
+namespace NDatabase2.Btree.Impl
 {
     
     public abstract class AbstractBTreeNode : IBTreeNode

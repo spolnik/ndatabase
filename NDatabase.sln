@@ -1,11 +1,13 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDatabase", "src\NDatabase.csproj", "{4B6993D5-995D-4AAA-BBCE-423D1B5451F6}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDatabase2", "src\NDatabase2.csproj", "{4B6993D5-995D-4AAA-BBCE-423D1B5451F6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "test\Test.csproj", "{3D8C4A93-468D-4CB6-9359-B5DEE09C4ABC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDatabase.UnitTests", "CSharpStorage.UnitTests\NDatabase.UnitTests.csproj", "{5A12A273-4159-489D-8A77-3C5AB22860E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDatabase.Converter1To2", "Converter1To2\NDatabase.Converter1To2\NDatabase.Converter1To2.csproj", "{3D0F9ABC-22DB-4281-A8E2-2F8C07B03C01}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +27,10 @@ Global
 		{5A12A273-4159-489D-8A77-3C5AB22860E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A12A273-4159-489D-8A77-3C5AB22860E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A12A273-4159-489D-8A77-3C5AB22860E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D0F9ABC-22DB-4281-A8E2-2F8C07B03C01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D0F9ABC-22DB-4281-A8E2-2F8C07B03C01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D0F9ABC-22DB-4281-A8E2-2F8C07B03C01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D0F9ABC-22DB-4281-A8E2-2F8C07B03C01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using NDatabase.Odb;
-using NDatabase.Odb.Core;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core;
 
-namespace NDatabase.Tool.Wrappers
+namespace NDatabase2.Tool.Wrappers
 {
     internal static class OdbString
     {

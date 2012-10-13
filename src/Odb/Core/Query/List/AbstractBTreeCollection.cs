@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using NDatabase.Btree;
-using NDatabase.Odb.Core.Layers.Layer1.Introspector;
-using NDatabase.Tool.Wrappers;
+using NDatabase2.Btree;
+using NDatabase2.Odb.Core.Layers.Layer1.Introspector;
+using NDatabase2.Tool.Wrappers;
 
-namespace NDatabase.Odb.Core.Query.List
+namespace NDatabase2.Odb.Core.Query.List
 {
     /// <summary>
     ///   A collection that uses a BTree as an underlying system to provide ordered by Collections <p></p>

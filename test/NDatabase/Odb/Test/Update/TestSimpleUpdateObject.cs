@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using NDatabase.Odb.Core.Query.Criteria;
+using NDatabase2.Odb.Core.Query.Criteria;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;
 

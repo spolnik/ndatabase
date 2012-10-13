@@ -1,4 +1,4 @@
-namespace NDatabase.Btree.Exception
+namespace NDatabase2.Btree.Exception
 {
     public class BTreeException : System.Exception
     {

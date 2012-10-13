@@ -1,8 +1,9 @@
 using System;
-using NDatabase.Btree;
-using NDatabase.Btree.Exception;
 using NDatabase.Odb;
-using NDatabase.Odb.Core.BTree;
+using NDatabase2.Btree;
+using NDatabase2.Btree.Exception;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core.BTree;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Btree.Odb

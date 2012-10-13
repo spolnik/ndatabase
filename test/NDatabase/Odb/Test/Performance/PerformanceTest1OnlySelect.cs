@@ -1,10 +1,10 @@
 using System;
 using System.Threading;
 using NDatabase.Odb;
-using NDatabase.Odb.Core.Layers.Layer3.Engine;
-using NDatabase.Odb.Core.Layers.Layer3.IO;
 using NDatabase.Odb.Impl.Tool;
-using NDatabase.Tool.Wrappers;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core.Layers.Layer3.IO;
+using NDatabase2.Tool.Wrappers;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Performance

@@ -2,11 +2,10 @@
 
 using NDatabase.Odb;
 #if USER1
-using NDatabase.Odb.Core.Layers.Layer3.Engine;
-using NDatabase.Odb.Core.Layers.Layer3.Refactor;
-using NDatabase.Odb.Main;
-using NDatabase.Tool.Wrappers;
 #endif
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core.Layers.Layer3.Refactor;
+using NDatabase2.Odb.Main;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Refactoring

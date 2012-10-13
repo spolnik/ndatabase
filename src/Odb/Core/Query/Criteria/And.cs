@@ -2,7 +2,7 @@ using System.Collections;
 using System.Diagnostics;
 using System.Text;
 
-namespace NDatabase.Odb.Core.Query.Criteria
+namespace NDatabase2.Odb.Core.Query.Criteria
 {
     
     public sealed class And : ComposedExpression

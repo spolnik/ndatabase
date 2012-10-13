@@ -1,4 +1,4 @@
-namespace NDatabase.Odb
+namespace NDatabase2.Odb
 {
     /// <summary>
     ///   used to give the user an instance of an object representation, level2.

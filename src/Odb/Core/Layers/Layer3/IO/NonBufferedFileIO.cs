@@ -1,7 +1,7 @@
 using System.IO;
-using NDatabase.Tool;
+using NDatabase2.Tool;
 
-namespace NDatabase.Odb.Core.Layers.Layer3.IO
+namespace NDatabase2.Odb.Core.Layers.Layer3.IO
 {
     internal sealed class NonBufferedFileIO : INonBufferedFileIO
     {

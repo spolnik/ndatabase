@@ -1,6 +1,6 @@
 using System;
 
-namespace NDatabase.Tool
+namespace NDatabase2.Tool
 {
     internal sealed class ConsoleLogger : ILogger
     {

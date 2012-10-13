@@ -1,4 +1,5 @@
 using NDatabase.Odb;
+using NDatabase2.Odb;
 
 namespace Test.NDatabase.Odb.Test.Oid
 {

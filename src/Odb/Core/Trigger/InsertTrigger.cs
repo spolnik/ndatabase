@@ -1,4 +1,4 @@
-namespace NDatabase.Odb.Core.Trigger
+namespace NDatabase2.Odb.Core.Trigger
 {
     public abstract class InsertTrigger : Trigger
     {

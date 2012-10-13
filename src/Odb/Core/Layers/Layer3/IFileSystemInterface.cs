@@ -1,8 +1,8 @@
 using System;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer3.IO;
+using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+using NDatabase2.Odb.Core.Layers.Layer3.IO;
 
-namespace NDatabase.Odb.Core.Layers.Layer3
+namespace NDatabase2.Odb.Core.Layers.Layer3
 {
     internal interface IFileSystemInterface : IDisposable
     {

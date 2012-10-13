@@ -1,4 +1,4 @@
-namespace NDatabase.Odb
+namespace NDatabase2.Odb
 {
     /// <summary>
     ///   A class abstraction to give access to class level configuration like adding an index, checking if index exists, rebuilding an index,...

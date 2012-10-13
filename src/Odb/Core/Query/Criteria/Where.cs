@@ -1,6 +1,6 @@
 using System;
 
-namespace NDatabase.Odb.Core.Query.Criteria
+namespace NDatabase2.Odb.Core.Query.Criteria
 {
     /// <summary>
     ///   A simple factory to build all Criterion and Expression

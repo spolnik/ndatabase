@@ -1,10 +1,10 @@
 using System;
 using System.IO;
 using System.Text;
-using NDatabase.Tool;
-using NDatabase.Tool.Wrappers;
+using NDatabase2.Tool;
+using NDatabase2.Tool.Wrappers;
 
-namespace NDatabase.Odb.Core.Layers.Layer3.IO
+namespace NDatabase2.Odb.Core.Layers.Layer3.IO
 {
     /// <summary>
     ///   Class allowing buffering for IO This class is used to give 

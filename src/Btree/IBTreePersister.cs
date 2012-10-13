@@ -1,6 +1,6 @@
-using NDatabase.Odb;
+using NDatabase2.Odb;
 
-namespace NDatabase.Btree
+namespace NDatabase2.Btree
 {
     /// <summary>
     ///   Interface used to persist and load btree and btree node from a persistent layer

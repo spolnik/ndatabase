@@ -1,11 +1,11 @@
-using NDatabase.Odb.Core.Layers.Layer2.Instance;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Query.Execution;
-using NDatabase.Odb.Core.Query.List.Objects;
-using NDatabase.Tool.Wrappers;
+using NDatabase2.Odb.Core.Layers.Layer2.Instance;
+using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+using NDatabase2.Odb.Core.Layers.Layer3;
+using NDatabase2.Odb.Core.Query.Execution;
+using NDatabase2.Odb.Core.Query.List.Objects;
+using NDatabase2.Tool.Wrappers;
 
-namespace NDatabase.Odb.Core.Query.Criteria
+namespace NDatabase2.Odb.Core.Query.Criteria
 {
     /// <summary>
     ///   Class that manage normal query.

@@ -1,7 +1,7 @@
 using System;
-using NDatabase.Btree.Exception;
+using NDatabase2.Btree.Exception;
 
-namespace NDatabase.Btree.Tool
+namespace NDatabase2.Btree.Tool
 {
     public static class BTreeValidator
     {

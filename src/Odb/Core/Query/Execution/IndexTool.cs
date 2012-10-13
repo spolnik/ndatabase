@@ -1,9 +1,9 @@
 using System;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Query.Criteria;
-using NDatabase.Tool.Wrappers;
+using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+using NDatabase2.Odb.Core.Query.Criteria;
+using NDatabase2.Tool.Wrappers;
 
-namespace NDatabase.Odb.Core.Query.Execution
+namespace NDatabase2.Odb.Core.Query.Execution
 {
     internal static class IndexTool
     {

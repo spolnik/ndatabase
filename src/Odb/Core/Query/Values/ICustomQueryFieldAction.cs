@@ -1,6 +1,6 @@
-using NDatabase.Odb.Core.Query.Execution;
+using NDatabase2.Odb.Core.Query.Execution;
 
-namespace NDatabase.Odb.Core.Query.Values
+namespace NDatabase2.Odb.Core.Query.Values
 {
     /// <summary>
     ///   Used to implement custom query action.

@@ -1,15 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using NDatabase.Btree;
-using NDatabase.Odb.Core.BTree;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Transaction;
-using NDatabase.Tool;
-using NDatabase.Tool.Wrappers;
+using NDatabase2.Btree;
+using NDatabase2.Odb.Core.BTree;
+using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+using NDatabase2.Odb.Core.Layers.Layer3;
+using NDatabase2.Odb.Core.Transaction;
+using NDatabase2.Tool;
+using NDatabase2.Tool.Wrappers;
 
-namespace NDatabase.Odb.Core.Query.Execution
+namespace NDatabase2.Odb.Core.Query.Execution
 {
     /// <summary>
     ///   <p>Generic query executor</p> .

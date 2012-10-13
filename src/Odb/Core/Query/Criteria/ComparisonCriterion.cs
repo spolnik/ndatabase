@@ -1,9 +1,9 @@
 using System;
 using System.Text;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer2.Meta.Compare;
+using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+using NDatabase2.Odb.Core.Layers.Layer2.Meta.Compare;
 
-namespace NDatabase.Odb.Core.Query.Criteria
+namespace NDatabase2.Odb.Core.Query.Criteria
 {
     /// <summary>
     ///   A Criterion for greater than (gt),greater or equal(ge), less than (lt) and less or equal (le)

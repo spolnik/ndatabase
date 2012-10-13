@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using NDatabase.Odb.Core.Query.Criteria;
-using NDatabase.Odb.Core.Query.Execution;
-using NDatabase.Tool.Wrappers.List;
-using NDatabase.Tool.Wrappers.Map;
+using NDatabase2.Odb.Core.Query.Criteria;
+using NDatabase2.Odb.Core.Query.Execution;
+using NDatabase2.Tool.Wrappers.List;
+using NDatabase2.Tool.Wrappers.Map;
 
-namespace NDatabase.Odb.Core.Query.Values
+namespace NDatabase2.Odb.Core.Query.Values
 {
     /// <summary>
     ///   A values Criteria query is a query to retrieve object values instead of objects.

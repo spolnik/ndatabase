@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace NDatabase.Odb.Core.Layers.Layer2.Meta
+namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
 {
     /// <summary>
     ///   To keep info about a native object like int,char, long, Does not include array or collection

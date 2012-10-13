@@ -1,6 +1,6 @@
-using NDatabase.Btree.Exception;
+using NDatabase2.Btree.Exception;
 
-namespace NDatabase.Btree.Impl.Multiplevalue
+namespace NDatabase2.Btree.Impl.Multiplevalue
 {
     
     public sealed class InMemoryBTreeNodeMultipleValuesPerKey : BTreeNodeMultipleValuesPerKey

@@ -1,9 +1,9 @@
-using NDatabase.Btree;
-using NDatabase.Btree.Exception;
-using NDatabase.Btree.Impl.Multiplevalue;
-using NDatabase.Odb.Core.Layers.Layer1.Introspector;
+using NDatabase2.Btree;
+using NDatabase2.Btree.Exception;
+using NDatabase2.Btree.Impl.Multiplevalue;
+using NDatabase2.Odb.Core.Layers.Layer1.Introspector;
 
-namespace NDatabase.Odb.Core.BTree
+namespace NDatabase2.Odb.Core.BTree
 {
     /// <summary>
     ///   The NDatabase ODB BTree Node implementation.

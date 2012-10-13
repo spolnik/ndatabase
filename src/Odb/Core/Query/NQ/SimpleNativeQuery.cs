@@ -1,4 +1,4 @@
-namespace NDatabase.Odb.Core.Query.NQ
+namespace NDatabase2.Odb.Core.Query.NQ
 {
     public abstract class SimpleNativeQuery<T> : AbstractQuery<T> where T : class
     {

@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace NDatabase.Tool
+namespace NDatabase2.Tool
 {
     internal static class DisplayUtility
     {

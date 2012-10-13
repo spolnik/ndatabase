@@ -1,7 +1,7 @@
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer3;
+using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+using NDatabase2.Odb.Core.Layers.Layer3;
 
-namespace NDatabase.Odb.Main
+namespace NDatabase2.Odb.Main
 {
     public sealed class ClassRepresentation : IClassRepresentation
     {

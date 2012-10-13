@@ -1,7 +1,7 @@
-using NDatabase.Odb.Core.Oid;
-using NDatabase.Tool.Wrappers;
+using NDatabase2.Odb.Core.Oid;
+using NDatabase2.Tool.Wrappers;
 
-namespace NDatabase.Odb.Tool
+namespace NDatabase2.Odb.Tool
 {
     /// <summary>
     ///   Unique ID generator

@@ -1,9 +1,8 @@
-using System;
-using NDatabase.Odb.Core;
-using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Trigger;
+using NDatabase2.Odb.Core;
+using NDatabase2.Odb.Core.Layers.Layer3;
+using NDatabase2.Odb.Core.Trigger;
 
-namespace NDatabase.Odb.Main
+namespace NDatabase2.Odb.Main
 {
     internal sealed class OdbForTrigger : OdbAdapter
     {

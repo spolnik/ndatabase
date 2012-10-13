@@ -1,6 +1,6 @@
 using System;
 
-namespace NDatabase.Odb.Core.Layers.Layer3.IO
+namespace NDatabase2.Odb.Core.Layers.Layer3.IO
 {
     /// <summary>
     ///   The basic IO interface for basic IO operation like reading and writing bytes

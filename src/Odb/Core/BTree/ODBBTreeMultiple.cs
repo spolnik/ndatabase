@@ -1,7 +1,7 @@
-using NDatabase.Btree;
-using NDatabase.Btree.Impl.Multiplevalue;
+using NDatabase2.Btree;
+using NDatabase2.Btree.Impl.Multiplevalue;
 
-namespace NDatabase.Odb.Core.BTree
+namespace NDatabase2.Odb.Core.BTree
 {
     /// <summary>
     ///   The NDatabase ODB BTree.

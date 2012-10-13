@@ -1,6 +1,6 @@
 using System;
 
-namespace NDatabase.Odb.Core.Query.NQ
+namespace NDatabase2.Odb.Core.Query.NQ
 {
     public abstract class NativeQuery<T> : AbstractQuery<T> where T : class
     {

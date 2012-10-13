@@ -1,7 +1,8 @@
 using System;
 using NDatabase.Odb;
-using NDatabase.Odb.Core.Query.Criteria;
-using NDatabase.Tool.Wrappers;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core.Query.Criteria;
+using NDatabase2.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Attribute;
 

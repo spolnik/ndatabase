@@ -1,7 +1,7 @@
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Transaction;
+using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+using NDatabase2.Odb.Core.Transaction;
 
-namespace NDatabase.Odb.Core.Layers.Layer3.Engine
+namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
 {
     internal interface IFileSystemProcessor
     {

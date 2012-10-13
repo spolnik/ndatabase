@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using NDatabase.Tool.Wrappers;
+using NDatabase2.Tool.Wrappers;
 
-namespace NDatabase.Odb.Core.Query.List.Objects
+namespace NDatabase2.Odb.Core.Query.List.Objects
 {
     /// <summary>
     ///   A simple list to hold query result.

@@ -1,4 +1,4 @@
-namespace NDatabase.Odb.Core.Layers.Layer3.Block
+namespace NDatabase2.Odb.Core.Layers.Layer3.Block
 {
     /// <summary>
     ///   To keep track of block status

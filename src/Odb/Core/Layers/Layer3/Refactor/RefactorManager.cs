@@ -1,8 +1,8 @@
 using System;
 using System.Reflection;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase2.Odb.Core.Layers.Layer2.Meta;
 
-namespace NDatabase.Odb.Core.Layers.Layer3.Refactor
+namespace NDatabase2.Odb.Core.Layers.Layer3.Refactor
 {
     //TODO: check if auto ordering of fields didn't break the refactor manager 
     public sealed class RefactorManager : IRefactorManager

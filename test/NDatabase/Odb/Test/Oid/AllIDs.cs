@@ -1,6 +1,6 @@
 using NDatabase.Odb;
-using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Layers.Layer3.Engine;
+using NDatabase2.Odb.Core.Layers.Layer3;
+using NDatabase2.Odb.Core.Layers.Layer3.Engine;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Oid

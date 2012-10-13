@@ -1,7 +1,7 @@
 using System.Text;
-using NDatabase.Tool.Wrappers.Map;
+using NDatabase2.Tool.Wrappers.Map;
 
-namespace NDatabase.Odb.Core.Query.List.Values
+namespace NDatabase2.Odb.Core.Query.List.Values
 {
     
     public sealed class ObjectValues : IObjectValues

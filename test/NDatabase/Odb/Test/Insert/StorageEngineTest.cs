@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using NDatabase.Odb.Core.Layers.Layer1.Introspector;
-using NDatabase.Odb.Core.Query;
-using NDatabase.Odb.Core.Query.NQ;
+using NDatabase2.Odb.Core.Layers.Layer1.Introspector;
+using NDatabase2.Odb.Core.Query;
+using NDatabase2.Odb.Core.Query.NQ;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Attribute;
 using Test.NDatabase.Odb.Test.VO.Login;

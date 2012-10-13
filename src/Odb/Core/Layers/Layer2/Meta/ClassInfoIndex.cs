@@ -1,9 +1,9 @@
 using System.Linq;
-using NDatabase.Btree;
-using NDatabase.Odb.Core.Query.Execution;
-using NDatabase.Tool.Wrappers;
+using NDatabase2.Btree;
+using NDatabase2.Odb.Core.Query.Execution;
+using NDatabase2.Tool.Wrappers;
 
-namespace NDatabase.Odb.Core.Layers.Layer2.Meta
+namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
 {
     /// <summary>
     ///   An index of a class info

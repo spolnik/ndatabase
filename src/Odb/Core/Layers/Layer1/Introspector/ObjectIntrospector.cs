@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Tool.Wrappers;
-using NDatabase.Tool.Wrappers.Map;
+using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+using NDatabase2.Odb.Core.Layers.Layer3;
+using NDatabase2.Tool.Wrappers;
+using NDatabase2.Tool.Wrappers.Map;
 
-namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
+namespace NDatabase2.Odb.Core.Layers.Layer1.Introspector
 {
     /// <summary>
     ///   The local implementation of the Object Instrospector.

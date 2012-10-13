@@ -1,8 +1,8 @@
 using System;
-using NDatabase.Btree;
-using NDatabase.Odb.Core.Layers.Layer3;
+using NDatabase2.Btree;
+using NDatabase2.Odb.Core.Layers.Layer3;
 
-namespace NDatabase.Odb.Core.BTree
+namespace NDatabase2.Odb.Core.BTree
 {
     /// <summary>
     ///   A Lazy BTree Iterator : It iterate on the object OIDs and lazy load objects from them (OIDs) Used by the LazyBTreeCollection

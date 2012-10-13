@@ -1,12 +1,12 @@
-using NDatabase.Odb.Core.Layers.Layer2.Instance;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Oid;
-using NDatabase.Odb.Core.Query.Execution;
-using NDatabase.Odb.Core.Query.List.Values;
-using NDatabase.Tool.Wrappers;
+using NDatabase2.Odb.Core.Layers.Layer2.Instance;
+using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+using NDatabase2.Odb.Core.Layers.Layer3;
+using NDatabase2.Odb.Core.Oid;
+using NDatabase2.Odb.Core.Query.Execution;
+using NDatabase2.Odb.Core.Query.List.Values;
+using NDatabase2.Tool.Wrappers;
 
-namespace NDatabase.Odb.Core.Query.Values
+namespace NDatabase2.Odb.Core.Query.Values
 {
     internal sealed class ValuesQueryResultAction : IMatchingObjectAction
     {

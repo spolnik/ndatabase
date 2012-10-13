@@ -1,7 +1,7 @@
 using System.Collections;
-using NDatabase.Odb.Core;
+using NDatabase2.Odb.Core;
 
-namespace NDatabase.Btree
+namespace NDatabase2.Btree
 {
     /// <summary>
     ///   An iterator to iterate over NDatabase BTree that accept more than one value per key.

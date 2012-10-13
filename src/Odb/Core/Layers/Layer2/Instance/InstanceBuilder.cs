@@ -2,14 +2,14 @@ using System;
 using System.Collections;
 using System.Globalization;
 using System.Runtime.Serialization;
-using NDatabase.Odb.Core.Layers.Layer1.Introspector;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Oid;
-using NDatabase.Odb.Core.Trigger;
-using NDatabase.Tool;
+using NDatabase2.Odb.Core.Layers.Layer1.Introspector;
+using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+using NDatabase2.Odb.Core.Layers.Layer3;
+using NDatabase2.Odb.Core.Oid;
+using NDatabase2.Odb.Core.Trigger;
+using NDatabase2.Tool;
 
-namespace NDatabase.Odb.Core.Layers.Layer2.Instance
+namespace NDatabase2.Odb.Core.Layers.Layer2.Instance
 {
     /// <summary>
     ///   Class used to build instance from Meta Object representation.

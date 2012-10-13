@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using NDatabase.Odb;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Oid;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+using NDatabase2.Odb.Core.Oid;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Layer2

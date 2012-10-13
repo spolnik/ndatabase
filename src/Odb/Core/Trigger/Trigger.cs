@@ -1,4 +1,4 @@
-namespace NDatabase.Odb.Core.Trigger
+namespace NDatabase2.Odb.Core.Trigger
 {
     /// <summary>
     ///   A simple base class for all triggers.

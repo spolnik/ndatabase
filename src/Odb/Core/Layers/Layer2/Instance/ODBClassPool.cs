@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using NDatabase.Tool.Wrappers.Map;
+using NDatabase2.Tool.Wrappers.Map;
 
-namespace NDatabase.Odb.Core.Layers.Layer2.Instance
+namespace NDatabase2.Odb.Core.Layers.Layer2.Instance
 {
     /// <summary>
     ///   A simple class pool, to optimize instance creation

@@ -1,4 +1,4 @@
-namespace NDatabase.Odb.Core.Oid
+namespace NDatabase2.Odb.Core.Oid
 {
     public class ObjectOID : BaseOID
     {
@@ -6,18 +6,20 @@ namespace NDatabase.Odb.Core.Oid
         {
         }
 
-        public override int CompareTo(object @object)
+        public override int CompareTo(OID oid)
         {
-            if (@object == null || !(@object is ObjectOID))
+            if (oid == null || !(oid is ObjectOID))
                 return -1000;
 
-            var otherOid = (OID) @object;
+            var otherOid = oid;
             return (int) (ObjectId - otherOid.ObjectId);
         }
 
         public override bool Equals(object @object)
         {
-            return this == @object || CompareTo(@object) == 0;
+            var oid = @object as OID;
+
+            return this == @object || CompareTo(oid) == 0;
         }
 
         public override int GetHashCode()
