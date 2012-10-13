@@ -24,7 +24,7 @@ namespace NDatabase.Odb.Core.Query.NQ
         
         public NativeQueryExecutionPlan(IQuery query)
         {
-            ((AbstractQuery)query).SetExecutionPlan(this);
+            ((IInternalQuery)query).SetExecutionPlan(this);
             Init();
         }
 

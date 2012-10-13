@@ -521,7 +521,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public override CriteriaQuery<T> CriteriaQuery<T>(ICriterion criterion)
         {
             var criteriaQuery = new CriteriaQuery<T>(criterion);
-            criteriaQuery.SetStorageEngine(this);
+            ((IInternalQuery)criteriaQuery).SetStorageEngine(this);
 
             if (criterion != null)
                 criterion.Ready();
@@ -532,7 +532,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public override CriteriaQuery<T> CriteriaQuery<T>()
         {
             var criteriaQuery = new CriteriaQuery<T>();
-            criteriaQuery.SetStorageEngine(this);
+            ((IInternalQuery)criteriaQuery).SetStorageEngine(this);
             return criteriaQuery;
         }
 

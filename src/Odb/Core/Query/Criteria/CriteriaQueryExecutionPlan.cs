@@ -46,7 +46,7 @@ namespace NDatabase.Odb.Core.Query.Criteria
         {
             _classInfo = classInfo;
             _query = query;
-            _query.SetExecutionPlan(this);
+            ((IInternalQuery)_query).SetExecutionPlan(this);
             Init();
         }
 

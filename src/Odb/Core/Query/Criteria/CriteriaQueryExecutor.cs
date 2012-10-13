@@ -24,7 +24,7 @@ namespace NDatabase.Odb.Core.Query.Criteria
         public override void PrepareQuery()
         {
             _criteriaQuery = (CriteriaQuery<T>) Query;
-            _criteriaQuery.SetStorageEngine(StorageEngine);
+            ((IInternalQuery)_criteriaQuery).SetStorageEngine(StorageEngine);
             _involvedFields = _criteriaQuery.GetAllInvolvedFields();
         }
 

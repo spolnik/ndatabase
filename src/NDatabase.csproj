@@ -178,6 +178,7 @@
     <Compile Include="Odb\Core\Query\Execution\IQueryExecutor.cs" />
     <Compile Include="Odb\Core\Query\Execution\IQueryFieldAction.cs" />
     <Compile Include="Odb\Core\Query\Execution\MultiClassGenericQueryExecutor.cs" />
+    <Compile Include="Odb\Core\Query\IInternalQuery.cs" />
     <Compile Include="Odb\Core\Query\IQuery.cs" />
     <Compile Include="Odb\Core\Query\IValuesQuery.cs" />
     <Compile Include="Odb\Core\Query\NQ\NativeQuery.cs" />

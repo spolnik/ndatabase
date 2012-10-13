@@ -27,8 +27,8 @@ namespace Test.NDatabase.Odb.Test.Index
                     ("name");
             var values = odb.GetValues<VO.Login.Function>(vq);
             AssertEquals(1, values.Count);
-            Println(((AbstractQuery)vq).GetExecutionPlan().GetDetails());
-            AssertEquals(true, ((AbstractQuery)vq).GetExecutionPlan().UseIndex());
+            Println(((IInternalQuery)vq).GetExecutionPlan().GetDetails());
+            AssertEquals(true, ((IInternalQuery)vq).GetExecutionPlan().UseIndex());
             odb.Close();
 
             DeleteBase(baseName);

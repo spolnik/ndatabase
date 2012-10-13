@@ -5,8 +5,9 @@ using NDatabase.Odb.Core.Query.Execution;
 
 namespace NDatabase.Odb.Core.Query
 {
-    public abstract class AbstractQuery : IQuery
+    public abstract class AbstractQuery<T> : IQuery, IInternalQuery where T : class
     {
+        private readonly Type _underlyingType = typeof (T);
         internal IQueryExecutionPlan ExecutionPlan;
         protected string[] OrderByFields;
 
@@ -24,6 +25,32 @@ namespace NDatabase.Odb.Core.Query
         {
             _orderByType = OrderByConstants.OrderByNone;
         }
+
+        #region IInternalQuery Members
+
+        IQueryExecutionPlan IInternalQuery.GetExecutionPlan()
+        {
+            if (ExecutionPlan == null)
+                throw new OdbRuntimeException(NDatabaseError.ExecutionPlanIsNullQueryHasNotBeenExecuted);
+            return ExecutionPlan;
+        }
+
+        void IInternalQuery.SetExecutionPlan(IQueryExecutionPlan plan)
+        {
+            ExecutionPlan = plan;
+        }
+
+        IStorageEngine IInternalQuery.GetStorageEngine()
+        {
+            return _storageEngine;
+        }
+
+        void IInternalQuery.SetStorageEngine(IStorageEngine storageEngine)
+        {
+            _storageEngine = storageEngine;
+        }
+
+        #endregion
 
         #region IQuery Members
 
@@ -57,18 +84,6 @@ namespace NDatabase.Odb.Core.Query
             return !_orderByType.IsOrderByNone();
         }
 
-        internal IQueryExecutionPlan GetExecutionPlan()
-        {
-            if (ExecutionPlan == null)
-                throw new OdbRuntimeException(NDatabaseError.ExecutionPlanIsNullQueryHasNotBeenExecuted);
-            return ExecutionPlan;
-        }
-
-        internal void SetExecutionPlan(IQueryExecutionPlan plan)
-        {
-            ExecutionPlan = plan;
-        }
-
         public virtual OID GetOidOfObjectToQuery()
         {
             return _oidOfObjectToQuery;
@@ -76,7 +91,10 @@ namespace NDatabase.Odb.Core.Query
 
         public abstract bool Match(object @object);
 
-        public abstract Type UnderlyingType { get; }
+        public Type UnderlyingType
+        {
+            get { return _underlyingType; }
+        }
 
         /// <summary>
         ///   Returns true is query must apply on a single object OID
@@ -87,16 +105,6 @@ namespace NDatabase.Odb.Core.Query
         }
 
         #endregion
-
-        internal IStorageEngine GetStorageEngine()
-        {
-            return _storageEngine;
-        }
-
-        internal void SetStorageEngine(IStorageEngine storageEngine)
-        {
-            _storageEngine = storageEngine;
-        }
 
         public virtual void SetOrderByFields(string[] orderByFields)
         {

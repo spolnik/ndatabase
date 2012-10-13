@@ -77,7 +77,7 @@ namespace NDatabase.Odb.Main
 
         public virtual IObjects<T> GetObjects<T>(IQuery query) where T : class
         {
-            ((AbstractQuery)query).SetStorageEngine(_storageEngine);
+            ((IInternalQuery)query).SetStorageEngine(_storageEngine);
             return _storageEngine.GetObjects<T>(query, true, -1, -1);
         }
 

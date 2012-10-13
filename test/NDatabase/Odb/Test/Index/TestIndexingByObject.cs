@@ -38,8 +38,8 @@ namespace Test.NDatabase.Odb.Test.Index
 
             odb.Close();
             AssertEquals(o1.GetName(), o2.GetName());
-            Println(((AbstractQuery)q).GetExecutionPlan().GetDetails());
-            AssertFalse(((AbstractQuery)q).GetExecutionPlan().GetDetails().IndexOf("index1") == -1);
+            Println(((IInternalQuery)q).GetExecutionPlan().GetDetails());
+            AssertFalse(((IInternalQuery)q).GetExecutionPlan().GetDetails().IndexOf("index1") == -1);
 
             DeleteBase("index-object");
             Println("************END OF TEST1***************");
@@ -66,7 +66,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var end0 = OdbTime.GetCurrentTimeInMs();
             var io = objects.GetFirst();
             Println("d0=" + (end0 - start0));
-            Println(((AbstractQuery)q).GetExecutionPlan().GetDetails());
+            Println(((IInternalQuery)q).GetExecutionPlan().GetDetails());
             q = odb.CriteriaQuery<IndexedObject2>(Where.Equal("object", io));
             var start = OdbTime.GetCurrentTimeInMs();
 
@@ -76,8 +76,8 @@ namespace Test.NDatabase.Odb.Test.Index
             var o2 = objects2.GetFirst();
             odb.Close();
             AssertEquals("Object " + (size - 1), o2.GetName());
-            Println(((AbstractQuery)q).GetExecutionPlan().GetDetails());
-            AssertTrue(((AbstractQuery)q).GetExecutionPlan().UseIndex());
+            Println(((IInternalQuery)q).GetExecutionPlan().GetDetails());
+            AssertTrue(((IInternalQuery)q).GetExecutionPlan().UseIndex());
             DeleteBase("index-object");
             Println("************END OF TEST2***************");
         }
@@ -127,10 +127,10 @@ namespace Test.NDatabase.Odb.Test.Index
             var objects = odb.GetObjects<IndexedObject>(q);
             var end0 = OdbTime.GetCurrentTimeInMs();
             // check if index has been used
-            AssertTrue(((AbstractQuery)q).GetExecutionPlan().UseIndex());
+            AssertTrue(((IInternalQuery)q).GetExecutionPlan().UseIndex());
             var io = objects.GetFirst();
             Println("d0=" + (end0 - start0));
-            Println(((AbstractQuery)q).GetExecutionPlan().GetDetails());
+            Println(((IInternalQuery)q).GetExecutionPlan().GetDetails());
             q = odb.CriteriaQuery<IndexedObject2>(Where.Equal("object", io));
             var start = OdbTime.GetCurrentTimeInMs();
 
@@ -140,8 +140,8 @@ namespace Test.NDatabase.Odb.Test.Index
             var o2 = objects2.GetFirst();
             odb.Close();
             AssertEquals("Object " + (size - 1), o2.GetName());
-            Println(((AbstractQuery)q).GetExecutionPlan().GetDetails());
-            AssertTrue(((AbstractQuery)q).GetExecutionPlan().UseIndex());
+            Println(((IInternalQuery)q).GetExecutionPlan().GetDetails());
+            AssertTrue(((IInternalQuery)q).GetExecutionPlan().UseIndex());
             DeleteBase(baseName);
         }
     }

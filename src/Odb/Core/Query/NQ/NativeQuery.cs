@@ -1,9 +1,8 @@
 using System;
-using NDatabase.Odb.Core.Query.Execution;
 
 namespace NDatabase.Odb.Core.Query.NQ
 {
-    public abstract class NativeQuery<T> : AbstractQuery where T : class
+    public abstract class NativeQuery<T> : AbstractQuery<T> where T : class
     {
         public virtual Type[] GetObjectTypes()
         {
@@ -15,18 +14,6 @@ namespace NDatabase.Odb.Core.Query.NQ
         public virtual string[] GetIndexFields()
         {
             return new string[0];
-        }
-
-        internal new void SetExecutionPlan(IQueryExecutionPlan plan)
-        {
-            ExecutionPlan = plan;
-        }
-
-        private readonly Type _type = typeof(T);
-
-        public override Type UnderlyingType
-        {
-            get { return _type; }
         }
 
         public override bool Match(object @object)
