@@ -564,7 +564,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public void UpdateMetaModel()
         {
-            if (OdbConfiguration.IsDebugEnabled())
+            if (OdbConfiguration.IsLoggingEnabled())
                 DLogger.Info("Automatic refactoring : updating meta model");
             
             var metaModel = GetMetaModel();

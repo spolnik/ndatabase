@@ -19,8 +19,6 @@ namespace NDatabase.Odb.Core.Transaction
     /// </remarks>
     internal sealed class WriteAction
     {
-        internal static readonly string LogId = "WriteAction";
-
         private readonly long _position;
         private IList<byte[]> _listOfBytes;
 
@@ -105,7 +103,7 @@ namespace NDatabase.Odb.Core.Transaction
                 var bytes = fsi.ReadBytes(size);
                 var writeAction = new WriteAction(position, bytes);
 
-                if (OdbConfiguration.IsDebugEnabled(LogId))
+                if (OdbConfiguration.IsLoggingEnabled())
                     DLogger.Debug(string.Format("Loading Write Action at {0} => {1}", fsi.GetPosition(), writeAction));
 
                 return writeAction;

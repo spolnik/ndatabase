@@ -287,7 +287,6 @@
     <Compile Include="Odb\Main\ODBAdapter.cs" />
     <Compile Include="Odb\Main\OdbExt.cs" />
     <Compile Include="Odb\Main\ODBForTrigger.cs" />
-    <Compile Include="Odb\Tool\LogUtil.cs" />
     <Compile Include="Odb\Tool\UUID.cs" />
     <Compile Include="Odb\ObjectRepresentation.cs" />
     <Compile Include="Odb\Objects.cs" />
@@ -301,6 +300,7 @@
     <Compile Include="Odb\OID.cs" />
     <Compile Include="Odb\TransactionId.cs" />
     <Compile Include="Odb\Values.cs" />
+    <Compile Include="Tool\ConsoleLogger.cs" />
     <Compile Include="Tool\DisplayUtility.cs" />
     <Compile Include="Tool\DLogger.cs" />
     <Compile Include="Tool\ILogger.cs" />

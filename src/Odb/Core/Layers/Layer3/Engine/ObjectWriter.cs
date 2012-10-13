@@ -18,9 +18,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
     /// </summary>
     internal sealed class ObjectWriter : IObjectWriter
     {
-        private const string LogId = "ObjectWriter";
-        private const string LogIdDebug = "ObjectWriter.debug";
-
         private static readonly int NativeHeaderBlockSize = OdbType.Integer.Size + OdbType.Byte.Size +
                                                             OdbType.Integer.Size + OdbType.Boolean.Size;
 
@@ -99,7 +96,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             #region Logging
 
-            if (OdbConfiguration.IsDebugEnabled(LogId))
+            if (OdbConfiguration.IsLoggingEnabled())
             {
                 var writePositionAsString = writePosition.ToString();
                 DLogger.Debug(
@@ -123,7 +120,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
                 #region Logging
 
-                if (OdbConfiguration.IsDebugEnabled(LogId))
+                if (OdbConfiguration.IsLoggingEnabled())
                 {
                     var positionAsString = lastClassinfo.Position.ToString();
                     var classOffsetAsString = StorageEngineConstant.ClassOffsetNextClassPosition.ToString();
@@ -222,7 +219,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 _idManager.UpdateClassPositionForId(classId, position, true);
 
             FileSystemProcessor.FileSystemInterface.SetWritePosition(position, writeInTransaction);
-            if (OdbConfiguration.IsDebugEnabled(LogId))
+            if (OdbConfiguration.IsLoggingEnabled())
             {
                 var positionAsString = position.ToString();
                 DLogger.Debug("Writing new Class info header at " + positionAsString + " : " + classInfo);
@@ -591,7 +588,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             
             var previousObjectOID = header.GetPreviousObjectOID();
             var nextObjectOID = header.GetNextObjectOID();
-            if (OdbConfiguration.IsDebugEnabled(LogId))
+            if (OdbConfiguration.IsLoggingEnabled())
             {
                 var isInConnectedZone = objectIsInConnectedZone.ToString();
                 var hasIndex = withIndex.ToString();
@@ -764,7 +761,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// </remarks>
         private void WriteClassInfoBody(ClassInfo classInfo, long position, bool writeInTransaction)
         {
-            if (OdbConfiguration.IsDebugEnabled(LogId))
+            if (OdbConfiguration.IsLoggingEnabled())
             {
                 var positionAsString = position.ToString();
                 DLogger.Debug("Writing new Class info body at " + positionAsString + " : " + classInfo);
@@ -780,11 +777,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             FileSystemProcessor.FileSystemInterface.WriteByte(BlockTypes.BlockTypeClassBody, writeInTransaction);
             // number of attributes
             FileSystemProcessor.FileSystemInterface.WriteLong(classInfo.Attributes.Count, writeInTransaction, "class nb attributes");
-            for (var i = 0; i < classInfo.Attributes.Count; i++)
-            {
-                var classAttributeInfo = classInfo.Attributes[i];
+            
+            foreach (var classAttributeInfo in classInfo.Attributes)
                 FileSystemProcessor.WriteClassAttributeInfo(_storageEngine, classAttributeInfo, writeInTransaction);
-            }
+
             var blockSize = (int) (FileSystemProcessor.FileSystemInterface.GetPosition() - position);
             FileSystemProcessor.WriteBlockSizeAt(position, blockSize, writeInTransaction, classInfo);
         }
@@ -798,13 +794,14 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <returns> The object posiiton or id(if &lt; 0) </returns>
         private long WriteNativeObjectInfo(NativeObjectInfo noi, long position, bool writeInTransaction)
         {
-            if (OdbConfiguration.IsDebugEnabled(LogIdDebug))
+            if (OdbConfiguration.IsLoggingEnabled())
             {
                 var positionAsString = position.ToString();
                 DLogger.Debug(string.Concat("Writing native object at", positionAsString,
                                             string.Format(" : Type={0} | Value={1}",
                                                           OdbType.GetNameFromId(noi.GetOdbTypeId()), noi)));
             }
+
             if (noi.IsAtomicNativeObject())
                 return WriteAtomicNativeObject((AtomicNativeObjectInfo) noi, writeInTransaction);
             if (noi.IsNull())
@@ -1305,7 +1302,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public void StoreFreeSpace(long currentPosition, int blockSize)
         {
-            if (OdbConfiguration.IsDebugEnabled(LogId))
+            if (OdbConfiguration.IsLoggingEnabled())
                 DLogger.Debug(string.Concat("Storing free space at position ", currentPosition.ToString(),
                                             " | block size = ", blockSize.ToString()));
         }

@@ -15,8 +15,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         private const bool IsReading = true;
         private const bool IsWriting = false;
 
-        private const string LogId = "MultiBufferedIO";
-
         private IMultiBuffer _buffer;
 
         private int _currentBufferIndex;
@@ -54,7 +52,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
 
             try
             {
-                if (OdbConfiguration.IsDebugEnabled(LogId))
+                if (OdbConfiguration.IsLoggingEnabled())
                     DLogger.Info(string.Format("Opening datatbase file : {0}", Path.GetFullPath(fileName)));
 
                 _ioDeviceLength = _nonBufferedFileIO.Length;
@@ -152,7 +150,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
                 return ReadBytes(bytes, 0, size);
 
             // else the read have to use various buffers
-            if (OdbConfiguration.IsDebugEnabled(LogId))
+            if (OdbConfiguration.IsLoggingEnabled())
             {
                 var length = bytes.Length.ToString();
                 var sizeAsString = _buffer.Size.ToString();
@@ -196,7 +194,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         {
             if (bytes.Length > _buffer.Size)
             {
-                if (OdbConfiguration.IsDebugEnabled(LogId))
+                if (OdbConfiguration.IsLoggingEnabled())
                     DLogger.Debug(string.Format("Data is larger than buffer size {0} > {1} : cutting the data",
                                                 bytes.Length, _buffer.Size));
 
@@ -322,7 +320,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             _buffer.SetPositions(bufferIndex, newPosition, endPosition);
             _currentPositionWhenUsingBuffer = newPosition;
 
-            if (OdbConfiguration.IsDebugEnabled(LogId))
+            if (OdbConfiguration.IsLoggingEnabled())
             {
                 var index = bufferIndex.ToString();
                 var start = _buffer.BufferPositions[bufferIndex].Start.ToString();
@@ -349,7 +347,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
                 NumberOfFlush++;
                 TotalFlushSize += bufferSizeToFlush;
 
-                if (OdbConfiguration.IsDebugEnabled(LogId))
+                if (OdbConfiguration.IsLoggingEnabled())
                 {
                     var indexAsString = bufferIndex.ToString();
                     var start = _buffer.BufferPositions[bufferIndex].Start.ToString();
@@ -365,7 +363,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             }
             else
             {
-                if (OdbConfiguration.IsDebugEnabled(LogId))
+                if (OdbConfiguration.IsLoggingEnabled())
                 {
                     var start = _buffer.BufferPositions[bufferIndex].Start.ToString();
                     var end = _buffer.BufferPositions[bufferIndex].End.ToString();

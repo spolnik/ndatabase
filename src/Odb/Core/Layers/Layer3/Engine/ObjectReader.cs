@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using NDatabase.Btree;
@@ -14,7 +13,6 @@ using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Core.Query.Execution;
 using NDatabase.Odb.Core.Query.Values;
 using NDatabase.Tool;
-using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
 using NDatabase.Tool.Wrappers.Map;
 
@@ -26,8 +24,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
     /// <author>olivier smadja</author>
     internal sealed class ObjectReader : IObjectReader
     {
-        private const string LogId = "ObjectReader";
-        
         /// <summary>
         ///   The fsi is the object that knows how to write and read native types
         /// </summary>
@@ -132,7 +128,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             for (var i = 0; i < nbClasses; i++)
             {
                 classInfo = ReadClassInfoHeader(classOID);
-                if (OdbConfiguration.IsDebugEnabled(LogId))
+                if (OdbConfiguration.IsLoggingEnabled())
                 {
                     DLogger.Debug(string.Format(
                         "{0}Reading class header for {1} - oid = {2} prevOid={3} - nextOid={4}", DepthToSpaces(),
@@ -153,7 +149,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             {
                 classInfo = ReadClassInfoBody(currentClassInfo);
 
-                if (OdbConfiguration.IsDebugEnabled(LogId))
+                if (OdbConfiguration.IsLoggingEnabled())
                     DLogger.Debug(DepthToSpaces() + "Reading class body for " + classInfo.FullClassName);
             }
 
@@ -162,7 +158,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             // Read last object of each class
             foreach (var actualClassInfo in allClasses)
             {
-                if (OdbConfiguration.IsDebugEnabled(LogId))
+                if (OdbConfiguration.IsLoggingEnabled())
                 {
                     DLogger.Debug(string.Format("{0}Reading class info last instance {1}", DepthToSpaces(),
                                                 actualClassInfo.FullClassName));
@@ -204,7 +200,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     btree.GetRoot().SetBTree(btree);
                 }
 
-                if (OdbConfiguration.IsDebugEnabled(LogId))
+                if (OdbConfiguration.IsLoggingEnabled())
                 {
                     var count = indexes.Count.ToString();
                     DLogger.Debug(
@@ -215,7 +211,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 actualClassInfo.SetIndexes(indexes);
             }
 
-            if (OdbConfiguration.IsDebugEnabled(LogId))
+            if (OdbConfiguration.IsLoggingEnabled())
                 DLogger.Debug(DepthToSpaces() + "Current Meta Model is :" + metaModel);
         }
 
@@ -307,7 +303,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var tmpCache = lsession.GetTmpCache();
             // ICache tmpCache =cache;
             // We are dealing with a non native object
-            if (OdbConfiguration.IsDebugEnabled(LogId))
+            if (OdbConfiguration.IsLoggingEnabled())
                 DLogger.Debug(DepthToSpaces() + "Reading Non Native Object info with oid " + oid);
             // If the object is already being read, then return from the cache
             if (tmpCache.IsReadingObjectInfoWithOid(oid))
@@ -322,7 +318,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 classInfo =
                     _storageEngine.GetSession(true).GetMetaModel().GetClassInfoFromId(objectInfoHeader.GetClassInfoId());
             
-            if (OdbConfiguration.IsDebugEnabled(LogId))
+            if (OdbConfiguration.IsLoggingEnabled())
             {
                 var positionAsString = objectInfoHeader.GetPosition().ToString();
                 DLogger.Debug(DepthToSpaces() + "Reading Non Native Object info of " + (classInfo == null
@@ -534,13 +530,13 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public long ReadOidPosition(OID oid)
         {
-            if (OdbConfiguration.IsDebugEnabled(LogId))
+            if (OdbConfiguration.IsLoggingEnabled())
                 DLogger.Debug("  Start of readOidPosition for oid " + oid);
 
             var blockNumber = GetIdBlockNumberOfOid(oid);
             var blockPosition = GetIdBlockPositionFromNumber(blockNumber);
 
-            if (OdbConfiguration.IsDebugEnabled(LogId))
+            if (OdbConfiguration.IsLoggingEnabled())
             {
                 var blockNumberAsString = blockNumber.ToString();
                 var blockPositionAsString = blockPosition.ToString();
@@ -552,7 +548,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                            ((oid.ObjectId - 1) % OdbConfiguration.GetNbIdsPerBlock()) *
                            OdbConfiguration.GetIdBlockRepetitionSize();
 
-            if (OdbConfiguration.IsDebugEnabled(LogId))
+            if (OdbConfiguration.IsLoggingEnabled())
             {
                 var positionAsString = position.ToString();
                 DLogger.Debug(string.Format("  End of readOidPosition for oid {0} returning position ", oid) + positionAsString);
@@ -579,7 +575,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <returns> The object position, if object has been marked as deleted then return StorageEngineConstant.DELETED_OBJECT_POSITION @ </returns>
         public long GetObjectPositionFromItsOid(OID oid, bool useCache, bool throwException)
         {
-            if (OdbConfiguration.IsDebugEnabled(LogId))
+            if (OdbConfiguration.IsLoggingEnabled())
                 DLogger.Debug("  getObjectPositionFromItsId for oid " + oid);
             // Check if oid is in cache
             var position = StorageEngineConstant.ObjectIsNotInCache;
@@ -617,7 +613,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     return StorageEngineConstant.ObjectDoesNotExist;
                 return StorageEngineConstant.DeletedObjectPosition;
             }
-            if (OdbConfiguration.IsDebugEnabled(LogId))
+            if (OdbConfiguration.IsLoggingEnabled())
             {
                 var positionAsString = objectPosition.ToString();
                 DLogger.Debug("  object position of object with oid " + oid + " is " + positionAsString);
@@ -912,7 +908,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <returns> The read class info object @ </returns>
         private ClassInfo ReadClassInfoHeader(OID classInfoOid)
         {
-            if (OdbConfiguration.IsDebugEnabled(LogId))
+            if (OdbConfiguration.IsLoggingEnabled())
                 DLogger.Debug(DepthToSpaces() + "Reading new Class info Header with oid " + classInfoOid);
             var classInfoPosition = GetObjectPositionFromItsOid(classInfoOid, true, true);
             _fsi.SetReadPosition(classInfoPosition);
@@ -986,7 +982,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <returns> The read class info @ </returns>
         private ClassInfo ReadClassInfoBody(ClassInfo classInfo)
         {
-            if (OdbConfiguration.IsDebugEnabled(LogId))
+            if (OdbConfiguration.IsLoggingEnabled())
             {
                 var attributesDefinitionPositionAsString = classInfo.AttributesDefinitionPosition.ToString();
                 DLogger.Debug(DepthToSpaces() + "Reading new Class info Body at " + attributesDefinitionPositionAsString);
@@ -1534,7 +1530,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         private AbstractObjectInfo ReadNativeObjectInfo(int odbDeclaredTypeId, long position, bool useCache,
                                                         bool returnObject, bool readHeader)
         {
-            if (OdbConfiguration.IsDebugEnabled(LogId))
+            if (OdbConfiguration.IsLoggingEnabled())
             {
                 var positionAsString = position.ToString();
                 DLogger.Debug(DepthToSpaces() + "Reading native object of type " +
@@ -1629,7 +1625,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var componentIsNative = subTypeId.IsNative();
             // read the size of the array
             var arraySize = _fsi.ReadInt();
-            if (OdbConfiguration.IsDebugEnabled(LogId))
+            if (OdbConfiguration.IsLoggingEnabled())
             {
                 var size = arraySize.ToString();
                 DLogger.Debug(DepthToSpaces() + "reading an array of " + realArrayComponentClassName + " with " +
@@ -1651,18 +1647,18 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                         object o = ReadObjectInfo(objectIdentifications[i], useCache, returnObjects);
                         if (!(o is NonNativeDeletedObjectInfo))
                         {
-                            ((Array) array).SetValue(o, i);
+                            array.SetValue(o, i);
                         }
                     }
                     else
                     {
                         if (componentIsNative)
                         {
-                            ((Array) array).SetValue(NullNativeObjectInfo.GetInstance(), i);
+                            array.SetValue(NullNativeObjectInfo.GetInstance(), i);
                         }
                         else
                         {
-                            ((Array) array).SetValue(new NonNativeNullObjectInfo(), i);
+                            array.SetValue(new NonNativeNullObjectInfo(), i);
                         }
                     }
                 }

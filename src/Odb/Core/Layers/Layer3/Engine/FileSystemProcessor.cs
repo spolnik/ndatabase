@@ -11,9 +11,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
     internal sealed class FileSystemProcessor : IFileSystemProcessor
     {
-        private const string LogId = "FileSystemProcessor";
-        private const string LogIdDebug = "FileSystemProcessor.debug";
-
         public IFileSystemInterface FileSystemInterface { get; private set; }
 
         /// <summary>
@@ -108,7 +105,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             long positionToWrite = StorageEngineConstant.DatabaseHeaderFirstClassOid;
             FileSystemInterface.SetWritePosition(positionToWrite, inTransaction);
             WriteOid(classInfoId, inTransaction, "first class info oid");
-            if (OdbConfiguration.IsDebugEnabled(LogId))
+            if (OdbConfiguration.IsLoggingEnabled())
             {
                 var positionToWriteAsString = positionToWrite.ToString();
                 DLogger.Debug("Updating first class info oid at " + positionToWriteAsString + " with oid " + classInfoId);
@@ -152,7 +149,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             FileSystemInterface.SetWritePosition(position + OdbConfiguration.GetIdBlockSize() - 1, writeInTransaction);
             FileSystemInterface.WriteByte(0, writeInTransaction);
 
-            if (OdbConfiguration.IsDebugEnabled(LogIdDebug))
+            if (OdbConfiguration.IsLoggingEnabled())
                 DLogger.Debug(string.Concat("After create block, available position is ", FileSystemInterface.GetAvailablePosition().ToString()));
 
             return position;
@@ -301,7 +298,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             var currentPosition = FileSystemInterface.GetPosition();
 
-            if (OdbConfiguration.IsDebugEnabled(LogIdDebug))
+            if (OdbConfiguration.IsLoggingEnabled())
                 DLogger.Debug("Start of updateInstanceFieldsOfClassInfo for " + classInfo.FullClassName);
 
             var position = classInfo.Position + StorageEngineConstant.ClassOffsetClassNbObjects;
@@ -311,7 +308,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             WriteOid(classInfo.CommitedZoneInfo.First, writeInTransaction, "class info update first obj oid");
             WriteOid(classInfo.CommitedZoneInfo.Last, writeInTransaction, "class info update last obj oid");
             
-            if (OdbConfiguration.IsDebugEnabled(LogIdDebug))
+            if (OdbConfiguration.IsLoggingEnabled())
                 DLogger.Debug("End of updateInstanceFieldsOfClassInfo for " + classInfo.FullClassName);
 
             FileSystemInterface.SetWritePosition(currentPosition, writeInTransaction);

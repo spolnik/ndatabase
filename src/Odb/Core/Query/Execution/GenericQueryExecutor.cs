@@ -23,8 +23,6 @@ namespace NDatabase.Odb.Core.Query.Execution
     /// </remarks>
     internal abstract class GenericQueryExecutor : IMultiClassQueryExecutor
     {
-        public static readonly string LogId = "GenericQueryExecutor";
-        
         /// <summary>
         ///   The class of the object being fetched
         /// </summary>
@@ -202,7 +200,7 @@ namespace NDatabase.Odb.Core.Query.Execution
             }
             var nbObjects = ClassInfo.NumberOfObjects;
 
-            if (OdbConfiguration.IsDebugEnabled(LogId))
+            if (OdbConfiguration.IsLoggingEnabled())
                 DLogger.Debug(string.Format("loading {0} instance(s) of {1}", nbObjects, ClassInfo.FullClassName));
 
             if (ExecuteStartAndEndOfQueryAction())
@@ -325,7 +323,7 @@ namespace NDatabase.Odb.Core.Query.Execution
                         AddParameter(nbObjects).AddParameter(btreeSize));
             }
 
-            if (OdbConfiguration.IsDebugEnabled(LogId))
+            if (OdbConfiguration.IsLoggingEnabled())
                 DLogger.Debug(string.Format("loading {0} instance(s) of {1}", nbObjects, ClassInfo.FullClassName));
 
             if (ExecuteStartAndEndOfQueryAction())
@@ -389,11 +387,10 @@ namespace NDatabase.Odb.Core.Query.Execution
         private IObjects<T> ExecuteForOneOid<T>(bool inMemory, bool returnObjects,
                                                 IMatchingObjectAction queryResultAction)
         {
-            if (OdbConfiguration.IsDebugEnabled(LogId))
-            {
+            if (OdbConfiguration.IsLoggingEnabled())
                 DLogger.Debug(string.Format("loading Object with oid {0} - class {1}", Query.GetOidOfObjectToQuery(),
                                             ClassInfo.FullClassName));
-            }
+
             if (ExecuteStartAndEndOfQueryAction())
                 queryResultAction.Start();
 

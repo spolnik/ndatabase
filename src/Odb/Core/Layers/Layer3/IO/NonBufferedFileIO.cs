@@ -5,8 +5,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
 {
     internal sealed class NonBufferedFileIO : INonBufferedFileIO
     {
-        private const string LogId = "NonBufferedIO";
-
         private readonly string _wholeFileName;
 
         private bool _enableAutomaticDelete;
@@ -100,7 +98,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         {
             try
             {
-                if (OdbConfiguration.IsDebugEnabled(LogId))
+                if (OdbConfiguration.IsLoggingEnabled())
                 {
                     var length = _fileWriter.Length.ToString();
                     DLogger.Debug("Closing file with size " + length);

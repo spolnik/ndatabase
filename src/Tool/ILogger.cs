@@ -4,12 +4,14 @@ namespace NDatabase.Tool
 {
     public interface ILogger
     {
-        void Debug(object @object);
+        void Warning(string message);
 
-        void Info(object @object);
+        void Debug(string message);
 
-        void Error(object @object);
+        void Info(string message);
 
-        void Error(object @object, Exception t);
+        void Error(string message);
+
+        void Error(string message, Exception t);
     }
 }

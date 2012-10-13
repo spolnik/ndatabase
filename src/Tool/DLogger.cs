@@ -1,56 +1,88 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 namespace NDatabase.Tool
 {
     /// <summary>
-    ///   Simple logging class <p></p>
+    ///   Simple logging class
     /// </summary>
-    public static class DLogger
+    internal static class DLogger
     {
-        private static readonly IList<ILogger> Iloggers = new List<ILogger>();
+        private static readonly IList<ILogger> Loggers = new List<ILogger>();
 
-        public static void Register(ILogger logger)
+        internal static void Register(ILogger logger)
         {
-            Iloggers.Add(logger);
+            if (logger is ConsoleLogger && Loggers.OfType<ConsoleLogger>().Any())
+                return;
+
+            Loggers.Add(logger);
         }
 
-        public static void Debug(object @object)
+        internal static void Warning(object @object)
         {
-            Console.Out.WriteLine(@object == null
+            var type = new StackFrame(1).GetMethod().DeclaringType.Name;
+            
+            foreach (var logger in Loggers)
+            {
+                logger.Info(string.Concat(type, ": "));
+                logger.Warning(@object == null
                                       ? "null"
                                       : @object.ToString());
-            foreach (var logger in Iloggers)
-                logger.Debug(@object);
+            }
         }
 
-        public static void Info(object @object)
+        internal static void Debug(object @object)
         {
-            Console.Out.WriteLine(@object == null
+            var type = new StackFrame(1).GetMethod().DeclaringType.Name;
+
+            foreach (var logger in Loggers)
+            {
+                logger.Info(string.Concat(type, ": "));
+                logger.Debug(@object == null
                                       ? "null"
                                       : @object.ToString());
-            foreach (var logger in Iloggers)
-                logger.Info(@object);
+            }
         }
 
-        /// <param name="obj"> The obj to be logged </param>
-        public static void Error(object obj)
+        internal static void Info(object @object)
         {
-            Console.Out.WriteLine(obj == null
+            var type = new StackFrame(1).GetMethod().DeclaringType.Name;
+
+            foreach (var logger in Loggers)
+            {
+                logger.Info(string.Concat(type, ": "));
+                logger.Info(@object == null
                                       ? "null"
-                                      : obj.ToString());
-            foreach (var logger in Iloggers)
-                logger.Error(obj);
+                                      : @object.ToString());
+            }
         }
 
-        public static void Error(object obj, Exception t)
+        internal static void Error(object @object)
         {
-            Console.Out.WriteLine(obj == null
+            var type = new StackFrame(1).GetMethod().DeclaringType.Name;
+
+            foreach (var logger in Loggers)
+            {
+                logger.Info(string.Concat(type, ": "));
+                logger.Error(@object == null
                                       ? "null"
-                                      : obj.ToString());
-            Console.Out.WriteLine(t.ToString());
-            foreach (var logger in Iloggers)
-                logger.Error(obj, t);
+                                      : @object.ToString());
+            }
+        }
+
+        internal static void Error(object @object, Exception t)
+        {
+            var type = new StackFrame(1).GetMethod().DeclaringType.Name;
+
+            foreach (var logger in Loggers)
+            {
+                logger.Info(string.Concat(type, ": "));
+                logger.Error(@object == null
+                                      ? "null"
+                                      : @object.ToString(), t);
+            }
         }
     }
 }

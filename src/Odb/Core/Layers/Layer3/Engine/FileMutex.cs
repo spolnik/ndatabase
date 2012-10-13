@@ -9,6 +9,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
     /// </summary>
     public sealed class FileMutex
     {
+        private const int NumberOfRetryToOpenFile = 5;
         private static readonly FileMutex Instance = new FileMutex();
 
         private readonly IDictionary<string, string> _openFiles;
@@ -63,19 +64,15 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (canOpenfile)
                 return true;
 
-            if (OdbConfiguration.RetryIfFileIsLocked())
+            var nbRetry = 0;
+            while (!CanOpenFile(fileName) && nbRetry < NumberOfRetryToOpenFile)
             {
-                var nbRetry = 0;
-                while (!CanOpenFile(fileName) && nbRetry < OdbConfiguration.GetNumberOfRetryToOpenFile())
-                {
-                    Thread.Sleep((int)OdbConfiguration.GetRetryTimeout());
+                Thread.Sleep(100);
 
-                    nbRetry++;
-                }
-                if (nbRetry < OdbConfiguration.GetNumberOfRetryToOpenFile())
-                    return true;
+                nbRetry++;
             }
-            return false;
+
+            return nbRetry < NumberOfRetryToOpenFile;
         }
     }
 }

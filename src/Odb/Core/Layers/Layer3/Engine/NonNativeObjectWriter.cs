@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer2.Meta.Compare;
 using NDatabase.Odb.Core.Layers.Layer3.Block;
@@ -13,9 +12,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
     internal sealed class NonNativeObjectWriter : INonNativeObjectWriter
     {
-        private const string LogId = "NonNativeObjectWriter";
-        private const string LogIdDebug = "NonNativeObjectWriter.debug";
-
         private readonly IObjectWriter _objectWriter;
         private readonly ISession _session;
         private readonly IStorageEngine _storageEngine;
@@ -142,7 +138,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             #region Logging
 
-            if (OdbConfiguration.IsDebugEnabled(LogId))
+            if (OdbConfiguration.IsLoggingEnabled())
             {
                 var positionAsString = position.ToString();
                 DLogger.Debug(string.Format("Start Writing non native object of type {0} at {1} , oid = {2} : {3}",
@@ -321,7 +317,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
                 throw;
             }
-            if (OdbConfiguration.IsDebugEnabled(LogId))
+            if (OdbConfiguration.IsLoggingEnabled())
             {
                 DLogger.Debug("  Attributes positions of object with oid " + oid + " are " +
                               DisplayUtility.LongArrayToString(attributesIdentification));
@@ -329,7 +325,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 DLogger.Debug("End Writing non native object at " + positionAsString + " with oid " + oid +
                               " - prev oid=" + objectInfo.GetPreviousObjectOID() + " / next oid=" +
                               objectInfo.GetNextObjectOID());
-                if (OdbConfiguration.IsDebugEnabled(LogIdDebug))
+                if (OdbConfiguration.IsLoggingEnabled())
                     DLogger.Debug(" - current buffer : " + _objectWriter.FileSystemProcessor.FileSystemInterface.GetIo());
             }
             // Only insert in index for new objects
@@ -407,7 +403,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                         NDatabaseError.InstancePositionIsNegative.AddParameter(currentPosition).AddParameter(oid).
                             AddParameter("In Object Info Header"));
                 }
-                if (OdbConfiguration.IsDebugEnabled(LogId))
+                if (OdbConfiguration.IsLoggingEnabled())
                 {
                     var position = currentPosition.ToString();
                     message = string.Format("start updating object at {0}, oid={1} : {2}",
@@ -489,11 +485,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     if (!objectHasChanged)
                     {
                         _objectWriter.FileSystemProcessor.FileSystemInterface.SetWritePosition(positionBeforeWrite, true);
-                        if (OdbConfiguration.IsDebugEnabled(LogId))
+                        if (OdbConfiguration.IsLoggingEnabled())
                             DLogger.Debug("updateObject : Object is unchanged - doing nothing");
                         return oid;
                     }
-                    if (OdbConfiguration.IsDebugEnabled(LogId))
+                    if (OdbConfiguration.IsLoggingEnabled())
                     {
                         DLogger.Debug(string.Concat("\tmax recursion level is ",
                                                     _comparator.GetMaxObjectRecursionLevel().ToString()));
@@ -517,7 +513,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 var previousObjectOID = lastHeader.GetPreviousObjectOID();
                 var nextObjectOid = lastHeader.GetNextObjectOID();
                 
-                if (OdbConfiguration.IsDebugEnabled(LogId))
+                if (OdbConfiguration.IsLoggingEnabled())
                 {
                     DLogger.Debug("Updating object " + nnoi);
                     var position = currentPosition.ToString();
@@ -566,7 +562,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     _storageEngine.GetTriggerManager().ManageUpdateTriggerAfter(
                         nnoi.GetClassInfo().UnderlyingType, oldMetaRepresentation, hasObject ? @object : nnoi, oid);
                 }
-                if (OdbConfiguration.IsDebugEnabled(LogId))
+                if (OdbConfiguration.IsLoggingEnabled())
                 {
                     var position = nnoi.GetPosition().ToString();
                     DLogger.Debug("end updating object with oid=" + oid + " at pos " +

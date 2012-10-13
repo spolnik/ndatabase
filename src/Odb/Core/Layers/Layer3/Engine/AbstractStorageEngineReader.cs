@@ -19,8 +19,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
     internal abstract class AbstractStorageEngineReader : IStorageEngine
     {
-        private const string LogId = "LocalStorageEngine";
-
         private static readonly Type UnclosedCriteriaQueryType = typeof (CriteriaQuery<>);
 
         private static readonly MethodInfo GenericGetObjectInfos =
@@ -88,7 +86,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 newStorageEngine.Store(defragObject);
                 totalNbObjects++;
 
-                if (OdbConfiguration.IsDebugEnabled(LogId))
+                if (OdbConfiguration.IsLoggingEnabled())
                 {
                     if (j % 10000 == 0)
                         DLogger.Info(string.Concat("\n", totalNbObjects.ToString(), " objects saved."));
@@ -102,7 +100,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             var time = OdbTime.GetCurrentTimeInMs() - start;
 
-            if (OdbConfiguration.IsDebugEnabled(LogId))
+            if (OdbConfiguration.IsLoggingEnabled())
             {
                 var nbObjectsAsString = totalNbObjects.ToString();
                 var timeAsString = time.ToString();

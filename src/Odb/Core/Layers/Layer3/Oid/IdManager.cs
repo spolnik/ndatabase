@@ -11,8 +11,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Oid
     internal sealed class IdManager : IIdManager
     {
         private const int IdBufferSize = 10;
-        private const string LogId = "IdManager";
-
+        
         private int _currentBlockIdNumber;
         private long _currentBlockIdPosition;
         private int _lastIdIndex;
@@ -84,7 +83,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Oid
             var idPosition = GetIdPosition(oid);
             _objectWriter.FileSystemProcessor.UpdateObjectPositionForObjectOIDWithPosition(idPosition, objectPosition, writeInTransaction);
 
-            if (OdbConfiguration.IsDebugEnabled(LogId))
+            if (OdbConfiguration.IsLoggingEnabled())
             {
                 var positionAsString = objectPosition.ToString();
                 DLogger.Debug(string.Format("IDManager : Updating id {0} with position ", oid) + positionAsString);
@@ -96,7 +95,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Oid
             var idPosition = GetIdPosition(classId);
             _objectWriter.FileSystemProcessor.UpdateClassPositionForClassOIDWithPosition(idPosition, objectPosition, writeInTransaction);
 
-            if (OdbConfiguration.IsDebugEnabled(LogId))
+            if (OdbConfiguration.IsLoggingEnabled())
             {
                 var positionAsString = objectPosition.ToString();
                 DLogger.Debug(string.Format("Updating id {0} with position ", classId) + positionAsString);
@@ -136,7 +135,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Oid
         {
             lock (this)
             {
-                if (OdbConfiguration.IsDebugEnabled(LogId))
+                if (OdbConfiguration.IsLoggingEnabled())
                 {
                     var positionAsString = objectPosition.ToString();
                     DLogger.Debug(string.Format("  Start of {0} for object with position ", label) + positionAsString);
@@ -165,7 +164,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Oid
                 // Store the id position
                 _lastIdPositions[currentIndex] = idPosition;
 
-                if (OdbConfiguration.IsDebugEnabled(LogId))
+                if (OdbConfiguration.IsLoggingEnabled())
                 {
                     var positionAsString = idPosition.ToString();
                     DLogger.Debug(string.Format("  End of {0} for object with position ", label) + positionAsString +

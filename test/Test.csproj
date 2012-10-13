@@ -155,7 +155,6 @@
     <Compile Include="NDatabase\Odb\Test\List\Update\Publicacao.cs" />
     <Compile Include="NDatabase\Odb\Test\List\Update\TestUpdateList.cs" />
     <Compile Include="NDatabase\Odb\Test\List\User.cs" />
-    <Compile Include="NDatabase\Odb\Test\Log\MyLogger.cs" />
     <Compile Include="NDatabase\Odb\Test\Nativemap\NativeLongMap.cs" />
     <Compile Include="NDatabase\Odb\Test\NDatabaseAssert.cs" />
     <Compile Include="NDatabase\Odb\Test\Newbie\CreateDataBaseTest.cs" />

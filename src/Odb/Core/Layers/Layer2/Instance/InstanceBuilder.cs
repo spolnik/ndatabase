@@ -19,8 +19,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
     /// </remarks>
     internal sealed class InstanceBuilder : IInstanceBuilder
     {
-        private const string LogIdDebug = "InstanceBuilder.debug";
-
         private readonly IStorageEngine _engine;
         private readonly ITriggerManager _triggerManager;
 
@@ -96,7 +94,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
             {
                 // Gets the id of this field
                 var attributeId = classInfo.GetAttributeId(fieldInfo.Name);
-                if (OdbConfiguration.IsDebugEnabled(LogIdDebug))
+                if (OdbConfiguration.IsLoggingEnabled())
                     DLogger.Debug(string.Concat("getting field with name ", fieldInfo.Name, ", attribute id is ", attributeId.ToString()));
 
                 var abstractObjectInfo = objectInfo.GetAttributeValueFromId(attributeId);
@@ -140,13 +138,13 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
                         {
                             if (abstractObjectInfo.IsDeletedObject())
                             {
-                                if (OdbConfiguration.DisplayWarnings())
+                                if (OdbConfiguration.IsLoggingEnabled())
                                 {
                                     var warning =
                                         NDatabaseError.AttributeReferencesADeletedObject.AddParameter(
                                             objectInfo.GetClassInfo().FullClassName).AddParameter(
                                                 objectInfo.GetOid()).AddParameter(fieldInfo.Name);
-                                    DLogger.Info(warning.ToString());
+                                    DLogger.Warning(warning.ToString());
                                 }
                                 value = null;
                             }
@@ -156,7 +154,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
                     }
                     if (value != null)
                     {
-                        if (OdbConfiguration.IsDebugEnabled(LogIdDebug))
+                        if (OdbConfiguration.IsLoggingEnabled())
                         {
                             DLogger.Debug(String.Format("Setting field {0}({1}) to {2} / {3}", fieldInfo.Name,
                                                         fieldInfo.GetType().FullName, value, value.GetType().FullName));
