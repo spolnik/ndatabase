@@ -4,7 +4,6 @@ using System.Text;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Lookup;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
 
@@ -24,14 +23,6 @@ namespace NDatabase.Odb.Core.Query.List.Objects
         private readonly bool _returnInstance;
 
         /// <summary>
-        ///   this session id is used to store the odb session id.
-        /// </summary>
-        /// <remarks>
-        ///   this session id is used to store the odb session id. When in true client server mode, when the lazy list is sent back to the client, the instance builder (declared as transient) will be null on the client side. Then the client will use the Lookup class with the base id to obtain the client instance builder
-        /// </remarks>
-        private readonly string _sessionId;
-
-        /// <summary>
         ///   a cursor when getting objects
         /// </summary>
         private int _currentPosition;
@@ -40,18 +31,17 @@ namespace NDatabase.Odb.Core.Query.List.Objects
         ///   The odb engine to lazily get objects
         /// </summary>
         [NonPersistent]
-        private IInstanceBuilder _instanceBuilder;
-
-        public LazySimpleListOfAoi() : base(10)
-        {
-        }
+        private readonly IInstanceBuilder _instanceBuilder;
 
         /// <param name="builder"> </param>
         /// <param name="returnInstance"> </param>
         public LazySimpleListOfAoi(IInstanceBuilder builder, bool returnInstance) : base(10)
         {
+            if (builder == null)
+                throw new OdbRuntimeException(
+                    NDatabaseError.InternalError.AddParameter("instance builder cannot be null"));
+
             _instanceBuilder = builder;
-            _sessionId = builder.GetSessionId();
             _returnInstance = returnInstance;
         }
 
@@ -126,16 +116,6 @@ namespace NDatabase.Odb.Core.Query.List.Objects
                 {
                     if (aoi.IsNative())
                         return (T) aoi.GetObject();
-
-                    if (_instanceBuilder == null)
-                    {
-                        // Lookup the instance builder
-                        _instanceBuilder = (IInstanceBuilder) LookupFactory.Get(_sessionId).Get(InstanceBuilder.InstanceBuilderKey);
-
-                        if (_instanceBuilder == null)
-                            throw new OdbRuntimeException(
-                                NDatabaseError.LookupKeyNotFound.AddParameter(InstanceBuilder.InstanceBuilderKey));
-                    }
 
                     return (T) _instanceBuilder.BuildOneInstance((NonNativeObjectInfo) aoi);
                 }

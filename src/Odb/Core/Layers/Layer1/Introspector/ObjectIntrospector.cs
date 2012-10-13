@@ -196,7 +196,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             // It happens when the attribute is an interface or superclass of the
             // real attribute class
             // In this case, ci must be updated to the real class info
-            if (classInfo != null && !classInfo.FullClassName.Equals(clazz.FullName))
+            if (classInfo != null && !classInfo.FullClassName.Equals(OdbClassUtil.GetFullName(clazz)))
             {
                 classInfo = GetClassInfo(clazz);
                 nnoi = null;

@@ -91,9 +91,7 @@ namespace Test.NDatabase.Test.Btree.Impl.Singlevalue
             AssertEquals(0, btree.GetRoot().GetNbChildren());
         }
 
-        /// <exception cref="System.Exception"></exception>
         [Test]
-        [Ignore("Long running test")]
         public virtual void TestDelete1000Alpha_2()
         {
             var btree = GetBTree(2);

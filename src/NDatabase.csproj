@@ -151,9 +151,6 @@
     <Compile Include="Odb\Core\Layers\Layer3\IO\IMultiBuffer.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IRefactorManager.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IStorageEngine.cs" />
-    <Compile Include="Odb\Core\Lookup\ILookup.cs" />
-    <Compile Include="Odb\Core\Lookup\LookupFactory.cs" />
-    <Compile Include="Odb\Core\Lookup\LookupImpl.cs" />
     <Compile Include="Odb\Core\NDatabaseError.cs" />
     <Compile Include="Odb\Core\Oid\OIDFactory.cs" />
     <Compile Include="Odb\Core\OrderByConstants.cs" />
@@ -337,7 +334,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Odb\Core\Lookup\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>echo POSTBUILDSTEP for $(ProjectName)
