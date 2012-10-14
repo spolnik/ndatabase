@@ -184,7 +184,7 @@ namespace NDatabase2.Odb.Main
             return _storageEngine.IsClosed();
         }
 
-        public virtual CriteriaQuery<T> CriteriaQuery<T>(ICriterion criterion) where T : class 
+        public virtual CriteriaQuery<T> CriteriaQuery<T>(IConstraint criterion) where T : class 
         {
             return _storageEngine.CriteriaQuery<T>(criterion);
         }

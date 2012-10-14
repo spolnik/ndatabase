@@ -6,12 +6,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
     /// <summary>
     ///   An adapter for Criterion.
     /// </summary>
-    /// <remarks>
-    ///   An adapter for Criterion.
-    /// </remarks>
-    /// <author>olivier s</author>
-    
-    public abstract class AbstractCriterion : ICriterion
+    public abstract class AbstractCriterion : IConstraint
     {
         /// <summary>
         ///   The name of the attribute involved by this criterion
@@ -28,7 +23,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             AttributeName = fieldName;
         }
 
-        #region ICriterion Members
+        #region IConstraint Members
 
         public virtual bool CanUseIndex()
         {
@@ -66,6 +61,21 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
         public abstract void Ready();
 
+        public IExpression And(IConstraint criterion)
+        {
+            return new And().Add(this).Add(criterion);
+        }
+
+        public IExpression Or(IConstraint criterion)
+        {
+            return new Or().Add(this).Add(criterion);
+        }
+
+        public IExpression Not()
+        {
+            return new Not(this);
+        }
+
         #endregion
 
         public virtual bool Match(AbstractObjectInfo aoi)
@@ -78,21 +88,6 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         public virtual bool Match(AttributeValuesMap attributeValues)
         {
             return Match(attributeValues.GetAttributeValue(AttributeName));
-        }
-
-        public virtual IExpression And(ICriterion criterion)
-        {
-            return new And().Add(this).Add(criterion);
-        }
-
-        public virtual IExpression Or(ICriterion criterion)
-        {
-            return new Or().Add(this).Add(criterion);
-        }
-
-        public virtual IExpression Not()
-        {
-            return new Not(this);
         }
 
         /// <returns> The attribute involved in the criterion </returns>

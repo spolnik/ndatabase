@@ -34,7 +34,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var odb = Open(baseName);
             var aq =
                 new CriteriaQuery<VO.Login.Function>(
-                    Where.Or().Add(Where.Equal("name", "function 2")).Add(Where.Equal("name", "function 3")));
+                    Where.Equal("name", "function 2").Or(Where.Equal("name", "function 3")));
             var l = odb.GetObjects<VO.Login.Function>(aq, true, -1, -1);
             AssertEquals(2, l.Count);
             var f = l.GetFirst();
@@ -50,7 +50,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var baseName = GetBaseName();
             SetUp(baseName);
             var odb = Open(baseName);
-            var aq = new CriteriaQuery<VO.Login.Function>( Where.Not(Where.Equal("name", "function 2")));
+            var aq = new CriteriaQuery<VO.Login.Function>(Where.Equal("name", "function 2").Not());
             var l = odb.GetObjects<VO.Login.Function>(aq, true, -1, -1);
             AssertEquals(49, l.Count);
             var f = l.GetFirst();
@@ -64,10 +64,10 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var baseName = GetBaseName();
             SetUp(baseName);
             var odb = Open(baseName);
-            var aq = new CriteriaQuery<VO.Login.Function>(
-                                       Where.Not(
-                                           Where.Or().Add(Where.Equal("name", "function 2")).Add(Where.Equal("name",
-                                                                                                             "function 3"))));
+            var aq =
+                new CriteriaQuery<VO.Login.Function>(
+                    Where.Equal("name", "function 2").Or(Where.Equal("name", "function 3")).Not());
+
             var l = odb.GetObjects<VO.Login.Function>(aq, true, -1, -1);
             AssertEquals(48, l.Count);
             var f = l.GetFirst();
@@ -85,12 +85,12 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             {
                 OdbConfiguration.SetDefaultIndexBTreeDegree(40);
                 var odb = Open(baseName);
-                var aq = new CriteriaQuery<VO.Login.Function>(
-                                           Where.Not(
-                                               Where.Or().Add(Where.Equal("name", "function 2")).Add(Where.Equal(
-                                                   "name", "function 3"))));
+                var aq =
+                    new CriteriaQuery<VO.Login.Function>(
+                        Where.Equal("name", "function 2").Or(Where.Equal("name", "function 3")).Not());
+
                 aq.OrderByDesc("name");
-                // aq.orderByAsc("name");
+                
                 var l = odb.GetObjects<VO.Login.Function>(aq, true, -1, -1);
                 odb.Close();
 
@@ -123,9 +123,9 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Store(myDates);
             odb.Close();
             odb = Open(baseName);
-            IQuery query = new CriteriaQuery<MyDates>(
-                                             Where.And().Add(Where.Le("date1", d2)).Add(Where.Ge("date2", d2)).Add(
-                                                 Where.Equal("i", 5)));
+
+            var composedExpression = Where.LessOrEqual("date1", d2).And(Where.GreaterOrEqual("date2", d2)).And(Where.Equal("i", 5));
+            IQuery query = new CriteriaQuery<MyDates>(composedExpression);
             var objects = odb.GetObjects<MyDates>(query);
             AssertEquals(1, objects.Count);
             odb.Close();

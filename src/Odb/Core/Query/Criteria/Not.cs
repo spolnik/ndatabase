@@ -7,9 +7,9 @@ namespace NDatabase2.Odb.Core.Query.Criteria
     
     public sealed class Not : AbstractExpression
     {
-        private readonly ICriterion _criterion;
+        private readonly IConstraint _criterion;
 
-        public Not(ICriterion criterion)
+        public Not(IConstraint criterion)
         {
             _criterion = criterion;
         }

@@ -62,10 +62,10 @@ namespace Test.NDatabase.Odb.Test.Index
             clazz.AddUniqueIndexOn("index1", indexFields1, true);
             @base.Close();
             @base = Open(baseName);
-            
-            IQuery q = new CriteriaQuery<IndexedObject3>(
-                                         Where.And().Add(Where.Equal("i1", 10)).Add(Where.Equal("i2", 2)).Add(
-                                             Where.Equal("i3", 3)));
+
+            IQuery q =
+                new CriteriaQuery<IndexedObject3>(
+                    Where.Equal("i1", 10).And(Where.Equal("i2", 2)).And(Where.Equal("i3", 3)));
 
             var objects = @base.GetObjects<IndexedObject3>(q);
             AssertEquals(true, ((IInternalQuery)q).GetExecutionPlan().UseIndex());
@@ -135,10 +135,10 @@ namespace Test.NDatabase.Odb.Test.Index
             clazz.AddUniqueIndexOn("index1", indexFields1, true);
             @base.Close();
             @base = Open(baseName);
-            
-            IQuery q = new CriteriaQuery<IndexedObject3>(
-                                         Where.And().Add(Where.Equal("i1", 10)).Add(Where.Equal("i2", 2)).Add(
-                                             Where.Equal("i3", 3)));
+
+            IQuery q =
+                new CriteriaQuery<IndexedObject3>(
+                    Where.Equal("i1", 10).And(Where.Equal("i2", 2)).And(Where.Equal("i3", 3)));
 
             var objects = @base.GetObjects<IndexedObject3>(q);
             AssertEquals(true, ((IInternalQuery)q).GetExecutionPlan().UseIndex());

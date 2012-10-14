@@ -135,7 +135,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             return fieldIds;
         }
 
-        private static bool CanUseIndex(ICriterion criteria)
+        private static bool CanUseIndex(IConstraint criteria)
         {
             return criteria.CanUseIndex();
         }

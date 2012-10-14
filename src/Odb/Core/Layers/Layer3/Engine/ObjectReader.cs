@@ -790,7 +790,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
 
         public IObjects<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex) where T : class
         {
-            IMatchingObjectAction queryResultAction = new CollectionQueryResultAction<T>(query, inMemory, _storageEngine,
+            IMatchingObjectAction queryResultAction = new QueryResultAction<T>(query, inMemory, _storageEngine,
                                                                                          true, _instanceBuilder);
             
             var queryExecutor = QueryManager.GetQueryExecutor<T>(query, _storageEngine, _instanceBuilder);

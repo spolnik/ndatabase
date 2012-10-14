@@ -41,7 +41,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var odb = Open(BaseName);
             var aq =
                 new CriteriaQuery<TestClass>(
-                    Where.Or().Add(Where.Equal("string1", "test class 1")).Add(Where.Equal("string1", "test class 3")));
+                    Where.Equal("string1", "test class 1").Or(Where.Equal("string1", "test class 3")));
             aq.OrderByAsc("string1");
             var l = odb.GetObjects<TestClass>(aq, true, -1, -1);
             odb.Close();
@@ -57,8 +57,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var BaseName = GetBaseName();
             SetUp(BaseName);
             var odb = Open(BaseName);
-            var aq = new CriteriaQuery<TestClass>(
-                Where.Not(Where.Equal("string1", "test class 2")));
+            var aq = new CriteriaQuery<TestClass>(Where.Equal("string1", "test class 2").Not());
             var l = odb.GetObjects<TestClass>(aq, true, -1, -1);
             AssertEquals(49, l.Count);
             var testClass = l.GetFirst();
@@ -74,8 +73,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var odb = Open(BaseName);
             var aq =
                 new CriteriaQuery<TestClass>(
-                    Where.Not(Where.Or().Add(Where.Equal("string1", "test class 0")).Add(Where.Equal("bigDecimal1",
-                                                                                               new Decimal(5)))));
+                    Where.Equal("string1", "test class 0").Or(Where.Equal("bigDecimal1", new Decimal(5))).Not());
             var l = odb.GetObjects<TestClass>(aq, true, -1, -1);
             AssertEquals(48, l.Count);
             var testClass = l.GetFirst();
@@ -91,11 +89,10 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var odb = Open(BaseName);
             var aq =
                 new CriteriaQuery<TestClass>(
-                    Where.Not(
-                        Where.Or().Add(Where.Equal("string1", "test class 2")).Add(Where.Equal("string1", "test class 3"))));
+                    Where.Equal("string1", "test class 2").Or(Where.Equal("string1", "test class 3")).Not());
             aq.OrderByDesc("double1,int1");
             var l = odb.GetObjects<TestClass>(aq, true, -1, -1);
-            // println(l);
+            
             AssertEquals(48, l.Count);
             var testClass = l.GetFirst();
             AssertEquals("test class 9", testClass.GetString1());
@@ -110,9 +107,8 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var odb = Open(BaseName);
             var aq =
                 new CriteriaQuery<TestClass>(
-                    Where.Not(
-                        Where.Or().Add(Where.Equal("string1", "test class 2")).Add(Where.Equal("string1", "test class 3"))));
-            // aq.orderByDesc("double1,boolean1,int1");
+                    Where.Equal("string1", "test class 2").Or(Where.Equal("string1", "test class 3")).Not());
+            
             aq.OrderByDesc("double1,int1");
             var l = odb.GetObjects<TestClass>(aq, true, -1, -1);
             AssertEquals(48, l.Count);
@@ -127,9 +123,9 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var BaseName = GetBaseName();
             SetUp(BaseName);
             var odb = Open(BaseName);
-            ICriterion c =
-                Where.Or().Add(Where.Equal("string1", "test class 2")).Add(Where.Equal("string1", "test class 3")).Add(
-                    Where.Equal("string1", "test class 4")).Add(Where.Equal("string1", "test class 5"));
+            IConstraint c =
+                Where.Equal("string1", "test class 2").Or(Where.Equal("string1", "test class 3")).Or(
+                    Where.Equal("string1", "test class 4")).Or(Where.Equal("string1", "test class 5"));
             var aq = new CriteriaQuery<TestClass>( c);
             aq.OrderByDesc("boolean1,int1");
             var l = odb.GetObjects<TestClass>(aq, true, -1, -1);

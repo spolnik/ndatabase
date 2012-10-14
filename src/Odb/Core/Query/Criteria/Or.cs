@@ -12,7 +12,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             IEnumerator iterator = Criteria.GetEnumerator();
             while (iterator.MoveNext())
             {
-                var criterion = (ICriterion) iterator.Current;
+                var criterion = (IConstraint) iterator.Current;
                 Debug.Assert(criterion != null, "criterion != null");
 
                 // For OR Expression, if one is true, then the whole expression
@@ -32,7 +32,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
             while (iterator.MoveNext())
             {
-                var criterion = (ICriterion) iterator.Current;
+                var criterion = (IConstraint) iterator.Current;
                 Debug.Assert(criterion != null, "criterion != null");
 
                 if (isFirst)

@@ -169,7 +169,7 @@
     <Compile Include="Odb\Core\Query\Criteria\And.cs" />
     <Compile Include="Odb\Core\Query\Criteria\ComparisonCriterion.cs" />
     <Compile Include="Odb\Core\Query\Criteria\ComposedExpression.cs" />
-    <Compile Include="Odb\Core\Query\Criteria\ICriterion.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\IConstraint.cs" />
     <Compile Include="Odb\Core\Query\Criteria\IExpression.cs" />
     <Compile Include="Odb\Core\Query\Criteria\ISingleCriterion.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Not.cs" />
@@ -188,7 +188,6 @@
     <Compile Include="Odb\Core\Query\IInternalQuery.cs" />
     <Compile Include="Odb\Core\Query\IQuery.cs" />
     <Compile Include="Odb\Core\Query\IValuesQuery.cs" />
-    <Compile Include="Odb\Core\Query\NQ\NativeQuery.cs" />
     <Compile Include="Odb\Core\Query\NQ\SimpleNativeQuery.cs" />
     <Compile Include="Odb\Core\Query\QueryManager.cs" />
     <Compile Include="Odb\Core\Query\SimpleCompareKey.cs" />
@@ -246,7 +245,7 @@
     <Compile Include="Odb\Core\Oid\ClassOID.cs" />
     <Compile Include="Odb\Core\Oid\ObjectOID.cs" />
     <Compile Include="Odb\Core\Oid\TransactionIdImpl.cs" />
-    <Compile Include="Odb\Core\Query\Criteria\CollectionQueryResultAction.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\QueryResultAction.cs" />
     <Compile Include="Odb\Core\Query\Criteria\CollectionSizeCriterion.cs" />
     <Compile Include="Odb\Core\Query\Criteria\ContainsCriterion.cs" />
     <Compile Include="Odb\Core\Query\Criteria\CriteriaQuery.cs" />

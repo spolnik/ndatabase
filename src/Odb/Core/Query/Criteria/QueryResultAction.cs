@@ -13,7 +13,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
     /// <remarks>
     ///   Class that manage normal query. Query that return a list of objects. For each object That matches the query criteria, the objectMatch method is called and it keeps the objects in the 'objects' instance.
     /// </remarks>
-    internal sealed class CollectionQueryResultAction<T> : IMatchingObjectAction
+    internal sealed class QueryResultAction<T> : IMatchingObjectAction
     {
         private readonly bool _inMemory;
         private readonly IQuery _query;
@@ -29,7 +29,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
         private IObjects<T> _result;
 
-        public CollectionQueryResultAction(IQuery query, bool inMemory, IStorageEngine storageEngine, bool returnObjects,
+        public QueryResultAction(IQuery query, bool inMemory, IStorageEngine storageEngine, bool returnObjects,
                                            IInstanceBuilder instanceBuilder)
         {
             // TODO check if Object is ok here

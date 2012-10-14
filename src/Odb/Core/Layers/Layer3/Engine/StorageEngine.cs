@@ -518,7 +518,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             _triggerManager.AddUpdateTriggerFor(type, trigger);
         }
 
-        public override CriteriaQuery<T> CriteriaQuery<T>(ICriterion criterion)
+        public override CriteriaQuery<T> CriteriaQuery<T>(IConstraint criterion)
         {
             var criteriaQuery = new CriteriaQuery<T>(criterion);
             ((IInternalQuery)criteriaQuery).SetStorageEngine(this);

@@ -5,7 +5,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 {
     /// <author>olivier
     ///   An interface for all criteria</author>
-    public interface ISingleCriterion : ICriterion
+    public interface ISingleCriterion : IConstraint
     {
         /// <summary>
         ///   Returns a list of attributes names that are involved in the query

@@ -116,27 +116,27 @@ namespace NDatabase2.Odb.Core.Query.Execution
             }
         }
 
-        public virtual bool ExecuteStartAndEndOfQueryAction()
+        public bool ExecuteStartAndEndOfQueryAction()
         {
             return _executeStartAndEndOfQueryAction;
         }
 
-        public virtual void SetExecuteStartAndEndOfQueryAction(bool yes)
+        public void SetExecuteStartAndEndOfQueryAction(bool yes)
         {
             _executeStartAndEndOfQueryAction = yes;
         }
 
-        public virtual IStorageEngine GetStorageEngine()
+        public IStorageEngine GetStorageEngine()
         {
             return StorageEngine;
         }
 
-        public virtual IQuery GetQuery()
+        public IQuery GetQuery()
         {
             return Query;
         }
 
-        public virtual void SetClassInfo(ClassInfo classInfo)
+        public void SetClassInfo(ClassInfo classInfo)
         {
             ClassInfo = classInfo;
         }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using NDatabase.Odb;
 using NDatabase.UnitTests.CodeSnippets.Data;
 using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Query;
@@ -140,8 +139,7 @@ namespace NDatabase.UnitTests.CodeSnippets
             {
                 IQuery query =
                     new CriteriaQuery<Player>(
-                        Where.Or().Add(Where.Equal("FavoriteSport._name", "volley-ball")).Add(
-                            Where.Like("FavoriteSport._name", "%nnis")));
+                        Where.Equal("FavoriteSport._name", "volley-ball").Or(Where.Like("FavoriteSport._name", "%nnis")));
  
                 var players = odb.GetObjects<Player>(query);
  
@@ -158,8 +156,7 @@ namespace NDatabase.UnitTests.CodeSnippets
         {
             using (var odb = OdbFactory.Open(TutorialDb5MinName))
             {
-                IQuery query = new CriteriaQuery<Player>(
-                    Where.Not(Where.Equal("FavoriteSport._name", "volley-ball")));
+                IQuery query = new CriteriaQuery<Player>(Where.Equal("FavoriteSport._name", "volley-ball").Not());
  
                 var players = odb.GetObjects<Player>(query);
  

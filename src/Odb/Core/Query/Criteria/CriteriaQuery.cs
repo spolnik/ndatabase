@@ -6,18 +6,14 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 {
     public class CriteriaQuery<T> : AbstractQuery<T> where T : class
     {
-        private ICriterion _criterion;
+        private IConstraint _criterion;
         
-        public CriteriaQuery(ICriterion criteria)
+        public CriteriaQuery(IConstraint criteria)
         {
-            if (criteria == null)
-                return;
-
-            _criterion = criteria;
-            _criterion.SetQuery(this);
+            SetCriterion(criteria);
         }
 
-        public CriteriaQuery() : this(null)
+        public CriteriaQuery()
         {
         }
 
@@ -41,7 +37,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             return Match((AbstractObjectInfo) @object);
         }
 
-        public ICriterion GetCriteria()
+        public IConstraint GetCriteria()
         {
             return _criterion;
         }
@@ -60,9 +56,13 @@ namespace NDatabase2.Odb.Core.Query.Criteria
                        : _criterion.GetAllInvolvedFields();
         }
 
-        public void SetCriterion(ICriterion criterion)
+        public void SetCriterion(IConstraint criterion)
         {
+            if (criterion == null)
+                return;
+
             _criterion = criterion;
+            _criterion.SetQuery(this);
         }
     }
 }

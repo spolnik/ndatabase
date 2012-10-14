@@ -3,7 +3,6 @@ using NDatabase2.Tool.Wrappers.List;
 
 namespace NDatabase2.Odb.Core.Query.Criteria
 {
-    
     public abstract class AbstractExpression : IExpression
     {
         private IQuery _query;
@@ -36,6 +35,21 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         public abstract bool Match(object arg1);
 
         public abstract void Ready();
+
+        public IExpression And(IConstraint criterion)
+        {
+            return new And().Add(this).Add(criterion);
+        }
+
+        public IExpression Or(IConstraint criterion)
+        {
+            return new Or().Add(this).Add(criterion);
+        }
+
+        public IExpression Not()
+        {
+            return new Not(this);
+        }
 
         #endregion
     }

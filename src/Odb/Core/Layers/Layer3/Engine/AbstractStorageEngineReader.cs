@@ -237,7 +237,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
         internal IObjects<object> GetObjectInfos<T>(IQuery query) where T : class
         {
             // Returns the query result handler for normal query result (that return a collection of objects)
-            var queryResultAction = new CollectionQueryResultAction<object>(query, false, this, false,
+            var queryResultAction = new QueryResultAction<object>(query, false, this, false,
                                                                             GetObjectReader().GetInstanceBuilder());
 
             return ObjectReader.GetObjectInfos<object,T>(query, false, -1, -1, false,
@@ -282,7 +282,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
 
         public abstract long Count<T>(CriteriaQuery<T> arg1) where T : class;
 
-        public abstract CriteriaQuery<T> CriteriaQuery<T>(ICriterion criteria) where T : class;
+        public abstract CriteriaQuery<T> CriteriaQuery<T>(IConstraint criteria) where T : class;
 
         public abstract CriteriaQuery<T> CriteriaQuery<T>()  where T : class;
 

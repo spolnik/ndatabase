@@ -5,12 +5,7 @@ using NDatabase2.Odb.Core.Layers.Layer2.Meta.Compare;
 
 namespace NDatabase2.Odb.Core.Query.Criteria
 {
-    /// <summary>
-    ///   A Criterion for greater than (gt),greater or equal(ge), less than (lt) and less or equal (le)
-    /// </summary>
-    /// <author>olivier s</author>
-    
-    public sealed class ComparisonCriterion : AbstractCriterion
+    public static class ComparisonCirerion
     {
         public const int ComparisonTypeGt = 1;
 
@@ -19,57 +14,23 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         public const int ComparisonTypeLt = 3;
 
         public const int ComparisonTypeLe = 4;
+    }
 
+    /// <summary>
+    ///   A Criterion for greater than (gt),greater or equal(ge), less than (lt) and less or equal (le)
+    /// </summary>
+    public sealed class ComparisonCriterion<T> : AbstractCriterion where T : IComparable
+    {
         private int _comparisonType;
-        private object _criterionValue;
+        private T _criterionValue;
 
-        public ComparisonCriterion(string attributeName, string criterionValue, int comparisonType)
+        public ComparisonCriterion(string attributeName, T value, int comparisonType)
             : base(attributeName)
         {
-            Init(criterionValue, comparisonType);
-        }
-
-        public ComparisonCriterion(string attributeName, int value, int comparisonType) : base(attributeName)
-        {
             Init(value, comparisonType);
         }
 
-        public ComparisonCriterion(string attributeName, short value, int comparisonType) : base(attributeName)
-        {
-            Init(value, comparisonType);
-        }
-
-        public ComparisonCriterion(string attributeName, byte value, int comparisonType) : base(attributeName)
-        {
-            Init(value, comparisonType);
-        }
-
-        public ComparisonCriterion(string attributeName, float value, int comparisonType) : base(attributeName)
-        {
-            Init(value, comparisonType);
-        }
-
-        public ComparisonCriterion(string attributeName, double value, int comparisonType) : base(attributeName)
-        {
-            Init(value, comparisonType);
-        }
-
-        public ComparisonCriterion(string attributeName, long value, int comparisonType) : base(attributeName)
-        {
-            Init(value, comparisonType);
-        }
-
-        public ComparisonCriterion(string attributeName, object value, int comparisonType) : base(attributeName)
-        {
-            Init(value, comparisonType);
-        }
-
-        public ComparisonCriterion(string attributeName, bool value, int comparisonType) : base(attributeName)
-        {
-            Init(value, comparisonType);
-        }
-
-        private void Init(object value, int comparisonType)
+        private void Init(T value, int comparisonType)
         {
             _criterionValue = value;
             _comparisonType = comparisonType;
@@ -102,22 +63,22 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
             switch (_comparisonType)
             {
-                case ComparisonTypeGt:
+                case ComparisonCirerion.ComparisonTypeGt:
                 {
                     return AttributeValueComparator.Compare(comparable1, comparable2) > 0;
                 }
 
-                case ComparisonTypeGe:
+                case ComparisonCirerion.ComparisonTypeGe:
                 {
                     return AttributeValueComparator.Compare(comparable1, comparable2) >= 0;
                 }
 
-                case ComparisonTypeLt:
+                case ComparisonCirerion.ComparisonTypeLt:
                 {
                     return AttributeValueComparator.Compare(comparable1, comparable2) < 0;
                 }
 
-                case ComparisonTypeLe:
+                case ComparisonCirerion.ComparisonTypeLe:
                 {
                     return AttributeValueComparator.Compare(comparable1, comparable2) <= 0;
                 }
@@ -137,22 +98,22 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         {
             switch (_comparisonType)
             {
-                case ComparisonTypeGt:
+                case ComparisonCirerion.ComparisonTypeGt:
                 {
                     return ">";
                 }
 
-                case ComparisonTypeGe:
+                case ComparisonCirerion.ComparisonTypeGe:
                 {
                     return ">=";
                 }
 
-                case ComparisonTypeLt:
+                case ComparisonCirerion.ComparisonTypeLt:
                 {
                     return "<";
                 }
 
-                case ComparisonTypeLe:
+                case ComparisonCirerion.ComparisonTypeLe:
                 {
                     return "<=";
                 }

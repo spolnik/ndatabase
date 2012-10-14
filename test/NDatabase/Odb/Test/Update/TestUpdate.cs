@@ -213,7 +213,7 @@ namespace Test.NDatabase.Odb.Test.Update
             odb.Close();
                 
             odb = Open(FileName);
-            IQuery query = new CriteriaQuery<VO.Login.Function>(Where.Or().Add(Where.Like("name", "%9")).Add(Where.Like("name", "%8")));
+            IQuery query = new CriteriaQuery<VO.Login.Function>(Where.Like("name", "%9").Or(Where.Like("name", "%8")));
             var l = odb.GetObjects<VO.Login.Function>(query, false);
             AssertEquals(2, l.Count);
             l.Next();
@@ -228,7 +228,7 @@ namespace Test.NDatabase.Odb.Test.Update
         [Test]
         public virtual void Test6()
         {
-            MyObject mo = null;
+            MyObject mo;
             DeleteBase(FileName);
             using (var odb = Open(FileName))
             {

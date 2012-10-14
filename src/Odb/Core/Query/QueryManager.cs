@@ -33,9 +33,6 @@ namespace NDatabase2.Odb.Core.Query
             if (query is CriteriaQuery<T>)
                 return new MultiClassGenericQueryExecutor(new CriteriaQueryExecutor<T>(query, engine));
 
-            if (query is NativeQuery<T>)
-                return new MultiClassGenericQueryExecutor(new NativeQueryExecutor(query, engine, instanceBuilder));
-
             if (query is SimpleNativeQuery<T>)
                 return new MultiClassGenericQueryExecutor(new NativeQueryExecutor(query, engine, instanceBuilder));
 

@@ -22,7 +22,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Close();
             odb = Open(baseName);
             var os = odb.GetObjects<TestClass>(new CriteriaQuery<TestClass>(
-                Where.Ge("int1", 0)));
+                Where.GreaterOrEqual("int1", 0)));
             AssertEquals(10, os.Count);
             var j = 0;
             while (os.HasNext())
@@ -74,9 +74,9 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Store(cwl);
             odb.Close();
             odb = Open(baseName);
-            var os = odb.GetObjects<ClassWithLong>(new CriteriaQuery<ClassWithLong>( Where.Ge("i", 1L)));
+            var os = odb.GetObjects<ClassWithLong>(new CriteriaQuery<ClassWithLong>( Where.GreaterOrEqual("i", 1L)));
             AssertEquals(1, os.Count);
-            os = odb.GetObjects<ClassWithLong>(new CriteriaQuery<ClassWithLong>( Where.Gt("i", 1L)));
+            os = odb.GetObjects<ClassWithLong>(new CriteriaQuery<ClassWithLong>( Where.GreaterThan("i", 1L)));
             AssertEquals(0, os.Count);
             odb.Close();
         }

@@ -8,14 +8,14 @@ namespace NDatabase2.Odb.Core.Query.Criteria
     
     public abstract class ComposedExpression : AbstractExpression
     {
-        protected IOdbList<ICriterion> Criteria;
+        protected IOdbList<IConstraint> Criteria;
 
         protected ComposedExpression()
         {
-            Criteria = new OdbList<ICriterion>(5);
+            Criteria = new OdbList<IConstraint>(5);
         }
 
-        public virtual ComposedExpression Add(ICriterion criterion)
+        public virtual ComposedExpression Add(IConstraint criterion)
         {
             Criteria.Add(criterion);
             return this;
@@ -27,7 +27,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             IOdbList<string> fields = new OdbList<string>(10);
             while (iterator.MoveNext())
             {
-                var criterion = (ICriterion) iterator.Current;
+                var criterion = (IConstraint) iterator.Current;
                 Debug.Assert(criterion != null, "criterion != null");
 
                 var allInvolvedFields = criterion.GetAllInvolvedFields();
@@ -56,7 +56,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
             while (iterator.MoveNext())
             {
-                var criterion = (ICriterion) iterator.Current;
+                var criterion = (IConstraint) iterator.Current;
                 Debug.Assert(criterion != null, "criterion != null");
 
                 map.PutAll(criterion.GetValues());
@@ -70,7 +70,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             return Criteria.Count;
         }
 
-        public virtual ICriterion GetCriterion(int index)
+        public virtual IConstraint GetCriterion(int index)
         {
             return Criteria[index];
         }

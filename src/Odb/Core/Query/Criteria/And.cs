@@ -4,7 +4,6 @@ using System.Text;
 
 namespace NDatabase2.Odb.Core.Query.Criteria
 {
-    
     public sealed class And : ComposedExpression
     {
         public override bool Match(object @object)
@@ -12,7 +11,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             IEnumerator iterator = Criteria.GetEnumerator();
             while (iterator.MoveNext())
             {
-                var criterion = (ICriterion) iterator.Current;
+                var criterion = (IConstraint) iterator.Current;
                 Debug.Assert(criterion != null, "criterion != null");
 
                 // For AND Expression, if one is false, then the whole
@@ -31,7 +30,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             var isFirst = true;
             while (iterator.MoveNext())
             {
-                var criterion = (ICriterion) iterator.Current;
+                var criterion = (IConstraint) iterator.Current;
 
                 Debug.Assert(criterion != null, "criterion != null");
 
@@ -56,7 +55,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
             while (iterator.MoveNext())
             {
-                var criterion = (ICriterion) iterator.Current;
+                var criterion = (IConstraint) iterator.Current;
                 Debug.Assert(criterion != null, "criterion != null");
 
                 if (!criterion.CanUseIndex())

@@ -1,6 +1,5 @@
 namespace NDatabase2.Odb.Core.Query.Criteria
 {
-    
     public sealed class Operator
     {
         public override int GetHashCode()

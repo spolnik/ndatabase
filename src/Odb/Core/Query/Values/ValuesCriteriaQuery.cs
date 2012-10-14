@@ -38,7 +38,7 @@ namespace NDatabase2.Odb.Core.Query.Values
             Init();
         }
 
-        public ValuesCriteriaQuery(ICriterion criteria) : base(criteria)
+        public ValuesCriteriaQuery(IConstraint criteria) : base(criteria)
         {
             Init();
         }

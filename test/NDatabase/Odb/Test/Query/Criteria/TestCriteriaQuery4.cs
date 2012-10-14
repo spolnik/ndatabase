@@ -1,5 +1,4 @@
 using System;
-using NDatabase.Odb;
 using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Query.Criteria;
 using NDatabase2.Tool.Wrappers;
@@ -127,20 +126,23 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
         public virtual void TestSodaWithDate()
         {
             var odb = Open(BaseName);
+            
+            var composedExpression =
+                Where.Equal("string1", "test class with values").And(Where.Equal("date1",
+                                                                                 new DateTime(correctDate.Millisecond)));
+
             var query =
                 new CriteriaQuery<TestClass>(
-                    Where.And().Add(Where.Equal("string1", "test class with values")).Add(Where.Equal("date1",
-                                                                                                      new DateTime(
-                                                                                                          correctDate.
-                                                                                                              Millisecond))));
+                    composedExpression);
             var l = odb.GetObjects<TestClass>(query);
-            // assertEquals(1,l.size());
+
+            var expression =
+                Where.Equal("string1", "test class with values").And(Where.GreaterOrEqual("date1",
+                                                                              new DateTime(correctDate.Millisecond)));
+
             query =
                 new CriteriaQuery<TestClass>(
-                    Where.And().Add(Where.Equal("string1", "test class with values")).Add(Where.Ge("date1",
-                                                                                                   new DateTime(
-                                                                                                       correctDate.
-                                                                                                           Millisecond))));
+                    expression);
             l = odb.GetObjects<TestClass>(query);
             if (l.Count != 1)
             {
@@ -164,11 +166,11 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var l = odb.GetObjects<TestClass>(query);
             AssertEquals(1, l.Count);
             query = new CriteriaQuery<TestClass>(
-                Where.Gt("double1", (double) 189));
+                Where.GreaterThan("double1", (double) 189));
             l = odb.GetObjects<TestClass>(query);
             AssertTrue(l.Count >= 1);
             query = new CriteriaQuery<TestClass>(
-                Where.Lt("double1", (double) 191));
+                Where.LessThan("double1", (double) 191));
             l = odb.GetObjects<TestClass>(query);
             AssertTrue(l.Count >= 1);
             odb.Close();
@@ -183,11 +185,11 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var l = odb.GetObjects<TestClass>(query);
             AssertEquals(1, l.Count);
             query = new CriteriaQuery<TestClass>(
-                Where.Gt("int1", 189));
+                Where.GreaterThan("int1", 189));
             l = odb.GetObjects<TestClass>(query);
             AssertTrue(l.Count >= 1);
             query = new CriteriaQuery<TestClass>(
-                Where.Lt("int1", 191));
+                Where.LessThan("int1", 191));
             l = odb.GetObjects<TestClass>(query);
             AssertTrue(l.Count >= 1);
             odb.Close();
