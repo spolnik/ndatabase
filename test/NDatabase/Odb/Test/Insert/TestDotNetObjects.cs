@@ -77,7 +77,7 @@ namespace Test.NDatabase.Odb.Test.Insert
 
             odb.Close();
 
-            AssertEquals("Same HashCode Problem", 2, l.Count);
+            AssertEquals("Same HashCode Problem", 2, l.Count());
         }
     }
 }

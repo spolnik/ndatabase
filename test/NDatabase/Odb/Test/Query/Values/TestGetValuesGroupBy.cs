@@ -4,6 +4,7 @@ using NDatabase2.Odb.Core.Query.Values;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Attribute;
 using Test.NDatabase.Odb.Test.VO.Login;
+using System.Linq;
 
 namespace Test.NDatabase.Odb.Test.Query.Values
 {
@@ -31,14 +32,14 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             var vq = new ValuesCriteriaQuery<TestClass>().Sum("int1", "sum of int1").GroupBy("int1");
             vq.OrderByAsc("int1");
             var values = odb.GetValues<TestClass>(vq);
-            AssertEquals(2, values.Count);
+            AssertEquals(2, values.Count());
             Println(values);
             var ov = values.NextValues();
             AssertEquals(new Decimal(90), ov.GetByAlias("sum of int1"));
             ov = values.NextValues();
             AssertEquals(new Decimal(46), ov.GetByAlias("sum of int1"));
             odb.Close();
-            AssertEquals(2, values.Count);
+            AssertEquals(2, values.Count());
         }
 
         /// <exception cref="System.IO.IOException"></exception>
@@ -71,7 +72,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             AssertEquals(new Decimal(46), ov.GetByAlias("sum of int1"));
             AssertEquals(new Decimal(1), ov.GetByAlias("count"));
             odb.Close();
-            AssertEquals(2, values.Count);
+            AssertEquals(2, values.Count());
         }
 
         /// <summary>
@@ -106,12 +107,12 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             var values = odb.GetValues<User2>(q);
             Println(values);
             var ov = values.NextValues();
-            AssertEquals(2, values.Count);
+            AssertEquals(2, values.Count());
             AssertEquals("profile1", ov.GetByAlias("profile.name"));
             AssertEquals(Convert.ToDecimal("3"), ov.GetByAlias("count"));
             AssertEquals(Convert.ToDecimal("2.00", CultureInfo.InvariantCulture), ov.GetByAlias("avg"));
             odb.Close();
-            AssertEquals(2, values.Count);
+            AssertEquals(2, values.Count());
         }
     }
 }

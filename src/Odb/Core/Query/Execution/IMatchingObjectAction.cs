@@ -5,8 +5,7 @@ namespace NDatabase2.Odb.Core.Query.Execution
     /// <summary>
     ///   The interface used to implement the classes that are called by the generic query executor when an object matches the query
     /// </summary>
-    /// <author>osmadja</author>
-    public interface IMatchingObjectAction
+    internal interface IMatchingObjectAction
     {
         /// <summary>
         ///   Called at the beginning of the query execution - used to prepare result object
@@ -31,6 +30,6 @@ namespace NDatabase2.Odb.Core.Query.Execution
         /// <summary>
         ///   Returns the resulting objects
         /// </summary>
-        IObjects<T> GetObjects<T>();
+        IInternalObjectSet<T> GetObjects<T>();
     }
 }

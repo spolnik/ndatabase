@@ -10,8 +10,7 @@ namespace NDatabase2.Odb.Core.Query.List
     /// <summary>
     ///   A collection that uses a BTree as an underlying system to provide ordered by Collections <p></p>
     /// </summary>
-    
-    public abstract class AbstractBTreeCollection<TItem> : IObjects<TItem>
+    public abstract class AbstractBTreeCollection<TItem> : IObjects<TItem>, IInternalObjectSet<TItem>
     {
         private readonly OrderByConstants _orderByType;
         private readonly IBTree _tree;
@@ -32,32 +31,7 @@ namespace NDatabase2.Odb.Core.Query.List
         {
         }
 
-        #region IObjects<TItem> Members
-
-        public virtual TItem GetFirst()
-        {
-            return Iterator(_orderByType).Current;
-        }
-
-        public virtual bool HasNext()
-        {
-            if (_currentIterator == null)
-                _currentIterator = Iterator(_orderByType);
-            return _currentIterator.MoveNext();
-        }
-
-        public virtual TItem Next()
-        {
-            if (_currentIterator == null)
-                _currentIterator = Iterator(_orderByType);
-            return _currentIterator.Current;
-        }
-
-        public void Add(TItem o)
-        {
-            _tree.Insert(_size, o);
-            _size++;
-        }
+        #region IInternalObjectSet<TItem> Members
 
         /// <summary>
         ///   Adds the object in the btree with the specific key
@@ -85,6 +59,22 @@ namespace NDatabase2.Odb.Core.Query.List
             return true;
         }
 
+        public virtual IEnumerator<TItem> Iterator(OrderByConstants newOrderByType)
+        {
+            return (IEnumerator<TItem>) _tree.Iterator<TItem>(newOrderByType);
+        }
+
+        public void AddOid(OID oid)
+        {
+            throw new OdbRuntimeException(NDatabaseError.InternalError.AddParameter("Add Oid not implemented "));
+        }
+
+        public void Add(TItem o)
+        {
+            _tree.Insert(_size, o);
+            _size++;
+        }
+
         public virtual void Clear()
         {
             _tree.Clear();
@@ -105,11 +95,6 @@ namespace NDatabase2.Odb.Core.Query.List
             return _tree.Iterator<TItem>(_orderByType);
         }
 
-        public virtual IEnumerator<TItem> Iterator(OrderByConstants newOrderByType)
-        {
-            return (IEnumerator<TItem>) _tree.Iterator<TItem>(newOrderByType);
-        }
-
         public virtual bool Remove(TItem o)
         {
             throw new OdbRuntimeException(NDatabaseError.OperationNotImplemented.AddParameter("remove"));
@@ -125,19 +110,37 @@ namespace NDatabase2.Odb.Core.Query.List
             get { return true; }
         }
 
-        public virtual void Reset()
-        {
-            _currentIterator = Iterator(_orderByType);
-        }
-
         public void CopyTo(TItem[] ee, int arrayIndex)
         {
             throw new OdbRuntimeException(NDatabaseError.OperationNotImplemented.AddParameter("CopyTo"));
         }
 
-        public void AddOid(OID oid)
+        #endregion
+
+        #region IObjects<TItem> Members
+
+        public virtual TItem GetFirst()
         {
-            throw new OdbRuntimeException(NDatabaseError.InternalError.AddParameter("Add Oid not implemented "));
+            return Iterator(_orderByType).Current;
+        }
+
+        public virtual bool HasNext()
+        {
+            if (_currentIterator == null)
+                _currentIterator = Iterator(_orderByType);
+            return _currentIterator.MoveNext();
+        }
+
+        public virtual TItem Next()
+        {
+            if (_currentIterator == null)
+                _currentIterator = Iterator(_orderByType);
+            return _currentIterator.Current;
+        }
+
+        public virtual void Reset()
+        {
+            _currentIterator = Iterator(_orderByType);
         }
 
         #endregion

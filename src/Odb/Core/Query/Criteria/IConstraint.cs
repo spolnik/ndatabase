@@ -3,7 +3,9 @@ using NDatabase2.Tool.Wrappers.List;
 
 namespace NDatabase2.Odb.Core.Query.Criteria
 {
+    /// <summary>
     ///   An interface for all criteria
+    /// </summary>
     public interface IConstraint
     {
         /// <summary>
@@ -39,8 +41,8 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         /// </summary>
         void Ready();
 
-        IExpression And(IConstraint criterion);
-        IExpression Or(IConstraint criterion);
-        IExpression Not();
+        IConstraint And(IConstraint with);
+        IConstraint Or(IConstraint with);
+        IConstraint Not();
     }
 }

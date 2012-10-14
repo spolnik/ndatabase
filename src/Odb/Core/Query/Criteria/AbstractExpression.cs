@@ -3,7 +3,7 @@ using NDatabase2.Tool.Wrappers.List;
 
 namespace NDatabase2.Odb.Core.Query.Criteria
 {
-    public abstract class AbstractExpression : IExpression
+    public abstract class AbstractExpression : IConstraint
     {
         private IQuery _query;
 
@@ -13,7 +13,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         ///   Gets thes whole query
         /// </summary>
         /// <returns> The owner query </returns>
-        public virtual IQuery GetQuery()
+        public IQuery GetQuery()
         {
             return _query;
         }
@@ -36,17 +36,17 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
         public abstract void Ready();
 
-        public IExpression And(IConstraint criterion)
+        public IConstraint And(IConstraint with)
         {
-            return new And().Add(this).Add(criterion);
+            return new And().Add(this).Add(with);
         }
 
-        public IExpression Or(IConstraint criterion)
+        public IConstraint Or(IConstraint with)
         {
-            return new Or().Add(this).Add(criterion);
+            return new Or().Add(this).Add(with);
         }
 
-        public IExpression Not()
+        public IConstraint Not()
         {
             return new Not(this);
         }

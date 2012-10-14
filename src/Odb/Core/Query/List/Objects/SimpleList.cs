@@ -9,9 +9,7 @@ namespace NDatabase2.Odb.Core.Query.List.Objects
     /// <remarks>
     ///   A simple list to hold query result. It is used when no index and no order by is used and inMemory = true
     /// </remarks>
-    /// <author>osmadja</author>
-    
-    public class SimpleList<TItem> : List<TItem>, IObjects<TItem>
+    public class SimpleList<TItem> : List<TItem>, IInternalObjectSet<TItem>
     {
         private int _currentPosition;
 

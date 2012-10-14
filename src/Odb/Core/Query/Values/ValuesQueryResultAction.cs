@@ -20,7 +20,7 @@ namespace NDatabase2.Odb.Core.Query.Values
 
         private readonly bool _queryHasOrderBy;
         private readonly int _returnArraySize;
-        private IValues _result;
+        private IInternalValues _result;
 
         public ValuesQueryResultAction(IValuesQuery query, IStorageEngine storageEngine,
                                        IInstanceBuilder instanceBuilder)
@@ -94,9 +94,9 @@ namespace NDatabase2.Odb.Core.Query.Values
                 _result.Add(dov);
         }
 
-        public IObjects<T> GetObjects<T>()
+        public IInternalObjectSet<T> GetObjects<T>()
         {
-            return (IObjects<T>) _result;
+            return (IInternalObjectSet<T>)_result;
         }
 
         #endregion

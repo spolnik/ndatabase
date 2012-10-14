@@ -88,6 +88,22 @@ namespace NDatabase.UnitTests.CodeSnippets
             }
         }
 
+//        private static void Step3Linq()
+//        {
+//            using (var odb = OdbFactory.Open(TutorialDb5MinName))
+//            {
+//                var players = odb.CriteriaQuery<Player>().Where(player => player.Name.Equals("julia"));
+
+//                Console.WriteLine("\nStep 3 : Players with name julia");
+
+//                foreach (var player in players)
+//                    Console.WriteLine("\t{0}", player);
+
+//                Assert.That(players, Has.Count.EqualTo(1));
+//            }
+//        }
+
+
         private static void Step4()
         {
             using (var odb = OdbFactory.Open(TutorialDb5MinName))
@@ -96,6 +112,7 @@ namespace NDatabase.UnitTests.CodeSnippets
                 odb.Store(agassi);
 
                 IQuery query = new CriteriaQuery<Player>(Where.Equal("FavoriteSport._name", "volley-ball"));
+//                query.Descend("FavoriteSport").Descend("_name").Constrain("volley-ball").Equal();
 
                 var players = odb.GetObjects<Player>(query);
 

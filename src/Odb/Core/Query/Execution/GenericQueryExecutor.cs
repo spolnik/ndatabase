@@ -82,7 +82,7 @@ namespace NDatabase2.Odb.Core.Query.Execution
 
         #region IMultiClassQueryExecutor Members
 
-        public virtual IObjects<T> Execute<T>(bool inMemory, int startIndex, int endIndex, bool returnObjects,
+        public virtual IInternalObjectSet<T> Execute<T>(bool inMemory, int startIndex, int endIndex, bool returnObjects,
                                               IMatchingObjectAction queryResultAction)
         {
             if (StorageEngine.IsClosed())
@@ -190,7 +190,7 @@ namespace NDatabase2.Odb.Core.Query.Execution
         /// <param name="endIndex"> </param>
         /// <param name="returnObjects"> </param>
         /// <param name="queryResultAction"> </param>
-        private IObjects<T> ExecuteFullScan<T>(bool inMemory, int startIndex, int endIndex, bool returnObjects,
+        private IInternalObjectSet<T> ExecuteFullScan<T>(bool inMemory, int startIndex, int endIndex, bool returnObjects,
                                                IMatchingObjectAction queryResultAction)
         {
             if (StorageEngine.IsClosed())
@@ -303,7 +303,7 @@ namespace NDatabase2.Odb.Core.Query.Execution
         /// <param name="inMemory"> </param>
         /// <param name="returnObjects"> </param>
         /// <param name="queryResultAction"> </param>
-        private IObjects<T> ExecuteUsingIndex<T>(ClassInfoIndex index, bool inMemory,
+        private IInternalObjectSet<T> ExecuteUsingIndex<T>(ClassInfoIndex index, bool inMemory,
                                                  bool returnObjects, IMatchingObjectAction queryResultAction)
         {
             // Index that have not been used yet do not have persister!
@@ -384,7 +384,7 @@ namespace NDatabase2.Odb.Core.Query.Execution
         /// <param name="inMemory"> </param>
         /// <param name="returnObjects"> </param>
         /// <param name="queryResultAction"> </param>
-        private IObjects<T> ExecuteForOneOid<T>(bool inMemory, bool returnObjects,
+        private IInternalObjectSet<T> ExecuteForOneOid<T>(bool inMemory, bool returnObjects,
                                                 IMatchingObjectAction queryResultAction)
         {
             if (OdbConfiguration.IsLoggingEnabled())

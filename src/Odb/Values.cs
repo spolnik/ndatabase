@@ -8,4 +8,8 @@ namespace NDatabase2.Odb
     {
         IObjectValues NextValues();
     }
+
+    internal interface IInternalValues : IInternalObjectSet<IObjectValues>, IValues
+    {
+    }
 }

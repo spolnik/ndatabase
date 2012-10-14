@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using NDatabase.Odb;
 using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Layers.Layer2.Instance;
 using NDatabase2.Odb.Core.Layers.Layer2.Meta;
@@ -90,7 +89,7 @@ namespace Test.NDatabase.Odb.Test.IO
             return 0;
         }
 
-        public IObjects<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex) where T : class
+        public IInternalObjectSet<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex) where T : class
         {
             return null;
         }

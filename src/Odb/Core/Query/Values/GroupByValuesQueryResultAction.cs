@@ -27,7 +27,7 @@ namespace NDatabase2.Odb.Core.Query.Values
         private readonly bool _queryHasOrderBy;
 
         private readonly int _returnArraySize;
-        private IValues _result;
+        private IInternalValues _result;
 
         public GroupByValuesQueryResultAction(IValuesQuery query, IInstanceBuilder instanceBuilder)
         {
@@ -82,9 +82,9 @@ namespace NDatabase2.Odb.Core.Query.Values
             }
         }
 
-        public IObjects<T> GetObjects<T>()
+        public IInternalObjectSet<T> GetObjects<T>()
         {
-            return (IObjects<T>) _result;
+            return (IInternalObjectSet<T>)_result;
         }
 
         #endregion

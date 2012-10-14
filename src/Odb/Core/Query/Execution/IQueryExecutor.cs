@@ -12,7 +12,7 @@ namespace NDatabase2.Odb.Core.Query.Execution
         /// <param name="queryResultAction"> </param>
         /// <returns> </returns>
         /// <exception cref="System.Exception">System.Exception</exception>
-        IObjects<T> Execute<T>(bool inMemory, int startIndex, int endIndex, bool returnObjects,
+        IInternalObjectSet<T> Execute<T>(bool inMemory, int startIndex, int endIndex, bool returnObjects,
                                IMatchingObjectAction queryResultAction);
     }
 }

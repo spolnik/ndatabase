@@ -55,23 +55,6 @@ namespace NDatabase2.Odb
         IObjects<T> GetObjects<T>(bool inMemory, int startIndex, int endIndex) where T : class;
 
         /// <summary>
-        ///   Delete an object from database
-        /// </summary>
-        OID Delete<T>(T plainObject) where T : class;
-
-        /// <summary>
-        ///   Delete an object from the database with the id
-        /// </summary>
-        /// <param name="oid"> The object id to be deleted </param>
-        void DeleteObjectWithId(OID oid);
-
-        /// <summary>
-        ///   Search for objects that matches the query.
-        /// </summary>
-        /// <returns> The list of values </returns>
-        IValues GetValues<T>(IValuesQuery query) where T : class;
-
-        /// <summary>
         ///   Search for objects that matches the query.
         /// </summary>
         /// <returns> The list of objects </returns>
@@ -93,6 +76,23 @@ namespace NDatabase2.Odb
         /// <returns> A List of objects, if start index and end index are -1, they are ignored. 
         /// If not, the length of the sublist is endIndex - startIndex </returns>
         IObjects<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex) where T : class;
+
+        /// <summary>
+        ///   Search for objects that matches the query.
+        /// </summary>
+        /// <returns> The list of values </returns>
+        IValues GetValues<T>(IValuesQuery query) where T : class;
+
+        /// <summary>
+        ///   Delete an object from database
+        /// </summary>
+        OID Delete<T>(T plainObject) where T : class;
+
+        /// <summary>
+        ///   Delete an object from the database with the id
+        /// </summary>
+        /// <param name="oid"> The object id to be deleted </param>
+        void DeleteObjectWithId(OID oid);
 
         /// <summary>
         ///   Returns the number of objects that satisfy the query

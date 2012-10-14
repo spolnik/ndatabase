@@ -29,7 +29,7 @@ namespace NDatabase2.Odb.Core.Query.Execution
         /// <param name="endIndex"> </param>
         /// <param name="returnObjects"> </param>
         /// <param name="queryResultAction"> </param>
-        public IObjects<T> Execute<T>(bool inMemory, int startIndex, int endIndex, bool returnObjects,
+        public IInternalObjectSet<T> Execute<T>(bool inMemory, int startIndex, int endIndex, bool returnObjects,
                                               IMatchingObjectAction queryResultAction)
         {
             if (_executor.GetStorageEngine().IsClosed())

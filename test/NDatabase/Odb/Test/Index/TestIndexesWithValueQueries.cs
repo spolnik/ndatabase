@@ -4,6 +4,7 @@ using NDatabase2.Odb.Core.Query;
 using NDatabase2.Odb.Core.Query.Criteria;
 using NDatabase2.Odb.Core.Query.Values;
 using NUnit.Framework;
+using System.Linq;
 
 namespace Test.NDatabase.Odb.Test.Index
 {
@@ -27,7 +28,7 @@ namespace Test.NDatabase.Odb.Test.Index
                 new ValuesCriteriaQuery<VO.Login.Function>(Where.Equal("name", "function " + (size - 1))).Field
                     ("name");
             var values = odb.GetValues<VO.Login.Function>(vq);
-            AssertEquals(1, values.Count);
+            AssertEquals(1, values.Count());
             Println(((IInternalQuery)vq).GetExecutionPlan().GetDetails());
             AssertEquals(true, ((IInternalQuery)vq).GetExecutionPlan().UseIndex());
             odb.Close();

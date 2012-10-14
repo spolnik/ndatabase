@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using NDatabase2.Odb.Core;
-using NDatabase2.Tool.Wrappers;
 
 namespace NDatabase2.Odb
 {
@@ -8,9 +6,9 @@ namespace NDatabase2.Odb
     ///   The main interface of all query results of NDatabase ODB.
     /// </summary>
     /// <remarks>
-    ///   The main interface of all query results of NDatabase ODB. Objects interface extends the Collection interface so it provides a standard collection behavior.
+    ///   The main interface of all query results of NDatabase ODB. 
+    ///   Objects interface extends the Collection interface so it provides a standard collection behavior.
     /// </remarks>
-    /// <author>osmadja</author>
     public interface IObjects<TItem> : ICollection<TItem>
     {
         /// <summary>
@@ -35,30 +33,5 @@ namespace NDatabase2.Odb
         ///   Reset the internal iterator of the collection
         /// </summary>
         void Reset();
-
-        /// <summary>
-        ///   Add an object into the collection using a specific ordering key
-        /// </summary>
-        /// <param name="key"> </param>
-        /// <param name="item"> The object can be an OID, can o NNOI (NonNativeObjectInfo) or the object </param>
-        /// <returns> </returns>
-        bool AddWithKey(IOdbComparable key, TItem item);
-
-        /// <summary>
-        ///   Add an object into the collection using a specific ordering key
-        /// </summary>
-        /// <param name="key"> </param>
-        /// <param name="item"> </param>
-        /// <returns> </returns>
-        bool AddWithKey(int key, TItem item);
-
-        /// <summary>
-        ///   Returns the collection iterator throughout the order by <see cref="OrderByConstants">NDatabase.Odb.Core.OrderByConstants</see>
-        /// </summary>
-        /// <param name="orderByType"> </param>
-        /// <returns> </returns>
-        IEnumerator<TItem> Iterator(OrderByConstants orderByType);
-
-        void AddOid(OID oid);
     }
 }

@@ -27,7 +27,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         /// </summary>
         private readonly IInstanceBuilder _instanceBuilder;
 
-        private IObjects<T> _result;
+        private IInternalObjectSet<T> _result;
 
         public QueryResultAction(IQuery query, bool inMemory, IStorageEngine storageEngine, bool returnObjects,
                                            IInstanceBuilder instanceBuilder)
@@ -96,9 +96,9 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         {
         }
 
-        public IObjects<TItem> GetObjects<TItem>()
+        public IInternalObjectSet<TItem> GetObjects<TItem>()
         {
-            return (IObjects<TItem>) _result;
+            return (IInternalObjectSet<TItem>)_result;
         }
 
         #endregion
