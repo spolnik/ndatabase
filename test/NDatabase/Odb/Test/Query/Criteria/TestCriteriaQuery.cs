@@ -150,7 +150,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var baseName = GetBaseName();
             SetUp(baseName);
             var odb = Open(baseName);
-            var aq = new CriteriaQuery<VO.Login.Function>( Where.Ilike("name", "FUNc%"));
+            var aq = new CriteriaQuery<VO.Login.Function>( Where.InvariantLike("name", "FUNc%"));
             aq.OrderByDesc("name");
             var l = odb.GetObjects<VO.Login.Function>(aq, true, -1, -1);
             AssertEquals(50, l.Count);
@@ -163,7 +163,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var baseName = GetBaseName();
             SetUp(baseName);
             var odb = Open(baseName);
-            var aq = new CriteriaQuery<VO.Login.Function>( Where.Iequal("name", "FuNcTiOn 1"));
+            var aq = new CriteriaQuery<VO.Login.Function>( Where.InvariantEqual("name", "FuNcTiOn 1"));
             aq.OrderByDesc("name");
             var l = odb.GetObjects<VO.Login.Function>(aq, true, -1, -1);
             AssertEquals(1, l.Count);

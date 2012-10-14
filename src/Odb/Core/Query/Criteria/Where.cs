@@ -10,59 +10,14 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         /// <param name="attributeName"> The attribute name </param>
         /// <param name="value"> The boolean value </param>
         /// <returns> The criteria </returns>
-        public static IConstraint Equal(string attributeName, bool value)
+        public static IConstraint Equal<T>(string attributeName, T value)
         {
-            return new EqualCriterion(attributeName, value);
+            return new EqualCriterion<T>(attributeName, value);
         }
 
-        public static IConstraint Equal(string attributeName, int value)
+        public static IConstraint InvariantEqual<T>(string attributeName, T value)
         {
-            return new EqualCriterion(attributeName, value);
-        }
-
-        public static IConstraint Equal(string attributeName, short value)
-        {
-            return new EqualCriterion(attributeName, value);
-        }
-
-        public static IConstraint Equal(string attributeName, byte value)
-        {
-            return new EqualCriterion(attributeName, value);
-        }
-
-        public static IConstraint Equal(string attributeName, float value)
-        {
-            return new EqualCriterion(attributeName, value);
-        }
-
-        public static IConstraint Equal(string attributeName, double value)
-        {
-            return new EqualCriterion(attributeName, value);
-        }
-
-        public static IConstraint Equal(string attributeName, long value)
-        {
-            return new EqualCriterion(attributeName, value);
-        }
-
-        public static IConstraint Equal(string attributeName, char value)
-        {
-            return new EqualCriterion(attributeName, value);
-        }
-
-        public static IConstraint Equal(string attributeName, object value)
-        {
-            return new EqualCriterion(attributeName, value);
-        }
-
-        public static IConstraint Iequal(string attributeName, char value)
-        {
-            return new EqualCriterion(attributeName, value, false);
-        }
-
-        public static IConstraint Iequal(string attributeName, object value)
-        {
-            return new EqualCriterion(attributeName, value, false);
+            return new EqualCriterion<T>(attributeName, value, false);
         }
 
         /// <summary>
@@ -76,7 +31,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             return new LikeCriterion(attributeName, value, true);
         }
 
-        public static IConstraint Ilike(string attributeName, string value)
+        public static IConstraint InvariantLike(string attributeName, string value)
         {
             return new LikeCriterion(attributeName, value, false);
         }
@@ -131,49 +86,9 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         /// <param name="attributeName"> The attribute name </param>
         /// <param name="value"> The value </param>
         /// <returns> The criterion </returns>
-        public static IConstraint Contain(string attributeName, bool value)
+        public static IConstraint Contain<T>(string attributeName, T value)
         {
-            return new ContainsCriterion(attributeName, value);
-        }
-
-        public static IConstraint Contain(string attributeName, int value)
-        {
-            return new ContainsCriterion(attributeName, value);
-        }
-
-        public static IConstraint Contain(string attributeName, short value)
-        {
-            return new ContainsCriterion(attributeName, value);
-        }
-
-        public static IConstraint Contain(string attributeName, byte value)
-        {
-            return new ContainsCriterion(attributeName, value);
-        }
-
-        public static IConstraint Contain(string attributeName, float value)
-        {
-            return new ContainsCriterion(attributeName, value);
-        }
-
-        public static IConstraint Contain(string attributeName, double value)
-        {
-            return new ContainsCriterion(attributeName, value);
-        }
-
-        public static IConstraint Contain(string attributeName, long value)
-        {
-            return new ContainsCriterion(attributeName, value);
-        }
-
-        public static IConstraint Contain(string attributeName, char value)
-        {
-            return new ContainsCriterion(attributeName, value);
-        }
-
-        public static IConstraint Contain(string attributeName, object value)
-        {
-            return new ContainsCriterion(attributeName, value);
+            return new ContainsCriterion<T>(attributeName, value);
         }
 
         public static IConstraint IsNull(string attributeName)

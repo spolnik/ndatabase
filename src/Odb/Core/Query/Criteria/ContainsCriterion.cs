@@ -4,10 +4,9 @@ using NDatabase2.Odb.Core.Layers.Layer2.Meta;
 
 namespace NDatabase2.Odb.Core.Query.Criteria
 {
-    
-    public sealed class ContainsCriterion : AbstractCriterion
+    public sealed class ContainsCriterion<T> : AbstractCriterion
     {
-        private object _criterionValue;
+        private T _criterionValue;
 
         private bool _objectIsNative;
 
@@ -19,52 +18,12 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         /// </remarks>
         private OID _oid;
 
-        public ContainsCriterion(string attributeName, string criterionValue) : base(attributeName)
+        public ContainsCriterion(string attributeName, T criterionValue) : base(attributeName)
         {
             Init(criterionValue);
         }
 
-        public ContainsCriterion(string attributeName, int value) : base(attributeName)
-        {
-            Init(value);
-        }
-
-        public ContainsCriterion(string attributeName, short value) : base(attributeName)
-        {
-            Init(value);
-        }
-
-        public ContainsCriterion(string attributeName, byte value) : base(attributeName)
-        {
-            Init(value);
-        }
-
-        public ContainsCriterion(string attributeName, float value) : base(attributeName)
-        {
-            Init(value);
-        }
-
-        public ContainsCriterion(string attributeName, double value) : base(attributeName)
-        {
-            Init(value);
-        }
-
-        public ContainsCriterion(string attributeName, long value) : base(attributeName)
-        {
-            Init(value);
-        }
-
-        public ContainsCriterion(string attributeName, object value) : base(attributeName)
-        {
-            Init(value);
-        }
-
-        public ContainsCriterion(string attributeName, bool value) : base(attributeName)
-        {
-            Init(value);
-        }
-
-        private void Init(object value)
+        private void Init(T value)
         {
             _criterionValue = value;
             _objectIsNative = _criterionValue == null || OdbType.IsNative(_criterionValue.GetType());
@@ -187,7 +146,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
                 throw new OdbRuntimeException(NDatabaseError.ContainsQueryWithNoStorageEngine);
 
             // For non native object, we just need the oid of it
-            _oid = engine.GetObjectId(_criterionValue, false);
+            _oid = engine.GetObjectId((object)_criterionValue, false);
         }
     }
 }

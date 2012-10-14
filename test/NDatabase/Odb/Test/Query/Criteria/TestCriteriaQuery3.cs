@@ -155,7 +155,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Close();
             odb = Open(baseName);
             var f2bis = new VO.Login.Function("f2");
-            var query = new CriteriaQuery<Profile>( Where.Contain("functions", null));
+            var query = new CriteriaQuery<Profile>( Where.Contain<Profile>("functions", null));
             var l = odb.GetObjects<Profile>(query);
             //One from test, one from init
             AssertEquals(2, l.Count);
@@ -236,7 +236,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Store(c2);
             odb.Close();
             odb = Open(baseName);
-            var query = new CriteriaQuery<ClassWithListOfString>( Where.Contain("strings", null));
+            var query = new CriteriaQuery<ClassWithListOfString>( Where.Contain<ClassWithListOfString>("strings", null));
             var l = odb.GetObjects<ClassWithListOfString>(query);
             odb.Close();
             AssertEquals(1, l.Count);
