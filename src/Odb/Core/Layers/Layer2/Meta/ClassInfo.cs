@@ -480,7 +480,9 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
             for (var i = 0; i < attributeIdsLength; i++)
                 names[i] = GetAttributeInfoFromId(attributeIds[i]).GetName();
 
-            return names;
+            return names.Select(name => name.StartsWith("<")
+                                            ? name.Substring(1, name.IndexOf('>') - 1)
+                                            : name).ToArray();
         }
 
         public IOdbList<ClassInfoIndex> GetIndexes()
