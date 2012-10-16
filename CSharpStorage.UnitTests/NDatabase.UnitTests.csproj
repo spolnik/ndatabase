@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -51,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Base\When_we_use_storage_positions.cs" />
     <Compile Include="Base\When_we_store_nullable_types.cs" />
+    <Compile Include="Bugs\Index\When_we_use_index_on_invariant_equal_criteria.cs" />
     <Compile Include="Bugs\When_we_want_to_store_generic_types.cs" />
     <Compile Include="Class_names.cs" />
     <Compile Include="CodeSnippets\Data\Game.cs" />

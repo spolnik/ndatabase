@@ -103,7 +103,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
         #endregion
 
-        public object GetCurrentInstance(NonNativeObjectInfo nnoi)
+        private object GetCurrentInstance(NonNativeObjectInfo nnoi)
         {
             return nnoi.GetObject() ??
                    _instanceBuilder.BuildOneInstance(nnoi, _storageEngine.GetSession(true).GetCache());

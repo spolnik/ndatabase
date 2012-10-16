@@ -15,9 +15,9 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             return new EqualCriterion<T>(attributeName, value);
         }
 
-        public static IConstraint InvariantEqual<T>(string attributeName, T value)
+        public static IConstraint InvariantEqual(string attributeName, string value)
         {
-            return new EqualCriterion<T>(attributeName, value, false);
+            return EqualCriterion<string>.CreateInvartiantStringEqualCriterion(attributeName, value, false);
         }
 
         /// <summary>
