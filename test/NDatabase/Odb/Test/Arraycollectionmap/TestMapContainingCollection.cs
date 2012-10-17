@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using NDatabase.Odb;
 using NDatabase2.Odb;
 using NDatabase2.Tool.Wrappers.Map;
 using NUnit.Framework;

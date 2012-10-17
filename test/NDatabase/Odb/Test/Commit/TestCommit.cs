@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using NDatabase.Odb;
 using NDatabase2.Odb;
 using NDatabase2.Tool.Wrappers.Map;
 using NUnit.Framework;
@@ -11,11 +10,6 @@ namespace Test.NDatabase.Odb.Test.Commit
     [TestFixture]
     public class TestCommit : ODBTest
     {
-        public override void SetUp()
-        {
-            base.SetUp();
-        }
-
         private object GetInstance(int i)
         {
             var login = new VO.Login.Function("login" + i);

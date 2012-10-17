@@ -1,5 +1,4 @@
 using System;
-using NDatabase.Odb;
 using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Layers.Layer2.Meta;
 using NDatabase2.Odb.Core.Query.Values;

@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using NDatabase.Odb;
 using NDatabase2.Btree;
 using NDatabase2.Btree.Impl.Multiplevalue;
 using NDatabase2.Odb;

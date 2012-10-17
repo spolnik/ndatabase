@@ -21,7 +21,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             var atts = new[] {"name"};
             try
             {
-                odb.GetClassRepresentation<User2>().AddUniqueIndexOn("Index", atts, true);
+                odb.GetClassRepresentation<User2>().AddUniqueIndexOn("Index", atts);
             }
             catch (Exception)
             {

@@ -17,14 +17,14 @@ namespace NDatabase2.Odb.Main
 
         #region IClassRepresentation Members
 
-        public void AddUniqueIndexOn(string name, string[] indexFields, bool verbose)
+        public void AddUniqueIndexOn(string name, string[] indexFields)
         {
-            _storageEngine.AddIndexOn(_classInfo.FullClassName, name, indexFields, verbose, false);
+            _storageEngine.AddIndexOn(_classInfo.FullClassName, name, indexFields, false);
         }
 
-        public void AddIndexOn(string name, string[] indexFields, bool verbose)
+        public void AddIndexOn(string name, string[] indexFields)
         {
-            _storageEngine.AddIndexOn(_classInfo.FullClassName, name, indexFields, verbose, true);
+            _storageEngine.AddIndexOn(_classInfo.FullClassName, name, indexFields, true);
         }
 
         public bool ExistIndex(string indexName)
@@ -35,14 +35,14 @@ namespace NDatabase2.Odb.Main
         /// <summary>
         ///   Used to rebuild an index
         /// </summary>
-        public void RebuildIndex(string indexName, bool verbose)
+        public void RebuildIndex(string indexName)
         {
-            _storageEngine.RebuildIndex(_classInfo.FullClassName, indexName, verbose);
+            _storageEngine.RebuildIndex(_classInfo.FullClassName, indexName);
         }
 
-        public void DeleteIndex(string indexName, bool verbose)
+        public void DeleteIndex(string indexName)
         {
-            _storageEngine.DeleteIndex(_classInfo.FullClassName, indexName, verbose);
+            _storageEngine.DeleteIndex(_classInfo.FullClassName, indexName);
         }
 
         #endregion

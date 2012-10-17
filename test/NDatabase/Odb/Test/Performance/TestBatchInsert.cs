@@ -1,5 +1,4 @@
 using System;
-using NDatabase.Odb.Impl.Tool;
 using NDatabase2.Odb.Core.Query.Criteria;
 using NUnit.Framework;
 
@@ -24,7 +23,6 @@ namespace Test.NDatabase.Odb.Test.Performance
                 odb.Store(GetSimpleObjectInstance(i));
                 if (i % 10000 == 0)
                 {
-                    MemoryMonitor.DisplayCurrentMemory(i + " objects", false);
                     odb.Close();
                     odb = Open(OdbFileName);
                 }

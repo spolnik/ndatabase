@@ -1,6 +1,4 @@
 using System;
-using NDatabase.Odb;
-using NDatabase.Odb.Impl.Tool;
 using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Query;
 using NDatabase2.Odb.Core.Query.Criteria;
@@ -49,16 +47,11 @@ namespace Test.NDatabase.Odb.Test.Performance
             t1 = OdbTime.GetCurrentTimeInMs();
             odb = Open(OdbFileName);
             var fields = new[] {"name"};
-            odb.GetClassRepresentation<SimpleObject>().AddUniqueIndexOn("index1", fields, true);
+            odb.GetClassRepresentation<SimpleObject>().AddUniqueIndexOn("index1", fields);
             for (var i = 0; i < TestSize; i++)
             {
                 object o = GetSimpleObjectInstance(i);
                 odb.Store(o);
-                if (i % 10000 == 0)
-                {
-                    // println("i="+i);
-                    MemoryMonitor.DisplayCurrentMemory(string.Empty + i, false);
-                }
             }
             // println("Cache="+Dummy.getEngine(odb).getSession().getCache().toString());
             t2 = OdbTime.GetCurrentTimeInMs();

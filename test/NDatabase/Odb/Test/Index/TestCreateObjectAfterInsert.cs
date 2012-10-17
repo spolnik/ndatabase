@@ -1,6 +1,4 @@
 using System;
-using NDatabase.Odb;
-using NDatabase.Odb.Impl.Tool;
 using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Query.Criteria;
 using NDatabase2.Tool.Wrappers;
@@ -35,14 +33,12 @@ namespace Test.NDatabase.Odb.Test.Index
                 {
                     var io = new IndexedObject("name" + i, i, new DateTime());
                     odb.Store(io);
-                    if (i % 100 == 0)
-                        MemoryMonitor.DisplayCurrentMemory(i + " objects created", true);
                 }
                 odb.Close();
                 Println("\n\n END OF INSERT \n\n");
                 odb = Open(OdbFileName);
                 var names = new[] {"name"};
-                odb.GetClassRepresentation<IndexedObject>().AddUniqueIndexOn("index1", names, true);
+                odb.GetClassRepresentation<IndexedObject>().AddUniqueIndexOn("index1", names);
                 Println("\n\n after create index\n\n");
                 var objects =
                     odb.GetObjects<IndexedObject>(
@@ -89,14 +85,12 @@ namespace Test.NDatabase.Odb.Test.Index
                 {
                     var io = new IndexedObject("name" + i, i, new DateTime());
                     odb.Store(io);
-                    if (i % 10 == 0)
-                        MemoryMonitor.DisplayCurrentMemory(i + " objects created", true);
                 }
                 odb.Close();
                 Println("\n\n END OF INSERT \n\n");
                 odb = Open(OdbFileName);
                 var names = new[] {"duration"};
-                odb.GetClassRepresentation<IndexedObject>().AddUniqueIndexOn("index1", names, true);
+                odb.GetClassRepresentation<IndexedObject>().AddUniqueIndexOn("index1", names);
                 Println("\n\n after create index\n\n");
                 var objects =
                     odb.GetObjects<IndexedObject>(
@@ -140,7 +134,7 @@ namespace Test.NDatabase.Odb.Test.Index
             using (var odb = Open(odbFileName))
             {
                 var names = new[] {"name"};
-                odb.GetClassRepresentation<IndexedObject>().AddUniqueIndexOn("index1", names, true);
+                odb.GetClassRepresentation<IndexedObject>().AddUniqueIndexOn("index1", names);
                 var objects =
                     odb.GetObjects<IndexedObject>(
                         new CriteriaQuery<IndexedObject>( Where.Equal("name", "name")), true);
@@ -175,13 +169,12 @@ namespace Test.NDatabase.Odb.Test.Index
                 odb.Close();
                 odb = Open(OdbFileName);
                 var names = new[] {"name"};
-                odb.GetClassRepresentation<IndexedObject>().AddUniqueIndexOn("index1", names, true);
+                odb.GetClassRepresentation<IndexedObject>().AddUniqueIndexOn("index1", names);
                 var objects =
                     odb.GetObjects<IndexedObject>(
                         new CriteriaQuery<IndexedObject>( Where.Equal("name", "name0")), true);
                 AssertEquals(1, objects.Count);
                 objects = odb.GetObjects<IndexedObject>(new CriteriaQuery<IndexedObject>(), true);
-                MemoryMonitor.DisplayCurrentMemory("BTREE", true);
                 AssertEquals(size, objects.Count);
             }
             finally

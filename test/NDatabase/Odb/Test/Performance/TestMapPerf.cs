@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using NDatabase.Odb;
-using NDatabase.Odb.Impl.Tool;
 using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Oid;
 using NUnit.Framework;
@@ -50,8 +48,6 @@ namespace Test.NDatabase.Odb.Test.Performance
                 loadedObjects.Add(oid, f);
                 if (i < size / 2)
                     modifiedObjects.Add(oid, f);
-                if (i % 10000 == 0)
-                    MemoryMonitor.DisplayCurrentMemory("put i", false);
             }
             var j = 0;
             var nbModified = 0;
@@ -61,8 +57,6 @@ namespace Test.NDatabase.Odb.Test.Performance
             {
                 oid = (OID) iterator.Current;
                 var o = modifiedObjects[oid];
-                if (j % 10000 == 0)
-                    MemoryMonitor.DisplayCurrentMemory("get i", false);
                 j++;
                 nbModified++;
             }
@@ -94,8 +88,6 @@ namespace Test.NDatabase.Odb.Test.Performance
                     ow = (ObjectWrapper) objects[oid];
                     ow.SetModified(true);
                 }
-                if (i % 10000 == 0)
-                    MemoryMonitor.DisplayCurrentMemory("put i", false);
             }
             i = 0;
             var nbModified = 0;
@@ -107,8 +99,6 @@ namespace Test.NDatabase.Odb.Test.Performance
                 ow = (ObjectWrapper) objects[oid];
                 if (ow.IsModified())
                     nbModified++;
-                if (i % 10000 == 0)
-                    MemoryMonitor.DisplayCurrentMemory("get i", false);
                 i++;
             }
             stopWatch.End();

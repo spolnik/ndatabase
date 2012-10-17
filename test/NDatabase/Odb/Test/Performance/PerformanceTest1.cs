@@ -1,6 +1,5 @@
 using System;
 using System.Threading;
-using NDatabase.Odb;
 using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Layers.Layer3.IO;
 using NDatabase2.Tool.Wrappers;

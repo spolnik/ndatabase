@@ -1,7 +1,5 @@
 using System;
 using System.Threading;
-using NDatabase.Odb;
-using NDatabase.Odb.Impl.Tool;
 using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Layers.Layer3.IO;
 using NDatabase2.Tool.Wrappers;
@@ -31,11 +29,6 @@ namespace Test.NDatabase.Odb.Test.Performance
             {
                 object o = GetSimpleObjectInstance(i);
                 odb.Store(o);
-                if (i % 10000 == 0)
-                {
-                    // System.out.println("i="+i);
-                    MemoryMonitor.DisplayCurrentMemory(string.Empty + i, true);
-                }
             }
             // System.out.println("Cache="+Dummy.getEngine(odb).getSession().getCache().toString());
             t2 = OdbTime.GetCurrentTimeInTicks();
@@ -60,8 +53,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             while (l.HasNext())
             {
                 object o = l.Next();
-                if (i % 10000 == 0)
-                    MemoryMonitor.DisplayCurrentMemory("select " + i, true);
+                
                 // System.out.println("Cache="+Dummy.getEngine(odb).getSession().getCache().toString());
                 i++;
             }

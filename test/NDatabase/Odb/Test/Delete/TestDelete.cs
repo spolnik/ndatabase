@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using NDatabase.Odb;
 using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Query.Criteria;
 using NDatabase2.Odb.Main;

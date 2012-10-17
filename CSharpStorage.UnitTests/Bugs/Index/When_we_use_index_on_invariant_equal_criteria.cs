@@ -31,7 +31,7 @@ namespace NDatabase.UnitTests.Bugs.Index
             long count2;
             using (var odb = OdbFactory.OpenLast())
             {
-                odb.GetClassRepresentation<SampleClass>().AddIndexOn("index", new[] { "ID" }, true);
+                odb.GetClassRepresentation<SampleClass>().AddIndexOn("index", new[] { "ID" });
 
                 var query = new CriteriaQuery<SampleClass>(Where.InvariantEqual("ID", "id.5"));
                 count2 = odb.Count(query);
@@ -65,7 +65,7 @@ namespace NDatabase.UnitTests.Bugs.Index
             long count2;
             using (var odb = OdbFactory.OpenLast())
             {
-                odb.GetClassRepresentation<SampleClass>().AddUniqueIndexOn("index", new[] { "ID" }, true);
+                odb.GetClassRepresentation<SampleClass>().AddUniqueIndexOn("index", new[] { "ID" });
 
                 var query = new CriteriaQuery<SampleClass>(Where.InvariantEqual("ID", "id.5"));
                 count2 = odb.Count(query);

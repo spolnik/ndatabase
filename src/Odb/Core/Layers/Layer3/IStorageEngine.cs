@@ -108,10 +108,8 @@ namespace NDatabase2.Odb.Core.Layers.Layer3
         /// <param name="className"> The class name on which the index must be created </param>
         /// <param name="name"> The name of the index </param>
         /// <param name="indexFields"> The list of fields of the index </param>
-        /// <param name="verbose"> A boolean value to indicate of ODB must describe what it is doing @ @ </param>
         /// <param name="acceptMultipleValuesForSameKey"> </param>
-        void AddIndexOn(string className, string name, string[] indexFields, bool verbose,
-                        bool acceptMultipleValuesForSameKey);
+        void AddIndexOn(string className, string name, string[] indexFields, bool acceptMultipleValuesForSameKey);
 
         void AddCommitListener(ICommitListener commitListener);
 
@@ -140,9 +138,9 @@ namespace NDatabase2.Odb.Core.Layers.Layer3
         /// </remarks>
         void Disconnect<T>(T plainObject) where T : class;
 
-        void RebuildIndex(string className, string indexName, bool verbose);
+        void RebuildIndex(string className, string indexName);
 
-        void DeleteIndex(string className, string indexName, bool verbose);
+        void DeleteIndex(string className, string indexName);
 
         /// <summary>
         ///   Receive the current class info (loaded from current java classes present on classpath and check against the persisted meta model

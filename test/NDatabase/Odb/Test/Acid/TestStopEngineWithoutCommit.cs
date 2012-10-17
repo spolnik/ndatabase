@@ -1,6 +1,5 @@
 using System;
 using System.Reflection;
-using NDatabase.Odb;
 using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Query.Criteria;
 using NUnit.Framework;

@@ -49,7 +49,9 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
         /// </summary>
         public const int Version9 = 9;
 
-        public const int CurrentFileFormatVersion = Version9;
+        public const int Version20 = 20;
+
+        public const int CurrentFileFormatVersion = Version20;
 
         public const long ClassOffsetBlockSize = 0;
         public const long ObjectOffsetBlockSize = 0;

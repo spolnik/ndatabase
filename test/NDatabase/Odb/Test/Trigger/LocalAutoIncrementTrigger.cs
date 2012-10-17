@@ -1,6 +1,5 @@
 using System;
 using System.Threading;
-using NDatabase.Odb;
 using NDatabase2.Odb;
 using NDatabase2.Odb.Core;
 using NDatabase2.Odb.Core.Query.Criteria;

@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using NDatabase.Odb.Impl.Tool;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Performance
@@ -44,8 +43,6 @@ namespace Test.NDatabase.Odb.Test.Performance
             for (var i = 0; i < size; i++)
             {
                 object o = GetSimpleObjectInstance(i);
-                if (i % 50000 == 0)
-                    MemoryMonitor.DisplayCurrentMemory(string.Empty + i, true);
                 map.Add(o, o);
             }
             Println("Test 1 ok");

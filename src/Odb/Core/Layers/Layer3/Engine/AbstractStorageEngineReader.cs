@@ -126,7 +126,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
 
         public abstract ISession GetSession(bool throwExceptionIfDoesNotExist);
 
-        public void DeleteIndex(string className, string indexName, bool verbose)
+        public void DeleteIndex(string className, string indexName)
         {
             var classInfo = GetMetaModel().GetClassInfo(className, true);
 
@@ -136,22 +136,22 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
 
             var classInfoIndex = classInfo.GetIndexWithName(indexName);
 
-            if (verbose)
+            if (OdbConfiguration.IsLoggingEnabled())
                 DLogger.Info(string.Format("Deleting index {0} on class {1}", indexName, className));
 
             Delete(classInfoIndex);
             classInfo.RemoveIndex(classInfoIndex);
 
-            if (verbose)
+            if (OdbConfiguration.IsLoggingEnabled())
                 DLogger.Info(string.Format("Index {0} deleted", indexName));
         }
 
         /// <summary>
         ///   Used to rebuild an index
         /// </summary>
-        public virtual void RebuildIndex(string className, string indexName, bool verbose)
+        public virtual void RebuildIndex(string className, string indexName)
         {
-            if (verbose)
+            if (OdbConfiguration.IsLoggingEnabled())
                 DLogger.Info(string.Format("Rebuilding index {0} on class {1}", indexName, className));
 
             var classInfo = GetMetaModel().GetClassInfo(className, true);
@@ -161,14 +161,12 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                     NDatabaseError.IndexDoesNotExist.AddParameter(indexName).AddParameter(className));
 
             var classInfoIndex = classInfo.GetIndexWithName(indexName);
-            DeleteIndex(className, indexName, verbose);
+            DeleteIndex(className, indexName);
 
-            AddIndexOn(className, indexName, classInfo.GetAttributeNames(classInfoIndex.AttributeIds), verbose,
-                       !classInfoIndex.IsUnique);
+            AddIndexOn(className, indexName, classInfo.GetAttributeNames(classInfoIndex.AttributeIds), !classInfoIndex.IsUnique);
         }
 
-        public virtual void AddIndexOn(string className, string indexName, string[] indexFields, bool verbose,
-                                       bool acceptMultipleValuesForSameKey)
+        public virtual void AddIndexOn(string className, string indexName, string[] indexFields, bool acceptMultipleValuesForSameKey)
         {
             var classInfo = GetMetaModel().GetClassInfo(className, true);
             if (classInfo.HasIndex(indexName))
@@ -196,7 +194,8 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                 // There are no objects. Nothing to do
                 return;
             }
-            if (verbose)
+            
+            if (OdbConfiguration.IsLoggingEnabled())
             {
                 var numberOfObjectsAsString = classInfo.NumberOfObjects.ToString();
                 DLogger.Info(
@@ -213,7 +212,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             var methodInfo = GenericGetObjectInfos.MakeGenericMethod(classInfo.UnderlyingType);
             var objects = (IObjects<object>) methodInfo.Invoke(this, new object[] {criteriaQuery});
 
-            if (verbose)
+            if (OdbConfiguration.IsLoggingEnabled())
             {
                 var numberOfObjectsAsString = classInfo.NumberOfObjects.ToString();
                 DLogger.Info(string.Format("{0} : {1} objects loaded", indexName, numberOfObjectsAsString));
@@ -226,7 +225,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                 btree.Insert(classInfoIndex.ComputeKey(nnoi), nnoi.GetOid());
             }
 
-            if (verbose)
+            if (OdbConfiguration.IsLoggingEnabled())
                 DLogger.Info(string.Format("{0} created!", indexName));
         }
 

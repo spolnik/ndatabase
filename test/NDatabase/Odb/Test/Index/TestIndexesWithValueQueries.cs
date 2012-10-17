@@ -1,4 +1,3 @@
-using NDatabase.Odb;
 using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Query;
 using NDatabase2.Odb.Core.Query.Criteria;
@@ -17,7 +16,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var baseName = GetBaseName();
             const int size = 1000;
             IOdb odb = Open(baseName);
-            odb.GetClassRepresentation<VO.Login.Function>().AddIndexOn("index1", new[] {"name"}, true);
+            odb.GetClassRepresentation<VO.Login.Function>().AddIndexOn("index1", new[] {"name"});
             for (var i = 0; i < size; i++)
                 odb.Store(new VO.Login.Function("function " + i));
 

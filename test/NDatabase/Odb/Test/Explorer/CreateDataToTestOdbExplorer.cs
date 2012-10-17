@@ -1,5 +1,4 @@
 using System;
-using NDatabase.Odb;
 using NDatabase2.Odb;
 using NDatabase2.Tool.Wrappers;
 using NUnit.Framework;
@@ -21,7 +20,7 @@ namespace Test.NDatabase.Odb.Test.Explorer
             using (var odb = OdbFactory.Open("base1.neodatis"))
             {
                 var fields = new[] {"int1"};
-                odb.GetClassRepresentation<TestClass>().AddUniqueIndexOn("index1", fields, true);
+                odb.GetClassRepresentation<TestClass>().AddUniqueIndexOn("index1", fields);
                 var start = OdbTime.GetCurrentTimeInMs();
                 var size = 50;
                 for (var i = 0; i < size; i++)

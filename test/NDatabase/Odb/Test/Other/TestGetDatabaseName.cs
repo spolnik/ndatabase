@@ -1,4 +1,3 @@
-using NDatabase.Odb;
 using NDatabase2.Odb.Core.Layers.Layer3;
 using NUnit.Framework;
 

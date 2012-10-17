@@ -32,10 +32,16 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         /// <param name="attributeName"> </param>
         /// <param name="value"> </param>
         /// <param name="isCaseSensitive"> </param>
-        public EqualCriterion(string attributeName, T value, bool isCaseSensitive) : base(attributeName)
+        private EqualCriterion(string attributeName, T value, bool isCaseSensitive) : base(attributeName)
         {
             _criterionValue = value;
             _isCaseSensitive = isCaseSensitive;
+        }
+
+        public static EqualCriterion<string> CreateInvartiantStringEqualCriterion(string attributeName, string value,
+                                                                                  bool isCaseSensitive)
+        {
+            return new EqualCriterion<string>(attributeName, value, isCaseSensitive);
         }
 
         private void Init(T value)
@@ -61,7 +67,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
                 return true;
 
             if (AttributeValueComparator.IsNumber(valueToMatch) && AttributeValueComparator.IsNumber(_criterionValue))
-                return AttributeValueComparator.Compare((IComparable)valueToMatch, (IComparable)_criterionValue) == 0;
+                return AttributeValueComparator.Compare((IComparable) valueToMatch, (IComparable) _criterionValue) == 0;
 
             // if case sensitive (default value), just call the equals on the
             // objects
@@ -78,7 +84,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
                     if (_oid == null)
                     {
                         // TODO Should we return false or thrown exception?
-                        return false;    
+                        return false;
                     }
                 }
 
@@ -91,8 +97,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             // Case insensitive (iequal) only works on String or Character!
             var typeOfValueToMatch = valueToMatch.GetType();
 
-            var canUseCaseInsensitive = (typeof(T) == typeof (string) &&
-                                         typeOfValueToMatch == typeof (string)) ||
+            var canUseCaseInsensitive = (typeof (T) == typeof (string) && typeOfValueToMatch == typeof (string)) ||
                                         (_criterionValue is char && typeOfValueToMatch == typeof (char));
             if (!canUseCaseInsensitive)
             {
@@ -140,12 +145,12 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             if (GetQuery() == null)
                 throw new OdbRuntimeException(NDatabaseError.ContainsQueryWithNoQuery);
 
-            var engine = ((IInternalQuery)GetQuery()).GetStorageEngine();
+            var engine = ((IInternalQuery) GetQuery()).GetStorageEngine();
             if (engine == null)
                 throw new OdbRuntimeException(NDatabaseError.ContainsQueryWithNoStorageEngine);
 
             // For non native object, we just need the oid of it
-            _oid = engine.GetObjectId((object)_criterionValue, false);
+            _oid = engine.GetObjectId((object) _criterionValue, false);
             _criterionValue = default(T);
         }
     }
