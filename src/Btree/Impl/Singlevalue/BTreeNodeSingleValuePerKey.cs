@@ -26,7 +26,7 @@ namespace NDatabase2.Btree.Impl.Singlevalue
             var position = GetPositionOfKey(key);
             
             if (position >= 0)
-                throw new DuplicatedKeyException(key.ToString());
+                throw new DuplicatedKeyException("Duplicated Key: " + key);
 
             var realPosition = -position - 1;
             

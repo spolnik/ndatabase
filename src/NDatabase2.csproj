@@ -172,10 +172,8 @@
     <Compile Include="Odb\Core\Query\Criteria\IConstraint.cs" />
     <Compile Include="Odb\Core\Query\Criteria\ISingleCriterion.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Not.cs" />
-    <Compile Include="Odb\Core\Query\Criteria\Operator.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Or.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Where.cs" />
-    <Compile Include="Odb\Core\Query\Execution\EmptyExecutionPlan.cs" />
     <Compile Include="Odb\Core\Query\Execution\GenericQueryExecutor.cs" />
     <Compile Include="Odb\Core\Query\Execution\IMatchingObjectAction.cs" />
     <Compile Include="Odb\Core\Query\Execution\IMultiClassQueryExecutor.cs" />
@@ -187,10 +185,6 @@
     <Compile Include="Odb\Core\Query\IInternalQuery.cs" />
     <Compile Include="Odb\Core\Query\IQuery.cs" />
     <Compile Include="Odb\Core\Query\IValuesQuery.cs" />
-    <Compile Include="Odb\Core\Query\Linq\ExpressionVisitor.cs" />
-    <Compile Include="Odb\Core\Query\Linq\Helper\TypeSystem.cs" />
-    <Compile Include="Odb\Core\Query\Linq\OdbQueryable.cs" />
-    <Compile Include="Odb\Core\Query\Linq\LinqQueryTranslator.cs" />
     <Compile Include="Odb\Core\Query\NQ\SimpleNativeQuery.cs" />
     <Compile Include="Odb\Core\Query\QueryManager.cs" />
     <Compile Include="Odb\Core\Query\SimpleCompareKey.cs" />

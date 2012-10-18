@@ -145,6 +145,10 @@ namespace NDatabase2.Odb.Core
         internal static readonly NDatabaseError BtreeSizeDiffersFromClassElementNumber = new NDatabaseError(271,
                                                                                                         "The Index has @1 element(s) whereas the Class has @2 objects. The two values should be equal");
 
+        internal static readonly NDatabaseError BtreeError = new NDatabaseError(272, "Index BTree Internal error: @1");
+        
+        internal static readonly NDatabaseError BtreeValidationError = new NDatabaseError(273, "Index BTree Validation error: @1");
+
         internal static readonly NDatabaseError InstanceBuilderNativeType = new NDatabaseError(274,
                                                                                            "Native object of type @1 can not be instanciated");
 

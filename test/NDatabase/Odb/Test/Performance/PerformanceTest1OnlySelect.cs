@@ -54,7 +54,6 @@ namespace Test.NDatabase.Odb.Test.Performance
             {
                 object o = l.Next();
                 
-                // System.out.println("Cache="+Dummy.getEngine(odb).getSession().getCache().toString());
                 i++;
             }
             var t5 = OdbTime.GetCurrentTimeInTicks();
