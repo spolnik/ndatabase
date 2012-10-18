@@ -11,25 +11,25 @@ namespace NDatabase2.Odb
         private static readonly string Message1 =
             string.Format("\nNDatabase has thrown an Exception");
 
-        public OdbRuntimeException(IError error, Exception t)
+        internal OdbRuntimeException(IError error, Exception t)
             : base(
                 string.Format("{0}\nError:{1}", Message1, error), t)
         {
         }
 
-        public OdbRuntimeException(IError error)
+        internal OdbRuntimeException(IError error)
             : base(
                 string.Format("{0}\nError:{1}", Message1, error))
         {
         }
 
-        public OdbRuntimeException(IError error, string message)
+        internal OdbRuntimeException(IError error, string message)
             : base(
                 string.Format("{0}\nError:{1}\nStackTrace:{2}", Message1, error, message))
         {
         }
 
-        public OdbRuntimeException(Exception e, string message)
+        internal OdbRuntimeException(Exception e, string message)
             : base(
                 string.Format("{0}\nStackTrace:{1}", Message1, message), e)
         {

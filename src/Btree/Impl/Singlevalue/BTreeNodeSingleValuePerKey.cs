@@ -3,7 +3,6 @@ using NDatabase2.Btree.Exception;
 
 namespace NDatabase2.Btree.Impl.Singlevalue
 {
-    
     public abstract class BTreeNodeSingleValuePerKey : AbstractBTreeNode, IBTreeNodeOneValuePerKey
     {
         protected BTreeNodeSingleValuePerKey()
