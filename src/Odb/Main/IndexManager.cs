@@ -3,13 +3,13 @@ using NDatabase2.Odb.Core.Layers.Layer3;
 
 namespace NDatabase2.Odb.Main
 {
-    public sealed class ClassRepresentation : IClassRepresentation
+    internal sealed class IndexManager : IIndexManager
     {
         private readonly ClassInfo _classInfo;
 
         private readonly IStorageEngine _storageEngine;
 
-        internal ClassRepresentation(IStorageEngine storageEngine, ClassInfo classInfo)
+        internal IndexManager(IStorageEngine storageEngine, ClassInfo classInfo)
         {
             _storageEngine = storageEngine;
             _classInfo = classInfo;

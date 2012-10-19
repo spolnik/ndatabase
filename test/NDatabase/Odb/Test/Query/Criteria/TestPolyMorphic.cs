@@ -24,7 +24,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb = Open("multi");
             IQuery q = new CriteriaQuery<object>();
 
-            var os = odb.GetObjects<object>(q);
+            var os = odb.Query<object>(q);
             Println(os);
             odb.Close();
             AssertEquals(4, os.Count);
@@ -45,7 +45,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb = Open("multi");
             IQuery q = new CriteriaQuery<Human>();
 
-            var os = odb.GetObjects<Human>(q);
+            var os = odb.Query<Human>(q);
             Println(os);
             odb.Close();
             AssertEquals(2, os.Count);

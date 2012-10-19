@@ -78,7 +78,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
                 odb = Open(BaseName);
                 var query = new CriteriaQuery<TestClass>(
                     Where.IsNotNull("bigDecimal1"));
-                var l = odb.GetObjects<TestClass>(query);
+                var l = odb.Query<TestClass>(query);
                 AssertEquals(53, l.Count);
             }
             finally
@@ -97,7 +97,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
                 odb = Open(BaseName);
                 var query = new CriteriaQuery<TestClass>(
                     Where.IsNull("bigDecimal1"));
-                var l = odb.GetObjects<TestClass>(query);
+                var l = odb.Query<TestClass>(query);
                 AssertEquals(0, l.Count);
             }
             finally
@@ -113,11 +113,11 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var odb = Open(BaseName);
             var query = new CriteriaQuery<TestClass>(
                 Where.Equal("boolean1", true));
-            var l = odb.GetObjects<TestClass>(query);
+            var l = odb.Query<TestClass>(query);
             AssertTrue(l.Count > 1);
             query = new CriteriaQuery<TestClass>(
                 Where.Equal("boolean1", true));
-            l = odb.GetObjects<TestClass>(query);
+            l = odb.Query<TestClass>(query);
             AssertTrue(l.Count > 1);
             odb.Close();
         }
@@ -134,7 +134,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var query =
                 new CriteriaQuery<TestClass>(
                     composedExpression);
-            var l = odb.GetObjects<TestClass>(query);
+            var l = odb.Query<TestClass>(query);
 
             var expression =
                 Where.Equal("string1", "test class with values").And(Where.GreaterOrEqual("date1",
@@ -143,15 +143,15 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             query =
                 new CriteriaQuery<TestClass>(
                     expression);
-            l = odb.GetObjects<TestClass>(query);
+            l = odb.Query<TestClass>(query);
             if (l.Count != 1)
             {
                 query = new CriteriaQuery<TestClass>(
                     Where.Equal("string1", "test class with null Decimal"));
-                var l2 = odb.GetObjects<TestClass>(query);
+                var l2 = odb.Query<TestClass>(query);
                 Println(l2);
                 Println(correctDate.Millisecond);
-                l = odb.GetObjects<TestClass>(query);
+                l = odb.Query<TestClass>(query);
             }
             AssertEquals(1, l.Count);
             odb.Close();
@@ -163,15 +163,15 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var odb = Open(BaseName);
             var query = new CriteriaQuery<TestClass>(
                 Where.Equal("double1", 190.99));
-            var l = odb.GetObjects<TestClass>(query);
+            var l = odb.Query<TestClass>(query);
             AssertEquals(1, l.Count);
             query = new CriteriaQuery<TestClass>(
                 Where.GreaterThan("double1", (double) 189));
-            l = odb.GetObjects<TestClass>(query);
+            l = odb.Query<TestClass>(query);
             AssertTrue(l.Count >= 1);
             query = new CriteriaQuery<TestClass>(
                 Where.LessThan("double1", (double) 191));
-            l = odb.GetObjects<TestClass>(query);
+            l = odb.Query<TestClass>(query);
             AssertTrue(l.Count >= 1);
             odb.Close();
         }
@@ -182,15 +182,15 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var odb = Open(BaseName);
             var query = new CriteriaQuery<TestClass>(
                 Where.Equal("int1", 190));
-            var l = odb.GetObjects<TestClass>(query);
+            var l = odb.Query<TestClass>(query);
             AssertEquals(1, l.Count);
             query = new CriteriaQuery<TestClass>(
                 Where.GreaterThan("int1", 189));
-            l = odb.GetObjects<TestClass>(query);
+            l = odb.Query<TestClass>(query);
             AssertTrue(l.Count >= 1);
             query = new CriteriaQuery<TestClass>(
                 Where.LessThan("int1", 191));
-            l = odb.GetObjects<TestClass>(query);
+            l = odb.Query<TestClass>(query);
             AssertTrue(l.Count >= 1);
             odb.Close();
         }

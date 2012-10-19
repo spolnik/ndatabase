@@ -16,7 +16,7 @@ namespace NDatabase.UnitTests.Layer3
         {
             _fileName = "multibufferedfileio.ndb";
             
-            OdbFactory.Delete(_fileName);
+            NDb.Delete(_fileName);
         }
 
         protected override IMultiBufferedFileIO Create_subject_under_test()

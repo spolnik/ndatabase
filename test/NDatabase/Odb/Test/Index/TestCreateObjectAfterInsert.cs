@@ -38,18 +38,18 @@ namespace Test.NDatabase.Odb.Test.Index
                 Println("\n\n END OF INSERT \n\n");
                 odb = Open(OdbFileName);
                 var names = new[] {"name"};
-                odb.GetClassRepresentation<IndexedObject>().AddUniqueIndexOn("index1", names);
+                odb.IndexManagerFor<IndexedObject>().AddUniqueIndexOn("index1", names);
                 Println("\n\n after create index\n\n");
                 var objects =
-                    odb.GetObjects<IndexedObject>(
+                    odb.Query<IndexedObject>(
                         new CriteriaQuery<IndexedObject>( Where.Equal("name", "name0")), true);
                 Println("\n\nafter get Objects\n\n");
                 AssertEquals(1, objects.Count);
                 objects =
-                    odb.GetObjects<IndexedObject>(
+                    odb.Query<IndexedObject>(
                         new CriteriaQuery<IndexedObject>( Where.Equal("duration", 9)), true);
                 AssertEquals(1, objects.Count);
-                objects = odb.GetObjects<IndexedObject>(new CriteriaQuery<IndexedObject>(), true);
+                objects = odb.Query<IndexedObject>(new CriteriaQuery<IndexedObject>(), true);
                 AssertEquals(size, objects.Count);
             }
             finally
@@ -90,18 +90,18 @@ namespace Test.NDatabase.Odb.Test.Index
                 Println("\n\n END OF INSERT \n\n");
                 odb = Open(OdbFileName);
                 var names = new[] {"duration"};
-                odb.GetClassRepresentation<IndexedObject>().AddUniqueIndexOn("index1", names);
+                odb.IndexManagerFor<IndexedObject>().AddUniqueIndexOn("index1", names);
                 Println("\n\n after create index\n\n");
                 var objects =
-                    odb.GetObjects<IndexedObject>(
+                    odb.Query<IndexedObject>(
                         new CriteriaQuery<IndexedObject>( Where.Equal("name", "name0")), true);
                 Println("\n\nafter get Objects\n\n");
                 AssertEquals(1, objects.Count);
                 objects =
-                    odb.GetObjects<IndexedObject>(
+                    odb.Query<IndexedObject>(
                         new CriteriaQuery<IndexedObject>( Where.Equal("duration", 10)), true);
                 AssertEquals(1, objects.Count);
-                objects = odb.GetObjects<IndexedObject>(new CriteriaQuery<IndexedObject>(), true);
+                objects = odb.Query<IndexedObject>(new CriteriaQuery<IndexedObject>(), true);
                 AssertEquals(size, objects.Count);
             }
             finally
@@ -134,9 +134,9 @@ namespace Test.NDatabase.Odb.Test.Index
             using (var odb = Open(odbFileName))
             {
                 var names = new[] {"name"};
-                odb.GetClassRepresentation<IndexedObject>().AddUniqueIndexOn("index1", names);
+                odb.IndexManagerFor<IndexedObject>().AddUniqueIndexOn("index1", names);
                 var objects =
-                    odb.GetObjects<IndexedObject>(
+                    odb.Query<IndexedObject>(
                         new CriteriaQuery<IndexedObject>( Where.Equal("name", "name")), true);
                 AssertEquals(1, objects.Count);
             }
@@ -169,12 +169,12 @@ namespace Test.NDatabase.Odb.Test.Index
                 odb.Close();
                 odb = Open(OdbFileName);
                 var names = new[] {"name"};
-                odb.GetClassRepresentation<IndexedObject>().AddUniqueIndexOn("index1", names);
+                odb.IndexManagerFor<IndexedObject>().AddUniqueIndexOn("index1", names);
                 var objects =
-                    odb.GetObjects<IndexedObject>(
+                    odb.Query<IndexedObject>(
                         new CriteriaQuery<IndexedObject>( Where.Equal("name", "name0")), true);
                 AssertEquals(1, objects.Count);
-                objects = odb.GetObjects<IndexedObject>(new CriteriaQuery<IndexedObject>(), true);
+                objects = odb.Query<IndexedObject>(new CriteriaQuery<IndexedObject>(), true);
                 AssertEquals(size, objects.Count);
             }
             finally

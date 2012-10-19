@@ -31,7 +31,7 @@ namespace Test.NDatabase.Odb.Test.Update
             AssertNull(classInfo.UncommittedZoneInfo.First);
             AssertNull(classInfo.UncommittedZoneInfo.Last);
             odb = Open("unconnected");
-            AssertEquals(1, odb.GetObjects<VO.Login.Function>().Count);
+            AssertEquals(1, odb.Query<VO.Login.Function>().Count);
             odb.Close();
         }
     }

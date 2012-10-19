@@ -27,7 +27,7 @@ namespace Test.NDatabase.Odb.Test.Acid
         public virtual void T1estA2()
         {
             var odb = test.Open("acid1");
-            AssertEquals(0, odb.GetObjects<VO.Login.Function>().Count);
+            AssertEquals(0, odb.Query<VO.Login.Function>().Count);
         }
 
         public virtual void T1estB1()
@@ -42,9 +42,9 @@ namespace Test.NDatabase.Odb.Test.Acid
             var odb = test.Open("acid1");
             var size = 0;
             if (simpleObject)
-                size = odb.GetObjects<VO.Login.Function>().Count;
+                size = odb.Query<VO.Login.Function>().Count;
             else
-                size = odb.GetObjects<User>().Count;
+                size = odb.Query<User>().Count;
             if (size != 1)
                 throw new Exception("Size should be " + 1 + " and it is " + size);
         }
@@ -75,7 +75,7 @@ namespace Test.NDatabase.Odb.Test.Acid
         public virtual void T1estC2()
         {
             var odb = test.Open("acid1");
-            AssertEquals(0, odb.GetObjects<VO.Login.Function>().Count);
+            AssertEquals(0, odb.Query<VO.Login.Function>().Count);
         }
 
         public virtual void T1estD1()
@@ -93,7 +93,7 @@ namespace Test.NDatabase.Odb.Test.Acid
         public virtual void T1estD2()
         {
             var odb = test.Open("acid1");
-            AssertEquals(0, odb.GetObjects<VO.Login.Function>().Count);
+            AssertEquals(0, odb.Query<VO.Login.Function>().Count);
         }
 
         public virtual void T1estE1()
@@ -124,7 +124,7 @@ namespace Test.NDatabase.Odb.Test.Acid
         public virtual void T1estE2()
         {
             var odb = test.Open("acid1");
-            AssertEquals(0, odb.GetObjects<VO.Login.Function>().Count);
+            AssertEquals(0, odb.Query<VO.Login.Function>().Count);
         }
 
         public virtual void T1estF1()
@@ -166,9 +166,9 @@ namespace Test.NDatabase.Odb.Test.Acid
         {
             var odb = test.Open("acid1");
             if (simpleObject)
-                AssertEquals(0, odb.GetObjects<VO.Login.Function>().Count);
+                AssertEquals(0, odb.Query<VO.Login.Function>().Count);
             else
-                AssertEquals(0, odb.GetObjects<User>().Count);
+                AssertEquals(0, odb.Query<User>().Count);
         }
 
         public virtual void T1estG1()
@@ -241,9 +241,9 @@ namespace Test.NDatabase.Odb.Test.Acid
         {
             var odb = test.Open("acid1");
             if (simpleObject)
-                AssertEquals(1000, odb.GetObjects<VO.Login.Function>().Count);
+                AssertEquals(1000, odb.Query<VO.Login.Function>().Count);
             else
-                AssertEquals(1000, odb.GetObjects<User>().Count);
+                AssertEquals(1000, odb.Query<User>().Count);
         }
 
         public virtual void T1estH1()
@@ -291,9 +291,9 @@ namespace Test.NDatabase.Odb.Test.Acid
         {
             var odb = test.Open("acid1");
             if (simpleObject)
-                AssertEquals(0, odb.GetObjects<VO.Login.Function>().Count);
+                AssertEquals(0, odb.Query<VO.Login.Function>().Count);
             else
-                AssertEquals(0, odb.GetObjects<User>().Count);
+                AssertEquals(0, odb.Query<User>().Count);
         }
 
         public virtual void T1estI1()
@@ -314,9 +314,9 @@ namespace Test.NDatabase.Odb.Test.Acid
         {
             var odb = test.Open("acid1");
             if (simpleObject)
-                AssertEquals(3, odb.GetObjects<VO.Login.Function>().Count);
+                AssertEquals(3, odb.Query<VO.Login.Function>().Count);
             else
-                AssertEquals(3, odb.GetObjects<User>().Count);
+                AssertEquals(3, odb.Query<User>().Count);
         }
 
         public virtual void T1estJ1()
@@ -336,9 +336,9 @@ namespace Test.NDatabase.Odb.Test.Acid
         {
             var odb = test.Open("acid1");
             if (simpleObject)
-                AssertEquals(3, odb.GetObjects<VO.Login.Function>().Count);
+                AssertEquals(3, odb.Query<VO.Login.Function>().Count);
             else
-                AssertEquals(3, odb.GetObjects<User>().Count);
+                AssertEquals(3, odb.Query<User>().Count);
         }
 
         public virtual void T1estK1()
@@ -358,9 +358,9 @@ namespace Test.NDatabase.Odb.Test.Acid
         {
             var odb = test.Open("acid1");
             if (simpleObject)
-                AssertEquals(3, odb.GetObjects<VO.Login.Function>().Count);
+                AssertEquals(3, odb.Query<VO.Login.Function>().Count);
             else
-                AssertEquals(3, odb.GetObjects<User>().Count);
+                AssertEquals(3, odb.Query<User>().Count);
         }
 
         public virtual void T1estL1()
@@ -391,9 +391,9 @@ namespace Test.NDatabase.Odb.Test.Acid
         {
             var odb = test.Open("acid1");
             if (simpleObject)
-                AssertEquals(3, odb.GetObjects<VO.Login.Function>().Count);
+                AssertEquals(3, odb.Query<VO.Login.Function>().Count);
             else
-                AssertEquals(3, odb.GetObjects<User>().Count);
+                AssertEquals(3, odb.Query<User>().Count);
         }
 
         public virtual void T1estM1()
@@ -413,9 +413,9 @@ namespace Test.NDatabase.Odb.Test.Acid
         {
             var odb = test.Open("acid1");
             if (simpleObject)
-                AssertEquals(0, odb.GetObjects<VO.Login.Function>().Count);
+                AssertEquals(0, odb.Query<VO.Login.Function>().Count);
             else
-                AssertEquals(0, odb.GetObjects<User>().Count);
+                AssertEquals(0, odb.Query<User>().Count);
         }
 
         public virtual void T1estN1()
@@ -435,14 +435,14 @@ namespace Test.NDatabase.Odb.Test.Acid
             var odb = test.Open("acid1");
             if (simpleObject)
             {
-                var objects = odb.GetObjects<VO.Login.Function>(new CriteriaQuery<VO.Login.Function>(Where.Equal("name", "f1000")));
+                var objects = odb.Query<VO.Login.Function>(new CriteriaQuery<VO.Login.Function>(Where.Equal("name", "f1000")));
                 var f = objects.GetFirst();
                 f.SetName("new name");
                 odb.Store(f);
             }
             else
             {
-                var objects = odb.GetObjects<User>(new CriteriaQuery<User>(Where.Equal("name", "f1000")));
+                var objects = odb.Query<User>(new CriteriaQuery<User>(Where.Equal("name", "f1000")));
                 var f = objects.GetFirst();
                 f.SetName("new name");
                 odb.Store(f);
@@ -455,12 +455,12 @@ namespace Test.NDatabase.Odb.Test.Acid
             var odb = test.Open("acid1");
             if (simpleObject)
             {
-                var objects = odb.GetObjects<VO.Login.Function>(new CriteriaQuery<VO.Login.Function>(Where.Equal("name", "new name")));
+                var objects = odb.Query<VO.Login.Function>(new CriteriaQuery<VO.Login.Function>(Where.Equal("name", "new name")));
                 odb.Delete(objects.GetFirst());
             }
             else
             {
-                var objects = odb.GetObjects<User>(new CriteriaQuery<User>(Where.Equal("name", "new name")));
+                var objects = odb.Query<User>(new CriteriaQuery<User>(Where.Equal("name", "new name")));
                 odb.Delete(objects.GetFirst());
             }
             odb.Commit();
@@ -472,12 +472,12 @@ namespace Test.NDatabase.Odb.Test.Acid
             var nb = 0;
             if (simpleObject)
             {
-                var objects = odb.GetObjects<VO.Login.Function>(new CriteriaQuery<VO.Login.Function>(Where.Equal("name", "f1000")));
+                var objects = odb.Query<VO.Login.Function>(new CriteriaQuery<VO.Login.Function>(Where.Equal("name", "f1000")));
                 nb = objects.Count;
             }
             else
             {
-                var objects = odb.GetObjects<User>(new CriteriaQuery<User>(Where.Equal("name", "f1000")));
+                var objects = odb.Query<User>(new CriteriaQuery<User>(Where.Equal("name", "f1000")));
                 nb = objects.Count;
             }
             if (nb != 0)

@@ -71,7 +71,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
         [Test]
         public virtual void Test11()
         {
-            var odb = OdbFactory.Open("valuesSubList");
+            var odb = NDb.Open("valuesSubList");
             var handler = new Handler();
             for (var i = 0; i < 10; i++)
                 handler.AddParameter(new Parameter("test " + i, "value " + i));
@@ -189,7 +189,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             odb.Store(user3);
             odb.Close();
             odb = Open("sublist4");
-            var u = odb.GetObjects<User>().GetFirst();
+            var u = odb.Query<User>().GetFirst();
             Console.Out.WriteLine(u);
             var q =
                 new ValuesCriteriaQuery<Profile>().Field("name").Sublist("functions", 1, 2, false).Size(
@@ -270,7 +270,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             odb = Open("valuesSubList3");
             var start = OdbTime.GetCurrentTimeInMs();
             IQuery q = new CriteriaQuery<Handler>();
-            var objects = odb.GetObjects<Handler>(q);
+            var objects = odb.Query<Handler>(q);
             var end = OdbTime.GetCurrentTimeInMs();
 
             Console.WriteLine("Query time: {0} ms", end - start);

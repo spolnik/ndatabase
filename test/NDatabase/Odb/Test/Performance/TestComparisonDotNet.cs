@@ -26,7 +26,7 @@ namespace Test.NDatabase.Odb.Test.Performance
                 odb.Close();
                 var t1 = OdbTime.GetCurrentTimeInTicks();
                 odb = Open("mydb.neodatis");
-                var ssss = odb.GetObjects<Class1>();
+                var ssss = odb.Query<Class1>();
                 var t2 = OdbTime.GetCurrentTimeInTicks();
                 Println("Elapsed time for inserting " + nRecords + " records: " + (t1 - t0) + " / select = " + (t2 - t1));
             }

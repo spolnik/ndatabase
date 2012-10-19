@@ -10,7 +10,7 @@ namespace NDatabase2.Odb.Core.Query.List
     /// <summary>
     ///   A collection that uses a BTree as an underlying system to provide ordered by Collections <p></p>
     /// </summary>
-    public abstract class AbstractBTreeCollection<TItem> : IObjects<TItem>, IInternalObjectSet<TItem>
+    public abstract class AbstractBTreeCollection<TItem> : IObjectSet<TItem>, IInternalObjectSet<TItem>
     {
         private readonly OrderByConstants _orderByType;
         private readonly IBTree _tree;

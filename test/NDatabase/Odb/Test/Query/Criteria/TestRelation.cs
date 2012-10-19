@@ -17,7 +17,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Close();
             odb = Open("null-rel.neodatis");
             IQuery q = new CriteriaQuery<Class2>(Where.IsNull("class1.name"));
-            var os = odb.GetObjects<Class2>(q);
+            var os = odb.Query<Class2>(q);
             odb.Close();
             AssertEquals(1, os.Count);
             var c2 = os.GetFirst();

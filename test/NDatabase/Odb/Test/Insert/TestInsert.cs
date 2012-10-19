@@ -25,7 +25,7 @@ namespace Test.NDatabase.Odb.Test.Insert
             odb.Store(user);
             odb.Close();
             odb = Open("t1.neodatis");
-            var users = odb.GetObjects<User>(true);
+            var users = odb.Query<User>(true);
             // assertEquals(nbUsers+2,users.size());
             var user2 = users.GetFirst();
             odb.Close();
@@ -49,12 +49,12 @@ namespace Test.NDatabase.Odb.Test.Insert
             odb.Store(login2);
             odb.Store(logout2);
             // select without committing
-            var l = odb.GetObjects<VO.Login.Function>(true);
+            var l = odb.Query<VO.Login.Function>(true);
             AssertEquals(4, l.Count);
             // println(l);
             odb.Close();
             odb = Open("t1u.neodatis");
-            l = odb.GetObjects<VO.Login.Function>(true);
+            l = odb.Query<VO.Login.Function>(true);
             AssertEquals(4, l.Count);
             // println(l);
             odb.Close();
@@ -74,7 +74,7 @@ namespace Test.NDatabase.Odb.Test.Insert
             odb.Store(input);
             odb.Close();
             odb = Open("t1u.neodatis");
-            var l = odb.GetObjects<VO.Login.Function>(true);
+            var l = odb.Query<VO.Login.Function>(true);
             AssertEquals(3, l.Count);
             // println(l);
             odb.Close();
@@ -99,7 +99,7 @@ namespace Test.NDatabase.Odb.Test.Insert
                 odb.Store(o);
                 odb.Close();
                 odb = Open(baseName);
-                var dates = odb.GetObjects<ObjectWithDates>();
+                var dates = odb.Query<ObjectWithDates>();
                 var o2 = dates.GetFirst();
                 Println(o2.GetName());
                 Println(o2.GetJavaUtilDate());
@@ -130,7 +130,7 @@ namespace Test.NDatabase.Odb.Test.Insert
             odb.Store(user);
             odb.Close();
             odb = Open("t31.neodatis");
-            var users = odb.GetObjects<User>(true);
+            var users = odb.Query<User>(true);
             odb.Close();
             // assertEquals(nbUsers+2,users.size());
             var user2 = users.GetFirst();
@@ -144,9 +144,9 @@ namespace Test.NDatabase.Odb.Test.Insert
             DeleteBase("t3.neodatis");
             // LogUtil.objectWriterOn(true);
             var odb = Open("t3.neodatis");
-            var nbUsers = odb.GetObjects<User>(true).Count;
-            var nbProfiles = odb.GetObjects<Profile>(true).Count;
-            var nbFunctions = odb.GetObjects<VO.Login.Function>(true).Count;
+            var nbUsers = odb.Query<User>(true).Count;
+            var nbProfiles = odb.Query<Profile>(true).Count;
+            var nbFunctions = odb.Query<VO.Login.Function>(true).Count;
             var login = new VO.Login.Function("login");
             var logout = new VO.Login.Function("logout");
             IList<VO.Login.Function> list = new List<VO.Login.Function>();
@@ -160,9 +160,9 @@ namespace Test.NDatabase.Odb.Test.Insert
             odb.Store(userB);
             odb.Close();
             odb = Open("t3.neodatis");
-            var users = odb.GetObjects<User>(true);
-            var profiles = odb.GetObjects<Profile>(true);
-            var functions = odb.GetObjects<VO.Login.Function>(true);
+            var users = odb.Query<User>(true);
+            var profiles = odb.Query<Profile>(true);
+            var functions = odb.Query<VO.Login.Function>(true);
             // assertEquals(nbUsers+2,users.size());
             var user2 = users.GetFirst();
             AssertEquals(user.ToString(), user2.ToString());
@@ -177,9 +177,9 @@ namespace Test.NDatabase.Odb.Test.Insert
         {
             DeleteBase("ti1.neodatis");
             var odb = Open("ti1.neodatis");
-            var nbUsers = odb.GetObjects<User>(true).Count;
-            var nbProfiles = odb.GetObjects<Profile>(true).Count;
-            var nbFunctions = odb.GetObjects<VO.Login.Function>(true).Count;
+            var nbUsers = odb.Query<User>(true).Count;
+            var nbProfiles = odb.Query<Profile>(true).Count;
+            var nbFunctions = odb.Query<VO.Login.Function>(true).Count;
             var login = new VO.Login.Function("login");
             var logout = new VO.Login.Function("logout");
             var disconnect = new VO.Login.Function("disconnect");
@@ -196,9 +196,9 @@ namespace Test.NDatabase.Odb.Test.Insert
             odb.Store(user);
             odb.Store(userB);
             odb.Commit();
-            var functions = odb.GetObjects<VO.Login.Function>(true);
-            var profiles = odb.GetObjects<Profile>(true);
-            var users = odb.GetObjects<User>(true);
+            var functions = odb.Query<VO.Login.Function>(true);
+            var profiles = odb.Query<Profile>(true);
+            var users = odb.Query<User>(true);
             odb.Close();
             // assertEquals(nbUsers+2,users.size());
             var user2 = users.GetFirst();
@@ -216,9 +216,9 @@ namespace Test.NDatabase.Odb.Test.Insert
             // Configuration.addLogId("ObjectWriter");
             // Configuration.addLogId("ObjectReader");
             // Configuration.addLogId("FileSystemInterface");
-            var nbUsers = odb.GetObjects<User>(true).Count;
-            var nbProfiles = odb.GetObjects<Profile>(true).Count;
-            var nbFunctions = odb.GetObjects<VO.Login.Function>(true).Count;
+            var nbUsers = odb.Query<User>(true).Count;
+            var nbProfiles = odb.Query<Profile>(true).Count;
+            var nbFunctions = odb.Query<VO.Login.Function>(true).Count;
             var login = new VO.Login.Function("login");
             var logout = new VO.Login.Function("logout");
             IList<VO.Login.Function> list = new List<VO.Login.Function>();
@@ -231,9 +231,9 @@ namespace Test.NDatabase.Odb.Test.Insert
             odb.Store(userB);
             odb.Close();
             odb = Open("t4.neodatis");
-            var users = odb.GetObjects<User>(true);
-            var profiles = odb.GetObjects<Profile>(true);
-            var functions = odb.GetObjects<VO.Login.Function>(true);
+            var users = odb.Query<User>(true);
+            var profiles = odb.Query<Profile>(true);
+            var functions = odb.Query<VO.Login.Function>(true);
             // assertEquals(nbUsers+2,users.size());
             var user2 = users.GetFirst();
             AssertEquals(user.ToString(), user2.ToString());
@@ -248,9 +248,9 @@ namespace Test.NDatabase.Odb.Test.Insert
         {
             DeleteBase("t5.neodatis");
             var odb = Open("t5.neodatis");
-            var nbUsers = odb.GetObjects<User>(true).Count;
-            var nbProfiles = odb.GetObjects<Profile>(true).Count;
-            var nbFunctions = odb.GetObjects<VO.Login.Function>(true).Count;
+            var nbUsers = odb.Query<User>(true).Count;
+            var nbProfiles = odb.Query<Profile>(true).Count;
+            var nbFunctions = odb.Query<VO.Login.Function>(true).Count;
             var login = new VO.Login.Function("login");
             var logout = new VO.Login.Function("logout");
             IList<VO.Login.Function> list = new List<VO.Login.Function>();
@@ -262,9 +262,9 @@ namespace Test.NDatabase.Odb.Test.Insert
             odb.Store(user);
             odb.Store(userB);
             odb.Commit();
-            var users = odb.GetObjects<User>(true);
-            var profiles = odb.GetObjects<Profile>(true);
-            var functions = odb.GetObjects<VO.Login.Function>(true);
+            var users = odb.Query<User>(true);
+            var profiles = odb.Query<Profile>(true);
+            var functions = odb.Query<VO.Login.Function>(true);
             odb.Close();
             // assertEquals(nbUsers+2,users.size());
             var user2 = users.GetFirst();
@@ -289,7 +289,7 @@ namespace Test.NDatabase.Odb.Test.Insert
                 odb.Store(tc1);
                 odb.Close();
                 odb = Open("date.neodatis");
-                var l = odb.GetObjects<TestClass>();
+                var l = odb.Query<TestClass>();
                 AssertEquals(1, l.Count);
                 var tc2 = l.GetFirst();
                 AssertEquals(t1, tc2.GetDate1().Millisecond);
@@ -308,20 +308,20 @@ namespace Test.NDatabase.Odb.Test.Insert
         {
             DeleteBase("t2.neodatis");
             var odb = Open("t2.neodatis");
-            var nbFunctions = odb.GetObjects<VO.Login.Function>(true).Count;
+            var nbFunctions = odb.Query<VO.Login.Function>(true).Count;
             var login = new VO.Login.Function("login");
             var logout = new VO.Login.Function("logout");
             odb.Store(login);
             odb.Store(logout);
             odb.Close();
             odb = Open("t2.neodatis");
-            var functions = odb.GetObjects<VO.Login.Function>(true);
+            var functions = odb.Query<VO.Login.Function>(true);
             var f1 = functions.GetFirst();
             f1.SetName("login1");
             odb.Store(f1);
             odb.Close();
             odb = Open("t2.neodatis");
-            functions = odb.GetObjects<VO.Login.Function>(true);
+            functions = odb.Query<VO.Login.Function>(true);
             odb.Close();
             AssertEquals(2, functions.Count);
             AssertEquals("login1", (functions.GetFirst()).GetName());
@@ -341,7 +341,7 @@ namespace Test.NDatabase.Odb.Test.Insert
                 odb.Store(tc1);
                 odb.Close();
                 odb = Open("date.neodatis");
-                var l = odb.GetObjects<TestClass>();
+                var l = odb.Query<TestClass>();
                 AssertEquals(1, l.Count);
                 var tc2 = l.GetFirst();
                 AssertEquals(string.Empty, tc2.GetString1());

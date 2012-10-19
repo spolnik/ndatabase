@@ -16,7 +16,7 @@ namespace NDatabase.UnitTests.CodeSnippets
         [SetUp]
         public void SetUp()
         {
-            OdbFactory.Delete(TutorialDb5MinName);
+            NDb.Delete(TutorialDb5MinName);
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace NDatabase.UnitTests.CodeSnippets
         {
             var sport = new Sport("volley-ball");
 
-            using (var odb = OdbFactory.Open(TutorialDb5MinName))
+            using (var odb = NDb.Open(TutorialDb5MinName))
                 odb.Store(sport);
         }
 
@@ -68,16 +68,16 @@ namespace NDatabase.UnitTests.CodeSnippets
             // Then create a volley ball game for the two teams
             var game = new Game(DateTime.Now, volleyball, team1, team2);
 
-            using (var odb = OdbFactory.Open(TutorialDb5MinName))
+            using (var odb = NDb.Open(TutorialDb5MinName))
                 odb.Store(game);
         }
 
         private static void Step3()
         {
-            using (var odb = OdbFactory.Open(TutorialDb5MinName))
+            using (var odb = NDb.Open(TutorialDb5MinName))
             {
                 IQuery query = new CriteriaQuery<Player>(Where.Equal("Name", "julia"));
-                var players = odb.GetObjects<Player>(query);
+                var players = odb.Query<Player>(query);
                 
                 Console.WriteLine("\nStep 3 : Players with name julia");
 
@@ -106,7 +106,7 @@ namespace NDatabase.UnitTests.CodeSnippets
 
         private static void Step4()
         {
-            using (var odb = OdbFactory.Open(TutorialDb5MinName))
+            using (var odb = NDb.Open(TutorialDb5MinName))
             {
                 var agassi = new Player("André Agassi", DateTime.Now, new Sport("Tennis"));
                 odb.Store(agassi);
@@ -114,7 +114,7 @@ namespace NDatabase.UnitTests.CodeSnippets
                 IQuery query = new CriteriaQuery<Player>(Where.Equal("FavoriteSport._name", "volley-ball"));
 //                query.Descend("FavoriteSport").Descend("_name").Constrain("volley-ball").Equal();
 
-                var players = odb.GetObjects<Player>(query);
+                var players = odb.Query<Player>(query);
 
                 Console.WriteLine("\nStep 4 : Players of Voller-ball");
 
@@ -127,11 +127,11 @@ namespace NDatabase.UnitTests.CodeSnippets
 
         private static void Step5()
         {
-            using (var odb = OdbFactory.Open(TutorialDb5MinName))
+            using (var odb = NDb.Open(TutorialDb5MinName))
             {
                 // retrieve the volley ball sport object
                 IQuery query = new CriteriaQuery<Sport>(Where.Equal("_name", "volley-ball"));
-                var volleyBall = odb.GetObjects<Sport>(query).GetFirst();
+                var volleyBall = odb.Query<Sport>(query).GetFirst();
  
                 Assert.That(volleyBall.Name, Is.EqualTo("volley-ball"));
 
@@ -139,7 +139,7 @@ namespace NDatabase.UnitTests.CodeSnippets
                 // the volley ball object
                 query = new CriteriaQuery<Player>(Where.Equal("FavoriteSport", volleyBall));
  
-                var players = odb.GetObjects<Player>(query);
+                var players = odb.Query<Player>(query);
 
                 Console.WriteLine("\nStep 5: Players of Voller-ball");
 
@@ -152,13 +152,13 @@ namespace NDatabase.UnitTests.CodeSnippets
 
         private static void Step6()
         {
-            using (var odb = OdbFactory.Open(TutorialDb5MinName))
+            using (var odb = NDb.Open(TutorialDb5MinName))
             {
                 IQuery query =
                     new CriteriaQuery<Player>(
                         Where.Equal("FavoriteSport._name", "volley-ball").Or(Where.Like("FavoriteSport._name", "%nnis")));
  
-                var players = odb.GetObjects<Player>(query);
+                var players = odb.Query<Player>(query);
  
                 Console.WriteLine("\nStep 6 : Volley-ball and Tennis Players");
  
@@ -171,11 +171,11 @@ namespace NDatabase.UnitTests.CodeSnippets
 
         private static void Step7()
         {
-            using (var odb = OdbFactory.Open(TutorialDb5MinName))
+            using (var odb = NDb.Open(TutorialDb5MinName))
             {
                 IQuery query = new CriteriaQuery<Player>(Where.Equal("FavoriteSport._name", "volley-ball").Not());
  
-                var players = odb.GetObjects<Player>(query);
+                var players = odb.Query<Player>(query);
  
                 Console.WriteLine("\nStep 7 : Players that don't play Volley-ball");
 
@@ -197,11 +197,11 @@ namespace NDatabase.UnitTests.CodeSnippets
 
         private static void Step8()
         {
-            using (var odb = OdbFactory.Open(TutorialDb5MinName))
+            using (var odb = NDb.Open(TutorialDb5MinName))
             {
                 IQuery query = new VolleySimpleNativeQuery();
  
-                var players = odb.GetObjects<Player>(query);
+                var players = odb.Query<Player>(query);
  
                 Console.WriteLine("\nStep 8 bis: Players that play Volley-ball");
 
@@ -214,15 +214,15 @@ namespace NDatabase.UnitTests.CodeSnippets
 
         private static void Step9()
         {
-            using (var odb = OdbFactory.Open(TutorialDb5MinName))
+            using (var odb = NDb.Open(TutorialDb5MinName))
             {
                 IQuery query = new CriteriaQuery<Player>(Where.Equal("Name", "magdalena"));
-                var players = odb.GetObjects<Player>(query);
+                var players = odb.Query<Player>(query);
                 var magdalena = players.GetFirst();
  
                 // builds a query to get all teams where mihn plays
                 query = new CriteriaQuery<Team>(Where.Contain("Players", magdalena));
-                var teams = odb.GetObjects<Team>(query);
+                var teams = odb.Query<Team>(query);
 
                 Console.WriteLine("\nStep 9: Team where magdalena plays");
 
@@ -235,12 +235,12 @@ namespace NDatabase.UnitTests.CodeSnippets
 
         private static void Step10()
         {
-            using (var odb = OdbFactory.Open(TutorialDb5MinName))
+            using (var odb = NDb.Open(TutorialDb5MinName))
             {
                 IQuery query = new CriteriaQuery<Player>();
                 query.OrderByAsc("Name");
 
-                var players = odb.GetObjects<Player>(query);
+                var players = odb.Query<Player>(query);
 
                 Console.WriteLine("\nStep 10: Players ordered by name asc");
 
@@ -250,7 +250,7 @@ namespace NDatabase.UnitTests.CodeSnippets
                 Assert.That(players, Has.Count.EqualTo(5));
 
                 query.OrderByDesc("Name");
-                players = odb.GetObjects<Player>(query);
+                players = odb.Query<Player>(query);
 
                 Console.WriteLine("\nStep 10: Players ordered by name desc");
 

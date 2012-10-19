@@ -38,12 +38,12 @@ namespace Test.NDatabase.Odb.Test.Delete
             odb.Store(function3);
             odb.Close();
             odb = Open(baseName);
-            var l = odb.GetObjects<VO.Login.Function>(new CriteriaQuery<VO.Login.Function>(Where.Equal("name", "function2")));
+            var l = odb.Query<VO.Login.Function>(new CriteriaQuery<VO.Login.Function>(Where.Equal("name", "function2")));
             var function = l.GetFirst();
             odb.Delete(function);
             odb.Close();
             odb = Open(baseName);
-            var l2 = odb.GetObjects<VO.Login.Function>(true);
+            var l2 = odb.Query<VO.Login.Function>(true);
             AssertEquals(n + 2, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             odb.Close();
             DeleteBase(baseName);
@@ -59,20 +59,20 @@ namespace Test.NDatabase.Odb.Test.Delete
             var baseName = GetBaseName();
             IOdb odb = null;
             odb = Open(baseName);
-            long size = odb.GetObjects<VO.Login.Function>().Count;
+            long size = odb.Query<VO.Login.Function>().Count;
             var f1 = new VO.Login.Function("function1");
             odb.Store(f1);
             odb.Close();
             odb = Open(baseName);
-            var f1bis = odb.GetObjects<VO.Login.Function>().GetFirst();
+            var f1bis = odb.Query<VO.Login.Function>().GetFirst();
             odb.Delete(f1bis);
             odb.Close();
             odb = Open(baseName);
-            AssertEquals(size, odb.GetObjects<VO.Login.Function>().Count);
+            AssertEquals(size, odb.Query<VO.Login.Function>().Count);
             odb.Store(new VO.Login.Function("last function"));
             odb.Close();
             odb = Open(baseName);
-            var l = odb.GetObjects<VO.Login.Function>();
+            var l = odb.Query<VO.Login.Function>();
             odb.Close();
             AssertEquals(size + 1, l.Count);
         }
@@ -92,12 +92,12 @@ namespace Test.NDatabase.Odb.Test.Delete
             odb.Store(f1);
             odb.Close();
             odb = Open(baseName);
-            var f1bis = odb.GetObjects<VO.Login.Function>().GetFirst();
+            var f1bis = odb.Query<VO.Login.Function>().GetFirst();
             odb.Delete(f1bis);
             odb.Store(new VO.Login.Function("last function"));
             odb.Close();
             odb = Open(baseName);
-            AssertEquals(size + 1, odb.GetObjects<VO.Login.Function>().Count);
+            AssertEquals(size + 1, odb.Query<VO.Login.Function>().Count);
             odb.Close();
         }
 
@@ -129,7 +129,7 @@ namespace Test.NDatabase.Odb.Test.Delete
                 odb.DeleteObjectWithId(idf2);
                 odb.Close();
                 odb = Open(baseName);
-                var l = odb.GetObjects<VO.Login.Function>();
+                var l = odb.Query<VO.Login.Function>();
                 odb.Close();
                 AssertEquals(1, l.Count);
             }
@@ -177,7 +177,7 @@ namespace Test.NDatabase.Odb.Test.Delete
                 odb.Delete(f2);
                 odb.Close();
                 odb = Open(baseName);
-                var l = odb.GetObjects<VO.Login.Function>();
+                var l = odb.Query<VO.Login.Function>();
                 odb.Close();
                 AssertEquals(1, l.Count);
             }
@@ -223,7 +223,7 @@ namespace Test.NDatabase.Odb.Test.Delete
                 odb.Store(f6);
                 odb.Store(f7);
                 AssertEquals(7, odb.Count(new CriteriaQuery<VO.Login.Function>()));
-                var objects = odb.GetObjects<VO.Login.Function>();
+                var objects = odb.Query<VO.Login.Function>();
                 var i = 0;
                 while (objects.HasNext() && i < 4)
                 {
@@ -234,7 +234,7 @@ namespace Test.NDatabase.Odb.Test.Delete
                 odb.Close();
                 odb = Open(baseName);
                 AssertEquals(3, odb.Count(new CriteriaQuery<VO.Login.Function>()));
-                objects = odb.GetObjects<VO.Login.Function>();
+                objects = odb.Query<VO.Login.Function>();
                 // println(objects);
                 AssertEquals("function5", (objects.Next()).GetName());
                 AssertEquals("function6", (objects.Next()).GetName());
@@ -275,7 +275,7 @@ namespace Test.NDatabase.Odb.Test.Delete
             AssertEquals(2, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             odb.Close();
             odb = Open(baseName);
-            AssertEquals(2, odb.GetObjects<VO.Login.Function>().Count);
+            AssertEquals(2, odb.Query<VO.Login.Function>().Count);
             odb.Close();
             DeleteBase(baseName);
         }
@@ -306,7 +306,7 @@ namespace Test.NDatabase.Odb.Test.Delete
             AssertEquals(2, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             odb.Close();
             odb = Open(baseName);
-            AssertEquals(2, odb.GetObjects<VO.Login.Function>().Count);
+            AssertEquals(2, odb.Query<VO.Login.Function>().Count);
             odb.Close();
             DeleteBase(baseName);
         }
@@ -340,7 +340,7 @@ namespace Test.NDatabase.Odb.Test.Delete
             AssertEquals(2, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             odb.Close();
             odb = Open(baseName);
-            AssertEquals(2, odb.GetObjects<VO.Login.Function>().Count);
+            AssertEquals(2, odb.Query<VO.Login.Function>().Count);
             odb.Close();
             DeleteBase(baseName);
         }
@@ -372,7 +372,7 @@ namespace Test.NDatabase.Odb.Test.Delete
             AssertEquals(size, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             odb.Close();
             odb = Open(baseName);
-            AssertEquals(size, odb.GetObjects<VO.Login.Function>().Count);
+            AssertEquals(size, odb.Query<VO.Login.Function>().Count);
             odb.Close();
             DeleteBase(baseName);
         }
@@ -406,7 +406,7 @@ namespace Test.NDatabase.Odb.Test.Delete
             AssertEquals(3, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             odb.Close();
             odb = Open(baseName);
-            AssertEquals(3, odb.GetObjects<VO.Login.Function>().Count);
+            AssertEquals(3, odb.Query<VO.Login.Function>().Count);
             odb.Close();
             DeleteBase(baseName);
         }
@@ -445,7 +445,7 @@ namespace Test.NDatabase.Odb.Test.Delete
             AssertEquals(5, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             odb.Close();
             odb = Open(baseName);
-            AssertEquals(5, odb.GetObjects<VO.Login.Function>().Count);
+            AssertEquals(5, odb.Query<VO.Login.Function>().Count);
             odb.Close();
             DeleteBase(baseName);
         }
@@ -468,15 +468,15 @@ namespace Test.NDatabase.Odb.Test.Delete
             odb.Store(f1);
             odb.Close();
             odb = Open(baseName);
-            var objects = odb.GetObjects<VO.Login.Function>();
+            var objects = odb.Query<VO.Login.Function>();
             AssertEquals(1, objects.Count);
             var f2 = objects.GetFirst();
             var oid = odb.GetObjectId(f2);
             odb.DeleteObjectWithId(oid);
-            AssertEquals(0, odb.GetObjects<VO.Login.Function>().Count);
+            AssertEquals(0, odb.Query<VO.Login.Function>().Count);
             odb.Close();
             odb = Open(baseName);
-            objects = odb.GetObjects<VO.Login.Function>();
+            objects = odb.Query<VO.Login.Function>();
             AssertEquals(0, objects.Count);
         }
 
@@ -501,17 +501,17 @@ namespace Test.NDatabase.Odb.Test.Delete
             odb.Close();
             odb = Open(baseName);
             // checks functions
-            var lfunctions = odb.GetObjects<VO.Login.Function>(true);
+            var lfunctions = odb.Query<VO.Login.Function>(true);
             AssertEquals(nbFunctions + 3, lfunctions.Count);
-            var l = odb.GetObjects<VO.Login.Function>(new CriteriaQuery<VO.Login.Function>(Where.Equal("name", "function2")));
+            var l = odb.Query<VO.Login.Function>(new CriteriaQuery<VO.Login.Function>(Where.Equal("name", "function2")));
             var function = l.GetFirst();
             odb.Delete(function);
             odb.Close();
             odb = Open(baseName);
             AssertEquals(nbFunctions + 2, odb.Count(new CriteriaQuery<VO.Login.Function>()));
-            var l2 = odb.GetObjects<VO.Login.Function>(true);
+            var l2 = odb.Query<VO.Login.Function>(true);
             // check Profile 1
-            var lprofile = odb.GetObjects<Profile>(new CriteriaQuery<Profile>( Where.Equal("name", "profile1")));
+            var lprofile = odb.Query<Profile>(new CriteriaQuery<Profile>( Where.Equal("name", "profile1")));
             var p1 = lprofile.GetFirst();
             AssertEquals(2, p1.GetFunctions().Count);
             odb.Close();
@@ -545,15 +545,15 @@ namespace Test.NDatabase.Odb.Test.Delete
             var f1 = new VO.Login.Function("function1");
             odb.Store(f1);
             odb.Commit();
-            var objects = odb.GetObjects<VO.Login.Function>(new CriteriaQuery<VO.Login.Function>(Where.Like("name", "func%")));
+            var objects = odb.Query<VO.Login.Function>(new CriteriaQuery<VO.Login.Function>(Where.Like("name", "func%")));
             AssertEquals(1, objects.Count);
             var f2 = objects.GetFirst();
             var oid = odb.GetObjectId(f2);
             odb.DeleteObjectWithId(oid);
-            AssertEquals(1, odb.GetObjects<VO.Login.Function>().Count);
+            AssertEquals(1, odb.Query<VO.Login.Function>().Count);
             odb.Close();
             odb = Open(baseName);
-            objects = odb.GetObjects<VO.Login.Function>();
+            objects = odb.Query<VO.Login.Function>();
             AssertEquals(1, objects.Count);
         }
 
@@ -584,7 +584,7 @@ namespace Test.NDatabase.Odb.Test.Delete
             odb.Delete(f1);
             odb.Close();
             odb = Open(baseName);
-            var objects = odb.GetObjects<VO.Login.Function>(new CriteriaQuery<VO.Login.Function>());
+            var objects = odb.Query<VO.Login.Function>(new CriteriaQuery<VO.Login.Function>());
             AssertEquals(2, objects.Count);
             odb.Close();
         }
@@ -611,7 +611,7 @@ namespace Test.NDatabase.Odb.Test.Delete
                 odb.Store(new VO.Login.Function("function " + i));
             odb.Close();
             odb = Open(baseName);
-            var objects = odb.GetObjects<VO.Login.Function>(false);
+            var objects = odb.Query<VO.Login.Function>(false);
             var j = 0;
             while (objects.HasNext() && j < objects.Count - 1)
             {
@@ -643,10 +643,10 @@ namespace Test.NDatabase.Odb.Test.Delete
             Println(oid1);
             Println(oid2);
             odb = Open(baseName);
-            odb.Delete(odb.GetObjects<VO.Login.Function>().GetFirst());
+            odb.Delete(odb.Query<VO.Login.Function>().GetFirst());
             odb.Close();
             odb = Open(baseName);
-            var f = odb.GetObjects<VO.Login.Function>().GetFirst();
+            var f = odb.Query<VO.Login.Function>().GetFirst();
             odb.Close();
             DeleteBase(baseName);
             AssertEquals("function 2", f.GetName());
@@ -668,14 +668,14 @@ namespace Test.NDatabase.Odb.Test.Delete
             }
             // IStorageEngine engine = Dummy.getEngine(odb);
             odb.Commit();
-            var l = odb.GetObjects<VO.Login.Function>(true);
+            var l = odb.Query<VO.Login.Function>(true);
             var j = 0;
             while (l.HasNext())
             {
                 Console.WriteLine(" i=" + j);
                 var f = l.Next();
                 odb.Delete(f);
-                var l2 = odb.GetObjects<VO.Login.Function>();
+                var l2 = odb.Query<VO.Login.Function>();
                 AssertEquals(size + n - (j + 1), l2.Count);
                 j++;
             }
@@ -772,7 +772,7 @@ namespace Test.NDatabase.Odb.Test.Delete
                 odb.Delete(f3bis);
                 odb.Close();
                 odb = Open(baseName);
-                var l = odb.GetObjects<VO.Login.Function>();
+                var l = odb.Query<VO.Login.Function>();
                 odb.Close();
                 AssertEquals(2, l.Count);
             }
@@ -808,7 +808,7 @@ namespace Test.NDatabase.Odb.Test.Delete
             odb.Store(new VO.Login.Function("last function"));
             odb.Close();
             odb = Open(baseName);
-            var l = odb.GetObjects<VO.Login.Function>();
+            var l = odb.Query<VO.Login.Function>();
             odb.Close();
             AssertEquals(3, l.Count);
         }
@@ -840,7 +840,7 @@ namespace Test.NDatabase.Odb.Test.Delete
             odb.Store(new VO.Login.Function("last function"));
             odb.Close();
             odb = Open(baseName);
-            var l = odb.GetObjects<VO.Login.Function>();
+            var l = odb.Query<VO.Login.Function>();
             odb.Close();
             AssertEquals(3, l.Count);
         }

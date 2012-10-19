@@ -18,7 +18,7 @@ namespace Test.NDatabase.Odb.Test.Performance
         {
             var inMemory = true;
             // Deletes the database file
-            OdbFactory.Delete(OdbFileName);
+            NDb.Delete(OdbFileName);
             long t1 = 0;
             long t2 = 0;
             long t3 = 0;
@@ -29,12 +29,12 @@ namespace Test.NDatabase.Odb.Test.Performance
             long t77 = 0;
             long t8 = 0;
             IOdb odb = null;
-            IObjects<User> l = null;
+            IObjectSet<User> l = null;
             User so = null;
             // Insert TEST_SIZE objects
             Console.Out.WriteLine("Inserting " + TestSize + " objects");
             t1 = OdbTime.GetCurrentTimeInTicks();
-            odb = OdbFactory.Open(OdbFileName);
+            odb = NDb.Open(OdbFileName);
 
             for (var i = 0; i < TestSize; i++)
             {
@@ -47,9 +47,9 @@ namespace Test.NDatabase.Odb.Test.Performance
             t3 = OdbTime.GetCurrentTimeInTicks();
             Console.Out.WriteLine("Retrieving " + TestSize + " objects");
             // Reopen the database
-            odb = OdbFactory.Open(OdbFileName);
+            odb = NDb.Open(OdbFileName);
             // Gets retrieve the TEST_SIZE objects
-            l = odb.GetObjects<User>(inMemory);
+            l = odb.Query<User>(inMemory);
             t4 = OdbTime.GetCurrentTimeInTicks();
             // Actually get objects
             while (l.HasNext())
@@ -73,8 +73,8 @@ namespace Test.NDatabase.Odb.Test.Performance
             odb.Close();
             t7 = OdbTime.GetCurrentTimeInTicks();
             Console.Out.WriteLine("Deleting " + TestSize + " objects");
-            odb = OdbFactory.Open(OdbFileName);
-            l = odb.GetObjects<User>(inMemory);
+            odb = NDb.Open(OdbFileName);
+            l = odb.Query<User>(inMemory);
             t77 = OdbTime.GetCurrentTimeInTicks();
             // Actually get objects
             while (l.HasNext())
@@ -84,7 +84,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             }
             odb.Close();
             t8 = OdbTime.GetCurrentTimeInTicks();
-            odb = OdbFactory.Open(OdbFileName);
+            odb = NDb.Open(OdbFileName);
             odb.Close();
             DisplayResult("ODB " + TestSize + " User objects ", t1, t2, t3, t4, t5, t6, t7, t77, t8);
         }

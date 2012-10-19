@@ -35,7 +35,7 @@ namespace NDatabase.UnitTests.CodeSnippets
         [SetUp]
         public void SetUp()
         {
-            OdbFactory.Delete("inserting_trigger.db");
+            NDb.Delete("inserting_trigger.db");
         }
 
         [Test] 
@@ -44,7 +44,7 @@ namespace NDatabase.UnitTests.CodeSnippets
             var mage = new Mage("Merlin", 3.3, 3.4);
             var myTrigger = new MyTrigger();
 
-            using (var odb = OdbFactory.Open("inserting_trigger.db"))
+            using (var odb = NDb.Open("inserting_trigger.db"))
             {
                 odb.AddInsertTrigger<Mage>(myTrigger);
                 odb.Store(mage);
@@ -53,9 +53,9 @@ namespace NDatabase.UnitTests.CodeSnippets
             Assert.That(myTrigger.BeforeInvoked, Is.True);
             Assert.That(myTrigger.AfterInvoked, Is.True);
 
-            using (var odb = OdbFactory.Open("inserting_trigger.db"))
+            using (var odb = NDb.Open("inserting_trigger.db"))
             {
-                var merlin = odb.GetObjects<Mage>().GetFirst();
+                var merlin = odb.Query<Mage>().GetFirst();
                 Assert.That(merlin.Attack, Is.EqualTo(3.3 + 1.1));
             }
         }

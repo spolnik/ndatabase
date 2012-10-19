@@ -15,7 +15,7 @@ namespace Test.NDatabase.Test.Btree.Impl.Singlevalue
     {
         private IBTreeSingleValuePerKey GetBTree(int degree)
         {
-            var odb = OdbFactory.Open(GetBaseName());
+            var odb = NDb.Open(GetBaseName());
 
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
             storageEngine.GetObjectWriter().FileSystemProcessor.FileSystemInterface.GetIo().EnableAutomaticDelete(true);

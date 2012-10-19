@@ -9,29 +9,29 @@ namespace NDatabase.UnitTests.Bugs.Index
         [Test]
         public void It_should_return_the_same_number_of_elements_when_using_index_and_when_doesnt_use_index()
         {
-            OdbFactory.Delete("IndexIssue.ndb");
+            NDb.Delete("IndexIssue.ndb");
 
             const int size = 50;
 
             for (var i = 0; i < size; i++)
             {
-                using (var odb = OdbFactory.Open("IndexIssue.ndb"))
+                using (var odb = NDb.Open("IndexIssue.ndb"))
                 {
                     odb.Store(new SampleClass {ID = "ID." + i.ToString(), Value = i});
                 }
             }
 
             long count;
-            using (var odb = OdbFactory.OpenLast())
+            using (var odb = NDb.OpenLast())
             {
                 var query = new CriteriaQuery<SampleClass>(Where.InvariantEqual("ID", "id.5"));
                 count = odb.Count(query);
             }
 
             long count2;
-            using (var odb = OdbFactory.OpenLast())
+            using (var odb = NDb.OpenLast())
             {
-                odb.GetClassRepresentation<SampleClass>().AddIndexOn("index", new[] { "ID" });
+                odb.IndexManagerFor<SampleClass>().AddIndexOn("index", new[] { "ID" });
 
                 var query = new CriteriaQuery<SampleClass>(Where.InvariantEqual("ID", "id.5"));
                 count2 = odb.Count(query);
@@ -43,29 +43,29 @@ namespace NDatabase.UnitTests.Bugs.Index
         [Test]
         public void It_should_return_the_same_number_of_elements_when_using_unique_index_and_when_doesnt_use_index()
         {
-            OdbFactory.Delete("IndexIssue.ndb");
+            NDb.Delete("IndexIssue.ndb");
 
             const int size = 50;
 
             for (var i = 0; i < size; i++)
             {
-                using (var odb = OdbFactory.Open("IndexIssue.ndb"))
+                using (var odb = NDb.Open("IndexIssue.ndb"))
                 {
                     odb.Store(new SampleClass { ID = "ID." + i.ToString(), Value = i });
                 }
             }
 
             long count;
-            using (var odb = OdbFactory.OpenLast())
+            using (var odb = NDb.OpenLast())
             {
                 var query = new CriteriaQuery<SampleClass>(Where.InvariantEqual("ID", "id.5"));
                 count = odb.Count(query);
             }
 
             long count2;
-            using (var odb = OdbFactory.OpenLast())
+            using (var odb = NDb.OpenLast())
             {
-                odb.GetClassRepresentation<SampleClass>().AddUniqueIndexOn("index", new[] { "ID" });
+                odb.IndexManagerFor<SampleClass>().AddUniqueIndexOn("index", new[] { "ID" });
 
                 var query = new CriteriaQuery<SampleClass>(Where.InvariantEqual("ID", "id.5"));
                 count2 = odb.Count(query);

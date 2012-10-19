@@ -103,7 +103,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3
         /// <param name="returnObjects"> To indicate if object instances must be created </param>
         /// <param name="queryResultAction"> </param>
         /// <returns> The list of objects </returns>
-        IObjects<TResult> GetObjectInfos<TResult, TObject>(IQuery query, bool inMemory, int startIndex, int endIndex, bool returnObjects,
+        IObjectSet<TResult> GetObjectInfos<TResult, TObject>(IQuery query, bool inMemory, int startIndex, int endIndex, bool returnObjects,
                                       IMatchingObjectAction queryResultAction) where TObject : class;
 
         string GetBaseIdentification();

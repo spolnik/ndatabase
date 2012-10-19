@@ -34,7 +34,7 @@ namespace Test.NDatabase.Odb.Test.List.Update
             try
             {
                 odb = Open(file);
-                var l2 = odb.GetObjects<DadosUsuario>();
+                var l2 = odb.Query<DadosUsuario>();
                 Println(l2);
                 var du = l2.GetFirst();
                 du.GetPublicados().Add(new Publicacao("p2", "Texto2"));
@@ -48,7 +48,7 @@ namespace Test.NDatabase.Odb.Test.List.Update
             try
             {
                 odb = Open(file);
-                var l2 = odb.GetObjects<DadosUsuario>();
+                var l2 = odb.Query<DadosUsuario>();
                 Println(l2);
                 var du = l2.GetFirst();
                 Println(du.GetPublicados());
@@ -91,7 +91,7 @@ namespace Test.NDatabase.Odb.Test.List.Update
                 try
                 {
                     odb = Open(file);
-                    var l2 = odb.GetObjects<DadosUsuario>();
+                    var l2 = odb.Query<DadosUsuario>();
                     // println(l2);
                     var du = l2.GetFirst();
                     du.GetPublicados().Add(new Publicacao("p" + (i + 1), "Texto" + (i + 1)));
@@ -106,7 +106,7 @@ namespace Test.NDatabase.Odb.Test.List.Update
             try
             {
                 odb = Open(file);
-                var l2 = odb.GetObjects<DadosUsuario>();
+                var l2 = odb.Query<DadosUsuario>();
                 Println(l2);
                 var du = l2.GetFirst();
                 Println(du.GetPublicados());

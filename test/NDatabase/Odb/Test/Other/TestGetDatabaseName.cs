@@ -33,7 +33,7 @@ namespace Test.NDatabase.Odb.Test.Other
             string s;
             using (var odb = Open(baseName))
             {
-                s = odb.GetName();
+                s = odb.GetDbId();
             }
             AssertEquals(baseName, s);
         }

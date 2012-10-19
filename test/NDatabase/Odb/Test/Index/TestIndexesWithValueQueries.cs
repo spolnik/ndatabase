@@ -16,7 +16,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var baseName = GetBaseName();
             const int size = 1000;
             IOdb odb = Open(baseName);
-            odb.GetClassRepresentation<VO.Login.Function>().AddIndexOn("index1", new[] {"name"});
+            odb.IndexManagerFor<VO.Login.Function>().AddIndexOn("index1", new[] {"name"});
             for (var i = 0; i < size; i++)
                 odb.Store(new VO.Login.Function("function " + i));
 

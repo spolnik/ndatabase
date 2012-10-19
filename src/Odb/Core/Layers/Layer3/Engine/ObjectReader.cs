@@ -810,7 +810,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             return (IValues) objects;
         }
 
-        public IObjects<TResult> GetObjectInfos<TResult, TObject>(IQuery query, bool inMemory, int startIndex, int endIndex,
+        public IObjectSet<TResult> GetObjectInfos<TResult, TObject>(IQuery query, bool inMemory, int startIndex, int endIndex,
                                              bool returnObjects, IMatchingObjectAction queryResultAction) where TObject : class
         {
             var executor = QueryManager.GetQueryExecutor<TObject>(query, _storageEngine, _instanceBuilder);

@@ -50,7 +50,7 @@ namespace NDatabase2.Odb.Main
             throw new OdbRuntimeException(NDatabaseError.OperationNotAllowedInTrigger);
         }
 
-        public override IClassRepresentation GetClassRepresentation<T>()
+        public override IIndexManager IndexManagerFor<T>()
         {
             throw new OdbRuntimeException(NDatabaseError.OperationNotAllowedInTrigger);
         }

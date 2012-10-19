@@ -35,7 +35,7 @@ namespace NDatabase.Converter1To2
 
             using (var odb1 = Odb.OdbFactory.Open(inputDbFileName))
             {
-                using (var odb2 = NDatabase2.Odb.OdbFactory.Open(outputDbFileName))
+                using (var odb2 = NDatabase2.Odb.NDb.Open(outputDbFileName))
                 {
                     var objects = odb1.GetObjects<object>().ToList();
                     count1 = objects.Count;
@@ -45,9 +45,9 @@ namespace NDatabase.Converter1To2
                 }
             }
 
-            using (var odb2 = NDatabase2.Odb.OdbFactory.Open(outputDbFileName))
+            using (var odb2 = NDatabase2.Odb.NDb.Open(outputDbFileName))
             {
-                var objects = odb2.GetObjects<object>().ToList();
+                var objects = odb2.Query<object>().ToList();
                 count2 = objects.Count;
             }
 

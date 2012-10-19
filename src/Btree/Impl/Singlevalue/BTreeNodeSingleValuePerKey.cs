@@ -39,7 +39,7 @@ namespace NDatabase2.Btree.Impl.Singlevalue
             NbKeys++;
         }
 
-        public virtual object Search(IComparable key)
+        public object Search(IComparable key)
         {
             var positionOfKey = GetPositionOfKey(key);
             var keyIsHere = positionOfKey > 0;

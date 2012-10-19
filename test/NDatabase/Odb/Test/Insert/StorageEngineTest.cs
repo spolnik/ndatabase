@@ -45,7 +45,7 @@ namespace Test.NDatabase.Odb.Test.Insert
             odb.Store(user22);
             odb.Close();
             odb = Open("t-complex-instance.neodatis");
-            var l = odb.GetObjects<User>(true);
+            var l = odb.Query<User>(true);
             var user2 = l.GetFirst();
             // println("#### " + l.size() + " : " + l);
             AssertEquals(user.GetName(), user2.GetName());
@@ -93,7 +93,7 @@ namespace Test.NDatabase.Odb.Test.Insert
             odb.Store(tc2);
             odb.Close();
             odb = Open("t-simple-instance.neodatis");
-            var l = odb.GetObjects<TestClass>(true);
+            var l = odb.Query<TestClass>(true);
             var tc12 = l.GetFirst();
             // println("#### " + l.size() + " : " + l);
             AssertEquals(tc1.GetBigDecimal1(), tc12.GetBigDecimal1());
@@ -150,7 +150,7 @@ namespace Test.NDatabase.Odb.Test.Insert
             odb.Close();
             odb = Open("t-simple-instance.neodatis");
             IQuery q = new SimpleNativeQuery146();
-            var l = odb.GetObjects<TestClass>(q);
+            var l = odb.Query<TestClass>(q);
             var tc12 = l.GetFirst();
             // println("#### " + l.size() + " : " + l);
             AssertEquals(tc1.GetBigDecimal1(), tc12.GetBigDecimal1());
@@ -205,7 +205,7 @@ namespace Test.NDatabase.Odb.Test.Insert
             odb.Close();
             odb = Open("t-simple-instance.neodatis");
             IQuery q = new SimpleNativeQuery217();
-            var l = odb.GetObjects<TestClass>(q);
+            var l = odb.Query<TestClass>(q);
             var tc12 = l.GetFirst();
             // println("#### " + l.size() + " : " + l);
             AssertEquals(tc1.GetBigDecimal1(), tc12.GetBigDecimal1());

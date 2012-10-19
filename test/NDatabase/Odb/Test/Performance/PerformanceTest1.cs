@@ -40,7 +40,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             long t77 = 0;
             long t8 = 0;
             IOdb odb = null;
-            IObjects<SimpleObject> l = null;
+            IObjectSet<SimpleObject> l = null;
             SimpleObject so = null;
             // Insert TEST_SIZE objects
             Println("Inserting " + TestSize + " objects");
@@ -69,7 +69,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             // Reopen the database
             odb = Open(OdbFileName);
             // Gets the TEST_SIZE objects
-            l = odb.GetObjects<SimpleObject>(inMemory);
+            l = odb.Query<SimpleObject>(inMemory);
             t4 = OdbTime.GetCurrentTimeInMs();
             i = 0;
             while (l.HasNext())
@@ -107,7 +107,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             {
                 Println("Deleting " + TestSize + " objects");
                 odb = Open(OdbFileName);
-                l = odb.GetObjects<SimpleObject>(inMemory);
+                l = odb.Query<SimpleObject>(inMemory);
                 t77 = OdbTime.GetCurrentTimeInTicks();
                 // println("After getting objects - before delete");
                 i = 0;

@@ -4,7 +4,7 @@ namespace NDatabase2.Odb
     ///   The main interface of all Object Values query results of NDatabase ODB
     /// </summary>
     /// <author>osmadja</author>
-    public interface IValues : IObjects<IObjectValues>
+    public interface IValues : IObjectSet<IObjectValues>
     {
         IObjectValues NextValues();
     }

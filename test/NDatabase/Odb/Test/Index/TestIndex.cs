@@ -19,7 +19,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var baseName = GetBaseName();
             DeleteBase(baseName);
             var odb = Open(baseName);
-            var clazz = odb.GetClassRepresentation<VO.Login.Function>();
+            var clazz = odb.IndexManagerFor<VO.Login.Function>();
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("index", indexFields);
             odb.Close();
@@ -51,14 +51,14 @@ namespace Test.NDatabase.Odb.Test.Index
             var baseName = GetBaseName();
             DeleteBase(baseName);
             var odb = Open(baseName);
-            var clazz = odb.GetClassRepresentation<VO.Login.Function>();
+            var clazz = odb.IndexManagerFor<VO.Login.Function>();
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("my-index", indexFields);
             odb.Store(new VO.Login.Function("test"));
             odb.Close();
             odb = Open(baseName);
-            AssertTrue(odb.GetClassRepresentation<VO.Login.Function>().ExistIndex("my-index"));
-            AssertFalse(odb.GetClassRepresentation<VO.Login.Function>().ExistIndex("my-indexdhfdjkfhdjkhj"));
+            AssertTrue(odb.IndexManagerFor<VO.Login.Function>().ExistIndex("my-index"));
+            AssertFalse(odb.IndexManagerFor<VO.Login.Function>().ExistIndex("my-indexdhfdjkfhdjkhj"));
             odb.Close();
         }
 
@@ -68,13 +68,13 @@ namespace Test.NDatabase.Odb.Test.Index
             var baseName = GetBaseName();
             DeleteBase(baseName);
             var odb = Open(baseName);
-            var clazz = odb.GetClassRepresentation<VO.Login.Function>();
+            var clazz = odb.IndexManagerFor<VO.Login.Function>();
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("my-index", indexFields);
             odb.Close();
             odb = Open(baseName);
-            AssertTrue(odb.GetClassRepresentation<VO.Login.Function>().ExistIndex("my-index"));
-            AssertFalse(odb.GetClassRepresentation<VO.Login.Function>().ExistIndex("my-indexdhfdjkfhdjkhj"));
+            AssertTrue(odb.IndexManagerFor<VO.Login.Function>().ExistIndex("my-index"));
+            AssertFalse(odb.IndexManagerFor<VO.Login.Function>().ExistIndex("my-indexdhfdjkfhdjkhj"));
             odb.Close();
         }
 
@@ -84,7 +84,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var baseName = GetBaseName();
             DeleteBase(baseName);
             var @base = Open(baseName);
-            var clazz = @base.GetClassRepresentation<IndexedObject>();
+            var clazz = @base.IndexManagerFor<IndexedObject>();
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("index1", indexFields);
             @base.Close();
@@ -94,7 +94,7 @@ namespace Test.NDatabase.Odb.Test.Index
             @base.Close();
             @base = Open(baseName);
             IQuery q = new CriteriaQuery<IndexedObject>(Where.Equal("name", "olivier").And(Where.Equal("duration", 15)));
-            var objects = @base.GetObjects<IndexedObject>(q, true);
+            var objects = @base.Query<IndexedObject>(q, true);
             @base.Close();
             Println(((IInternalQuery)q).GetExecutionPlan().ToString());
             AssertEquals(false, ((IInternalQuery)q).GetExecutionPlan().UseIndex());
@@ -109,7 +109,7 @@ namespace Test.NDatabase.Odb.Test.Index
             DeleteBase(baseName);
             var @base = Open(baseName);
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation<IndexedObject>();
+            var clazz = @base.IndexManagerFor<IndexedObject>();
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("index1", indexFields);
             @base.Close();
@@ -139,7 +139,7 @@ namespace Test.NDatabase.Odb.Test.Index
             {
                 IQuery query = new CriteriaQuery<IndexedObject>( Where.Equal("name", "olivier" + (i + 1)));
                 var start = OdbTime.GetCurrentTimeInMs();
-                var objects = @base.GetObjects<IndexedObject>(query, true);
+                var objects = @base.Query<IndexedObject>(query, true);
                 var end = OdbTime.GetCurrentTimeInMs();
                 AssertEquals(1, objects.Count);
                 var io2 = objects.GetFirst();
@@ -156,11 +156,11 @@ namespace Test.NDatabase.Odb.Test.Index
             @base.Close();
             @base = Open(baseName);
             IQuery q = new CriteriaQuery<IndexedObject>();
-            var oos = @base.GetObjects<IndexedObject>(q, true);
+            var oos = @base.Query<IndexedObject>(q, true);
             for (var i = 0; i < size; i++)
             {
                 q = new CriteriaQuery<IndexedObject>( Where.Equal("name", "olivier" + (i + 1)));
-                oos = @base.GetObjects<IndexedObject>(q, true);
+                oos = @base.Query<IndexedObject>(q, true);
                 AssertEquals(0, oos.Count);
             }
             @base.Close();
@@ -183,7 +183,7 @@ namespace Test.NDatabase.Odb.Test.Index
             DeleteBase(baseName);
             var @base = Open(baseName);
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation<IndexedObject>();
+            var clazz = @base.IndexManagerFor<IndexedObject>();
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("index1", indexFields);
             @base.Close();
@@ -198,7 +198,7 @@ namespace Test.NDatabase.Odb.Test.Index
             Console.Out.WriteLine("----ola");
             @base = Open(baseName);
             IQuery q = new CriteriaQuery<IndexedObject>();
-            var objects = @base.GetObjects<IndexedObject>(q);
+            var objects = @base.Query<IndexedObject>(q);
             while (objects.HasNext())
             {
                 var io = objects.Next();
@@ -216,7 +216,7 @@ namespace Test.NDatabase.Odb.Test.Index
             DeleteBase(baseName);
             var @base = Open(baseName);
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation<IndexedObject>();
+            var clazz = @base.IndexManagerFor<IndexedObject>();
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("index1", indexFields);
             @base.Close();
@@ -252,7 +252,7 @@ namespace Test.NDatabase.Odb.Test.Index
             {
                 IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("name", "olivier" + (j + 1)));
                 var start = OdbTime.GetCurrentTimeInMs();
-                var objects = @base.GetObjects<IndexedObject>(q, true);
+                var objects = @base.Query<IndexedObject>(q, true);
                 var end = OdbTime.GetCurrentTimeInMs();
                 AssertEquals(1, objects.Count);
                 var io2 = objects.GetFirst();
@@ -288,7 +288,7 @@ namespace Test.NDatabase.Odb.Test.Index
             {
                 IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("name", "olivier" + (i + 1)));
                 var start = OdbTime.GetCurrentTimeInMs();
-                var objects = @base.GetObjects<IndexedObject>(q, true);
+                var objects = @base.Query<IndexedObject>(q, true);
                 var end = OdbTime.GetCurrentTimeInMs();
                 AssertEquals(0, objects.Count);
                 if (i % 100 == 0)
@@ -314,7 +314,7 @@ namespace Test.NDatabase.Odb.Test.Index
             DeleteBase(baseName);
             var @base = Open(baseName);
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation<IndexedObject>();
+            var clazz = @base.IndexManagerFor<IndexedObject>();
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("index1", indexFields);
             @base.Close();
@@ -346,7 +346,7 @@ namespace Test.NDatabase.Odb.Test.Index
             {
                 IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("name", "olivier" + (i + 1)));
                 var start = OdbTime.GetCurrentTimeInMs();
-                var objects = @base.GetObjects<IndexedObject>(q, true);
+                var objects = @base.Query<IndexedObject>(q, true);
                 var end = OdbTime.GetCurrentTimeInMs();
                 AssertEquals(1, objects.Count);
                 var io2 = objects.GetFirst();
@@ -373,7 +373,7 @@ namespace Test.NDatabase.Odb.Test.Index
             {
                 IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("name", "olivier" + (i + 1)));
                 var start = OdbTime.GetCurrentTimeInMs();
-                var objects = @base.GetObjects<IndexedObject>(q, true);
+                var objects = @base.Query<IndexedObject>(q, true);
                 var end = OdbTime.GetCurrentTimeInMs();
                 AssertEquals(0, objects.Count);
                 if (i % 100 == 0)
@@ -401,7 +401,7 @@ namespace Test.NDatabase.Odb.Test.Index
             DeleteBase(baseName);
             var @base = Open(baseName);
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation<IndexedObject>();
+            var clazz = @base.IndexManagerFor<IndexedObject>();
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("index1", indexFields);
             @base.Close();
@@ -433,7 +433,7 @@ namespace Test.NDatabase.Odb.Test.Index
             {
                 IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("name", "olivier" + (i + 1)));
                 var start = OdbTime.GetCurrentTimeInMs();
-                var objects = @base.GetObjects<IndexedObject>(q, true);
+                var objects = @base.Query<IndexedObject>(q, true);
                 var end = OdbTime.GetCurrentTimeInMs();
                 AssertEquals(1, objects.Count);
                 var io2 = objects.GetFirst();
@@ -459,7 +459,7 @@ namespace Test.NDatabase.Odb.Test.Index
             {
                 IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("name", "olivier" + (i + 1)));
                 var start = OdbTime.GetCurrentTimeInMs();
-                var objects = @base.GetObjects<IndexedObject>(q, true);
+                var objects = @base.Query<IndexedObject>(q, true);
                 var end = OdbTime.GetCurrentTimeInMs();
                 AssertEquals(0, objects.Count);
                 if (i % 100 == 0)
@@ -490,7 +490,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var @base = Open(baseName);
             // Configuration.setUseLazyCache(true);
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation<IndexedObject>();
+            var clazz = @base.IndexManagerFor<IndexedObject>();
             var indexFields3 = new[] {"name"};
             clazz.AddUniqueIndexOn("index3", indexFields3);
             var indexFields2 = new[] {"name", "creation"};
@@ -521,7 +521,7 @@ namespace Test.NDatabase.Odb.Test.Index
             {
                 IQuery q =
                     new CriteriaQuery<IndexedObject>(Where.Equal("duration", i).And(Where.Equal("creation", dates[i])));
-                var objects = @base.GetObjects<IndexedObject>(q, true);
+                var objects = @base.Query<IndexedObject>(q, true);
                 AssertEquals(1, objects.Count);
                 AssertTrue(((IInternalQuery)q).GetExecutionPlan().UseIndex());
             }
@@ -551,7 +551,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var @base = Open(baseName);
 
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation<IndexedObject>();
+            var clazz = @base.IndexManagerFor<IndexedObject>();
             var indexFields = new[] {"duration"};
             clazz.AddIndexOn("index1", indexFields);
             var indexFields2 = new[] {"creation"};
@@ -583,7 +583,7 @@ namespace Test.NDatabase.Odb.Test.Index
             for (var i = 0; i < size; i++)
             {
                 IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("duration", i));
-                var objects = @base.GetObjects<IndexedObject>(q, false);
+                var objects = @base.Query<IndexedObject>(q, false);
                 // println("olivier" + (i+1));
                 AssertEquals(1, objects.Count);
             }
@@ -619,7 +619,7 @@ namespace Test.NDatabase.Odb.Test.Index
             DeleteBase(baseName);
             var @base = Open(baseName);
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation<IndexedObject>();
+            var clazz = @base.IndexManagerFor<IndexedObject>();
             var indexFields = new[] {"name", "duration", "creation"};
             clazz.AddUniqueIndexOn("index", indexFields);
             @base.Close();
@@ -650,7 +650,7 @@ namespace Test.NDatabase.Odb.Test.Index
             @base = Open(baseName);
             // first search without index
             IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("name", theName));
-            var objects = @base.GetObjects<IndexedObject>(q, true);
+            var objects = @base.Query<IndexedObject>(q, true);
             AssertFalse(((IInternalQuery)q).GetExecutionPlan().UseIndex());
             Println(((IInternalQuery)q).GetExecutionPlan().GetDetails());
             AssertEquals(1, objects.Count);
@@ -665,7 +665,7 @@ namespace Test.NDatabase.Odb.Test.Index
                 new CriteriaQuery<IndexedObject>(
                     Where.Equal("name", theName).And(Where.Equal("creation", theDate)).And(Where.Equal("duration",
                                                                                                        theDuration)));
-            objects = @base.GetObjects<IndexedObject>(q, true);
+            objects = @base.Query<IndexedObject>(q, true);
             AssertTrue(((IInternalQuery)q).GetExecutionPlan().UseIndex());
             AssertEquals("index", ((IInternalQuery)q).GetExecutionPlan().GetIndex().Name);
             Println(((IInternalQuery)q).GetExecutionPlan().GetDetails());
@@ -689,7 +689,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var @base = Open(baseName);
             // Configuration.setUseLazyCache(true);
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation<IndexedObject>();
+            var clazz = @base.IndexManagerFor<IndexedObject>();
             var indexField1 = new[] {"duration"};
             clazz.AddUniqueIndexOn("inde1", indexField1);
             var indexFields3 = new[] {"name"};
@@ -722,7 +722,7 @@ namespace Test.NDatabase.Odb.Test.Index
             for (var i = 0; i < size; i++)
             {
                 IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("duration", i));
-                var objects = @base.GetObjects<IndexedObject>(q, false);
+                var objects = @base.Query<IndexedObject>(q, false);
                 // println("olivier" + (i+1));
                 AssertEquals(1, objects.Count);
             }
@@ -748,7 +748,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var @base = Open(baseName);
 
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation<IndexedObject>();
+            var clazz = @base.IndexManagerFor<IndexedObject>();
             var indexFields = new[] {"creation"};
             clazz.AddUniqueIndexOn("index1", indexFields);
             @base.Close();
@@ -774,7 +774,7 @@ namespace Test.NDatabase.Odb.Test.Index
             for (var i = 0; i < size; i++)
             {
                 IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("creation", new DateTime(start0 + i)));
-                var objects = @base.GetObjects<IndexedObject>(q, false);
+                var objects = @base.Query<IndexedObject>(q, false);
                 // println("olivier" + (i+1));
                 AssertEquals(1, objects.Count);
             }
@@ -801,7 +801,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var baseName = GetBaseName();
             DeleteBase(baseName);
             var @base = Open(baseName);
-            var clazz = @base.GetClassRepresentation<IndexedObject>();
+            var clazz = @base.IndexManagerFor<IndexedObject>();
             var indexFields = new[] {"name", "duration"};
             clazz.AddUniqueIndexOn("index1", indexFields);
             @base.Close();
@@ -811,7 +811,7 @@ namespace Test.NDatabase.Odb.Test.Index
             @base.Close();
             @base = Open(baseName);
             IQuery q = new CriteriaQuery<IndexedObject>( Where.IsNotNull("name"));
-            var objects = @base.GetObjects<IndexedObject>(q, true);
+            var objects = @base.Query<IndexedObject>(q, true);
             @base.Close();
             AssertEquals(1, objects.Count);
             var io2 = objects.GetFirst();
@@ -827,7 +827,7 @@ namespace Test.NDatabase.Odb.Test.Index
             DeleteBase(baseName);
             var @base = Open(baseName);
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation<IndexedObject>();
+            var clazz = @base.IndexManagerFor<IndexedObject>();
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("index1", indexFields);
             @base.Close();
@@ -857,7 +857,7 @@ namespace Test.NDatabase.Odb.Test.Index
             {
                 IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("name", "olivier" + (i + 1)));
                 var start = OdbTime.GetCurrentTimeInMs();
-                var objects = @base.GetObjects<IndexedObject>(q, true);
+                var objects = @base.Query<IndexedObject>(q, true);
                 var end = OdbTime.GetCurrentTimeInMs();
                 AssertEquals(1, objects.Count);
                 var io2 = objects.GetFirst();
@@ -892,7 +892,7 @@ namespace Test.NDatabase.Odb.Test.Index
             DeleteBase(baseName);
             var @base = Open(baseName);
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation<IndexedObject>();
+            var clazz = @base.IndexManagerFor<IndexedObject>();
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("index1", indexFields);
             var size = 1000;
@@ -922,7 +922,7 @@ namespace Test.NDatabase.Odb.Test.Index
             {
                 IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("name", "olivier" + (i + 1)));
                 var start = OdbTime.GetCurrentTimeInMs();
-                var objects = @base.GetObjects<IndexedObject>(q, true);
+                var objects = @base.Query<IndexedObject>(q, true);
                 var end = OdbTime.GetCurrentTimeInMs();
                 AssertEquals(1, objects.Count);
                 var io2 = objects.GetFirst();
@@ -968,7 +968,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var @base = Open(baseName);
 
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation<IndexedObject>();
+            var clazz = @base.IndexManagerFor<IndexedObject>();
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("index1", indexFields);
             @base.Close();
@@ -1013,7 +1013,7 @@ namespace Test.NDatabase.Odb.Test.Index
             // true).getIndex(0).getBTree(), true));
             IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("name", "olivier" + size));
             var start = OdbTime.GetCurrentTimeInMs();
-            var objects = @base.GetObjects<IndexedObject>(q, false);
+            var objects = @base.Query<IndexedObject>(q, false);
             var end = OdbTime.GetCurrentTimeInMs();
             try
             {
@@ -1046,7 +1046,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var @base = Open(baseName);
 
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation<IndexedObject>();
+            var clazz = @base.IndexManagerFor<IndexedObject>();
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("index1", indexFields);
             @base.Close();
@@ -1085,7 +1085,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var @base = Open(baseName);
             IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("name", "olivier" + size));
             var start = OdbTime.GetCurrentTimeInMs();
-            var objects = @base.GetObjects<IndexedObject>(q, false);
+            var objects = @base.Query<IndexedObject>(q, false);
             var end = OdbTime.GetCurrentTimeInMs();
             try
             {
@@ -1118,7 +1118,7 @@ namespace Test.NDatabase.Odb.Test.Index
             DeleteBase(baseName);
             var @base = Open(baseName);
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation<IndexedObject>();
+            var clazz = @base.IndexManagerFor<IndexedObject>();
             var indexFields3 = new[] {"name"};
             clazz.AddUniqueIndexOn("index3", indexFields3);
             var indexFields2 = new[] {"name", "creation"};
@@ -1159,7 +1159,7 @@ namespace Test.NDatabase.Odb.Test.Index
             // theDate)));
             IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("name", theName));
             var start = OdbTime.GetCurrentTimeInMs();
-            var objects = @base.GetObjects<IndexedObject>(q, true);
+            var objects = @base.Query<IndexedObject>(q, true);
             var end = OdbTime.GetCurrentTimeInMs();
             AssertEquals("index3", ((IInternalQuery)q).GetExecutionPlan().GetIndex().Name);
             AssertEquals(1, objects.Count);
@@ -1189,7 +1189,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var @base = Open(baseName);
 
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation<IndexedObject>();
+            var clazz = @base.IndexManagerFor<IndexedObject>();
             var indexFields = new[] {"duration"};
             clazz.AddUniqueIndexOn("index1", indexFields);
             @base.Close();
@@ -1214,7 +1214,7 @@ namespace Test.NDatabase.Odb.Test.Index
             for (var i = 0; i < size; i++)
             {
                 IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("duration", i));
-                var objects = @base.GetObjects<IndexedObject>(q, false);
+                var objects = @base.Query<IndexedObject>(q, false);
                 // println("olivier" + (i+1));
                 AssertEquals(1, objects.Count);
             }
@@ -1260,7 +1260,7 @@ namespace Test.NDatabase.Odb.Test.Index
             @base = Open(baseName);
             IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("name", "olivier" + size));
             var start = OdbTime.GetCurrentTimeInMs();
-            var objects = @base.GetObjects<IndexedObject>(q, false);
+            var objects = @base.Query<IndexedObject>(q, false);
             var end = OdbTime.GetCurrentTimeInMs();
             AssertEquals(1, objects.Count);
             var io2 = objects.GetFirst();
@@ -1284,7 +1284,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var baseName = GetBaseName();
             DeleteBase(baseName);
             var @base = Open(baseName);
-            var clazz = @base.GetClassRepresentation<IndexedObject>();
+            var clazz = @base.IndexManagerFor<IndexedObject>();
             var indexFields = new[] {"name", "duration"};
             clazz.AddUniqueIndexOn("index1", indexFields);
             var indexFields2 = new[] {"name", "creation"};
@@ -1302,7 +1302,7 @@ namespace Test.NDatabase.Odb.Test.Index
             DeleteBase(baseName);
             var @base = Open(baseName);
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation<IndexedObject>();
+            var clazz = @base.IndexManagerFor<IndexedObject>();
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("index1", indexFields);
             @base.Close();
@@ -1334,7 +1334,7 @@ namespace Test.NDatabase.Odb.Test.Index
             DeleteBase(baseName);
             var @base = Open(baseName);
             // base.store(new IndexedObject());
-            var clazz = @base.GetClassRepresentation<IndexedObject>();
+            var clazz = @base.IndexManagerFor<IndexedObject>();
             var indexFields = new[] {"name"};
             clazz.AddUniqueIndexOn("index", indexFields);
             @base.Close();
@@ -1370,7 +1370,7 @@ namespace Test.NDatabase.Odb.Test.Index
                     @base = Open(baseName);
                     t2 = OdbTime.GetCurrentTimeInMs();
                     var q = new CriteriaQuery<IndexedObject>( Where.Equal("name", indexes[j]));
-                    var os = @base.GetObjects<IndexedObject>(q);
+                    var os = @base.Query<IndexedObject>(q);
                     t3 = OdbTime.GetCurrentTimeInMs();
                     AssertTrue(((IInternalQuery)q).GetExecutionPlan().UseIndex());
                     AssertEquals(1, os.Count);

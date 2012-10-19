@@ -17,7 +17,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
         [SetUp]
         public virtual void Populate()
         {
-            OdbFactory.Delete("perfOValuesVsCriteria");
+            NDb.Delete("perfOValuesVsCriteria");
 
             var odb = Open("perfOValuesVsCriteria");
             var nbProfiles = 20;
@@ -67,7 +67,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             var odb = Open("perfOValuesVsCriteria");
             
             IQuery q = new CriteriaQuery<Profile>();
-            var objects = odb.GetObjects<Profile>(q, false);
+            var objects = odb.Query<Profile>(q, false);
             Println(objects.Count);
             Console.Out.WriteLine(((IInternalQuery)q).GetExecutionPlan().GetDetails());
             AssertEquals(20, objects.Count);

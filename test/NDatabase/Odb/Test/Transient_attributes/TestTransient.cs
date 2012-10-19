@@ -14,7 +14,7 @@ namespace Test.NDatabase.Odb.Test.Transient_attributes
             odb.Store(vo);
             odb.Close();
             odb = Open(baseName);
-            var vos = odb.GetObjects<VoWithTransientAttribute>();
+            var vos = odb.Query<VoWithTransientAttribute>();
             odb.Close();
             Println(vos.GetFirst().GetName());
             AssertEquals(1, vos.Count);

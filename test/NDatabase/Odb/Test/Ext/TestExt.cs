@@ -11,7 +11,7 @@ namespace Test.NDatabase.Odb.Test.Ext
         public virtual void TestGetObjectId()
         {
             DeleteBase("extb");
-            var odb = OdbFactory.Open("extb");
+            var odb = NDb.Open("extb");
             var f = new VO.Login.Function("Test Function");
             var oid = odb.Store(f);
             var extOid = odb.Ext().GetObjectExternalOID(f);

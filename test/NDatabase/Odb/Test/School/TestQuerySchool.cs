@@ -24,7 +24,7 @@ namespace Test.NDatabase.Odb.Test.School
             base.SetUp();
             DeleteBase("t-school.neodatis");
             var odb = Open("t-school.neodatis");
-            var students = odb.GetObjects<Student>(true);
+            var students = odb.Query<Student>(true);
             var numStudents = students.Count;
             var computerScience = new Course("Computer Science");
             var teacher = new Teacher("Jeremias", "Java");
@@ -39,7 +39,7 @@ namespace Test.NDatabase.Odb.Test.School
             odb.Commit();
             odb.Close();
             odb = Open("t-school.neodatis");
-            students = odb.GetObjects<Student>(true);
+            students = odb.Query<Student>(true);
             odb.Close();
             AssertEquals(numStudents + 1, students.Count);
         }
@@ -59,12 +59,12 @@ namespace Test.NDatabase.Odb.Test.School
             var odb = Open("t-school.neodatis");
             // List students by name
             var natQuery = new SchoolNativeQueryStudent("Brenna", 23);
-            var students = odb.GetObjects<Student>(natQuery);
+            var students = odb.Query<Student>(natQuery);
             var sNatQuery = new SchoolSimpleNativeQueryStudent("Brenna");
-            students = odb.GetObjects<Student>(sNatQuery);
+            students = odb.Query<Student>(sNatQuery);
             // list disciplines of one teacher by semester
             var natQuery2 = new SchoolNativeQueryTeacher("Jeremias");
-            var historys = odb.GetObjects<History>(natQuery2);
+            var historys = odb.Query<History>(natQuery2);
             var listDiscipline = new OdbHashMap<string, Discipline>();
             for (IEnumerator iter = historys.GetEnumerator(); iter.MoveNext();)
             {

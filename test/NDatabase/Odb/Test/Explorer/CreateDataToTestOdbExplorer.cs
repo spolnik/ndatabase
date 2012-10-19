@@ -16,11 +16,11 @@ namespace Test.NDatabase.Odb.Test.Explorer
         [Test]
         public virtual void Test1()
         {
-            OdbFactory.Delete("base1.neodatis");
-            using (var odb = OdbFactory.Open("base1.neodatis"))
+            NDb.Delete("base1.neodatis");
+            using (var odb = NDb.Open("base1.neodatis"))
             {
                 var fields = new[] {"int1"};
-                odb.GetClassRepresentation<TestClass>().AddUniqueIndexOn("index1", fields);
+                odb.IndexManagerFor<TestClass>().AddUniqueIndexOn("index1", fields);
                 var start = OdbTime.GetCurrentTimeInMs();
                 var size = 50;
                 for (var i = 0; i < size; i++)
@@ -37,9 +37,9 @@ namespace Test.NDatabase.Odb.Test.Explorer
                 }
             }
 
-            using (var odb = OdbFactory.OpenLast())
+            using (var odb = NDb.OpenLast())
             {
-                var count = odb.GetObjects<TestClass>().Count();
+                var count = odb.Query<TestClass>().Count();
                 Assert.That(count, Is.EqualTo(50));
             }
         }

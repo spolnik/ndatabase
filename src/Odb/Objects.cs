@@ -9,7 +9,7 @@ namespace NDatabase2.Odb
     ///   The main interface of all query results of NDatabase ODB. 
     ///   Objects interface extends the Collection interface so it provides a standard collection behavior.
     /// </remarks>
-    public interface IObjects<TItem> : ICollection<TItem>
+    public interface IObjectSet<TItem> : ICollection<TItem>
     {
         /// <summary>
         ///   Inform if the internal Iterator has more objects

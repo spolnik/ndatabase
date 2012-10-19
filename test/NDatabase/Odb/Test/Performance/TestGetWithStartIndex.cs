@@ -29,7 +29,7 @@ namespace Test.NDatabase.Odb.Test.Performance
         public virtual void Test1()
         {
             var odb = Open("start-index.neodatis");
-            var l = odb.GetObjects<VO.Login.Function>(false, 4, 7);
+            var l = odb.Query<VO.Login.Function>(false, 4, 7);
             AssertEquals(3, l.Count);
             AssertEquals("function 4", l.GetFirst().ToString());
             odb.Close();

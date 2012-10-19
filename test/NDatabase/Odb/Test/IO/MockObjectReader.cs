@@ -48,7 +48,7 @@ namespace Test.NDatabase.Odb.Test.IO
             return null;
         }
 
-        public IObjects<TResult> GetObjectInfos<TResult, TObject>(IQuery query, bool inMemory, int startIndex, int endIndex, bool returnObjects, IMatchingObjectAction queryResultAction) where TObject : class
+        public IObjectSet<TResult> GetObjectInfos<TResult, TObject>(IQuery query, bool inMemory, int startIndex, int endIndex, bool returnObjects, IMatchingObjectAction queryResultAction) where TObject : class
         {
             throw new NotImplementedException();
         }
@@ -78,7 +78,7 @@ namespace Test.NDatabase.Odb.Test.IO
             return null;
         }
 
-        public IObjects<T> GetObjectInfos<T>(IQuery query, bool inMemory, int startIndex, int endIndex,
+        public IObjectSet<T> GetObjectInfos<T>(IQuery query, bool inMemory, int startIndex, int endIndex,
                                              bool returnObjects, IMatchingObjectAction queryResultAction) where T : class
         {
             return null;

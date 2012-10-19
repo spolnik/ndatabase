@@ -16,7 +16,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
             const string singlevaluebtreeTest1DbName = "singlevaluebtree.test1.db";
             DeleteBase(singlevaluebtreeTest1DbName);
 
-            using (var odb = OdbFactory.Open(singlevaluebtreeTest1DbName))
+            using (var odb = NDb.Open(singlevaluebtreeTest1DbName))
             {
                 var size = 1000;
                 IBTree tree = new OdbBtreeSingle("test1", 50, new LazyOdbBtreePersister(odb));

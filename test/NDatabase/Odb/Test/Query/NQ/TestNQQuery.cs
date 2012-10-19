@@ -118,11 +118,11 @@ namespace Test.NDatabase.Odb.Test.Query.NQ
         public virtual void Test1()
         {
             var odb = Open("get.neodatis");
-            odb.GetObjects<VO.Login.Function>(true);
+            odb.Query<VO.Login.Function>(true);
             odb.Close();
             odb = Open("get.neodatis");
             // println("TestNQQuery.test1:"+odb.getObjects (Function.class,true));
-            var l = odb.GetObjects<VO.Login.Function>(new SimpleNativeQuery70());
+            var l = odb.Query<VO.Login.Function>(new SimpleNativeQuery70());
             odb.Close();
             AssertFalse(l.Count == 0);
             AssertEquals(NbObjects * 4, l.Count);
@@ -135,7 +135,7 @@ namespace Test.NDatabase.Odb.Test.Query.NQ
             var odb = Open("get.neodatis");
             // println("++++TestNQQuery.test2:"+odb.getObjects
             // (Function.class,true));
-            var l = odb.GetObjects<VO.Login.Function>(new SimpleNativeQuery89());
+            var l = odb.Query<VO.Login.Function>(new SimpleNativeQuery89());
             odb.Close();
             AssertFalse(l.Count == 0);
             AssertEquals(1, l.Count);
@@ -146,7 +146,7 @@ namespace Test.NDatabase.Odb.Test.Query.NQ
         public virtual void Test3()
         {
             var odb = Open("get.neodatis");
-            var l = odb.GetObjects<User>(new SimpleNativeQuery105());
+            var l = odb.Query<User>(new SimpleNativeQuery105());
             odb.Close();
             AssertFalse(l.Count == 0);
             AssertEquals(3, l.Count);
@@ -158,7 +158,7 @@ namespace Test.NDatabase.Odb.Test.Query.NQ
         {
             var odb = Open("get.neodatis");
             var query = new SimpleNativeQuery121();
-            var l = odb.GetObjects<User>(query, true, 0, 5);
+            var l = odb.Query<User>(query, true, 0, 5);
             odb.Close();
             AssertFalse(l.Count == 0);
             AssertEquals(5, l.Count);
@@ -170,7 +170,7 @@ namespace Test.NDatabase.Odb.Test.Query.NQ
         {
             var odb = Open("get.neodatis");
             var query = new SimpleNativeQuery139();
-            var l = odb.GetObjects<User>(query, true, 5, 6);
+            var l = odb.Query<User>(query, true, 5, 6);
             odb.Close();
             AssertFalse(l.Count == 0);
             AssertEquals(1, l.Count);
@@ -183,7 +183,7 @@ namespace Test.NDatabase.Odb.Test.Query.NQ
             var odb = Open("get.neodatis");
             var query = new SimpleNativeQuery158();
             query.OrderByAsc("name");
-            var l = odb.GetObjects<User>(query, true);
+            var l = odb.Query<User>(query, true);
             var i = 0;
             AssertFalse(l.Count == 0);
             while (l.HasNext())
@@ -203,7 +203,7 @@ namespace Test.NDatabase.Odb.Test.Query.NQ
             var odb = Open("get.neodatis");
             var query = new SimpleNativeQuery183();
             query.OrderByDesc("name");
-            var l = odb.GetObjects<User>(query, true);
+            var l = odb.Query<User>(query, true);
             var i = l.Count - 1;
             AssertFalse(l.Count == 0);
             while (l.HasNext())
@@ -223,7 +223,7 @@ namespace Test.NDatabase.Odb.Test.Query.NQ
             var odb = Open("get.neodatis");
             var query = new SimpleNativeQuery208();
             query.OrderByAsc("name,email");
-            var l = odb.GetObjects<User>(query, true);
+            var l = odb.Query<User>(query, true);
             AssertFalse(l.Count == 0);
             var i = 0;
             while (l.HasNext())
@@ -244,7 +244,7 @@ namespace Test.NDatabase.Odb.Test.Query.NQ
             var odb = Open("get.neodatis");
             var query = new SimpleNativeQuery235();
             query.OrderByDesc("name,email");
-            var l = odb.GetObjects<User>(query, true);
+            var l = odb.Query<User>(query, true);
             var i = l.Count - 1;
             AssertFalse(l.Count == 0);
             while (l.HasNext())

@@ -18,7 +18,7 @@ namespace Test.NDatabase.Odb.Test.Insert
             odb.Store(buffer);
             odb.Close();
             odb = Open("test.stringbuffer.odb");
-            var l = odb.GetObjects<StringBuilder>();
+            var l = odb.Query<StringBuilder>();
             odb.Close();
             var b2 = l.GetFirst();
             AssertEquals(buffer.ToString(), b2.ToString());
@@ -35,7 +35,7 @@ namespace Test.NDatabase.Odb.Test.Insert
             odb.Store(textBox);
             odb.Close();
             odb = Open("test.textbox.odb");
-            var l = odb.GetObjects<TextBox>();
+            var l = odb.Query<TextBox>();
             odb.Close();
             var textBox2 = l.GetFirst();
             AssertEquals(textBox.Text, textBox2.Text);
@@ -67,7 +67,7 @@ namespace Test.NDatabase.Odb.Test.Insert
             odb.Store(url2);
             odb.Close();
             odb = Open("test.url.odb");
-            var l = odb.GetObjects<Uri>();
+            var l = odb.Query<Uri>();
 
             var first = l.FirstOrDefault(x => x.AbsoluteUri == "http://google.com/");
             Assert.That(first, Is.Not.Null);

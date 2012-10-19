@@ -210,7 +210,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             var criteriaQuery = PrepareCriteriaQuery(classInfo.UnderlyingType);
 
             var methodInfo = GenericGetObjectInfos.MakeGenericMethod(classInfo.UnderlyingType);
-            var objects = (IObjects<object>) methodInfo.Invoke(this, new object[] {criteriaQuery});
+            var objects = (IObjectSet<object>) methodInfo.Invoke(this, new object[] {criteriaQuery});
 
             if (OdbConfiguration.IsLoggingEnabled())
             {
@@ -233,7 +233,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
         ///   Invoked by reflection!
         ///   //TODO: analyse what should be returned instead of object if  possible
         /// </summary>
-        internal IObjects<object> GetObjectInfos<T>(IQuery query) where T : class
+        internal IObjectSet<object> GetObjectInfos<T>(IQuery query) where T : class
         {
             // Returns the query result handler for normal query result (that return a collection of objects)
             var queryResultAction = new QueryResultAction<object>(query, false, this, false,
@@ -243,7 +243,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                                                   queryResultAction);
         }
 
-        public virtual IObjects<T> GetObjects<T>(bool inMemory, int startIndex, int endIndex) where T : class
+        public virtual IObjectSet<T> GetObjects<T>(bool inMemory, int startIndex, int endIndex) where T : class
         {
             if (IsDbClosed)
                 throw new OdbRuntimeException(NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));

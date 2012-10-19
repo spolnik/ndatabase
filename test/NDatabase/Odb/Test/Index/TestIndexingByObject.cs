@@ -22,18 +22,18 @@ namespace Test.NDatabase.Odb.Test.Index
             DeleteBase("index-object");
             var odb = Open("index-object");
             var fields = new[] {"object"};
-            odb.GetClassRepresentation<IndexedObject2>().AddUniqueIndexOn("index1", fields);
+            odb.IndexManagerFor<IndexedObject2>().AddUniqueIndexOn("index1", fields);
             var o1 = new IndexedObject2("Object1", new IndexedObject("Inner Object 1", 10, new DateTime()));
             odb.Store(o1);
             odb.Close();
             odb = Open("index-object");
             // First get the object used to index
-            var objects = odb.GetObjects<IndexedObject>();
+            var objects = odb.Query<IndexedObject>();
             var io = objects.GetFirst();
 
-            IQuery q = odb.CriteriaQuery<IndexedObject2>(Where.Equal("object", io));
+            IQuery q = odb.CreateCriteriaQuery<IndexedObject2>(Where.Equal("object", io));
 
-            var objects2 = odb.GetObjects<IndexedObject2>(q);
+            var objects2 = odb.Query<IndexedObject2>(q);
             var o2 = objects2.GetFirst();
 
             odb.Close();
@@ -52,7 +52,7 @@ namespace Test.NDatabase.Odb.Test.Index
             DeleteBase("index-object");
             var odb = Open("index-object");
             var fields = new[] {"object"};
-            odb.GetClassRepresentation<IndexedObject2>().AddUniqueIndexOn("index1", fields);
+            odb.IndexManagerFor<IndexedObject2>().AddUniqueIndexOn("index1", fields);
             var size = 500;
             for (var i = 0; i < size; i++)
                 odb.Store(new IndexedObject2("Object " + i, new IndexedObject("Inner Object " + i, i, new DateTime())));
@@ -62,15 +62,15 @@ namespace Test.NDatabase.Odb.Test.Index
             // First get the object used to index, the last one. There is no index
             // on the class and field
             var start0 = OdbTime.GetCurrentTimeInMs();
-            var objects = odb.GetObjects<IndexedObject>(q);
+            var objects = odb.Query<IndexedObject>(q);
             var end0 = OdbTime.GetCurrentTimeInMs();
             var io = objects.GetFirst();
             Println("d0=" + (end0 - start0));
             Println(((IInternalQuery)q).GetExecutionPlan().GetDetails());
-            q = odb.CriteriaQuery<IndexedObject2>(Where.Equal("object", io));
+            q = odb.CreateCriteriaQuery<IndexedObject2>(Where.Equal("object", io));
             var start = OdbTime.GetCurrentTimeInMs();
 
-            var objects2 = odb.GetObjects<IndexedObject2>(q);
+            var objects2 = odb.Query<IndexedObject2>(q);
             var end = OdbTime.GetCurrentTimeInMs();
             Println("d=" + (end - start));
             var o2 = objects2.GetFirst();
@@ -92,7 +92,7 @@ namespace Test.NDatabase.Odb.Test.Index
             {
                 odb = Open(baseName);
                 var fields = new[] {fieldName};
-                odb.GetClassRepresentation<IndexedObject2>().AddUniqueIndexOn("index1", fields);
+                odb.IndexManagerFor<IndexedObject2>().AddUniqueIndexOn("index1", fields);
                 Fail("Should have thrown an exception because the field " + fieldName + " does not exist");
             }
             catch (Exception)
@@ -112,9 +112,9 @@ namespace Test.NDatabase.Odb.Test.Index
             var baseName = GetBaseName();
             var odb = Open(baseName);
             var fields = new[] {"object"};
-            odb.GetClassRepresentation<IndexedObject2>().AddUniqueIndexOn("index1", fields);
+            odb.IndexManagerFor<IndexedObject2>().AddUniqueIndexOn("index1", fields);
             var fields2 = new[] {"name"};
-            odb.GetClassRepresentation<IndexedObject>().AddUniqueIndexOn("index2", fields2);
+            odb.IndexManagerFor<IndexedObject>().AddUniqueIndexOn("index2", fields2);
             var size = 500;
             for (var i = 0; i < size; i++)
                 odb.Store(new IndexedObject2("Object " + i, new IndexedObject("Inner Object " + i, i, new DateTime())));
@@ -124,17 +124,17 @@ namespace Test.NDatabase.Odb.Test.Index
             // First get the object used to index, the last one. There is no index
             // on the class and field
             var start0 = OdbTime.GetCurrentTimeInMs();
-            var objects = odb.GetObjects<IndexedObject>(q);
+            var objects = odb.Query<IndexedObject>(q);
             var end0 = OdbTime.GetCurrentTimeInMs();
             // check if index has been used
             AssertTrue(((IInternalQuery)q).GetExecutionPlan().UseIndex());
             var io = objects.GetFirst();
             Println("d0=" + (end0 - start0));
             Println(((IInternalQuery)q).GetExecutionPlan().GetDetails());
-            q = odb.CriteriaQuery<IndexedObject2>(Where.Equal("object", io));
+            q = odb.CreateCriteriaQuery<IndexedObject2>(Where.Equal("object", io));
             var start = OdbTime.GetCurrentTimeInMs();
 
-            var objects2 = odb.GetObjects<IndexedObject2>(q);
+            var objects2 = odb.Query<IndexedObject2>(q);
             var end = OdbTime.GetCurrentTimeInMs();
             Println("d=" + (end - start));
             var o2 = objects2.GetFirst();

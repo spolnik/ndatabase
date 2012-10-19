@@ -24,7 +24,7 @@ namespace Test.NDatabase.Odb.Test.Cache
             }
             odb.Close();
             odb = Open(baseName);
-            var objects = odb.GetObjects<MyObjectWithMyHashCode>();
+            var objects = odb.Query<MyObjectWithMyHashCode>();
             AssertEquals(1000, objects.Count);
             while (objects.HasNext())
             {
@@ -33,9 +33,9 @@ namespace Test.NDatabase.Odb.Test.Cache
             }
             odb.Close();
             odb = Open(baseName);
-            objects = odb.GetObjects<MyObjectWithMyHashCode>();
+            objects = odb.Query<MyObjectWithMyHashCode>();
             odb.Close();
-            OdbFactory.Delete(baseName);
+            NDb.Delete(baseName);
             AssertEquals(0, objects.Count);
         }
 
@@ -56,7 +56,7 @@ namespace Test.NDatabase.Odb.Test.Cache
             }
             odb.Close();
             odb = Open(baseName);
-            var objects = odb.GetObjects<MyObjectWithMyHashCode2>();
+            var objects = odb.Query<MyObjectWithMyHashCode2>();
             AssertEquals(1000, objects.Count);
             while (objects.HasNext())
             {
@@ -65,9 +65,9 @@ namespace Test.NDatabase.Odb.Test.Cache
             }
             odb.Close();
             odb = Open(baseName);
-            objects = odb.GetObjects<MyObjectWithMyHashCode2>();
+            objects = odb.Query<MyObjectWithMyHashCode2>();
             odb.Close();
-            OdbFactory.Delete(baseName);
+            NDb.Delete(baseName);
             AssertEquals(0, objects.Count);
         }
     }

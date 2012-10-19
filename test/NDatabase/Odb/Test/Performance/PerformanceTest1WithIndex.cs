@@ -40,14 +40,14 @@ namespace Test.NDatabase.Odb.Test.Performance
             long t77 = 0;
             long t8 = 0;
             IOdb odb = null;
-            IObjects<SimpleObject> l = null;
+            IObjectSet<SimpleObject> l = null;
             SimpleObject so = null;
             // Insert TEST_SIZE objects
             Println("Inserting " + TestSize + " objects");
             t1 = OdbTime.GetCurrentTimeInMs();
             odb = Open(OdbFileName);
             var fields = new[] {"name"};
-            odb.GetClassRepresentation<SimpleObject>().AddUniqueIndexOn("index1", fields);
+            odb.IndexManagerFor<SimpleObject>().AddUniqueIndexOn("index1", fields);
             for (var i = 0; i < TestSize; i++)
             {
                 object o = GetSimpleObjectInstance(i);
@@ -69,7 +69,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             {
                 // println("Bonjour, comment allez vous?" + j);
                 q = new CriteriaQuery<SimpleObject>( Where.Equal("name", "Bonjour, comment allez vous?" + j));
-                var objects = odb.GetObjects<SimpleObject>(q);
+                var objects = odb.Query<SimpleObject>(q);
                 so = objects.GetFirst();
                 if (!so.GetName().Equals("Bonjour, comment allez vous?" + j))
                 {
@@ -86,7 +86,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             {
                 Println("Updating " + TestSize + " objects");
                 so = null;
-                l = odb.GetObjects<SimpleObject>(inMemory);
+                l = odb.Query<SimpleObject>(inMemory);
                 while (l.HasNext())
                 {
                     so = l.Next();
@@ -103,7 +103,7 @@ namespace Test.NDatabase.Odb.Test.Performance
                 Println("Deleting " + TestSize + " objects");
                 odb = Open(OdbFileName);
                 Println("After open - before delete");
-                l = odb.GetObjects<SimpleObject>(inMemory);
+                l = odb.Query<SimpleObject>(inMemory);
                 t77 = OdbTime.GetCurrentTimeInMs();
                 Println("After getting objects - before delete");
                 var i = 0;

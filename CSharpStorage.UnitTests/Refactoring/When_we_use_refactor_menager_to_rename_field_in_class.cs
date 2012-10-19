@@ -20,11 +20,11 @@ namespace NDatabase.UnitTests.Refactoring
         [Ignore]
         public void Step1()
         {
-            OdbFactory.Delete(RefactoringDbName);
+            NDb.Delete(RefactoringDbName);
 
             var user = new User {Name = "Jacek", Age = 25};
 
-            using (var odb = OdbFactory.Open(RefactoringDbName))
+            using (var odb = NDb.Open(RefactoringDbName))
                 odb.Store(user);
         }
 
@@ -32,7 +32,7 @@ namespace NDatabase.UnitTests.Refactoring
         [Ignore]
         public void Step2()
         {
-            using (var odb = OdbFactory.Open(RefactoringDbName))
+            using (var odb = NDb.Open(RefactoringDbName))
             {
                 var refactorManager = new RefactorManager(((OdbAdapter)odb).GetStorageEngine());
                 refactorManager.RenameField(typeof(User), "age", "_age");

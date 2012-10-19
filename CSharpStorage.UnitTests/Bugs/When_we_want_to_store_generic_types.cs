@@ -12,18 +12,18 @@ namespace NDatabase.UnitTests.Bugs
         [Test]
         public void It_should_successfuly_store_generic_dictionary_and_list()
         {
-            OdbFactory.Delete(DbName);
+            NDb.Delete(DbName);
 
             var company = new Company();
 
-            using (var odb = OdbFactory.Open(DbName))
+            using (var odb = NDb.Open(DbName))
             {
                 odb.Store(company);
             }
 
-            using (var odb = OdbFactory.OpenLast())
+            using (var odb = NDb.OpenLast())
             {
-                var storedCompany = odb.GetObjects<Company>().GetFirst();
+                var storedCompany = odb.Query<Company>().GetFirst();
                 var dict = storedCompany.Dictionary;
                 Assert.That(dict.Keys, Contains.Item("A"));
                 Assert.That(dict.Keys, Contains.Item("B"));

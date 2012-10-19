@@ -44,7 +44,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             // println("totalObjects = "+ odb.count(User.class));
             odb = Open(Filename);
             var start1 = OdbTime.GetCurrentTimeInTicks();
-            var lazyList = odb.GetObjects<User>(false);
+            var lazyList = odb.Query<User>(false);
             var end1 = OdbTime.GetCurrentTimeInTicks();
             var startget1 = OdbTime.GetCurrentTimeInTicks();
             while (lazyList.HasNext())

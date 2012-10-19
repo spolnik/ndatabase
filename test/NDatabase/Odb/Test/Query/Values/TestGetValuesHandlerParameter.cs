@@ -45,7 +45,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             // ValuesQuery in getObjects
             try
             {
-                var objects = odb.GetObjects<Handler>(new ValuesCriteriaQuery<Handler>().Field("parameters"));
+                var objects = odb.Query<Handler>(new ValuesCriteriaQuery<Handler>().Field("parameters"));
                 Fail("Should throw exception");
             }
             catch (Exception)

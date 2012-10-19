@@ -27,7 +27,7 @@ namespace Test.NDatabase.Odb.Test.Newbie
 
                 var query = new CriteriaQuery<Car>(
                     Where.Equal("Driver.Name", "marcelo"));
-                var newCar = odb.GetObjects<Car>(query).GetFirst();
+                var newCar = odb.Query<Car>(query).GetFirst();
 
                 newCar.Driver = new Driver("dani");
                 odb.Store(newCar);
@@ -36,7 +36,7 @@ namespace Test.NDatabase.Odb.Test.Newbie
             using (var odb = Open(NewbieOdb))
             {
                 var query = new CriteriaQuery<Car>( Where.Equal("Driver.Name", "dani"));
-                AssertEquals(1, odb.GetObjects<Car>(query).Count);
+                AssertEquals(1, odb.Query<Car>(query).Count);
             }
 
             DeleteBase(NewbieOdb);

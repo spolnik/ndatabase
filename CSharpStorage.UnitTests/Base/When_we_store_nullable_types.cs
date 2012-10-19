@@ -24,16 +24,16 @@ namespace NDatabase.UnitTests.Base
         public void It_should_store_object_with_all_nullable_fields_set_to_null()
         {
             var classWithNullableTypes = new ClassWithNullableTypes();
-            OdbFactory.Delete("nullable1.ndb");
+            NDb.Delete("nullable1.ndb");
 
-            using (var odb = OdbFactory.Open("nullable1.ndb"))
+            using (var odb = NDb.Open("nullable1.ndb"))
             {
                 odb.Store(classWithNullableTypes);
             }
 
-            using (var odb = OdbFactory.OpenLast())
+            using (var odb = NDb.OpenLast())
             {
-                var objectToTest = odb.GetObjects<ClassWithNullableTypes>().GetFirst();
+                var objectToTest = odb.Query<ClassWithNullableTypes>().GetFirst();
 
                 Assert.That(objectToTest.Size, Is.Null);
                 Assert.That(objectToTest.Price, Is.Null);
@@ -45,16 +45,16 @@ namespace NDatabase.UnitTests.Base
         public void It_should_store_object_with_all_nullable_fields_with_values()
         {
             var classWithNullableTypes = new ClassWithNullableTypes {Size = 33, Measure = 2, Price = 33.33m};
-            OdbFactory.Delete("nullable2.ndb");
+            NDb.Delete("nullable2.ndb");
 
-            using (var odb = OdbFactory.Open("nullable2.ndb"))
+            using (var odb = NDb.Open("nullable2.ndb"))
             {
                 odb.Store(classWithNullableTypes);
             }
 
-            using (var odb = OdbFactory.OpenLast())
+            using (var odb = NDb.OpenLast())
             {
-                var objectToTest = odb.GetObjects<ClassWithNullableTypes>().GetFirst();
+                var objectToTest = odb.Query<ClassWithNullableTypes>().GetFirst();
 
                 Assert.That(objectToTest.Size, Is.EqualTo(33));
                 Assert.That(objectToTest.Price, Is.EqualTo(33.33m));

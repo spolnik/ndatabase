@@ -42,7 +42,7 @@ namespace Test.NDatabase.Odb.Test.Query.NQ
             odb.Close();
             odb = Open(baseName);
             IQuery query = new Query1();
-            var objects = odb.GetObjects<ClassWithArrayOfBoolean>(new Query1());
+            var objects = odb.Query<ClassWithArrayOfBoolean>(new Query1());
             AssertEquals(1, objects.Count);
             var o2 = objects.GetFirst();
             AssertEquals("test", o2.GetName());

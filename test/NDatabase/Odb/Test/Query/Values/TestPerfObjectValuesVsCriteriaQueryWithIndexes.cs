@@ -21,7 +21,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             var atts = new[] {"name"};
             try
             {
-                odb.GetClassRepresentation<User2>().AddUniqueIndexOn("Index", atts);
+                odb.IndexManagerFor<User2>().AddUniqueIndexOn("Index", atts);
             }
             catch (Exception)
             {
@@ -75,10 +75,10 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             var odb = Open("perfOValuesVsCriteriaIndex1");
             
             IQuery q = new CriteriaQuery<User2>( Where.Equal("name", "user1599"));
-            var objects = odb.GetObjects<User2>(q, false);
+            var objects = odb.Query<User2>(q, false);
             Println(objects.Count);
             AssertEquals(1, objects.Count);
-            objects = odb.GetObjects<User2>(q, false);
+            objects = odb.Query<User2>(q, false);
             Println(objects.Count);
             AssertEquals(1, objects.Count);
             odb.Close();

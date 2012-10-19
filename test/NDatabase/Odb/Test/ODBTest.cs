@@ -21,17 +21,17 @@ namespace Test.NDatabase.Odb.Test
 
         public virtual OdbAdapter Open(String fileName, String user, String password)
         {
-            return (OdbAdapter) OdbFactory.Open(fileName);
+            return (OdbAdapter) NDb.Open(fileName);
         }
 
         public virtual OdbAdapter Open(String fileName)
         {
-            return (OdbAdapter) OdbFactory.Open(fileName);
+            return (OdbAdapter) NDb.Open(fileName);
         }
 
         public virtual OdbAdapter OpenLocal(String fileName)
         {
-            return (OdbAdapter) OdbFactory.Open(fileName);
+            return (OdbAdapter) NDb.Open(fileName);
         }
 
         public virtual void failCS()
@@ -47,7 +47,7 @@ namespace Test.NDatabase.Odb.Test
         protected internal virtual void DeleteBase(String baseName)
         {
             if (File.Exists(baseName))
-                OdbFactory.Delete(baseName);
+                NDb.Delete(baseName);
         }
 
         public void Println(object o)

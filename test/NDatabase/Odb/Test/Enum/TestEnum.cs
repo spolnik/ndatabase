@@ -14,7 +14,7 @@ namespace Test.NDatabase.Odb.Test.Enum
             odb.Store(e);
             odb.Close();
             odb = Open(baseName);
-            var objects = odb.GetObjects<ClassWithEnum>();
+            var objects = odb.Query<ClassWithEnum>();
             odb.Close();
             AssertEquals(1, objects.Count);
         }
@@ -28,13 +28,13 @@ namespace Test.NDatabase.Odb.Test.Enum
             odb.Store(e);
             odb.Close();
             odb = Open(baseName);
-            var objects = odb.GetObjects<ClassWithEnum>();
+            var objects = odb.Query<ClassWithEnum>();
             var cwe = objects.GetFirst();
             cwe.SetObjectType(ObjectType.Small);
             odb.Store(cwe);
             odb.Close();
             odb = Open(baseName);
-            objects = odb.GetObjects<ClassWithEnum>();
+            objects = odb.Query<ClassWithEnum>();
             AssertEquals(1, objects.Count);
 
             cwe = objects.GetFirst();

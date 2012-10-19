@@ -277,7 +277,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                     NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
             }
 
-            // When not local (client server) session can be null
             var lsession = GetSession(true);
             _objectWriter.FileSystemProcessor.WriteLastOdbCloseStatus(true, false);
 

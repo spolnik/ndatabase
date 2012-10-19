@@ -5,7 +5,7 @@ namespace NDatabase2.Odb
     /// <summary>
     ///   The NDatabase Factory to open new instance of local odb.
     /// </summary>
-    public static class OdbFactory
+    public static class NDb
     {
         private static string _last;
 

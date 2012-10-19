@@ -19,7 +19,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var baseName = GetBaseName();
             DeleteBase(baseName);
             var @base = Open(baseName);
-            var clazz = @base.GetClassRepresentation<IndexedObject3>();
+            var clazz = @base.IndexManagerFor<IndexedObject3>();
             var indexFields1 = new[] {"i1"};
             clazz.AddUniqueIndexOn("index1", indexFields1);
             for (var i = 0; i < 10; i++)
@@ -31,7 +31,7 @@ namespace Test.NDatabase.Odb.Test.Index
             @base.Close();
             @base = Open(baseName);
             IQuery q = new CriteriaQuery<IndexedObject3>(Where.Equal("i1", 1));
-            var iis = @base.GetObjects<IndexedObject3>(q);
+            var iis = @base.Query<IndexedObject3>(q);
             @base.Close();
             AssertEquals(1, iis.Count);
             AssertTrue(((IInternalQuery)q).GetExecutionPlan().UseIndex());
@@ -57,7 +57,7 @@ namespace Test.NDatabase.Odb.Test.Index
             }
             @base.Close();
             @base = Open(baseName);
-            var clazz = @base.GetClassRepresentation<IndexedObject3>();
+            var clazz = @base.IndexManagerFor<IndexedObject3>();
             var indexFields1 = new[] {"i1", "i2", "i3"};
             clazz.AddUniqueIndexOn("index1", indexFields1);
             @base.Close();
@@ -67,12 +67,12 @@ namespace Test.NDatabase.Odb.Test.Index
                 new CriteriaQuery<IndexedObject3>(
                     Where.Equal("i1", 10).And(Where.Equal("i2", 2)).And(Where.Equal("i3", 3)));
 
-            var objects = @base.GetObjects<IndexedObject3>(q);
+            var objects = @base.Query<IndexedObject3>(q);
             AssertEquals(true, ((IInternalQuery)q).GetExecutionPlan().UseIndex());
-            @base.GetClassRepresentation<IndexedObject3>().DeleteIndex("index1");
+            @base.IndexManagerFor<IndexedObject3>().DeleteIndex("index1");
             @base.Close();
             @base = Open(baseName);
-            objects = @base.GetObjects<IndexedObject3>(q);
+            objects = @base.Query<IndexedObject3>(q);
             AssertEquals(false, ((IInternalQuery)q).GetExecutionPlan().UseIndex());
             @base.Close();
             DeleteBase(baseName);
@@ -85,7 +85,7 @@ namespace Test.NDatabase.Odb.Test.Index
             DeleteBase(baseName);
             var @base = Open(baseName);
             var indexName = "index1";
-            var clazz = @base.GetClassRepresentation<IndexedObject3>();
+            var clazz = @base.IndexManagerFor<IndexedObject3>();
             var indexFields1 = new[] {"i1", "i2", "i3"};
             clazz.AddUniqueIndexOn(indexName, indexFields1);
             @base.Close();
@@ -105,7 +105,7 @@ namespace Test.NDatabase.Odb.Test.Index
             // println(e.getMessage());
             @base.Close();
             @base = Open(baseName);
-            var oo3 = @base.GetObjects<IndexedObject3>();
+            var oo3 = @base.Query<IndexedObject3>();
             @base.Close();
             AssertEquals(0, oo3.Count);
             DeleteBase(baseName);
@@ -130,7 +130,7 @@ namespace Test.NDatabase.Odb.Test.Index
             }
             @base.Close();
             @base = Open(baseName);
-            var clazz = @base.GetClassRepresentation<IndexedObject3>();
+            var clazz = @base.IndexManagerFor<IndexedObject3>();
             var indexFields1 = new[] {"i1", "i2", "i3"};
             clazz.AddUniqueIndexOn("index1", indexFields1);
             @base.Close();
@@ -140,12 +140,12 @@ namespace Test.NDatabase.Odb.Test.Index
                 new CriteriaQuery<IndexedObject3>(
                     Where.Equal("i1", 10).And(Where.Equal("i2", 2)).And(Where.Equal("i3", 3)));
 
-            var objects = @base.GetObjects<IndexedObject3>(q);
+            var objects = @base.Query<IndexedObject3>(q);
             AssertEquals(true, ((IInternalQuery)q).GetExecutionPlan().UseIndex());
-            @base.GetClassRepresentation<IndexedObject3>().RebuildIndex("index1");
+            @base.IndexManagerFor<IndexedObject3>().RebuildIndex("index1");
             @base.Close();
             @base = Open(baseName);
-            objects = @base.GetObjects<IndexedObject3>(q);
+            objects = @base.Query<IndexedObject3>(q);
             AssertEquals(true, ((IInternalQuery)q).GetExecutionPlan().UseIndex());
             @base.Close();
             DeleteBase(baseName);
@@ -157,7 +157,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var baseName = GetBaseName();
             DeleteBase(baseName);
             var @base = Open(baseName);
-            var clazz = @base.GetClassRepresentation<IndexedObject3>();
+            var clazz = @base.IndexManagerFor<IndexedObject3>();
             var indexFields1 = new[] {"i1", "i2", "i3"};
             clazz.AddUniqueIndexOn("index1", indexFields1);
             var indexFields2 = new[] {"s1", "s2", "s3"};

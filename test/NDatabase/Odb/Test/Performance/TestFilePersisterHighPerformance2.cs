@@ -84,7 +84,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             long t77 = 0;
             long t8 = 0;
             IOdb odb = null;
-            IObjects<SimpleObject> l = null;
+            IObjectSet<SimpleObject> l = null;
             SimpleObject so = null;
             t1 = OdbTime.GetCurrentTimeInTicks();
             odb = Open(OdbFileName);
@@ -111,7 +111,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             // println("NB WA="+WriteAction.count);
             t3 = OdbTime.GetCurrentTimeInTicks();
             // println("end of insert");
-            l = odb.GetObjects<SimpleObject>(false);
+            l = odb.Query<SimpleObject>(false);
             // println("end of getObjects ");
             t4 = OdbTime.GetCurrentTimeInTicks();
             // println("After getObjects ="+Dummy.getEngine(odb).getSession().getCache().toString());
@@ -153,7 +153,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             odb.Close();
             t7 = OdbTime.GetCurrentTimeInTicks();
             odb = Open(OdbFileName);
-            l = odb.GetObjects<SimpleObject>(false);
+            l = odb.Query<SimpleObject>(false);
             t77 = OdbTime.GetCurrentTimeInTicks();
             var j = 0;
             while (l.HasNext())
@@ -168,7 +168,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             odb.Close();
             t8 = OdbTime.GetCurrentTimeInTicks();
             odb = Open(OdbFileName);
-            AssertEquals(0, odb.GetObjects<SimpleObject>().Count);
+            AssertEquals(0, odb.Query<SimpleObject>().Count);
             odb.Close();
             DisplayResult("ODB " + TestSize + " SimpleObject objects ", t1, t2, t3, t4, t5, t6, t7, t77, t8);
         }
@@ -203,7 +203,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             odb.Commit();
             t3 = OdbTime.GetCurrentTimeInTicks();
             Println("end of insert");
-            var l = odb.GetObjects<User>(false);
+            var l = odb.Query<User>(false);
             t4 = OdbTime.GetCurrentTimeInTicks();
             var nbObjects = l.Count;
             Println(nbObjects + " objects ");
@@ -233,7 +233,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             odb.Close();
             t7 = OdbTime.GetCurrentTimeInTicks();
             odb = Open(OdbFileName);
-            l = odb.GetObjects<User>();
+            l = odb.Query<User>();
             t77 = OdbTime.GetCurrentTimeInTicks();
             j = 0;
             while (l.HasNext())
@@ -247,7 +247,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             odb.Close();
             t8 = OdbTime.GetCurrentTimeInTicks();
             odb = Open(OdbFileName);
-            AssertEquals(0, odb.GetObjects<User>().Count);
+            AssertEquals(0, odb.Query<User>().Count);
             odb.Close();
             DisplayResult("ODB " + TestSize + " User objects ", t1, t2, t3, t4, t5, t6, t7, t77, t8);
             DeleteBase(OdbFileName);

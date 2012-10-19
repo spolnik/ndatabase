@@ -27,7 +27,8 @@ namespace NDatabase2.Odb.Core.Query.NQ
         }
 
         /// <summary>
-        ///   Check if the object at position currentPosition matches the query, returns true This method must compute the next object position and the orderBy key if it exists!
+        ///   Check if the object at position currentPosition matches the query, returns true 
+        ///   This method must compute the next object position and the orderBy key if it exists!
         /// </summary>
         public override bool MatchObjectWithOid(OID oid, bool loadObjectInfo, bool inMemory)
         {

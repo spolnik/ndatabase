@@ -4,7 +4,7 @@ using NDatabase2.Tool.Wrappers;
 
 namespace NDatabase2.Odb
 {
-    internal interface IInternalObjectSet<TItem> : IObjects<TItem>
+    internal interface IInternalObjectSet<TItem> : IObjectSet<TItem>
     {
         /// <summary>
         ///   Add an object into the collection using a specific ordering key

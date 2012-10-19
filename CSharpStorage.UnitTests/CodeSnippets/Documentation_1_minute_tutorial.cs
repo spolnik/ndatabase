@@ -12,7 +12,7 @@ namespace NDatabase.UnitTests.CodeSnippets
         public void SetUp()
         {
             const string dbFileName = "game.db";
-            OdbFactory.Delete(dbFileName);
+            NDb.Delete(dbFileName);
         }
 
         [Test]
@@ -31,17 +31,17 @@ namespace NDatabase.UnitTests.CodeSnippets
             IHero warrior = new Warrior("Conan", warriorAttackValue, warriorDefenseValue);
 
             // store them
-            using (var odb = OdbFactory.Open(dbFileName))
+            using (var odb = NDb.Open(dbFileName))
             {
                 odb.Store(mage);
                 odb.Store(warrior);
             }
 
             // retrieve them by classes and by interface
-            using (var odb = OdbFactory.Open(dbFileName))
+            using (var odb = NDb.Open(dbFileName))
             {
                 // work with mages
-                var mages = odb.GetObjects<Mage>();
+                var mages = odb.Query<Mage>();
                 foreach (var hero in mages)
                     Console.WriteLine(hero);
 
@@ -50,7 +50,7 @@ namespace NDatabase.UnitTests.CodeSnippets
                 Assert.That(mages.GetFirst().Defense, Is.EqualTo(mageDefenseValue));
 
                 // work with warriors
-                var warriors = odb.GetObjects<Warrior>();
+                var warriors = odb.Query<Warrior>();
                 foreach (var hero in warriors)
                     Console.WriteLine(hero);
 
@@ -61,7 +61,7 @@ namespace NDatabase.UnitTests.CodeSnippets
                 Console.WriteLine("Start working with IHero interface.");
 
                 // work with heroes
-                var heroes = odb.GetObjects<IHero>();
+                var heroes = odb.Query<IHero>();
                 foreach (var hero in heroes)
                     Console.WriteLine(hero);
 

@@ -15,7 +15,7 @@ namespace Test.NDatabase.Odb.Test.Resistance
 
             var baseName = GetBaseName();
             IOdb odb = null;
-            IObjects<VO.Login.Function> os = null;
+            IObjectSet<VO.Login.Function> os = null;
             for (var i = 0; i < size1; i++)
             {
                 odb = Open(baseName);
@@ -26,7 +26,7 @@ namespace Test.NDatabase.Odb.Test.Resistance
                 }
                 odb.Close();
                 odb = Open(baseName);
-                os = odb.GetObjects<VO.Login.Function>();
+                os = odb.Query<VO.Login.Function>();
                 while (os.HasNext())
                 {
                     var f = os.Next();
@@ -37,14 +37,14 @@ namespace Test.NDatabase.Odb.Test.Resistance
                     Println(i + "/" + size1);
             }
             odb = Open(baseName);
-            os = odb.GetObjects<VO.Login.Function>();
+            os = odb.Query<VO.Login.Function>();
             AssertEquals(0, os.Count);
             odb.Close();
             Println("step2");
             for (var i = 0; i < size1; i++)
             {
                 odb = Open(baseName);
-                os = odb.GetObjects<VO.Login.Function>();
+                os = odb.Query<VO.Login.Function>();
                 while (os.HasNext())
                 {
                     var f = os.Next();
@@ -62,7 +62,7 @@ namespace Test.NDatabase.Odb.Test.Resistance
                     Println(i + "/" + size1);
             }
             odb = Open(baseName);
-            os = odb.GetObjects<VO.Login.Function>();
+            os = odb.Query<VO.Login.Function>();
             AssertEquals(size2, os.Count);
             odb.Close();
             DeleteBase(baseName);

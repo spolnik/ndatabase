@@ -40,17 +40,17 @@ namespace NDatabase2.Odb.Main
             return _storageEngine.Store(plainObject);
         }
 
-        public virtual IObjects<T> GetObjects<T>() where T : class
+        public virtual IObjectSet<T> Query<T>() where T : class
         {
             return _storageEngine.GetObjects<T>(new CriteriaQuery<T>(), true, -1, -1);
         }
 
-        public virtual IObjects<T> GetObjects<T>(bool inMemory) where T : class
+        public virtual IObjectSet<T> Query<T>(bool inMemory) where T : class
         {
             return _storageEngine.GetObjects<T>(inMemory, -1, -1);
         }
 
-        public virtual IObjects<T> GetObjects<T>(bool inMemory, int startIndex, int endIndex) where T : class
+        public virtual IObjectSet<T> Query<T>(bool inMemory, int startIndex, int endIndex) where T : class
         {
             return _storageEngine.GetObjects<T>(inMemory, startIndex, endIndex);
         }
@@ -75,7 +75,7 @@ namespace NDatabase2.Odb.Main
             _storageEngine.DeleteObjectWithOid(oid);
         }
 
-        public virtual IObjects<T> GetObjects<T>(IQuery query) where T : class
+        public virtual IObjectSet<T> Query<T>(IQuery query) where T : class
         {
             ((IInternalQuery)query).SetStorageEngine(_storageEngine);
             return _storageEngine.GetObjects<T>(query, true, -1, -1);
@@ -96,12 +96,12 @@ namespace NDatabase2.Odb.Main
             return Decimal.ToInt64(count);
         }
 
-        public virtual IObjects<T> GetObjects<T>(IQuery query, bool inMemory) where T : class
+        public virtual IObjectSet<T> Query<T>(IQuery query, bool inMemory) where T : class
         {
             return _storageEngine.GetObjects<T>(query, inMemory, -1, -1);
         }
 
-        public virtual IObjects<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex) where T : class
+        public virtual IObjectSet<T> Query<T>(IQuery query, bool inMemory, int startIndex, int endIndex) where T : class
         {
             try
             {
@@ -129,7 +129,7 @@ namespace NDatabase2.Odb.Main
             _storageEngine.DefragmentTo(newFileName);
         }
 
-        public virtual IClassRepresentation GetClassRepresentation<T>() where T : class
+        public virtual IIndexManager IndexManagerFor<T>() where T : class
         {
             var clazz = typeof (T);
             var classInfo = _storageEngine.GetSession(true).GetMetaModel().GetClassInfo(clazz, false);
@@ -141,7 +141,7 @@ namespace NDatabase2.Odb.Main
                 classInfo = classInfoList.GetMainClassInfo();
             }
 
-            return new ClassRepresentation(_storageEngine, classInfo);
+            return new IndexManager(_storageEngine, classInfo);
         }
 
         public virtual void AddUpdateTrigger<T>(UpdateTrigger trigger) where T : class 
@@ -184,17 +184,17 @@ namespace NDatabase2.Odb.Main
             return _storageEngine.IsClosed();
         }
 
-        public virtual CriteriaQuery<T> CriteriaQuery<T>(IConstraint criterion) where T : class 
+        public virtual CriteriaQuery<T> CreateCriteriaQuery<T>(IConstraint criterion) where T : class 
         {
             return _storageEngine.CriteriaQuery<T>(criterion);
         }
 
-        public virtual CriteriaQuery<T> CriteriaQuery<T>() where T : class 
+        public virtual CriteriaQuery<T> CreateCriteriaQuery<T>() where T : class 
         {
             return _storageEngine.CriteriaQuery<T>();
         }
 
-        public virtual string GetName()
+        public virtual string GetDbId()
         {
             return _storageEngine.GetBaseIdentification().Id;
         }
@@ -206,7 +206,6 @@ namespace NDatabase2.Odb.Main
 
         public void Dispose()
         {
-            Commit();
             Close();
         }
 

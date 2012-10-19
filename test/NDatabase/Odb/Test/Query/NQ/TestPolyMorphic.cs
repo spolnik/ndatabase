@@ -46,7 +46,7 @@ namespace Test.NDatabase.Odb.Test.Query.NQ
             odb = Open("multi");
             IQuery q = new SimpleNativeQuery31();
 
-            var os = odb.GetObjects<Animal>(q);
+            var os = odb.Query<Animal>(q);
             Println(os);
             odb.Close();
             AssertEquals(4, os.Count);
@@ -67,7 +67,7 @@ namespace Test.NDatabase.Odb.Test.Query.NQ
             odb = Open("multi");
             IQuery q = new SimpleNativeQuery60();
 
-            var os = odb.GetObjects<Human>(q);
+            var os = odb.Query<Human>(q);
             Println(os);
             odb.Close();
             AssertEquals(2, os.Count);
@@ -92,7 +92,7 @@ namespace Test.NDatabase.Odb.Test.Query.NQ
             odb = Open("multi");
             IQuery q = new SimpleNativeQuery91();
 
-            var objects = odb.GetObjects<Animal>(q);
+            var objects = odb.Query<Animal>(q);
             odb.Close();
             DeleteBase("multi");
             AssertEquals(size * 3, objects.Count);

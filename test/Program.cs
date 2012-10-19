@@ -13,14 +13,14 @@ namespace Test
             try
             {
                 string file = "Test.NDatabase";
-                OdbFactory.Delete(file);
-                IOdb odb = OdbFactory.Open(file);
+                NDb.Delete(file);
+                IOdb odb = NDb.Open(file);
                 OID oid = odb.Store(new Function("f1"));
                 odb.Close();
                 Console.WriteLine("Write Done!");
 
-                odb = OdbFactory.Open(file);
-                IObjects<Function> functions = odb.GetObjects<Function>();
+                odb = NDb.Open(file);
+                IObjectSet<Function> functions = odb.Query<Function>();
                 Console.WriteLine(" Number of functions = " + functions.Count);
                 Function f = (Function) odb.GetObjectFromId(oid);
                 Console.WriteLine(f.ToString());
@@ -40,16 +40,16 @@ namespace Test
             {
                 int size = 1000;
                 string file = "Test.NDatabase";
-                OdbFactory.Delete(file);
-                IOdb odb = OdbFactory.Open(file);
+                NDb.Delete(file);
+                IOdb odb = NDb.Open(file);
                 for (int i = 0; i < size; i++)
                 {
                     OID oid = odb.Store(new Function("function " + i));
                 }
                 odb.Close();
 
-                odb = OdbFactory.Open(file);
-                IObjects<Function> functions = odb.GetObjects<Function>();
+                odb = NDb.Open(file);
+                IObjectSet<Function> functions = odb.Query<Function>();
                 Console.WriteLine(" Number of functions = " + functions.Count);
                 
                 odb.Close();
@@ -69,16 +69,16 @@ namespace Test
                 int size = 1000;
                 string file = "Test.NDatabase";
                 Console.WriteLine("Oi");
-                OdbFactory.Delete(file);
-                IOdb odb = OdbFactory.Open(file);
+                NDb.Delete(file);
+                IOdb odb = NDb.Open(file);
                 for (int i = 0; i < size; i++)
                 {
                     OID oid = odb.Store(new Function("function " + i));
                 }
                 odb.Close();
 
-                odb = OdbFactory.Open(file);
-                IObjects<Function> functions = odb.GetObjects<Function>(new CriteriaQuery<Function>( Where.Equal("name", "function 199")));
+                odb = NDb.Open(file);
+                IObjectSet<Function> functions = odb.Query<Function>(new CriteriaQuery<Function>( Where.Equal("name", "function 199")));
                 Console.WriteLine(" Number of functions = " + functions.Count);
 
                 odb.Close();

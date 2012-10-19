@@ -97,7 +97,7 @@
     <Compile Include="Btree\Impl\Singlevalue\BTreeSingleValuePerKey.cs" />
     <Compile Include="Btree\Tool\BTreeDisplay.cs" />
     <Compile Include="Btree\Tool\BTreeValidator.cs" />
-    <Compile Include="Odb\ClassRepresentation.cs" />
+    <Compile Include="Odb\IIndexManager.cs" />
     <Compile Include="Odb\Core\IError.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\IIntrospectionCallback.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\IObjectIntrospector.cs" />
@@ -287,7 +287,7 @@
     <Compile Include="Odb\Core\Layers\Layer3\ReadObjectsCache.cs" />
     <Compile Include="Odb\Core\Trigger\TriggerManager.cs" />
     <Compile Include="Odb\IInternalObjectSet.cs" />
-    <Compile Include="Odb\Main\ClassRepresentation.cs" />
+    <Compile Include="Odb\Main\IndexManager.cs" />
     <Compile Include="Odb\Main\Odb.cs" />
     <Compile Include="Odb\Main\ODBAdapter.cs" />
     <Compile Include="Odb\Main\OdbExt.cs" />
@@ -300,7 +300,7 @@
     <Compile Include="Odb\BaseOID.cs" />
     <Compile Include="Odb\OdbConfiguration.cs" />
     <Compile Include="Odb\ODBExt.cs" />
-    <Compile Include="Odb\OdbFactory.cs" />
+    <Compile Include="Odb\NDb.cs" />
     <Compile Include="Odb\ODBRuntimeException.cs" />
     <Compile Include="Odb\OID.cs" />
     <Compile Include="Odb\TransactionId.cs" />

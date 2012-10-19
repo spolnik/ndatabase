@@ -16,7 +16,7 @@ namespace Test.NDatabase.Odb.Test.Other
             odb.Store(new Exception("test"));
             odb.Close();
             odb = Open(DbName);
-            var l = odb.GetObjects<Exception>();
+            var l = odb.Query<Exception>();
             odb.Close();
             DeleteBase(DbName);
         }

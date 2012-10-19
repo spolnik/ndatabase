@@ -22,7 +22,7 @@ namespace Test.NDatabase.Odb.Test.Delete
             odb.Store(p);
             odb.Close();
             odb = Open(baseName);
-            var objects = odb.GetObjects<Profile>();
+            var objects = odb.Query<Profile>();
             while (objects.HasNext())
             {
                 var profile = objects.Next();
@@ -55,7 +55,7 @@ namespace Test.NDatabase.Odb.Test.Delete
             odb.Store(catalog);
             odb.Close();
             odb = Open(baseName);
-            var objects = odb.GetObjects<Catalog>();
+            var objects = odb.Query<Catalog>();
             Println(objects.Count + " catalog(s)");
             while (objects.HasNext())
             {
@@ -78,9 +78,9 @@ namespace Test.NDatabase.Odb.Test.Delete
             }
             odb.Close();
             odb = Open(baseName);
-            var catalogs = odb.GetObjects<Catalog>();
-            var productCategories = odb.GetObjects<ProductCategory>();
-            var products = odb.GetObjects<Product>();
+            var catalogs = odb.Query<Catalog>();
+            var productCategories = odb.Query<ProductCategory>();
+            var products = odb.Query<Product>();
             AssertTrue(catalogs.Count == 0);
             AssertTrue(productCategories.Count == 0);
             AssertTrue(products.Count == 0);

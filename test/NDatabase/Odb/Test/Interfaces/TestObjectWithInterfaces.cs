@@ -26,7 +26,7 @@ namespace Test.NDatabase.Odb.Test.Interfaces
             odb.Store(owi);
             odb.Close();
             odb = Open("tinterfaces.neodatis");
-            var os = odb.GetObjects<ObjectWithInterfaces>();
+            var os = odb.Query<ObjectWithInterfaces>();
             AssertEquals(1, os.Count);
             odb.Close();
         }
@@ -40,7 +40,7 @@ namespace Test.NDatabase.Odb.Test.Interfaces
             odb.Store(o);
             odb.Close();
             odb = Open(baseName);
-            var os = odb.GetObjects<MyObject>();
+            var os = odb.Query<MyObject>();
             AssertEquals(1, os.Count);
             odb.Close();
             // deleteBase(baseName);

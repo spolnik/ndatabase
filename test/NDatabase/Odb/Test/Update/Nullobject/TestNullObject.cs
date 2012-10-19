@@ -510,14 +510,14 @@ namespace Test.NDatabase.Odb.Test.Update.Nullobject
             odb.Store(CreateSensor(user, at, 4));
             odb.Close();
             odb = Open("sict");
-            var ats = odb.GetObjects<AT>();
+            var ats = odb.Query<AT>();
             var nbAts = ats.Count;
             at = ats.GetFirst();
             AT newAT = null;
             SensorAT newSensor = null;
             IQuery query = new CriteriaQuery<SensorAT>(Where.Equal("at.name", at.GetName()));
             query.OrderByAsc("lane");
-            var sensors = odb.GetObjects<SensorAT>(query);
+            var sensors = odb.Query<SensorAT>(query);
             Println("Duplicando AT " + at.GetName());
             for (var i = 0; i < 10; i++)
             {
