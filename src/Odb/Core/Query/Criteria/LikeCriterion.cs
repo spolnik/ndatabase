@@ -1,14 +1,11 @@
 using System;
-using NDatabase2.Odb.Core.Layers.Layer2.Meta;
 using NDatabase2.Tool.Wrappers;
 
 namespace NDatabase2.Odb.Core.Query.Criteria
 {
-    
     public sealed class LikeCriterion : AbstractCriterion
     {
         private readonly string _criterionValue;
-
         private readonly bool _isCaseSensitive;
 
         public LikeCriterion(string attributeName, string criterionValue, bool isCaseSensiive) : base(attributeName)
@@ -23,12 +20,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             if (valueToMatch == null)
                 return false;
 
-            // If it is a AttributeValuesMap, then gets the real value from the map
-            if (valueToMatch is AttributeValuesMap)
-            {
-                var attributeValues = (AttributeValuesMap) valueToMatch;
-                valueToMatch = attributeValues[AttributeName];
-            }
+            valueToMatch = AsAttributeValuesMapValue(valueToMatch);
 
             if (valueToMatch == null)
                 return false;
@@ -46,10 +38,9 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             {
                 regExp = _criterionValue.Replace("%", "(.)*");
 
-                if (_isCaseSensitive)
-                    return OdbString.Matches(regExp, value);
-
-                return OdbString.Matches(regExp.ToLower(), value.ToLower());
+                return _isCaseSensitive
+                           ? OdbString.Matches(regExp, value)
+                           : OdbString.Matches(regExp.ToLower(), value.ToLower());
             }
             if (_isCaseSensitive)
             {
@@ -58,15 +49,6 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             }
             regExp = string.Format("(.)*{0}(.)*", _criterionValue.ToLower());
             return OdbString.Matches(regExp, value.ToLower());
-        }
-
-        public override AttributeValuesMap GetValues()
-        {
-            return new AttributeValuesMap();
-        }
-
-        public override void Ready()
-        {
         }
     }
 }

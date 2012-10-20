@@ -57,9 +57,14 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             return list;
         }
 
-        public abstract AttributeValuesMap GetValues();
+        public virtual AttributeValuesMap GetValues()
+        {
+            return new AttributeValuesMap();
+        }
 
-        public abstract void Ready();
+        public virtual void Ready()
+        {
+        }
 
         public IConstraint And(IConstraint with)
         {
@@ -99,6 +104,16 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         public virtual void SetAttributeName(string attributeName)
         {
             AttributeName = attributeName;
+        }
+
+        protected object AsAttributeValuesMapValue(object valueToMatch)
+        {
+            // If it is a AttributeValuesMap, then gets the real value from the map
+            var attributeValues = valueToMatch as AttributeValuesMap;
+            
+            return attributeValues != null
+                       ? attributeValues[AttributeName]
+                       : valueToMatch;
         }
     }
 }

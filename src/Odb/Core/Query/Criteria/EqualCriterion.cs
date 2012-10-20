@@ -53,15 +53,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
         public override bool Match(object valueToMatch)
         {
-            // If it is a AttributeValuesMap, then gets the real value from the map
-            // AttributeValuesMap is used to optimize Criteria Query
-            // (reading only values of the object that the query needs to be
-            // evaluated instead of reading the entire object)
-            if (valueToMatch is AttributeValuesMap)
-            {
-                var attributeValues = (AttributeValuesMap) valueToMatch;
-                valueToMatch = attributeValues.GetAttributeValue(AttributeName);
-            }
+            valueToMatch = AsAttributeValuesMapValue(valueToMatch);
 
             if (valueToMatch == null && _criterionValue == null && _oid == null)
                 return true;
@@ -69,8 +61,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             if (AttributeValueComparator.IsNumber(valueToMatch) && AttributeValueComparator.IsNumber(_criterionValue))
                 return AttributeValueComparator.Compare((IComparable) valueToMatch, (IComparable) _criterionValue) == 0;
 
-            // if case sensitive (default value), just call the equals on the
-            // objects
+            // if case sensitive (default value), just call the equals on the objects
             if (_isCaseSensitive)
             {
                 if (_objectIsNative)

@@ -128,11 +128,6 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             return false;
         }
 
-        public override AttributeValuesMap GetValues()
-        {
-            return new AttributeValuesMap();
-        }
-
         public override void Ready()
         {
             if (_objectIsNative)

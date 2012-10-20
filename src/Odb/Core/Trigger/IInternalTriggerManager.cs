@@ -29,14 +29,6 @@ namespace NDatabase2.Odb.Core.Trigger
 
         void AddSelectTriggerFor(Type type, SelectTrigger trigger);
 
-        /// <summary>
-        ///   used to transform object before real trigger call.
-        /// </summary>
-        /// <remarks>
-        ///   used to transform object before real trigger call. This is used for example, in server side trigger where the object is encapsulated in an ObjectRepresentation instance. It is only for internal use
-        /// </remarks>
-        object Transform(object @object);
-
         bool HasDeleteTriggersFor(Type type);
 
         bool HasInsertTriggersFor(Type type);

@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Diagnostics;
+using System.Linq;
 using System.Text;
 
 namespace NDatabase2.Odb.Core.Query.Criteria
@@ -8,61 +7,34 @@ namespace NDatabase2.Odb.Core.Query.Criteria
     {
         public override bool Match(object @object)
         {
-            IEnumerator iterator = Criteria.GetEnumerator();
-            while (iterator.MoveNext())
-            {
-                var criterion = (IConstraint) iterator.Current;
-                Debug.Assert(criterion != null, "criterion != null");
+            return Constraints.All(constraint => constraint.Match(@object));
+        }
 
-                // For AND Expression, if one is false, then the whole
-                // expression will be false
-                if (!criterion.Match(@object))
-                    return false;
-            }
-            return true;
+        public override bool CanUseIndex()
+        {
+            return Constraints.All(constraint => constraint.CanUseIndex());
         }
 
         public override string ToString()
         {
             var buffer = new StringBuilder();
-            IEnumerator iterator = Criteria.GetEnumerator();
+
             buffer.Append("(");
             var isFirst = true;
-            while (iterator.MoveNext())
+
+            foreach (var constraint in Constraints)
             {
-                var criterion = (IConstraint) iterator.Current;
-
-                Debug.Assert(criterion != null, "criterion != null");
-
                 if (isFirst)
                 {
-                    buffer.Append(criterion);
+                    buffer.Append(constraint);
                     isFirst = false;
                 }
                 else
-                {
-                    buffer.Append(" and ").Append(criterion);
-                }
+                    buffer.Append(" and ").Append(constraint);
             }
 
             buffer.Append(")");
             return buffer.ToString();
-        }
-
-        public override bool CanUseIndex()
-        {
-            IEnumerator iterator = Criteria.GetEnumerator();
-
-            while (iterator.MoveNext())
-            {
-                var criterion = (IConstraint) iterator.Current;
-                Debug.Assert(criterion != null, "criterion != null");
-
-                if (!criterion.CanUseIndex())
-                    return false;
-            }
-
-            return true;
         }
     }
 }

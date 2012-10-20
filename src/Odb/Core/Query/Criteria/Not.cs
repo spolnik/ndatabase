@@ -35,9 +35,5 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         {
             return new AttributeValuesMap();
         }
-
-        public override void Ready()
-        {
-        }
     }
 }

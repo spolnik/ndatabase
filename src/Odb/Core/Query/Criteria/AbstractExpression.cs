@@ -18,7 +18,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             return _query;
         }
 
-        public virtual void SetQuery(IQuery query)
+        public void SetQuery(IQuery query)
         {
             _query = query;
         }
@@ -34,7 +34,9 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
         public abstract bool Match(object arg1);
 
-        public abstract void Ready();
+        public virtual void Ready()
+        {
+        }
 
         public IConstraint And(IConstraint with)
         {

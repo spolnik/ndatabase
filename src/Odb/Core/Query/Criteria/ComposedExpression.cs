@@ -1,82 +1,56 @@
-using System.Collections;
-using System.Diagnostics;
+using System.Collections.Generic;
 using NDatabase2.Odb.Core.Layers.Layer2.Meta;
 using NDatabase2.Tool.Wrappers.List;
 
 namespace NDatabase2.Odb.Core.Query.Criteria
 {
-    
     public abstract class ComposedExpression : AbstractExpression
     {
-        protected IOdbList<IConstraint> Criteria;
+        protected IOdbList<IConstraint> Constraints;
 
         protected ComposedExpression()
         {
-            Criteria = new OdbList<IConstraint>(5);
+            Constraints = new OdbList<IConstraint>(5);
         }
 
-        public virtual ComposedExpression Add(IConstraint criterion)
+        public virtual ComposedExpression Add(IConstraint constraint)
         {
-            Criteria.Add(criterion);
+            Constraints.Add(constraint);
             return this;
         }
 
         public override IOdbList<string> GetAllInvolvedFields()
         {
-            IEnumerator iterator = Criteria.GetEnumerator();
-            IOdbList<string> fields = new OdbList<string>(10);
-            while (iterator.MoveNext())
-            {
-                var criterion = (IConstraint) iterator.Current;
-                Debug.Assert(criterion != null, "criterion != null");
+            var fields = new OdbList<string>(10);
 
-                var allInvolvedFields = criterion.GetAllInvolvedFields();
-
-                // check duplicate
-                for (var i = 0; i < allInvolvedFields.Count; i++)
-                {
-                    var involvedFields = allInvolvedFields[i];
-                    if (!fields.Contains(involvedFields))
-                        fields.Add(involvedFields);
-                }
-            }
+            foreach (var constraint in Constraints)
+                FilterOutDuplicates(constraint.GetAllInvolvedFields(), fields);
 
             return fields;
         }
 
-        public virtual bool IsEmpty()
+        private static void FilterOutDuplicates(IEnumerable<string> allInvolvedFields, ICollection<string> fields)
         {
-            return Criteria.IsEmpty();
+            foreach (var involvedField in allInvolvedFields)
+            {
+                if (!fields.Contains(involvedField))
+                    fields.Add(involvedField);
+            }
+        }
+
+        public bool IsEmpty()
+        {
+            return Constraints.IsEmpty();
         }
 
         public override AttributeValuesMap GetValues()
         {
             var map = new AttributeValuesMap();
-            IEnumerator iterator = Criteria.GetEnumerator();
 
-            while (iterator.MoveNext())
-            {
-                var criterion = (IConstraint) iterator.Current;
-                Debug.Assert(criterion != null, "criterion != null");
-
-                map.PutAll(criterion.GetValues());
-            }
+            foreach (var constraint in Constraints)
+                map.PutAll(constraint.GetValues());
 
             return map;
-        }
-
-        public virtual int GetNbCriteria()
-        {
-            return Criteria.Count;
-        }
-
-        public virtual IConstraint GetCriterion(int index)
-        {
-            return Criteria[index];
-        }
-
-        public override void Ready()
-        {
         }
     }
 }

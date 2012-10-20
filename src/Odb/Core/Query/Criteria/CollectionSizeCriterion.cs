@@ -1,14 +1,11 @@
 using System;
 using System.Collections;
-using NDatabase2.Odb.Core.Layers.Layer2.Meta;
 
 namespace NDatabase2.Odb.Core.Query.Criteria
 {
     /// <summary>
     ///   A criterio to test collection or array size
     /// </summary>
-    /// <author>olivier s</author>
-    
     public sealed class CollectionSizeCriterion : AbstractCriterion
     {
         public const int SizeEq = 1;
@@ -23,19 +20,14 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
         public CollectionSizeCriterion(string attributeName, int size, int sizeType) : base(attributeName)
         {
-            // The size that the collection must have
             _size = size;
             _sizeType = sizeType;
         }
 
         public override bool Match(object valueToMatch)
         {
-            // If it is a AttributeValuesMap, then gets the real value from the map
-            if (valueToMatch is AttributeValuesMap)
-            {
-                var attributeValues = (AttributeValuesMap) valueToMatch;
-                valueToMatch = attributeValues.GetAttributeValue(AttributeName);
-            }
+            valueToMatch = AsAttributeValuesMapValue(valueToMatch);
+
             if (valueToMatch == null)
             {
                 // Null list are considered 0-sized list
@@ -43,10 +35,9 @@ namespace NDatabase2.Odb.Core.Query.Criteria
                     return true;
                 if ((_sizeType == SizeLe && _size >= 0) || (_sizeType == SizeLt && _size > 0))
                     return true;
-                if (_sizeType == SizeNe && _size != 0)
-                    return true;
-                return false;
+                return _sizeType == SizeNe && _size != 0;
             }
+
             var collection = valueToMatch as ICollection;
             if (collection != null)
                 return MatchSize(collection.Count, _size, _sizeType);
@@ -80,15 +71,6 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             }
 
             throw new OdbRuntimeException(NDatabaseError.QueryCollectionSizeCriteriaNotSupported.AddParameter(sizeType));
-        }
-
-        public override AttributeValuesMap GetValues()
-        {
-            return new AttributeValuesMap();
-        }
-
-        public override void Ready()
-        {
         }
     }
 }

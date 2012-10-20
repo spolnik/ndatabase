@@ -75,7 +75,7 @@ namespace NDatabase2.Odb.Main
 
         public virtual IObjectSet<T> Query<T>(IQuery query) where T : class
         {
-            ((IInternalQuery)query).SetStorageEngine(_storageEngine);
+            ((IInternalQuery) query).SetStorageEngine(_storageEngine);
             return _storageEngine.GetObjects<T>(query, true, -1, -1);
         }
 
@@ -90,7 +90,7 @@ namespace NDatabase2.Odb.Main
 
             var values = _storageEngine.GetValues<T>(valuesQuery, -1, -1);
 
-            var count = (Decimal)values.NextValues().GetByIndex(0);
+            var count = (Decimal) values.NextValues().GetByIndex(0);
             return Decimal.ToInt64(count);
         }
 
@@ -167,12 +167,12 @@ namespace NDatabase2.Odb.Main
             return _storageEngine.IsClosed();
         }
 
-        public virtual CriteriaQuery<T> CreateCriteriaQuery<T>(IConstraint criterion) where T : class 
+        public virtual CriteriaQuery<T> CreateCriteriaQuery<T>(IConstraint criterion) where T : class
         {
             return _storageEngine.CriteriaQuery<T>(criterion);
         }
 
-        public virtual CriteriaQuery<T> CreateCriteriaQuery<T>() where T : class 
+        public virtual CriteriaQuery<T> CreateCriteriaQuery<T>() where T : class
         {
             return _storageEngine.CriteriaQuery<T>();
         }
@@ -182,16 +182,16 @@ namespace NDatabase2.Odb.Main
             return _storageEngine.GetBaseIdentification().Id;
         }
 
-        internal IStorageEngine GetStorageEngine()
-        {
-            return _storageEngine.GetSession(true).GetStorageEngine();
-        }
-
         public void Dispose()
         {
             Close();
         }
 
         #endregion
+
+        internal IStorageEngine GetStorageEngine()
+        {
+            return _storageEngine.GetSession(true).GetStorageEngine();
+        }
     }
 }

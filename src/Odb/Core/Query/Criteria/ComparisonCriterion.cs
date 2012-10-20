@@ -41,12 +41,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             if (valueToMatch == null && _criterionValue == null)
                 return true;
 
-            // If it is a AttributeValuesMap, then gets the real value from the map 
-            if (valueToMatch is AttributeValuesMap)
-            {
-                var attributeValues = (AttributeValuesMap) valueToMatch;
-                valueToMatch = attributeValues.GetAttributeValue(AttributeName);
-            }
+            valueToMatch = AsAttributeValuesMapValue(valueToMatch);
 
             if (valueToMatch == null)
                 return false;
@@ -124,10 +119,6 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         public override AttributeValuesMap GetValues()
         {
             return new AttributeValuesMap {{AttributeName, _criterionValue}};
-        }
-
-        public override void Ready()
-        {
         }
     }
 }

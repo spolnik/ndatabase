@@ -1,5 +1,4 @@
 using System.Collections;
-using NDatabase2.Odb.Core.Layers.Layer2.Meta;
 using NDatabase2.Tool.Wrappers.List;
 
 namespace NDatabase2.Odb.Core.Query.Criteria
@@ -22,11 +21,6 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             return _criterion != null;
         }
 
-        public bool Match(AbstractObjectInfo aoi)
-        {
-            return _criterion == null || _criterion.Match(aoi);
-        }
-
         public bool Match(IDictionary map)
         {
             return _criterion == null || _criterion.Match(map);
@@ -34,7 +28,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
         public override bool Match(object @object)
         {
-            return Match((AbstractObjectInfo) @object);
+            return _criterion.Match(@object);
         }
 
         public IConstraint GetCriteria()

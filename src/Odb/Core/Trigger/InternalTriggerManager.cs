@@ -96,7 +96,7 @@ namespace NDatabase2.Odb.Core.Trigger
                     try
                     {
                         if (@object != null)
-                            trigger.BeforeInsert(Transform(@object));
+                            trigger.BeforeInsert(@object);
                     }
                     catch (Exception e)
                     {
@@ -125,7 +125,7 @@ namespace NDatabase2.Odb.Core.Trigger
 
                 try
                 {
-                    trigger.AfterInsert(Transform(@object), oid);
+                    trigger.AfterInsert(@object, oid);
                 }
                 catch (Exception e)
                 {
@@ -150,7 +150,7 @@ namespace NDatabase2.Odb.Core.Trigger
 
                     try
                     {
-                        trigger.BeforeUpdate(new ObjectRepresentation(oldNnoi), Transform(newObject), oid);
+                        trigger.BeforeUpdate(new ObjectRepresentation(oldNnoi), newObject, oid);
                     }
                     catch (Exception e)
                     {
@@ -178,7 +178,7 @@ namespace NDatabase2.Odb.Core.Trigger
 
                 try
                 {
-                    trigger.AfterUpdate(new ObjectRepresentation(oldNnoi), Transform(newObject), oid);
+                    trigger.AfterUpdate(new ObjectRepresentation(oldNnoi), newObject, oid);
                 }
                 catch (Exception e)
                 {
@@ -203,7 +203,7 @@ namespace NDatabase2.Odb.Core.Trigger
 
                     try
                     {
-                        trigger.BeforeDelete(Transform(@object), oid);
+                        trigger.BeforeDelete(@object, oid);
                     }
                     catch (Exception e)
                     {
@@ -231,7 +231,7 @@ namespace NDatabase2.Odb.Core.Trigger
 
                 try
                 {
-                    trigger.AfterDelete(Transform(@object), oid);
+                    trigger.AfterDelete(@object, oid);
                 }
                 catch (Exception e)
                 {
@@ -256,16 +256,8 @@ namespace NDatabase2.Odb.Core.Trigger
                     trigger.Odb = new OdbForTrigger(_storageEngine);
 
                 if (@object != null)
-                    trigger.AfterSelect(Transform(@object), oid);
+                    trigger.AfterSelect(@object, oid);
             }
-        }
-
-        /// <summary>
-        ///   For the default object trigger, no transformation is needed
-        /// </summary>
-        public object Transform(object @object)
-        {
-            return @object;
         }
 
         #endregion
