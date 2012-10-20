@@ -2,7 +2,6 @@ using System;
 using NDatabase2.Odb.Core.Layers.Layer3;
 using NDatabase2.Odb.Core.Query;
 using NDatabase2.Odb.Core.Query.Criteria;
-using NDatabase2.Odb.Core.Trigger;
 
 namespace NDatabase2.Odb
 {
@@ -126,25 +125,7 @@ namespace NDatabase2.Odb
         /// <returns> a public meta-representation of a class </returns>
         IIndexManager IndexManagerFor<T>() where T : class;
 
-        /// <summary>
-        ///   Used to add an update trigger callback for the specific class
-        /// </summary>
-        void AddUpdateTrigger<T>(UpdateTrigger trigger) where T : class;
-
-        /// <summary>
-        ///   Used to add an insert trigger callback for the specific class
-        /// </summary>
-        void AddInsertTrigger<T>(InsertTrigger trigger) where T : class;
-
-        /// <summary>
-        ///   USed to add a delete trigger callback for the specific class
-        /// </summary>
-        void AddDeleteTrigger<T>(DeleteTrigger trigger) where T : class;
-
-        /// <summary>
-        ///   Used to add a select trigger callback for the specific class
-        /// </summary>
-        void AddSelectTrigger<T>(SelectTrigger trigger) where T : class;
+        ITriggerManager TriggerManagerFor<T>() where T : class;
 
         /// <summary>
         ///   Returns the object used to refactor the database

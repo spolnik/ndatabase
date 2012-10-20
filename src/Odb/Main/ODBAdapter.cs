@@ -4,7 +4,6 @@ using NDatabase2.Odb.Core.Layers.Layer3;
 using NDatabase2.Odb.Core.Query;
 using NDatabase2.Odb.Core.Query.Criteria;
 using NDatabase2.Odb.Core.Query.Values;
-using NDatabase2.Odb.Core.Trigger;
 using NDatabase2.Tool;
 
 namespace NDatabase2.Odb.Main
@@ -12,7 +11,6 @@ namespace NDatabase2.Odb.Main
     /// <summary>
     ///   A basic adapter for ODB interface
     /// </summary>
-    /// <author>osmadja</author>
     public abstract class OdbAdapter : IOdb
     {
         private readonly IStorageEngine _storageEngine;
@@ -144,24 +142,9 @@ namespace NDatabase2.Odb.Main
             return new IndexManager(_storageEngine, classInfo);
         }
 
-        public virtual void AddUpdateTrigger<T>(UpdateTrigger trigger) where T : class 
+        public virtual ITriggerManager TriggerManagerFor<T>() where T : class
         {
-            _storageEngine.AddUpdateTriggerFor(typeof(T), trigger);
-        }
-
-        public virtual void AddInsertTrigger<T>(InsertTrigger trigger) where T : class 
-        {
-            _storageEngine.AddInsertTriggerFor(typeof(T), trigger);
-        }
-
-        public virtual void AddDeleteTrigger<T>(DeleteTrigger trigger) where T : class 
-        {
-            _storageEngine.AddDeleteTriggerFor(typeof(T), trigger);
-        }
-
-        public virtual void AddSelectTrigger<T>(SelectTrigger trigger) where T : class 
-        {
-            _storageEngine.AddSelectTriggerFor(typeof(T), trigger);
+            return new TriggerManager<T>(_storageEngine);
         }
 
         public virtual IRefactorManager GetRefactorManager()

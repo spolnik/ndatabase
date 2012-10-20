@@ -45,7 +45,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3
 
         IObjectWriter GetObjectWriter();
 
-        ITriggerManager GetTriggerManager();
+        IInternalTriggerManager GetTriggerManager();
 
         ISession GetSession(bool throwExceptionIfDoesNotExist);
 
@@ -150,7 +150,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3
 
         IObjectIntrospector BuildObjectIntrospector();
 
-        ITriggerManager BuildTriggerManager();
+        IInternalTriggerManager BuildTriggerManager();
 
         CriteriaQuery<T> CriteriaQuery<T>(IConstraint criterion) where T : class;
 
@@ -160,7 +160,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3
 
         IIdManager GetIdManager();
 
-        ITriggerManager GetLocalTriggerManager();
+        IInternalTriggerManager GetLocalTriggerManager();
         void RemoveLocalTriggerManager();
     }
 }

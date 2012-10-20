@@ -34,7 +34,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
         /// <summary>
         ///   To manage triggers
         /// </summary>
-        private ITriggerManager _triggerManager;
+        private IInternalTriggerManager _triggerManager;
 
         private IStorageEngine _storageEngine;
 
@@ -745,7 +745,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             return header.GetOid();
         }
 
-        public void SetTriggerManager(ITriggerManager triggerManager)
+        public void SetTriggerManager(IInternalTriggerManager triggerManager)
         {
             _triggerManager = triggerManager;
             _nonNativeObjectWriter.SetTriggerManager(triggerManager);

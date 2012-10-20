@@ -16,7 +16,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
         private readonly ISession _session;
         private readonly IStorageEngine _storageEngine;
         private readonly IObjectInfoComparator _comparator;
-        private ITriggerManager _triggerManager;
+        private IInternalTriggerManager _triggerManager;
         private IObjectReader _objectReader;
 
         public NonNativeObjectWriter(IObjectWriter objectWriter, IStorageEngine storageEngine, IObjectInfoComparator comparator)
@@ -343,7 +343,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             return oid;
         }
 
-        public void SetTriggerManager(ITriggerManager triggerManager)
+        public void SetTriggerManager(IInternalTriggerManager triggerManager)
         {
             _triggerManager = triggerManager;
         }

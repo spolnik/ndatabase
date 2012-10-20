@@ -55,7 +55,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
 
         private IObjectIntrospector _objectIntrospector;
         private readonly IObjectWriter _objectWriter;
-        private readonly ITriggerManager _triggerManager;
+        private readonly IInternalTriggerManager _triggerManager;
 
         /// <summary>
         ///   The database file name
@@ -492,7 +492,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             GetSession(true).RemoveObjectFromCache(plainObject);
         }
 
-        public override ITriggerManager GetTriggerManager()
+        public override IInternalTriggerManager GetTriggerManager()
         {
             return _triggerManager;
         }
@@ -556,7 +556,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             return new ObjectIntrospector(this);
         }
 
-        public override ITriggerManager BuildTriggerManager()
+        public override IInternalTriggerManager BuildTriggerManager()
         {
             return GetLocalTriggerManager();
         }

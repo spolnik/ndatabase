@@ -19,7 +19,7 @@ namespace Test.NDatabase.Odb.Test.Trigger
             try
             {
                 odb = Open(baseName);
-                odb.AddInsertTrigger<SimpleObject>(myTrigger);
+                odb.TriggerManagerFor<SimpleObject>().AddInsertTrigger(myTrigger);
                 var so = new SimpleObject(5);
                 var oid = odb.Store(so);
                 AssertEquals(6, so.GetId());
@@ -54,7 +54,7 @@ namespace Test.NDatabase.Odb.Test.Trigger
                 AssertEquals(5, so.GetId());
                 odb.Close();
                 odb = Open(baseName);
-                odb.AddUpdateTrigger<SimpleObject>(myTrigger);
+                odb.TriggerManagerFor<SimpleObject>().AddUpdateTrigger(myTrigger);
                 var so2 = (SimpleObject) odb.GetObjectFromId(oid);
                 AssertEquals(5, so2.GetId());
                 odb.Store(so2);

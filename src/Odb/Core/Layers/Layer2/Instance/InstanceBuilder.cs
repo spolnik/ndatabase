@@ -20,7 +20,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Instance
     internal sealed class InstanceBuilder : IInstanceBuilder
     {
         private readonly IStorageEngine _engine;
-        private readonly ITriggerManager _triggerManager;
+        private readonly IInternalTriggerManager _triggerManager;
 
         public InstanceBuilder(IStorageEngine engine)
         {

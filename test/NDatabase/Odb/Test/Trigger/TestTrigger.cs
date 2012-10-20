@@ -17,7 +17,7 @@ namespace Test.NDatabase.Odb.Test.Trigger
             try
             {
                 odb = Open("trigger.neodatis");
-                odb.AddInsertTrigger<User>(myTrigger);
+                odb.TriggerManagerFor<VO.Login.Function>().AddInsertTrigger(myTrigger);
                 var f1 = new VO.Login.Function("function1");
                 var f2 = new VO.Login.Function("function2");
                 var profile = new Profile("profile1", f1);
@@ -47,7 +47,7 @@ namespace Test.NDatabase.Odb.Test.Trigger
             try
             {
                 odb = Open("trigger.neodatis");
-                odb.AddInsertTrigger<VO.Login.Function>(myTrigger);
+                odb.TriggerManagerFor<VO.Login.Function>().AddInsertTrigger(myTrigger);
                 var f1 = new VO.Login.Function("function1");
                 var f2 = new VO.Login.Function("function2");
                 var profile = new Profile("profile1", f1);
@@ -91,7 +91,7 @@ namespace Test.NDatabase.Odb.Test.Trigger
                     odb.Close();
             }
             odb = Open("trigger.neodatis");
-            odb.AddSelectTrigger<VO.Login.Function>(myTrigger);
+            odb.TriggerManagerFor<VO.Login.Function>().AddSelectTrigger(myTrigger);
             var functions = odb.Query<VO.Login.Function>();
             odb.Close();
             DeleteBase("trigger.neodatis");

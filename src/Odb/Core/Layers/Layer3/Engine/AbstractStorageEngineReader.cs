@@ -27,8 +27,8 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
         private static readonly IDictionary<Type, Type> CriteriaQueryTypeCache =
             new Dictionary<Type, Type>();
 
-        private static readonly IDictionary<IStorageEngine, ITriggerManager> TriggerManagers =
-            new OdbHashMap<IStorageEngine, ITriggerManager>();
+        private static readonly IDictionary<IStorageEngine, IInternalTriggerManager> TriggerManagers =
+            new OdbHashMap<IStorageEngine, IInternalTriggerManager>();
 
         /// <summary>
         ///   The file parameters - if we are accessing a file, it will be a IOFileParameters that contains the file name
@@ -44,15 +44,15 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
 
         #region IStorageEngine Members
 
-        public ITriggerManager GetLocalTriggerManager()
+        public IInternalTriggerManager GetLocalTriggerManager()
         {
             // First check if trigger manager has already been built for the engine
-            ITriggerManager triggerManager;
+            IInternalTriggerManager triggerManager;
             TriggerManagers.TryGetValue(this, out triggerManager);
             if (triggerManager != null)
                 return triggerManager;
 
-            triggerManager = new TriggerManager(this);
+            triggerManager = new InternalTriggerManager(this);
             TriggerManagers[this] = triggerManager;
             return triggerManager;
         }
@@ -271,7 +271,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
 
         public abstract IObjectIntrospector BuildObjectIntrospector();
 
-        public abstract ITriggerManager BuildTriggerManager();
+        public abstract IInternalTriggerManager BuildTriggerManager();
 
         public abstract CheckMetaModelResult CheckMetaModelCompatibility(IDictionary<string, ClassInfo> arg1);
 
@@ -317,7 +317,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
 
         public abstract IRefactorManager GetRefactorManager();
 
-        public abstract ITriggerManager GetTriggerManager();
+        public abstract IInternalTriggerManager GetTriggerManager();
 
         public abstract IValues GetValues<T>(IValuesQuery arg1, int arg2, int arg3) where T : class;
 

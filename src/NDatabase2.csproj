@@ -196,7 +196,7 @@
     <Compile Include="Odb\Core\Transaction\ITransaction.cs" />
     <Compile Include="Odb\Core\Trigger\DeleteTrigger.cs" />
     <Compile Include="Odb\Core\Trigger\InsertTrigger.cs" />
-    <Compile Include="Odb\Core\Trigger\ITriggerManager.cs" />
+    <Compile Include="Odb\Core\Trigger\IInternalTriggerManager.cs" />
     <Compile Include="Odb\Core\Trigger\SelectTrigger.cs" />
     <Compile Include="Odb\Core\Trigger\Trigger.cs" />
     <Compile Include="Odb\Core\Trigger\UpdateTrigger.cs" />
@@ -285,8 +285,9 @@
     <Compile Include="Odb\Core\Transaction\LocalSession.cs" />
     <Compile Include="Odb\Core\Transaction\Session.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\ReadObjectsCache.cs" />
-    <Compile Include="Odb\Core\Trigger\TriggerManager.cs" />
+    <Compile Include="Odb\Core\Trigger\InternalTriggerManager.cs" />
     <Compile Include="Odb\IInternalObjectSet.cs" />
+    <Compile Include="Odb\ITriggerManager.cs" />
     <Compile Include="Odb\Main\IndexManager.cs" />
     <Compile Include="Odb\Main\Odb.cs" />
     <Compile Include="Odb\Main\ODBAdapter.cs" />
@@ -304,6 +305,7 @@
     <Compile Include="Odb\ODBRuntimeException.cs" />
     <Compile Include="Odb\OID.cs" />
     <Compile Include="Odb\TransactionId.cs" />
+    <Compile Include="Odb\TriggerManager.cs" />
     <Compile Include="Odb\Values.cs" />
     <Compile Include="Tool\ConsoleLogger.cs" />
     <Compile Include="Tool\DisplayUtility.cs" />

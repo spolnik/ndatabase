@@ -72,7 +72,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3
 
         void AfterInit();
 
-        void SetTriggerManager(ITriggerManager triggerManager);
+        void SetTriggerManager(IInternalTriggerManager triggerManager);
 
         /// <summary>
         ///   Mark a block as deleted

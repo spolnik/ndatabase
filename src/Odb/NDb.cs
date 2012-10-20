@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 
 namespace NDatabase2.Odb
@@ -7,6 +8,7 @@ namespace NDatabase2.Odb
     /// </summary>
     public static class NDb
     {
+        [ThreadStatic]
         private static string _last;
 
         /// <summary>

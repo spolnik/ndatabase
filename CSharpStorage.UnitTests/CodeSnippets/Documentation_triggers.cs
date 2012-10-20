@@ -1,5 +1,4 @@
 ﻿using System;
-using NDatabase.Odb;
 using NDatabase.UnitTests.CodeSnippets.Data;
 using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Trigger;
@@ -46,7 +45,7 @@ namespace NDatabase.UnitTests.CodeSnippets
 
             using (var odb = NDb.Open("inserting_trigger.db"))
             {
-                odb.AddInsertTrigger<Mage>(myTrigger);
+                odb.TriggerManagerFor<Mage>().AddInsertTrigger(myTrigger);
                 odb.Store(mage);
             }
 

@@ -1,6 +1,5 @@
 using NDatabase2.Odb.Core;
 using NDatabase2.Odb.Core.Layers.Layer3;
-using NDatabase2.Odb.Core.Trigger;
 
 namespace NDatabase2.Odb.Main
 {
@@ -10,22 +9,7 @@ namespace NDatabase2.Odb.Main
         {
         }
 
-        public void AddDeleteTrigger(DeleteTrigger trigger)
-        {
-            throw new OdbRuntimeException(NDatabaseError.OperationNotAllowedInTrigger);
-        }
-
-        public void AddInsertTrigger(InsertTrigger trigger)
-        {
-            throw new OdbRuntimeException(NDatabaseError.OperationNotAllowedInTrigger);
-        }
-
-        public void AddSelectTrigger(SelectTrigger trigger)
-        {
-            throw new OdbRuntimeException(NDatabaseError.OperationNotAllowedInTrigger);
-        }
-
-        public void AddUpdateTrigger(UpdateTrigger trigger)
+        public override ITriggerManager TriggerManagerFor<T>()
         {
             throw new OdbRuntimeException(NDatabaseError.OperationNotAllowedInTrigger);
         }

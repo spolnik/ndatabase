@@ -14,7 +14,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
         OID WriteNonNativeObjectInfo(OID existingOid, NonNativeObjectInfo objectInfo, long position,
                                      bool writeDataInTransaction, bool isNewObject);
 
-        void SetTriggerManager(ITriggerManager triggerManager);
+        void SetTriggerManager(IInternalTriggerManager triggerManager);
 
         /// <summary>
         ///   Updates an object.
