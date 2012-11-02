@@ -71,7 +71,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
         [Test]
         public virtual void Test11()
         {
-            var odb = NDb.Open("valuesSubList");
+            var odb = OdbFactory.Open("valuesSubList");
             var handler = new Handler();
             for (var i = 0; i < 10; i++)
                 handler.AddParameter(new Parameter("test " + i, "value " + i));

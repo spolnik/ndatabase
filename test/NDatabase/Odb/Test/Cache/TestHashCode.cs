@@ -35,7 +35,7 @@ namespace Test.NDatabase.Odb.Test.Cache
             odb = Open(baseName);
             objects = odb.Query<MyObjectWithMyHashCode>();
             odb.Close();
-            NDb.Delete(baseName);
+            OdbFactory.Delete(baseName);
             AssertEquals(0, objects.Count);
         }
 
@@ -67,7 +67,7 @@ namespace Test.NDatabase.Odb.Test.Cache
             odb = Open(baseName);
             objects = odb.Query<MyObjectWithMyHashCode2>();
             odb.Close();
-            NDb.Delete(baseName);
+            OdbFactory.Delete(baseName);
             AssertEquals(0, objects.Count);
         }
     }

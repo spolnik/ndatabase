@@ -12,6 +12,7 @@
     <AssemblyName>NDatabase.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -53,6 +54,7 @@
     <Compile Include="Base\When_we_use_storage_positions.cs" />
     <Compile Include="Base\When_we_store_nullable_types.cs" />
     <Compile Include="Bugs\Index\When_we_use_index_on_invariant_equal_criteria.cs" />
+    <Compile Include="Bugs\When_storing_class_which_has_reference_to_itself.cs" />
     <Compile Include="Bugs\When_storing_null_references.cs" />
     <Compile Include="Bugs\When_we_want_to_store_generic_types.cs" />
     <Compile Include="Class_names.cs" />

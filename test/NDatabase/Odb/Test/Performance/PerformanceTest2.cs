@@ -18,7 +18,7 @@ namespace Test.NDatabase.Odb.Test.Performance
         {
             var inMemory = true;
             // Deletes the database file
-            NDb.Delete(OdbFileName);
+            OdbFactory.Delete(OdbFileName);
             long t1 = 0;
             long t2 = 0;
             long t3 = 0;
@@ -34,7 +34,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             // Insert TEST_SIZE objects
             Console.Out.WriteLine("Inserting " + TestSize + " objects");
             t1 = OdbTime.GetCurrentTimeInTicks();
-            odb = NDb.Open(OdbFileName);
+            odb = OdbFactory.Open(OdbFileName);
 
             for (var i = 0; i < TestSize; i++)
             {
@@ -47,7 +47,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             t3 = OdbTime.GetCurrentTimeInTicks();
             Console.Out.WriteLine("Retrieving " + TestSize + " objects");
             // Reopen the database
-            odb = NDb.Open(OdbFileName);
+            odb = OdbFactory.Open(OdbFileName);
             // Gets retrieve the TEST_SIZE objects
             l = odb.Query<User>(inMemory);
             t4 = OdbTime.GetCurrentTimeInTicks();
@@ -73,7 +73,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             odb.Close();
             t7 = OdbTime.GetCurrentTimeInTicks();
             Console.Out.WriteLine("Deleting " + TestSize + " objects");
-            odb = NDb.Open(OdbFileName);
+            odb = OdbFactory.Open(OdbFileName);
             l = odb.Query<User>(inMemory);
             t77 = OdbTime.GetCurrentTimeInTicks();
             // Actually get objects
@@ -84,7 +84,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             }
             odb.Close();
             t8 = OdbTime.GetCurrentTimeInTicks();
-            odb = NDb.Open(OdbFileName);
+            odb = OdbFactory.Open(OdbFileName);
             odb.Close();
             DisplayResult("ODB " + TestSize + " User objects ", t1, t2, t3, t4, t5, t6, t7, t77, t8);
         }

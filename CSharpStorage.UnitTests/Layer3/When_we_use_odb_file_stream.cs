@@ -13,7 +13,7 @@ namespace NDatabase.UnitTests.Layer3
 
         protected override void Establish_context()
         {
-            NDb.Delete(ExistingDbName);
+            OdbFactory.Delete(ExistingDbName);
 
             _testByte = 3;
         }

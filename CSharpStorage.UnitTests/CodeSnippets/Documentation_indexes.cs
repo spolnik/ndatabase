@@ -13,8 +13,8 @@ namespace NDatabase.UnitTests.CodeSnippets
         [Test]
         public void Add_index_then_query()
         {
-            NDb.Delete("index1.ndb");
-            using (var odb = NDb.Open("index1.ndb"))
+            OdbFactory.Delete("index1.ndb");
+            using (var odb = OdbFactory.Open("index1.ndb"))
             {
                 var fields = new[] { "Name" };
                 odb.IndexManagerFor<Player>().AddUniqueIndexOn("nameIndex", fields);
@@ -26,7 +26,7 @@ namespace NDatabase.UnitTests.CodeSnippets
                 }
             }
 
-            using (var odb = NDb.OpenLast())
+            using (var odb = OdbFactory.OpenLast())
             {
                 var count = odb.Query<Player>().Count();
                 Assert.That(count, Is.EqualTo(50));
@@ -36,8 +36,8 @@ namespace NDatabase.UnitTests.CodeSnippets
         [Test]
         public void Test_perf_of_query_with_index()
         {
-            NDb.Delete("index1perf.ndb");
-            using (var odb = NDb.Open("index1perf.ndb"))
+            OdbFactory.Delete("index1perf.ndb");
+            using (var odb = OdbFactory.Open("index1perf.ndb"))
             {
                 var fields = new[] { "Name" };
                 odb.IndexManagerFor<Player>().AddUniqueIndexOn("nameIndex", fields);
@@ -51,7 +51,7 @@ namespace NDatabase.UnitTests.CodeSnippets
 
             var stopwatch = new Stopwatch();
             stopwatch.Start();
-            using (var odb = NDb.OpenLast())
+            using (var odb = OdbFactory.OpenLast())
             {
                 var query = odb.CreateCriteriaQuery<Player>(Where.Equal("Name", "Player20"));
                 var count = odb.Query<Player>(query).Count();
@@ -62,7 +62,7 @@ namespace NDatabase.UnitTests.CodeSnippets
 
             stopwatch.Reset();
             stopwatch.Start();
-            using (var odb = NDb.OpenLast())
+            using (var odb = OdbFactory.OpenLast())
             {
                 var query = odb.CreateCriteriaQuery<Player>(Where.Equal("Name", "Player1234"));
                 var count = odb.Query<Player>(query).Count();
@@ -73,7 +73,7 @@ namespace NDatabase.UnitTests.CodeSnippets
 
             stopwatch.Reset();
             stopwatch.Start();
-            using (var odb = NDb.OpenLast())
+            using (var odb = OdbFactory.OpenLast())
             {
                 var query = odb.CreateCriteriaQuery<Player>(Where.Equal("Name", "Player4444"));
                 var count = odb.Query<Player>(query).Count();
@@ -84,7 +84,7 @@ namespace NDatabase.UnitTests.CodeSnippets
 
             stopwatch.Reset();
             stopwatch.Start();
-            using (var odb = NDb.OpenLast())
+            using (var odb = OdbFactory.OpenLast())
             {
                 var query = odb.CreateCriteriaQuery<Player>(Where.Equal("Name", "Player3211"));
                 var count = odb.Query<Player>(query).Count();
@@ -97,8 +97,8 @@ namespace NDatabase.UnitTests.CodeSnippets
         [Test]
         public void Test_perf_of_query_without_index()
         {
-            NDb.Delete("index1perf.ndb");
-            using (var odb = NDb.Open("index1perf.ndb"))
+            OdbFactory.Delete("index1perf.ndb");
+            using (var odb = OdbFactory.Open("index1perf.ndb"))
             {
                 for (var i = 0; i < 5000; i++)
                 {
@@ -109,7 +109,7 @@ namespace NDatabase.UnitTests.CodeSnippets
 
             var stopwatch = new Stopwatch();
             stopwatch.Start();
-            using (var odb = NDb.OpenLast())
+            using (var odb = OdbFactory.OpenLast())
             {
                 var query = odb.CreateCriteriaQuery<Player>(Where.Equal("Name", "Player20"));
                 var count = odb.Query<Player>(query).Count();
@@ -120,7 +120,7 @@ namespace NDatabase.UnitTests.CodeSnippets
 
             stopwatch.Reset();
             stopwatch.Start();
-            using (var odb = NDb.OpenLast())
+            using (var odb = OdbFactory.OpenLast())
             {
                 var query = odb.CreateCriteriaQuery<Player>(Where.Equal("Name", "Player1234"));
                 var count = odb.Query<Player>(query).Count();
@@ -131,7 +131,7 @@ namespace NDatabase.UnitTests.CodeSnippets
 
             stopwatch.Reset();
             stopwatch.Start();
-            using (var odb = NDb.OpenLast())
+            using (var odb = OdbFactory.OpenLast())
             {
                 var query = odb.CreateCriteriaQuery<Player>(Where.Equal("Name", "Player4444"));
                 var count = odb.Query<Player>(query).Count();
@@ -142,7 +142,7 @@ namespace NDatabase.UnitTests.CodeSnippets
 
             stopwatch.Reset();
             stopwatch.Start();
-            using (var odb = NDb.OpenLast())
+            using (var odb = OdbFactory.OpenLast())
             {
                 var query = odb.CreateCriteriaQuery<Player>(Where.Equal("Name", "Player3211"));
                 var count = odb.Query<Player>(query).Count();

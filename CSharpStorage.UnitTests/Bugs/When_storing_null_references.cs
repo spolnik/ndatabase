@@ -19,16 +19,16 @@ namespace NDatabase.UnitTests.Bugs
         [Test] 
         public void It_should_store_object_with_null_as_the_object_value()
         {
-            NDb.Delete("nullreftest.ndb");
+            OdbFactory.Delete("nullreftest.ndb");
 
-            using (var odb = NDb.Open("nullreftest.ndb"))
+            using (var odb = OdbFactory.Open("nullreftest.ndb"))
             {
                 var a = new A {Value = null};
 
                 odb.Store(a);
             }
 
-            using (var odb = NDb.OpenLast())
+            using (var odb = OdbFactory.OpenLast())
             {
                 var a = odb.Query<A>().GetFirst();
 
@@ -37,7 +37,7 @@ namespace NDatabase.UnitTests.Bugs
                 odb.Store(a);
             }
 
-            using (var odb = NDb.OpenLast())
+            using (var odb = OdbFactory.OpenLast())
             {
                 var a = odb.Query<A>().GetFirst();
 
@@ -46,7 +46,7 @@ namespace NDatabase.UnitTests.Bugs
                 odb.Store(a);
             }
 
-            using (var odb = NDb.OpenLast())
+            using (var odb = OdbFactory.OpenLast())
             {
                 var a = odb.Query<A>().GetFirst();
 

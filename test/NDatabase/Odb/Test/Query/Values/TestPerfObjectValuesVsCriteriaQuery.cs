@@ -17,7 +17,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
         [SetUp]
         public virtual void Populate()
         {
-            NDb.Delete("perfOValuesVsCriteria");
+            OdbFactory.Delete("perfOValuesVsCriteria");
 
             var odb = Open("perfOValuesVsCriteria");
             var nbProfiles = 20;

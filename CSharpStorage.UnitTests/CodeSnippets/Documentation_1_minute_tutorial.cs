@@ -12,7 +12,7 @@ namespace NDatabase.UnitTests.CodeSnippets
         public void SetUp()
         {
             const string dbFileName = "game.db";
-            NDb.Delete(dbFileName);
+            OdbFactory.Delete(dbFileName);
         }
 
         [Test]
@@ -31,14 +31,14 @@ namespace NDatabase.UnitTests.CodeSnippets
             IHero warrior = new Warrior("Conan", warriorAttackValue, warriorDefenseValue);
 
             // store them
-            using (var odb = NDb.Open(dbFileName))
+            using (var odb = OdbFactory.Open(dbFileName))
             {
                 odb.Store(mage);
                 odb.Store(warrior);
             }
 
             // retrieve them by classes and by interface
-            using (var odb = NDb.Open(dbFileName))
+            using (var odb = OdbFactory.Open(dbFileName))
             {
                 // work with mages
                 var mages = odb.Query<Mage>();

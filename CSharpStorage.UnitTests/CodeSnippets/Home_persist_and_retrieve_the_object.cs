@@ -17,7 +17,7 @@ namespace NDatabase.UnitTests.CodeSnippets
             var sport = new Sport("volley-ball");
 
             // Open the database
-            using (var odb = NDb.Open("test.db"))
+            using (var odb = OdbFactory.Open("test.db"))
             {
                 // Store the object
                 odb.Store(sport);
@@ -26,7 +26,7 @@ namespace NDatabase.UnitTests.CodeSnippets
             //=================================
 
             // Open the database
-            using (var odb1 = NDb.Open("test.db"))
+            using (var odb1 = OdbFactory.Open("test.db"))
             {
                 var sports = odb1.Query<Sport>();
                 // code working on sports list

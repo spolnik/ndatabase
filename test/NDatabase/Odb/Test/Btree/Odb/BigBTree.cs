@@ -17,7 +17,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
             const string bigbtreeTest1DbName = "bigbtree.test1.db";
             DeleteBase(bigbtreeTest1DbName);
 
-            using (var odb = NDb.Open(bigbtreeTest1DbName))
+            using (var odb = OdbFactory.Open(bigbtreeTest1DbName))
             {
                 var size = 10000;
                 IBTree tree = new OdbBtreeSingle("test1", 50, new LazyOdbBtreePersister(odb));

@@ -16,8 +16,8 @@ namespace Test.NDatabase.Odb.Test.Explorer
         [Test]
         public virtual void Test1()
         {
-            NDb.Delete("base1.neodatis");
-            using (var odb = NDb.Open("base1.neodatis"))
+            OdbFactory.Delete("base1.neodatis");
+            using (var odb = OdbFactory.Open("base1.neodatis"))
             {
                 var fields = new[] {"int1"};
                 odb.IndexManagerFor<TestClass>().AddUniqueIndexOn("index1", fields);
@@ -37,7 +37,7 @@ namespace Test.NDatabase.Odb.Test.Explorer
                 }
             }
 
-            using (var odb = NDb.OpenLast())
+            using (var odb = OdbFactory.OpenLast())
             {
                 var count = odb.Query<TestClass>().Count();
                 Assert.That(count, Is.EqualTo(50));

@@ -40,7 +40,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         {
             var dbName = "TestInstanceInfo.odb";
             DeleteBase(dbName);
-            var odb = NDb.Open(dbName);
+            var odb = OdbFactory.Open(dbName);
 
             var user = new User("olivier smadja", "olivier@neodatis.com",
                                 new Profile("operator", new VO.Login.Function("login")));
@@ -66,7 +66,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         {
             var dbName = "TestInstanceInfo2.odb";
             DeleteBase(dbName);
-            var odb = NDb.Open(dbName);
+            var odb = OdbFactory.Open(dbName);
 
             var user = new User("olivier smadja", "olivier@neodatis.com",
                                 new Profile("operator", new VO.Login.Function("login")));
@@ -90,7 +90,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         {
             var dbName = "introspectortest1.odb";
             DeleteBase(dbName);
-            var odb = NDb.Open(dbName);
+            var odb = OdbFactory.Open(dbName);
 
             var user = new User("olivier smadja", "olivier@neodatis.com",
                                 new Profile("operator", new VO.Login.Function("login")));
@@ -137,7 +137,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         {
             var dbName = "introspectortest2.odb";
             DeleteBase(dbName);
-            var odb = NDb.Open(dbName);
+            var odb = OdbFactory.Open(dbName);
 
             var user = new User("olivier smadja", "olivier@neodatis.com",
                                 new Profile("operator", new VO.Login.Function("login")));
@@ -188,7 +188,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         {
             var dbName = "introspectortest3.odb";
             DeleteBase(dbName);
-            var odb = NDb.Open(dbName);
+            var odb = OdbFactory.Open(dbName);
 
             var user = new User("olivier smadja", "olivier@neodatis.com",
                                 new Profile("operator", new VO.Login.Function("login")));
@@ -243,7 +243,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         {
             var dbName = "introspectortest4.odb";
             DeleteBase(dbName);
-            var odb = NDb.Open(dbName);
+            var odb = OdbFactory.Open(dbName);
 
             var function = new VO.Login.Function("login");
             var user = new User("olivier smadja", "olivier@neodatis.com", new Profile("operator", function));
@@ -302,7 +302,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         {
             var dbName = "introspectortest22.odb";
             DeleteBase(dbName);
-            var odb = NDb.Open(dbName);
+            var odb = OdbFactory.Open(dbName);
 
             var function = new VO.Login.Function("login");
             var user = new User("olivier smadja", "olivier@neodatis.com", new Profile("operator", function));
@@ -356,7 +356,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         {
             var dbName = "introspectortest5.odb";
             DeleteBase(dbName);
-            var odb = NDb.Open(dbName);
+            var odb = OdbFactory.Open(dbName);
 
             var function = new VO.Login.Function("login");
             var profile = new Profile("operator", function);
@@ -403,7 +403,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         {
             var dbName = "introspectortest6.odb";
             DeleteBase(dbName);
-            var odb = NDb.Open(dbName);
+            var odb = OdbFactory.Open(dbName);
 
             var function = new VO.Login.Function("login");
             var profile = new Profile("operator", function);
@@ -454,7 +454,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         {
             var dbName = "introspectortest7.odb";
             DeleteBase(dbName);
-            var odb = NDb.Open(dbName);
+            var odb = OdbFactory.Open(dbName);
 
             var function = new VO.Login.Function("login");
             var profile = new Profile("operator", function);
@@ -500,7 +500,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         {
             var dbName = "introspectortest8.odb";
             DeleteBase(dbName);
-            var odb = NDb.Open(dbName);
+            var odb = OdbFactory.Open(dbName);
 
             var function = new VO.Login.Function("login");
             var profile = new Profile("operator", function);
@@ -543,7 +543,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         {
             var dbName = "introspectortest9.odb";
             DeleteBase(dbName);
-            var odb = NDb.Open(dbName);
+            var odb = OdbFactory.Open(dbName);
 
             var function = new VO.Login.Function("login");
             var profile = new Profile("operator", function);
@@ -601,7 +601,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         {
             var dbName = "TestIntrospectWithNull.odb";
             DeleteBase(dbName);
-            var odb = NDb.Open(dbName);
+            var odb = OdbFactory.Open(dbName);
 
             var user = new User("olivier smadja", "olivier@neodatis.com", null);
             IObjectInfoComparator comparator = new ObjectInfoComparator();
@@ -652,7 +652,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         {
             var dbName = "TestIntrospectWithNull2.odb";
             DeleteBase(dbName);
-            var odb = NDb.Open(dbName);
+            var odb = OdbFactory.Open(dbName);
 
             var user = new User("olivier smadja", "olivier@neodatis.com", null);
             IObjectInfoComparator comparator = new ObjectInfoComparator();
@@ -702,7 +702,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         {
             var dbName = "TestGetDependentObjects.odb";
             DeleteBase(dbName);
-            var odb = NDb.Open(dbName);
+            var odb = OdbFactory.Open(dbName);
 
             var user = new User("olivier smadja", "olivier@neodatis.com",
                                 new Profile("operator", new VO.Login.Function("login")));
@@ -732,7 +732,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         {
             var dbName = "introspectortest2.odb";
             DeleteBase(dbName);
-            var odb = NDb.Open(dbName);
+            var odb = OdbFactory.Open(dbName);
 
             var function = new VO.Login.Function("login");
             var profile = new Profile("operator", function);

@@ -17,14 +17,14 @@ namespace Test.NDatabase.Odb.Test.Performance
         public virtual void BuildBase()
         {
             // Deletes the database file
-            NDb.Delete(OdbFileName);
+            OdbFactory.Delete(OdbFileName);
             long t1 = 0;
             long t2 = 0;
             IOdb odb;
             // Insert TEST_SIZE objects
             Console.Out.WriteLine("Inserting " + TestSize + " objects");
             t1 = OdbTime.GetCurrentTimeInTicks();
-            odb = NDb.Open(OdbFileName);
+            odb = OdbFactory.Open(OdbFileName);
             for (var i = 0; i < TestSize; i++)
             {
                 object o = GetSimpleObjectInstance(i);
@@ -43,7 +43,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             var inMemory = true;
             Console.Out.WriteLine("Retrieving " + TestSize + " objects");
             // Reopen the database
-            var odb = NDb.Open(OdbFileName);
+            var odb = OdbFactory.Open(OdbFileName);
             // Gets the TEST_SIZE objects
             var l = odb.Query<SimpleObject>(inMemory);
             Console.Out.WriteLine(l.GetType().FullName);
