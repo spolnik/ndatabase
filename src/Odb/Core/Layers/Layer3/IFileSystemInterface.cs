@@ -135,5 +135,21 @@ namespace NDatabase2.Odb.Core.Layers.Layer3
         IMultiBufferedFileIO GetIo();
 
         void SetIo(IMultiBufferedFileIO io);
+        void WriteUShort(ushort s, bool writeInTransaction);
+        byte[] ReadUShortBytes();
+        ushort ReadUShort();
+        ushort ReadUShort(string label);
+        void WriteUInt(uint i, bool writeInTransaction, string label);
+        byte[] ReadUIntBytes();
+        uint ReadUInt();
+        uint ReadUInt(string label);
+        void WriteULong(ulong i, bool writeInTransaction, string label);
+        byte[] ReadULongBytes();
+        ulong ReadULong();
+        ulong ReadULong(string label);
+        void WriteSByte(sbyte i, bool writeInTransaction);
+        void WriteSByte(sbyte i, bool writeInTransaction, string label);
+        sbyte ReadSByte();
+        sbyte ReadSByte(string label);
     }
 }

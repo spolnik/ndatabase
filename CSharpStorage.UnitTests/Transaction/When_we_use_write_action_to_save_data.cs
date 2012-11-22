@@ -472,6 +472,86 @@ namespace NDatabase.UnitTests.Transaction
                 throw new NotImplementedException();
             }
 
+            public void WriteUShort(ushort s, bool writeInTransaction)
+            {
+                throw new NotImplementedException();
+            }
+
+            public byte[] ReadUShortBytes()
+            {
+                throw new NotImplementedException();
+            }
+
+            public ushort ReadUShort()
+            {
+                throw new NotImplementedException();
+            }
+
+            public ushort ReadUShort(string label)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void WriteUInt(uint i, bool writeInTransaction, string label)
+            {
+                throw new NotImplementedException();
+            }
+
+            public byte[] ReadUIntBytes()
+            {
+                throw new NotImplementedException();
+            }
+
+            public uint ReadUInt()
+            {
+                throw new NotImplementedException();
+            }
+
+            public uint ReadUInt(string label)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void WriteULong(ulong i, bool writeInTransaction, string label)
+            {
+                throw new NotImplementedException();
+            }
+
+            public byte[] ReadULongBytes()
+            {
+                throw new NotImplementedException();
+            }
+
+            public ulong ReadULong()
+            {
+                throw new NotImplementedException();
+            }
+
+            public ulong ReadULong(string label)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void WriteSByte(sbyte i, bool writeInTransaction)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void WriteSByte(sbyte i, bool writeInTransaction, string label)
+            {
+                throw new NotImplementedException();
+            }
+
+            public sbyte ReadSByte()
+            {
+                throw new NotImplementedException();
+            }
+
+            public sbyte ReadSByte(string label)
+            {
+                throw new NotImplementedException();
+            }
+
             #endregion
         }
 

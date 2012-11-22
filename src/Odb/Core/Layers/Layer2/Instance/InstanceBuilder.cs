@@ -408,11 +408,25 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Instance
                     return Convert.ToInt64(objectInfo.GetObject().ToString());
                 }
 
+                case OdbType.ULongId:
+                {
+                    if (objectInfo.GetObject() is ulong)
+                        return objectInfo.GetObject();
+                    return Convert.ToUInt64(objectInfo.GetObject().ToString());
+                }
+
                 case OdbType.IntegerId:
                 {
                     if (objectInfo.GetObject() is int)
                         return objectInfo.GetObject();
                     return Convert.ToInt32(objectInfo.GetObject().ToString());
+                }
+
+                case OdbType.UIntegerId:
+                {
+                    if (objectInfo.GetObject() is uint)
+                        return objectInfo.GetObject();
+                    return Convert.ToUInt32(objectInfo.GetObject().ToString());
                 }
 
                 case OdbType.BooleanId:
@@ -429,11 +443,25 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Instance
                     return Convert.ToByte(objectInfo.GetObject().ToString());
                 }
 
+                case OdbType.SByteId:
+                {
+                    if (objectInfo.GetObject() is sbyte)
+                        return objectInfo.GetObject();
+                    return Convert.ToSByte(objectInfo.GetObject().ToString());
+                }
+
                 case OdbType.ShortId:
                 {
                     if (objectInfo.GetObject() is short)
                         return objectInfo.GetObject();
                     return Convert.ToInt16(objectInfo.GetObject().ToString());
+                }
+
+                case OdbType.UShortId:
+                {
+                    if (objectInfo.GetObject() is ushort)
+                        return objectInfo.GetObject();
+                    return Convert.ToUInt16(objectInfo.GetObject().ToString());
                 }
 
                 case OdbType.FloatId:

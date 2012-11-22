@@ -150,6 +150,62 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             return i;
         }
 
+        public void WriteSByte(sbyte i, bool writeInTransaction)
+        {
+            WriteSByte(i, writeInTransaction, null);
+        }
+
+        public void WriteSByte(sbyte i, bool writeInTransaction, string label)
+        {
+            var asByte = unchecked ((byte) i);
+            var bytes = new[] { asByte };
+
+            if (OdbConfiguration.IsLoggingEnabled())
+            {
+                var byteAsString = i.ToString();
+                var position = GetPosition().ToString();
+                var message = string.Format("writing sbyte {0} at {1}{2}", byteAsString, position, (label != null
+                                                                                                 ? string.Format(" : {0}", label)
+                                                                                                 : string.Empty));
+                DLogger.Debug(message);
+            }
+
+            if (!writeInTransaction)
+            {
+                _io.WriteByte(asByte);
+            }
+            else
+            {
+                GetSession().GetTransaction().ManageWriteAction(_io.CurrentPosition, bytes);
+                EnsureSpaceFor(OdbType.SByte);
+            }
+        }
+
+        public sbyte ReadSByte()
+        {
+            return ReadSByte(null);
+        }
+
+        public sbyte ReadSByte(string label)
+        {
+            var currentPosition = _io.CurrentPosition;
+            var i = _io.ReadByte();
+
+            var asSByte = unchecked((sbyte)i);
+
+            if (OdbConfiguration.IsLoggingEnabled())
+            {
+                var byteAsString = asSByte.ToString();
+                var positionAsString = currentPosition.ToString();
+                var message = string.Format("reading sbyte {0} at {1}{2}", byteAsString, positionAsString, (label != null
+                                                                                                   ? string.Format(" : {0}", label)
+                                                                                                   : string.Empty));
+                DLogger.Debug(message);
+            }
+
+            return asSByte;
+        }
+
         public void WriteBytes(byte[] bytes, bool writeInTransaction, string label)
         {
             if (OdbConfiguration.IsLoggingEnabled())
@@ -254,6 +310,39 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             return toShort;
         }
 
+        public void WriteUShort(ushort s, bool writeInTransaction)
+        {
+            if (OdbConfiguration.IsLoggingEnabled())
+                DLogger.Debug(string.Concat("writing ushort ", s.ToString(), " at ", GetPosition().ToString()));
+
+            WriteValue(s, writeInTransaction, ByteArrayConverter.UShortToByteArray, OdbType.UShort);
+        }
+
+        public byte[] ReadUShortBytes()
+        {
+            return _io.ReadBytes(OdbType.UShort.Size);
+        }
+
+        public ushort ReadUShort()
+        {
+            return ReadUShort(null);
+        }
+
+        public ushort ReadUShort(string label)
+        {
+            var position = _io.CurrentPosition;
+            var toShort = ByteArrayConverter.ByteArrayToUShort(ReadUShortBytes());
+
+            if (OdbConfiguration.IsLoggingEnabled() && label != null)
+            {
+                var shortAsString = toShort.ToString();
+                var positionAsString = position.ToString();
+                DLogger.Debug(string.Format("reading ushort {0} at {1} : {2}", shortAsString, positionAsString, label));
+            }
+
+            return toShort;
+        }
+
         public void WriteInt(int i, bool writeInTransaction, string label)
         {
             if (OdbConfiguration.IsLoggingEnabled())
@@ -295,6 +384,47 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             return i;
         }
 
+        public void WriteUInt(uint i, bool writeInTransaction, string label)
+        {
+            if (OdbConfiguration.IsLoggingEnabled())
+            {
+                var intAsString = i.ToString();
+                var positionAsString = GetPosition().ToString();
+                DLogger.Debug(string.Format("writing int {0} at {1} : {2}", intAsString, positionAsString, label));
+            }
+
+            WriteValue(i, writeInTransaction, ByteArrayConverter.UIntToByteArray, OdbType.UInteger);
+        }
+
+        public byte[] ReadUIntBytes()
+        {
+            return _io.ReadBytes(OdbType.UInteger.Size);
+        }
+
+        public uint ReadUInt()
+        {
+            return ReadUInt(null);
+        }
+
+        public uint ReadUInt(string label)
+        {
+            var currentPosition = _io.CurrentPosition;
+            var i = ByteArrayConverter.ByteArrayToUInt(ReadUIntBytes());
+
+            if (OdbConfiguration.IsLoggingEnabled())
+            {
+                var intAsString = i.ToString();
+                var positionAsString = currentPosition.ToString();
+
+                var message = string.Format("reading uint {0} at {1}{2}", intAsString, positionAsString, (label != null
+                                                                                                  ? string.Format(" : {0}", label)
+                                                                                                  : string.Empty));
+                DLogger.Debug(message);
+            }
+
+            return i;
+        }
+
         public void WriteLong(long i, bool writeInTransaction, string label)
         {
             if (OdbConfiguration.IsLoggingEnabled() && label != null)
@@ -327,6 +457,46 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                 var longAsString = toLong.ToString();
                 var positionAsString = position.ToString();
                 var message = string.Format("reading long {0} at {1}{2}", longAsString, positionAsString, (label != null
+                                                                                                 ? string.Format(" : {0}", label)
+                                                                                                 : string.Empty));
+                DLogger.Debug(message);
+            }
+
+            return toLong;
+        }
+
+        public void WriteULong(ulong i, bool writeInTransaction, string label)
+        {
+            if (OdbConfiguration.IsLoggingEnabled() && label != null)
+            {
+                var longAsString = i.ToString();
+                var positionAsString = GetPosition().ToString();
+                DLogger.Debug(string.Format("writing ulong {0} at {1} : {2}", longAsString, positionAsString, label));
+            }
+
+            WriteValue(i, writeInTransaction, ByteArrayConverter.ULongToByteArray, OdbType.ULong);
+        }
+
+        public byte[] ReadULongBytes()
+        {
+            return _io.ReadBytes(OdbType.ULong.Size);
+        }
+
+        public ulong ReadULong()
+        {
+            return ReadULong(null);
+        }
+
+        public ulong ReadULong(string label)
+        {
+            var position = _io.CurrentPosition;
+            var toLong = ByteArrayConverter.ByteArrayToULong(ReadULongBytes());
+
+            if (OdbConfiguration.IsLoggingEnabled())
+            {
+                var longAsString = toLong.ToString();
+                var positionAsString = position.ToString();
+                var message = string.Format("reading ulong {0} at {1}{2}", longAsString, positionAsString, (label != null
                                                                                                  ? string.Format(" : {0}", label)
                                                                                                  : string.Empty));
                 DLogger.Debug(message);
@@ -608,6 +778,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             switch (attributeType)
             {
                 case OdbType.ByteId:
+                case OdbType.SByteId:
                 {
                     var bytes = new byte[1];
                     bytes[0] = ReadByte();
@@ -619,9 +790,19 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                     return ReadLongBytes();
                 }
 
+                case OdbType.ULongId:
+                {
+                    return ReadULongBytes();
+                }
+
                 case OdbType.ShortId:
                 {
                     return ReadShortBytes();
+                }
+
+                case OdbType.UShortId:
+                {
+                    return ReadUShortBytes();
                 }
 
                 case OdbType.DecimalId:
@@ -657,6 +838,11 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                 case OdbType.IntegerId:
                 {
                     return ReadIntBytes();
+                }
+
+                case OdbType.UIntegerId:
+                {
+                    return ReadUIntBytes();
                 }
 
                 case OdbType.StringId:

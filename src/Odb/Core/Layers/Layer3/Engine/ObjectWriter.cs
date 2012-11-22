@@ -410,6 +410,12 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                         break;
                     }
 
+                case OdbType.SByteId:
+                    {
+                        FileSystemProcessor.FileSystemInterface.WriteSByte(((sbyte)@object), writeInTransaction);
+                        break;
+                    }
+
                 case OdbType.BooleanId:
                     {
                         FileSystemProcessor.FileSystemInterface.WriteBoolean(((bool) @object), writeInTransaction);
@@ -440,15 +446,33 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                         break;
                     }
 
+                case OdbType.UIntegerId:
+                    {
+                        FileSystemProcessor.FileSystemInterface.WriteUInt(((uint)@object), writeInTransaction, "native attr");
+                        break;
+                    }
+
                 case OdbType.LongId:
                     {
                         FileSystemProcessor.FileSystemInterface.WriteLong(((long) @object), writeInTransaction, "native attr");
                         break;
                     }
 
+                case OdbType.ULongId:
+                    {
+                        FileSystemProcessor.FileSystemInterface.WriteULong(((ulong)@object), writeInTransaction, "native attr");
+                        break;
+                    }
+
                 case OdbType.ShortId:
                     {
                         FileSystemProcessor.FileSystemInterface.WriteShort(((short) @object), writeInTransaction);
+                        break;
+                    }
+
+                case OdbType.UShortId:
+                    {
+                        FileSystemProcessor.FileSystemInterface.WriteUShort(((ushort)@object), writeInTransaction);
                         break;
                     }
 

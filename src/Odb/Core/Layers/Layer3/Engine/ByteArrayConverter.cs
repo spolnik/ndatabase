@@ -39,9 +39,19 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             return BitConverter.GetBytes(s);
         }
 
+        public static byte[] UShortToByteArray(ushort s)
+        {
+            return BitConverter.GetBytes(s);
+        }
+
         public static short ByteArrayToShort(byte[] bytes)
         {
             return BitConverter.ToInt16(bytes, 0);
+        }
+
+        public static ushort ByteArrayToUShort(byte[] bytes)
+        {
+            return BitConverter.ToUInt16(bytes, 0);
         }
 
         public static byte[] CharToByteArray(char c)
@@ -144,6 +154,11 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             return BitConverter.GetBytes(l);
         }
 
+        public static byte[] UIntToByteArray(uint l)
+        {
+            return BitConverter.GetBytes(l);
+        }
+
         public static int ByteArrayToInt(byte[] bytes)
         {
             return ByteArrayToInt(bytes, 0);
@@ -154,7 +169,22 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             return BitConverter.ToInt32(bytes, offset);
         }
 
+        public static uint ByteArrayToUInt(byte[] bytes)
+        {
+            return ByteArrayToUInt(bytes, 0);
+        }
+
+        public static uint ByteArrayToUInt(byte[] bytes, int offset)
+        {
+            return BitConverter.ToUInt32(bytes, offset);
+        }
+
         public static byte[] LongToByteArray(long l)
+        {
+            return BitConverter.GetBytes(l);
+        }
+
+        public static byte[] ULongToByteArray(ulong l)
         {
             return BitConverter.GetBytes(l);
         }
@@ -162,6 +192,11 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
         public static long ByteArrayToLong(byte[] bytes)
         {
             return ByteArrayToLong(bytes, 0);
+        }
+
+        public static ulong ByteArrayToULong(byte[] bytes)
+        {
+            return ByteArrayToULong(bytes, 0);
         }
 
         public static byte[] DateToByteArray(DateTime date)
@@ -198,6 +233,11 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
         public static long ByteArrayToLong(byte[] bytes, int offset)
         {
             return BitConverter.ToInt64(bytes, offset);
+        }
+
+        public static ulong ByteArrayToULong(byte[] bytes, int offset)
+        {
+            return BitConverter.ToUInt64(bytes, offset);
         }
     }
 }

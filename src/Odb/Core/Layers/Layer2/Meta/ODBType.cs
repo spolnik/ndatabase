@@ -46,9 +46,13 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
             //// DO NOT FORGET DO ADD THE TYPE IN THIS LIST WHEN CREATING A NEW ONE!!!
             allTypes.Add(Null);
             allTypes.Add(Byte);
+            allTypes.Add(SByte);
             allTypes.Add(Short);
+            allTypes.Add(UShort);
             allTypes.Add(Integer);
+            allTypes.Add(UInteger);
             allTypes.Add(Long);
+            allTypes.Add(ULong);
             allTypes.Add(Float);
             allTypes.Add(Double);
             allTypes.Add(Decimal);
@@ -326,6 +330,8 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
                     return typeof (bool);
                 case ByteId:
                     return typeof (byte);
+                case SByteId:
+                    return typeof(sbyte);
                 case CharacterId:
                     return typeof (char);
                 case DoubleId:
@@ -334,10 +340,16 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
                     return typeof (float);
                 case IntegerId:
                     return typeof (int);
+                case UIntegerId:
+                    return typeof(uint);
                 case LongId:
                     return typeof (long);
+                case ULongId:
+                    return typeof(ulong);
                 case ShortId:
                     return typeof (short);
+                case UShortId:
+                    return typeof(ushort);
                 case DecimalId:
                     return typeof (decimal);
                 case ObjectOidId:
@@ -458,6 +470,11 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
         /// </summary>
         public const int ByteId = 20;
 
+        /// <summary>
+        ///   1 byte
+        /// </summary>
+        public const int SByteId = 21;
+
         public const int CharacterId = 30;
 
         /// <summary>
@@ -466,14 +483,29 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
         public const int ShortId = 40;
 
         /// <summary>
+        ///   2 byte
+        /// </summary>
+        public const int UShortId = 41;
+
+        /// <summary>
         ///   4 byte
         /// </summary>
         public const int IntegerId = 50;
 
         /// <summary>
+        ///   4 byte
+        /// </summary>
+        public const int UIntegerId = 51;
+
+        /// <summary>
         ///   8 bytes
         /// </summary>
         public const int LongId = 60;
+
+        /// <summary>
+        ///   8 bytes
+        /// </summary>
+        public const int ULongId = 61;
 
         /// <summary>
         ///   4 byte
@@ -530,14 +562,29 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
         public static readonly OdbType Byte = new OdbType(true, ByteId, OdbClassUtil.GetFullName(typeof (byte)), 1);
 
         /// <summary>
+        ///   1 byte
+        /// </summary>
+        public static readonly OdbType SByte = new OdbType(true, SByteId, OdbClassUtil.GetFullName(typeof(sbyte)), 1);
+
+        /// <summary>
         ///   2 byte
         /// </summary>
         public static readonly OdbType Short = new OdbType(true, ShortId, OdbClassUtil.GetFullName(typeof (short)), 2);
 
         /// <summary>
+        ///   2 byte
+        /// </summary>
+        public static readonly OdbType UShort = new OdbType(true, UShortId, OdbClassUtil.GetFullName(typeof(ushort)), 2);
+
+        /// <summary>
         ///   4 byte
         /// </summary>
         public static readonly OdbType Integer = new OdbType(true, IntegerId, OdbClassUtil.GetFullName(typeof (int)), 4);
+
+        /// <summary>
+        ///   4 byte
+        /// </summary>
+        public static readonly OdbType UInteger = new OdbType(true, UIntegerId, OdbClassUtil.GetFullName(typeof(uint)), 4);
 
         /// <summary>
         ///   16 byte
@@ -549,6 +596,11 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
         ///   8 bytes
         /// </summary>
         public static readonly OdbType Long = new OdbType(true, LongId, OdbClassUtil.GetFullName(typeof (long)), 8);
+
+        /// <summary>
+        ///   8 bytes
+        /// </summary>
+        public static readonly OdbType ULong = new OdbType(true, ULongId, OdbClassUtil.GetFullName(typeof(ulong)), 8);
 
         /// <summary>
         ///   4 byte

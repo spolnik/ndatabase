@@ -419,6 +419,12 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                     break;
                 }
 
+                case OdbType.SByteId:
+                {
+                    o = _fsi.ReadSByte("atomic");
+                    break;
+                }
+
                 case OdbType.BooleanId:
                 {
                     o = _fsi.ReadBoolean("atomic");
@@ -449,15 +455,33 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                     break;
                 }
 
+                case OdbType.UIntegerId:
+                {
+                    o = _fsi.ReadUInt("atomic");
+                    break;
+                }
+
                 case OdbType.LongId:
                 {
                     o = _fsi.ReadLong("atomic");
                     break;
                 }
 
+                case OdbType.ULongId:
+                {
+                    o = _fsi.ReadULong("atomic");
+                    break;
+                }
+
                 case OdbType.ShortId:
                 {
                     o = _fsi.ReadShort("atomic");
+                    break;
+                }
+
+                case OdbType.UShortId:
+                {
+                    o = _fsi.ReadUShort("atomic");
                     break;
                 }
 

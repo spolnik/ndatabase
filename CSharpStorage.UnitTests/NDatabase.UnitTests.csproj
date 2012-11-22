@@ -56,6 +56,7 @@
     <Compile Include="Bugs\Index\When_we_use_index_on_invariant_equal_criteria.cs" />
     <Compile Include="Bugs\When_storing_class_which_has_reference_to_itself.cs" />
     <Compile Include="Bugs\When_storing_null_references.cs" />
+    <Compile Include="Bugs\When_storing_unsigned_int_long_short_or_signed_byte.cs" />
     <Compile Include="Bugs\When_we_want_to_store_generic_types.cs" />
     <Compile Include="Class_names.cs" />
     <Compile Include="CodeSnippets\Data\Game.cs" />
