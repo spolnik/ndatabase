@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDatabase2", "src\NDatabase2.csproj", "{4B6993D5-995D-4AAA-BBCE-423D1B5451F6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDatabase.Old.UnitTests", "test\NDatabase.Old.UnitTests.csproj", "{3D8C4A93-468D-4CB6-9359-B5DEE09C4ABC}"
