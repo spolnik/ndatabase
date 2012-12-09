@@ -188,6 +188,14 @@ namespace NDatabase2.Odb.Core.Layers.Layer1.Introspector
                     fieldsToRemove.Add(fieldInfo);
                 else if (fieldInfo.FieldType == typeof (IntPtr))
                     fieldsToRemove.Add(fieldInfo);
+                else if (fieldInfo.FieldType == typeof(UIntPtr))
+                    fieldsToRemove.Add(fieldInfo);
+                else if (fieldInfo.FieldType == typeof (void*))
+                    fieldsToRemove.Add(fieldInfo);
+                else if (fieldInfo.FieldType == typeof(Pointer))
+                    fieldsToRemove.Add(fieldInfo);
+                else if (fieldInfo.FieldType.FullName.StartsWith("System.Reflection.CerHashtable"))
+                    fieldsToRemove.Add(fieldInfo);
                 else if (fieldInfo.Name.StartsWith("this$"))
                     fieldsToRemove.Add(fieldInfo);
                 else

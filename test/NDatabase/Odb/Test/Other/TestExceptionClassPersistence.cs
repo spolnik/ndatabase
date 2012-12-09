@@ -3,13 +3,12 @@ using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Other
 {
-    [TestFixture]
-    public class TestJavaClassPersistence : ODBTest
+    public class TestExceptionClassPersistence : ODBTest
     {
-        public static readonly string DbName = "class.neodatis";
+        public static readonly string DbName = "class.ndb";
 
         [Test]
-        public virtual void Test1()
+        public void Test1()
         {
             DeleteBase(DbName);
             var odb = Open(DbName);

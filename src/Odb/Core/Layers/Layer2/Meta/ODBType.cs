@@ -430,6 +430,9 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
 
         public static bool TypesAreCompatible(OdbType type1, OdbType type2)
         {
+            if (type1 == null || type2 == null)
+                return false;
+
             if (type1.IsArray() && type2.IsArray())
                 return TypesAreCompatible(type1.SubType, type2.SubType);
             if (type1.Name.Equals(type2.Name))

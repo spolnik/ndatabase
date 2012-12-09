@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text;
 
 namespace NDatabase2.Tool.Wrappers.List
 {
@@ -38,5 +39,21 @@ namespace NDatabase2.Tool.Wrappers.List
         }
 
         #endregion
+
+        public override string ToString()
+        {
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append("[");
+
+            foreach (var item in this)
+                stringBuilder.Append(item.ToString() + ", ");
+
+            if (stringBuilder.Length > 3)
+                stringBuilder.Remove(stringBuilder.Length - 3, 2);
+
+            stringBuilder.Append("]");
+
+            return stringBuilder.ToString();
+        }
     }
 }

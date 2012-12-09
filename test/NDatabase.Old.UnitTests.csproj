@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Test</RootNamespace>
     <AssemblyName>NDatabase.Old.UnitTests</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>
     </StartupObject>
@@ -187,7 +187,7 @@
     <Compile Include="NDatabase\Odb\Test\Other\TestAgainstNativeObjects.cs" />
     <Compile Include="NDatabase\Odb\Test\Other\TestDownloadManager.cs" />
     <Compile Include="NDatabase\Odb\Test\Other\TestGetDatabaseName.cs" />
-    <Compile Include="NDatabase\Odb\Test\Other\TestJavaClassPersistence.cs" />
+    <Compile Include="NDatabase\Odb\Test\Other\TestExceptionClassPersistence.cs" />
     <Compile Include="NDatabase\Odb\Test\Other\TestObjectWithOid.cs" />
     <Compile Include="NDatabase\Odb\Test\Other\TestShutdownHook.cs" />
     <Compile Include="NDatabase\Odb\Test\Performance\Class1.cs" />

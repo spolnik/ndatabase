@@ -7,6 +7,7 @@ namespace NDatabase.UnitTests.Bugs.Index
     public class When_we_use_index_on_invariant_equal_criteria
     {
         [Test]
+        [Ignore("Well-known issue: http://ndatabase.codeplex.com/workitem/872")]
         public void It_should_return_the_same_number_of_elements_when_using_index_and_when_doesnt_use_index()
         {
             OdbFactory.Delete("IndexIssue.ndb");
@@ -41,6 +42,7 @@ namespace NDatabase.UnitTests.Bugs.Index
         }
 
         [Test]
+        [Ignore("Well-known issue: http://ndatabase.codeplex.com/workitem/872")]
         public void It_should_return_the_same_number_of_elements_when_using_unique_index_and_when_doesnt_use_index()
         {
             OdbFactory.Delete("IndexIssue.ndb");
