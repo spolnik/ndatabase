@@ -87,7 +87,10 @@ namespace NDatabase2.Odb.Main
 
         public virtual long Count<T>(CriteriaQuery<T> query) where T : class
         {
-            var valuesQuery = new ValuesCriteriaQuery<T>(query).Count("count");
+            var valuesCriteriaQuery = new ValuesCriteriaQuery<T>();
+            valuesCriteriaQuery.Constrain(query.GetCriteria());
+
+            var valuesQuery = valuesCriteriaQuery.Count("count");
 
             var values = _storageEngine.GetValues<T>(valuesQuery, -1, -1);
 

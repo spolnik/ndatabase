@@ -38,18 +38,9 @@ namespace NDatabase2.Odb.Core.Query.Values
             Init();
         }
 
-        public ValuesCriteriaQuery(IConstraint criteria) : base(criteria)
-        {
-            Init();
-        }
-
         public ValuesCriteriaQuery()
         {
             Init();
-        }
-
-        public ValuesCriteriaQuery(CriteriaQuery<T> query) : this(query.GetCriteria())
-        {
         }
 
         #region IValuesQuery Members

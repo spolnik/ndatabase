@@ -5,7 +5,6 @@ using NDatabase2.Odb.Core.Layers.Layer2.Meta;
 using NDatabase2.Odb.Core.Layers.Layer3.Engine;
 using NDatabase2.Odb.Core.Layers.Layer3.Oid;
 using NDatabase2.Odb.Core.Query;
-using NDatabase2.Odb.Core.Query.Criteria;
 using NDatabase2.Odb.Core.Transaction;
 using NDatabase2.Odb.Core.Trigger;
 using NDatabase2.Tool.Wrappers.List;
@@ -32,8 +31,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer3
         OID Delete<T>(T plainObject) where T : class;
 
         void Close();
-
-        long Count<T>(CriteriaQuery<T> query) where T : class;
 
         IValues GetValues<T>(IValuesQuery query, int startIndex, int endIndex) where T : class;
 

@@ -551,7 +551,9 @@ namespace Test.NDatabase.Odb.Test.Delete
             var f1 = new VO.Login.Function("function1");
             odb.Store(f1);
             odb.Commit();
-            var objects = odb.Query<VO.Login.Function>(new CriteriaQuery<VO.Login.Function>(Where.Like("name", "func%")));
+            var query = new CriteriaQuery<VO.Login.Function>();
+            query.Like("name", "func%");
+            var objects = odb.Query<VO.Login.Function>(query);
             AssertEquals(1, objects.Count);
             var f2 = objects.GetFirst();
             var oid = odb.GetObjectId(f2);

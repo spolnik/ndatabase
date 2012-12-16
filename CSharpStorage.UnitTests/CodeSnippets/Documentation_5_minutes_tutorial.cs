@@ -228,7 +228,8 @@ namespace NDatabase.UnitTests.CodeSnippets
                 var magdalena = players.GetFirst();
  
                 // builds a query to get all teams where mihn plays
-                query = new CriteriaQuery<Team>(Where.Contain("Players", magdalena));
+                query = odb.CreateCriteriaQuery<Team>();
+                query.Contain("Players", magdalena);
                 var teams = odb.Query<Team>(query);
 
                 Console.WriteLine("\nStep 9: Team where magdalena plays");

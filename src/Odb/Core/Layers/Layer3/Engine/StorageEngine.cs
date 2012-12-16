@@ -301,21 +301,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             RemoveLocalTriggerManager();
         }
 
-        public override long Count<T>(CriteriaQuery<T> query)
-        {
-            if (IsDbClosed)
-            {
-                throw new OdbRuntimeException(
-                    NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
-            }
-
-            var valuesQuery = new ValuesCriteriaQuery<T>(query).Count("count");
-            var values = GetValues<T>(valuesQuery, -1, -1);
-            var count = (long) values.NextValues().GetByIndex(0);
-
-            return count;
-        }
-
         public override IObjectReader GetObjectReader()
         {
             return ObjectReader;

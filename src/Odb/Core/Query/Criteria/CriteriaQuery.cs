@@ -7,15 +7,6 @@ namespace NDatabase2.Odb.Core.Query.Criteria
     {
         private IConstraint _criterion;
 
-        public CriteriaQuery(IConstraint criteria)
-        {
-            Constrain(criteria);
-        }
-
-        public CriteriaQuery()
-        {
-        }
-
         public bool HasCriteria()
         {
             return _criterion != null;

@@ -55,7 +55,9 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
                 odb.Store(player);
                 odb.Close();
                 odb = Open(baseName);
-                var l = odb.Query<PlayerWithList>(new CriteriaQuery<PlayerWithList>(Where.Contain("games", "tennis")));
+                var query = new CriteriaQuery<PlayerWithList>();
+                query.Contain("games", "tennis");
+                var l = odb.Query<PlayerWithList>(query);
                 AssertEquals(nb + 1, l.Count);
             }
             catch (Exception)

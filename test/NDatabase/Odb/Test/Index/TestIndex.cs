@@ -838,7 +838,8 @@ namespace Test.NDatabase.Odb.Test.Index
             @base.Store(io1);
             @base.Close();
             @base = Open(baseName);
-            IQuery q = new CriteriaQuery<IndexedObject>(Where.IsNotNull("name"));
+            IQuery q = new CriteriaQuery<IndexedObject>();
+            q.IsNotNull("name");
             var objects = @base.Query<IndexedObject>(q, true);
             @base.Close();
             AssertEquals(1, objects.Count);

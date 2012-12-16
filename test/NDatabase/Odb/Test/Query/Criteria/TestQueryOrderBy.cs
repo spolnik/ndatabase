@@ -5,7 +5,6 @@ using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Query.Criteria
 {
-    /// <author>olivier</author>
     [TestFixture]
     public class TestQueryOrderBy : ODBTest
     {
@@ -122,19 +121,22 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Store(new VO.Login.Function(null));
             odb.Close();
             odb = Open(baseName);
-            IQuery q = new CriteriaQuery<VO.Login.Function>(Where.IsNotNull("name"));
+            IQuery q = new CriteriaQuery<VO.Login.Function>();
+            q.IsNotNull("name");
             // q.orderByAsc("name");
             var objects = odb.Query<VO.Login.Function>(q, true, 0, 10);
             AssertEquals(size, objects.Count);
             odb.Close();
             odb = Open(baseName);
-            q = new CriteriaQuery<VO.Login.Function>(Where.IsNotNull("name"));
+            q = new CriteriaQuery<VO.Login.Function>();
+            q.IsNotNull("name");
             q.OrderByAsc("name");
             objects = odb.Query<VO.Login.Function>(q, true, 0, 10);
             AssertEquals(5, objects.Count);
             odb.Close();
             odb = Open(baseName);
-            q = new CriteriaQuery<VO.Login.Function>(Where.IsNotNull("name"));
+            q = new CriteriaQuery<VO.Login.Function>();
+            q.IsNotNull("name");
             q.OrderByDesc("name");
             objects = odb.Query<VO.Login.Function>(q, true, 0, 10);
             AssertEquals(5, objects.Count);
@@ -150,7 +152,8 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Store(new VO.Login.Function(null));
             odb.Close();
             odb = Open(baseName);
-            IQuery q = new CriteriaQuery<VO.Login.Function>(Where.IsNotNull("name"));
+            IQuery q = new CriteriaQuery<VO.Login.Function>();
+            q.IsNotNull("name");
             // q.orderByAsc("name");
             var objects = odb.Query<VO.Login.Function>(q, true, 0, 10);
             odb.Close();
@@ -168,19 +171,22 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Store(new VO.Login.Function(null));
             odb.Close();
             odb = Open(baseName);
-            IQuery q = new CriteriaQuery<VO.Login.Function>(Where.IsNull("name"));
+            IQuery q = new CriteriaQuery<VO.Login.Function>();
+            q.IsNull("name");
             // q.orderByAsc("name");
             var objects = odb.Query<VO.Login.Function>(q, true, 0, 10);
             AssertEquals(1, objects.Count);
             odb.Close();
             odb = Open(baseName);
-            q = new CriteriaQuery<VO.Login.Function>(Where.IsNull("name"));
+            q = new CriteriaQuery<VO.Login.Function>();
+            q.IsNull("name");
             q.OrderByAsc("name");
             objects = odb.Query<VO.Login.Function>(q, true, 0, 10);
             AssertEquals(1, objects.Count);
             odb.Close();
             odb = Open(baseName);
-            q = new CriteriaQuery<VO.Login.Function>(Where.IsNull("name"));
+            q = new CriteriaQuery<VO.Login.Function>();
+            q.IsNull("name");
             q.OrderByDesc("name");
             objects = odb.Query<VO.Login.Function>(q, true, 0, 10);
             AssertEquals(1, objects.Count);

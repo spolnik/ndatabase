@@ -142,6 +142,10 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
             // For non native object, we just need the oid of it
             _oid = engine.GetObjectId((object) _criterionValue, false);
+
+            if (_oid == null)
+                return;
+
             _criterionValue = default(T);
         }
     }
