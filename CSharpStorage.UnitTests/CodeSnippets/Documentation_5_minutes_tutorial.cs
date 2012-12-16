@@ -76,9 +76,10 @@ namespace NDatabase.UnitTests.CodeSnippets
         {
             using (var odb = OdbFactory.Open(TutorialDb5MinName))
             {
-                IQuery query = new CriteriaQuery<Player>();
+                IQuery query = odb.CreateCriteriaQuery<Player>();
                 query.Equal("Name", "julia");
-                var players = odb.Query<Player>(query);
+                
+                var players = query.Execute<Player>();
                 
                 Console.WriteLine("\nStep 3 : Players with name julia");
 
@@ -112,7 +113,7 @@ namespace NDatabase.UnitTests.CodeSnippets
                 var agassi = new Player("André Agassi", DateTime.Now, new Sport("Tennis"));
                 odb.Store(agassi);
 
-                IQuery query = new CriteriaQuery<Player>();
+                IQuery query = odb.CreateCriteriaQuery<Player>();
                 query.Equal("FavoriteSport._name", "volley-ball");
 //                query.Descend("FavoriteSport").Descend("_name").Constrain("volley-ball").Equal();
 

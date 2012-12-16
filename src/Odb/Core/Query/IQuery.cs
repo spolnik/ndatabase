@@ -5,6 +5,8 @@ namespace NDatabase2.Odb.Core.Query
 {
     public interface IQuery
     {
+        IObjectSet<T> Execute<T>() where T : class;
+
         /// <summary>
         ///   To order by the result of a query in descendent order
         /// </summary>

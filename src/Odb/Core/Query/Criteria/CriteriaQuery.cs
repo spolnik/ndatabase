@@ -7,6 +7,10 @@ namespace NDatabase2.Odb.Core.Query.Criteria
     {
         private IConstraint _criterion;
 
+        public CriteriaQuery()
+        {
+        }
+
         public bool HasCriteria()
         {
             return _criterion != null;
@@ -138,6 +142,11 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         public override IConstraint SizeLe(string attributeName, int size)
         {
             return ApplyConstraint(new CollectionSizeCriterion(attributeName, size, CollectionSizeCriterion.SizeLe));
+        }
+
+        public override IObjectSet<TItem> Execute<TItem>()
+        {
+            return ((IInternalQuery)this).GetStorageEngine().GetObjects<TItem>(this, true, -1, -1);
         }
 
         private IConstraint ApplyConstraint(IConstraint constraint)

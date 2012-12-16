@@ -1,5 +1,4 @@
 ﻿using NDatabase2.Odb;
-using NDatabase2.Odb.Core.Query.Criteria;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Bugs.Index
@@ -25,7 +24,7 @@ namespace NDatabase.UnitTests.Bugs.Index
             long count;
             using (var odb = OdbFactory.OpenLast())
             {
-                var query = new CriteriaQuery<SampleClass>();
+                var query = odb.CreateCriteriaQuery<SampleClass>();
                 query.InvariantEqual("ID", "id.5");
                 count = odb.Count(query);
             }
@@ -35,7 +34,7 @@ namespace NDatabase.UnitTests.Bugs.Index
             {
                 odb.IndexManagerFor<SampleClass>().AddIndexOn("index", new[] { "ID" });
 
-                var query = new CriteriaQuery<SampleClass>();
+                var query = odb.CreateCriteriaQuery<SampleClass>();
                 query.InvariantEqual("ID", "id.5");
                 count2 = odb.Count(query);
             }
@@ -62,7 +61,7 @@ namespace NDatabase.UnitTests.Bugs.Index
             long count;
             using (var odb = OdbFactory.OpenLast())
             {
-                var query = new CriteriaQuery<SampleClass>();
+                var query = odb.CreateCriteriaQuery<SampleClass>();
                 query.InvariantEqual("ID", "id.5");
                 count = odb.Count(query);
             }
@@ -72,7 +71,7 @@ namespace NDatabase.UnitTests.Bugs.Index
             {
                 odb.IndexManagerFor<SampleClass>().AddUniqueIndexOn("index", new[] { "ID" });
 
-                var query = new CriteriaQuery<SampleClass>();
+                var query = odb.CreateCriteriaQuery<SampleClass>();
                 query.InvariantEqual("ID", "id.5");
                 count2 = odb.Count(query);
             }

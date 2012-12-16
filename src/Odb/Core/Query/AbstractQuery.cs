@@ -55,6 +55,11 @@ namespace NDatabase2.Odb.Core.Query
 
         #region IQuery Members
 
+        public virtual IObjectSet<TItem> Execute<TItem>() where TItem : class
+        {
+            throw new NotSupportedException();
+        }
+
         public virtual IQuery OrderByDesc(string fields)
         {
             _orderByType = OrderByConstants.OrderByDesc;
