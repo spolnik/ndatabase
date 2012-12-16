@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core.Query;
 using NDatabase2.Odb.Core.Query.Values;
 using NUnit.Framework;
 
@@ -45,7 +47,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             // ValuesQuery in getObjects
             try
             {
-                var objects = odb.Query<Handler>(new ValuesCriteriaQuery<Handler>().Field("parameters"));
+                var objects = new ValuesCriteriaQuery<Handler>().Field("parameters").Execute<Handler>();
                 Fail("Should throw exception");
             }
             catch (Exception)

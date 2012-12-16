@@ -269,7 +269,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             odb = Open("valuesSubList3");
             var start = OdbTime.GetCurrentTimeInMs();
             IQuery q = odb.CreateCriteriaQuery<Handler>();
-            var objects = odb.Query<Handler>(q);
+            var objects = q.Execute<Handler>();
             var end = OdbTime.GetCurrentTimeInMs();
 
             Console.WriteLine("Query time: {0} ms", end - start);

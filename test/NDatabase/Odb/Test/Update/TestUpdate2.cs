@@ -1,4 +1,6 @@
+using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Layers.Layer3.Engine;
+using NDatabase2.Odb.Core.Query;
 using NDatabase2.Odb.Core.Query.Criteria;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;
@@ -101,7 +103,7 @@ namespace Test.NDatabase.Odb.Test.Update
             odb = Open(Name);
             var query = odb.CreateCriteriaQuery<Profile>();
             query.Equal("name", "new profile");
-            var p = odb.Query<Profile>(query).GetFirst();
+            var p = query.Execute<Profile>().GetFirst();
             p.SetName("new profile2");
             var user2 = odb.Query<User>().GetFirst();
             user2.SetProfile(p);

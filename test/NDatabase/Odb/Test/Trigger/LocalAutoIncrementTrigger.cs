@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using NDatabase2.Odb;
 using NDatabase2.Odb.Core;
+using NDatabase2.Odb.Core.Query;
 using NDatabase2.Odb.Core.Query.Criteria;
 using NDatabase2.Odb.Core.Trigger;
 
@@ -57,7 +58,7 @@ namespace Test.NDatabase.Odb.Test.Trigger
             var odb = Odb;
             var query = odb.CreateCriteriaQuery<ID>();
             query.Equal("idName", idName);
-            var objects = odb.Query<ID>(query);
+            var objects = query.Execute<ID>();
             if (objects.Count == 0)
             {
                 var id1 = new ID(idName, 1);

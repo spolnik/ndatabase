@@ -1,5 +1,6 @@
 using System;
 using NDatabase2.Odb;
+using NDatabase2.Odb.Core.Query;
 using NDatabase2.Tool.Wrappers;
 using NUnit.Framework;
 
@@ -26,7 +27,7 @@ namespace Test.NDatabase.Odb.Test.List
             odb.Close();
             odb = Open(baseName);
             var q = odb.CreateCriteriaQuery<User>().OrderByAsc("name,id");
-            var users = odb.Query<User>(q);
+            var users = q.Execute<User>();
             odb.Close();
             if (k < 11)
             {
@@ -55,7 +56,7 @@ namespace Test.NDatabase.Odb.Test.List
             odb.Close();
             odb = Open(baseName);
             var q = odb.CreateCriteriaQuery<User>().OrderByDesc("name,id");
-            var users = odb.Query<User>(q);
+            var users = q.Execute<User>();
             odb.Close();
             if (k < 11)
             {
@@ -85,7 +86,7 @@ namespace Test.NDatabase.Odb.Test.List
             odb.Close();
             odb = Open(baseName);
             var q = odb.CreateCriteriaQuery<User>().OrderByAsc("ok,id,name");
-            var users = odb.Query<User>(q);
+            var users = q.Execute<User>();
             odb.Close();
             if (k < 11)
             {
@@ -115,7 +116,7 @@ namespace Test.NDatabase.Odb.Test.List
             odb.Close();
             odb = Open(baseName);
             var q = odb.CreateCriteriaQuery<User>().OrderByDesc("ok,id,name");
-            var users = odb.Query<User>(q);
+            var users = q.Execute<User>();
             odb.Close();
             if (k < 11)
             {

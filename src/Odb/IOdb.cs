@@ -1,7 +1,6 @@
 using System;
 using NDatabase2.Odb.Core.Layers.Layer3;
 using NDatabase2.Odb.Core.Query;
-using NDatabase2.Odb.Core.Query.Criteria;
 
 namespace NDatabase2.Odb
 {
@@ -52,12 +51,6 @@ namespace NDatabase2.Odb
         /// <param name="endIndex"> The index of the last object that must be returned </param>
         /// <returns> A List of objects </returns>
         IObjectSet<T> Query<T>(bool inMemory, int startIndex, int endIndex) where T : class;
-
-        /// <summary>
-        ///   Search for objects that matches the query.
-        /// </summary>
-        /// <returns> The list of objects </returns>
-        IObjectSet<T> Query<T>(IQuery query) where T : class;
 
         /// <summary>
         ///   Search for objects that matches the native query.
@@ -140,7 +133,7 @@ namespace NDatabase2.Odb
 
         bool IsClosed();
 
-        CriteriaQuery<T> CreateCriteriaQuery<T>() where T : class;
+        IQuery CreateCriteriaQuery<T>() where T : class;
 
         /// <summary>
         ///   Return the name of the database

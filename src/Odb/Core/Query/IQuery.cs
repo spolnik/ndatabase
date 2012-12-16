@@ -7,6 +7,8 @@ namespace NDatabase2.Odb.Core.Query
     {
         IObjectSet<T> Execute<T>() where T : class;
 
+        IObjectSet<T> Execute<T>(bool inMemory) where T : class;
+
         /// <summary>
         ///   To order by the result of a query in descendent order
         /// </summary>

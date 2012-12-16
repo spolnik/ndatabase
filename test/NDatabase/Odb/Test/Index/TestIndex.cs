@@ -205,7 +205,7 @@ namespace Test.NDatabase.Odb.Test.Index
             Console.Out.WriteLine("----ola");
             odb = Open(baseName);
             IQuery q = odb.CreateCriteriaQuery<IndexedObject>();
-            var objects = odb.Query<IndexedObject>(q);
+            var objects = q.Execute<IndexedObject>();
             while (objects.HasNext())
             {
                 var io = objects.Next();
@@ -1396,7 +1396,7 @@ namespace Test.NDatabase.Odb.Test.Index
                     t2 = OdbTime.GetCurrentTimeInMs();
                     var q = odb.CreateCriteriaQuery<IndexedObject>();
                     q.Equal("name", indexes[j]);
-                    var os = odb.Query<IndexedObject>(q);
+                    var os = q.Execute<IndexedObject>();
                     t3 = OdbTime.GetCurrentTimeInMs();
                     AssertTrue(((IInternalQuery)q).GetExecutionPlan().UseIndex());
                     AssertEquals(1, os.Count);

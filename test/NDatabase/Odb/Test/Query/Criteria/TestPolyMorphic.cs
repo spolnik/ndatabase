@@ -1,4 +1,5 @@
 using System;
+using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Query;
 using NDatabase2.Odb.Core.Query.Criteria;
 using NDatabase2.Odb.Core.Query.Values;
@@ -24,7 +25,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb = Open("multi");
             IQuery q = odb.CreateCriteriaQuery<object>();
 
-            var os = odb.Query<object>(q);
+            var os = q.Execute<object>();
             Println(os);
             odb.Close();
             AssertEquals(4, os.Count);
@@ -45,7 +46,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb = Open("multi");
             IQuery q = odb.CreateCriteriaQuery<Human>();
 
-            var os = odb.Query<Human>(q);
+            var os = q.Execute<Human>();
             Println(os);
             odb.Close();
             AssertEquals(2, os.Count);

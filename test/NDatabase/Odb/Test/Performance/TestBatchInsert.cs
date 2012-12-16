@@ -1,4 +1,6 @@
 using System;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core.Query;
 using NDatabase2.Odb.Core.Query.Criteria;
 using NUnit.Framework;
 
@@ -52,7 +54,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             var query = odb.CreateCriteriaQuery<SimpleObject>();
             query.Equal("name", "Bonjour, comment allez vous?100");
             var functions =
-                odb.Query<SimpleObject>(query);
+                query.Execute<SimpleObject>();
             odb.Close();
             AssertEquals(1, functions.Count);
         }

@@ -1,3 +1,4 @@
+using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Query;
 using NDatabase2.Odb.Core.Query.Criteria;
 using NUnit.Framework;
@@ -18,7 +19,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb = Open("null-rel.neodatis");
             IQuery q = odb.CreateCriteriaQuery<Class2>();
             q.IsNull("class1.name");
-            var os = odb.Query<Class2>(q);
+            var os = q.Execute<Class2>();
             odb.Close();
             AssertEquals(1, os.Count);
             var c2 = os.GetFirst();

@@ -164,6 +164,11 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             return ((IInternalQuery)this).GetStorageEngine().GetObjects<TItem>(this, true, -1, -1);
         }
 
+        public override IObjectSet<TItem> Execute<TItem>(bool inMemory)
+        {
+            return ((IInternalQuery)this).GetStorageEngine().GetObjects<TItem>(this, inMemory, -1, -1);
+        }
+
         private IConstraint ApplyConstraint(IConstraint constraint)
         {
             Constrain(constraint);

@@ -1,7 +1,6 @@
 ﻿using System;
 using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Query;
-using NDatabase2.Odb.Core.Query.Criteria;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;
 using Test.NDatabase.Odb.Test.VO.Sport;
@@ -122,7 +121,7 @@ namespace Test.NDatabase.Odb.Test.Transaction
                 odb.Store(agassi);
                 IQuery query = odb.CreateCriteriaQuery<Player>();
                 query.Equal("favoriteSport.name", "volley-ball");
-                var players = odb.Query<Player>(query);
+                var players = query.Execute<Player>();
                 Println("\nStep 4 : Players of Voller-ball");
                 var i = 1;
                 // display each object
@@ -206,7 +205,7 @@ namespace Test.NDatabase.Odb.Test.Transaction
                 odb = Open(BaseName);
                 IQuery query = odb.CreateCriteriaQuery<Player>();
                 query.Equal("name", "olivier");
-                var players = odb.Query<Player>(query);
+                var players = query.Execute<Player>();
                 Println("\nStep 3 : Players with name olivier");
                 var i = 1;
                 // display each object
@@ -230,7 +229,7 @@ namespace Test.NDatabase.Odb.Test.Transaction
                 var oid = odb.Store(agassi);
                 IQuery query = odb.CreateCriteriaQuery<Player>();
                 query.Equal("favoriteSport.name", "volley-ball");
-                var players = odb.Query<Player>(query);
+                var players = query.Execute<Player>();
                 Println("\nStep 4 : Players of Voller-ball");
                 var i = 1;
                 // display each object

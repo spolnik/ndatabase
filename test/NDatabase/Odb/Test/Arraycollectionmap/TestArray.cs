@@ -1,7 +1,6 @@
 using System;
 using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Layers.Layer3.Engine;
-using NDatabase2.Odb.Core.Query.Criteria;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Arraycollectionmap;
 
@@ -415,7 +414,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
                 odb = Open("array4.neodatis");
                 var query = odb.CreateCriteriaQuery<PlayerWithArray>();
                 query.Contain("games", "tennis");
-                var l = odb.Query<PlayerWithArray>(query);
+                var l = query.Execute<PlayerWithArray>();
                 AssertEquals(nb + 1, l.Count);
             }
             catch (Exception)

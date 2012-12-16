@@ -1,3 +1,5 @@
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core.Query;
 using NDatabase2.Odb.Core.Query.Criteria;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.Newbie.VO;
@@ -24,7 +26,7 @@ namespace Test.NDatabase.Odb.Test.Newbie
 
                 var query = odb.CreateCriteriaQuery<Car>();
                 query.Equal("Driver.Name", "marcelo");
-                var newCar = odb.Query<Car>(query).GetFirst();
+                var newCar = query.Execute<Car>().GetFirst();
 
                 newCar.Driver = new Driver("dani");
                 odb.Store(newCar);
@@ -34,7 +36,7 @@ namespace Test.NDatabase.Odb.Test.Newbie
             {
                 var query = odb.CreateCriteriaQuery<Car>();
                 query.Equal("Driver.Name", "dani");
-                AssertEquals(1, odb.Query<Car>(query).Count);
+                AssertEquals(1, query.Execute<Car>().Count);
             }
 
             DeleteBase(NewbieOdb);

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core.Query;
 using NDatabase2.Odb.Core.Query.Criteria;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;
@@ -107,7 +109,7 @@ namespace Test.NDatabase.Odb.Test.Update
             odb = Open("t1u2.neodatis");
             var query = odb.CreateCriteriaQuery<VO.Login.Function>();
             query.IsNull("name");
-            login = odb.Query<VO.Login.Function>(query).GetFirst();
+            login = query.Execute<VO.Login.Function>().GetFirst();
             AssertTrue(login.GetName() == null);
             login.SetName("login");
             odb.Store(login);

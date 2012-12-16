@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core.Query;
 using NDatabase2.Odb.Core.Query.Criteria;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;
@@ -25,7 +27,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var p = new Profile("p1", (IList<VO.Login.Function>) null);
             var query = odb.CreateCriteriaQuery<ClassB>();
             query.Contain("profiles", p);
-            var l = odb.Query<ClassB>(query);
+            var l = query.Execute<ClassB>();
             odb.Close();
             AssertEquals(0, l.Count);
         }
@@ -46,7 +48,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var p = odb.Query<Profile>().GetFirst();
             var query = odb.CreateCriteriaQuery<ClassB>();
             query.Contain("profiles", p);
-            var l = odb.Query<ClassB>(query);
+            var l = query.Execute<ClassB>();
             odb.Close();
             AssertEquals(1, l.Count);
         }
@@ -66,7 +68,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb = Open(baseName);
             var query = odb.CreateCriteriaQuery<ClassB>();
             query.Equal("name", "name");
-            var l = odb.Query<ClassB>(query);
+            var l = query.Execute<ClassB>();
             odb.Close();
             AssertEquals(1, l.Count);
         }

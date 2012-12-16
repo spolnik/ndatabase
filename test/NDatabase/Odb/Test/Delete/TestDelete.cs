@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using NDatabase2.Odb;
+using NDatabase2.Odb.Core.Query;
 using NDatabase2.Odb.Core.Query.Criteria;
 using NDatabase2.Odb.Main;
 using NDatabase2.Tool.Wrappers;
@@ -40,7 +41,7 @@ namespace Test.NDatabase.Odb.Test.Delete
             odb = Open(baseName);
             var query = odb.CreateCriteriaQuery<VO.Login.Function>();
             query.Equal("name", "function2");
-            var l = odb.Query<VO.Login.Function>(query);
+            var l = query.Execute<VO.Login.Function>();
             var function = l.GetFirst();
             odb.Delete(function);
             odb.Close();
@@ -507,7 +508,7 @@ namespace Test.NDatabase.Odb.Test.Delete
             AssertEquals(nbFunctions + 3, lfunctions.Count);
             var query = odb.CreateCriteriaQuery<VO.Login.Function>();
             query.Equal("name", "function2");
-            var l = odb.Query<VO.Login.Function>(query);
+            var l = query.Execute<VO.Login.Function>();
             var function = l.GetFirst();
             odb.Delete(function);
             odb.Close();
@@ -517,7 +518,7 @@ namespace Test.NDatabase.Odb.Test.Delete
             // check Profile 1
             var query2 = odb.CreateCriteriaQuery<Profile>();
             query2.Equal("name", "profile1");
-            var lprofile = odb.Query<Profile>(query2);
+            var lprofile = query2.Execute<Profile>();
             var p1 = lprofile.GetFirst();
             AssertEquals(2, p1.GetFunctions().Count);
             odb.Close();
@@ -553,7 +554,7 @@ namespace Test.NDatabase.Odb.Test.Delete
             odb.Commit();
             var query = odb.CreateCriteriaQuery<VO.Login.Function>();
             query.Like("name", "func%");
-            var objects = odb.Query<VO.Login.Function>(query);
+            var objects = query.Execute<VO.Login.Function>();
             AssertEquals(1, objects.Count);
             var f2 = objects.GetFirst();
             var oid = odb.GetObjectId(f2);
@@ -592,7 +593,7 @@ namespace Test.NDatabase.Odb.Test.Delete
             odb.Delete(f1);
             odb.Close();
             odb = Open(baseName);
-            var objects = odb.Query<VO.Login.Function>(odb.CreateCriteriaQuery<VO.Login.Function>());
+            var objects = odb.CreateCriteriaQuery<VO.Login.Function>().Execute<VO.Login.Function>();
             AssertEquals(2, objects.Count);
             odb.Close();
         }

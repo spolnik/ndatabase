@@ -1,5 +1,6 @@
 using System;
 using NDatabase2.Odb;
+using NDatabase2.Odb.Core.Query;
 using NDatabase2.Odb.Core.Query.Criteria;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Download;
@@ -35,7 +36,7 @@ namespace Test.NDatabase.Odb.Test.Other
                 odb = Open("download.neodatis");
                 var query = odb.CreateCriteriaQuery<User>();
                 query.Equal("email", email);
-                var users = odb.Query<User>(query);
+                var users = query.Execute<User>();
                 if (users.Count != 0)
                 {
                     user = users.GetFirst();

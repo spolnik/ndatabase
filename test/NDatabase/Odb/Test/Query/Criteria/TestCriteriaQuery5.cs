@@ -1,3 +1,5 @@
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core.Query;
 using NDatabase2.Odb.Core.Query.Criteria;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Attribute;
@@ -23,7 +25,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb = Open(baseName);
             var query = odb.CreateCriteriaQuery<TestClass>();
             query.GreaterOrEqual("int1", 0);
-            var os = odb.Query<TestClass>(query);
+            var os = query.Execute<TestClass>();
             AssertEquals(10, os.Count);
             var j = 0;
             while (os.HasNext())
@@ -47,7 +49,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb = Open(baseName);
             var query = odb.CreateCriteriaQuery<ClassWithInt>();
             query.Equal("i", (long) 1);
-            var os = odb.Query<ClassWithInt>(query);
+            var os = query.Execute<ClassWithInt>();
             AssertEquals(1, os.Count);
             odb.Close();
         }
@@ -63,7 +65,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb = Open(baseName);
             var query = odb.CreateCriteriaQuery<ClassWithLong>();
             query.Equal("i", 1L);
-            var os = odb.Query<ClassWithLong>(query);
+            var os = query.Execute<ClassWithLong>();
             AssertEquals(1, os.Count);
             odb.Close();
         }
@@ -79,11 +81,11 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb = Open(baseName);
             var criteriaQuery = odb.CreateCriteriaQuery<ClassWithLong>();
             criteriaQuery.GreaterOrEqual("i", 1L);
-            var os = odb.Query<ClassWithLong>(criteriaQuery);
+            var os = criteriaQuery.Execute<ClassWithLong>();
             AssertEquals(1, os.Count);
             var query = odb.CreateCriteriaQuery<ClassWithLong>();
             query.GreaterThan("i", 1L);
-            os = odb.Query<ClassWithLong>(query);
+            os = query.Execute<ClassWithLong>();
             AssertEquals(0, os.Count);
             odb.Close();
         }

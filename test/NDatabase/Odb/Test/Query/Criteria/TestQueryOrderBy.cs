@@ -1,4 +1,5 @@
 using System;
+using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Query;
 using NDatabase2.Odb.Core.Query.Criteria;
 using NUnit.Framework;
@@ -23,7 +24,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb = Open(baseName);
             IQuery q = odb.CreateCriteriaQuery<Class1>();
             q.OrderByAsc("name");
-            var objects = odb.Query<Class1>(q);
+            var objects = q.Execute<Class1>();
             AssertEquals(6, objects.Count);
             while (objects.HasNext())
                 Console.Out.WriteLine(objects.Next());
@@ -46,7 +47,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb = Open(baseName);
             IQuery q = odb.CreateCriteriaQuery<Class1>();
             // q.orderByAsc("name");
-            var objects = odb.Query<Class1>(q);
+            var objects = q.Execute<Class1>();
             AssertEquals(6, objects.Count);
             Println(objects);
             odb.Close();
@@ -66,7 +67,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb = Open(baseName);
             IQuery q = odb.CreateCriteriaQuery<Class1>();
             // q.orderByAsc("name");
-            var objects = odb.Query<Class1>(q);
+            var objects = q.Execute<Class1>();
             AssertEquals(size * 2, objects.Count);
             for (var i = 0; i < size; i++)
             {

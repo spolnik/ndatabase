@@ -34,7 +34,7 @@ namespace Test.NDatabase.Odb.Test.Index
             IQuery q = odb.CreateCriteriaQuery<IndexedObject2>();
             q.Equal("object", io);
 
-            var objects2 = odb.Query<IndexedObject2>(q);
+            var objects2 = q.Execute<IndexedObject2>();
             var o2 = objects2.GetFirst();
 
             odb.Close();
@@ -64,7 +64,7 @@ namespace Test.NDatabase.Odb.Test.Index
             // First get the object used to index, the last one. There is no index
             // on the class and field
             var start0 = OdbTime.GetCurrentTimeInMs();
-            var objects = odb.Query<IndexedObject>(q);
+            var objects = q.Execute<IndexedObject>();
             var end0 = OdbTime.GetCurrentTimeInMs();
             var io = objects.GetFirst();
             Println("d0=" + (end0 - start0));
@@ -73,7 +73,7 @@ namespace Test.NDatabase.Odb.Test.Index
             q.Equal("object", io);
             var start = OdbTime.GetCurrentTimeInMs();
 
-            var objects2 = odb.Query<IndexedObject2>(q);
+            var objects2 = q.Execute<IndexedObject2>();
             var end = OdbTime.GetCurrentTimeInMs();
             Println("d=" + (end - start));
             var o2 = objects2.GetFirst();
@@ -128,7 +128,7 @@ namespace Test.NDatabase.Odb.Test.Index
             // First get the object used to index, the last one. There is no index
             // on the class and field
             var start0 = OdbTime.GetCurrentTimeInMs();
-            var objects = odb.Query<IndexedObject>(q);
+            var objects = q.Execute<IndexedObject>();
             var end0 = OdbTime.GetCurrentTimeInMs();
             // check if index has been used
             AssertTrue(((IInternalQuery)q).GetExecutionPlan().UseIndex());
@@ -139,7 +139,7 @@ namespace Test.NDatabase.Odb.Test.Index
             q.Equal("object", io);
             var start = OdbTime.GetCurrentTimeInMs();
 
-            var objects2 = odb.Query<IndexedObject2>(q);
+            var objects2 = q.Execute<IndexedObject2>();
             var end = OdbTime.GetCurrentTimeInMs();
             Println("d=" + (end - start));
             var o2 = objects2.GetFirst();
