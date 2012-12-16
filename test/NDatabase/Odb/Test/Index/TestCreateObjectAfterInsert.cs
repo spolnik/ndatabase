@@ -1,5 +1,6 @@
 using System;
 using NDatabase2.Odb;
+using NDatabase2.Odb.Core.Query;
 using NDatabase2.Tool.Wrappers;
 using NUnit.Framework;
 
@@ -42,18 +43,17 @@ namespace Test.NDatabase.Odb.Test.Index
                 var query = odb.CreateCriteriaQuery<IndexedObject>();
                 query.Equal("name", "name0");
                 var objects =
-                    odb.Query<IndexedObject>(query, true);
+                    query.Execute<IndexedObject>(true);
 
                 Println("\n\nafter get Objects\n\n");
                 AssertEquals(1, objects.Count);
                 var query2 = odb.CreateCriteriaQuery<IndexedObject>();
                 query2.Equal("duration", 9);
 
-                objects =
-                    odb.Query<IndexedObject>(query2, true);
+                objects = query2.Execute<IndexedObject>(true);
 
                 AssertEquals(1, objects.Count);
-                objects = odb.Query<IndexedObject>(odb.CreateCriteriaQuery<IndexedObject>(), true);
+                objects = odb.CreateCriteriaQuery<IndexedObject>().Execute<IndexedObject>(true);
                 AssertEquals(size, objects.Count);
             }
             finally
@@ -100,18 +100,17 @@ namespace Test.NDatabase.Odb.Test.Index
                 query.Equal("name", "name0");
 
                 var objects =
-                    odb.Query<IndexedObject>(query, true);
+                    query.Execute<IndexedObject>(true);
 
                 Println("\n\nafter get Objects\n\n");
                 AssertEquals(1, objects.Count);
                 var query2 = odb.CreateCriteriaQuery<IndexedObject>();
                 query2.Equal("duration", 10);
 
-                objects =
-                    odb.Query<IndexedObject>(query2, true);
+                objects = query2.Execute<IndexedObject>(true);
 
                 AssertEquals(1, objects.Count);
-                objects = odb.Query<IndexedObject>(odb.CreateCriteriaQuery<IndexedObject>(), true);
+                objects = odb.CreateCriteriaQuery<IndexedObject>().Execute<IndexedObject>(true);
                 AssertEquals(size, objects.Count);
             }
             finally
@@ -149,7 +148,7 @@ namespace Test.NDatabase.Odb.Test.Index
                 query.Equal("name", "name");
 
                 var objects =
-                    odb.Query<IndexedObject>(query, true);
+                    query.Execute<IndexedObject>(true);
 
                 AssertEquals(1, objects.Count);
             }
@@ -187,10 +186,10 @@ namespace Test.NDatabase.Odb.Test.Index
                 query.Equal("name", "name0");
 
                 var objects =
-                    odb.Query<IndexedObject>(query, true);
+                    query.Execute<IndexedObject>(true);
 
                 AssertEquals(1, objects.Count);
-                objects = odb.Query<IndexedObject>(odb.CreateCriteriaQuery<IndexedObject>(), true);
+                objects = odb.CreateCriteriaQuery<IndexedObject>().Execute<IndexedObject>(true);
                 AssertEquals(size, objects.Count);
             }
             finally

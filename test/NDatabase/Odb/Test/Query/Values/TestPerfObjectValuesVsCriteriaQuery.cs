@@ -67,7 +67,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             var odb = Open("perfOValuesVsCriteria");
             
             IQuery q = odb.CreateCriteriaQuery<Profile>();
-            var objects = odb.Query<Profile>(q, false);
+            var objects = q.Execute<Profile>(false);
             Println(objects.Count);
             Console.Out.WriteLine(((IInternalQuery)q).GetExecutionPlan().GetDetails());
             AssertEquals(20, objects.Count);

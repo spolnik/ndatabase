@@ -200,7 +200,7 @@ namespace Test.NDatabase.Odb.Test.Update
             {
                 IQuery query = odb.CreateCriteriaQuery<VO.Login.Function>();
                 query.Like("name", "%9").Or(query.Like("name", "%8"));
-                var l = odb.Query<VO.Login.Function>(query, false);
+                var l = query.Execute<VO.Login.Function>(false);
                 AssertEquals(2, l.Count);
                 l.Next();
                 odb.Store(l.Next());

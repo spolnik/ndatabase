@@ -53,12 +53,6 @@ namespace NDatabase2.Odb
         IObjectSet<T> Query<T>(bool inMemory, int startIndex, int endIndex) where T : class;
 
         /// <summary>
-        ///   Search for objects that matches the native query.
-        /// </summary>
-        /// <returns> The list of objects </returns>
-        IObjectSet<T> Query<T>(IQuery query, bool inMemory) where T : class;
-
-        /// <summary>
         ///   Return a list of objects that matches the query
         /// </summary>
         /// <param name="query"> </param>

@@ -1,4 +1,5 @@
 using System;
+using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Query;
 using NDatabase2.Odb.Core.Query.Criteria;
 using NDatabase2.Odb.Core.Query.Values;
@@ -76,10 +77,10 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             
             IQuery q = odb.CreateCriteriaQuery<User2>();
             q.Equal("name", "user1599");
-            var objects = odb.Query<User2>(q, false);
+            var objects = q.Execute<User2>(false);
             Println(objects.Count);
             AssertEquals(1, objects.Count);
-            objects = odb.Query<User2>(q, false);
+            objects = q.Execute<User2>(false);
             Println(objects.Count);
             AssertEquals(1, objects.Count);
             odb.Close();

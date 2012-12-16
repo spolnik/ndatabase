@@ -76,11 +76,6 @@ namespace NDatabase2.Odb.Main
             return _storageEngine.GetValues<T>(query, -1, -1);
         }
 
-        public virtual IObjectSet<T> Query<T>(IQuery query, bool inMemory) where T : class
-        {
-            return query.Execute<T>(inMemory);
-        }
-
         public virtual IObjectSet<T> Query<T>(IQuery query, bool inMemory, int startIndex, int endIndex) where T : class
         {
             try
