@@ -203,5 +203,7 @@ namespace NDatabase2.Odb.Core.Query
         {
             throw new NotSupportedException();
         }
+
+        public abstract long Count();
     }
 }

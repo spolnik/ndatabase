@@ -73,5 +73,6 @@ namespace NDatabase2.Odb.Core.Query
         IConstraint SizeGe(string attributeName, int size);
         IConstraint SizeLt(string attributeName, int size);
         IConstraint SizeLe(string attributeName, int size);
+        long Count();
     }
 }

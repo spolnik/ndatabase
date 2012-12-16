@@ -68,7 +68,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             for (var j = 0; j < TestSize; j++)
             {
                 // println("Bonjour, comment allez vous?" + j);
-                q = new CriteriaQuery<SimpleObject>();
+                q = odb.CreateCriteriaQuery<SimpleObject>();
                 q.Equal("name", "Bonjour, comment allez vous?" + j);
                 var objects = odb.Query<SimpleObject>(q);
                 so = objects.GetFirst();

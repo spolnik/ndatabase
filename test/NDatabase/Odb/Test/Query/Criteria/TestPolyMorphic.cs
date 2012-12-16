@@ -22,7 +22,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Store(new Woman("Karine"));
             odb.Close();
             odb = Open("multi");
-            IQuery q = new CriteriaQuery<object>();
+            IQuery q = odb.CreateCriteriaQuery<object>();
 
             var os = odb.Query<object>(q);
             Println(os);
@@ -43,7 +43,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Store(new Woman("Karine"));
             odb.Close();
             odb = Open("multi");
-            IQuery q = new CriteriaQuery<Human>();
+            IQuery q = odb.CreateCriteriaQuery<Human>();
 
             var os = odb.Query<Human>(q);
             Println(os);
@@ -127,9 +127,9 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Store(new Woman("Karine"));
             odb.Close();
             odb = Open("multi");
-            var q = new CriteriaQuery<object>();
+            var q = odb.CreateCriteriaQuery<object>();
 
-            Decimal nb = odb.Count(q);
+            Decimal nb = q.Count();
             Println(nb);
             odb.Close();
             AssertEquals(new Decimal(4), nb);
@@ -152,9 +152,9 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             }
             odb.Close();
             odb = Open(baseName);
-            var q = new CriteriaQuery<object>();
+            var q = odb.CreateCriteriaQuery<object>();
 
-            Decimal nb = odb.Count(q);
+            Decimal nb = q.Count();
             Println(nb);
             odb.Close();
             AssertEquals(new Decimal(4 * size), nb);
@@ -177,10 +177,10 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             }
             odb.Close();
             odb = Open(baseName);
-            var q = new CriteriaQuery<object>();
+            var q = odb.CreateCriteriaQuery<object>();
             q.Equal("specie", "man");
 
-            Decimal nb = odb.Count(q);
+            Decimal nb = q.Count();
             Println(nb);
             odb.Close();
             AssertEquals(new Decimal(1 * size), nb);

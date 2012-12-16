@@ -248,9 +248,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             if (IsDbClosed)
                 throw new OdbRuntimeException(NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
 
-            var criteriaQuery = PrepareCriteriaQuery(typeof(T));
-
-            return ObjectReader.GetObjects<T>(criteriaQuery, inMemory, startIndex, endIndex);
+            return ObjectReader.GetObjects<T>(new CriteriaQuery<T>(), inMemory, startIndex, endIndex);
         }
 
         public abstract ClassInfoList AddClasses(ClassInfoList arg1);

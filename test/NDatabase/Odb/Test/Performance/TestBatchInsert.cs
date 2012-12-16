@@ -49,7 +49,7 @@ namespace Test.NDatabase.Odb.Test.Performance
         public virtual void TestSelect()
         {
             var odb = Open(OdbFileName);
-            var query = new CriteriaQuery<SimpleObject>();
+            var query = odb.CreateCriteriaQuery<SimpleObject>();
             query.Equal("name", "Bonjour, comment allez vous?100");
             var functions =
                 odb.Query<SimpleObject>(query);

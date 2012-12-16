@@ -213,15 +213,17 @@ namespace NDatabase.UnitTests.CodeSnippets
         {
             using (var odb = OdbFactory.Open(TutorialDb5MinName))
             {
-                IQuery query = new CriteriaQuery<Player>();
+                IQuery query = odb.CreateCriteriaQuery<Player>();
                 query.Equal("Name", "magdalena");
-                var players = odb.Query<Player>(query);
+                var players = query.Execute<Player>();
+
                 var magdalena = players.GetFirst();
  
                 // builds a query to get all teams where mihn plays
                 query = odb.CreateCriteriaQuery<Team>();
                 query.Contain("Players", magdalena);
-                var teams = odb.Query<Team>(query);
+                
+                var teams = query.Execute<Team>();
 
                 Console.WriteLine("\nStep 9: Team where magdalena plays");
 
@@ -236,10 +238,10 @@ namespace NDatabase.UnitTests.CodeSnippets
         {
             using (var odb = OdbFactory.Open(TutorialDb5MinName))
             {
-                IQuery query = new CriteriaQuery<Player>();
+                IQuery query = odb.CreateCriteriaQuery<Player>();
                 query.OrderByAsc("Name");
 
-                var players = odb.Query<Player>(query);
+                var players = query.Execute<Player>();
 
                 Console.WriteLine("\nStep 10: Players ordered by name asc");
 
@@ -249,7 +251,7 @@ namespace NDatabase.UnitTests.CodeSnippets
                 Assert.That(players, Has.Count.EqualTo(5));
 
                 query.OrderByDesc("Name");
-                players = odb.Query<Player>(query);
+                players = query.Execute<Player>();
 
                 Console.WriteLine("\nStep 10: Players ordered by name desc");
 

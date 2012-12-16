@@ -55,7 +55,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
         {
             var odb = Open("map.neodatis");
             var l = odb.Query<Dictionnary>();
-            var aq = new CriteriaQuery<Dictionnary>();
+            var aq = odb.CreateCriteriaQuery<Dictionnary>();
             aq.Equal("name", "test2");
             l = odb.Query<Dictionnary>(aq);
             var dictionnary = l.GetFirst();
@@ -67,14 +67,14 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
         public virtual void Test3()
         {
             var odb = Open("map.neodatis");
-            var size = odb.Count(new CriteriaQuery<Dictionnary>());
+            var size = odb.CreateCriteriaQuery<Dictionnary>().Count();
             var dictionnary1 = new Dictionnary("test1");
             dictionnary1.SetMap(null);
             odb.Store(dictionnary1);
             odb.Close();
             odb = Open("map.neodatis");
             AssertEquals(size + 1, odb.Query<Dictionnary>().Count);
-            AssertEquals(size + 1, odb.Count(new CriteriaQuery<Dictionnary>()));
+            AssertEquals(size + 1, odb.CreateCriteriaQuery<Dictionnary>().Count());
             odb.Close();
         }
 
@@ -82,8 +82,8 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
         public virtual void Test4()
         {
             var odb = Open("map.neodatis");
-            var n = odb.Count(new CriteriaQuery<Dictionnary>());
-            IQuery query = new CriteriaQuery<Dictionnary>();
+            var n = odb.CreateCriteriaQuery<Dictionnary>().Count();
+            IQuery query = odb.CreateCriteriaQuery<Dictionnary>();
             query.Equal("name", "test2");
             var l = odb.Query<Dictionnary>(query);
             var dictionnary = l.GetFirst();
@@ -91,7 +91,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             odb.Store(dictionnary);
             odb.Close();
             odb = Open("map.neodatis");
-            AssertEquals(n, odb.Count(new CriteriaQuery<Dictionnary>()));
+            AssertEquals(n, odb.CreateCriteriaQuery<Dictionnary>().Count());
             var dic = odb.Query<Dictionnary>(query).GetFirst();
             AssertEquals(null, dic.GetMap());
             odb.Close();
@@ -101,8 +101,8 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
         public virtual void Test5updateIncreasingSize()
         {
             var odb = Open("map.neodatis");
-            var n = odb.Count(new CriteriaQuery<Dictionnary>());
-            IQuery query = new CriteriaQuery<Dictionnary>();
+            var n = odb.CreateCriteriaQuery<Dictionnary>().Count();
+            IQuery query = odb.CreateCriteriaQuery<Dictionnary>();
             query.Equal("name", "test2");
             var l = odb.Query<Dictionnary>(query);
             var dictionnary = l.GetFirst();
@@ -110,7 +110,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             odb.Store(dictionnary);
             odb.Close();
             odb = Open("map.neodatis");
-            AssertEquals(n, odb.Count(new CriteriaQuery<Dictionnary>()));
+            AssertEquals(n, odb.CreateCriteriaQuery<Dictionnary>().Count());
             var dic = odb.Query<Dictionnary>(query).GetFirst();
             AssertNull(dic.GetMap());
             odb.Close();
@@ -131,8 +131,8 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
         {
             // to monitor updates
             var odb = Open("map.neodatis");
-            var n = odb.Count(new CriteriaQuery<Dictionnary>());
-            IQuery query = new CriteriaQuery<Dictionnary>();
+            var n = odb.CreateCriteriaQuery<Dictionnary>().Count();
+            IQuery query = odb.CreateCriteriaQuery<Dictionnary>();
             query.Equal("name", "test2");
             var l = odb.Query<Dictionnary>(query);
             var dictionnary = l.GetFirst();
@@ -140,7 +140,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             odb.Store(dictionnary);
             odb.Close();
             odb = Open("map.neodatis");
-            AssertEquals(n, odb.Count(new CriteriaQuery<Dictionnary>()));
+            AssertEquals(n, odb.CreateCriteriaQuery<Dictionnary>().Count());
             var dic = odb.Query<Dictionnary>(query).GetFirst();
             AssertEquals("changed function", dic.GetMap()["f1"]);
             odb.Close();
@@ -150,8 +150,8 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
         public virtual void Test6updateDecreasingSize()
         {
             var odb = Open("map.neodatis");
-            var n = odb.Count(new CriteriaQuery<Dictionnary>());
-            IQuery query = new CriteriaQuery<Dictionnary>();
+            var n = odb.CreateCriteriaQuery<Dictionnary>().Count();
+            IQuery query = odb.CreateCriteriaQuery<Dictionnary>();
             query.Equal("name", "test2");
             var l = odb.Query<Dictionnary>(query);
             var dictionnary = l.GetFirst();
@@ -160,7 +160,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             odb.Store(dictionnary);
             odb.Close();
             odb = Open("map.neodatis");
-            AssertEquals(n, odb.Count(new CriteriaQuery<Dictionnary>()));
+            AssertEquals(n, odb.CreateCriteriaQuery<Dictionnary>().Count());
             var dic = odb.Query<Dictionnary>(query).GetFirst();
             AssertEquals(mapSize - 1, dic.GetMap().Count);
             odb.Close();

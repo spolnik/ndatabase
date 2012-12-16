@@ -26,7 +26,7 @@ namespace NDatabase.UnitTests.Bugs.Index
             {
                 var query = odb.CreateCriteriaQuery<SampleClass>();
                 query.InvariantEqual("ID", "id.5");
-                count = odb.Count(query);
+                count = query.Count();
             }
 
             long count2;
@@ -36,7 +36,7 @@ namespace NDatabase.UnitTests.Bugs.Index
 
                 var query = odb.CreateCriteriaQuery<SampleClass>();
                 query.InvariantEqual("ID", "id.5");
-                count2 = odb.Count(query);
+                count2 = query.Count();
             }
 
             Assert.That(count, Is.EqualTo(count2));
@@ -63,7 +63,7 @@ namespace NDatabase.UnitTests.Bugs.Index
             {
                 var query = odb.CreateCriteriaQuery<SampleClass>();
                 query.InvariantEqual("ID", "id.5");
-                count = odb.Count(query);
+                count = query.Count();
             }
 
             long count2;
@@ -73,7 +73,7 @@ namespace NDatabase.UnitTests.Bugs.Index
 
                 var query = odb.CreateCriteriaQuery<SampleClass>();
                 query.InvariantEqual("ID", "id.5");
-                count2 = odb.Count(query);
+                count2 = query.Count();
             }
 
             Assert.That(count, Is.EqualTo(count2));

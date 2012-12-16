@@ -1,5 +1,4 @@
 using NDatabase2.Odb;
-using NDatabase2.Odb.Core.Query.Criteria;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Instantiationhelper
@@ -40,7 +39,7 @@ namespace Test.NDatabase.Odb.Test.Instantiationhelper
             var car = cars.GetFirst();
             AssertEquals(car.GetModel(), "Ranger");
             AssertEquals(car.GetYear(), 2006);
-            var query = new CriteriaQuery<Car>();
+            var query = odb.CreateCriteriaQuery<Car>();
             query.Equal("model", "Ranger");
             cars = odb.Query<Car>(query);
             car = cars.GetFirst();

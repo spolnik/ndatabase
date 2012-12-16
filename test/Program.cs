@@ -1,6 +1,5 @@
 ﻿using System;
 using NDatabase2.Odb;
-using NDatabase2.Odb.Core.Query.Criteria;
 using NUnit.Framework;
 
 namespace Test
@@ -49,7 +48,7 @@ namespace Test
                 odb.Close();
 
                 odb = OdbFactory.Open(file);
-                IObjectSet<Function> functions = odb.Query<Function>();
+                var functions = odb.Query<Function>();
                 Console.WriteLine(" Number of functions = " + functions.Count);
                 
                 odb.Close();
@@ -78,9 +77,11 @@ namespace Test
                 odb.Close();
 
                 odb = OdbFactory.Open(file);
-                var query = new CriteriaQuery<Function>();
+                var query = odb.CreateCriteriaQuery<Function>();
+                
                 query.Equal("name", "function 199");
-                IObjectSet<Function> functions = odb.Query<Function>(query);
+                
+                var functions = query.Execute<Function>();
                 Console.WriteLine(" Number of functions = " + functions.Count);
 
                 odb.Close();

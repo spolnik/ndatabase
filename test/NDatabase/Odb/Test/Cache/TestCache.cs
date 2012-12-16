@@ -1,5 +1,4 @@
 using System.Threading;
-using NDatabase2.Odb.Core.Query.Criteria;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;
 
@@ -40,7 +39,7 @@ namespace Test.NDatabase.Odb.Test.Cache
         public virtual void Test1()
         {
             var odb = Open("cache.neodatis");
-            var query = new CriteriaQuery<VO.Login.Function>();
+            var query = odb.CreateCriteriaQuery<VO.Login.Function>();
             query.Equal("name", "function 10");
             var l = odb.Query<VO.Login.Function>(query);
             AssertFalse(l.Count == 0);
@@ -53,7 +52,7 @@ namespace Test.NDatabase.Odb.Test.Cache
         public virtual void Test2()
         {
             var odb = Open("cache.neodatis");
-            var query = new CriteriaQuery<User>();
+            var query = odb.CreateCriteriaQuery<User>();
             query.Equal("name", "olivier 10");
             var l = odb.Query<User>(query);
             AssertFalse(l.Count == 0);

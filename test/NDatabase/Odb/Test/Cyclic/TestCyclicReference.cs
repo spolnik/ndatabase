@@ -1,5 +1,4 @@
 using NDatabase2.Odb;
-using NDatabase2.Odb.Core.Query.Criteria;
 using NDatabase2.Odb.Main;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Country;
@@ -109,11 +108,11 @@ namespace Test.NDatabase.Odb.Test.Cyclic
             l = odb.Query<Country2>(true);
             country = l.GetFirst();
             AssertEquals("rio de janeiro", country.GetCapital().GetName());
-            var query = new CriteriaQuery<City>();
+            var query = odb.CreateCriteriaQuery<City>();
             query.Equal("name", "rio de janeiro");
             var cities = odb.Query<City>(query);
             AssertEquals(1, cities.Count);
-            var cities2 = odb.Query<City>(new CriteriaQuery<City>());
+            var cities2 = odb.Query<City>(odb.CreateCriteriaQuery<City>());
             AssertEquals(1, cities2.Count);
             odb.Close();
         }
@@ -132,12 +131,12 @@ namespace Test.NDatabase.Odb.Test.Cyclic
             l = odb.Query<Country2>(true);
             country = l.GetFirst();
             AssertEquals("rio de janeiro", country.GetCapital().GetName());
-            var query = new CriteriaQuery<City>();
+            var query = odb.CreateCriteriaQuery<City>();
             query.Equal("name", "rio de janeiro");
             var cities = odb.Query<City>(query);
             AssertEquals(1, cities.Count);
 
-            var cities2 = odb.Query<City>(new CriteriaQuery<City>());
+            var cities2 = odb.Query<City>(odb.CreateCriteriaQuery<City>());
             AssertEquals(2, cities2.Count);
             odb.Close();
         }

@@ -29,11 +29,11 @@ namespace Test.NDatabase.Odb.Test.Defragment
             odb.DefragmentTo(OdbFileName2);
             var newOdb = Open(OdbFileName2);
 
-            Decimal nbUser = odb.Count(new CriteriaQuery<User>());
-            Decimal nbNewUser = newOdb.Count(new CriteriaQuery<User>());
+            Decimal nbUser = odb.CreateCriteriaQuery<User>().Count();
+            Decimal nbNewUser = odb.CreateCriteriaQuery<User>().Count();
             AssertEquals(nbUser, nbNewUser);
-            AssertEquals(odb.Count(new CriteriaQuery<Profile>()),
-                         newOdb.Count(new CriteriaQuery<Profile>()));
+            AssertEquals(odb.CreateCriteriaQuery<Profile>().Count(),
+                         odb.CreateCriteriaQuery<Profile>().Count());
             odb.Close();
             newOdb.Close();
             DeleteBase(OdbFileName1);
@@ -56,9 +56,9 @@ namespace Test.NDatabase.Odb.Test.Defragment
             odb = Open(OdbFileName1);
             odb.DefragmentTo(OdbFileName2);
             var newOdb = Open(OdbFileName2);
-            AssertEquals(odb.Count(new CriteriaQuery<User>()), newOdb.Count(new CriteriaQuery<User>()));
-            AssertEquals(odb.Count(new CriteriaQuery<Profile>()),
-                         newOdb.Count(new CriteriaQuery<Profile>()));
+            AssertEquals(odb.CreateCriteriaQuery<User>().Count(), odb.CreateCriteriaQuery<User>().Count());
+            AssertEquals(odb.CreateCriteriaQuery<Profile>().Count(),
+                         odb.CreateCriteriaQuery<Profile>().Count());
             odb.Close();
             newOdb.Close();
             DeleteBase(OdbFileName1);
@@ -81,7 +81,7 @@ namespace Test.NDatabase.Odb.Test.Defragment
             odb = Open(OdbFileName1);
             odb.DefragmentTo(OdbFileName2);
             var newOdb = Open(OdbFileName2);
-            AssertEquals(odb.Count(new CriteriaQuery<User>()), newOdb.Count(new CriteriaQuery<User>()));
+            AssertEquals(odb.CreateCriteriaQuery<User>().Count(), odb.CreateCriteriaQuery<User>().Count());
             odb.Close();
             newOdb.Close();
             DeleteBase(OdbFileName1);

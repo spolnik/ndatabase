@@ -515,7 +515,7 @@ namespace Test.NDatabase.Odb.Test.Update.Nullobject
             at = ats.GetFirst();
             AT newAT = null;
             SensorAT newSensor = null;
-            IQuery query = new CriteriaQuery<SensorAT>();
+            IQuery query = odb.CreateCriteriaQuery<SensorAT>();
             query.Equal("at.name", at.GetName());
             query.OrderByAsc("lane");
             var sensors = odb.Query<SensorAT>(query);

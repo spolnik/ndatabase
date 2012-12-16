@@ -1,6 +1,5 @@
 using System;
 using NDatabase2.Odb;
-using NDatabase2.Odb.Core.Query.Criteria;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;
 
@@ -441,7 +440,7 @@ namespace Test.NDatabase.Odb.Test.Acid
             {
                 if (simpleObject)
                 {
-                    var query = new CriteriaQuery<VO.Login.Function>();
+                    var query = odb.CreateCriteriaQuery<VO.Login.Function>();
                     query.Equal("name", "f1000");
                     var objects = odb.Query<VO.Login.Function>(query);
 
@@ -451,7 +450,7 @@ namespace Test.NDatabase.Odb.Test.Acid
                 }
                 else
                 {
-                    var query = new CriteriaQuery<User>();
+                    var query = odb.CreateCriteriaQuery<User>();
                     query.Equal("name", "f1000");
                     var objects = odb.Query<User>(query);
                     var f = objects.GetFirst();
@@ -469,14 +468,14 @@ namespace Test.NDatabase.Odb.Test.Acid
             {
                 if (simpleObject)
                 {
-                    var query = new CriteriaQuery<VO.Login.Function>();
+                    var query = odb.CreateCriteriaQuery<VO.Login.Function>();
                     query.Equal("name", "new name");
                     var objects = odb.Query<VO.Login.Function>(query);
                     odb.Delete(objects.GetFirst());
                 }
                 else
                 {
-                    var query = new CriteriaQuery<User>();
+                    var query = odb.CreateCriteriaQuery<User>();
                     query.Equal("name", "new name");
                     var objects = odb.Query<User>(query);
                     odb.Delete(objects.GetFirst());
@@ -494,14 +493,14 @@ namespace Test.NDatabase.Odb.Test.Acid
                 nb = 0;
                 if (simpleObject)
                 {
-                    var query = new CriteriaQuery<VO.Login.Function>();
+                    var query = odb.CreateCriteriaQuery<VO.Login.Function>();
                     query.Equal("name", "f1000");
                     var objects = odb.Query<VO.Login.Function>(query);
                     nb = objects.Count;
                 }
                 else
                 {
-                    var query = new CriteriaQuery<User>();
+                    var query = odb.CreateCriteriaQuery<User>();
                     query.Equal("name", "f1000");
                     var objects = odb.Query<User>(query);
                     nb = objects.Count;

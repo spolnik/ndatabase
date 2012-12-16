@@ -46,7 +46,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             try
             {
                 odb = Open(baseName);
-                var nb = odb.Count(new CriteriaQuery<PlayerWithList>());
+                var nb = odb.CreateCriteriaQuery<PlayerWithList>().Count();
                 var player = new PlayerWithList("kiko");
                 player.AddGame("volley-ball");
                 player.AddGame("squash");
@@ -55,7 +55,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
                 odb.Store(player);
                 odb.Close();
                 odb = Open(baseName);
-                var query = new CriteriaQuery<PlayerWithList>();
+                var query = odb.CreateCriteriaQuery<PlayerWithList>();
                 query.Contain("games", "tennis");
                 var l = odb.Query<PlayerWithList>(query);
                 AssertEquals(nb + 1, l.Count);
@@ -113,7 +113,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
         {
             DeleteBase("list1.neodatis");
             var odb = Open("list1.neodatis");
-            var nb = odb.Count(new CriteriaQuery<PlayerWithList>());
+            var nb = odb.CreateCriteriaQuery<PlayerWithList>().Count();
             var player = new PlayerWithList("kiko");
             player.AddGame("volley-ball");
             player.AddGame("squash");
@@ -137,7 +137,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
         {
             DeleteBase("list1.neodatis");
             var odb = Open("list1.neodatis");
-            var nb = odb.Count(new CriteriaQuery<PlayerWithList>());
+            var nb = odb.CreateCriteriaQuery<PlayerWithList>().Count();
             var player = new PlayerWithList("kiko");
             player.AddGame("volley-ball");
             player.AddGame("squash");
@@ -160,7 +160,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
         {
             DeleteBase("list1.neodatis");
             var odb = Open("list1.neodatis");
-            var nb = odb.Count(new CriteriaQuery<PlayerWithList>());
+            var nb = odb.CreateCriteriaQuery<PlayerWithList>().Count();
             var player = new PlayerWithList("kiko");
             player.SetGames(null);
             odb.Store(player);
@@ -177,7 +177,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
         {
             DeleteBase("list3.neodatis");
             var odb = Open("list3.neodatis");
-            var nb = odb.Count(new CriteriaQuery<MyObject>());
+            var nb = odb.CreateCriteriaQuery<MyObject>().Count();
             var l1 = new MyList();
             l1.Add("object1");
             l1.Add("object2");
@@ -202,7 +202,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
         {
             DeleteBase("list4.neodatis");
             var odb = Open("list4.neodatis");
-            var nb = odb.Count(new CriteriaQuery<MyObject>());
+            var nb = odb.CreateCriteriaQuery<MyObject>().Count();
             var l1 = new MyList();
             l1.Add("object1");
             l1.Add("object2");
@@ -237,7 +237,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
         {
             DeleteBase("list4.neodatis");
             var odb = Open("list4.neodatis");
-            var nb = odb.Count(new CriteriaQuery<MyObject>());
+            var nb = odb.CreateCriteriaQuery<MyObject>().Count();
             var l1 = new MyList();
             l1.Add("object1");
             l1.Add("object2");
@@ -358,7 +358,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             for (var i = 0; i < size; i++)
             {
                 var odb2 = Open("list5.neodatis");
-                var query = new CriteriaQuery<ObjectWithListOfInteger>();
+                var query = odb.CreateCriteriaQuery<ObjectWithListOfInteger>();
                 query.Equal("name", "test2");
                 var ll = odb2.Query<ObjectWithListOfInteger>(query);
                 var o2 = ll.GetFirst();
@@ -368,7 +368,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
                 odb2.Close();
             }
             var odb3 = Open("list5.neodatis");
-            var query2 = new CriteriaQuery<ObjectWithListOfInteger>();
+            var query2 = odb.CreateCriteriaQuery<ObjectWithListOfInteger>();
             query2.Equal("name", "test2");
 
             var l = odb3.Query<ObjectWithListOfInteger>(query2);
@@ -403,7 +403,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             odb.Store(o);
             odb.Close();
             var size = 100;
-            var query = new CriteriaQuery<ObjectWithListOfInteger>();
+            var query = odb.CreateCriteriaQuery<ObjectWithListOfInteger>();
             query.Equal("name", "test2");
 
             for (var i = 0; i < size; i++)

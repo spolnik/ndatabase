@@ -55,7 +55,7 @@ namespace Test.NDatabase.Odb.Test.Trigger
         private long GetNextId(string idName)
         {
             var odb = Odb;
-            var query = new CriteriaQuery<ID>();
+            var query = odb.CreateCriteriaQuery<ID>();
             query.Equal("idName", idName);
             var objects = odb.Query<ID>(query);
             if (objects.Count == 0)

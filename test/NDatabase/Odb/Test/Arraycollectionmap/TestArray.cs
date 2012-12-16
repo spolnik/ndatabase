@@ -18,7 +18,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             {
                 DeleteBase("array1.neodatis");
                 odb = Open("array1.neodatis");
-                decimal nb = odb.Count(new CriteriaQuery<PlayerWithArray>());
+                decimal nb = odb.CreateCriteriaQuery<PlayerWithArray>().Count();
                 var player = new PlayerWithArray("kiko");
                 player.AddGame("volley-ball");
                 player.AddGame("squash");
@@ -404,7 +404,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             {
                 DeleteBase("array4.neodatis");
                 odb = Open("array4.neodatis");
-                decimal nb = odb.Count(new CriteriaQuery<PlayerWithArray>());
+                decimal nb = odb.CreateCriteriaQuery<PlayerWithArray>().Count();
                 var player = new PlayerWithArray("kiko");
                 player.AddGame("volley-ball");
                 player.AddGame("squash");
@@ -413,7 +413,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
                 odb.Store(player);
                 odb.Close();
                 odb = Open("array4.neodatis");
-                var query = new CriteriaQuery<PlayerWithArray>();
+                var query = odb.CreateCriteriaQuery<PlayerWithArray>();
                 query.Contain("games", "tennis");
                 var l = odb.Query<PlayerWithArray>(query);
                 AssertEquals(nb + 1, l.Count);

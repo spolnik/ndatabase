@@ -5,7 +5,6 @@ using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Layers.Layer2.Instance;
 using NDatabase2.Odb.Core.Layers.Layer2.Meta;
 using NDatabase2.Odb.Core.Query;
-using NDatabase2.Odb.Core.Query.Criteria;
 using NDatabase2.Odb.Core.Query.Values;
 using NDatabase2.Tool.Wrappers;
 using NUnit.Framework;
@@ -269,7 +268,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             odb.Close();
             odb = Open("valuesSubList3");
             var start = OdbTime.GetCurrentTimeInMs();
-            IQuery q = new CriteriaQuery<Handler>();
+            IQuery q = odb.CreateCriteriaQuery<Handler>();
             var objects = odb.Query<Handler>(q);
             var end = OdbTime.GetCurrentTimeInMs();
 

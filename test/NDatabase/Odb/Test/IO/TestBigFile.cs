@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Query;
-using NDatabase2.Odb.Core.Query.Criteria;
 using NDatabase2.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;
@@ -60,7 +59,7 @@ namespace Test.NDatabase.Odb.Test.IO
             {
                 var start = OdbTime.GetCurrentTimeInMs();
                 odb = Open(baseName);
-                IQuery q = new CriteriaQuery<VO.Login.Function>();
+                IQuery q = odb.CreateCriteriaQuery<VO.Login.Function>();
                 q.Equal("name", "login10000");
                 var functions = odb.Query<VO.Login.Function>(q, true, 0, 1);
                 Console.Out.WriteLine(((IInternalQuery)q).GetExecutionPlan().GetDetails());

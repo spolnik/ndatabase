@@ -1,7 +1,6 @@
 using System;
 using NDatabase2.Btree.Exception;
 using NDatabase2.Odb.Core.Query;
-using NDatabase2.Odb.Core.Query.Criteria;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Index
@@ -18,22 +17,22 @@ namespace Test.NDatabase.Odb.Test.Index
         {
             var baseName = GetBaseName();
             DeleteBase(baseName);
-            var @base = Open(baseName);
-            var clazz = @base.IndexManagerFor<IndexedObject3>();
+            var odb = Open(baseName);
+            var clazz = odb.IndexManagerFor<IndexedObject3>();
             var indexFields1 = new[] {"i1"};
             clazz.AddUniqueIndexOn("index1", indexFields1);
             for (var i = 0; i < 10; i++)
             {
                 var io = new IndexedObject3(1 + i, 2, 3, "1" + i, "2", "3", new DateTime(2009, i + 1, 1), new DateTime(),
                                             new DateTime());
-                @base.Store(io);
+                odb.Store(io);
             }
-            @base.Close();
-            @base = Open(baseName);
-            IQuery q = new CriteriaQuery<IndexedObject3>();
+            odb.Close();
+            odb = Open(baseName);
+            IQuery q = odb.CreateCriteriaQuery<IndexedObject3>();
             q.Equal("i1", 1);
-            var iis = @base.Query<IndexedObject3>(q);
-            @base.Close();
+            var iis = odb.Query<IndexedObject3>(q);
+            odb.Close();
             AssertEquals(1, iis.Count);
             AssertTrue(((IInternalQuery)q).GetExecutionPlan().UseIndex());
             DeleteBase(baseName);
@@ -49,34 +48,34 @@ namespace Test.NDatabase.Odb.Test.Index
         {
             var baseName = GetBaseName();
             DeleteBase(baseName);
-            var @base = Open(baseName);
+            var odb = Open(baseName);
             for (var i = 0; i < 250; i++)
             {
                 var io = new IndexedObject3(1 + i, 2, 3, "1" + i, "2", "3", new DateTime(2009, (i % 12) + 1, 1),
                                             new DateTime(), new DateTime());
-                @base.Store(io);
+                odb.Store(io);
             }
-            @base.Close();
-            @base = Open(baseName);
-            var clazz = @base.IndexManagerFor<IndexedObject3>();
+            odb.Close();
+            odb = Open(baseName);
+            var clazz = odb.IndexManagerFor<IndexedObject3>();
             var indexFields1 = new[] {"i1", "i2", "i3"};
             clazz.AddUniqueIndexOn("index1", indexFields1);
-            @base.Close();
-            @base = Open(baseName);
+            odb.Close();
+            odb = Open(baseName);
 
             IQuery q =
-                new CriteriaQuery<IndexedObject3>();
+                odb.CreateCriteriaQuery<IndexedObject3>();
 
             q.Equal("i1", 10).And(q.Equal("i2", 2)).And(q.Equal("i3", 3));
 
-            var objects = @base.Query<IndexedObject3>(q);
+            var objects = odb.Query<IndexedObject3>(q);
             AssertEquals(true, ((IInternalQuery)q).GetExecutionPlan().UseIndex());
-            @base.IndexManagerFor<IndexedObject3>().DeleteIndex("index1");
-            @base.Close();
-            @base = Open(baseName);
-            objects = @base.Query<IndexedObject3>(q);
+            odb.IndexManagerFor<IndexedObject3>().DeleteIndex("index1");
+            odb.Close();
+            odb = Open(baseName);
+            objects = odb.Query<IndexedObject3>(q);
             AssertEquals(false, ((IInternalQuery)q).GetExecutionPlan().UseIndex());
-            @base.Close();
+            odb.Close();
             DeleteBase(baseName);
         }
 
@@ -123,34 +122,34 @@ namespace Test.NDatabase.Odb.Test.Index
         {
             var baseName = GetBaseName();
             DeleteBase(baseName);
-            var @base = Open(baseName);
+            var odb = Open(baseName);
             for (var i = 0; i < 250; i++)
             {
                 var io = new IndexedObject3(1 + i, 2, 3, "1" + i, "2", "3", new DateTime(2009, (i % 12) + 1, 1),
                                             new DateTime(), new DateTime());
-                @base.Store(io);
+                odb.Store(io);
             }
-            @base.Close();
-            @base = Open(baseName);
-            var clazz = @base.IndexManagerFor<IndexedObject3>();
+            odb.Close();
+            odb = Open(baseName);
+            var clazz = odb.IndexManagerFor<IndexedObject3>();
             var indexFields1 = new[] {"i1", "i2", "i3"};
             clazz.AddUniqueIndexOn("index1", indexFields1);
-            @base.Close();
-            @base = Open(baseName);
+            odb.Close();
+            odb = Open(baseName);
 
             IQuery q =
-                new CriteriaQuery<IndexedObject3>();
+                odb.CreateCriteriaQuery<IndexedObject3>();
 
             q.Equal("i1", 10).And(q.Equal("i2", 2)).And(q.Equal("i3", 3));
 
-            var objects = @base.Query<IndexedObject3>(q);
+            var objects = odb.Query<IndexedObject3>(q);
             AssertEquals(true, ((IInternalQuery)q).GetExecutionPlan().UseIndex());
-            @base.IndexManagerFor<IndexedObject3>().RebuildIndex("index1");
-            @base.Close();
-            @base = Open(baseName);
-            objects = @base.Query<IndexedObject3>(q);
+            odb.IndexManagerFor<IndexedObject3>().RebuildIndex("index1");
+            odb.Close();
+            odb = Open(baseName);
+            objects = odb.Query<IndexedObject3>(q);
             AssertEquals(true, ((IInternalQuery)q).GetExecutionPlan().UseIndex());
-            @base.Close();
+            odb.Close();
             DeleteBase(baseName);
         }
 

@@ -48,7 +48,7 @@ namespace Test.NDatabase.Odb.Test.Update
         public virtual void Test1()
         {
             var odb = Open(FileName);
-            IQuery query = new CriteriaQuery<VO.Login.Function>();
+            IQuery query = odb.CreateCriteriaQuery<VO.Login.Function>();
             query.Equal("name", "function 10");
             var l = odb.Query<VO.Login.Function>(query);
             var size = l.Count;
@@ -62,7 +62,7 @@ namespace Test.NDatabase.Odb.Test.Update
             odb.Close();
             odb = Open(FileName);
             l = odb.Query<VO.Login.Function>(query);
-            query = new CriteriaQuery<VO.Login.Function>();
+            query = odb.CreateCriteriaQuery<VO.Login.Function>();
             query.Equal("name", newName);
             AssertTrue(size == l.Count + 1);
             l = odb.Query<VO.Login.Function>(query);
@@ -78,7 +78,7 @@ namespace Test.NDatabase.Odb.Test.Update
         {
             var odb = Open(FileName);
             var nbProfiles = odb.Query<Profile>().Count;
-            IQuery query = new CriteriaQuery<User>();
+            IQuery query = odb.CreateCriteriaQuery<User>();
             query.Equal("profile.name", "profile 10");
             var l = odb.Query<User>(query);
             var size = l.Count;
@@ -104,11 +104,11 @@ namespace Test.NDatabase.Odb.Test.Update
         public virtual void Test3()
         {
             var odb = Open(FileName);
-            IQuery pquery = new CriteriaQuery<Profile>();
+            IQuery pquery = odb.CreateCriteriaQuery<Profile>();
             pquery.Equal("name", "profile 10");
-            var nbProfiles = odb.Count(new CriteriaQuery<Profile>());
+            var nbProfiles = odb.CreateCriteriaQuery<Profile>().Count();
             long nbProfiles10 = odb.Query<Profile>(pquery).Count;
-            IQuery query = new CriteriaQuery<User>();
+            IQuery query = odb.CreateCriteriaQuery<User>();
             query.Equal("profile.name", "profile 10");
             var l = odb.Query<User>(query);
             var size = l.Count;
@@ -161,7 +161,7 @@ namespace Test.NDatabase.Odb.Test.Update
             odb.Store(l.Next());
             odb.Close();
             odb = Open(FileName);
-            AssertEquals(15, odb.Count(new CriteriaQuery<VO.Login.Function>()));
+            AssertEquals(15, odb.CreateCriteriaQuery<VO.Login.Function>().Count());
             odb.Close();
         }
 
@@ -184,7 +184,7 @@ namespace Test.NDatabase.Odb.Test.Update
 
             using (var odb = Open(FileName))
             {
-                IQuery query = new CriteriaQuery<VO.Login.Function>();
+                IQuery query = odb.CreateCriteriaQuery<VO.Login.Function>();
                 query.Like("name", "%9").Or(query.Like("name", "%8"));
                 var l = odb.Query<VO.Login.Function>(query, false);
                 AssertEquals(2, l.Count);
@@ -194,7 +194,7 @@ namespace Test.NDatabase.Odb.Test.Update
             
             using (var odb = Open(FileName))
             {
-                AssertEquals(15, odb.Count(new CriteriaQuery<VO.Login.Function>()));
+                AssertEquals(15, odb.CreateCriteriaQuery<VO.Login.Function>().Count());
             }
         }
 
@@ -358,7 +358,7 @@ namespace Test.NDatabase.Odb.Test.Update
             odb.Store(profile2);
             odb.Close();
             odb = Open(FileName);
-            var query = new CriteriaQuery<Profile>();
+            var query = odb.CreateCriteriaQuery<Profile>();
             query.Equal("name", "new operator");
             profile2 = odb.Query<Profile>(query).GetFirst();
             var user2 = odb.Query<User>().GetFirst();
@@ -440,7 +440,7 @@ namespace Test.NDatabase.Odb.Test.Update
             odb.Close();
             odb = Open(baseName);
             // reloads the function
-            var query = new CriteriaQuery<VO.Login.Function>();
+            var query = odb.CreateCriteriaQuery<VO.Login.Function>();
             query.Equal("name", "f1");
             var functions = odb.Query<VO.Login.Function>(query);
             var f1 = functions.GetFirst();

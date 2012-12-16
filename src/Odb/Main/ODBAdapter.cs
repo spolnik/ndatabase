@@ -1,9 +1,7 @@
-using System;
 using NDatabase2.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase2.Odb.Core.Layers.Layer3;
 using NDatabase2.Odb.Core.Query;
 using NDatabase2.Odb.Core.Query.Criteria;
-using NDatabase2.Odb.Core.Query.Values;
 using NDatabase2.Tool;
 
 namespace NDatabase2.Odb.Main
@@ -83,19 +81,6 @@ namespace NDatabase2.Odb.Main
         public virtual IValues GetValues<T>(IValuesQuery query) where T : class
         {
             return _storageEngine.GetValues<T>(query, -1, -1);
-        }
-
-        public virtual long Count<T>(CriteriaQuery<T> query) where T : class
-        {
-            var valuesCriteriaQuery = new ValuesCriteriaQuery<T>();
-            valuesCriteriaQuery.Constrain(query.GetCriteria());
-
-            var valuesQuery = valuesCriteriaQuery.Count("count");
-
-            var values = _storageEngine.GetValues<T>(valuesQuery, -1, -1);
-
-            var count = (Decimal) values.NextValues().GetByIndex(0);
-            return Decimal.ToInt64(count);
         }
 
         public virtual IObjectSet<T> Query<T>(IQuery query, bool inMemory) where T : class

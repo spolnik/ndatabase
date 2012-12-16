@@ -94,13 +94,6 @@ namespace NDatabase2.Odb
         void DeleteObjectWithId(OID oid);
 
         /// <summary>
-        ///   Returns the number of objects that satisfy the query
-        /// </summary>
-        /// <param name="query"> </param>
-        /// <returns> The number of objects that satisfy the query </returns>
-        long Count<T>(CriteriaQuery<T> query) where T : class;
-
-        /// <summary>
         ///   Get the id of an ODB-aware object
         /// </summary>
         /// <param name="plainObject"> </param>

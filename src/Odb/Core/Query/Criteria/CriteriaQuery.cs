@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using NDatabase2.Odb.Core.Query.Values;
 using NDatabase2.Tool.Wrappers.List;
 
 namespace NDatabase2.Odb.Core.Query.Criteria
@@ -52,6 +54,19 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
             _criterion = criterion;
             _criterion.SetQuery(this);
+        }
+
+        public override long Count()
+        {
+            var valuesCriteriaQuery = new ValuesCriteriaQuery<T>();
+            valuesCriteriaQuery.Constrain(GetCriteria());
+
+            var valuesQuery = valuesCriteriaQuery.Count("count");
+            var values = ((IInternalQuery)this).GetStorageEngine().GetValues<T>(valuesQuery, -1, -1);
+
+            var count = (Decimal)values.NextValues().GetByIndex(0);
+
+            return Decimal.ToInt64(count);
         }
 
         public override IConstraint Equal<TItem>(string attributeName, TItem value)
