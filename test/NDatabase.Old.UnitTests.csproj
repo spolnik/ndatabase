@@ -213,10 +213,6 @@
     <Compile Include="NDatabase\Odb\Test\Query\Criteria\TestPolyMorphic.cs" />
     <Compile Include="NDatabase\Odb\Test\Query\Criteria\TestQueryOrderBy.cs" />
     <Compile Include="NDatabase\Odb\Test\Query\Criteria\TestRelation.cs" />
-    <Compile Include="NDatabase\Odb\Test\Query\NQ\TestNativeQuery.cs" />
-    <Compile Include="NDatabase\Odb\Test\Query\NQ\TestNQQuery.cs" />
-    <Compile Include="NDatabase\Odb\Test\Query\NQ\TestNQQuery2.cs" />
-    <Compile Include="NDatabase\Odb\Test\Query\NQ\TestPolyMorphic.cs" />
     <Compile Include="NDatabase\Odb\Test\Query\Values\Handler.cs" />
     <Compile Include="NDatabase\Odb\Test\Query\Values\Parameter.cs" />
     <Compile Include="NDatabase\Odb\Test\Query\Values\TestCustomQueryFieldAction.cs" />
@@ -231,9 +227,6 @@
     <Compile Include="NDatabase\Odb\Test\Resistance\TestResistance.cs" />
     <Compile Include="NDatabase\Odb\Test\Resistance\TestResistance1.cs" />
     <Compile Include="NDatabase\Odb\Test\Rollback\TestRollBack.cs" />
-    <Compile Include="NDatabase\Odb\Test\School\SchoolNativeQueryStudent.cs" />
-    <Compile Include="NDatabase\Odb\Test\School\SchoolNativeQueryTeacher.cs" />
-    <Compile Include="NDatabase\Odb\Test\School\SchoolSimpleNativeQueryStudent.cs" />
     <Compile Include="NDatabase\Odb\Test\School\TestQuerySchool.cs" />
     <Compile Include="NDatabase\Odb\Test\Session\TestSession.cs" />
     <Compile Include="NDatabase\Odb\Test\TestTypeConverter.cs" />

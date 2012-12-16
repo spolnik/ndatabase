@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Globalization;
 using NDatabase.UnitTests.CodeSnippets.Data;
 using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Query;
 using NDatabase2.Odb.Core.Query.Criteria;
-using NDatabase2.Odb.Core.Query.NQ;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.CodeSnippets
@@ -117,7 +115,7 @@ namespace NDatabase.UnitTests.CodeSnippets
                 query.Equal("FavoriteSport._name", "volley-ball");
 //                query.Descend("FavoriteSport").Descend("_name").Constrain("volley-ball").Equal();
 
-                var players = odb.Query<Player>(query);
+                var players = query.Execute<Player>();
 
                 Console.WriteLine("\nStep 4 : Players of Voller-ball");
 
@@ -135,7 +133,7 @@ namespace NDatabase.UnitTests.CodeSnippets
                 // retrieve the volley ball sport object
                 IQuery query = odb.CreateCriteriaQuery<Sport>();
                 query.Equal("_name", "volley-ball");
-                var volleyBall = odb.Query<Sport>(query).GetFirst();
+                var volleyBall = query.Execute<Sport>().GetFirst();
  
                 Assert.That(volleyBall.Name, Is.EqualTo("volley-ball"));
 
@@ -144,7 +142,7 @@ namespace NDatabase.UnitTests.CodeSnippets
                 query = odb.CreateCriteriaQuery<Player>();
                 query.Equal("FavoriteSport", volleyBall);
  
-                var players = odb.Query<Player>(query);
+                var players = query.Execute<Player>();
 
                 Console.WriteLine("\nStep 5: Players of Voller-ball");
 
@@ -160,12 +158,12 @@ namespace NDatabase.UnitTests.CodeSnippets
             using (var odb = OdbFactory.Open(TutorialDb5MinName))
             {
                 IQuery query =
-                    new CriteriaQuery<Player>();
+                    odb.CreateCriteriaQuery<Player>();
 
                 query.Equal("FavoriteSport._name", "volley-ball").Or(Where.Like("FavoriteSport._name", "%nnis"));
 
-                var players = odb.Query<Player>(query);
- 
+                var players = query.Execute<Player>();
+
                 Console.WriteLine("\nStep 6 : Volley-ball and Tennis Players");
  
                 foreach (var player in players)
@@ -182,7 +180,7 @@ namespace NDatabase.UnitTests.CodeSnippets
                 IQuery query = odb.CreateCriteriaQuery<Player>();
                 query.Equal("FavoriteSport._name", "volley-ball").Not();
  
-                var players = odb.Query<Player>(query);
+                var players = query.Execute<Player>();
  
                 Console.WriteLine("\nStep 7 : Players that don't play Volley-ball");
 
@@ -193,22 +191,14 @@ namespace NDatabase.UnitTests.CodeSnippets
             }
         }
 
-        internal sealed class VolleySimpleNativeQuery : SimpleNativeQuery<Player>
-        {
-            public override bool Match(Player player)
-            {
-                return player.FavoriteSport.Name.ToLower(CultureInfo.InvariantCulture)
-                    .StartsWith("volley");
-            }
-        }
-
         private static void Step8()
         {
             using (var odb = OdbFactory.Open(TutorialDb5MinName))
             {
-                IQuery query = new VolleySimpleNativeQuery();
+                IQuery query = odb.CreateCriteriaQuery<Player>();
+                query.InvariantLike("FavoriteSport._name", "volley%");
  
-                var players = odb.Query<Player>(query);
+                var players = query.Execute<Player>();
  
                 Console.WriteLine("\nStep 8 bis: Players that play Volley-ball");
 

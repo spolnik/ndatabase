@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using NDatabase2.Odb.Core.Query;
 using NDatabase2.Odb.Core.Query.Criteria;
-using NDatabase2.Odb.Core.Query.NQ;
 using NDatabase2.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;
@@ -45,37 +44,6 @@ namespace Test.NDatabase.Odb.Test.Update
 
         public static string FileName = "update.neodatis";
 
-        internal sealed class SimpleNativeQuery134 : SimpleNativeQuery<User>
-        {
-            private readonly string newName;
-
-            public SimpleNativeQuery134(string newName)
-            {
-                this.newName = newName;
-            }
-
-            public override bool Match(User user)
-            {
-                return user.GetProfile().GetName().Equals(newName);
-            }
-        }
-
-        internal sealed class SimpleNativeQuery179 : SimpleNativeQuery<User>
-        {
-            private readonly string newName;
-
-            public SimpleNativeQuery179(string newName)
-            {
-                this.newName = newName;
-            }
-
-            public override bool Match(User user)
-            {
-                return user.GetProfile().GetName().Equals(newName);
-            }
-        }
-
-        /// <exception cref="System.Exception"></exception>
         [Test]
         public virtual void Test1()
         {
@@ -125,9 +93,7 @@ namespace Test.NDatabase.Odb.Test.Update
             odb = Open(FileName);
             l = odb.Query<User>(query);
             AssertTrue(l.Count == size - 1);
-            query = new SimpleNativeQuery134(newName);
-            l = odb.Query<User>(query);
-            AssertFalse(l.Count == 0);
+            
             var l2 = odb.Query<Profile>(false);
             AssertEquals(nbProfiles, l2.Count);
             odb.Close();
@@ -158,9 +124,7 @@ namespace Test.NDatabase.Odb.Test.Update
             l = odb.Query<User>(query);
             AssertEquals(l.Count + 1, size);
             AssertEquals(nbProfiles10, odb.Query<Profile>(pquery).Count + 1);
-            query = new SimpleNativeQuery179(newName);
-            l = odb.Query<User>(query);
-            AssertEquals(1, l.Count);
+            
             var l2 = odb.Query<Profile>(false);
             AssertEquals(nbProfiles, l2.Count);
             odb.Close();

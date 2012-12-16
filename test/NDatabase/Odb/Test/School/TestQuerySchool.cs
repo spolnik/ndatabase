@@ -52,29 +52,6 @@ namespace Test.NDatabase.Odb.Test.School
             DeleteBase("t-school.neodatis");
         }
 
-        /// <exception cref="System.Exception"></exception>
-        [Test]
-        public virtual void Test1()
-        {
-            var odb = Open("t-school.neodatis");
-            // List students by name
-            var natQuery = new SchoolNativeQueryStudent("Brenna", 23);
-            var students = odb.Query<Student>(natQuery);
-            var sNatQuery = new SchoolSimpleNativeQueryStudent("Brenna");
-            students = odb.Query<Student>(sNatQuery);
-            // list disciplines of one teacher by semester
-            var natQuery2 = new SchoolNativeQueryTeacher("Jeremias");
-            var historys = odb.Query<History>(natQuery2);
-            var listDiscipline = new OdbHashMap<string, Discipline>();
-            for (IEnumerator iter = historys.GetEnumerator(); iter.MoveNext();)
-            {
-                var h = (History) iter.Current;
-                listDiscipline.Add(h.GetDiscipline().GetName(), h.GetDiscipline());
-            }
-            odb.Close();
-        }
-
-        /// <exception cref="System.Exception"></exception>
         [Test]
         public virtual void Test12()
         {

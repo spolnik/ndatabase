@@ -176,7 +176,6 @@
     <Compile Include="Odb\Core\Query\IInternalQuery.cs" />
     <Compile Include="Odb\Core\Query\IQuery.cs" />
     <Compile Include="Odb\Core\Query\IValuesQuery.cs" />
-    <Compile Include="Odb\Core\Query\NQ\SimpleNativeQuery.cs" />
     <Compile Include="Odb\Core\Query\QueryManager.cs" />
     <Compile Include="Odb\Core\Query\SimpleCompareKey.cs" />
     <Compile Include="Odb\Core\Query\Values\AbstractQueryFieldAction.cs" />
@@ -252,8 +251,6 @@
     <Compile Include="Odb\Core\Query\List\Values\ObjectValues.cs" />
     <Compile Include="Odb\Core\Query\List\Values\InMemoryBTreeCollectionForValues.cs" />
     <Compile Include="Odb\Core\Query\List\Values\SimpleListForValues.cs" />
-    <Compile Include="Odb\Core\Query\NQ\NativeQueryExecutionPlan.cs" />
-    <Compile Include="Odb\Core\Query\NQ\NativeQueryExecutor.cs" />
     <Compile Include="Odb\Core\Query\Values\AverageValueAction.cs" />
     <Compile Include="Odb\Core\Query\Values\CountAction.cs" />
     <Compile Include="Odb\Core\Query\Values\CustomQueryFieldAction.cs" />

@@ -3,7 +3,6 @@ using NDatabase2.Odb.Core.Layers.Layer2.Meta;
 using NDatabase2.Odb.Core.Layers.Layer3;
 using NDatabase2.Odb.Core.Query.Criteria;
 using NDatabase2.Odb.Core.Query.Execution;
-using NDatabase2.Odb.Core.Query.NQ;
 using NDatabase2.Odb.Core.Query.Values;
 
 namespace NDatabase2.Odb.Core.Query
@@ -24,17 +23,13 @@ namespace NDatabase2.Odb.Core.Query
         /// <summary>
         ///   Returns a multi class query executor (polymorphic = true)
         /// </summary>
-        public static IQueryExecutor GetQueryExecutor<T>(IQuery query, IStorageEngine engine,
-                                                      IInstanceBuilder instanceBuilder) where T : class
+        public static IQueryExecutor GetQueryExecutor<T>(IQuery query, IStorageEngine engine) where T : class
         {
             if (query is ValuesCriteriaQuery<T>)
                 return new MultiClassGenericQueryExecutor(new ValuesCriteriaQueryExecutor<T>(query, engine));
 
             if (query is CriteriaQuery<T>)
                 return new MultiClassGenericQueryExecutor(new CriteriaQueryExecutor<T>(query, engine));
-
-            if (query is SimpleNativeQuery<T>)
-                return new MultiClassGenericQueryExecutor(new NativeQueryExecutor(query, engine, instanceBuilder));
 
             throw new OdbRuntimeException(NDatabaseError.QueryTypeNotImplemented.AddParameter(query.GetType().FullName));
         }
