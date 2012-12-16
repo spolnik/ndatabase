@@ -8,7 +8,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
     /// <summary>
     ///   A criterion to match equality
     /// </summary>
-    public sealed class EqualCriterion<T> : AbstractCriterion
+    internal sealed class EqualCriterion<T> : AbstractCriterion
     {
         private T _criterionValue;
 

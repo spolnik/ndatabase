@@ -7,9 +7,6 @@ namespace Test.NDatabase.Odb.Test.Newbie
     /// <summary>
     ///   It is just a simple test to help the newbies
     /// </summary>
-    /// <author>mayworm at
-    ///   <xmpp://mayworm@gmail.com>
-    /// </author>
     public class UpdateTest : ODBTest
     {
         protected static readonly string NewbieOdb = "newbie.neodatis";
@@ -25,8 +22,8 @@ namespace Test.NDatabase.Odb.Test.Newbie
                 var car = new Car("car1", 4, "ranger", marcelo);
                 odb.Store(car);
 
-                var query = new CriteriaQuery<Car>(
-                    Where.Equal("Driver.Name", "marcelo"));
+                var query = new CriteriaQuery<Car>();
+                query.Equal("Driver.Name", "marcelo");
                 var newCar = odb.Query<Car>(query).GetFirst();
 
                 newCar.Driver = new Driver("dani");
@@ -35,7 +32,8 @@ namespace Test.NDatabase.Odb.Test.Newbie
 
             using (var odb = Open(NewbieOdb))
             {
-                var query = new CriteriaQuery<Car>( Where.Equal("Driver.Name", "dani"));
+                var query = new CriteriaQuery<Car>();
+                query.Equal("Driver.Name", "dani");
                 AssertEquals(1, odb.Query<Car>(query).Count);
             }
 

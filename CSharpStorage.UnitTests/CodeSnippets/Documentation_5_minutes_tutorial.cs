@@ -132,7 +132,7 @@ namespace NDatabase.UnitTests.CodeSnippets
             using (var odb = OdbFactory.Open(TutorialDb5MinName))
             {
                 // retrieve the volley ball sport object
-                IQuery query = new CriteriaQuery<Sport>();
+                IQuery query = odb.CreateCriteriaQuery<Sport>();
                 query.Equal("_name", "volley-ball");
                 var volleyBall = odb.Query<Sport>(query).GetFirst();
  
@@ -140,7 +140,7 @@ namespace NDatabase.UnitTests.CodeSnippets
 
                 // Now build a query to get all players that play volley ball, using
                 // the volley ball object
-                query = new CriteriaQuery<Player>();
+                query = odb.CreateCriteriaQuery<Player>();
                 query.Equal("FavoriteSport", volleyBall);
  
                 var players = odb.Query<Player>(query);

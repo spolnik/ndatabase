@@ -40,14 +40,19 @@ namespace Test.NDatabase.Odb.Test.Index
                 var names = new[] {"name"};
                 odb.IndexManagerFor<IndexedObject>().AddUniqueIndexOn("index1", names);
                 Println("\n\n after create index\n\n");
+                var query = new CriteriaQuery<IndexedObject>();
+                query.Equal("name", "name0");
                 var objects =
-                    odb.Query<IndexedObject>(
-                        new CriteriaQuery<IndexedObject>( Where.Equal("name", "name0")), true);
+                    odb.Query<IndexedObject>(query, true);
+
                 Println("\n\nafter get Objects\n\n");
                 AssertEquals(1, objects.Count);
+                var query2 = new CriteriaQuery<IndexedObject>();
+                query2.Equal("duration", 9);
+
                 objects =
-                    odb.Query<IndexedObject>(
-                        new CriteriaQuery<IndexedObject>( Where.Equal("duration", 9)), true);
+                    odb.Query<IndexedObject>(query2, true);
+
                 AssertEquals(1, objects.Count);
                 objects = odb.Query<IndexedObject>(new CriteriaQuery<IndexedObject>(), true);
                 AssertEquals(size, objects.Count);
@@ -92,14 +97,20 @@ namespace Test.NDatabase.Odb.Test.Index
                 var names = new[] {"duration"};
                 odb.IndexManagerFor<IndexedObject>().AddUniqueIndexOn("index1", names);
                 Println("\n\n after create index\n\n");
+                var query = new CriteriaQuery<IndexedObject>();
+                query.Equal("name", "name0");
+
                 var objects =
-                    odb.Query<IndexedObject>(
-                        new CriteriaQuery<IndexedObject>( Where.Equal("name", "name0")), true);
+                    odb.Query<IndexedObject>(query, true);
+
                 Println("\n\nafter get Objects\n\n");
                 AssertEquals(1, objects.Count);
+                var query2 = new CriteriaQuery<IndexedObject>();
+                query2.Equal("duration", 10);
+
                 objects =
-                    odb.Query<IndexedObject>(
-                        new CriteriaQuery<IndexedObject>( Where.Equal("duration", 10)), true);
+                    odb.Query<IndexedObject>(query2, true);
+
                 AssertEquals(1, objects.Count);
                 objects = odb.Query<IndexedObject>(new CriteriaQuery<IndexedObject>(), true);
                 AssertEquals(size, objects.Count);
@@ -135,9 +146,12 @@ namespace Test.NDatabase.Odb.Test.Index
             {
                 var names = new[] {"name"};
                 odb.IndexManagerFor<IndexedObject>().AddUniqueIndexOn("index1", names);
+                var query = new CriteriaQuery<IndexedObject>();
+                query.Equal("name", "name");
+
                 var objects =
-                    odb.Query<IndexedObject>(
-                        new CriteriaQuery<IndexedObject>( Where.Equal("name", "name")), true);
+                    odb.Query<IndexedObject>(query, true);
+
                 AssertEquals(1, objects.Count);
             }
         }
@@ -170,9 +184,12 @@ namespace Test.NDatabase.Odb.Test.Index
                 odb = Open(OdbFileName);
                 var names = new[] {"name"};
                 odb.IndexManagerFor<IndexedObject>().AddUniqueIndexOn("index1", names);
+                var query = new CriteriaQuery<IndexedObject>();
+                query.Equal("name", "name0");
+
                 var objects =
-                    odb.Query<IndexedObject>(
-                        new CriteriaQuery<IndexedObject>( Where.Equal("name", "name0")), true);
+                    odb.Query<IndexedObject>(query, true);
+
                 AssertEquals(1, objects.Count);
                 objects = odb.Query<IndexedObject>(new CriteriaQuery<IndexedObject>(), true);
                 AssertEquals(size, objects.Count);

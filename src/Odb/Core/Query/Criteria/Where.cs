@@ -7,14 +7,6 @@ namespace NDatabase2.Odb.Core.Query.Criteria
     /// </summary>
     public static class Where
     {
-        /// <param name="attributeName"> The attribute name </param>
-        /// <param name="value"> The boolean value </param>
-        /// <returns> The criteria </returns>
-        public static IConstraint Equal<T>(string attributeName, T value)
-        {
-            return new EqualCriterion<T>(attributeName, value);
-        }
-
         public static IConstraint InvariantEqual(string attributeName, string value)
         {
             return EqualCriterion<string>.CreateInvartiantStringEqualCriterion(attributeName, value, false);

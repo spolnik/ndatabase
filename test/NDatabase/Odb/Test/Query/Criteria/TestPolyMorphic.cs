@@ -177,7 +177,8 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             }
             odb.Close();
             odb = Open(baseName);
-            var q = new CriteriaQuery<object>(Where.Equal("specie", "man"));
+            var q = new CriteriaQuery<object>();
+            q.Equal("specie", "man");
 
             Decimal nb = odb.Count(q);
             Println(nb);

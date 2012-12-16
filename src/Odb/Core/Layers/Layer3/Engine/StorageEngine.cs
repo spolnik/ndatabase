@@ -517,24 +517,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             _triggerManager.AddUpdateTriggerFor(type, trigger);
         }
 
-        public override CriteriaQuery<T> CriteriaQuery<T>(IConstraint criterion)
-        {
-            var criteriaQuery = new CriteriaQuery<T>(criterion);
-            ((IInternalQuery)criteriaQuery).SetStorageEngine(this);
-
-            if (criterion != null)
-                criterion.Ready();
-
-            return criteriaQuery;
-        }
-
-        public override CriteriaQuery<T> CriteriaQuery<T>()
-        {
-            var criteriaQuery = new CriteriaQuery<T>();
-            ((IInternalQuery)criteriaQuery).SetStorageEngine(this);
-            return criteriaQuery;
-        }
-
         public override ClassInfoList AddClasses(ClassInfoList classInfoList)
         {
             return GetObjectWriter().AddClasses(classInfoList);

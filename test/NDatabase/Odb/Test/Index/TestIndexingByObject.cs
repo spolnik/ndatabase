@@ -31,7 +31,8 @@ namespace Test.NDatabase.Odb.Test.Index
             var objects = odb.Query<IndexedObject>();
             var io = objects.GetFirst();
 
-            IQuery q = odb.CreateCriteriaQuery<IndexedObject2>(Where.Equal("object", io));
+            IQuery q = odb.CreateCriteriaQuery<IndexedObject2>();
+            q.Equal("object", io);
 
             var objects2 = odb.Query<IndexedObject2>(q);
             var o2 = objects2.GetFirst();
@@ -58,7 +59,8 @@ namespace Test.NDatabase.Odb.Test.Index
                 odb.Store(new IndexedObject2("Object " + i, new IndexedObject("Inner Object " + i, i, new DateTime())));
             odb.Close();
             odb = Open("index-object");
-            IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("name", "Inner Object " + (size - 1)));
+            IQuery q = new CriteriaQuery<IndexedObject>();
+            q.Equal("name", "Inner Object " + (size - 1));
             // First get the object used to index, the last one. There is no index
             // on the class and field
             var start0 = OdbTime.GetCurrentTimeInMs();
@@ -67,7 +69,8 @@ namespace Test.NDatabase.Odb.Test.Index
             var io = objects.GetFirst();
             Println("d0=" + (end0 - start0));
             Println(((IInternalQuery)q).GetExecutionPlan().GetDetails());
-            q = odb.CreateCriteriaQuery<IndexedObject2>(Where.Equal("object", io));
+            q = odb.CreateCriteriaQuery<IndexedObject2>();
+            q.Equal("object", io);
             var start = OdbTime.GetCurrentTimeInMs();
 
             var objects2 = odb.Query<IndexedObject2>(q);
@@ -120,7 +123,8 @@ namespace Test.NDatabase.Odb.Test.Index
                 odb.Store(new IndexedObject2("Object " + i, new IndexedObject("Inner Object " + i, i, new DateTime())));
             odb.Close();
             odb = Open(baseName);
-            IQuery q = new CriteriaQuery<IndexedObject>( Where.Equal("name", "Inner Object " + (size - 1)));
+            IQuery q = odb.CreateCriteriaQuery<IndexedObject>();
+            q.Equal("name", "Inner Object " + (size - 1));
             // First get the object used to index, the last one. There is no index
             // on the class and field
             var start0 = OdbTime.GetCurrentTimeInMs();
@@ -131,7 +135,8 @@ namespace Test.NDatabase.Odb.Test.Index
             var io = objects.GetFirst();
             Println("d0=" + (end0 - start0));
             Println(((IInternalQuery)q).GetExecutionPlan().GetDetails());
-            q = odb.CreateCriteriaQuery<IndexedObject2>(Where.Equal("object", io));
+            q = odb.CreateCriteriaQuery<IndexedObject2>();
+            q.Equal("object", io);
             var start = OdbTime.GetCurrentTimeInMs();
 
             var objects2 = odb.Query<IndexedObject2>(q);

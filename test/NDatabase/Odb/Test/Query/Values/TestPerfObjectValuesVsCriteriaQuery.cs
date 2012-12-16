@@ -79,7 +79,8 @@ namespace Test.NDatabase.Odb.Test.Query.Values
         {
             var odb = Open("perfOValuesVsCriteria");
             
-            var q = new ValuesCriteriaQuery<User2>(Where.Equal("nbLogins", 10)).Field("name");
+            var q = new ValuesCriteriaQuery<User2>().Field("name");
+            q.Equal("nbLogins", 10);
             var v = odb.GetValues<User2>(q);
             Println(v.Count);
             Console.Out.WriteLine(((IInternalQuery)q).GetExecutionPlan().GetDetails());

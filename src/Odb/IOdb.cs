@@ -147,8 +147,6 @@ namespace NDatabase2.Odb
 
         bool IsClosed();
 
-        CriteriaQuery<T> CreateCriteriaQuery<T>(IConstraint criterio) where T : class;
-
         CriteriaQuery<T> CreateCriteriaQuery<T>() where T : class;
 
         /// <summary>

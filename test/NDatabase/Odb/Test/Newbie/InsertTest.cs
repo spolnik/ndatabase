@@ -7,9 +7,6 @@ namespace Test.NDatabase.Odb.Test.Newbie
     /// <summary>
     ///   It is just a simple test to help the newbies
     /// </summary>
-    /// <author>mayworm at
-    ///   <xmpp://mayworm@gmail.com>
-    /// </author>
     public class InsertTest : ODBTest
     {
         protected static readonly string NewbieOdb = "newbie.neodatis";
@@ -46,12 +43,14 @@ namespace Test.NDatabase.Odb.Test.Newbie
                 AssertEquals("The objects weren't added correctly", 5, cars.Count);
 
                 // find for a specific car object
-                var query = new CriteriaQuery<Car>( Where.Equal("Name", "car1"));
+                var query = new CriteriaQuery<Car>();
+                query.Equal("Name", "car1");
                 cars = odb.Query<Car>(query);
                 AssertEquals("The objects couldn't be found correctly", 1, cars.Count);
 
                 // find for a specific composition
-                query = new CriteriaQuery<Car>( Where.Equal("Driver.Name", "marcelo"));
+                query = new CriteriaQuery<Car>();
+                query.Equal("Driver.Name", "marcelo");
                 cars = odb.Query<Car>(query);
                 AssertEquals("The objects couldn't be found correctly", 2, cars.Count);
             }

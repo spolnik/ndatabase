@@ -55,5 +55,21 @@ namespace NDatabase2.Odb.Core.Query
 
         IConstraint Equal<TItem>(string attributeName, TItem value);
         void Constrain(IConstraint criterion);
+        IConstraint LessOrEqual<TItem>(string attributeName, TItem value) where TItem : IComparable;
+        IConstraint InvariantEqual(string attributeName, string value);
+        IConstraint Like(string attributeName, string value);
+        IConstraint InvariantLike(string attributeName, string value);
+        IConstraint GreaterThan<TItem>(string attributeName, TItem value) where TItem : IComparable;
+        IConstraint GreaterOrEqual<TItem>(string attributeName, TItem value) where TItem : IComparable;
+        IConstraint LessThan<TItem>(string attributeName, TItem value) where TItem : IComparable;
+        IConstraint Contain<TItem>(string attributeName, TItem value);
+        IConstraint IsNull(string attributeName);
+        IConstraint IsNotNull(string attributeName);
+        IConstraint SizeEq(string attributeName, int size);
+        IConstraint SizeNe(string attributeName, int size);
+        IConstraint SizeGt(string attributeName, int size);
+        IConstraint SizeGe(string attributeName, int size);
+        IConstraint SizeLt(string attributeName, int size);
+        IConstraint SizeLe(string attributeName, int size);
     }
 }

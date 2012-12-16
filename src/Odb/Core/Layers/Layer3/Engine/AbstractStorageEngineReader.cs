@@ -281,10 +281,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
 
         public abstract long Count<T>(CriteriaQuery<T> arg1) where T : class;
 
-        public abstract CriteriaQuery<T> CriteriaQuery<T>(IConstraint criteria) where T : class;
-
-        public abstract CriteriaQuery<T> CriteriaQuery<T>()  where T : class;
-
         public abstract OID Delete<T>(T plainObject) where T : class;
 
         public abstract void DeleteObjectWithOid(OID arg1);

@@ -55,7 +55,8 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
         {
             var odb = Open("map.neodatis");
             var l = odb.Query<Dictionnary>();
-            var aq = new CriteriaQuery<Dictionnary>(Where.Equal("name", "test2"));
+            var aq = new CriteriaQuery<Dictionnary>();
+            aq.Equal("name", "test2");
             l = odb.Query<Dictionnary>(aq);
             var dictionnary = l.GetFirst();
             AssertEquals("function2", ((VO.Login.Function) dictionnary.Get("f2")).GetName());
@@ -82,7 +83,8 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
         {
             var odb = Open("map.neodatis");
             var n = odb.Count(new CriteriaQuery<Dictionnary>());
-            IQuery query = new CriteriaQuery<Dictionnary>(Where.Equal("name", "test2"));
+            IQuery query = new CriteriaQuery<Dictionnary>();
+            query.Equal("name", "test2");
             var l = odb.Query<Dictionnary>(query);
             var dictionnary = l.GetFirst();
             dictionnary.SetMap(null);
@@ -100,7 +102,8 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
         {
             var odb = Open("map.neodatis");
             var n = odb.Count(new CriteriaQuery<Dictionnary>());
-            IQuery query = new CriteriaQuery<Dictionnary>(Where.Equal("name", "test2"));
+            IQuery query = new CriteriaQuery<Dictionnary>();
+            query.Equal("name", "test2");
             var l = odb.Query<Dictionnary>(query);
             var dictionnary = l.GetFirst();
             dictionnary.SetMap(null);
@@ -129,7 +132,8 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             // to monitor updates
             var odb = Open("map.neodatis");
             var n = odb.Count(new CriteriaQuery<Dictionnary>());
-            IQuery query = new CriteriaQuery<Dictionnary>(Where.Equal("name", "test2"));
+            IQuery query = new CriteriaQuery<Dictionnary>();
+            query.Equal("name", "test2");
             var l = odb.Query<Dictionnary>(query);
             var dictionnary = l.GetFirst();
             dictionnary.GetMap()["f1"] = "changed function";
@@ -147,7 +151,8 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
         {
             var odb = Open("map.neodatis");
             var n = odb.Count(new CriteriaQuery<Dictionnary>());
-            IQuery query = new CriteriaQuery<Dictionnary>(Where.Equal("name", "test2"));
+            IQuery query = new CriteriaQuery<Dictionnary>();
+            query.Equal("name", "test2");
             var l = odb.Query<Dictionnary>(query);
             var dictionnary = l.GetFirst();
             var mapSize = dictionnary.GetMap().Count;
@@ -160,24 +165,5 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             AssertEquals(mapSize - 1, dic.GetMap().Count);
             odb.Close();
         }
-
-//        [Test]
-//        public virtual void TestNonGenericMap()
-//        {
-//            NDatabase.Odb.ODB odb = Open("map.neodatis");
-//            ClassWithNonGenericMap cm = new ClassWithNonGenericMap("test1");
-//            cm.Add("key1", "value1");
-//            cm.Add("key2", "value2");
-//            odb.Store(cm);
-//            odb.Close();
-//            odb = Open("map.neodatis");
-//            AssertEquals(1, odb.Count(new CriteriaQuery (typeof(ClassWithNonGenericMap))));
-//            ClassWithNonGenericMap cm2 = odb.GetObjects<ClassWithNonGenericMap>(new CriteriaQuery(typeof(ClassWithNonGenericMap),Where.Equal("name","test1"))).GetFirst();
-//            AssertEquals("test1", cm2.GetName());
-//            AssertEquals(2, cm2.Size());
-//            AssertEquals("value1", cm2.Get("key1"));
-//            AssertEquals("value2", cm2.Get("key2"));
-//            odb.Close();
-//        }
     }
 }

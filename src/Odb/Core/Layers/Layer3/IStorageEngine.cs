@@ -152,10 +152,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer3
 
         IInternalTriggerManager BuildTriggerManager();
 
-        CriteriaQuery<T> CriteriaQuery<T>(IConstraint criterion) where T : class;
-
-        CriteriaQuery<T> CriteriaQuery<T>() where T : class;
-
         CurrentIdBlockInfo GetCurrentIdBlockInfo();
 
         IIdManager GetIdManager();

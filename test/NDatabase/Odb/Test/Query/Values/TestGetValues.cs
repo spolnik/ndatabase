@@ -228,8 +228,11 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             }
             odb.Close();
             odb = Open("valuesA6");
+            var valuesCriteriaQuery = new ValuesCriteriaQuery<TestClass>();
+            valuesCriteriaQuery.Equal("int1", 2);
+
             var values =
-                odb.GetValues<TestClass>(new ValuesCriteriaQuery<TestClass>(Where.Equal("int1", 2)).Count("nb objects"));
+                odb.GetValues<TestClass>(valuesCriteriaQuery.Count("nb objects"));
             Println(values);
             var ov = values.NextValues();
             odb.Close();
@@ -253,7 +256,9 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             }
             odb.Close();
             odb = Open("valuesA7");
-            decimal nb = odb.Count(new CriteriaQuery<TestClass>(Where.Equal("int1", 2)));
+            var query = new CriteriaQuery<TestClass>();
+            query.Equal("int1", 2);
+            decimal nb = odb.Count(query);
             Println(nb);
             odb.Close();
             AssertEquals(1, nb);

@@ -451,7 +451,9 @@ namespace Test.NDatabase.Odb.Test.Acid
                 }
                 else
                 {
-                    var objects = odb.Query<User>(new CriteriaQuery<User>(Where.Equal("name", "f1000")));
+                    var query = new CriteriaQuery<User>();
+                    query.Equal("name", "f1000");
+                    var objects = odb.Query<User>(query);
                     var f = objects.GetFirst();
                     f.SetName("new name");
                     odb.Store(f);
@@ -467,12 +469,16 @@ namespace Test.NDatabase.Odb.Test.Acid
             {
                 if (simpleObject)
                 {
-                    var objects = odb.Query<VO.Login.Function>(new CriteriaQuery<VO.Login.Function>(Where.Equal("name", "new name")));
+                    var query = new CriteriaQuery<VO.Login.Function>();
+                    query.Equal("name", "new name");
+                    var objects = odb.Query<VO.Login.Function>(query);
                     odb.Delete(objects.GetFirst());
                 }
                 else
                 {
-                    var objects = odb.Query<User>(new CriteriaQuery<User>(Where.Equal("name", "new name")));
+                    var query = new CriteriaQuery<User>();
+                    query.Equal("name", "new name");
+                    var objects = odb.Query<User>(query);
                     odb.Delete(objects.GetFirst());
                 }
                 odb.Commit();
@@ -488,12 +494,16 @@ namespace Test.NDatabase.Odb.Test.Acid
                 nb = 0;
                 if (simpleObject)
                 {
-                    var objects = odb.Query<VO.Login.Function>(new CriteriaQuery<VO.Login.Function>(Where.Equal("name", "f1000")));
+                    var query = new CriteriaQuery<VO.Login.Function>();
+                    query.Equal("name", "f1000");
+                    var objects = odb.Query<VO.Login.Function>(query);
                     nb = objects.Count;
                 }
                 else
                 {
-                    var objects = odb.Query<User>(new CriteriaQuery<User>(Where.Equal("name", "f1000")));
+                    var query = new CriteriaQuery<User>();
+                    query.Equal("name", "f1000");
+                    var objects = odb.Query<User>(query);
                     nb = objects.Count;
                 }
             }

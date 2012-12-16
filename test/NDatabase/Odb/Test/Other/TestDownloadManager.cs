@@ -33,7 +33,9 @@ namespace Test.NDatabase.Odb.Test.Other
             try
             {
                 odb = Open("download.neodatis");
-                var users = odb.Query<User>(new CriteriaQuery<User>(Where.Equal("email", email)));
+                var query = new CriteriaQuery<User>();
+                query.Equal("email", email);
+                var users = odb.Query<User>(query);
                 if (users.Count != 0)
                 {
                     user = users.GetFirst();

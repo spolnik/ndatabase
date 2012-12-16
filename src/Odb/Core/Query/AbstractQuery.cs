@@ -131,5 +131,72 @@ namespace NDatabase2.Odb.Core.Query
         {
             throw new NotSupportedException();
         }
+
+        public virtual IConstraint LessOrEqual<TItem>(string attributeName, TItem value) where TItem : IComparable
+        {
+            throw new NotSupportedException();
+        }
+
+        public virtual IConstraint InvariantEqual(string attributeName, string value)
+        {
+            throw new NotSupportedException();
+        }
+
+        public virtual IConstraint Like(string attributeName, string value)
+        {
+            throw new NotSupportedException();
+        }
+        public virtual IConstraint InvariantLike(string attributeName, string value)
+        {
+            throw new NotSupportedException();
+        }
+        public virtual IConstraint GreaterThan<TItem>(string attributeName, TItem value) where TItem : IComparable
+        {
+            throw new NotSupportedException();
+        }
+        public virtual IConstraint GreaterOrEqual<TItem>(string attributeName, TItem value) where TItem : IComparable
+        {
+            throw new NotSupportedException();
+        }
+        public virtual IConstraint LessThan<TItem>(string attributeName, TItem value) where TItem : IComparable
+        {
+            throw new NotSupportedException();
+        }
+        public virtual IConstraint Contain<TItem>(string attributeName, TItem value)
+        {
+            throw new NotSupportedException();
+        }
+        public virtual IConstraint IsNull(string attributeName)
+        {
+            throw new NotSupportedException();
+        }
+        public virtual IConstraint IsNotNull(string attributeName)
+        {
+            throw new NotSupportedException();
+        }
+        public virtual IConstraint SizeEq(string attributeName, int size)
+        {
+            throw new NotSupportedException();
+        }
+        public virtual IConstraint SizeNe(string attributeName, int size)
+        {
+            throw new NotSupportedException();
+        }
+        public virtual IConstraint SizeGt(string attributeName, int size)
+        {
+            throw new NotSupportedException();
+        }
+        public virtual IConstraint SizeGe(string attributeName, int size)
+        {
+            throw new NotSupportedException();
+        }
+        public virtual IConstraint SizeLt(string attributeName, int size)
+        {
+            throw new NotSupportedException();
+        }
+        public virtual IConstraint SizeLe(string attributeName, int size)
+        {
+            throw new NotSupportedException();
+        }
     }
 }

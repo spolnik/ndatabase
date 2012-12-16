@@ -40,17 +40,23 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
         public IConstraint And(IConstraint with)
         {
-            return new And().Add(this).Add(with);
+            var composedExpression = new And().Add(this).Add(with);
+            _query.Constrain(composedExpression);
+            return composedExpression;
         }
 
         public IConstraint Or(IConstraint with)
         {
-            return new Or().Add(this).Add(with);
+            var composedExpression = new Or().Add(this).Add(with);
+            _query.Constrain(composedExpression);
+            return composedExpression;
         }
 
         public IConstraint Not()
         {
-            return new Not(this);
+            var notExpression = new Not(this);
+            _query.Constrain(notExpression);
+            return notExpression;
         }
 
         #endregion

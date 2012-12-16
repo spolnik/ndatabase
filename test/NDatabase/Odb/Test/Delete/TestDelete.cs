@@ -14,14 +14,14 @@ namespace Test.NDatabase.Odb.Test.Delete
     {
         private static readonly long start = OdbTime.GetCurrentTimeInMs();
 
-        public static string FileName1 = "test-delete.neodatis";
+        public static string FileName1 = "test-delete.ndb";
 
-        public static string FileName2 = "test-delete-defrag.neodatis";
+        public static string FileName2 = "test-delete-defrag.ndb";
 
         public override void TearDown()
         {
             // deleteBase("t-delete12.neodatis");
-            DeleteBase("t-delete1.neodatis");
+            DeleteBase("t-delete1.ndb");
         }
 
         [Test]
@@ -38,7 +38,9 @@ namespace Test.NDatabase.Odb.Test.Delete
             odb.Store(function3);
             odb.Close();
             odb = Open(baseName);
-            var l = odb.Query<VO.Login.Function>(new CriteriaQuery<VO.Login.Function>(Where.Equal("name", "function2")));
+            var query = new CriteriaQuery<VO.Login.Function>();
+            query.Equal("name", "function2");
+            var l = odb.Query<VO.Login.Function>(query);
             var function = l.GetFirst();
             odb.Delete(function);
             odb.Close();
@@ -503,7 +505,9 @@ namespace Test.NDatabase.Odb.Test.Delete
             // checks functions
             var lfunctions = odb.Query<VO.Login.Function>(true);
             AssertEquals(nbFunctions + 3, lfunctions.Count);
-            var l = odb.Query<VO.Login.Function>(new CriteriaQuery<VO.Login.Function>(Where.Equal("name", "function2")));
+            var query = new CriteriaQuery<VO.Login.Function>();
+            query.Equal("name", "function2");
+            var l = odb.Query<VO.Login.Function>(query);
             var function = l.GetFirst();
             odb.Delete(function);
             odb.Close();
@@ -511,7 +515,9 @@ namespace Test.NDatabase.Odb.Test.Delete
             AssertEquals(nbFunctions + 2, odb.Count(new CriteriaQuery<VO.Login.Function>()));
             var l2 = odb.Query<VO.Login.Function>(true);
             // check Profile 1
-            var lprofile = odb.Query<Profile>(new CriteriaQuery<Profile>( Where.Equal("name", "profile1")));
+            var query2 = new CriteriaQuery<Profile>();
+            query2.Equal("name", "profile1");
+            var lprofile = odb.Query<Profile>(query2);
             var p1 = lprofile.GetFirst();
             AssertEquals(2, p1.GetFunctions().Count);
             odb.Close();

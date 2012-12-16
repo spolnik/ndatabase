@@ -109,7 +109,9 @@ namespace Test.NDatabase.Odb.Test.Cyclic
             l = odb.Query<Country2>(true);
             country = l.GetFirst();
             AssertEquals("rio de janeiro", country.GetCapital().GetName());
-            var cities = odb.Query<City>(new CriteriaQuery<City>( Where.Equal("name", "rio de janeiro")));
+            var query = new CriteriaQuery<City>();
+            query.Equal("name", "rio de janeiro");
+            var cities = odb.Query<City>(query);
             AssertEquals(1, cities.Count);
             var cities2 = odb.Query<City>(new CriteriaQuery<City>());
             AssertEquals(1, cities2.Count);
@@ -130,7 +132,9 @@ namespace Test.NDatabase.Odb.Test.Cyclic
             l = odb.Query<Country2>(true);
             country = l.GetFirst();
             AssertEquals("rio de janeiro", country.GetCapital().GetName());
-            var cities = odb.Query<City>(new CriteriaQuery<City>( Where.Equal("name", "rio de janeiro")));
+            var query = new CriteriaQuery<City>();
+            query.Equal("name", "rio de janeiro");
+            var cities = odb.Query<City>(query);
             AssertEquals(1, cities.Count);
 
             var cities2 = odb.Query<City>(new CriteriaQuery<City>());

@@ -76,6 +76,7 @@ namespace NDatabase2.Odb.Main
         public virtual IObjectSet<T> Query<T>(IQuery query) where T : class
         {
             ((IInternalQuery) query).SetStorageEngine(_storageEngine);
+            
             return _storageEngine.GetObjects<T>(query, true, -1, -1);
         }
 
@@ -167,14 +168,11 @@ namespace NDatabase2.Odb.Main
             return _storageEngine.IsClosed();
         }
 
-        public virtual CriteriaQuery<T> CreateCriteriaQuery<T>(IConstraint criterion) where T : class
-        {
-            return _storageEngine.CriteriaQuery<T>(criterion);
-        }
-
         public virtual CriteriaQuery<T> CreateCriteriaQuery<T>() where T : class
         {
-            return _storageEngine.CriteriaQuery<T>();
+            var criteriaQuery = new CriteriaQuery<T>();
+            ((IInternalQuery)criteriaQuery).SetStorageEngine(_storageEngine);
+            return criteriaQuery;
         }
 
         public virtual string GetDbId()

@@ -1,6 +1,5 @@
 using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Query;
-using NDatabase2.Odb.Core.Query.Criteria;
 using NDatabase2.Odb.Core.Query.Values;
 using NUnit.Framework;
 using System.Linq;
@@ -24,8 +23,10 @@ namespace Test.NDatabase.Odb.Test.Index
             odb = Open(baseName);
             // build a value query to retrieve only the name of the function
             var vq =
-                new ValuesCriteriaQuery<VO.Login.Function>(Where.Equal("name", "function " + (size - 1))).Field
-                    ("name");
+                new ValuesCriteriaQuery<VO.Login.Function>().Field("name");
+
+            vq.Equal("name", "function " + (size - 1));
+
             var values = odb.GetValues<VO.Login.Function>(vq);
             AssertEquals(1, values.Count());
             Println(((IInternalQuery)vq).GetExecutionPlan().GetDetails());

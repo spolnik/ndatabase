@@ -34,7 +34,7 @@ namespace Test.NDatabase.Odb.Test.Performance
 
         public static int TestSize = 200;
 
-        public static readonly string OdbFileName = "perf-batch.neodatis";
+        public static readonly string OdbFileName = "perf-batch.ndb";
 
         private SimpleObject GetSimpleObjectInstance(int i)
         {
@@ -49,8 +49,10 @@ namespace Test.NDatabase.Odb.Test.Performance
         public virtual void TestSelect()
         {
             var odb = Open(OdbFileName);
+            var query = new CriteriaQuery<SimpleObject>();
+            query.Equal("name", "Bonjour, comment allez vous?100");
             var functions =
-                odb.Query<SimpleObject>(new CriteriaQuery<SimpleObject>(Where.Equal("name", "Bonjour, comment allez vous?100")));
+                odb.Query<SimpleObject>(query);
             odb.Close();
             AssertEquals(1, functions.Count);
         }
