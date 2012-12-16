@@ -188,7 +188,8 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             foreach (var actualClassInfo in allClasses)
             {
                 IOdbList<ClassInfoIndex> indexes = new OdbList<ClassInfoIndex>();
-                IQuery queryClassInfo = new CriteriaQuery<ClassInfoIndex>(Where.Equal("ClassInfoId", actualClassInfo.ClassInfoId));
+                IQuery queryClassInfo = new CriteriaQuery<ClassInfoIndex>();
+                queryClassInfo.Equal("ClassInfoId", actualClassInfo.ClassInfoId);
                 var classIndexes = GetObjects<ClassInfoIndex>(queryClassInfo, true, -1, -1);
                 indexes.AddAll(classIndexes);
                 // Sets the btree persister

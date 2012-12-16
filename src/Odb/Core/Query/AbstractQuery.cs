@@ -1,6 +1,7 @@
 using System;
 using NDatabase2.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase2.Odb.Core.Layers.Layer3;
+using NDatabase2.Odb.Core.Query.Criteria;
 using NDatabase2.Odb.Core.Query.Execution;
 
 namespace NDatabase2.Odb.Core.Query
@@ -119,6 +120,16 @@ namespace NDatabase2.Odb.Core.Query
         public virtual void SetOidOfObjectToQuery(OID oidOfObjectToQuery)
         {
             _oidOfObjectToQuery = oidOfObjectToQuery;
+        }
+
+        public virtual IConstraint Equal<TItem>(string attributeName, TItem value)
+        {
+            throw new NotSupportedException();
+        }
+
+        public virtual void Constrain(IConstraint criterion)
+        {
+            throw new NotSupportedException();
         }
     }
 }

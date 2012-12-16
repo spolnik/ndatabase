@@ -9,7 +9,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         
         public CriteriaQuery(IConstraint criteria)
         {
-            SetCriterion(criteria);
+            Constrain(criteria);
         }
 
         public CriteriaQuery()
@@ -50,13 +50,20 @@ namespace NDatabase2.Odb.Core.Query.Criteria
                        : _criterion.GetAllInvolvedFields();
         }
 
-        public void SetCriterion(IConstraint criterion)
+        public override void Constrain(IConstraint criterion)
         {
             if (criterion == null)
                 return;
 
             _criterion = criterion;
             _criterion.SetQuery(this);
+        }
+
+        public override IConstraint Equal<TItem>(string attributeName, TItem value)
+        {
+            var equalCriterion = new EqualCriterion<TItem>(attributeName, value);
+            Constrain(equalCriterion);
+            return equalCriterion;
         }
     }
 }

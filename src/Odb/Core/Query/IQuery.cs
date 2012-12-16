@@ -1,4 +1,5 @@
 using System;
+using NDatabase2.Odb.Core.Query.Criteria;
 
 namespace NDatabase2.Odb.Core.Query
 {
@@ -51,5 +52,8 @@ namespace NDatabase2.Odb.Core.Query
         bool Match(object @object);
 
         Type UnderlyingType { get; }
+
+        IConstraint Equal<TItem>(string attributeName, TItem value);
+        void Constrain(IConstraint criterion);
     }
 }
