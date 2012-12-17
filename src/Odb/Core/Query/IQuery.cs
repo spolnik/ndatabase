@@ -57,8 +57,6 @@ namespace NDatabase2.Odb.Core.Query
 
         Type UnderlyingType { get; }
 
-        void Constrain(IConstraint criterion);
-
         IQuery Descend(string attributeName);
 
         IConstraint Equal<TItem>(TItem value);

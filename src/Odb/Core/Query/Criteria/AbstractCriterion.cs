@@ -69,21 +69,21 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         public IConstraint And(IConstraint with)
         {
             var composedExpression = new And().Add(this).Add(with);
-            _query.Constrain(composedExpression);
+            ((IInternalQuery)_query).Join(composedExpression);
             return composedExpression;
         }
 
         public IConstraint Or(IConstraint with)
         {
             var composedExpression = new Or().Add(this).Add(with);
-            _query.Constrain(composedExpression);
+            ((IInternalQuery)_query).Join(composedExpression);
             return composedExpression;
         }
 
         public IConstraint Not()
         {
             var notExpression = new Not(this);
-            _query.Constrain(notExpression);
+            ((IInternalQuery)_query).Join(notExpression);
             return notExpression;
         }
 

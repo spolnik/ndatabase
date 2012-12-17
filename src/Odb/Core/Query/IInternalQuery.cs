@@ -1,4 +1,5 @@
 using NDatabase2.Odb.Core.Layers.Layer3;
+using NDatabase2.Odb.Core.Query.Criteria;
 using NDatabase2.Odb.Core.Query.Execution;
 
 namespace NDatabase2.Odb.Core.Query
@@ -10,5 +11,7 @@ namespace NDatabase2.Odb.Core.Query
 
         IStorageEngine GetStorageEngine();
         void SetStorageEngine(IStorageEngine storageEngine);
+
+        void Join(IConstraint criterion);
     }
 }

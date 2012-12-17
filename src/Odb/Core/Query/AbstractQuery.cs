@@ -101,7 +101,7 @@ namespace NDatabase2.Odb.Core.Query
         }
 
         public abstract IQuery Descend(string attributeName);
-        public abstract void Constrain(IConstraint criterion);
+        public abstract void Join(IConstraint criterion);
 
         /// <summary>
         ///   Returns true is query must apply on a single object OID
