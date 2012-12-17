@@ -19,8 +19,7 @@ namespace NDatabase2.Odb.Core.Query
 
         private OrderByConstants _orderByType;
 
-        [NonPersistent]
-        private IStorageEngine _storageEngine;
+        [NonPersistent] private IStorageEngine _storageEngine;
 
         protected AbstractQuery()
         {
@@ -101,24 +100,8 @@ namespace NDatabase2.Odb.Core.Query
             get { return _underlyingType; }
         }
 
-        public abstract IConstraint Equal<TItem>(string attributeName, TItem value);
+        public abstract IQuery Descend(string attributeName);
         public abstract void Constrain(IConstraint criterion);
-        public abstract IConstraint LessOrEqual<TItem>(string attributeName, TItem value) where TItem : IComparable;
-        public abstract IConstraint InvariantEqual(string attributeName, string value);
-        public abstract IConstraint Like(string attributeName, string value);
-        public abstract IConstraint InvariantLike(string attributeName, string value);
-        public abstract IConstraint GreaterThan<TItem>(string attributeName, TItem value) where TItem : IComparable;
-        public abstract IConstraint GreaterOrEqual<TItem>(string attributeName, TItem value) where TItem : IComparable;
-        public abstract IConstraint LessThan<TItem>(string attributeName, TItem value) where TItem : IComparable;
-        public abstract IConstraint Contain<TItem>(string attributeName, TItem value);
-        public abstract IConstraint IsNull(string attributeName);
-        public abstract IConstraint IsNotNull(string attributeName);
-        public abstract IConstraint SizeEq(string attributeName, int size);
-        public abstract IConstraint SizeNe(string attributeName, int size);
-        public abstract IConstraint SizeGt(string attributeName, int size);
-        public abstract IConstraint SizeGe(string attributeName, int size);
-        public abstract IConstraint SizeLt(string attributeName, int size);
-        public abstract IConstraint SizeLe(string attributeName, int size);
 
         /// <summary>
         ///   Returns true is query must apply on a single object OID
@@ -127,6 +110,25 @@ namespace NDatabase2.Odb.Core.Query
         {
             return _oidOfObjectToQuery != null;
         }
+
+        public abstract long Count();
+        public abstract IConstraint Equal<TItem>(TItem value);
+        public abstract IConstraint LessOrEqual<TItem>(TItem value) where TItem : IComparable;
+        public abstract IConstraint InvariantEqual(string value);
+        public abstract IConstraint Like(string value);
+        public abstract IConstraint InvariantLike(string value);
+        public abstract IConstraint GreaterThan<TItem>(TItem value) where TItem : IComparable;
+        public abstract IConstraint GreaterOrEqual<TItem>(TItem value) where TItem : IComparable;
+        public abstract IConstraint LessThan<TItem>(TItem value) where TItem : IComparable;
+        public abstract IConstraint Contain<TItem>(TItem value);
+        public abstract IConstraint IsNull();
+        public abstract IConstraint IsNotNull();
+        public abstract IConstraint SizeEq(int size);
+        public abstract IConstraint SizeNe(int size);
+        public abstract IConstraint SizeGt(int size);
+        public abstract IConstraint SizeGe(int size);
+        public abstract IConstraint SizeLt(int size);
+        public abstract IConstraint SizeLe(int size);
 
         #endregion
 
@@ -144,7 +146,5 @@ namespace NDatabase2.Odb.Core.Query
         {
             _oidOfObjectToQuery = oidOfObjectToQuery;
         }
-
-        public abstract long Count();
     }
 }

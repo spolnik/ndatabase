@@ -57,24 +57,28 @@ namespace NDatabase2.Odb.Core.Query
 
         Type UnderlyingType { get; }
 
-        IConstraint Equal<TItem>(string attributeName, TItem value);
         void Constrain(IConstraint criterion);
-        IConstraint LessOrEqual<TItem>(string attributeName, TItem value) where TItem : IComparable;
-        IConstraint InvariantEqual(string attributeName, string value);
-        IConstraint Like(string attributeName, string value);
-        IConstraint InvariantLike(string attributeName, string value);
-        IConstraint GreaterThan<TItem>(string attributeName, TItem value) where TItem : IComparable;
-        IConstraint GreaterOrEqual<TItem>(string attributeName, TItem value) where TItem : IComparable;
-        IConstraint LessThan<TItem>(string attributeName, TItem value) where TItem : IComparable;
-        IConstraint Contain<TItem>(string attributeName, TItem value);
-        IConstraint IsNull(string attributeName);
-        IConstraint IsNotNull(string attributeName);
-        IConstraint SizeEq(string attributeName, int size);
-        IConstraint SizeNe(string attributeName, int size);
-        IConstraint SizeGt(string attributeName, int size);
-        IConstraint SizeGe(string attributeName, int size);
-        IConstraint SizeLt(string attributeName, int size);
-        IConstraint SizeLe(string attributeName, int size);
+
+        IQuery Descend(string attributeName);
+
+        IConstraint Equal<TItem>(TItem value);
+        IConstraint LessOrEqual<TItem>(TItem value) where TItem : IComparable;
+        IConstraint InvariantEqual(string value);
+        IConstraint Like(string value);
+        IConstraint InvariantLike(string value);
+        IConstraint GreaterThan<TItem>(TItem value) where TItem : IComparable;
+        IConstraint GreaterOrEqual<TItem>(TItem value) where TItem : IComparable;
+        IConstraint LessThan<TItem>(TItem value) where TItem : IComparable;
+        IConstraint Contain<TItem>(TItem value);
+        IConstraint IsNull();
+        IConstraint IsNotNull();
+        IConstraint SizeEq(int size);
+        IConstraint SizeNe(int size);
+        IConstraint SizeGt(int size);
+        IConstraint SizeGe(int size);
+        IConstraint SizeLt(int size);
+        IConstraint SizeLe(int size);
+
         long Count();
     }
 }

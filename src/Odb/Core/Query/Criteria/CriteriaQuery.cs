@@ -8,6 +8,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
     public class CriteriaQuery<T> : AbstractQuery<T> where T : class
     {
         private IConstraint _criterion;
+        private string _attributeName;
 
         public CriteriaQuery()
         {
@@ -56,6 +57,16 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             _criterion.SetQuery(this);
         }
 
+        public override IQuery Descend(string attributeName)
+        {
+            if (string.IsNullOrEmpty(attributeName))
+                throw new ArgumentNullException("attributeName", "Attribute name name cannot be null or empty");
+
+            _attributeName = _attributeName == null ? attributeName : string.Join(".", _attributeName, attributeName);
+
+            return this;
+        }
+
         public override long Count()
         {
             var valuesCriteriaQuery = new ValuesCriteriaQuery<T>();
@@ -69,94 +80,96 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             return Decimal.ToInt64(count);
         }
 
-        public override IConstraint Equal<TItem>(string attributeName, TItem value)
+        public override IConstraint Equal<TItem>(TItem value)
         {
-            return ApplyConstraint(new EqualCriterion<TItem>(attributeName, value));
+            return ApplyConstraint(new EqualCriterion<TItem>(ApplyAttributeName(), value));
         }
 
-        public override IConstraint LessOrEqual<TItem>(string attributeName, TItem value)
+        public override IConstraint LessOrEqual<TItem>(TItem value)
         {
             return
-                ApplyConstraint(new ComparisonCriterion<TItem>(attributeName, value, ComparisonCirerion.ComparisonTypeLe));
+                ApplyConstraint(new ComparisonCriterion<TItem>(ApplyAttributeName(), value,
+                                                               ComparisonCirerion.ComparisonTypeLe));
         }
 
-        public override IConstraint InvariantEqual(string attributeName, string value)
+        public override IConstraint InvariantEqual(string value)
         {
             return
-                ApplyConstraint(EqualCriterion<string>.CreateInvartiantStringEqualCriterion(attributeName, value, false));
+                ApplyConstraint(EqualCriterion<string>.CreateInvartiantStringEqualCriterion(ApplyAttributeName(), value,
+                                                                                            false));
         }
 
-        public override IConstraint Like(string attributeName, string value)
+        public override IConstraint Like(string value)
         {
-            return ApplyConstraint(new LikeCriterion(attributeName, value, true));
+            return ApplyConstraint(new LikeCriterion(ApplyAttributeName(), value, true));
         }
 
-        public override IConstraint InvariantLike(string attributeName, string value)
+        public override IConstraint InvariantLike(string value)
         {
-            return ApplyConstraint(new LikeCriterion(attributeName, value, false));
+            return ApplyConstraint(new LikeCriterion(ApplyAttributeName(), value, false));
         }
 
-        public override IConstraint GreaterThan<TItem>(string attributeName, TItem value)
-        {
-            return
-                ApplyConstraint(new ComparisonCriterion<TItem>(attributeName, value, ComparisonCirerion.ComparisonTypeGt));
-        }
-
-        public override IConstraint GreaterOrEqual<TItem>(string attributeName, TItem value)
+        public override IConstraint GreaterThan<TItem>(TItem value)
         {
             return
-                ApplyConstraint(new ComparisonCriterion<TItem>(attributeName, value, ComparisonCirerion.ComparisonTypeGe));
+                ApplyConstraint(new ComparisonCriterion<TItem>(ApplyAttributeName(), value, ComparisonCirerion.ComparisonTypeGt));
         }
 
-        public override IConstraint LessThan<TItem>(string attributeName, TItem value)
+        public override IConstraint GreaterOrEqual<TItem>(TItem value)
         {
             return
-                ApplyConstraint(new ComparisonCriterion<TItem>(attributeName, value, ComparisonCirerion.ComparisonTypeLt));
+                ApplyConstraint(new ComparisonCriterion<TItem>(ApplyAttributeName(), value, ComparisonCirerion.ComparisonTypeGe));
         }
 
-        public override IConstraint Contain<TItem>(string attributeName, TItem value)
+        public override IConstraint LessThan<TItem>(TItem value)
         {
-            return ApplyConstraint(new ContainsCriterion<TItem>(attributeName, value));
+            return
+                ApplyConstraint(new ComparisonCriterion<TItem>(ApplyAttributeName(), value, ComparisonCirerion.ComparisonTypeLt));
         }
 
-        public override IConstraint IsNull(string attributeName)
+        public override IConstraint Contain<TItem>(TItem value)
         {
-            return ApplyConstraint(new IsNullCriterion(attributeName));
+            return ApplyConstraint(new ContainsCriterion<TItem>(ApplyAttributeName(), value));
         }
 
-        public override IConstraint IsNotNull(string attributeName)
+        public override IConstraint IsNull()
         {
-            return ApplyConstraint(new IsNotNullCriterion(attributeName));
+            return ApplyConstraint(new IsNullCriterion(ApplyAttributeName()));
         }
 
-        public override IConstraint SizeEq(string attributeName, int size)
+        public override IConstraint IsNotNull()
         {
-            return ApplyConstraint(new CollectionSizeCriterion(attributeName, size, CollectionSizeCriterion.SizeEq));
+            return ApplyConstraint(new IsNotNullCriterion(ApplyAttributeName()));
         }
 
-        public override IConstraint SizeNe(string attributeName, int size)
+        public override IConstraint SizeEq(int size)
         {
-            return ApplyConstraint(new CollectionSizeCriterion(attributeName, size, CollectionSizeCriterion.SizeNe));
+            return ApplyConstraint(new CollectionSizeCriterion(ApplyAttributeName(), size, CollectionSizeCriterion.SizeEq));
         }
 
-        public override IConstraint SizeGt(string attributeName, int size)
+        public override IConstraint SizeNe(int size)
         {
-            return ApplyConstraint(new CollectionSizeCriterion(attributeName, size, CollectionSizeCriterion.SizeGt));
+            return ApplyConstraint(new CollectionSizeCriterion(ApplyAttributeName(), size, CollectionSizeCriterion.SizeNe));
         }
 
-        public override IConstraint SizeGe(string attributeName, int size)
+        public override IConstraint SizeGt(int size)
         {
-            return ApplyConstraint(new CollectionSizeCriterion(attributeName, size, CollectionSizeCriterion.SizeGe));
+            return ApplyConstraint(new CollectionSizeCriterion(ApplyAttributeName(), size, CollectionSizeCriterion.SizeGt));
         }
 
-        public override IConstraint SizeLt(string attributeName, int size)
+        public override IConstraint SizeGe(int size)
         {
-            return ApplyConstraint(new CollectionSizeCriterion(attributeName, size, CollectionSizeCriterion.SizeLt));
+            return ApplyConstraint(new CollectionSizeCriterion(ApplyAttributeName(), size, CollectionSizeCriterion.SizeGe));
         }
 
-        public override IConstraint SizeLe(string attributeName, int size)
+        public override IConstraint SizeLt(int size)
         {
-            return ApplyConstraint(new CollectionSizeCriterion(attributeName, size, CollectionSizeCriterion.SizeLe));
+            return ApplyConstraint(new CollectionSizeCriterion(ApplyAttributeName(), size, CollectionSizeCriterion.SizeLt));
+        }
+
+        public override IConstraint SizeLe(int size)
+        {
+            return ApplyConstraint(new CollectionSizeCriterion(ApplyAttributeName(), size, CollectionSizeCriterion.SizeLe));
         }
 
         public override IObjectSet<TItem> Execute<TItem>()
@@ -167,6 +180,18 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         public override IObjectSet<TItem> Execute<TItem>(bool inMemory)
         {
             return ((IInternalQuery)this).GetStorageEngine().GetObjects<TItem>(this, inMemory, -1, -1);
+        }
+
+        private string ApplyAttributeName()
+        {
+            if (string.IsNullOrEmpty(_attributeName))
+                throw new ArgumentException(
+                    "Attribute name name cannot be null or empty. Use query.Descend(<param_name>) firstly.");
+
+            var attributeName = String.Copy(_attributeName);
+            _attributeName = null;
+
+            return attributeName;
         }
 
         private IConstraint ApplyConstraint(IConstraint constraint)

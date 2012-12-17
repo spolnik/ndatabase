@@ -179,7 +179,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Close();
             odb = Open(baseName);
             var q = odb.CreateCriteriaQuery<object>();
-            q.Equal("specie", "man");
+            q.Descend("specie").Equal("man");
 
             Decimal nb = q.Count();
             Println(nb);

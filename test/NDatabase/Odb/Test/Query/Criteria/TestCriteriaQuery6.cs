@@ -26,7 +26,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             // this object is not known y NDatabase so the query will not return anything
             var p = new Profile("p1", (IList<VO.Login.Function>) null);
             var query = odb.CreateCriteriaQuery<ClassB>();
-            query.Contain("profiles", p);
+            query.Descend("profiles").Contain(p);
             var l = query.Execute<ClassB>();
             odb.Close();
             AssertEquals(0, l.Count);
@@ -47,7 +47,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb = Open(baseName);
             var p = odb.Query<Profile>().GetFirst();
             var query = odb.CreateCriteriaQuery<ClassB>();
-            query.Contain("profiles", p);
+            query.Descend("profiles").Contain(p);
             var l = query.Execute<ClassB>();
             odb.Close();
             AssertEquals(1, l.Count);
@@ -67,7 +67,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Close();
             odb = Open(baseName);
             var query = odb.CreateCriteriaQuery<ClassB>();
-            query.Equal("name", "name");
+            query.Descend("name").Equal("name");
             var l = query.Execute<ClassB>();
             odb.Close();
             AssertEquals(1, l.Count);

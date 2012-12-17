@@ -46,13 +46,13 @@ namespace Test.NDatabase.Odb.Test.Newbie
 
                 // find for a specific car object
                 var query = odb.CreateCriteriaQuery<Car>();
-                query.Equal("Name", "car1");
+                query.Descend("Name").Equal("car1");
                 cars = query.Execute<Car>();
                 AssertEquals("The objects couldn't be found correctly", 1, cars.Count);
 
                 // find for a specific composition
                 query = odb.CreateCriteriaQuery<Car>();
-                query.Equal("Driver.Name", "marcelo");
+                query.Descend("Driver.Name").Equal("marcelo");
                 cars = query.Execute<Car>();
                 AssertEquals("The objects couldn't be found correctly", 2, cars.Count);
             }

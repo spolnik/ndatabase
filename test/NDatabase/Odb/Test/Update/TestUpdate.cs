@@ -50,7 +50,7 @@ namespace Test.NDatabase.Odb.Test.Update
         {
             var odb = Open(FileName);
             IQuery query = odb.CreateCriteriaQuery<VO.Login.Function>();
-            query.Equal("name", "function 10");
+            query.Descend("name").Equal("function 10");
             var l = query.Execute<VO.Login.Function>();
             var size = l.Count;
             AssertFalse(l.Count == 0);
@@ -64,11 +64,11 @@ namespace Test.NDatabase.Odb.Test.Update
 
             odb = Open(FileName);
             query = odb.CreateCriteriaQuery<VO.Login.Function>();
-            query.Equal("name", "function 10");
+            query.Descend("name").Equal("function 10");
             l = query.Execute<VO.Login.Function>();
 
             query = odb.CreateCriteriaQuery<VO.Login.Function>();
-            query.Equal("name", newName);
+            query.Descend("name").Equal(newName);
             AssertTrue(size == l.Count + 1);
             l = query.Execute<VO.Login.Function>();
 
@@ -85,7 +85,7 @@ namespace Test.NDatabase.Odb.Test.Update
             var odb = Open(FileName);
             var nbProfiles = odb.Query<Profile>().Count;
             IQuery query = odb.CreateCriteriaQuery<User>();
-            query.Equal("profile.name", "profile 10");
+            query.Descend("profile.name").Equal("profile 10");
             var l = query.Execute<User>();
             var size = l.Count;
             AssertFalse(l.Count == 0);
@@ -99,7 +99,7 @@ namespace Test.NDatabase.Odb.Test.Update
 
             odb = Open(FileName);
             query = odb.CreateCriteriaQuery<User>();
-            query.Equal("profile.name", "profile 10");
+            query.Descend("profile.name").Equal("profile 10");
             l = query.Execute<User>();
             AssertTrue(l.Count == size - 1);
             
@@ -114,11 +114,11 @@ namespace Test.NDatabase.Odb.Test.Update
         {
             var odb = Open(FileName);
             IQuery pquery = odb.CreateCriteriaQuery<Profile>();
-            pquery.Equal("name", "profile 10");
+            pquery.Descend("name").Equal("profile 10");
             var nbProfiles = odb.CreateCriteriaQuery<Profile>().Count();
             long nbProfiles10 = pquery.Execute<Profile>().Count;
             IQuery query = odb.CreateCriteriaQuery<User>();
-            query.Equal("profile.name", "profile 10");
+            query.Descend("profile.name").Equal("profile 10");
             var l = query.Execute<User>();
             var size = l.Count;
             AssertFalse(l.Count == 0);
@@ -132,9 +132,9 @@ namespace Test.NDatabase.Odb.Test.Update
 
             odb = Open(FileName);
             pquery = odb.CreateCriteriaQuery<Profile>();
-            pquery.Equal("name", "profile 10");
+            pquery.Descend("name").Equal("profile 10");
             query = odb.CreateCriteriaQuery<User>();
-            query.Equal("profile.name", "profile 10");
+            query.Descend("profile.name").Equal("profile 10");
             l = query.Execute<User>();
             AssertEquals(l.Count + 1, size);
             AssertEquals(nbProfiles10, pquery.Execute<Profile>().Count + 1);
@@ -199,7 +199,7 @@ namespace Test.NDatabase.Odb.Test.Update
             using (var odb = Open(FileName))
             {
                 IQuery query = odb.CreateCriteriaQuery<VO.Login.Function>();
-                query.Like("name", "%9").Or(query.Like("name", "%8"));
+                query.Descend("name").Like("%9").Or(query.Descend("name").Like("%8"));
                 var l = query.Execute<VO.Login.Function>(false);
                 AssertEquals(2, l.Count);
                 l.Next();
@@ -373,7 +373,7 @@ namespace Test.NDatabase.Odb.Test.Update
             odb.Close();
             odb = Open(FileName);
             var query = odb.CreateCriteriaQuery<Profile>();
-            query.Equal("name", "new operator");
+            query.Descend("name").Equal("new operator");
             profile2 = query.Execute<Profile>().GetFirst();
             var user2 = odb.Query<User>().GetFirst();
             user2.SetProfile(profile2);
@@ -455,7 +455,7 @@ namespace Test.NDatabase.Odb.Test.Update
             odb = Open(baseName);
             // reloads the function
             var query = odb.CreateCriteriaQuery<VO.Login.Function>();
-            query.Equal("name", "f1");
+            query.Descend("name").Equal("f1");
             var functions = query.Execute<VO.Login.Function>();
             var f1 = functions.GetFirst();
             // Create a profile with the loaded function

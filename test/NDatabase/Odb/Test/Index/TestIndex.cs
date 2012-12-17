@@ -95,8 +95,8 @@ namespace Test.NDatabase.Odb.Test.Index
             odb = Open(baseName);
             IQuery q = odb.CreateCriteriaQuery<IndexedObject>();
             
-            var constraintOnName = q.Equal("name", "olivier");
-            var constraintOnDuration = q.Equal("duration", 15);
+            var constraintOnName = q.Descend("name").Equal("olivier");
+            var constraintOnDuration = q.Descend("duration").Equal(15);
             constraintOnName.And(constraintOnDuration);
 
             var objects = q.Execute<IndexedObject>(true);
@@ -143,7 +143,7 @@ namespace Test.NDatabase.Odb.Test.Index
             for (var i = 0; i < size; i++)
             {
                 IQuery query = odb.CreateCriteriaQuery<IndexedObject>();
-                query.Equal("name", "olivier" + (i + 1));
+                query.Descend("name").Equal("olivier" + (i + 1));
                 var start = OdbTime.GetCurrentTimeInMs();
                 var objects = query.Execute<IndexedObject>(true);
                 var end = OdbTime.GetCurrentTimeInMs();
@@ -166,7 +166,7 @@ namespace Test.NDatabase.Odb.Test.Index
             for (var i = 0; i < size; i++)
             {
                 q = odb.CreateCriteriaQuery<IndexedObject>();
-                q.Equal("name", "olivier" + (i + 1));
+                q.Descend("name").Equal("olivier" + (i + 1));
                 oos = q.Execute<IndexedObject>(true);
                 AssertEquals(0, oos.Count);
             }
@@ -258,7 +258,7 @@ namespace Test.NDatabase.Odb.Test.Index
             for (var j = 0; j < size; j++)
             {
                 IQuery q = odb.CreateCriteriaQuery<IndexedObject>();
-                q.Equal("name", "olivier" + (j + 1));
+                q.Descend("name").Equal("olivier" + (j + 1));
                 var start = OdbTime.GetCurrentTimeInMs();
                 var objects = q.Execute<IndexedObject>(true);
                 var end = OdbTime.GetCurrentTimeInMs();
@@ -295,7 +295,7 @@ namespace Test.NDatabase.Odb.Test.Index
             for (var i = 0; i < size; i++)
             {
                 IQuery q = odb.CreateCriteriaQuery<IndexedObject>();
-                q.Equal("name", "olivier" + (i + 1));
+                q.Descend("name").Equal("olivier" + (i + 1));
                 var start = OdbTime.GetCurrentTimeInMs();
                 var objects = q.Execute<IndexedObject>(true);
                 var end = OdbTime.GetCurrentTimeInMs();
@@ -354,7 +354,7 @@ namespace Test.NDatabase.Odb.Test.Index
             for (var i = 0; i < size; i++)
             {
                 IQuery q = odb.CreateCriteriaQuery<IndexedObject>();
-                q.Equal("name", "olivier" + (i + 1));
+                q.Descend("name").Equal("olivier" + (i + 1));
                 var start = OdbTime.GetCurrentTimeInMs();
                 var objects = q.Execute<IndexedObject>(true);
                 var end = OdbTime.GetCurrentTimeInMs();
@@ -382,7 +382,7 @@ namespace Test.NDatabase.Odb.Test.Index
             for (var i = 0; i < size; i++)
             {
                 IQuery q = odb.CreateCriteriaQuery<IndexedObject>();
-                q.Equal("name", "olivier" + (i + 1));
+                q.Descend("name").Equal("olivier" + (i + 1));
                 var start = OdbTime.GetCurrentTimeInMs();
                 var objects = q.Execute<IndexedObject>(true);
                 var end = OdbTime.GetCurrentTimeInMs();
@@ -443,7 +443,7 @@ namespace Test.NDatabase.Odb.Test.Index
             for (var i = 0; i < size; i++)
             {
                 IQuery q = odb.CreateCriteriaQuery<IndexedObject>();
-                q.Equal("name", "olivier" + (i + 1));
+                q.Descend("name").Equal("olivier" + (i + 1));
                 var start = OdbTime.GetCurrentTimeInMs();
                 var objects = q.Execute<IndexedObject>(true);
                 var end = OdbTime.GetCurrentTimeInMs();
@@ -470,7 +470,7 @@ namespace Test.NDatabase.Odb.Test.Index
             for (var i = 0; i < size; i++)
             {
                 IQuery q = odb.CreateCriteriaQuery<IndexedObject>();
-                q.Equal("name", "olivier" + (i + 1));
+                q.Descend("name").Equal("olivier" + (i + 1));
                 var start = OdbTime.GetCurrentTimeInMs();
                 var objects = q.Execute<IndexedObject>(true);
                 var end = OdbTime.GetCurrentTimeInMs();
@@ -535,8 +535,8 @@ namespace Test.NDatabase.Odb.Test.Index
                 IQuery q =
                     odb.CreateCriteriaQuery<IndexedObject>();
 
-                var constraintOnDuration = q.Equal("duration", i);
-                var constraintOnCreation = q.Equal("creation", dates[i]);
+                var constraintOnDuration = q.Descend("duration").Equal(i);
+                var constraintOnCreation = q.Descend("creation").Equal(dates[i]);
                 constraintOnDuration.And(constraintOnCreation);
 
                 var objects = q.Execute<IndexedObject>(true);
@@ -601,7 +601,7 @@ namespace Test.NDatabase.Odb.Test.Index
             for (var i = 0; i < size; i++)
             {
                 IQuery q = odb.CreateCriteriaQuery<IndexedObject>();
-                q.Equal("duration", i);
+                q.Descend("duration").Equal(i);
                 var objects = q.Execute<IndexedObject>(false);
                 // println("olivier" + (i+1));
                 AssertEquals(1, objects.Count);
@@ -670,7 +670,7 @@ namespace Test.NDatabase.Odb.Test.Index
             odb = Open(baseName);
             // first search without index
             IQuery q = odb.CreateCriteriaQuery<IndexedObject>();
-            q.Equal("name", theName);
+            q.Descend("name").Equal(theName);
             var objects = q.Execute<IndexedObject>(true);
             AssertFalse(((IInternalQuery)q).GetExecutionPlan().UseIndex());
             Println(((IInternalQuery)q).GetExecutionPlan().GetDetails());
@@ -685,9 +685,9 @@ namespace Test.NDatabase.Odb.Test.Index
             // Then search usin index
             q = odb.CreateCriteriaQuery<IndexedObject>();
 
-            var constraintOnName = q.Equal("name", theName);
-            var constraintOnCreation = q.Equal("creation", theDate);
-            var constraintOnDuration = q.Equal("duration", theDuration);
+            var constraintOnName = q.Descend("name").Equal(theName);
+            var constraintOnCreation = q.Descend("creation").Equal(theDate);
+            var constraintOnDuration = q.Descend("duration").Equal(theDuration);
 
             constraintOnName.And(constraintOnCreation).And(constraintOnDuration);
 
@@ -748,7 +748,7 @@ namespace Test.NDatabase.Odb.Test.Index
             for (var i = 0; i < size; i++)
             {
                 IQuery q = odb.CreateCriteriaQuery<IndexedObject>();
-                q.Equal("duration", i);
+                q.Descend("duration").Equal(i);
                 var objects = q.Execute<IndexedObject>(false);
                 // println("olivier" + (i+1));
                 AssertEquals(1, objects.Count);
@@ -801,7 +801,7 @@ namespace Test.NDatabase.Odb.Test.Index
             for (var i = 0; i < size; i++)
             {
                 IQuery q = odb.CreateCriteriaQuery<IndexedObject>();
-                q.Equal("creation", new DateTime(start0 + i));
+                q.Descend("creation").Equal(new DateTime(start0 + i));
                 var objects = q.Execute<IndexedObject>(false);
                 // println("olivier" + (i+1));
                 AssertEquals(1, objects.Count);
@@ -839,7 +839,7 @@ namespace Test.NDatabase.Odb.Test.Index
             odb.Close();
             odb = Open(baseName);
             IQuery q = odb.CreateCriteriaQuery<IndexedObject>();
-            q.IsNotNull("name");
+            q.Descend("name").IsNotNull();
             var objects = q.Execute<IndexedObject>(true);
             odb.Close();
             AssertEquals(1, objects.Count);
@@ -885,7 +885,7 @@ namespace Test.NDatabase.Odb.Test.Index
             for (var i = 0; i < size; i++)
             {
                 IQuery q = odb.CreateCriteriaQuery<IndexedObject>();
-                q.Equal("name", "olivier" + (i + 1));
+                q.Descend("name").Equal("olivier" + (i + 1));
                 var start = OdbTime.GetCurrentTimeInMs();
                 var objects = q.Execute<IndexedObject>(true);
                 var end = OdbTime.GetCurrentTimeInMs();
@@ -951,7 +951,7 @@ namespace Test.NDatabase.Odb.Test.Index
             for (var i = 0; i < size; i++)
             {
                 IQuery q = odb.CreateCriteriaQuery<IndexedObject>();
-                q.Equal("name", "olivier" + (i + 1));
+                q.Descend("name").Equal("olivier" + (i + 1));
                 var start = OdbTime.GetCurrentTimeInMs();
                 var objects = q.Execute<IndexedObject>(true);
                 var end = OdbTime.GetCurrentTimeInMs();
@@ -1034,7 +1034,7 @@ namespace Test.NDatabase.Odb.Test.Index
             odb = Open(baseName);
             
             IQuery q = odb.CreateCriteriaQuery<IndexedObject>();
-            q.Equal("name", "olivier" + size);
+            q.Descend("name").Equal("olivier" + size);
             var start = OdbTime.GetCurrentTimeInMs();
             var objects = q.Execute<IndexedObject>(false);
             var end = OdbTime.GetCurrentTimeInMs();
@@ -1107,7 +1107,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var size = 1300;
             var odb = Open(baseName);
             IQuery q = odb.CreateCriteriaQuery<IndexedObject>();
-            q.Equal("name", "olivier" + size);
+            q.Descend("name").Equal("olivier" + size);
             var start = OdbTime.GetCurrentTimeInMs();
             var objects = q.Execute<IndexedObject>(false);
             var end = OdbTime.GetCurrentTimeInMs();
@@ -1180,7 +1180,7 @@ namespace Test.NDatabase.Odb.Test.Index
             odb = Open(baseName);
             
             IQuery q = odb.CreateCriteriaQuery<IndexedObject>();
-            q.Equal("name", theName);
+            q.Descend("name").Equal(theName);
             var start = OdbTime.GetCurrentTimeInMs();
             var objects = q.Execute<IndexedObject>(true);
             var end = OdbTime.GetCurrentTimeInMs();
@@ -1237,7 +1237,7 @@ namespace Test.NDatabase.Odb.Test.Index
             for (var i = 0; i < size; i++)
             {
                 IQuery q = odb.CreateCriteriaQuery<IndexedObject>();
-                q.Equal("duration", i);
+                q.Descend("duration").Equal(i);
                 var objects = q.Execute<IndexedObject>(false);
                 
                 AssertEquals(1, objects.Count);
@@ -1283,7 +1283,7 @@ namespace Test.NDatabase.Odb.Test.Index
             Println("inserting time with index=" + (end0 - start0));
             odb = Open(baseName);
             IQuery q = odb.CreateCriteriaQuery<IndexedObject>();
-            q.Equal("name", "olivier" + size);
+            q.Descend("name").Equal("olivier" + size);
             var start = OdbTime.GetCurrentTimeInMs();
             var objects = q.Execute<IndexedObject>(false);
             var end = OdbTime.GetCurrentTimeInMs();
@@ -1395,7 +1395,7 @@ namespace Test.NDatabase.Odb.Test.Index
                     odb = Open(baseName);
                     t2 = OdbTime.GetCurrentTimeInMs();
                     var q = odb.CreateCriteriaQuery<IndexedObject>();
-                    q.Equal("name", indexes[j]);
+                    q.Descend("name").Equal(indexes[j]);
                     var os = q.Execute<IndexedObject>();
                     t3 = OdbTime.GetCurrentTimeInMs();
                     AssertTrue(((IInternalQuery)q).GetExecutionPlan().UseIndex());

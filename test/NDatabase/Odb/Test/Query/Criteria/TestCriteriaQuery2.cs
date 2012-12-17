@@ -1,4 +1,5 @@
 using System;
+using NDatabase2.Odb.Core.Query.Criteria;
 using NDatabase2.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Attribute;
@@ -41,7 +42,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var aq =
                 odb.CreateCriteriaQuery<TestClass>();
 
-            aq.Equal("string1", "test class 1").Or(aq.Equal("string1", "test class 3"));
+            aq.Descend("string1").Equal("test class 1").Or(aq.Descend("string1").Equal("test class 3"));
 
             aq.OrderByAsc("string1");
             var l = odb.Query<TestClass>(aq, true, -1, -1);
@@ -59,7 +60,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             SetUp(BaseName);
             var odb = Open(BaseName);
             var aq = odb.CreateCriteriaQuery<TestClass>();
-            aq.Equal("string1", "test class 2").Not();
+            aq.Descend("string1").Equal("test class 2").Not();
             var l = odb.Query<TestClass>(aq, true, -1, -1);
             AssertEquals(49, l.Count);
             var testClass = l.GetFirst();
@@ -76,7 +77,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var aq =
                 odb.CreateCriteriaQuery<TestClass>();
 
-            aq.Equal("string1", "test class 0").Or(aq.Equal("bigDecimal1", new Decimal(5))).Not();
+            aq.Descend("string1").Equal("test class 0").Or(aq.Descend("bigDecimal1").Equal(new Decimal(5))).Not();
 
             var l = odb.Query<TestClass>(aq, true, -1, -1);
             AssertEquals(48, l.Count);
@@ -94,7 +95,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var aq =
                 odb.CreateCriteriaQuery<TestClass>();
 
-            aq.Equal("string1", "test class 2").Or(aq.Equal("string1", "test class 3")).Not();
+            aq.Descend("string1").Equal("test class 2").Or(aq.Descend("string1").Equal("test class 3")).Not();
 
             aq.OrderByDesc("double1,int1");
             var l = odb.Query<TestClass>(aq, true, -1, -1);
@@ -114,7 +115,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var aq =
                 odb.CreateCriteriaQuery<TestClass>();
 
-            aq.Equal("string1", "test class 2").Or(aq.Equal("string1", "test class 3")).Not();
+            aq.Descend("string1").Equal("test class 2").Or(aq.Descend("string1").Equal("test class 3")).Not();
 
             aq.OrderByDesc("double1,int1");
             var l = odb.Query<TestClass>(aq, true, -1, -1);
@@ -131,8 +132,8 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             SetUp(BaseName);
             var odb = Open(BaseName);
             var aq = odb.CreateCriteriaQuery<TestClass>();
-            aq.Equal("string1", "test class 2").Or(aq.Equal("string1", "test class 3")).Or(
-                    aq.Equal("string1", "test class 4")).Or(aq.Equal("string1", "test class 5"));
+            aq.Descend("string1").Equal("test class 2").Or(aq.Descend("string1").Equal("test class 3")).Or(
+                    aq.Descend("string1").Equal("test class 4")).Or(aq.Descend("string1").Equal("test class 5"));
             aq.OrderByDesc("boolean1,int1");
             var l = odb.Query<TestClass>(aq, true, -1, -1);
             AssertEquals(4, l.Count);

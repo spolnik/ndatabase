@@ -79,7 +79,7 @@ namespace Test
                 odb = OdbFactory.Open(file);
                 var query = odb.CreateCriteriaQuery<Function>();
                 
-                query.Equal("name", "function 199");
+                query.Descend("name").Equal("function 199");
                 
                 var functions = query.Execute<Function>();
                 Console.WriteLine(" Number of functions = " + functions.Count);

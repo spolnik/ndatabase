@@ -57,7 +57,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
                 odb.Close();
                 odb = Open(baseName);
                 var query = odb.CreateCriteriaQuery<PlayerWithList>();
-                query.Contain("games", "tennis");
+                query.Descend("games").Contain("tennis");
                 var l = query.Execute<PlayerWithList>();
                 AssertEquals(nb + 1, l.Count);
             }
@@ -360,7 +360,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             {
                 var odb2 = Open("list5.neodatis");
                 var query = odb2.CreateCriteriaQuery<ObjectWithListOfInteger>();
-                query.Equal("name", "test2");
+                query.Descend("name").Equal("test2");
                 var ll = query.Execute<ObjectWithListOfInteger>();
                 var o2 = ll.GetFirst();
                 o2.GetListOfIntegers().Clear();
@@ -370,7 +370,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             }
             var odb3 = Open("list5.neodatis");
             var query2 = odb3.CreateCriteriaQuery<ObjectWithListOfInteger>();
-            query2.Equal("name", "test2");
+            query2.Descend("name").Equal("test2");
 
             var l = query2.Execute<ObjectWithListOfInteger>();
             AssertEquals(1, l.Count);
@@ -409,7 +409,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             {
                 var odb2 = Open("list5.neodatis");
                 var query2 = odb2.CreateCriteriaQuery<ObjectWithListOfInteger>();
-                query2.Equal("name", "test2");
+                query2.Descend("name").Equal("test2");
 
                 var ll = query2.Execute<ObjectWithListOfInteger>();
                 var o2 = ll.GetFirst();
@@ -419,7 +419,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             }
             var odb3 = Open("list5.neodatis");
             var query = odb3.CreateCriteriaQuery<ObjectWithListOfInteger>();
-            query.Equal("name", "test2");
+            query.Descend("name").Equal("test2");
             var l = query.Execute<ObjectWithListOfInteger>();
             AssertEquals(1, l.Count);
             var o3 = l.GetFirst();

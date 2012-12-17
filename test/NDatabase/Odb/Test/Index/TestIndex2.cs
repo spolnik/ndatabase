@@ -2,6 +2,7 @@ using System;
 using NDatabase2.Btree.Exception;
 using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Query;
+using NDatabase2.Odb.Core.Query.Criteria;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Index
@@ -31,7 +32,7 @@ namespace Test.NDatabase.Odb.Test.Index
             odb.Close();
             odb = Open(baseName);
             IQuery q = odb.CreateCriteriaQuery<IndexedObject3>();
-            q.Equal("i1", 1);
+            q.Descend("i1").Equal(1);
             var iis = q.Execute<IndexedObject3>();
             odb.Close();
             AssertEquals(1, iis.Count);
@@ -69,7 +70,7 @@ namespace Test.NDatabase.Odb.Test.Index
             IQuery q =
                 odb.CreateCriteriaQuery<IndexedObject3>();
 
-            q.Equal("i1", 10).And(q.Equal("i2", 2)).And(q.Equal("i3", 3));
+            q.Descend("i1").Equal(10).And(q.Descend("i2").Equal(2)).And(q.Descend("i3").Equal(3));
 
             var objects = q.Execute<IndexedObject3>();
             AssertEquals(true, ((IInternalQuery)q).GetExecutionPlan().UseIndex());
@@ -78,7 +79,7 @@ namespace Test.NDatabase.Odb.Test.Index
 
             odb = Open(baseName);
             q = odb.CreateCriteriaQuery<IndexedObject3>();
-            q.Equal("i1", 10).And(q.Equal("i2", 2)).And(q.Equal("i3", 3));
+            q.Descend("i1").Equal(10).And(q.Descend("i2").Equal(2)).And(q.Descend("i3").Equal(3));
             objects = q.Execute<IndexedObject3>();
 
             AssertEquals(false, ((IInternalQuery)q).GetExecutionPlan().UseIndex());
@@ -149,7 +150,7 @@ namespace Test.NDatabase.Odb.Test.Index
             IQuery q =
                 odb.CreateCriteriaQuery<IndexedObject3>();
 
-            q.Equal("i1", 10).And(q.Equal("i2", 2)).And(q.Equal("i3", 3));
+            q.Descend("i1").Equal(10).And(q.Descend("i2").Equal(2)).And(q.Descend("i3").Equal(3));
 
             var objects = q.Execute<IndexedObject3>();
             AssertEquals(true, ((IInternalQuery)q).GetExecutionPlan().UseIndex());
@@ -159,7 +160,7 @@ namespace Test.NDatabase.Odb.Test.Index
             odb = Open(baseName);
             q = odb.CreateCriteriaQuery<IndexedObject3>();
 
-            q.Equal("i1", 10).And(q.Equal("i2", 2)).And(q.Equal("i3", 3));
+            q.Descend("i1").Equal(10).And(q.Descend("i2").Equal(2)).And(q.Descend("i3").Equal(3));
             objects = q.Execute<IndexedObject3>();
             AssertEquals(true, ((IInternalQuery)q).GetExecutionPlan().UseIndex());
             odb.Close();

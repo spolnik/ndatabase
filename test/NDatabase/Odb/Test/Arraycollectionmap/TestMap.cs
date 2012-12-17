@@ -59,7 +59,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             var odb = Open(DbName);
             var l = odb.Query<Dictionnary>();
             var aq = odb.CreateCriteriaQuery<Dictionnary>();
-            aq.Equal("name", "test2");
+            aq.Descend("name").Equal("test2");
             l = aq.Execute<Dictionnary>();
             var dictionnary = l.GetFirst();
             AssertEquals("function2", ((VO.Login.Function) dictionnary.Get("f2")).GetName());
@@ -87,7 +87,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             var odb = Open(DbName);
             var n = odb.CreateCriteriaQuery<Dictionnary>().Count();
             IQuery query = odb.CreateCriteriaQuery<Dictionnary>();
-            query.Equal("name", "test2");
+            query.Descend("name").Equal("test2");
             var l = query.Execute<Dictionnary>();
             var dictionnary = l.GetFirst();
             dictionnary.SetMap(null);
@@ -96,7 +96,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
 
             odb = Open(DbName);
             query = odb.CreateCriteriaQuery<Dictionnary>();
-            query.Equal("name", "test2");
+            query.Descend("name").Equal("test2");
             AssertEquals(n, odb.CreateCriteriaQuery<Dictionnary>().Count());
             var dic = query.Execute<Dictionnary>().GetFirst();
             AssertEquals(null, dic.GetMap());
@@ -111,7 +111,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             {
                 n = odb.CreateCriteriaQuery<Dictionnary>().Count();
                 var query = odb.CreateCriteriaQuery<Dictionnary>();
-                query.Equal("name", "test2");
+                query.Descend("name").Equal("test2");
                 var l = query.Execute<Dictionnary>();
                 var dictionnary = l.GetFirst();
                 dictionnary.SetMap(null);
@@ -122,7 +122,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             {
                 AssertEquals(n, odb.CreateCriteriaQuery<Dictionnary>().Count());
                 var query = odb.CreateCriteriaQuery<Dictionnary>();
-                query.Equal("name", "test2");
+                query.Descend("name").Equal("test2");
                 var dic = query.Execute<Dictionnary>().GetFirst();
                 AssertNull(dic.GetMap());
             }
@@ -130,7 +130,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             using (var odb = Open(DbName))
             {
                 var query = odb.CreateCriteriaQuery<Dictionnary>();
-                query.Equal("name", "test2");
+                query.Descend("name").Equal("test2");
                 
                 var dic = query.Execute<Dictionnary>().GetFirst();
                 dic.AddEntry("olivier", "Smadja");
@@ -140,7 +140,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             using (var odb = Open(DbName))
             {
                 var query = odb.CreateCriteriaQuery<Dictionnary>();
-                query.Equal("name", "test2");
+                query.Descend("name").Equal("test2");
                 var dic = query.Execute<Dictionnary>().GetFirst();
                 AssertNotNull(dic.GetMap());
                 AssertEquals("Smadja", dic.GetMap()["olivier"]);
@@ -154,7 +154,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             var odb = Open(DbName);
             var n = odb.CreateCriteriaQuery<Dictionnary>().Count();
             IQuery query = odb.CreateCriteriaQuery<Dictionnary>();
-            query.Equal("name", "test2");
+            query.Descend("name").Equal("test2");
             var l = query.Execute<Dictionnary>();
             var dictionnary = l.GetFirst();
             dictionnary.GetMap()["f1"] = "changed function";
@@ -164,7 +164,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             odb = Open(DbName);
             AssertEquals(n, odb.CreateCriteriaQuery<Dictionnary>().Count());
             query = odb.CreateCriteriaQuery<Dictionnary>();
-            query.Equal("name", "test2");
+            query.Descend("name").Equal("test2");
             var dic = query.Execute<Dictionnary>().GetFirst();
             AssertEquals("changed function", dic.GetMap()["f1"]);
             odb.Close();
@@ -176,7 +176,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             var odb = Open(DbName);
             var n = odb.CreateCriteriaQuery<Dictionnary>().Count();
             IQuery query = odb.CreateCriteriaQuery<Dictionnary>();
-            query.Equal("name", "test2");
+            query.Descend("name").Equal("test2");
             var l = query.Execute<Dictionnary>();
             var dictionnary = l.GetFirst();
             var mapSize = dictionnary.GetMap().Count;
@@ -187,7 +187,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             odb = Open(DbName);
             AssertEquals(n, odb.CreateCriteriaQuery<Dictionnary>().Count());
             query = odb.CreateCriteriaQuery<Dictionnary>();
-            query.Equal("name", "test2");
+            query.Descend("name").Equal("test2");
             var dic = query.Execute<Dictionnary>().GetFirst();
             AssertEquals(mapSize - 1, dic.GetMap().Count);
             odb.Close();
