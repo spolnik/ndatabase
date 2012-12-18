@@ -10,7 +10,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         protected AbstractExpression(IQuery query)
         {
             _query = query;
-            ((IInternalQuery)_query).Join(this);
+            ((IInternalQuery)_query).Add(this);
         }
 
         #region IExpression Members
@@ -25,10 +25,6 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         public abstract AttributeValuesMap GetValues();
 
         public abstract bool Match(object arg1);
-
-        public virtual void Ready()
-        {
-        }
 
         public IConstraint And(IConstraint with)
         {

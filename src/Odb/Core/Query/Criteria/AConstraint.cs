@@ -59,10 +59,6 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             return new AttributeValuesMap();
         }
 
-        public virtual void Ready()
-        {
-        }
-
         public IConstraint And(IConstraint with)
         {
             return new And(Query).Add(this).Add(with);

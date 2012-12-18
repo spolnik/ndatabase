@@ -48,7 +48,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
                        : _criterion.GetAllInvolvedFields();
         }
 
-        public override void Join(IConstraint criterion)
+        public override void Add(IConstraint criterion)
         {
             if (criterion == null)
                 return;
@@ -69,7 +69,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         public override long Count()
         {
             var valuesCriteriaQuery = new ValuesCriteriaQuery<T>();
-            valuesCriteriaQuery.Join(GetCriteria());
+            valuesCriteriaQuery.Add(GetCriteria());
 
             var valuesQuery = valuesCriteriaQuery.Count("count");
             var values = ((IInternalQuery)this).GetStorageEngine().GetValues<T>(valuesQuery, -1, -1);
@@ -200,8 +200,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
         private IConstraint ApplyConstraint(IConstraint constraint)
         {
-            Join(constraint);
-            constraint.Ready();
+            Add(constraint);
             return constraint;
         }
     }

@@ -28,11 +28,6 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
         bool CanUseIndex();
 
-        /// <summary>
-        ///   a method to explicitly indicate that the criteria is ready.
-        /// </summary>
-        void Ready();
-
         IConstraint And(IConstraint with);
         IConstraint Or(IConstraint with);
         IConstraint Not();

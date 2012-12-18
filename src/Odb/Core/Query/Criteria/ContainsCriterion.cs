@@ -17,6 +17,11 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         public ContainsCriterion(IQuery query, string attributeName, object criterionValue) 
             : base(query, attributeName, criterionValue)
         {
+            if (IsNative())
+                return;
+
+            // For non native object, we just need the oid of it
+            _oid = ((IInternalQuery)Query).GetStorageEngine().GetObjectId(TheObject, false);
         }
 
         public override bool Match(object valueToMatch)
@@ -80,7 +85,6 @@ namespace NDatabase2.Odb.Core.Query.Criteria
                 if (abstractObjectInfo.IsNull() && TheObject == null && _oid == null)
                     return true;
 
-                Ready();
                 if (_oid == null)
                     continue;
 
@@ -112,15 +116,6 @@ namespace NDatabase2.Odb.Core.Query.Criteria
                     return true;
             }
             return false;
-        }
-
-        public override void Ready()
-        {
-            if (IsNative())
-                return;
-
-            // For non native object, we just need the oid of it
-            _oid = ((IInternalQuery)Query).GetStorageEngine().GetObjectId(TheObject, false);
         }
     }
 }

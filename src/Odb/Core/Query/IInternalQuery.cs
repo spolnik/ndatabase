@@ -12,6 +12,6 @@ namespace NDatabase2.Odb.Core.Query
         IStorageEngine GetStorageEngine();
         void SetStorageEngine(IStorageEngine storageEngine);
 
-        void Join(IConstraint criterion);
+        void Add(IConstraint criterion);
     }
 }

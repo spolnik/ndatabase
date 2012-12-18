@@ -2,7 +2,6 @@ using System;
 using System.Text;
 using NDatabase2.Odb.Core.Layers.Layer2.Meta;
 using NDatabase2.Odb.Core.Layers.Layer2.Meta.Compare;
-using NDatabase2.Odb.Core.Layers.Layer3;
 
 namespace NDatabase2.Odb.Core.Query.Criteria
 {
@@ -21,12 +20,18 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         ///   So comparison will be done with OID It is faster and avoid the need of the object (class) 
         ///   having to implement Serializable in client server mode
         /// </remarks>
-        private OID _oid;
+        private readonly OID _oid;
 
         public EqualCriterion(IQuery query, string attributeName, object value, bool isCaseSensitive = true)
             : base(query, attributeName, value)
         {
             _isCaseSensitive = isCaseSensitive;
+
+            if (IsNative())
+                return;
+
+            // For non native object, we just need the oid of it
+            _oid = ((IInternalQuery)Query).GetStorageEngine().GetObjectId(TheObject, false);
         }
 
         public static EqualCriterion CreateInvartiantStringEqualCriterion(IQuery query, string attributeName, string value,
@@ -54,13 +59,8 @@ namespace NDatabase2.Odb.Core.Query.Criteria
                 var objectOid = (OID) valueToMatch;
                 if (_oid == null)
                 {
-                    Ready();
-
-                    if (_oid == null)
-                    {
-                        // TODO Should we return false or thrown exception?
-                        return false;
-                    }
+                    // TODO Should we return false or thrown exception?
+                    return false;
                 }
 
                 return _oid.Equals(objectOid);
@@ -107,15 +107,6 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         public override bool CanUseIndex()
         {
             return true;
-        }
-
-        public override void Ready()
-        {
-            if (IsNative())
-                return;
-
-            // For non native object, we just need the oid of it
-            _oid = ((IInternalQuery)Query).GetStorageEngine().GetObjectId(TheObject, false);
         }
     }
 }
