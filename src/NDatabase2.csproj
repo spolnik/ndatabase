@@ -155,7 +155,7 @@
     <Compile Include="Odb\Core\Query\AbstractQuery.cs" />
     <Compile Include="Odb\Core\Query\CompareKey.cs" />
     <Compile Include="Odb\Core\Query\ComposedCompareKey.cs" />
-    <Compile Include="Odb\Core\Query\Criteria\AbstractCriterion.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\AConstraint.cs" />
     <Compile Include="Odb\Core\Query\Criteria\AbstractExpression.cs" />
     <Compile Include="Odb\Core\Query\Criteria\And.cs" />
     <Compile Include="Odb\Core\Query\Criteria\ComparisonCriterion.cs" />
@@ -164,7 +164,6 @@
     <Compile Include="Odb\Core\Query\Criteria\ISingleCriterion.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Not.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Or.cs" />
-    <Compile Include="Odb\Core\Query\Criteria\Where.cs" />
     <Compile Include="Odb\Core\Query\Execution\GenericQueryExecutor.cs" />
     <Compile Include="Odb\Core\Query\Execution\IMatchingObjectAction.cs" />
     <Compile Include="Odb\Core\Query\Execution\IMultiClassQueryExecutor.cs" />

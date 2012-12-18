@@ -37,7 +37,7 @@ namespace NDatabase2.Odb.Core.Query.List.Objects
 
         public virtual TItem GetFirst()
         {
-            return this[0];
+            return Count == 0 ? default(TItem) : this[0];
         }
 
         public virtual bool HasNext()

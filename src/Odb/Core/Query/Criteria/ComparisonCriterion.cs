@@ -19,26 +19,24 @@ namespace NDatabase2.Odb.Core.Query.Criteria
     /// <summary>
     ///   A Criterion for greater than (gt),greater or equal(ge), less than (lt) and less or equal (le)
     /// </summary>
-    public sealed class ComparisonCriterion<T> : AbstractCriterion where T : IComparable
+    public sealed class ComparisonCriterion : AConstraint
     {
-        private int _comparisonType;
-        private T _criterionValue;
-
-        public ComparisonCriterion(string attributeName, T value, int comparisonType)
-            : base(attributeName)
+        private readonly int _comparisonType;
+        
+        public ComparisonCriterion(string attributeName, object value, int comparisonType)
+            : base(attributeName, value)
         {
-            Init(value, comparisonType);
-        }
+            if (!(value is IComparable))
+            {
+                throw new ArgumentException("Value need to implement IComparable", "value");
+            }
 
-        private void Init(T value, int comparisonType)
-        {
-            _criterionValue = value;
             _comparisonType = comparisonType;
         }
 
         public override bool Match(object valueToMatch)
         {
-            if (valueToMatch == null && _criterionValue == null)
+            if (valueToMatch == null && TheObject == null)
                 return true;
 
             valueToMatch = AsAttributeValuesMapValue(valueToMatch);
@@ -54,7 +52,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             }
 
             var comparable1 = (IComparable) valueToMatch;
-            var comparable2 = (IComparable) _criterionValue;
+            var comparable2 = (IComparable)TheObject;
 
             switch (_comparisonType)
             {
@@ -85,7 +83,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         public override string ToString()
         {
             var buffer = new StringBuilder();
-            buffer.Append(AttributeName).Append(" ").Append(GetOperator()).Append(" ").Append(_criterionValue);
+            buffer.Append(AttributeName).Append(" ").Append(GetOperator()).Append(" ").Append(TheObject);
             return buffer.ToString();
         }
 
@@ -118,7 +116,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
         public override AttributeValuesMap GetValues()
         {
-            return new AttributeValuesMap {{AttributeName, _criterionValue}};
+            return new AttributeValuesMap { { AttributeName, TheObject } };
         }
     }
 }

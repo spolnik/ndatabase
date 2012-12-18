@@ -4,11 +4,9 @@ using NDatabase2.Odb.Core.Layers.Layer2.Meta;
 
 namespace NDatabase2.Odb.Core.Query.Criteria
 {
-    public sealed class ContainsCriterion<T> : AbstractCriterion
+    public sealed class ContainsCriterion : AConstraint
     {
-        private T _criterionValue;
-
-        private bool _objectIsNative;
+        private readonly bool _objectIsNative;
 
         /// <summary>
         ///   For criteria query on objects, we use the oid of the object instead of the object itself.
@@ -18,20 +16,14 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         /// </remarks>
         private OID _oid;
 
-        public ContainsCriterion(string attributeName, T criterionValue) : base(attributeName)
+        public ContainsCriterion(string attributeName, object criterionValue) : base(attributeName, criterionValue)
         {
-            Init(criterionValue);
-        }
-
-        private void Init(T value)
-        {
-            _criterionValue = value;
-            _objectIsNative = _criterionValue == null || OdbType.IsNative(_criterionValue.GetType());
+            _objectIsNative = TheObject == null || OdbType.IsNative(TheObject.GetType());
         }
 
         public override bool Match(object valueToMatch)
         {
-            if (valueToMatch == null && _criterionValue == null && _oid == null)
+            if (valueToMatch == null && TheObject == null && _oid == null)
                 return true;
 
             if (valueToMatch == null)
@@ -45,7 +37,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
                 // The value valueToMatch was redefined, so we need to re-make some
                 // tests
-                if (valueToMatch == null && _criterionValue == null && _oid == null)
+                if (valueToMatch == null && TheObject == null && _oid == null)
                     return true;
 
                 if (valueToMatch == null)
@@ -76,13 +68,13 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             {
                 foreach (AbstractObjectInfo abstractObjectInfo in collection)
                 {
-                    if (abstractObjectInfo == null && _criterionValue == null)
+                    if (abstractObjectInfo == null && TheObject == null)
                         return true;
 
-                    if (abstractObjectInfo != null && _criterionValue == null)
+                    if (abstractObjectInfo != null && TheObject == null)
                         return false;
 
-                    if (abstractObjectInfo != null && _criterionValue.Equals(abstractObjectInfo.GetObject()))
+                    if (abstractObjectInfo != null && TheObject.Equals(abstractObjectInfo.GetObject()))
                         return true;
                 }
 
@@ -91,7 +83,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             
             foreach (AbstractObjectInfo abstractObjectInfo in collection)
             {
-                if (abstractObjectInfo.IsNull() && _criterionValue == null && _oid == null)
+                if (abstractObjectInfo.IsNull() && TheObject == null && _oid == null)
                     return true;
 
                 Ready();
@@ -117,12 +109,12 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             for (var i = 0; i < arrayLength; i++)
             {
                 var element = ((Array) valueToMatch).GetValue(i);
-                if (element == null && _criterionValue == null)
+                if (element == null && TheObject == null)
                     return true;
 
                 var abstractObjectInfo = (AbstractObjectInfo) element;
                 if (abstractObjectInfo != null && abstractObjectInfo.GetObject() != null &&
-                    abstractObjectInfo.GetObject().Equals(_criterionValue))
+                    abstractObjectInfo.GetObject().Equals(TheObject))
                     return true;
             }
             return false;
@@ -141,7 +133,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
                 throw new OdbRuntimeException(NDatabaseError.ContainsQueryWithNoStorageEngine);
 
             // For non native object, we just need the oid of it
-            _oid = engine.GetObjectId((object)_criterionValue, false);
+            _oid = engine.GetObjectId(TheObject, false);
         }
     }
 }

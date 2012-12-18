@@ -6,21 +6,24 @@ namespace NDatabase2.Odb.Core.Query.Criteria
     /// <summary>
     ///   An adapter for Criterion.
     /// </summary>
-    public abstract class AbstractCriterion : IConstraint
+    public abstract class AConstraint : IConstraint
     {
         /// <summary>
         ///   The name of the attribute involved by this criterion
         /// </summary>
-        protected string AttributeName;
+        protected readonly string AttributeName;
+
+        protected readonly object TheObject;
 
         /// <summary>
         ///   The query containing the criterion
         /// </summary>
         private IQuery _query;
 
-        protected AbstractCriterion(string fieldName)
+        protected AConstraint(string fieldName, object theObject)
         {
             AttributeName = fieldName;
+            TheObject = theObject;
         }
 
         #region IConstraint Members
@@ -99,17 +102,6 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         public virtual bool Match(AttributeValuesMap attributeValues)
         {
             return Match(attributeValues.GetAttributeValue(AttributeName));
-        }
-
-        /// <returns> The attribute involved in the criterion </returns>
-        public virtual string GetAttributeName()
-        {
-            return AttributeName;
-        }
-
-        public virtual void SetAttributeName(string attributeName)
-        {
-            AttributeName = attributeName;
         }
 
         protected object AsAttributeValuesMapValue(object valueToMatch)

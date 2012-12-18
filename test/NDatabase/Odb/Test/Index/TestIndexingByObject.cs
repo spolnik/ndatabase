@@ -18,29 +18,32 @@ namespace Test.NDatabase.Odb.Test.Index
         public virtual void Test1()
         {
             Println("************START OF TEST1***************");
-            var baseName = GetBaseName();
+            
             DeleteBase("index-object");
-            var odb = Open("index-object");
-            var fields = new[] {"object"};
-            odb.IndexManagerFor<IndexedObject2>().AddUniqueIndexOn("index1", fields);
-            var o1 = new IndexedObject2("Object1", new IndexedObject("Inner Object 1", 10, new DateTime()));
-            odb.Store(o1);
-            odb.Close();
-            odb = Open("index-object");
-            // First get the object used to index
-            var objects = odb.Query<IndexedObject>();
-            var io = objects.GetFirst();
+            IndexedObject2 o1;
+            using (var odb = Open("index-object"))
+            {
+                var fields = new[] {"object"};
+                odb.IndexManagerFor<IndexedObject2>().AddUniqueIndexOn("index1", fields);
+                o1 = new IndexedObject2("Object1", new IndexedObject("Inner Object 1", 10, new DateTime()));
+                odb.Store(o1);
+            }
 
-            IQuery q = odb.CreateCriteriaQuery<IndexedObject2>();
-            q.Descend("object").Equal(io);
+            using (var odb = Open("index-object"))
+            {
+                var objects = odb.Query<IndexedObject>();
+                var io = objects.GetFirst();
 
-            var objects2 = q.Execute<IndexedObject2>();
-            var o2 = objects2.GetFirst();
+                IQuery q = odb.CreateCriteriaQuery<IndexedObject2>();
+                q.Descend("object").Equal(io);
 
-            odb.Close();
-            AssertEquals(o1.GetName(), o2.GetName());
-            Println(((IInternalQuery)q).GetExecutionPlan().GetDetails());
-            AssertFalse(((IInternalQuery)q).GetExecutionPlan().GetDetails().IndexOf("index1") == -1);
+                var objects2 = q.Execute<IndexedObject2>();
+                IndexedObject2 o2 = objects2.GetFirst();
+
+                AssertEquals(o1.GetName(), o2.GetName());
+                Println(((IInternalQuery)q).GetExecutionPlan().GetDetails());
+                AssertFalse(((IInternalQuery)q).GetExecutionPlan().GetDetails().IndexOf("index1") == -1);
+            }
 
             DeleteBase("index-object");
             Println("************END OF TEST1***************");

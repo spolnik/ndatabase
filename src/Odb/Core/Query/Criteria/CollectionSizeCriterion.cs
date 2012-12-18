@@ -6,7 +6,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
     /// <summary>
     ///   A criterio to test collection or array size
     /// </summary>
-    public sealed class CollectionSizeCriterion : AbstractCriterion
+    public sealed class CollectionSizeCriterion : AConstraint
     {
         public const int SizeEq = 1;
         public const int SizeNe = 2;
@@ -15,38 +15,37 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         public const int SizeLt = 5;
         public const int SizeLe = 6;
 
-        private readonly int _size;
         private readonly int _sizeType;
 
-        public CollectionSizeCriterion(string attributeName, int size, int sizeType) : base(attributeName)
+        public CollectionSizeCriterion(string attributeName, int size, int sizeType) : base(attributeName, size)
         {
-            _size = size;
             _sizeType = sizeType;
         }
 
         public override bool Match(object valueToMatch)
         {
             valueToMatch = AsAttributeValuesMapValue(valueToMatch);
+            var size = (int) TheObject;
 
             if (valueToMatch == null)
             {
                 // Null list are considered 0-sized list
-                if (_sizeType == SizeEq && _size == 0)
+                if (_sizeType == SizeEq && size == 0)
                     return true;
-                if ((_sizeType == SizeLe && _size >= 0) || (_sizeType == SizeLt && _size > 0))
+                if ((_sizeType == SizeLe && size >= 0) || (_sizeType == SizeLt && size > 0))
                     return true;
-                return _sizeType == SizeNe && _size != 0;
+                return _sizeType == SizeNe && size != 0;
             }
 
             var collection = valueToMatch as ICollection;
             if (collection != null)
-                return MatchSize(collection.Count, _size, _sizeType);
+                return MatchSize(collection.Count, size, _sizeType);
 
             var clazz = valueToMatch.GetType();
             if (clazz.IsArray)
             {
                 var arrayLength = ((Array) valueToMatch).GetLength(0);
-                return MatchSize(arrayLength, _size, _sizeType);
+                return MatchSize(arrayLength, size, _sizeType);
             }
 
             throw new OdbRuntimeException(NDatabaseError.QueryBadCriteria.AddParameter(valueToMatch.GetType().FullName));

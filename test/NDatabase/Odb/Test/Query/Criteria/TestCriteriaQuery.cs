@@ -129,7 +129,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb = Open(baseName);
 
             IQuery query = odb.CreateCriteriaQuery<MyDates>();
-            query.Descend("date1").LessOrEqual(d2).And(Where.GreaterOrEqual("date2", d2)).And(query.Descend("i").Equal(5));
+            query.Descend("date1").LessOrEqual(d2).And(query.Descend("date2").GreaterOrEqual(d2)).And(query.Descend("i").Equal(5));
             var objects = query.Execute<MyDates>();
             AssertEquals(1, objects.Count);
             odb.Close();

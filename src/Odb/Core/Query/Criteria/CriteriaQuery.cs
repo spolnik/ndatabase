@@ -82,20 +82,20 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
         public override IConstraint Equal<TItem>(TItem value)
         {
-            return ApplyConstraint(new EqualCriterion<TItem>(ApplyAttributeName(), value));
+            return ApplyConstraint(new EqualCriterion(ApplyAttributeName(), value));
         }
 
         public override IConstraint LessOrEqual<TItem>(TItem value)
         {
             return
-                ApplyConstraint(new ComparisonCriterion<TItem>(ApplyAttributeName(), value,
-                                                               ComparisonCirerion.ComparisonTypeLe));
+                ApplyConstraint(new ComparisonCriterion(ApplyAttributeName(), value,
+                                                        ComparisonCirerion.ComparisonTypeLe));
         }
 
         public override IConstraint InvariantEqual(string value)
         {
             return
-                ApplyConstraint(EqualCriterion<string>.CreateInvartiantStringEqualCriterion(ApplyAttributeName(), value,
+                ApplyConstraint(EqualCriterion.CreateInvartiantStringEqualCriterion(ApplyAttributeName(), value,
                                                                                             false));
         }
 
@@ -112,24 +112,24 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         public override IConstraint GreaterThan<TItem>(TItem value)
         {
             return
-                ApplyConstraint(new ComparisonCriterion<TItem>(ApplyAttributeName(), value, ComparisonCirerion.ComparisonTypeGt));
+                ApplyConstraint(new ComparisonCriterion(ApplyAttributeName(), value, ComparisonCirerion.ComparisonTypeGt));
         }
 
         public override IConstraint GreaterOrEqual<TItem>(TItem value)
         {
             return
-                ApplyConstraint(new ComparisonCriterion<TItem>(ApplyAttributeName(), value, ComparisonCirerion.ComparisonTypeGe));
+                ApplyConstraint(new ComparisonCriterion(ApplyAttributeName(), value, ComparisonCirerion.ComparisonTypeGe));
         }
 
         public override IConstraint LessThan<TItem>(TItem value)
         {
             return
-                ApplyConstraint(new ComparisonCriterion<TItem>(ApplyAttributeName(), value, ComparisonCirerion.ComparisonTypeLt));
+                ApplyConstraint(new ComparisonCriterion(ApplyAttributeName(), value, ComparisonCirerion.ComparisonTypeLt));
         }
 
         public override IConstraint Contain<TItem>(TItem value)
         {
-            return ApplyConstraint(new ContainsCriterion<TItem>(ApplyAttributeName(), value));
+            return ApplyConstraint(new ContainsCriterion(ApplyAttributeName(), value));
         }
 
         public override IConstraint IsNull()

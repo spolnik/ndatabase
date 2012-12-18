@@ -3,14 +3,12 @@ using NDatabase2.Tool.Wrappers;
 
 namespace NDatabase2.Odb.Core.Query.Criteria
 {
-    public sealed class LikeCriterion : AbstractCriterion
+    public sealed class LikeCriterion : AConstraint
     {
-        private readonly string _criterionValue;
         private readonly bool _isCaseSensitive;
 
-        public LikeCriterion(string attributeName, string criterionValue, bool isCaseSensiive) : base(attributeName)
+        public LikeCriterion(string attributeName, string criterionValue, bool isCaseSensiive) : base(attributeName, criterionValue)
         {
-            _criterionValue = criterionValue;
             _isCaseSensitive = isCaseSensiive;
         }
 
@@ -34,9 +32,11 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             }
 
             var value = (string) valueToMatch;
-            if (_criterionValue.IndexOf("%", StringComparison.Ordinal) != -1)
+            var criterionValue = (string) TheObject;
+
+            if (criterionValue.IndexOf("%", StringComparison.Ordinal) != -1)
             {
-                regExp = _criterionValue.Replace("%", "(.)*");
+                regExp = criterionValue.Replace("%", "(.)*");
 
                 return _isCaseSensitive
                            ? OdbString.Matches(regExp, value)
@@ -44,10 +44,11 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             }
             if (_isCaseSensitive)
             {
-                regExp = string.Format("(.)*{0}(.)*", _criterionValue);
+                regExp = string.Format("(.)*{0}(.)*", criterionValue);
                 return OdbString.Matches(regExp, value);
             }
-            regExp = string.Format("(.)*{0}(.)*", _criterionValue.ToLower());
+            regExp = string.Format("(.)*{0}(.)*", criterionValue.ToLower());
+
             return OdbString.Matches(regExp, value.ToLower());
         }
     }

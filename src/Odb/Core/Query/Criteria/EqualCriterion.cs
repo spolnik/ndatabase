@@ -8,10 +8,8 @@ namespace NDatabase2.Odb.Core.Query.Criteria
     /// <summary>
     ///   A criterion to match equality
     /// </summary>
-    internal sealed class EqualCriterion<T> : AbstractCriterion
+    internal sealed class EqualCriterion : AConstraint
     {
-        private T _criterionValue;
-
         private bool _isCaseSensitive;
 
         private bool _objectIsNative;
@@ -24,7 +22,8 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         /// </remarks>
         private OID _oid;
 
-        public EqualCriterion(string attributeName, T value) : base(attributeName)
+        public EqualCriterion(string attributeName, object value) 
+            : base(attributeName, value)
         {
             Init(value);
         }
@@ -32,40 +31,39 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         /// <param name="attributeName"> </param>
         /// <param name="value"> </param>
         /// <param name="isCaseSensitive"> </param>
-        private EqualCriterion(string attributeName, T value, bool isCaseSensitive) : base(attributeName)
+        private EqualCriterion(string attributeName, object value, bool isCaseSensitive) 
+            : base(attributeName, value)
         {
-            _criterionValue = value;
             _isCaseSensitive = isCaseSensitive;
         }
 
-        public static EqualCriterion<string> CreateInvartiantStringEqualCriterion(string attributeName, string value,
+        public static EqualCriterion CreateInvartiantStringEqualCriterion(string attributeName, string value,
                                                                                   bool isCaseSensitive)
         {
-            return new EqualCriterion<string>(attributeName, value, isCaseSensitive);
+            return new EqualCriterion(attributeName, value, isCaseSensitive);
         }
 
-        private void Init(T value)
+        private void Init(object value)
         {
-            _criterionValue = value;
             _isCaseSensitive = true;
-            _objectIsNative = _criterionValue == null || OdbType.IsNative(_criterionValue.GetType());
+            _objectIsNative = TheObject == null || OdbType.IsNative(TheObject.GetType());
         }
 
         public override bool Match(object valueToMatch)
         {
             valueToMatch = AsAttributeValuesMapValue(valueToMatch);
 
-            if (valueToMatch == null && _criterionValue == null && _oid == null)
+            if (valueToMatch == null && TheObject == null && _oid == null)
                 return true;
 
-            if (AttributeValueComparator.IsNumber(valueToMatch) && AttributeValueComparator.IsNumber(_criterionValue))
-                return AttributeValueComparator.Compare((IComparable) valueToMatch, (IComparable) _criterionValue) == 0;
+            if (AttributeValueComparator.IsNumber(valueToMatch) && AttributeValueComparator.IsNumber(TheObject))
+                return AttributeValueComparator.Compare((IComparable)valueToMatch, (IComparable)TheObject) == 0;
 
             // if case sensitive (default value), just call the equals on the objects
             if (_isCaseSensitive)
             {
                 if (_objectIsNative)
-                    return valueToMatch != null && Equals(valueToMatch, _criterionValue);
+                    return valueToMatch != null && Equals(valueToMatch, TheObject);
 
                 var objectOid = (OID) valueToMatch;
                 if (_oid == null)
@@ -88,8 +86,8 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             // Case insensitive (iequal) only works on String or Character!
             var typeOfValueToMatch = valueToMatch.GetType();
 
-            var canUseCaseInsensitive = (typeof (T) == typeof (string) && typeOfValueToMatch == typeof (string)) ||
-                                        (_criterionValue is char && typeOfValueToMatch == typeof (char));
+            var canUseCaseInsensitive = TheObject != null && ((TheObject is string && typeOfValueToMatch == typeof(string)) ||
+                                                              (TheObject is char && typeOfValueToMatch == typeof(char)));
             if (!canUseCaseInsensitive)
             {
                 throw new OdbRuntimeException(
@@ -100,14 +98,14 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             // Cast to string to make the right comparison using the
             // equalsIgnoreCase
             var s1 = (string) valueToMatch;
-            var s2 = _criterionValue as string;
+            var s2 = TheObject as string;
             return String.Compare(s1, s2, StringComparison.OrdinalIgnoreCase) == 0;
         }
 
         public override string ToString()
         {
             var buffer = new StringBuilder();
-            buffer.Append(AttributeName).Append(" = ").Append(_criterionValue);
+            buffer.Append(AttributeName).Append(" = ").Append(TheObject);
             return buffer.ToString();
         }
 
@@ -115,10 +113,10 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         {
             var map = new AttributeValuesMap();
 
-            if (_criterionValue == null && _oid != null)
+            if (_oid != null)
                 map.SetOid(_oid);
             else
-                map.Add(AttributeName, _criterionValue);
+                map.Add(AttributeName, TheObject);
 
             return map;
         }
@@ -141,12 +139,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
                 throw new OdbRuntimeException(NDatabaseError.ContainsQueryWithNoStorageEngine);
 
             // For non native object, we just need the oid of it
-            _oid = engine.GetObjectId((object) _criterionValue, false);
-
-            if (_oid == null)
-                return;
-
-            _criterionValue = default(T);
+            _oid = engine.GetObjectId(TheObject, false);
         }
     }
 }

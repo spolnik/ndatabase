@@ -160,7 +160,8 @@ namespace NDatabase.UnitTests.CodeSnippets
                 IQuery query =
                     odb.CreateCriteriaQuery<Player>();
 
-                query.Descend("FavoriteSport._name").Equal("volley-ball").Or(Where.Like("FavoriteSport._name", "%nnis"));
+                query.Descend("FavoriteSport._name").Equal("volley-ball").Or(
+                    query.Descend("FavoriteSport._name").Like("%nnis"));
 
                 var players = query.Execute<Player>();
 
