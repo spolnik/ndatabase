@@ -17,7 +17,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             {
                 DeleteBase("array1.neodatis");
                 odb = Open("array1.neodatis");
-                decimal nb = odb.CreateCriteriaQuery<PlayerWithArray>().Count();
+                decimal nb = odb.Query<PlayerWithArray>().Count();
                 var player = new PlayerWithArray("kiko");
                 player.AddGame("volley-ball");
                 player.AddGame("squash");
@@ -26,11 +26,12 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
                 odb.Store(player);
                 odb.Close();
                 odb = Open("array1.neodatis");
-                var l = odb.Query<PlayerWithArray>(true);
+                var query = odb.Query<PlayerWithArray>();
+                var l = query.Execute<PlayerWithArray>(true);
                 AssertEquals(nb + 1, l.Count);
                 // gets first player
                 var player2 = l.GetFirst();
-                AssertEquals(player.ToString(), player2.ToString());
+                AssertEquals(player.ToString(), (string) player2.ToString());
             }
             catch (Exception e)
             {
@@ -66,11 +67,12 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
                 odb.Store(owna);
                 odb.Close();
                 odb = Open("array2.neodatis");
-                var l = odb.Query<ObjectWithNativeArrayOfInt>();
+                var query = odb.Query<ObjectWithNativeArrayOfInt>();
+                var l = query.Execute<ObjectWithNativeArrayOfInt>();
                 var owna2 = l.GetFirst();
-                AssertEquals(owna.GetName(), owna2.GetName());
+                AssertEquals(owna.GetName(), (string) owna2.GetName());
                 for (var i = 0; i < size; i++)
-                    AssertEquals(owna.GetNumbers()[i], owna2.GetNumbers()[i]);
+                    AssertEquals(owna.GetNumbers()[i], (int) owna2.GetNumbers()[i]);
                 odb.Close();
                 odb = null;
             }
@@ -107,11 +109,12 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
                 odb.Store(owna);
                 odb.Close();
                 odb = Open("array3.neodatis");
-                var l = odb.Query<ObjectWithNativeArrayOfShort>();
+                var query = odb.Query<ObjectWithNativeArrayOfShort>();
+                var l = query.Execute<ObjectWithNativeArrayOfShort>();
                 var owna2 = l.GetFirst();
-                AssertEquals(owna.GetName(), owna2.GetName());
+                AssertEquals(owna.GetName(), (string) owna2.GetName());
                 for (var i = 0; i < size; i++)
-                    AssertEquals(owna.GetNumbers()[i], owna2.GetNumbers()[i]);
+                    AssertEquals(owna.GetNumbers()[i], (short) owna2.GetNumbers()[i]);
                 odb.Close();
                 odb = null;
             }
@@ -148,9 +151,10 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
                 odb.Store(owna);
                 odb.Close();
                 odb = Open("array5.neodatis");
-                var l = odb.Query<ObjectWithNativeArrayOfBigDecimal>();
+                var query = odb.Query<ObjectWithNativeArrayOfBigDecimal>();
+                var l = query.Execute<ObjectWithNativeArrayOfBigDecimal>();
                 var owna2 = l.GetFirst();
-                AssertEquals(owna.GetName(), owna2.GetName());
+                AssertEquals(owna.GetName(), (string) owna2.GetName());
                 for (var i = 0; i < size; i++)
                     AssertEquals(owna.GetNumbers()[i], owna2.GetNumbers()[i]);
                 odb.Close();
@@ -190,16 +194,18 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
                 odb.Store(owna);
                 odb.Close();
                 odb = Open("array7.neodatis");
-                var l = odb.Query<ObjectWithNativeArrayOfBigDecimal>();
+                var query = odb.Query<ObjectWithNativeArrayOfBigDecimal>();
+                var l = query.Execute<ObjectWithNativeArrayOfBigDecimal>();
                 var owna2 = l.GetFirst();
                 owna2.SetNumber(0, new Decimal(1));
-                odb.Store(owna2);
+                odb.Store<ObjectWithNativeArrayOfBigDecimal>(owna2);
                 odb.Close();
                 odb = Open("array7.neodatis");
-                l = odb.Query<ObjectWithNativeArrayOfBigDecimal>();
+                var query1 = odb.Query<ObjectWithNativeArrayOfBigDecimal>();
+                l = query1.Execute<ObjectWithNativeArrayOfBigDecimal>();
                 var o = l.GetFirst();
-                AssertEquals(owna2.GetNumber(0), o.GetNumber(0));
-                AssertEquals(owna2.GetNumber(1), o.GetNumber(1));
+                AssertEquals((object) owna2.GetNumber(0), (object) o.GetNumber(0));
+                AssertEquals((object) owna2.GetNumber(1), (object) o.GetNumber(1));
                 AssertEquals(1, ObjectWriter.GetNbNormalUpdates());
 
                 odb.Close();
@@ -235,16 +241,18 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
                 odb.Store(owna);
                 odb.Close();
                 odb = Open("array8.neodatis");
-                var l = odb.Query<ObjectWithNativeArrayOfInt>();
+                var query = odb.Query<ObjectWithNativeArrayOfInt>();
+                var l = query.Execute<ObjectWithNativeArrayOfInt>();
                 var owna2 = l.GetFirst();
                 owna2.SetNumber(0, 1);
-                odb.Store(owna2);
+                odb.Store<ObjectWithNativeArrayOfInt>(owna2);
                 odb.Close();
                 odb = Open("array8.neodatis");
-                l = odb.Query<ObjectWithNativeArrayOfInt>();
+                var query1 = odb.Query<ObjectWithNativeArrayOfInt>();
+                l = query1.Execute<ObjectWithNativeArrayOfInt>();
                 var o = l.GetFirst();
-                AssertEquals(1, o.GetNumber(0));
-                AssertEquals(1, o.GetNumber(1));
+                AssertEquals((int) 1, (int) o.GetNumber(0));
+                AssertEquals((int) 1, (int) o.GetNumber(1));
             }
             catch (Exception)
             {
@@ -285,16 +293,18 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
                 odb.Store(owna);
                 odb.Close();
                 odb = Open("array9.neodatis");
-                var l = odb.Query<ObjectWithNativeArrayOfInt>();
+                var query = odb.Query<ObjectWithNativeArrayOfInt>();
+                var l = query.Execute<ObjectWithNativeArrayOfInt>();
                 var owna2 = l.GetFirst();
                 owna2.SetNumber(1, 78);
-                odb.Store(owna2);
+                odb.Store<ObjectWithNativeArrayOfInt>(owna2);
                 odb.Close();
                 odb = Open("array9.neodatis");
-                l = odb.Query<ObjectWithNativeArrayOfInt>();
+                var query1 = odb.Query<ObjectWithNativeArrayOfInt>();
+                l = query1.Execute<ObjectWithNativeArrayOfInt>();
                 var o = l.GetFirst();
-                AssertEquals(0, o.GetNumber(0));
-                AssertEquals(78, o.GetNumber(1));
+                AssertEquals((int) 0, (int) o.GetNumber(0));
+                AssertEquals((int) 78, (int) o.GetNumber(1));
             }
             catch (Exception)
             {
@@ -338,17 +348,19 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
                 odb.Store(owna);
                 odb.Close();
                 odb = Open("array10.neodatis");
-                var l = odb.Query<ObjectWithNativeArrayOfBigDecimal>();
+                var query = odb.Query<ObjectWithNativeArrayOfBigDecimal>();
+                var l = query.Execute<ObjectWithNativeArrayOfBigDecimal>();
                 var owna2 = l.GetFirst();
                 owna2.SetNumbers(array2);
-                odb.Store(owna2);
+                odb.Store<ObjectWithNativeArrayOfBigDecimal>(owna2);
                 odb.Close();
                 odb = Open("array10.neodatis");
-                l = odb.Query<ObjectWithNativeArrayOfBigDecimal>();
+                var query1 = odb.Query<ObjectWithNativeArrayOfBigDecimal>();
+                l = query1.Execute<ObjectWithNativeArrayOfBigDecimal>();
                 var o = l.GetFirst();
-                AssertEquals(size + 1, o.GetNumbers().Length);
+                AssertEquals(size + 1, (int) o.GetNumbers().Length);
                 AssertEquals(new Decimal(100), o.GetNumber(size));
-                AssertEquals(owna2.GetNumber(1), o.GetNumber(1));
+                AssertEquals((object) owna2.GetNumber(1), (object) o.GetNumber(1));
                 odb.Close();
                 DeleteBase("array10.neodatis");
             }
@@ -377,9 +389,10 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
                 odb.Store(owna);
                 odb.Close();
                 odb = Open("array6.neodatis");
-                var l = odb.Query<ObjectWithNativeArrayOfDate>();
+                var query = odb.Query<ObjectWithNativeArrayOfDate>();
+                var l = query.Execute<ObjectWithNativeArrayOfDate>();
                 var owna2 = l.GetFirst();
-                AssertEquals(owna.GetName(), owna2.GetName());
+                AssertEquals(owna.GetName(), (string) owna2.GetName());
                 for (var i = 0; i < size; i++)
                     AssertEquals(owna.GetNumbers()[i], owna2.GetNumbers()[i]);
                 odb.Close();
@@ -403,7 +416,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             {
                 DeleteBase("array4.neodatis");
                 odb = Open("array4.neodatis");
-                decimal nb = odb.CreateCriteriaQuery<PlayerWithArray>().Count();
+                decimal nb = odb.Query<PlayerWithArray>().Count();
                 var player = new PlayerWithArray("kiko");
                 player.AddGame("volley-ball");
                 player.AddGame("squash");
@@ -412,7 +425,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
                 odb.Store(player);
                 odb.Close();
                 odb = Open("array4.neodatis");
-                var query = odb.CreateCriteriaQuery<PlayerWithArray>();
+                var query = odb.Query<PlayerWithArray>();
                 query.Descend("games").Contain("tennis");
                 var l = query.Execute<PlayerWithArray>();
                 AssertEquals(nb + 1, l.Count);
@@ -465,7 +478,8 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             ObjectWithNativeArrayOfBigDecimal owna2;
             using (var odb = Open("array11.neodatis"))
             {
-                l = odb.Query<ObjectWithNativeArrayOfBigDecimal>();
+                var query = odb.Query<ObjectWithNativeArrayOfBigDecimal>();
+                l = query.Execute<ObjectWithNativeArrayOfBigDecimal>();
                 owna2 = l.GetFirst();
                 owna2.SetNumbers(array);
                 odb.Store(owna2);
@@ -473,7 +487,8 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
 
             using (var odb = Open("array11.neodatis"))
             {
-                l = odb.Query<ObjectWithNativeArrayOfBigDecimal>();
+                var query = odb.Query<ObjectWithNativeArrayOfBigDecimal>();
+                l = query.Execute<ObjectWithNativeArrayOfBigDecimal>();
                 var o = l.GetFirst();
                 AssertEquals(size, o.GetNumbers().Length);
                 AssertEquals(new Decimal(99), o.GetNumber(size - 1));

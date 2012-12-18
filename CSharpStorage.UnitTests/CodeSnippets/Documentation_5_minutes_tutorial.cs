@@ -74,7 +74,7 @@ namespace NDatabase.UnitTests.CodeSnippets
         {
             using (var odb = OdbFactory.Open(TutorialDb5MinName))
             {
-                IQuery query = odb.CreateCriteriaQuery<Player>();
+                IQuery query = odb.Query<Player>();
                 query.Descend("Name").Equal("julia");
                 
                 var players = query.Execute<Player>();
@@ -111,7 +111,7 @@ namespace NDatabase.UnitTests.CodeSnippets
                 var agassi = new Player("André Agassi", DateTime.Now, new Sport("Tennis"));
                 odb.Store(agassi);
 
-                IQuery query = odb.CreateCriteriaQuery<Player>();
+                IQuery query = odb.Query<Player>();
                 query.Descend("FavoriteSport._name").Equal("volley-ball");
 //                query.Descend("FavoriteSport").Descend("_name").Constrain("volley-ball").Equal();
 
@@ -131,7 +131,7 @@ namespace NDatabase.UnitTests.CodeSnippets
             using (var odb = OdbFactory.Open(TutorialDb5MinName))
             {
                 // retrieve the volley ball sport object
-                IQuery query = odb.CreateCriteriaQuery<Sport>();
+                IQuery query = odb.Query<Sport>();
                 query.Descend("_name").Equal("volley-ball");
                 var volleyBall = query.Execute<Sport>().GetFirst();
  
@@ -139,7 +139,7 @@ namespace NDatabase.UnitTests.CodeSnippets
 
                 // Now build a query to get all players that play volley ball, using
                 // the volley ball object
-                query = odb.CreateCriteriaQuery<Player>();
+                query = odb.Query<Player>();
                 query.Descend("FavoriteSport").Equal(volleyBall);
  
                 var players = query.Execute<Player>();
@@ -158,7 +158,7 @@ namespace NDatabase.UnitTests.CodeSnippets
             using (var odb = OdbFactory.Open(TutorialDb5MinName))
             {
                 IQuery query =
-                    odb.CreateCriteriaQuery<Player>();
+                    odb.Query<Player>();
 
                 query.Descend("FavoriteSport._name").Equal("volley-ball").Or(
                     query.Descend("FavoriteSport._name").Like("%nnis"));
@@ -178,7 +178,7 @@ namespace NDatabase.UnitTests.CodeSnippets
         {
             using (var odb = OdbFactory.Open(TutorialDb5MinName))
             {
-                IQuery query = odb.CreateCriteriaQuery<Player>();
+                IQuery query = odb.Query<Player>();
                 query.Descend("FavoriteSport._name").Equal("volley-ball").Not();
  
                 var players = query.Execute<Player>();
@@ -196,7 +196,7 @@ namespace NDatabase.UnitTests.CodeSnippets
         {
             using (var odb = OdbFactory.Open(TutorialDb5MinName))
             {
-                IQuery query = odb.CreateCriteriaQuery<Player>();
+                IQuery query = odb.Query<Player>();
                 query.Descend("FavoriteSport._name").InvariantLike("volley%");
  
                 var players = query.Execute<Player>();
@@ -214,14 +214,14 @@ namespace NDatabase.UnitTests.CodeSnippets
         {
             using (var odb = OdbFactory.Open(TutorialDb5MinName))
             {
-                IQuery query = odb.CreateCriteriaQuery<Player>();
+                IQuery query = odb.Query<Player>();
                 query.Descend("Name").Equal("magdalena");
                 var players = query.Execute<Player>();
 
                 var magdalena = players.GetFirst();
  
                 // builds a query to get all teams where mihn plays
-                query = odb.CreateCriteriaQuery<Team>();
+                query = odb.Query<Team>();
                 query.Descend("Players").Contain(magdalena);
                 
                 var teams = query.Execute<Team>();
@@ -239,7 +239,7 @@ namespace NDatabase.UnitTests.CodeSnippets
         {
             using (var odb = OdbFactory.Open(TutorialDb5MinName))
             {
-                IQuery query = odb.CreateCriteriaQuery<Player>();
+                IQuery query = odb.Query<Player>();
                 query.OrderByAsc("Name");
 
                 var players = query.Execute<Player>();

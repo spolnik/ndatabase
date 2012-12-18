@@ -243,14 +243,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                                                   queryResultAction);
         }
 
-        public virtual IObjectSet<T> GetObjects<T>(bool inMemory, int startIndex, int endIndex) where T : class
-        {
-            if (IsDbClosed)
-                throw new OdbRuntimeException(NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
-
-            return ObjectReader.GetObjects<T>(new CriteriaQuery<T>(), inMemory, startIndex, endIndex);
-        }
-
         public abstract ClassInfoList AddClasses(ClassInfoList arg1);
 
         public abstract void AddCommitListener(ICommitListener arg1);

@@ -30,27 +30,30 @@ namespace NDatabase.UnitTests.Bugs
 
             using (var odb = OdbFactory.OpenLast())
             {
-                var a = odb.Query<A>().GetFirst();
+                var query = odb.Query<A>();
+                var a = query.Execute<A>().GetFirst();
 
                 a.Value = new B();
 
-                odb.Store(a);
+                odb.Store<A>(a);
             }
 
             using (var odb = OdbFactory.OpenLast())
             {
-                var a = odb.Query<A>().GetFirst();
+                var query = odb.Query<A>();
+                var a = query.Execute<A>().GetFirst();
 
                 a.Value.Value = "Value";
 
-                odb.Store(a);
+                odb.Store<A>(a);
             }
 
             using (var odb = OdbFactory.OpenLast())
             {
-                var a = odb.Query<A>().GetFirst();
+                var query = odb.Query<A>();
+                var a = query.Execute<A>().GetFirst();
 
-                Assert.That(a.Value.Value, Is.EqualTo("Value"));
+                Assert.That((object) a.Value.Value, Is.EqualTo("Value"));
             }
         }
     }

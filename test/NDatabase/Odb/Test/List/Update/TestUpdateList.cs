@@ -34,11 +34,12 @@ namespace Test.NDatabase.Odb.Test.List.Update
             try
             {
                 odb = Open(file);
-                var l2 = odb.Query<DadosUsuario>();
+                var query = odb.Query<DadosUsuario>();
+                var l2 = query.Execute<DadosUsuario>();
                 Println(l2);
                 var du = l2.GetFirst();
                 du.GetPublicados().Add(new Publicacao("p2", "Texto2"));
-                odb.Store(du);
+                odb.Store<DadosUsuario>(du);
             }
             finally
             {
@@ -48,11 +49,12 @@ namespace Test.NDatabase.Odb.Test.List.Update
             try
             {
                 odb = Open(file);
-                var l2 = odb.Query<DadosUsuario>();
+                var query = odb.Query<DadosUsuario>();
+                var l2 = query.Execute<DadosUsuario>();
                 Println(l2);
                 var du = l2.GetFirst();
                 Println(du.GetPublicados());
-                AssertEquals(2, du.GetPublicados().Count);
+                AssertEquals((int) 2, (int) du.GetPublicados().Count);
             }
             finally
             {
@@ -91,11 +93,12 @@ namespace Test.NDatabase.Odb.Test.List.Update
                 try
                 {
                     odb = Open(file);
-                    var l2 = odb.Query<DadosUsuario>();
+                    var query = odb.Query<DadosUsuario>();
+                    var l2 = query.Execute<DadosUsuario>();
                     // println(l2);
                     var du = l2.GetFirst();
                     du.GetPublicados().Add(new Publicacao("p" + (i + 1), "Texto" + (i + 1)));
-                    odb.Store(du);
+                    odb.Store<DadosUsuario>(du);
                 }
                 finally
                 {
@@ -106,11 +109,12 @@ namespace Test.NDatabase.Odb.Test.List.Update
             try
             {
                 odb = Open(file);
-                var l2 = odb.Query<DadosUsuario>();
+                var query = odb.Query<DadosUsuario>();
+                var l2 = query.Execute<DadosUsuario>();
                 Println(l2);
                 var du = l2.GetFirst();
                 Println(du.GetPublicados());
-                AssertEquals(size + 1, du.GetPublicados().Count);
+                AssertEquals(size + 1, (int) du.GetPublicados().Count);
                 for (var i = 0; i < size + 1; i++)
                 {
                     var p = (Publicacao) du.GetPublicados()[i];

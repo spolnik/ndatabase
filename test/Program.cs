@@ -19,7 +19,8 @@ namespace Test
                 Console.WriteLine("Write Done!");
 
                 odb = OdbFactory.Open(file);
-                IObjectSet<Function> functions = odb.Query<Function>();
+                var query = odb.Query<Function>();
+                IObjectSet<Function> functions = query.Execute<Function>();
                 Console.WriteLine(" Number of functions = " + functions.Count);
                 Function f = (Function) odb.GetObjectFromId(oid);
                 Console.WriteLine(f.ToString());
@@ -48,7 +49,8 @@ namespace Test
                 odb.Close();
 
                 odb = OdbFactory.Open(file);
-                var functions = odb.Query<Function>();
+                var query = odb.Query<Function>();
+                var functions = query.Execute<Function>();
                 Console.WriteLine(" Number of functions = " + functions.Count);
                 
                 odb.Close();
@@ -77,7 +79,7 @@ namespace Test
                 odb.Close();
 
                 odb = OdbFactory.Open(file);
-                var query = odb.CreateCriteriaQuery<Function>();
+                var query = odb.Query<Function>();
                 
                 query.Descend("name").Equal("function 199");
                 

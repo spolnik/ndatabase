@@ -23,7 +23,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Store(new Woman("Karine"));
             odb.Close();
             odb = Open("multi");
-            IQuery q = odb.CreateCriteriaQuery<object>();
+            IQuery q = odb.Query<object>();
 
             var os = q.Execute<object>();
             Println(os);
@@ -44,7 +44,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Store(new Woman("Karine"));
             odb.Close();
             odb = Open("multi");
-            IQuery q = odb.CreateCriteriaQuery<Human>();
+            IQuery q = odb.Query<Human>();
 
             var os = q.Execute<Human>();
             Println(os);
@@ -128,7 +128,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Store(new Woman("Karine"));
             odb.Close();
             odb = Open("multi");
-            var q = odb.CreateCriteriaQuery<object>();
+            var q = odb.Query<object>();
 
             Decimal nb = q.Count();
             Println(nb);
@@ -153,7 +153,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             }
             odb.Close();
             odb = Open(baseName);
-            var q = odb.CreateCriteriaQuery<object>();
+            var q = odb.Query<object>();
 
             Decimal nb = q.Count();
             Println(nb);
@@ -178,7 +178,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             }
             odb.Close();
             odb = Open(baseName);
-            var q = odb.CreateCriteriaQuery<object>();
+            var q = odb.Query<object>();
             q.Descend("specie").Equal("man");
 
             Decimal nb = q.Count();

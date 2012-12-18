@@ -38,7 +38,8 @@ namespace NDatabase.UnitTests.Base
 
             using (var db = OdbFactory.Open(_dbFileName))
             {
-                var restoredPerson = db.Query<Person>().First();
+                var query = db.Query<Person>();
+                var restoredPerson = query.Execute<Person>().First<Person>();
                 Assert.That(restoredPerson.Name, Is.EqualTo(_person.Name));
                 Assert.That(restoredPerson.Age, Is.EqualTo(_person.Age));
             }

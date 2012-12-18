@@ -22,7 +22,10 @@ namespace Test.NDatabase.Odb.Test.Acid
                 odb.Store(GetInstance("f1"));
 
             using (var odb = test.Open("acid1"))
-                AssertEquals(2, odb.Query<VO.Login.Function>().Count);
+            {
+                var query = odb.Query<VO.Login.Function>();
+                AssertEquals(2, query.Execute<VO.Login.Function>().Count);
+            }
         }
 
         [Test]
@@ -40,7 +43,8 @@ namespace Test.NDatabase.Odb.Test.Acid
 
             using (var odb = test.Open("acid1"))
             {
-                size = odb.Query<User>().Count;
+                var query = odb.Query<User>();
+                size = query.Execute<User>().Count;
             }
 
             AssertEquals(1, size);
@@ -65,7 +69,8 @@ namespace Test.NDatabase.Odb.Test.Acid
 
             using (var odb = test.Open("acid1"))
             {
-                AssertEquals(0, odb.Query<VO.Login.Function>().Count);
+                var query = odb.Query<VO.Login.Function>();
+                AssertEquals(0, query.Execute<VO.Login.Function>().Count);
             }
         }
 
@@ -88,7 +93,8 @@ namespace Test.NDatabase.Odb.Test.Acid
 
             using (var odb = test.Open("acid1"))
             {
-                AssertEquals(0, odb.Query<VO.Login.Function>().Count);
+                var query = odb.Query<VO.Login.Function>();
+                AssertEquals(0, query.Execute<VO.Login.Function>().Count);
             }
         }
 
@@ -121,7 +127,8 @@ namespace Test.NDatabase.Odb.Test.Acid
 
             using (var odb = test.Open("acid1"))
             {
-                AssertEquals(0, odb.Query<VO.Login.Function>().Count);
+                var query = odb.Query<VO.Login.Function>();
+                AssertEquals(0, query.Execute<VO.Login.Function>().Count);
             }
         }
 
@@ -165,9 +172,15 @@ namespace Test.NDatabase.Odb.Test.Acid
             using (var odb = test.Open("acid1"))
             {
                 if (simpleObject)
-                    AssertEquals(0, odb.Query<VO.Login.Function>().Count);
+                {
+                    var query = odb.Query<VO.Login.Function>();
+                    AssertEquals(0, query.Execute<VO.Login.Function>().Count);
+                }
                 else
-                    AssertEquals(0, odb.Query<User>().Count);
+                {
+                    var query1 = odb.Query<User>();
+                    AssertEquals(0, query1.Execute<User>().Count);
+                }
             }
         }
 
@@ -199,7 +212,8 @@ namespace Test.NDatabase.Odb.Test.Acid
 
             using (var odb = test.Open("acid1"))
             {
-                AssertEquals(1000, odb.Query<User>().Count);
+                var query = odb.Query<User>();
+                AssertEquals(1000, query.Execute<User>().Count);
             }
 
             using (var odb = test.Open("acid1"))
@@ -226,7 +240,8 @@ namespace Test.NDatabase.Odb.Test.Acid
 
             using (var odb = test.Open("acid1"))
             {
-                AssertEquals(1000, odb.Query<User>().Count);
+                var query = odb.Query<User>();
+                AssertEquals(1000, query.Execute<User>().Count);
             }
         }
 
@@ -276,9 +291,15 @@ namespace Test.NDatabase.Odb.Test.Acid
             using (var odb = test.Open("acid1"))
             {
                 if (simpleObject)
-                    AssertEquals(0, odb.Query<VO.Login.Function>().Count);
+                {
+                    var query = odb.Query<VO.Login.Function>();
+                    AssertEquals(0, query.Execute<VO.Login.Function>().Count);
+                }
                 else
-                    AssertEquals(0, odb.Query<User>().Count);
+                {
+                    var query1 = odb.Query<User>();
+                    AssertEquals(0, query1.Execute<User>().Count);
+                }
             }
         }
 
@@ -303,9 +324,15 @@ namespace Test.NDatabase.Odb.Test.Acid
             using (var odb = test.Open("acid1"))
             {
                 if (simpleObject)
-                    AssertEquals(3, odb.Query<VO.Login.Function>().Count);
+                {
+                    var query = odb.Query<VO.Login.Function>();
+                    AssertEquals(3, query.Execute<VO.Login.Function>().Count);
+                }
                 else
-                    AssertEquals(3, odb.Query<User>().Count);
+                {
+                    var query1 = odb.Query<User>();
+                    AssertEquals(3, query1.Execute<User>().Count);
+                }
             }
 
         }
@@ -328,9 +355,15 @@ namespace Test.NDatabase.Odb.Test.Acid
             using (var odb = test.Open("acid1"))
             {
                 if (simpleObject)
-                    AssertEquals(3, odb.Query<VO.Login.Function>().Count);
+                {
+                    var query = odb.Query<VO.Login.Function>();
+                    AssertEquals(3, query.Execute<VO.Login.Function>().Count);
+                }
                 else
-                    AssertEquals(3, odb.Query<User>().Count);
+                {
+                    var query1 = odb.Query<User>();
+                    AssertEquals(3, query1.Execute<User>().Count);
+                }
             }
         }
 
@@ -352,9 +385,15 @@ namespace Test.NDatabase.Odb.Test.Acid
             using (var odb = test.Open("acid1"))
             {
                 if (simpleObject)
-                    AssertEquals(3, odb.Query<VO.Login.Function>().Count);
+                {
+                    var query = odb.Query<VO.Login.Function>();
+                    AssertEquals(3, query.Execute<VO.Login.Function>().Count);
+                }
                 else
-                    AssertEquals(3, odb.Query<User>().Count);
+                {
+                    var query1 = odb.Query<User>();
+                    AssertEquals(3, query1.Execute<User>().Count);
+                }
             }
         }
 
@@ -387,9 +426,15 @@ namespace Test.NDatabase.Odb.Test.Acid
             using (var odb = test.Open("acid1"))
             {
                 if (simpleObject)
-                    AssertEquals(3, odb.Query<VO.Login.Function>().Count);
+                {
+                    var query = odb.Query<VO.Login.Function>();
+                    AssertEquals(3, query.Execute<VO.Login.Function>().Count);
+                }
                 else
-                    AssertEquals(3, odb.Query<User>().Count);
+                {
+                    var query1 = odb.Query<User>();
+                    AssertEquals(3, query1.Execute<User>().Count);
+                }
             }
         }
 
@@ -411,9 +456,15 @@ namespace Test.NDatabase.Odb.Test.Acid
             using (var odb = test.Open("acid1"))
             {
                 if (simpleObject)
-                    AssertEquals(0, odb.Query<VO.Login.Function>().Count);
+                {
+                    var query = odb.Query<VO.Login.Function>();
+                    AssertEquals(0, query.Execute<VO.Login.Function>().Count);
+                }
                 else
-                    AssertEquals(0, odb.Query<User>().Count);
+                {
+                    var query1 = odb.Query<User>();
+                    AssertEquals(0, query1.Execute<User>().Count);
+                }
             }
         }
 
@@ -441,7 +492,7 @@ namespace Test.NDatabase.Odb.Test.Acid
             {
                 if (simpleObject)
                 {
-                    var query = odb.CreateCriteriaQuery<VO.Login.Function>();
+                    var query = odb.Query<VO.Login.Function>();
                     query.Descend("name").Equal("f1000");
                     var objects = query.Execute<VO.Login.Function>();
 
@@ -451,7 +502,7 @@ namespace Test.NDatabase.Odb.Test.Acid
                 }
                 else
                 {
-                    var query = odb.CreateCriteriaQuery<User>();
+                    var query = odb.Query<User>();
                     query.Descend("name").Equal("f1000");
                     var objects = query.Execute<User>();
                     var f = objects.GetFirst();
@@ -469,14 +520,14 @@ namespace Test.NDatabase.Odb.Test.Acid
             {
                 if (simpleObject)
                 {
-                    var query = odb.CreateCriteriaQuery<VO.Login.Function>();
+                    var query = odb.Query<VO.Login.Function>();
                     query.Descend("name").Equal("new name");
                     var objects = query.Execute<VO.Login.Function>();
                     odb.Delete(objects.GetFirst());
                 }
                 else
                 {
-                    var query = odb.CreateCriteriaQuery<User>();
+                    var query = odb.Query<User>();
                     query.Descend("name").Equal("new name");
                     var objects = query.Execute<User>();
                     odb.Delete(objects.GetFirst());
@@ -494,14 +545,14 @@ namespace Test.NDatabase.Odb.Test.Acid
                 nb = 0;
                 if (simpleObject)
                 {
-                    var query = odb.CreateCriteriaQuery<VO.Login.Function>();
+                    var query = odb.Query<VO.Login.Function>();
                     query.Descend("name").Equal("f1000");
                     var objects = query.Execute<VO.Login.Function>();
                     nb = objects.Count;
                 }
                 else
                 {
-                    var query = odb.CreateCriteriaQuery<User>();
+                    var query = odb.Query<User>();
                     query.Descend("name").Equal("f1000");
                     var objects = query.Execute<User>();
                     nb = objects.Count;

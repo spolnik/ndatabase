@@ -28,7 +28,8 @@ namespace NDatabase.UnitTests.CodeSnippets
             // Open the database
             using (var odb1 = OdbFactory.Open("test.db"))
             {
-                var sports = odb1.Query<Sport>();
+                var query = odb1.Query<Sport>();
+                var sports = query.Execute<Sport>();
                 // code working on sports list
                 Assert.That(sports, Has.Count.EqualTo(1));
             }

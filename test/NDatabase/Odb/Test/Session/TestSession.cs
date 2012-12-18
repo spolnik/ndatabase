@@ -1,3 +1,4 @@
+using NDatabase2.Odb;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Arraycollectionmap;
 
@@ -14,7 +15,8 @@ namespace Test.NDatabase.Odb.Test.Session
             var odb = Open("session.neodatis");
             odb.Close();
             var odb2 = Open("session.neodatis");
-            var l = odb2.Query<PlayerWithList>(true);
+            var query = odb2.Query<PlayerWithList>();
+            var l = query.Execute<PlayerWithList>(true);
             AssertEquals(0, l.Count);
             odb2.Close();
             DeleteBase("session.neodatis");
@@ -33,7 +35,8 @@ namespace Test.NDatabase.Odb.Test.Session
             odb.Store(f);
             odb.Close();
             odb = Open("session.neodatis");
-            var os = odb.Query<VO.Login.Function>();
+            var query = odb.Query<VO.Login.Function>();
+            var os = query.Execute<VO.Login.Function>();
             AssertEquals(1, os.Count);
             var f2 = os.GetFirst();
             odb.Close();

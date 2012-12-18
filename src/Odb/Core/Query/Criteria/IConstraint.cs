@@ -26,14 +26,6 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
         AttributeValuesMap GetValues();
 
-        /// <summary>
-        ///   Gets thes whole query
-        /// </summary>
-        /// <returns> The owner query </returns>
-        IQuery GetQuery();
-
-        void SetQuery(IQuery query);
-
         bool CanUseIndex();
 
         /// <summary>

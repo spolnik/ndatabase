@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using NDatabase2.Odb;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Insert
@@ -18,7 +19,8 @@ namespace Test.NDatabase.Odb.Test.Insert
             odb.Store(buffer);
             odb.Close();
             odb = Open("test.stringbuffer.odb");
-            var l = odb.Query<StringBuilder>();
+            var query = odb.Query<StringBuilder>();
+            var l = query.Execute<StringBuilder>();
             odb.Close();
             var b2 = l.GetFirst();
             AssertEquals(buffer.ToString(), b2.ToString());
@@ -35,7 +37,8 @@ namespace Test.NDatabase.Odb.Test.Insert
             odb.Store(textBox);
             odb.Close();
             odb = Open("test.textbox.odb");
-            var l = odb.Query<TextBox>();
+            var query = odb.Query<TextBox>();
+            var l = query.Execute<TextBox>();
             odb.Close();
             var textBox2 = l.GetFirst();
             AssertEquals(textBox.Text, textBox2.Text);
@@ -67,7 +70,8 @@ namespace Test.NDatabase.Odb.Test.Insert
             odb.Store(url2);
             odb.Close();
             odb = Open("test.url.odb");
-            var l = odb.Query<Uri>();
+            var query = odb.Query<Uri>();
+            var l = query.Execute<Uri>();
 
             var first = l.FirstOrDefault(x => x.AbsoluteUri == "http://google.com/");
             Assert.That(first, Is.Not.Null);

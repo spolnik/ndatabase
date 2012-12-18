@@ -4,11 +4,11 @@ using NDatabase2.Tool.Wrappers.List;
 
 namespace NDatabase2.Odb.Core.Query.Criteria
 {
-    public abstract class ComposedExpression : AbstractExpression
+    internal abstract class ComposedExpression : AbstractExpression
     {
         protected IOdbList<IConstraint> Constraints;
 
-        protected ComposedExpression()
+        protected ComposedExpression(IQuery query) : base(query)
         {
             Constraints = new OdbList<IConstraint>(5);
         }

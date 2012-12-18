@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using NDatabase2.Odb.Core.Layers.Layer2.Meta;
 using NDatabase2.Odb.Core.Layers.Layer2.Meta.Compare;
+using NDatabase2.Odb.Core.Layers.Layer3;
 
 namespace NDatabase2.Odb.Core.Query.Criteria
 {
@@ -10,43 +11,28 @@ namespace NDatabase2.Odb.Core.Query.Criteria
     /// </summary>
     internal sealed class EqualCriterion : AConstraint
     {
-        private bool _isCaseSensitive;
-
-        private bool _objectIsNative;
+        private readonly bool _isCaseSensitive;
 
         /// <summary>
         ///   For criteria query on objects, we use the oid of the object instead of the object itself.
         /// </summary>
         /// <remarks>
-        ///   For criteria query on objects, we use the oid of the object instead of the object itself. So comparison will be done with OID It is faster and avoid the need of the object (class) having to implement Serializable in client server mode
+        ///   For criteria query on objects, we use the oid of the object instead of the object itself. 
+        ///   So comparison will be done with OID It is faster and avoid the need of the object (class) 
+        ///   having to implement Serializable in client server mode
         /// </remarks>
         private OID _oid;
 
-        public EqualCriterion(string attributeName, object value) 
-            : base(attributeName, value)
-        {
-            Init(value);
-        }
-
-        /// <param name="attributeName"> </param>
-        /// <param name="value"> </param>
-        /// <param name="isCaseSensitive"> </param>
-        private EqualCriterion(string attributeName, object value, bool isCaseSensitive) 
-            : base(attributeName, value)
+        public EqualCriterion(IQuery query, string attributeName, object value, bool isCaseSensitive = true)
+            : base(query, attributeName, value)
         {
             _isCaseSensitive = isCaseSensitive;
         }
 
-        public static EqualCriterion CreateInvartiantStringEqualCriterion(string attributeName, string value,
+        public static EqualCriterion CreateInvartiantStringEqualCriterion(IQuery query, string attributeName, string value,
                                                                                   bool isCaseSensitive)
         {
-            return new EqualCriterion(attributeName, value, isCaseSensitive);
-        }
-
-        private void Init(object value)
-        {
-            _isCaseSensitive = true;
-            _objectIsNative = TheObject == null || OdbType.IsNative(TheObject.GetType());
+            return new EqualCriterion(query, attributeName, value, isCaseSensitive);
         }
 
         public override bool Match(object valueToMatch)
@@ -62,7 +48,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             // if case sensitive (default value), just call the equals on the objects
             if (_isCaseSensitive)
             {
-                if (_objectIsNative)
+                if (IsNative())
                     return valueToMatch != null && Equals(valueToMatch, TheObject);
 
                 var objectOid = (OID) valueToMatch;
@@ -77,12 +63,9 @@ namespace NDatabase2.Odb.Core.Query.Criteria
                     }
                 }
 
-                // throw new
-                // ODBRuntimeException(NDatabaseError.CRITERIA_QUERY_ON_UNKNOWN_OBJECT);
                 return _oid.Equals(objectOid);
             }
 
-            // && valueToMatch.equals(criterionValue);
             // Case insensitive (iequal) only works on String or Character!
             var typeOfValueToMatch = valueToMatch.GetType();
 
@@ -128,18 +111,11 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
         public override void Ready()
         {
-            if (_objectIsNative)
+            if (IsNative())
                 return;
 
-            if (GetQuery() == null)
-                throw new OdbRuntimeException(NDatabaseError.ContainsQueryWithNoQuery);
-
-            var engine = ((IInternalQuery) GetQuery()).GetStorageEngine();
-            if (engine == null)
-                throw new OdbRuntimeException(NDatabaseError.ContainsQueryWithNoStorageEngine);
-
             // For non native object, we just need the oid of it
-            _oid = engine.GetObjectId(TheObject, false);
+            _oid = ((IInternalQuery)Query).GetStorageEngine().GetObjectId(TheObject, false);
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using NDatabase2.Odb;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Arraycollectionmap.Catalog;
 using Test.NDatabase.Odb.Test.VO.Login;
@@ -22,7 +23,8 @@ namespace Test.NDatabase.Odb.Test.Delete
             odb.Store(p);
             odb.Close();
             odb = Open(baseName);
-            var objects = odb.Query<Profile>();
+            var query = odb.Query<Profile>();
+            var objects = query.Execute<Profile>();
             while (objects.HasNext())
             {
                 var profile = objects.Next();
@@ -55,7 +57,8 @@ namespace Test.NDatabase.Odb.Test.Delete
             odb.Store(catalog);
             odb.Close();
             odb = Open(baseName);
-            var objects = odb.Query<Catalog>();
+            var query = odb.Query<Catalog>();
+            var objects = query.Execute<Catalog>();
             Println(objects.Count + " catalog(s)");
             while (objects.HasNext())
             {
@@ -78,9 +81,12 @@ namespace Test.NDatabase.Odb.Test.Delete
             }
             odb.Close();
             odb = Open(baseName);
-            var catalogs = odb.Query<Catalog>();
-            var productCategories = odb.Query<ProductCategory>();
-            var products = odb.Query<Product>();
+            var query1 = odb.Query<Catalog>();
+            var catalogs = query1.Execute<Catalog>();
+            var query2 = odb.Query<ProductCategory>();
+            var productCategories = query2.Execute<ProductCategory>();
+            var query3 = odb.Query<Product>();
+            var products = query3.Execute<Product>();
             AssertTrue(catalogs.Count == 0);
             AssertTrue(productCategories.Count == 0);
             AssertTrue(products.Count == 0);

@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NDatabase2.Odb;
+using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Interfaces;
 
 namespace Test.NDatabase.Odb.Test.Interfaces
@@ -26,7 +27,8 @@ namespace Test.NDatabase.Odb.Test.Interfaces
             odb.Store(owi);
             odb.Close();
             odb = Open("tinterfaces.neodatis");
-            var os = odb.Query<ObjectWithInterfaces>();
+            var query = odb.Query<ObjectWithInterfaces>();
+            var os = query.Execute<ObjectWithInterfaces>();
             AssertEquals(1, os.Count);
             odb.Close();
         }
@@ -40,7 +42,8 @@ namespace Test.NDatabase.Odb.Test.Interfaces
             odb.Store(o);
             odb.Close();
             odb = Open(baseName);
-            var os = odb.Query<MyObject>();
+            var query = odb.Query<MyObject>();
+            var os = query.Execute<MyObject>();
             AssertEquals(1, os.Count);
             odb.Close();
             // deleteBase(baseName);

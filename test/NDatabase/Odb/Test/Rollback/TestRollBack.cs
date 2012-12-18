@@ -27,7 +27,8 @@ namespace Test.NDatabase.Odb.Test.Rollback
             odb.Rollback();
             odb.Close();
             odb = Open("rollback.neodatis", "u1", "p1");
-            AssertEquals(3, odb.Query<VO.Login.Function>().Count);
+            var query = odb.Query<VO.Login.Function>();
+            AssertEquals(3, query.Execute<VO.Login.Function>().Count);
             odb.Close();
         }
 
@@ -47,7 +48,8 @@ namespace Test.NDatabase.Odb.Test.Rollback
             // odb.close();
             try
             {
-                AssertEquals(3, odb.Query<VO.Login.Function>().Count);
+                var query = odb.Query<VO.Login.Function>();
+                AssertEquals(3, query.Execute<VO.Login.Function>().Count);
             }
             catch (OdbRuntimeException e)
             {
@@ -72,7 +74,8 @@ namespace Test.NDatabase.Odb.Test.Rollback
             odb.Rollback();
             odb.Close();
             odb = Open("rollback.neodatis", "u1", "p1");
-            AssertEquals(3, odb.Query<VO.Login.Function>().Count);
+            var query = odb.Query<VO.Login.Function>();
+            AssertEquals(3, query.Execute<VO.Login.Function>().Count);
             odb.Close();
         }
 
@@ -92,7 +95,8 @@ namespace Test.NDatabase.Odb.Test.Rollback
             odb.Rollback();
             odb.Close();
             odb = Open("rollback.neodatis", "u1", "p1");
-            AssertEquals(3, odb.Query<VO.Login.Function>().Count);
+            var query = odb.Query<VO.Login.Function>();
+            AssertEquals(3, query.Execute<VO.Login.Function>().Count);
             odb.Close();
         }
 
@@ -107,13 +111,15 @@ namespace Test.NDatabase.Odb.Test.Rollback
             odb.Store(new VO.Login.Function("f3"));
             odb.Close();
             odb = Open("rollback.neodatis", "u1", "p1");
-            var objects = odb.Query<VO.Login.Function>();
+            var query = odb.Query<VO.Login.Function>();
+            var objects = query.Execute<VO.Login.Function>();
             while (objects.HasNext())
                 odb.Delete(objects.Next());
             odb.Rollback();
             odb.Close();
             odb = Open("rollback.neodatis", "u1", "p1");
-            AssertEquals(3, odb.Query<VO.Login.Function>().Count);
+            var query1 = odb.Query<VO.Login.Function>();
+            AssertEquals(3, query1.Execute<VO.Login.Function>().Count);
             odb.Close();
         }
 
@@ -128,7 +134,8 @@ namespace Test.NDatabase.Odb.Test.Rollback
             odb.Store(new VO.Login.Function("f3"));
             odb.Close();
             odb = Open("rollback.neodatis", "u1", "p1");
-            var objects = odb.Query<VO.Login.Function>();
+            var query = odb.Query<VO.Login.Function>();
+            var objects = query.Execute<VO.Login.Function>();
             while (objects.HasNext())
                 odb.Delete(objects.Next());
             for (var i = 0; i < 500; i++)
@@ -136,7 +143,8 @@ namespace Test.NDatabase.Odb.Test.Rollback
             odb.Rollback();
             odb.Close();
             odb = Open("rollback.neodatis", "u1", "p1");
-            AssertEquals(3, odb.Query<VO.Login.Function>().Count);
+            var query1 = odb.Query<VO.Login.Function>();
+            AssertEquals(3, query1.Execute<VO.Login.Function>().Count);
             odb.Close();
         }
 
@@ -151,7 +159,8 @@ namespace Test.NDatabase.Odb.Test.Rollback
             odb.Store(new VO.Login.Function("3function"));
             odb.Close();
             odb = Open("rollback.neodatis", "u1", "p1");
-            var objects = odb.Query<VO.Login.Function>();
+            var query = odb.Query<VO.Login.Function>();
+            var objects = query.Execute<VO.Login.Function>();
             while (objects.HasNext())
             {
                 var f = objects.Next();
@@ -161,7 +170,8 @@ namespace Test.NDatabase.Odb.Test.Rollback
             odb.Rollback();
             odb.Close();
             odb = Open("rollback.neodatis", "u1", "p1");
-            AssertEquals(3, odb.Query<VO.Login.Function>().Count);
+            var query1 = odb.Query<VO.Login.Function>();
+            AssertEquals(3, query1.Execute<VO.Login.Function>().Count);
             odb.Close();
         }
 
@@ -176,7 +186,8 @@ namespace Test.NDatabase.Odb.Test.Rollback
             odb.Store(new VO.Login.Function("f3"));
             odb.Close();
             odb = Open("rollback.neodatis", "u1", "p1");
-            var objects = odb.Query<VO.Login.Function>();
+            var query = odb.Query<VO.Login.Function>();
+            var objects = query.Execute<VO.Login.Function>();
             while (objects.HasNext())
             {
                 var f = objects.Next();
@@ -191,7 +202,8 @@ namespace Test.NDatabase.Odb.Test.Rollback
             odb.Rollback();
             odb.Close();
             odb = Open("rollback.neodatis", "u1", "p1");
-            AssertEquals(3, odb.Query<VO.Login.Function>().Count);
+            var query1 = odb.Query<VO.Login.Function>();
+            AssertEquals(3, query1.Execute<VO.Login.Function>().Count);
             odb.Close();
         }
     }

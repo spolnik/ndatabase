@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Query.Criteria;
 using NDatabase2.Tool.Wrappers;
 using NUnit.Framework;
@@ -44,7 +45,8 @@ namespace Test.NDatabase.Odb.Test.Performance
             // println("totalObjects = "+ odb.count(User.class));
             odb = Open(Filename);
             var start1 = OdbTime.GetCurrentTimeInTicks();
-            var lazyList = odb.Query<User>(false);
+            var query = odb.Query<User>();
+            var lazyList = query.Execute<User>(false);
             var end1 = OdbTime.GetCurrentTimeInTicks();
             var startget1 = OdbTime.GetCurrentTimeInTicks();
             while (lazyList.HasNext())
@@ -55,7 +57,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             // t2 = OdbTime.getCurrentTimeInMs();
             // println(t2-t1);
             var endget1 = OdbTime.GetCurrentTimeInTicks();
-            AssertEquals(odb.CreateCriteriaQuery<User>().Count(), lazyList.Count);
+            AssertEquals(odb.Query<User>().Count(), lazyList.Count);
             odb.Close();
             var t01 = end1 - start1;
             var tget1 = endget1 - startget1;

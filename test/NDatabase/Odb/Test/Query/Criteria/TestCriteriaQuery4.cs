@@ -77,7 +77,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             try
             {
                 odb = Open(BaseName);
-                var query = odb.CreateCriteriaQuery<TestClass>();
+                var query = odb.Query<TestClass>();
                 query.Descend("bigDecimal1").IsNotNull();
                 var l = query.Execute<TestClass>();
                 AssertEquals(53, l.Count);
@@ -96,7 +96,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             try
             {
                 odb = Open(BaseName);
-                var query = odb.CreateCriteriaQuery<TestClass>();
+                var query = odb.Query<TestClass>();
                 query.Descend("bigDecimal1").IsNull();
                 var l = query.Execute<TestClass>();
                 AssertEquals(0, l.Count);
@@ -112,11 +112,11 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
         public virtual void TestSodaWithBoolean()
         {
             var odb = Open(BaseName);
-            var query = odb.CreateCriteriaQuery<TestClass>();
+            var query = odb.Query<TestClass>();
             query.Descend("boolean1").Equal(true);
             var l = query.Execute<TestClass>();
             AssertTrue(l.Count > 1);
-            query = odb.CreateCriteriaQuery<TestClass>();
+            query = odb.Query<TestClass>();
             query.Descend("boolean1").Equal(true);
             l = query.Execute<TestClass>();
             AssertTrue(l.Count > 1);
@@ -129,21 +129,21 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var odb = Open(BaseName);
 
             var query =
-                odb.CreateCriteriaQuery<TestClass>();
+                odb.Query<TestClass>();
 
             query.Descend("string1").Equal("test class with values").And(query.Descend("date1").Equal(new DateTime(correctDate.Millisecond)));
 
             var l = query.Execute<TestClass>();
 
             query =
-                odb.CreateCriteriaQuery<TestClass>();
+                odb.Query<TestClass>();
 
             query.Descend("string1").Equal("test class with values").And(query.Descend("date1").GreaterOrEqual(new DateTime(
                                                                                                                             correctDate.Millisecond)));
             l = query.Execute<TestClass>();
             if (l.Count != 1)
             {
-                query = odb.CreateCriteriaQuery<TestClass>();
+                query = odb.Query<TestClass>();
                 query.Descend("string1").Equal("test class with null Decimal");
                 var l2 = query.Execute<TestClass>();
                 Println(l2);
@@ -158,15 +158,15 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
         public virtual void TestSodaWithDouble()
         {
             var odb = Open(BaseName);
-            var query = odb.CreateCriteriaQuery<TestClass>();
+            var query = odb.Query<TestClass>();
             query.Descend("double1").Equal(190.99);
             var l = query.Execute<TestClass>();
             AssertEquals(1, l.Count);
-            query = odb.CreateCriteriaQuery<TestClass>();
+            query = odb.Query<TestClass>();
             query.Descend("double1").GreaterThan((double) 189);
             l = query.Execute<TestClass>();
             AssertTrue(l.Count >= 1);
-            query = odb.CreateCriteriaQuery<TestClass>();
+            query = odb.Query<TestClass>();
             query.Descend("double1").LessThan((double) 191);
             l = query.Execute<TestClass>();
             AssertTrue(l.Count >= 1);
@@ -177,15 +177,15 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
         public virtual void TestSodaWithInt()
         {
             var odb = Open(BaseName);
-            var query = odb.CreateCriteriaQuery<TestClass>();
+            var query = odb.Query<TestClass>();
             query.Descend("int1").Equal(190);
             var l = query.Execute<TestClass>();
             AssertEquals(1, l.Count);
-            query = odb.CreateCriteriaQuery<TestClass>();
+            query = odb.Query<TestClass>();
             query.Descend("int1").GreaterThan(189);
             l = query.Execute<TestClass>();
             AssertTrue(l.Count >= 1);
-            query = odb.CreateCriteriaQuery<TestClass>();
+            query = odb.Query<TestClass>();
             query.Descend("int1").LessThan(191);
             l = query.Execute<TestClass>();
             AssertTrue(l.Count >= 1);

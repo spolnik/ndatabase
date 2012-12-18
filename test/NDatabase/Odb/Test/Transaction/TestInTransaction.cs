@@ -31,7 +31,8 @@ namespace Test.NDatabase.Odb.Test.Transaction
                 odb = Open(BaseName);
                 // stores a new function
                 odb.Store(new VO.Login.Function("function uncommited"));
-                var functions = odb.Query<VO.Login.Function>();
+                var query = odb.Query<VO.Login.Function>();
+                var functions = query.Execute<VO.Login.Function>();
                 AssertEquals(5, functions.Count);
             }
             finally
@@ -65,11 +66,14 @@ namespace Test.NDatabase.Odb.Test.Transaction
                 // stores a new function
                 odb.Store(new User("uncommited user", "uncommied email",
                                    new Profile("uncommiedt profile", new VO.Login.Function("uncommited function"))));
-                var users = odb.Query<User>();
+                var query = odb.Query<User>();
+                var users = query.Execute<User>();
                 AssertEquals(5, users.Count);
-                var functions = odb.Query<VO.Login.Function>();
+                var query1 = odb.Query<VO.Login.Function>();
+                var functions = query1.Execute<VO.Login.Function>();
                 AssertEquals(5, functions.Count);
-                var profiles = odb.Query<Profile>();
+                var query2 = odb.Query<Profile>();
+                var profiles = query2.Execute<Profile>();
                 AssertEquals(5, profiles.Count);
             }
             finally
@@ -119,7 +123,7 @@ namespace Test.NDatabase.Odb.Test.Transaction
                 // Let's insert a tennis player
                 var agassi = new Player("Andr√© Agassi", new DateTime(), new Sport("Tennis"));
                 odb.Store(agassi);
-                IQuery query = odb.CreateCriteriaQuery<Player>();
+                IQuery query = odb.Query<Player>();
                 query.Descend("favoriteSport.name").Equal("volley-ball");
                 var players = query.Execute<Player>();
                 Println("\nStep 4 : Players of Voller-ball");
@@ -203,7 +207,7 @@ namespace Test.NDatabase.Odb.Test.Transaction
             {
                 // Open the database
                 odb = Open(BaseName);
-                IQuery query = odb.CreateCriteriaQuery<Player>();
+                IQuery query = odb.Query<Player>();
                 query.Descend("name").Equal("olivier");
                 var players = query.Execute<Player>();
                 Println("\nStep 3 : Players with name olivier");
@@ -227,7 +231,7 @@ namespace Test.NDatabase.Odb.Test.Transaction
                 // Let's insert a tennis player
                 var agassi = new Player("Andr√© Agassi", new DateTime(), new Sport("Tennis"));
                 var oid = odb.Store(agassi);
-                IQuery query = odb.CreateCriteriaQuery<Player>();
+                IQuery query = odb.Query<Player>();
                 query.Descend("favoriteSport.name").Equal("volley-ball");
                 var players = query.Execute<Player>();
                 Println("\nStep 4 : Players of Voller-ball");

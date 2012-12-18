@@ -1,3 +1,4 @@
+using NDatabase2.Odb;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Jdk15.Generics
@@ -12,7 +13,8 @@ namespace Test.NDatabase.Odb.Test.Jdk15.Generics
             var baseName = GetBaseName();
             var odb = Open(baseName);
             odb.Store(new VO.Login.Function("Test"));
-            var functions = odb.Query<VO.Login.Function>();
+            var query = odb.Query<VO.Login.Function>();
+            var functions = query.Execute<VO.Login.Function>();
             var f = functions.GetFirst();
             odb.Close();
             AssertEquals(1, functions.Count);
@@ -24,7 +26,8 @@ namespace Test.NDatabase.Odb.Test.Jdk15.Generics
             var baseName = GetBaseName();
             var odb = Open(baseName);
             odb.Store(new VO.Login.Function("Test"));
-            var functions = odb.Query<VO.Login.Function>();
+            var query = odb.Query<VO.Login.Function>();
+            var functions = query.Execute<VO.Login.Function>();
             var f = functions.Next();
             odb.Close();
             AssertEquals(1, functions.Count);
@@ -36,7 +39,8 @@ namespace Test.NDatabase.Odb.Test.Jdk15.Generics
             var baseName = GetBaseName();
             var odb = Open(baseName);
             odb.Store(new VO.Login.Function("Test"));
-            var functions = odb.Query<VO.Login.Function>();
+            var query = odb.Query<VO.Login.Function>();
+            var functions = query.Execute<VO.Login.Function>();
             var iterator = functions.GetEnumerator();
             var f = iterator.Current;
             odb.Close();

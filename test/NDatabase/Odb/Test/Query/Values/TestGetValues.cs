@@ -256,7 +256,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             }
             odb.Close();
             odb = Open("valuesA7");
-            var query = odb.CreateCriteriaQuery<TestClass>();
+            var query = odb.Query<TestClass>();
             query.Descend("int1").Equal(2);
             decimal nb = query.Count();
             Println(nb);

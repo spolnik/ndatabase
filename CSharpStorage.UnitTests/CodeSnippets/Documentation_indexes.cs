@@ -26,7 +26,8 @@ namespace NDatabase.UnitTests.CodeSnippets
 
             using (var odb = OdbFactory.OpenLast())
             {
-                var count = odb.Query<Player>().Count;
+                var query = odb.Query<Player>();
+                var count = query.Execute<Player>().Count;
                 Assert.That(count, Is.EqualTo(50));
             }
         }
@@ -51,7 +52,7 @@ namespace NDatabase.UnitTests.CodeSnippets
             stopwatch.Start();
             using (var odb = OdbFactory.OpenLast())
             {
-                var query = odb.CreateCriteriaQuery<Player>();
+                var query = odb.Query<Player>();
                 query.Descend("Name").Equal("Player20");
                 
                 var count = query.Execute<Player>().Count;
@@ -65,7 +66,7 @@ namespace NDatabase.UnitTests.CodeSnippets
             stopwatch.Start();
             using (var odb = OdbFactory.OpenLast())
             {
-                var query = odb.CreateCriteriaQuery<Player>();
+                var query = odb.Query<Player>();
                 query.Descend("Name").Equal("Player1234");
                 var count = query.Execute<Player>().Count;
                 Assert.That(count, Is.EqualTo(1));
@@ -77,7 +78,7 @@ namespace NDatabase.UnitTests.CodeSnippets
             stopwatch.Start();
             using (var odb = OdbFactory.OpenLast())
             {
-                var query = odb.CreateCriteriaQuery<Player>();
+                var query = odb.Query<Player>();
                 query.Descend("Name").Equal("Player4444");
                 var count = query.Execute<Player>().Count;
                 Assert.That(count, Is.EqualTo(1));
@@ -89,7 +90,7 @@ namespace NDatabase.UnitTests.CodeSnippets
             stopwatch.Start();
             using (var odb = OdbFactory.OpenLast())
             {
-                var query = odb.CreateCriteriaQuery<Player>();
+                var query = odb.Query<Player>();
                 query.Descend("Name").Equal("Player3211");
                 var count = query.Execute<Player>().Count;
                 Assert.That(count, Is.EqualTo(1));
@@ -115,7 +116,7 @@ namespace NDatabase.UnitTests.CodeSnippets
             stopwatch.Start();
             using (var odb = OdbFactory.OpenLast())
             {
-                var query = odb.CreateCriteriaQuery<Player>();
+                var query = odb.Query<Player>();
                 query.Descend("Name").Equal("Player20");
                 var count = query.Execute<Player>().Count;
                 Assert.That(count, Is.EqualTo(1));
@@ -127,7 +128,7 @@ namespace NDatabase.UnitTests.CodeSnippets
             stopwatch.Start();
             using (var odb = OdbFactory.OpenLast())
             {
-                var query = odb.CreateCriteriaQuery<Player>();
+                var query = odb.Query<Player>();
                 query.Descend("Name").Equal("Player1234");
                 var count = query.Execute<Player>().Count;
                 Assert.That(count, Is.EqualTo(1));
@@ -139,7 +140,7 @@ namespace NDatabase.UnitTests.CodeSnippets
             stopwatch.Start();
             using (var odb = OdbFactory.OpenLast())
             {
-                var query = odb.CreateCriteriaQuery<Player>();
+                var query = odb.Query<Player>();
                 query.Descend("Name").Equal("Player4444");
                 var count = query.Execute<Player>().Count;
                 Assert.That(count, Is.EqualTo(1));
@@ -151,7 +152,7 @@ namespace NDatabase.UnitTests.CodeSnippets
             stopwatch.Start();
             using (var odb = OdbFactory.OpenLast())
             {
-                var query = odb.CreateCriteriaQuery<Player>();
+                var query = odb.Query<Player>();
                 query.Descend("Name").Equal("Player3211");
                 var count = query.Execute<Player>().Count;
                 Assert.That(count, Is.EqualTo(1));

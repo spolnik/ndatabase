@@ -3,11 +3,12 @@ using NDatabase2.Tool.Wrappers;
 
 namespace NDatabase2.Odb.Core.Query.Criteria
 {
-    public sealed class LikeCriterion : AConstraint
+    internal sealed class LikeCriterion : AConstraint
     {
         private readonly bool _isCaseSensitive;
 
-        public LikeCriterion(string attributeName, string criterionValue, bool isCaseSensiive) : base(attributeName, criterionValue)
+        public LikeCriterion(IQuery query, string attributeName, string criterionValue, bool isCaseSensiive) 
+            : base(query, attributeName, criterionValue)
         {
             _isCaseSensitive = isCaseSensiive;
         }

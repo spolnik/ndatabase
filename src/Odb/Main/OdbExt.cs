@@ -62,6 +62,11 @@ namespace NDatabase2.Odb.Main
             return objectInfoHeader.GetUpdateDate();
         }
 
+        public string GetDbId()
+        {
+            return _storageEngine.GetBaseIdentification().Id;
+        }
+
         #endregion
     }
 }

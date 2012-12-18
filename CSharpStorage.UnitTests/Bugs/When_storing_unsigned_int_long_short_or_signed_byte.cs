@@ -33,12 +33,13 @@ namespace NDatabase.UnitTests.Bugs
 
             using (var odb = OdbFactory.OpenLast())
             {
-                var objectToCheck = odb.Query<UnsignedTypesCheck>().GetFirst();
+                var query = odb.Query<UnsignedTypesCheck>();
+                var objectToCheck = query.Execute<UnsignedTypesCheck>().GetFirst();
 
-                Assert.That(objectToCheck.ValUInt, Is.EqualTo(uint.MaxValue));
-                Assert.That(objectToCheck.ValULong, Is.EqualTo(ulong.MaxValue));
-                Assert.That(objectToCheck.ValUShort, Is.EqualTo(ushort.MaxValue));
-                Assert.That(objectToCheck.ValSByte, Is.EqualTo(sbyte.MinValue));
+                Assert.That((object) objectToCheck.ValUInt, Is.EqualTo(uint.MaxValue));
+                Assert.That((object) objectToCheck.ValULong, Is.EqualTo(ulong.MaxValue));
+                Assert.That((object) objectToCheck.ValUShort, Is.EqualTo(ushort.MaxValue));
+                Assert.That((object) objectToCheck.ValSByte, Is.EqualTo(sbyte.MinValue));
             }
         }
     }

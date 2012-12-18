@@ -92,7 +92,8 @@ namespace Test.NDatabase.Odb.Test.Trigger
             }
             odb = Open("trigger.neodatis");
             odb.TriggerManagerFor<VO.Login.Function>().AddSelectTrigger(myTrigger);
-            var functions = odb.Query<VO.Login.Function>();
+            var query = odb.Query<VO.Login.Function>();
+            var functions = query.Execute<VO.Login.Function>();
             odb.Close();
             DeleteBase("trigger.neodatis");
             AssertEquals(2, functions.Count);

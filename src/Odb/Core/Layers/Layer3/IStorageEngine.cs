@@ -36,8 +36,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer3
 
         IInternalObjectSet<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex) where T : class;
 
-        IObjectSet<T> GetObjects<T>(bool inMemory, int startIndex, int endIndex) where T : class;
-
         IObjectReader GetObjectReader();
 
         IObjectWriter GetObjectWriter();

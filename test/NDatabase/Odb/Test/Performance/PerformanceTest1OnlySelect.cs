@@ -45,7 +45,8 @@ namespace Test.NDatabase.Odb.Test.Performance
             // Reopen the database
             var odb = OdbFactory.Open(OdbFileName);
             // Gets the TEST_SIZE objects
-            var l = odb.Query<SimpleObject>(inMemory);
+            var query = odb.Query<object>();
+            var l = query.Execute<object>(inMemory);
             Console.Out.WriteLine(l.GetType().FullName);
             var t4 = OdbTime.GetCurrentTimeInTicks();
             Console.Out.WriteLine("l.size=" + l.Count);

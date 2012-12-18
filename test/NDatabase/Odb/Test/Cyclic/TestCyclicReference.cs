@@ -43,7 +43,8 @@ namespace Test.NDatabase.Odb.Test.Cyclic
         public virtual void Test1()
         {
             var odb = Open("cyclic.neodatis");
-            var l = odb.Query<Country2>(true);
+            var query = odb.Query<Country2>();
+            var l = query.Execute<Country2>(true);
             var country = l.GetFirst();
             AssertEquals("Brasil0", country.GetName());
             AssertEquals("Brasilia0", country.GetCapital().GetName());
@@ -98,7 +99,8 @@ namespace Test.NDatabase.Odb.Test.Cyclic
             // LogUtil.logOn(ObjectWriter.LOG_ID, true);
             // LogUtil.logOn(ObjectReader.LOG_ID, true);
             var odb = Open("cyclic.neodatis");
-            var l = odb.Query<Country2>(true);
+            var query1 = odb.Query<Country2>();
+            var l = query1.Execute<Country2>(true);
             var country = l.GetFirst();
             var city = country.GetCapital();
             city.SetName("rio de janeiro");
@@ -106,14 +108,15 @@ namespace Test.NDatabase.Odb.Test.Cyclic
             odb.Store(country);
             odb.Close();
             odb = Open("cyclic.neodatis");
-            l = odb.Query<Country2>(true);
+            var query2 = odb.Query<Country2>();
+            l = query2.Execute<Country2>(true);
             country = l.GetFirst();
             AssertEquals("rio de janeiro", country.GetCapital().GetName());
-            var query = odb.CreateCriteriaQuery<City>();
+            var query = odb.Query<City>();
             query.Descend("name").Equal("rio de janeiro");
             var cities = query.Execute<City>();
             AssertEquals(1, cities.Count);
-            var cities2 = odb.CreateCriteriaQuery<City>().Execute<City>();
+            var cities2 = odb.Query<City>().Execute<City>();
             AssertEquals(1, cities2.Count);
             odb.Close();
         }
@@ -122,22 +125,24 @@ namespace Test.NDatabase.Odb.Test.Cyclic
         public virtual void Test2()
         {
             var odb = Open("cyclic.neodatis");
-            var l = odb.Query<Country2>(true);
+            var query1 = odb.Query<Country2>();
+            var l = query1.Execute<Country2>(true);
             var country = l.GetFirst();
             var city = new City("rio de janeiro");
             country.SetCapital(city);
             odb.Store(country);
             odb.Close();
             odb = Open("cyclic.neodatis");
-            l = odb.Query<Country2>(true);
+            var query2 = odb.Query<Country2>();
+            l = query2.Execute<Country2>(true);
             country = l.GetFirst();
             AssertEquals("rio de janeiro", country.GetCapital().GetName());
-            var query = odb.CreateCriteriaQuery<City>();
+            var query = odb.Query<City>();
             query.Descend("name").Equal("rio de janeiro");
             var cities = query.Execute<City>();
             AssertEquals(1, cities.Count);
 
-            var cities2 = odb.CreateCriteriaQuery<City>().Execute<City>();
+            var cities2 = odb.Query<City>().Execute<City>();
             AssertEquals(2, cities2.Count);
             odb.Close();
         }
@@ -146,8 +151,10 @@ namespace Test.NDatabase.Odb.Test.Cyclic
         public virtual void TestUniqueInstance1()
         {
             var odb = Open("cyclic.neodatis");
-            var cities = odb.Query<City>(true);
-            var countries = odb.Query<Country2>(true);
+            var query = odb.Query<City>();
+            var cities = query.Execute<City>(true);
+            var query1 = odb.Query<Country2>();
+            var countries = query1.Execute<Country2>(true);
             var country = countries.GetFirst();
             var city = cities.GetFirst();
             AssertTrue(country == city.GetCountry());
@@ -160,8 +167,10 @@ namespace Test.NDatabase.Odb.Test.Cyclic
         public virtual void TestUniqueInstance2()
         {
             var odb = Open("cyclic.neodatis");
-            var countries = odb.Query<Country2>(true);
-            var cities = odb.Query<City>(true);
+            var query1 = odb.Query<Country2>();
+            var countries = query1.Execute<Country2>(true);
+            var query = odb.Query<City>();
+            var cities = query.Execute<City>(true);
             var country = countries.GetFirst();
             var city = cities.GetFirst();
             AssertTrue(country == city.GetCountry());

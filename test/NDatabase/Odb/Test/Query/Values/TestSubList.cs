@@ -188,7 +188,8 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             odb.Store(user3);
             odb.Close();
             odb = Open("sublist4");
-            var u = odb.Query<User>().GetFirst();
+            var query = odb.Query<User>();
+            var u = query.Execute<User>().GetFirst();
             Console.Out.WriteLine(u);
             var q =
                 new ValuesCriteriaQuery<Profile>().Field("name").Sublist("functions", 1, 2, false).Size(
@@ -268,7 +269,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             odb.Close();
             odb = Open("valuesSubList3");
             var start = OdbTime.GetCurrentTimeInMs();
-            IQuery q = odb.CreateCriteriaQuery<Handler>();
+            IQuery q = odb.Query<Handler>();
             var objects = q.Execute<Handler>();
             var end = OdbTime.GetCurrentTimeInMs();
 

@@ -31,10 +31,11 @@ namespace Test.NDatabase.Odb.Test.Index
 
             using (var odb = Open("index-object"))
             {
-                var objects = odb.Query<IndexedObject>();
+                var query = odb.Query<IndexedObject>();
+                var objects = query.Execute<IndexedObject>();
                 var io = objects.GetFirst();
 
-                IQuery q = odb.CreateCriteriaQuery<IndexedObject2>();
+                IQuery q = odb.Query<IndexedObject2>();
                 q.Descend("object").Equal(io);
 
                 var objects2 = q.Execute<IndexedObject2>();
@@ -62,7 +63,7 @@ namespace Test.NDatabase.Odb.Test.Index
                 odb.Store(new IndexedObject2("Object " + i, new IndexedObject("Inner Object " + i, i, new DateTime())));
             odb.Close();
             odb = Open("index-object");
-            IQuery q = odb.CreateCriteriaQuery<IndexedObject>();
+            IQuery q = odb.Query<IndexedObject>();
             q.Descend("name").Equal("Inner Object " + (size - 1));
             // First get the object used to index, the last one. There is no index
             // on the class and field
@@ -72,7 +73,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var io = objects.GetFirst();
             Println("d0=" + (end0 - start0));
             Println(((IInternalQuery)q).GetExecutionPlan().GetDetails());
-            q = odb.CreateCriteriaQuery<IndexedObject2>();
+            q = odb.Query<IndexedObject2>();
             q.Descend("object").Equal(io);
             var start = OdbTime.GetCurrentTimeInMs();
 
@@ -126,7 +127,7 @@ namespace Test.NDatabase.Odb.Test.Index
                 odb.Store(new IndexedObject2("Object " + i, new IndexedObject("Inner Object " + i, i, new DateTime())));
             odb.Close();
             odb = Open(baseName);
-            IQuery q = odb.CreateCriteriaQuery<IndexedObject>();
+            IQuery q = odb.Query<IndexedObject>();
             q.Descend("name").Equal("Inner Object " + (size - 1));
             // First get the object used to index, the last one. There is no index
             // on the class and field
@@ -138,7 +139,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var io = objects.GetFirst();
             Println("d0=" + (end0 - start0));
             Println(((IInternalQuery)q).GetExecutionPlan().GetDetails());
-            q = odb.CreateCriteriaQuery<IndexedObject2>();
+            q = odb.Query<IndexedObject2>();
             q.Descend("object").Equal(io);
             var start = OdbTime.GetCurrentTimeInMs();
 

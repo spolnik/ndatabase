@@ -63,7 +63,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
         {
             var odb = Open("perfOValuesVsCriteriaIndex1");
             
-            var q = odb.CreateCriteriaQuery<User2>();
+            var q = odb.Query<User2>();
             Decimal b = q.Count();
             Println(b);
             AssertEquals(Convert.ToDecimal("500"), b);
@@ -75,7 +75,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
         {
             var odb = Open("perfOValuesVsCriteriaIndex1");
             
-            IQuery q = odb.CreateCriteriaQuery<User2>();
+            IQuery q = odb.Query<User2>();
             q.Descend("name").Equal("user1599");
             var objects = q.Execute<User2>(false);
             Println(objects.Count);

@@ -3,8 +3,12 @@ using System.Text;
 
 namespace NDatabase2.Odb.Core.Query.Criteria
 {
-    public sealed class Or : ComposedExpression
+    internal sealed class Or : ComposedExpression
     {
+        public Or(IQuery query) : base(query)
+        {
+        }
+
         public override bool Match(object @object)
         {
             return Constraints.Any(constraint => constraint.Match(@object));

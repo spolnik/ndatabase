@@ -106,9 +106,6 @@ namespace NDatabase2.Odb.Core
         internal static readonly NDatabaseError OdbTypeIdDoesNotExist = new NDatabaseError(239,
                                                                                        "ODBtype with id @1 does not exist");
 
-        internal static readonly NDatabaseError QueryEngineNotSet = new NDatabaseError(241,
-                                                                                   "Storage engine not set on query");
-
         internal static readonly NDatabaseError QueryTypeNotImplemented = new NDatabaseError(242,
                                                                                          "Query type @1 not implemented");
 
@@ -177,12 +174,6 @@ namespace NDatabase2.Odb.Core
 
         internal static readonly NDatabaseError IndexIsCorrupted = new NDatabaseError(292,
                                                                                   "Index '@1' of class '@2' is corrupted: class has @3 objects, index has @4 entries");
-
-        internal static readonly NDatabaseError ContainsQueryWithNoQuery = new NDatabaseError(295,
-                                                                                          "Contains criteria with no query!");
-
-        internal static readonly NDatabaseError ContainsQueryWithNoStorageEngine = new NDatabaseError(296,
-                                                                                                  "Contains criteria with no engine!");
 
         internal static readonly NDatabaseError CrossSessionCacheNullOidForObject = new NDatabaseError(297,
                                                                                                    "Cross session cache does not know the object @1");

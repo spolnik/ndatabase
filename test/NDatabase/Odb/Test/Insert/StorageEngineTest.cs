@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Layers.Layer1.Introspector;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Attribute;
@@ -27,7 +28,8 @@ namespace Test.NDatabase.Odb.Test.Insert
             odb.Store(user22);
             odb.Close();
             odb = Open("t-complex-instance.neodatis");
-            var l = odb.Query<User>(true);
+            var query = odb.Query<User>();
+            var l = query.Execute<User>(true);
             var user2 = l.GetFirst();
             // println("#### " + l.size() + " : " + l);
             AssertEquals(user.GetName(), user2.GetName());
@@ -75,7 +77,8 @@ namespace Test.NDatabase.Odb.Test.Insert
             odb.Store(tc2);
             odb.Close();
             odb = Open("t-simple-instance.neodatis");
-            var l = odb.Query<TestClass>(true);
+            var query = odb.Query<TestClass>();
+            var l = query.Execute<TestClass>(true);
             var tc12 = l.GetFirst();
             // println("#### " + l.size() + " : " + l);
             AssertEquals(tc1.GetBigDecimal1(), tc12.GetBigDecimal1());

@@ -1,3 +1,4 @@
+using NDatabase2.Odb;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Country;
 
@@ -37,7 +38,8 @@ namespace Test.NDatabase.Odb.Test.Cyclic
         public virtual void Test1()
         {
             var odb = Open("cyclic.neodatis");
-            var l = odb.Query<Country>(true);
+            var query = odb.Query<Country>();
+            var l = query.Execute<Country>(true);
             var country = l.GetFirst();
             AssertEquals("Brasil", country.GetName());
             odb.Close();
@@ -50,7 +52,8 @@ namespace Test.NDatabase.Odb.Test.Cyclic
             // LogUtil.logOn(ObjectWriter.LOG_ID, true);
             // LogUtil.logOn(ObjectReader.LOG_ID, true);
             var odb = Open("cyclic.neodatis");
-            var l = odb.Query<Country>(true);
+            var query = odb.Query<Country>();
+            var l = query.Execute<Country>(true);
             var country = l.GetFirst();
             AssertEquals(10, country.GetCities().Count);
             odb.Close();

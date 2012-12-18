@@ -1,4 +1,5 @@
 using System;
+using NDatabase2.Odb;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Other
@@ -15,7 +16,8 @@ namespace Test.NDatabase.Odb.Test.Other
             odb.Store(new Exception("test"));
             odb.Close();
             odb = Open(DbName);
-            var l = odb.Query<Exception>();
+            var query = odb.Query<Exception>();
+            var l = query.Execute<Exception>();
             odb.Close();
             DeleteBase(DbName);
         }

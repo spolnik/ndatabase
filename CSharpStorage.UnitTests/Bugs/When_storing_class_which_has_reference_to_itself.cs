@@ -32,7 +32,8 @@ namespace NDatabase.UnitTests.Bugs
 
             using (var ndb = OdbFactory.Open("recurence.ndb"))
             {
-                var items = ndb.Query<MainClass>();
+                var query = ndb.Query<MainClass>();
+                var items = query.Execute<MainClass>();
                 Assert.That(items, Has.Count.EqualTo(1));
             }
         }
@@ -51,7 +52,8 @@ namespace NDatabase.UnitTests.Bugs
 
             using (var ndb = OdbFactory.Open("recurence_ex.ndb"))
             {
-                var items = ndb.Query<Exception>();
+                var query = ndb.Query<Exception>();
+                var items = query.Execute<Exception>();
                 Assert.That(items, Has.Count.EqualTo(1));
             }
         }
@@ -76,7 +78,8 @@ namespace NDatabase.UnitTests.Bugs
 
             using (var ndb = OdbFactory.Open("recurence_ex.ndb"))
             {
-                var items = ndb.Query<Exception>();
+                var query = ndb.Query<Exception>();
+                var items = query.Execute<Exception>();
                 Assert.That(items, Has.Count.EqualTo(1));
             }
         }

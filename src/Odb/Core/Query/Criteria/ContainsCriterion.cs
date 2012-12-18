@@ -4,10 +4,8 @@ using NDatabase2.Odb.Core.Layers.Layer2.Meta;
 
 namespace NDatabase2.Odb.Core.Query.Criteria
 {
-    public sealed class ContainsCriterion : AConstraint
+    internal sealed class ContainsCriterion : AConstraint
     {
-        private readonly bool _objectIsNative;
-
         /// <summary>
         ///   For criteria query on objects, we use the oid of the object instead of the object itself.
         /// </summary>
@@ -16,9 +14,9 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         /// </remarks>
         private OID _oid;
 
-        public ContainsCriterion(string attributeName, object criterionValue) : base(attributeName, criterionValue)
+        public ContainsCriterion(IQuery query, string attributeName, object criterionValue) 
+            : base(query, attributeName, criterionValue)
         {
-            _objectIsNative = TheObject == null || OdbType.IsNative(TheObject.GetType());
         }
 
         public override bool Match(object valueToMatch)
@@ -59,12 +57,8 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
         private bool CheckIfCollectionContainsValue(IEnumerable collection)
         {
-            var engine = ((IInternalQuery)GetQuery()).GetStorageEngine();
-            if (engine == null)
-                throw new OdbRuntimeException(NDatabaseError.QueryEngineNotSet);
-
             // If the object to compared is native
-            if (_objectIsNative)
+            if (IsNative())
             {
                 foreach (AbstractObjectInfo abstractObjectInfo in collection)
                 {
@@ -122,18 +116,11 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
         public override void Ready()
         {
-            if (_objectIsNative)
+            if (IsNative())
                 return;
 
-            if (GetQuery() == null)
-                throw new OdbRuntimeException(NDatabaseError.ContainsQueryWithNoQuery);
-
-            var engine = ((IInternalQuery)GetQuery()).GetStorageEngine();
-            if (engine == null)
-                throw new OdbRuntimeException(NDatabaseError.ContainsQueryWithNoStorageEngine);
-
             // For non native object, we just need the oid of it
-            _oid = engine.GetObjectId(TheObject, false);
+            _oid = ((IInternalQuery)Query).GetStorageEngine().GetObjectId(TheObject, false);
         }
     }
 }

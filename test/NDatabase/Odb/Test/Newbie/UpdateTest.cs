@@ -24,7 +24,7 @@ namespace Test.NDatabase.Odb.Test.Newbie
                 var car = new Car("car1", 4, "ranger", marcelo);
                 odb.Store(car);
 
-                var query = odb.CreateCriteriaQuery<Car>();
+                var query = odb.Query<Car>();
                 query.Descend("Driver.Name").Equal("marcelo");
                 var newCar = query.Execute<Car>().GetFirst();
 
@@ -34,7 +34,7 @@ namespace Test.NDatabase.Odb.Test.Newbie
 
             using (var odb = Open(NewbieOdb))
             {
-                var query = odb.CreateCriteriaQuery<Car>();
+                var query = odb.Query<Car>();
                 query.Descend("Driver.Name").Equal("dani");
                 AssertEquals(1, query.Execute<Car>().Count);
             }

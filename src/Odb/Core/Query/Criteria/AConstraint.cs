@@ -1,3 +1,4 @@
+using System;
 using NDatabase2.Odb.Core.Layers.Layer2.Meta;
 using NDatabase2.Tool.Wrappers.List;
 
@@ -6,7 +7,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
     /// <summary>
     ///   An adapter for Criterion.
     /// </summary>
-    public abstract class AConstraint : IConstraint
+    internal abstract class AConstraint : IConstraint
     {
         /// <summary>
         ///   The name of the attribute involved by this criterion
@@ -18,10 +19,17 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         /// <summary>
         ///   The query containing the criterion
         /// </summary>
-        private IQuery _query;
+        protected readonly IQuery Query;
 
-        protected AConstraint(string fieldName, object theObject)
+        protected AConstraint(IQuery query, string fieldName, object theObject)
         {
+            if (query == null)
+                throw new ArgumentNullException("query");
+
+            if (string.IsNullOrEmpty(fieldName))
+                throw new ArgumentNullException("fieldName");
+
+            Query = query;
             AttributeName = fieldName;
             TheObject = theObject;
         }
@@ -34,20 +42,6 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         }
 
         public abstract bool Match(object valueToMatch);
-
-        /// <summary>
-        ///   Gets thes whole query
-        /// </summary>
-        /// <returns> The owner query </returns>
-        public virtual IQuery GetQuery()
-        {
-            return _query;
-        }
-
-        public virtual void SetQuery(IQuery query)
-        {
-            _query = query;
-        }
 
         /// <summary>
         ///   An abstract criterion only restrict one field =&gt; it returns a list of one field!
@@ -71,23 +65,17 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
         public IConstraint And(IConstraint with)
         {
-            var composedExpression = new And().Add(this).Add(with);
-            ((IInternalQuery)_query).Join(composedExpression);
-            return composedExpression;
+            return new And(Query).Add(this).Add(with);
         }
 
         public IConstraint Or(IConstraint with)
         {
-            var composedExpression = new Or().Add(this).Add(with);
-            ((IInternalQuery)_query).Join(composedExpression);
-            return composedExpression;
+            return new Or(Query).Add(this).Add(with);
         }
 
         public IConstraint Not()
         {
-            var notExpression = new Not(this);
-            ((IInternalQuery)_query).Join(notExpression);
-            return notExpression;
+            return new Not(Query, this);
         }
 
         #endregion
@@ -112,6 +100,11 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             return attributeValues != null
                        ? attributeValues[AttributeName]
                        : valueToMatch;
+        }
+
+        protected bool IsNative()
+        {
+            return TheObject == null || OdbType.IsNative(TheObject.GetType());
         }
     }
 }

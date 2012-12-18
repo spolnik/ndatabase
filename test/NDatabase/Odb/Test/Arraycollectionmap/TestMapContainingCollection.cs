@@ -22,7 +22,8 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             odb.Store(o);
             odb.Close();
             odb = Open("map-with-collections");
-            var os = odb.Query<MyMapObject>();
+            var query = odb.Query<MyMapObject>();
+            var os = query.Execute<MyMapObject>();
             var mmo = os.GetFirst();
             odb.Close();
             DeleteBase("map-with-collections");
@@ -44,7 +45,8 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             odb.Store(o);
             odb.Close();
             odb = Open("map-with-collections");
-            var os = odb.Query<MyMapObject>();
+            var query = odb.Query<MyMapObject>();
+            var os = query.Execute<MyMapObject>();
             var mmo = os.GetFirst();
             odb.Close();
             DeleteBase("map-with-collections");
@@ -78,7 +80,8 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             odb.Store(o);
             odb.Close();
             odb = Open("map-with-collections");
-            var os = odb.Query<MyMapObject>();
+            var query = odb.Query<MyMapObject>();
+            var os = query.Execute<MyMapObject>();
             var mmo = os.GetFirst();
             odb.Close();
             DeleteBase("map-with-collections");

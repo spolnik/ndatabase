@@ -49,7 +49,8 @@ namespace Test.NDatabase.Odb.Test.Resistance
             Println("created");
             // Updates 10 times the objects
             odb = Open(FileName);
-            var objects = odb.Query<User>();
+            var query = odb.Query<User>();
+            var objects = query.Execute<User>();
             Println("got the object " + objects.Count);
             for (var k = 0; k < 10; k++)
             {
@@ -79,7 +80,8 @@ namespace Test.NDatabase.Odb.Test.Resistance
             odb.Close();
             // Check object count
             odb = Open(FileName);
-            objects = odb.Query<User>();
+            var query1 = odb.Query<User>();
+            objects = query1.Execute<User>();
             AssertEquals(size2, objects.Count);
             // Check data of the objects
             var a = 0;
@@ -109,7 +111,8 @@ namespace Test.NDatabase.Odb.Test.Resistance
             odb.Close();
             // delete objects
             odb = Open(FileName);
-            objects = odb.Query<User>();
+            var query2 = odb.Query<User>();
+            objects = query2.Execute<User>();
             a = 0;
             while (objects.HasNext())
             {
@@ -119,8 +122,9 @@ namespace Test.NDatabase.Odb.Test.Resistance
             AssertEquals(size2, a);
             odb.Close();
             odb = Open(FileName);
-            AssertEquals(0, odb.Query<User>().Count);
-            AssertEquals(0, odb.CreateCriteriaQuery<User>().Count());
+            var query3 = odb.Query<User>();
+            AssertEquals(0, query3.Execute<User>().Count);
+            AssertEquals(0, odb.Query<User>().Count());
             Println("deleted");
             odb.Close();
             stopWatch.End();
@@ -141,7 +145,7 @@ namespace Test.NDatabase.Odb.Test.Resistance
             DeleteBase(FileName);
             var odb = Open(FileName);
             var f1 = new VO.Login.Function("function 1");
-            Println(odb.CreateCriteriaQuery<User>().Count());
+            Println(odb.Query<User>().Count());
             // Create Objects
             for (var i = 0; i < size; i++)
             {
@@ -157,7 +161,8 @@ namespace Test.NDatabase.Odb.Test.Resistance
             Println("created");
             // Updates 10 times the objects
             odb = Open(FileName);
-            var objects = odb.Query<User>();
+            var query = odb.Query<User>();
+            var objects = query.Execute<User>();
             Println("got the object " + objects.Count);
             for (var k = 0; k < 3; k++)
             {
@@ -178,7 +183,8 @@ namespace Test.NDatabase.Odb.Test.Resistance
             odb.Close();
             // Check object count
             odb = Open(FileName);
-            objects = odb.Query<User>();
+            var query1 = odb.Query<User>();
+            objects = query1.Execute<User>();
             AssertEquals(objects.Count, size);
             // Check data of the objects
             var a = 0;
@@ -205,7 +211,8 @@ namespace Test.NDatabase.Odb.Test.Resistance
             odb.Close();
             // delete objects
             odb = Open(FileName);
-            objects = odb.Query<User>();
+            var query2 = odb.Query<User>();
+            objects = query2.Execute<User>();
             a = 0;
             while (objects.HasNext())
             {
@@ -215,8 +222,9 @@ namespace Test.NDatabase.Odb.Test.Resistance
             AssertEquals(size, a);
             odb.Close();
             odb = Open(FileName);
-            AssertEquals(0, odb.Query<User>().Count);
-            AssertEquals(0, odb.CreateCriteriaQuery<User>().Count());
+            var query3 = odb.Query<User>();
+            AssertEquals(0, query3.Execute<User>().Count);
+            AssertEquals(0, odb.Query<User>().Count());
             Println("deleted");
             odb.Close();
             stopWatch.End();
@@ -234,7 +242,7 @@ namespace Test.NDatabase.Odb.Test.Resistance
             DeleteBase(FileName);
             var odb = Open(FileName);
             var f1 = new VO.Login.Function("function 1");
-            Println(odb.CreateCriteriaQuery<User>().Count());
+            Println(odb.Query<User>().Count());
             var p = new Profile("profile number 0", f1);
             p.AddFunction(new VO.Login.Function("f1"));
             var user = new User("user name 0", "user email 0", p);
@@ -249,7 +257,8 @@ namespace Test.NDatabase.Odb.Test.Resistance
             for (var k = 0; k < 2; k++)
             {
                 Console.Out.WriteLine(":" + k);
-                objectSet = odb.Query<User>();
+                var query = odb.Query<User>();
+                objectSet = query.Execute<User>();
                 while (objectSet.HasNext())
                 {
                     user = objectSet.Next();
@@ -260,7 +269,8 @@ namespace Test.NDatabase.Odb.Test.Resistance
             }
             odb.Close();
             odb = Open(FileName);
-            objectSet = odb.Query<User>();
+            var query1 = odb.Query<User>();
+            objectSet = query1.Execute<User>();
             AssertEquals(2, objectSet.Count);
             odb.Close();
         }
@@ -279,7 +289,8 @@ namespace Test.NDatabase.Odb.Test.Resistance
             odb.Store(f2);
             odb.Close();
             odb = Open(FileName);
-            var objects = odb.Query<VO.Login.Function>();
+            var query = odb.Query<VO.Login.Function>();
+            var objects = query.Execute<VO.Login.Function>();
             VO.Login.Function f = null;
             Println("got the object " + objects.Count);
             for (var k = 0; k < 2; k++)
@@ -294,7 +305,8 @@ namespace Test.NDatabase.Odb.Test.Resistance
             }
             odb.Close();
             odb = Open(FileName);
-            objects = odb.Query<VO.Login.Function>();
+            var query1 = odb.Query<VO.Login.Function>();
+            objects = query1.Execute<VO.Login.Function>();
             odb.Close();
         }
 
@@ -327,7 +339,8 @@ namespace Test.NDatabase.Odb.Test.Resistance
             }
             Println("created");
             // Updates 10 times the objects
-            var objects = odb.Query<User>();
+            var query = odb.Query<User>();
+            var objects = query.Execute<User>();
             for (var k = 0; k < 10; k++)
             {
                 objects.Reset();
@@ -344,7 +357,8 @@ namespace Test.NDatabase.Odb.Test.Resistance
                 odb.Delete(objects.Next());
             Println("deleted");
             // Check object count
-            objects = odb.Query<User>();
+            var query1 = odb.Query<User>();
+            objects = query1.Execute<User>();
             AssertEquals(size2, objects.Count);
             // Check data of the objects
             var a = 0;
@@ -371,7 +385,8 @@ namespace Test.NDatabase.Odb.Test.Resistance
                 }
             }
             Println("re-updated");
-            objects = odb.Query<User>();
+            var query2 = odb.Query<User>();
+            objects = query2.Execute<User>();
             var engine = odb.GetStorageEngine();
             var uncommited =
                 engine.GetSession(true).GetMetaModel().GetClassInfo(typeof (User).FullName, true).UncommittedZoneInfo;
@@ -387,8 +402,9 @@ namespace Test.NDatabase.Odb.Test.Resistance
                 a++;
             }
             AssertEquals(size2, a);
-            AssertEquals(0, odb.Query<User>().Count);
-            AssertEquals(0, odb.CreateCriteriaQuery<User>().Count());
+            var query3 = odb.Query<User>();
+            AssertEquals(0, query3.Execute<User>().Count);
+            AssertEquals(0, odb.Query<User>().Count());
             Println("deleted");
             odb.Close();
             stopWatch.End();

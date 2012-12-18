@@ -68,7 +68,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             for (var j = 0; j < TestSize; j++)
             {
                 // println("Bonjour, comment allez vous?" + j);
-                q = odb.CreateCriteriaQuery<SimpleObject>();
+                q = odb.Query<SimpleObject>();
                 q.Descend("name").Equal("Bonjour, comment allez vous?" + j);
                 var objects = q.Execute<SimpleObject>();
                 so = objects.GetFirst();
@@ -87,7 +87,8 @@ namespace Test.NDatabase.Odb.Test.Performance
             {
                 Println("Updating " + TestSize + " objects");
                 so = null;
-                l = odb.Query<SimpleObject>(inMemory);
+                var query = odb.Query<SimpleObject>();
+                l = query.Execute<SimpleObject>(inMemory);
                 while (l.HasNext())
                 {
                     so = l.Next();
@@ -104,7 +105,8 @@ namespace Test.NDatabase.Odb.Test.Performance
                 Println("Deleting " + TestSize + " objects");
                 odb = Open(OdbFileName);
                 Println("After open - before delete");
-                l = odb.Query<SimpleObject>(inMemory);
+                var query = odb.Query<SimpleObject>();
+                l = query.Execute<SimpleObject>(inMemory);
                 t77 = OdbTime.GetCurrentTimeInMs();
                 Println("After getting objects - before delete");
                 var i = 0;

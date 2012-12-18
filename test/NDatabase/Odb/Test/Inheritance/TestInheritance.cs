@@ -1,3 +1,4 @@
+using NDatabase2.Odb;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Inheritance
@@ -21,7 +22,8 @@ namespace Test.NDatabase.Odb.Test.Inheritance
             odb.Store(class2);
             odb.Close();
             odb = Open(Name);
-            var c2 = odb.Query<Class2>().GetFirst();
+            var query = odb.Query<Class2>();
+            var c2 = query.Execute<Class2>().GetFirst();
             AssertEquals(class2.GetNb(), c2.GetNb());
             AssertEquals(class2.GetInterface1().GetName(), c2.GetInterface1().GetName());
             odb.Close();
@@ -41,7 +43,8 @@ namespace Test.NDatabase.Odb.Test.Inheritance
             odb.Store(class3);
             odb.Close();
             odb = Open(Name);
-            var c3 = odb.Query<Class3>().GetFirst();
+            var query = odb.Query<Class3>();
+            var c3 = query.Execute<Class3>().GetFirst();
             AssertEquals(class3.GetNb(), c3.GetNb());
             AssertEquals(class3.GetClass1().GetName(), c3.GetClass1().GetName());
             odb.Close();

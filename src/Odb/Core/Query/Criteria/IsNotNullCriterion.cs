@@ -1,8 +1,9 @@
 namespace NDatabase2.Odb.Core.Query.Criteria
 {
-    public sealed class IsNotNullCriterion : AConstraint
+    internal sealed class IsNotNullCriterion : AConstraint
     {
-        public IsNotNullCriterion(string attributeName) : base(attributeName, null)
+        public IsNotNullCriterion(IQuery query, string attributeName) 
+            : base(query, attributeName, null)
         {
         }
 

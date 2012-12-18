@@ -23,7 +23,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             }
             odb.Close();
             odb = Open(baseName);
-            var query = odb.CreateCriteriaQuery<TestClass>();
+            var query = odb.Query<TestClass>();
             query.Descend("int1").GreaterOrEqual(0);
             var os = query.Execute<TestClass>();
             AssertEquals(10, os.Count);
@@ -47,7 +47,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Store(cwi);
             odb.Close();
             odb = Open(baseName);
-            var query = odb.CreateCriteriaQuery<ClassWithInt>();
+            var query = odb.Query<ClassWithInt>();
             query.Descend("i").Equal((long) 1);
             var os = query.Execute<ClassWithInt>();
             AssertEquals(1, os.Count);
@@ -63,7 +63,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Store(cwl);
             odb.Close();
             odb = Open(baseName);
-            var query = odb.CreateCriteriaQuery<ClassWithLong>();
+            var query = odb.Query<ClassWithLong>();
             query.Descend("i").Equal(1L);
             var os = query.Execute<ClassWithLong>();
             AssertEquals(1, os.Count);
@@ -79,11 +79,11 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Store(cwl);
             odb.Close();
             odb = Open(baseName);
-            var criteriaQuery = odb.CreateCriteriaQuery<ClassWithLong>();
+            var criteriaQuery = odb.Query<ClassWithLong>();
             criteriaQuery.Descend("i").GreaterOrEqual(1L);
             var os = criteriaQuery.Execute<ClassWithLong>();
             AssertEquals(1, os.Count);
-            var query = odb.CreateCriteriaQuery<ClassWithLong>();
+            var query = odb.Query<ClassWithLong>();
             query.Descend("i").GreaterThan(1L);
             os = query.Execute<ClassWithLong>();
             AssertEquals(0, os.Count);

@@ -34,7 +34,7 @@ namespace Test.NDatabase.Odb.Test.Other
             try
             {
                 odb = Open("download.neodatis");
-                var query = odb.CreateCriteriaQuery<User>();
+                var query = odb.Query<User>();
                 query.Descend("email").Equal(email);
                 var users = query.Execute<User>();
                 if (users.Count != 0)
@@ -87,8 +87,8 @@ namespace Test.NDatabase.Odb.Test.Other
             tdm.NewDownload("olivier", "olivier@neodatis.com", "knowledger", "knowledger1.1");
             tdm.NewDownload("olivier", "olivier@neodatis.com", "knowledger", "knowledger1.1");
             var odb = Open("download.neodatis");
-            AssertEquals(2, odb.CreateCriteriaQuery<Download>().Count());
-            AssertEquals(1, odb.CreateCriteriaQuery<User>().Count());
+            AssertEquals(2, odb.Query<Download>().Count());
+            AssertEquals(1, odb.Query<User>().Count());
             odb.Close();
         }
 
@@ -103,8 +103,8 @@ namespace Test.NDatabase.Odb.Test.Other
                 tdm.NewDownload("olivier", "olivier@neodatis.com", "knowledger", "knowledger1.1");
             }
             var odb = Open("download.neodatis");
-            AssertEquals(size * 2, odb.CreateCriteriaQuery<Download>().Count());
-            AssertEquals(1, odb.CreateCriteriaQuery<User>().Count());
+            AssertEquals(size * 2, odb.Query<Download>().Count());
+            AssertEquals(1, odb.Query<User>().Count());
             odb.Close();
         }
     }

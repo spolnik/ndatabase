@@ -1,3 +1,4 @@
+using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Oid;
 using NUnit.Framework;
 
@@ -15,7 +16,8 @@ namespace Test.NDatabase.Odb.Test.Oid
             odb.Store(cwo);
             odb.Close();
             odb = Open("native-oid");
-            var objects = odb.Query<ClassWithOid>();
+            var query = odb.Query<ClassWithOid>();
+            var objects = query.Execute<ClassWithOid>();
             AssertEquals(1, objects.Count);
             var cwo2 = objects.GetFirst();
             AssertEquals(47, cwo2.GetOid().ObjectId);

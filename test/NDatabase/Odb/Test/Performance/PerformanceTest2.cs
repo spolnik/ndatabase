@@ -49,7 +49,8 @@ namespace Test.NDatabase.Odb.Test.Performance
             // Reopen the database
             odb = OdbFactory.Open(OdbFileName);
             // Gets retrieve the TEST_SIZE objects
-            l = odb.Query<User>(inMemory);
+            var query = odb.Query<User>();
+            l = query.Execute<User>(inMemory);
             t4 = OdbTime.GetCurrentTimeInTicks();
             // Actually get objects
             while (l.HasNext())
@@ -74,7 +75,8 @@ namespace Test.NDatabase.Odb.Test.Performance
             t7 = OdbTime.GetCurrentTimeInTicks();
             Console.Out.WriteLine("Deleting " + TestSize + " objects");
             odb = OdbFactory.Open(OdbFileName);
-            l = odb.Query<User>(inMemory);
+            var query1 = odb.Query<User>();
+            l = query1.Execute<User>(inMemory);
             t77 = OdbTime.GetCurrentTimeInTicks();
             // Actually get objects
             while (l.HasNext())

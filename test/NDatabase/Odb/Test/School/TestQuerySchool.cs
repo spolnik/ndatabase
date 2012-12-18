@@ -24,7 +24,8 @@ namespace Test.NDatabase.Odb.Test.School
             base.SetUp();
             DeleteBase("t-school.neodatis");
             var odb = Open("t-school.neodatis");
-            var students = odb.Query<Student>(true);
+            var query = odb.Query<Student>();
+            var students = query.Execute<Student>(true);
             var numStudents = students.Count;
             var computerScience = new Course("Computer Science");
             var teacher = new Teacher("Jeremias", "Java");
@@ -39,7 +40,8 @@ namespace Test.NDatabase.Odb.Test.School
             odb.Commit();
             odb.Close();
             odb = Open("t-school.neodatis");
-            students = odb.Query<Student>(true);
+            var query1 = odb.Query<Student>();
+            students = query1.Execute<Student>(true);
             odb.Close();
             AssertEquals(numStudents + 1, students.Count);
         }

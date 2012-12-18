@@ -41,29 +41,32 @@ namespace NDatabase.UnitTests.CodeSnippets
             using (var odb = OdbFactory.Open(dbFileName))
             {
                 // work with mages
-                var mages = odb.Query<Mage>();
+                var query2 = odb.Query<Mage>();
+                var mages = query2.Execute<Mage>();
                 foreach (var hero in mages)
-                    Console.WriteLine(hero);
+                    Console.WriteLine((object) hero);
 
                 Assert.That(mages, Has.Count.EqualTo(1));
-                Assert.That(mages.GetFirst().Attack, Is.EqualTo(mageAttackValue));
-                Assert.That(mages.GetFirst().Defense, Is.EqualTo(mageDefenseValue));
+                Assert.That((object) mages.GetFirst().Attack, Is.EqualTo(mageAttackValue));
+                Assert.That((object) mages.GetFirst().Defense, Is.EqualTo(mageDefenseValue));
 
                 // work with warriors
-                var warriors = odb.Query<Warrior>();
+                var query = odb.Query<Warrior>();
+                var warriors = query.Execute<Warrior>();
                 foreach (var hero in warriors)
-                    Console.WriteLine(hero);
+                    Console.WriteLine((object) hero);
 
                 Assert.That(warriors, Has.Count.EqualTo(1));
-                Assert.That(warriors.GetFirst().Attack, Is.EqualTo(warriorAttackValue));
-                Assert.That(warriors.GetFirst().Defense, Is.EqualTo(warriorDefenseValue));
+                Assert.That((object) warriors.GetFirst().Attack, Is.EqualTo(warriorAttackValue));
+                Assert.That((object) warriors.GetFirst().Defense, Is.EqualTo(warriorDefenseValue));
 
                 Console.WriteLine("Start working with IHero interface.");
 
                 // work with heroes
-                var heroes = odb.Query<IHero>();
+                var query1 = odb.Query<IHero>();
+                var heroes = query1.Execute<IHero>();
                 foreach (var hero in heroes)
-                    Console.WriteLine(hero);
+                    Console.WriteLine((object) hero);
 
                 Assert.That(heroes, Has.Count.EqualTo(2));
             }

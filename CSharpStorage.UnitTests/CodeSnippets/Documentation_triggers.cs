@@ -54,8 +54,9 @@ namespace NDatabase.UnitTests.CodeSnippets
 
             using (var odb = OdbFactory.Open("inserting_trigger.db"))
             {
-                var merlin = odb.Query<Mage>().GetFirst();
-                Assert.That(merlin.Attack, Is.EqualTo(3.3 + 1.1));
+                var query = odb.Query<Mage>();
+                var merlin = query.Execute<Mage>().GetFirst();
+                Assert.That((object) merlin.Attack, Is.EqualTo(3.3 + 1.1));
             }
         }
     }

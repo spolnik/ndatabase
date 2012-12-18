@@ -6,7 +6,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
     /// <summary>
     ///   A criterio to test collection or array size
     /// </summary>
-    public sealed class CollectionSizeCriterion : AConstraint
+    internal sealed class CollectionSizeCriterion : AConstraint
     {
         public const int SizeEq = 1;
         public const int SizeNe = 2;
@@ -17,7 +17,8 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
         private readonly int _sizeType;
 
-        public CollectionSizeCriterion(string attributeName, int size, int sizeType) : base(attributeName, size)
+        public CollectionSizeCriterion(IQuery query, string attributeName, int size, int sizeType)
+            : base(query, attributeName, size)
         {
             _sizeType = sizeType;
         }

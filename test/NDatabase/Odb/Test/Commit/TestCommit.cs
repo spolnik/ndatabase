@@ -47,9 +47,12 @@ namespace Test.NDatabase.Odb.Test.Commit
                 odb.Close();
             }
             odb = Open("commits");
-            var users = odb.Query<User>();
-            var profiles = odb.Query<Profile>();
-            var functions = odb.Query<VO.Login.Function>();
+            var query2 = odb.Query<User>();
+            var users = query2.Execute<User>();
+            var query1 = odb.Query<Profile>();
+            var profiles = query1.Execute<Profile>();
+            var query = odb.Query<VO.Login.Function>();
+            var functions = query.Execute<VO.Login.Function>();
             var nbUsers = users.Count;
             var nbProfiles = profiles.Count;
             var nbFunctions = functions.Count;
@@ -89,7 +92,8 @@ namespace Test.NDatabase.Odb.Test.Commit
                 odb.Close();
             }
             odb = Open("commits");
-            var objects = odb.Query<VO.Login.Function>();
+            var query = odb.Query<VO.Login.Function>();
+            var objects = query.Execute<VO.Login.Function>();
             var nbObjects = objects.Count;
             var map = new OdbHashMap<VO.Login.Function, int>();
             VO.Login.Function function = null;

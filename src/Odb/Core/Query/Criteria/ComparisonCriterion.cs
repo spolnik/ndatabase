@@ -19,17 +19,15 @@ namespace NDatabase2.Odb.Core.Query.Criteria
     /// <summary>
     ///   A Criterion for greater than (gt),greater or equal(ge), less than (lt) and less or equal (le)
     /// </summary>
-    public sealed class ComparisonCriterion : AConstraint
+    internal sealed class ComparisonCriterion : AConstraint
     {
         private readonly int _comparisonType;
         
-        public ComparisonCriterion(string attributeName, object value, int comparisonType)
-            : base(attributeName, value)
+        public ComparisonCriterion(IQuery query, string attributeName, object value, int comparisonType)
+            : base(query, attributeName, value)
         {
             if (!(value is IComparable))
-            {
                 throw new ArgumentException("Value need to implement IComparable", "value");
-            }
 
             _comparisonType = comparisonType;
         }

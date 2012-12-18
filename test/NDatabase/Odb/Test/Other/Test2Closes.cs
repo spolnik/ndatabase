@@ -12,7 +12,8 @@ namespace Test.NDatabase.Odb.Test.Other
         {
             DeleteBase("hook.neodatis");
             var obase = Open("hook.neodatis");
-            obase.Query<TestClass>();
+            var query = obase.Query<TestClass>();
+            query.Execute<TestClass>();
             obase.Store(new TestClass());
             obase.Close();
             var exception = false;

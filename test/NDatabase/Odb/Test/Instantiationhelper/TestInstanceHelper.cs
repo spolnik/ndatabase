@@ -35,12 +35,13 @@ namespace Test.NDatabase.Odb.Test.Instantiationhelper
 
         private void CheckCarRetrieval()
         {
-            var cars = odb.Query<Car>();
+            var query1 = odb.Query<Car>();
+            var cars = query1.Execute<Car>();
             AssertEquals(1, cars.Count);
             var car = cars.GetFirst();
             AssertEquals(car.GetModel(), "Ranger");
             AssertEquals(car.GetYear(), 2006);
-            var query = odb.CreateCriteriaQuery<Car>();
+            var query = odb.Query<Car>();
             query.Descend("model").Equal("Ranger");
             cars = query.Execute<Car>();
             car = cars.GetFirst();

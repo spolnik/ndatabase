@@ -1,3 +1,4 @@
+using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Query;
 using NDatabase2.Odb.Core.Query.Criteria;
 using NUnit.Framework;
@@ -17,8 +18,8 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
                 odb.Store(new VO.Login.Function("function " + i));
             odb.Close();
             odb = Open(baseName);
-            IQuery q = odb.CreateCriteriaQuery<VO.Login.Function>();
-            var os = odb.Query<VO.Login.Function>(q, true, 0, 10);
+            IQuery q = odb.Query<VO.Login.Function>();
+            var os = q.Execute<VO.Login.Function>(true, 0, 10);
             AssertEquals(10, os.Count);
             for (var i = 0; i < 10; i++)
             {
@@ -39,8 +40,8 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
                 odb.Store(new VO.Login.Function("function " + i));
             odb.Close();
             odb = Open(baseName);
-            IQuery q = odb.CreateCriteriaQuery<VO.Login.Function>();
-            var os = odb.Query<VO.Login.Function>(q, true, 0, 1);
+            IQuery q = odb.Query<VO.Login.Function>();
+            var os = q.Execute<VO.Login.Function>(true, 0, 1);
             AssertEquals(1, os.Count);
             for (var i = 0; i < os.Count; i++)
             {
@@ -62,8 +63,8 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
                 odb.Store(new VO.Login.Function("function " + i));
             odb.Close();
             odb = Open(baseName);
-            IQuery q = odb.CreateCriteriaQuery<VO.Login.Function>();
-            var os = odb.Query<VO.Login.Function>(q, true, 10, 20);
+            IQuery q = odb.Query<VO.Login.Function>();
+            var os = q.Execute<VO.Login.Function>(true, 10, 20);
             AssertEquals(10, os.Count);
             for (var i = 10; i < 20; i++)
             {
@@ -90,9 +91,9 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             }
             odb.Close();
             odb = Open(baseName);
-            IQuery q = odb.CreateCriteriaQuery<VO.Login.Function>();
+            IQuery q = odb.Query<VO.Login.Function>();
             q.Descend("name").Like("FUNCTION%");
-            var os = odb.Query<VO.Login.Function>(q, true, 0, 10);
+            var os = q.Execute<VO.Login.Function>(true, 0, 10);
             AssertEquals(10, os.Count);
             for (var i = size / 2; i < size / 2 + 10; i++)
             {
@@ -119,9 +120,9 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             }
             odb.Close();
             odb = Open(baseName);
-            IQuery q = odb.CreateCriteriaQuery<VO.Login.Function>();
+            IQuery q = odb.Query<VO.Login.Function>();
             q.Descend("name").Like("FUNCTION%");
-            var os = odb.Query<VO.Login.Function>(q, true, 10, 20);
+            var os = q.Execute<VO.Login.Function>(true, 10, 20);
             AssertEquals(10, os.Count);
             for (var i = size / 2 + 10; i < size / 2 + 20; i++)
             {

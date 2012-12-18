@@ -23,14 +23,15 @@ namespace NDatabase.UnitTests.Bugs
 
             using (var odb = OdbFactory.OpenLast())
             {
-                var storedCompany = odb.Query<Company>().GetFirst();
+                var query = odb.Query<Company>();
+                var storedCompany = query.Execute<Company>().GetFirst();
                 var dict = storedCompany.Dictionary;
-                Assert.That(dict.Keys, Contains.Item("A"));
-                Assert.That(dict.Keys, Contains.Item("B"));
+                Assert.That((object) dict.Keys, Contains.Item("A"));
+                Assert.That((object) dict.Keys, Contains.Item("B"));
 
                 var list = storedCompany.List;
-                Assert.That(list, Contains.Item(1234));
-                Assert.That(list, Contains.Item(4321));
+                Assert.That((object) list, Contains.Item(1234));
+                Assert.That((object) list, Contains.Item(4321));
             }
         }
 

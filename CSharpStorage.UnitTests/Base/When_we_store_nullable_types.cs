@@ -33,11 +33,12 @@ namespace NDatabase.UnitTests.Base
 
             using (var odb = OdbFactory.OpenLast())
             {
-                var objectToTest = odb.Query<ClassWithNullableTypes>().GetFirst();
+                var query = odb.Query<ClassWithNullableTypes>();
+                var objectToTest = query.Execute<ClassWithNullableTypes>().GetFirst();
 
-                Assert.That(objectToTest.Size, Is.Null);
-                Assert.That(objectToTest.Price, Is.Null);
-                Assert.That(objectToTest.Measure, Is.Null);
+                Assert.That((object) objectToTest.Size, Is.Null);
+                Assert.That((object) objectToTest.Price, Is.Null);
+                Assert.That((object) objectToTest.Measure, Is.Null);
             }
         }
 
@@ -54,11 +55,12 @@ namespace NDatabase.UnitTests.Base
 
             using (var odb = OdbFactory.OpenLast())
             {
-                var objectToTest = odb.Query<ClassWithNullableTypes>().GetFirst();
+                var query = odb.Query<ClassWithNullableTypes>();
+                var objectToTest = query.Execute<ClassWithNullableTypes>().GetFirst();
 
-                Assert.That(objectToTest.Size, Is.EqualTo(33));
-                Assert.That(objectToTest.Price, Is.EqualTo(33.33m));
-                Assert.That(objectToTest.Measure, Is.EqualTo(2));
+                Assert.That((object) objectToTest.Size, Is.EqualTo(33));
+                Assert.That((object) objectToTest.Price, Is.EqualTo(33.33m));
+                Assert.That((object) objectToTest.Measure, Is.EqualTo(2));
             }
         }
     }

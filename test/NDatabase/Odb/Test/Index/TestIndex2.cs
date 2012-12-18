@@ -31,7 +31,7 @@ namespace Test.NDatabase.Odb.Test.Index
             }
             odb.Close();
             odb = Open(baseName);
-            IQuery q = odb.CreateCriteriaQuery<IndexedObject3>();
+            IQuery q = odb.Query<IndexedObject3>();
             q.Descend("i1").Equal(1);
             var iis = q.Execute<IndexedObject3>();
             odb.Close();
@@ -68,7 +68,7 @@ namespace Test.NDatabase.Odb.Test.Index
             odb = Open(baseName);
 
             IQuery q =
-                odb.CreateCriteriaQuery<IndexedObject3>();
+                odb.Query<IndexedObject3>();
 
             q.Descend("i1").Equal(10).And(q.Descend("i2").Equal(2)).And(q.Descend("i3").Equal(3));
 
@@ -78,7 +78,7 @@ namespace Test.NDatabase.Odb.Test.Index
             odb.Close();
 
             odb = Open(baseName);
-            q = odb.CreateCriteriaQuery<IndexedObject3>();
+            q = odb.Query<IndexedObject3>();
             q.Descend("i1").Equal(10).And(q.Descend("i2").Equal(2)).And(q.Descend("i3").Equal(3));
             objects = q.Execute<IndexedObject3>();
 
@@ -114,7 +114,8 @@ namespace Test.NDatabase.Odb.Test.Index
             // println(e.getMessage());
             @base.Close();
             @base = Open(baseName);
-            var oo3 = @base.Query<IndexedObject3>();
+            var query = @base.Query<IndexedObject3>();
+            var oo3 = query.Execute<IndexedObject3>();
             @base.Close();
             AssertEquals(0, oo3.Count);
             DeleteBase(baseName);
@@ -148,7 +149,7 @@ namespace Test.NDatabase.Odb.Test.Index
             odb = Open(baseName);
 
             IQuery q =
-                odb.CreateCriteriaQuery<IndexedObject3>();
+                odb.Query<IndexedObject3>();
 
             q.Descend("i1").Equal(10).And(q.Descend("i2").Equal(2)).And(q.Descend("i3").Equal(3));
 
@@ -158,7 +159,7 @@ namespace Test.NDatabase.Odb.Test.Index
             odb.Close();
 
             odb = Open(baseName);
-            q = odb.CreateCriteriaQuery<IndexedObject3>();
+            q = odb.Query<IndexedObject3>();
 
             q.Descend("i1").Equal(10).And(q.Descend("i2").Equal(2)).And(q.Descend("i3").Equal(3));
             objects = q.Execute<IndexedObject3>();

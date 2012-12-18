@@ -3,25 +3,17 @@ using NDatabase2.Tool.Wrappers.List;
 
 namespace NDatabase2.Odb.Core.Query.Criteria
 {
-    public abstract class AbstractExpression : IConstraint
+    internal abstract class AbstractExpression : IConstraint
     {
-        private IQuery _query;
+        private readonly IQuery _query;
 
-        #region IExpression Members
-
-        /// <summary>
-        ///   Gets thes whole query
-        /// </summary>
-        /// <returns> The owner query </returns>
-        public IQuery GetQuery()
-        {
-            return _query;
-        }
-
-        public void SetQuery(IQuery query)
+        protected AbstractExpression(IQuery query)
         {
             _query = query;
+            ((IInternalQuery)_query).Join(this);
         }
+
+        #region IExpression Members
 
         public virtual bool CanUseIndex()
         {
@@ -40,23 +32,17 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
         public IConstraint And(IConstraint with)
         {
-            var composedExpression = new And().Add(this).Add(with);
-            ((IInternalQuery)_query).Join(composedExpression);
-            return composedExpression;
+            return new And(_query).Add(this).Add(with);
         }
 
         public IConstraint Or(IConstraint with)
         {
-            var composedExpression = new Or().Add(this).Add(with);
-            ((IInternalQuery)_query).Join(composedExpression);
-            return composedExpression;
+            return new Or(_query).Add(this).Add(with);
         }
 
         public IConstraint Not()
         {
-            var notExpression = new Not(this);
-            ((IInternalQuery)_query).Join(notExpression);
-            return notExpression;
+            return new Not(_query, this);
         }
 
         #endregion

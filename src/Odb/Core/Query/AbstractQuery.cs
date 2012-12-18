@@ -55,8 +55,8 @@ namespace NDatabase2.Odb.Core.Query
         #region IQuery Members
 
         public abstract IObjectSet<TItem> Execute<TItem>() where TItem : class;
-
         public abstract IObjectSet<TItem> Execute<TItem>(bool inMemory) where TItem : class;
+        public abstract IObjectSet<TItem> Execute<TItem>(bool inMemory, int startIndex, int endIndex) where TItem : class;
 
         public virtual IQuery OrderByDesc(string fields)
         {

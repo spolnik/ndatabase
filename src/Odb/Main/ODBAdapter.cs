@@ -2,7 +2,6 @@ using NDatabase2.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase2.Odb.Core.Layers.Layer3;
 using NDatabase2.Odb.Core.Query;
 using NDatabase2.Odb.Core.Query.Criteria;
-using NDatabase2.Tool;
 
 namespace NDatabase2.Odb.Main
 {
@@ -36,19 +35,11 @@ namespace NDatabase2.Odb.Main
             return _storageEngine.Store(plainObject);
         }
 
-        public virtual IObjectSet<T> Query<T>() where T : class
+        public IQuery Query<T>() where T : class
         {
-            return _storageEngine.GetObjects<T>(new CriteriaQuery<T>(), true, -1, -1);
-        }
-
-        public virtual IObjectSet<T> Query<T>(bool inMemory) where T : class
-        {
-            return _storageEngine.GetObjects<T>(inMemory, -1, -1);
-        }
-
-        public virtual IObjectSet<T> Query<T>(bool inMemory, int startIndex, int endIndex) where T : class
-        {
-            return _storageEngine.GetObjects<T>(inMemory, startIndex, endIndex);
+            var criteriaQuery = new CriteriaQuery<T>();
+            ((IInternalQuery)criteriaQuery).SetStorageEngine(_storageEngine);
+            return criteriaQuery;
         }
 
         public virtual void Close()
@@ -74,19 +65,6 @@ namespace NDatabase2.Odb.Main
         public virtual IValues GetValues<T>(IValuesQuery query) where T : class
         {
             return _storageEngine.GetValues<T>(query, -1, -1);
-        }
-
-        public virtual IObjectSet<T> Query<T>(IQuery query, bool inMemory, int startIndex, int endIndex) where T : class
-        {
-            try
-            {
-                return _storageEngine.GetObjects<T>(query, inMemory, startIndex, endIndex);
-            }
-            catch (OdbRuntimeException e)
-            {
-                DLogger.Info(e);
-                throw;
-            }
         }
 
         public OID GetObjectId<T>(T plainObject) where T : class
@@ -139,21 +117,9 @@ namespace NDatabase2.Odb.Main
             _storageEngine.Disconnect(plainObject);
         }
 
-        public virtual bool IsClosed()
+        public bool IsClosed()
         {
             return _storageEngine.IsClosed();
-        }
-
-        public virtual IQuery CreateCriteriaQuery<T>() where T : class
-        {
-            var criteriaQuery = new CriteriaQuery<T>();
-            ((IInternalQuery)criteriaQuery).SetStorageEngine(_storageEngine);
-            return criteriaQuery;
-        }
-
-        public virtual string GetDbId()
-        {
-            return _storageEngine.GetBaseIdentification().Id;
         }
 
         public void Dispose()

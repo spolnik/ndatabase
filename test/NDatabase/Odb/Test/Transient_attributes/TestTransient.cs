@@ -1,3 +1,4 @@
+using NDatabase2.Odb;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Transient_attributes
@@ -14,7 +15,8 @@ namespace Test.NDatabase.Odb.Test.Transient_attributes
             odb.Store(vo);
             odb.Close();
             odb = Open(baseName);
-            var vos = odb.Query<VoWithTransientAttribute>();
+            var query = odb.Query<VoWithTransientAttribute>();
+            var vos = query.Execute<VoWithTransientAttribute>();
             odb.Close();
             Println(vos.GetFirst().GetName());
             AssertEquals(1, vos.Count);

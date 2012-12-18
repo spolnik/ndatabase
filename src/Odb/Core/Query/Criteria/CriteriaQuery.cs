@@ -54,7 +54,6 @@ namespace NDatabase2.Odb.Core.Query.Criteria
                 return;
 
             _criterion = criterion;
-            _criterion.SetQuery(this);
         }
 
         public override IQuery Descend(string attributeName)
@@ -82,94 +81,94 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
         public override IConstraint Equal<TItem>(TItem value)
         {
-            return ApplyConstraint(new EqualCriterion(ApplyAttributeName(), value));
+            return ApplyConstraint(new EqualCriterion(this, ApplyAttributeName(), value));
         }
 
         public override IConstraint LessOrEqual<TItem>(TItem value)
         {
             return
-                ApplyConstraint(new ComparisonCriterion(ApplyAttributeName(), value,
+                ApplyConstraint(new ComparisonCriterion(this, ApplyAttributeName(), value,
                                                         ComparisonCirerion.ComparisonTypeLe));
         }
 
         public override IConstraint InvariantEqual(string value)
         {
             return
-                ApplyConstraint(EqualCriterion.CreateInvartiantStringEqualCriterion(ApplyAttributeName(), value,
-                                                                                            false));
+                ApplyConstraint(EqualCriterion.CreateInvartiantStringEqualCriterion(this, ApplyAttributeName(), value,
+                                                                                    false));
         }
 
         public override IConstraint Like(string value)
         {
-            return ApplyConstraint(new LikeCriterion(ApplyAttributeName(), value, true));
+            return ApplyConstraint(new LikeCriterion(this, ApplyAttributeName(), value, true));
         }
 
         public override IConstraint InvariantLike(string value)
         {
-            return ApplyConstraint(new LikeCriterion(ApplyAttributeName(), value, false));
+            return ApplyConstraint(new LikeCriterion(this, ApplyAttributeName(), value, false));
         }
 
         public override IConstraint GreaterThan<TItem>(TItem value)
         {
             return
-                ApplyConstraint(new ComparisonCriterion(ApplyAttributeName(), value, ComparisonCirerion.ComparisonTypeGt));
+                ApplyConstraint(new ComparisonCriterion(this, ApplyAttributeName(), value, ComparisonCirerion.ComparisonTypeGt));
         }
 
         public override IConstraint GreaterOrEqual<TItem>(TItem value)
         {
             return
-                ApplyConstraint(new ComparisonCriterion(ApplyAttributeName(), value, ComparisonCirerion.ComparisonTypeGe));
+                ApplyConstraint(new ComparisonCriterion(this, ApplyAttributeName(), value, ComparisonCirerion.ComparisonTypeGe));
         }
 
         public override IConstraint LessThan<TItem>(TItem value)
         {
             return
-                ApplyConstraint(new ComparisonCriterion(ApplyAttributeName(), value, ComparisonCirerion.ComparisonTypeLt));
+                ApplyConstraint(new ComparisonCriterion(this, ApplyAttributeName(), value, ComparisonCirerion.ComparisonTypeLt));
         }
 
         public override IConstraint Contain<TItem>(TItem value)
         {
-            return ApplyConstraint(new ContainsCriterion(ApplyAttributeName(), value));
+            return ApplyConstraint(new ContainsCriterion(this, ApplyAttributeName(), value));
         }
 
         public override IConstraint IsNull()
         {
-            return ApplyConstraint(new IsNullCriterion(ApplyAttributeName()));
+            return ApplyConstraint(new IsNullCriterion(this, ApplyAttributeName()));
         }
 
         public override IConstraint IsNotNull()
         {
-            return ApplyConstraint(new IsNotNullCriterion(ApplyAttributeName()));
+            return ApplyConstraint(new IsNotNullCriterion(this, ApplyAttributeName()));
         }
 
         public override IConstraint SizeEq(int size)
         {
-            return ApplyConstraint(new CollectionSizeCriterion(ApplyAttributeName(), size, CollectionSizeCriterion.SizeEq));
+            return ApplyConstraint(new CollectionSizeCriterion(this, ApplyAttributeName(), size, CollectionSizeCriterion.SizeEq));
         }
 
         public override IConstraint SizeNe(int size)
         {
-            return ApplyConstraint(new CollectionSizeCriterion(ApplyAttributeName(), size, CollectionSizeCriterion.SizeNe));
+            return ApplyConstraint(new CollectionSizeCriterion(this, ApplyAttributeName(), size, CollectionSizeCriterion.SizeNe));
         }
 
         public override IConstraint SizeGt(int size)
         {
-            return ApplyConstraint(new CollectionSizeCriterion(ApplyAttributeName(), size, CollectionSizeCriterion.SizeGt));
+            return ApplyConstraint(new CollectionSizeCriterion(this, ApplyAttributeName(), size, CollectionSizeCriterion.SizeGt));
         }
 
         public override IConstraint SizeGe(int size)
         {
-            return ApplyConstraint(new CollectionSizeCriterion(ApplyAttributeName(), size, CollectionSizeCriterion.SizeGe));
+            return ApplyConstraint(new CollectionSizeCriterion(this, ApplyAttributeName(), size, CollectionSizeCriterion.SizeGe));
         }
 
         public override IConstraint SizeLt(int size)
         {
-            return ApplyConstraint(new CollectionSizeCriterion(ApplyAttributeName(), size, CollectionSizeCriterion.SizeLt));
+            return ApplyConstraint(new CollectionSizeCriterion(this, ApplyAttributeName(), size, CollectionSizeCriterion.SizeLt));
         }
 
         public override IConstraint SizeLe(int size)
         {
-            return ApplyConstraint(new CollectionSizeCriterion(ApplyAttributeName(), size, CollectionSizeCriterion.SizeLe));
+            return ApplyConstraint(new CollectionSizeCriterion(this, ApplyAttributeName(), size, CollectionSizeCriterion.SizeLe));
         }
 
         public override IObjectSet<TItem> Execute<TItem>()
@@ -180,6 +179,11 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         public override IObjectSet<TItem> Execute<TItem>(bool inMemory)
         {
             return ((IInternalQuery)this).GetStorageEngine().GetObjects<TItem>(this, inMemory, -1, -1);
+        }
+
+        public override IObjectSet<TItem> Execute<TItem>(bool inMemory, int startIndex, int endIndex)
+        {
+            return ((IInternalQuery)this).GetStorageEngine().GetObjects<TItem>(this, inMemory, startIndex, endIndex);
         }
 
         private string ApplyAttributeName()

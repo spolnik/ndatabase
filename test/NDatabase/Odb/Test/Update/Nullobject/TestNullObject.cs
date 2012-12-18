@@ -510,12 +510,13 @@ namespace Test.NDatabase.Odb.Test.Update.Nullobject
             odb.Store(CreateSensor(user, at, 4));
             odb.Close();
             odb = Open("sict");
-            var ats = odb.Query<AT>();
+            var query1 = odb.Query<AT>();
+            var ats = query1.Execute<AT>();
             var nbAts = ats.Count;
             at = ats.GetFirst();
             AT newAT = null;
             SensorAT newSensor = null;
-            IQuery query = odb.CreateCriteriaQuery<SensorAT>();
+            IQuery query = odb.Query<SensorAT>();
             query.Descend("at.name").Equal(at.GetName());
             query.OrderByAsc("lane");
             var sensors = query.Execute<SensorAT>();

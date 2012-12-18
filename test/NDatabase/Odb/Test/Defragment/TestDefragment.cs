@@ -29,11 +29,11 @@ namespace Test.NDatabase.Odb.Test.Defragment
             odb.DefragmentTo(OdbFileName2);
             var newOdb = Open(OdbFileName2);
 
-            Decimal nbUser = odb.CreateCriteriaQuery<User>().Count();
-            Decimal nbNewUser = odb.CreateCriteriaQuery<User>().Count();
+            Decimal nbUser = odb.Query<User>().Count();
+            Decimal nbNewUser = odb.Query<User>().Count();
             AssertEquals(nbUser, nbNewUser);
-            AssertEquals(odb.CreateCriteriaQuery<Profile>().Count(),
-                         odb.CreateCriteriaQuery<Profile>().Count());
+            AssertEquals(odb.Query<Profile>().Count(),
+                         odb.Query<Profile>().Count());
             odb.Close();
             newOdb.Close();
             DeleteBase(OdbFileName1);
@@ -56,9 +56,9 @@ namespace Test.NDatabase.Odb.Test.Defragment
             odb = Open(OdbFileName1);
             odb.DefragmentTo(OdbFileName2);
             var newOdb = Open(OdbFileName2);
-            AssertEquals(odb.CreateCriteriaQuery<User>().Count(), odb.CreateCriteriaQuery<User>().Count());
-            AssertEquals(odb.CreateCriteriaQuery<Profile>().Count(),
-                         odb.CreateCriteriaQuery<Profile>().Count());
+            AssertEquals(odb.Query<User>().Count(), odb.Query<User>().Count());
+            AssertEquals(odb.Query<Profile>().Count(),
+                         odb.Query<Profile>().Count());
             odb.Close();
             newOdb.Close();
             DeleteBase(OdbFileName1);
@@ -81,7 +81,7 @@ namespace Test.NDatabase.Odb.Test.Defragment
             odb = Open(OdbFileName1);
             odb.DefragmentTo(OdbFileName2);
             var newOdb = Open(OdbFileName2);
-            AssertEquals(odb.CreateCriteriaQuery<User>().Count(), odb.CreateCriteriaQuery<User>().Count());
+            AssertEquals(odb.Query<User>().Count(), odb.Query<User>().Count());
             odb.Close();
             newOdb.Close();
             DeleteBase(OdbFileName1);

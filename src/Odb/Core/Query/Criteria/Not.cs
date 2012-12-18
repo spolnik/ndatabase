@@ -4,12 +4,11 @@ using NDatabase2.Tool.Wrappers.List;
 
 namespace NDatabase2.Odb.Core.Query.Criteria
 {
-    
-    public sealed class Not : AbstractExpression
+    internal sealed class Not : AbstractExpression
     {
         private readonly IConstraint _criterion;
 
-        public Not(IConstraint criterion)
+        public Not(IQuery query, IConstraint criterion) : base(query)
         {
             _criterion = criterion;
         }

@@ -50,5 +50,11 @@ namespace NDatabase2.Odb
         /// </summary>
         /// <returns> The last update date </returns>
         long GetObjectUpdateDate(OID oid);
+
+        /// <summary>
+        ///   Return the name of the database
+        /// </summary>
+        /// <returns> the file name </returns>
+        string GetDbId();
     }
 }

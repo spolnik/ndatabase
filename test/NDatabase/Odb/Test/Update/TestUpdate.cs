@@ -28,7 +28,8 @@ namespace Test.NDatabase.Odb.Test.Update
             }
             odb.Close();
             odb = Open(FileName);
-            var l = odb.Query<VO.Login.Function>();
+            var query = odb.Query<VO.Login.Function>();
+            var l = query.Execute<VO.Login.Function>();
             AssertEquals(2 * NbObjects, l.Count);
             odb.Close();
         }
@@ -49,7 +50,7 @@ namespace Test.NDatabase.Odb.Test.Update
         public virtual void Test1()
         {
             var odb = Open(FileName);
-            IQuery query = odb.CreateCriteriaQuery<VO.Login.Function>();
+            IQuery query = odb.Query<VO.Login.Function>();
             query.Descend("name").Equal("function 10");
             var l = query.Execute<VO.Login.Function>();
             var size = l.Count;
@@ -63,11 +64,11 @@ namespace Test.NDatabase.Odb.Test.Update
             odb.Close();
 
             odb = Open(FileName);
-            query = odb.CreateCriteriaQuery<VO.Login.Function>();
+            query = odb.Query<VO.Login.Function>();
             query.Descend("name").Equal("function 10");
             l = query.Execute<VO.Login.Function>();
 
-            query = odb.CreateCriteriaQuery<VO.Login.Function>();
+            query = odb.Query<VO.Login.Function>();
             query.Descend("name").Equal(newName);
             AssertTrue(size == l.Count + 1);
             l = query.Execute<VO.Login.Function>();
@@ -83,8 +84,9 @@ namespace Test.NDatabase.Odb.Test.Update
         public virtual void Test2()
         {
             var odb = Open(FileName);
-            var nbProfiles = odb.Query<Profile>().Count;
-            IQuery query = odb.CreateCriteriaQuery<User>();
+            var query2 = odb.Query<Profile>();
+            var nbProfiles = query2.Execute<Profile>().Count;
+            IQuery query = odb.Query<User>();
             query.Descend("profile.name").Equal("profile 10");
             var l = query.Execute<User>();
             var size = l.Count;
@@ -98,12 +100,13 @@ namespace Test.NDatabase.Odb.Test.Update
             odb.Close();
 
             odb = Open(FileName);
-            query = odb.CreateCriteriaQuery<User>();
+            query = odb.Query<User>();
             query.Descend("profile.name").Equal("profile 10");
             l = query.Execute<User>();
             AssertTrue(l.Count == size - 1);
-            
-            var l2 = odb.Query<Profile>(false);
+
+            var query1 = odb.Query<Profile>();
+            var l2 = query1.Execute<Profile>(false);
             AssertEquals(nbProfiles, l2.Count);
             odb.Close();
         }
@@ -113,11 +116,11 @@ namespace Test.NDatabase.Odb.Test.Update
         public virtual void Test3()
         {
             var odb = Open(FileName);
-            IQuery pquery = odb.CreateCriteriaQuery<Profile>();
+            IQuery pquery = odb.Query<Profile>();
             pquery.Descend("name").Equal("profile 10");
-            var nbProfiles = odb.CreateCriteriaQuery<Profile>().Count();
+            var nbProfiles = odb.Query<Profile>().Count();
             long nbProfiles10 = pquery.Execute<Profile>().Count;
-            IQuery query = odb.CreateCriteriaQuery<User>();
+            IQuery query = odb.Query<User>();
             query.Descend("profile.name").Equal("profile 10");
             var l = query.Execute<User>();
             var size = l.Count;
@@ -131,15 +134,16 @@ namespace Test.NDatabase.Odb.Test.Update
             odb.Close();
 
             odb = Open(FileName);
-            pquery = odb.CreateCriteriaQuery<Profile>();
+            pquery = odb.Query<Profile>();
             pquery.Descend("name").Equal("profile 10");
-            query = odb.CreateCriteriaQuery<User>();
+            query = odb.Query<User>();
             query.Descend("profile.name").Equal("profile 10");
             l = query.Execute<User>();
             AssertEquals(l.Count + 1, size);
             AssertEquals(nbProfiles10, pquery.Execute<Profile>().Count + 1);
-            
-            var l2 = odb.Query<Profile>(false);
+
+            var query1 = odb.Query<Profile>();
+            var l2 = query1.Execute<Profile>(false);
             AssertEquals(nbProfiles, l2.Count);
             odb.Close();
         }
@@ -169,13 +173,14 @@ namespace Test.NDatabase.Odb.Test.Update
             }
             odb.Close();
             odb = Open(FileName);
-            var l = odb.Query<VO.Login.Function>(true);
+            var query = odb.Query<VO.Login.Function>();
+            var l = query.Execute<VO.Login.Function>(true);
             l.Next();
             l.Next();
             odb.Store(l.Next());
             odb.Close();
             odb = Open(FileName);
-            AssertEquals(15, odb.CreateCriteriaQuery<VO.Login.Function>().Count());
+            AssertEquals(15, odb.Query<VO.Login.Function>().Count());
             odb.Close();
         }
 
@@ -198,7 +203,7 @@ namespace Test.NDatabase.Odb.Test.Update
 
             using (var odb = Open(FileName))
             {
-                IQuery query = odb.CreateCriteriaQuery<VO.Login.Function>();
+                IQuery query = odb.Query<VO.Login.Function>();
                 query.Descend("name").Like("%9").Or(query.Descend("name").Like("%8"));
                 var l = query.Execute<VO.Login.Function>(false);
                 AssertEquals(2, l.Count);
@@ -208,7 +213,7 @@ namespace Test.NDatabase.Odb.Test.Update
             
             using (var odb = Open(FileName))
             {
-                AssertEquals(15, odb.CreateCriteriaQuery<VO.Login.Function>().Count());
+                AssertEquals(15, odb.Query<VO.Login.Function>().Count());
             }
         }
 
@@ -228,7 +233,8 @@ namespace Test.NDatabase.Odb.Test.Update
             MyObject mo2;
             using (var odb = Open(FileName))
             {
-                mo2 = odb.Query<MyObject>().GetFirst();
+                var query = odb.Query<MyObject>();
+                mo2 = query.Execute<MyObject>().GetFirst();
                 mo2.SetDate(new DateTime(mo.GetDate().Ticks + 10));
                 mo2.SetSize(mo.GetSize() + 1);
                 odb.Store(mo2);
@@ -236,7 +242,8 @@ namespace Test.NDatabase.Odb.Test.Update
 
             using (var odb = Open(FileName))
             {
-                var mo3 = odb.Query<MyObject>().GetFirst();
+                var query = odb.Query<MyObject>();
+                var mo3 = query.Execute<MyObject>().GetFirst();
                 AssertEquals(mo3.GetDate().Ticks, mo2.GetDate().Ticks);
                 AssertTrue(mo3.GetDate().Ticks > mo.GetDate().Ticks);
                 AssertTrue(mo3.GetSize() == mo.GetSize() + 1);
@@ -261,12 +268,14 @@ namespace Test.NDatabase.Odb.Test.Update
             odb.Store(user);
             odb.Close();
             odb = Open(FileName);
-            var user2 = odb.Query<User>().GetFirst();
+            var query = odb.Query<User>();
+            var user2 = query.Execute<User>().GetFirst();
             user2.GetProfile().AddFunction(new VO.Login.Function("new Function"));
             odb.Store(user2);
             odb.Close();
             odb = Open(FileName);
-            var user3 = odb.Query<User>().GetFirst();
+            var query1 = odb.Query<User>();
+            var user3 = query1.Execute<User>().GetFirst();
             AssertEquals(2, user3.GetProfile().GetFunctions().Count);
             var f1 = user3.GetProfile().GetFunctions()[0];
             var f2 = user3.GetProfile().GetFunctions()[1];
@@ -290,12 +299,14 @@ namespace Test.NDatabase.Odb.Test.Update
             odb.Store(user);
             odb.Close();
             odb = Open(FileName);
-            var user2 = odb.Query<User>().GetFirst();
+            var query = odb.Query<User>();
+            var user2 = query.Execute<User>().GetFirst();
             user2.SetProfile(null);
             odb.Store(user2);
             odb.Close();
             odb = Open(FileName);
-            var user3 = odb.Query<User>().GetFirst();
+            var query1 = odb.Query<User>();
+            var user3 = query1.Execute<User>().GetFirst();
             AssertNull(user3.GetProfile());
             odb.Close();
         }
@@ -341,14 +352,17 @@ namespace Test.NDatabase.Odb.Test.Update
             odb.Close();
             var profile2 = new Profile("new operator", function);
             odb = Open(FileName);
-            var user2 = odb.Query<User>().GetFirst();
+            var query = odb.Query<User>();
+            var user2 = query.Execute<User>().GetFirst();
             user2.SetProfile(profile2);
             odb.Store(user2);
             odb.Close();
             odb = Open(FileName);
-            user2 = odb.Query<User>().GetFirst();
+            var query1 = odb.Query<User>();
+            user2 = query1.Execute<User>().GetFirst();
             AssertEquals("new operator", user2.GetProfile().GetName());
-            AssertEquals(2, odb.Query<Profile>().Count);
+            var query2 = odb.Query<Profile>();
+            AssertEquals(2, query2.Execute<Profile>().Count);
             odb.Close();
         }
 
@@ -372,17 +386,20 @@ namespace Test.NDatabase.Odb.Test.Update
             odb.Store(profile2);
             odb.Close();
             odb = Open(FileName);
-            var query = odb.CreateCriteriaQuery<Profile>();
+            var query = odb.Query<Profile>();
             query.Descend("name").Equal("new operator");
             profile2 = query.Execute<Profile>().GetFirst();
-            var user2 = odb.Query<User>().GetFirst();
+            var query1 = odb.Query<User>();
+            var user2 = query1.Execute<User>().GetFirst();
             user2.SetProfile(profile2);
             odb.Store(user2);
             odb.Close();
             odb = Open(FileName);
-            user2 = odb.Query<User>().GetFirst();
+            var query2 = odb.Query<User>();
+            user2 = query2.Execute<User>().GetFirst();
             AssertEquals("new operator", user2.GetProfile().GetName());
-            AssertEquals(2, odb.Query<Profile>().Count);
+            var query3 = odb.Query<Profile>();
+            AssertEquals(2, query3.Execute<Profile>().Count);
             odb.Close();
         }
 
@@ -404,14 +421,17 @@ namespace Test.NDatabase.Odb.Test.Update
             var profile2 = new Profile("new operator", function);
             odb = Open(FileName);
             odb.Store(profile2);
-            var user2 = odb.Query<User>().GetFirst();
+            var query = odb.Query<User>();
+            var user2 = query.Execute<User>().GetFirst();
             user2.SetProfile(profile2);
             odb.Store(user2);
             odb.Close();
             odb = Open(FileName);
-            user2 = odb.Query<User>().GetFirst();
+            var query1 = odb.Query<User>();
+            user2 = query1.Execute<User>().GetFirst();
             AssertEquals("new operator", user2.GetProfile().GetName());
-            AssertEquals(2, odb.Query<Profile>().Count);
+            var query2 = odb.Query<Profile>();
+            AssertEquals(2, query2.Execute<Profile>().Count);
             odb.Close();
         }
 
@@ -432,14 +452,17 @@ namespace Test.NDatabase.Odb.Test.Update
             var profile2 = new Profile("new operator", function);
             odb = Open(FileName);
             odb.Store(profile2);
-            var user2 = odb.Query<User>().GetFirst();
+            var query = odb.Query<User>();
+            var user2 = query.Execute<User>().GetFirst();
             user2.SetProfile(profile2);
             odb.Store(user2);
             odb.Close();
             odb = Open(FileName);
-            user2 = odb.Query<User>().GetFirst();
+            var query1 = odb.Query<User>();
+            user2 = query1.Execute<User>().GetFirst();
             AssertEquals("new operator", user2.GetProfile().GetName());
-            AssertEquals(1, odb.Query<Profile>().Count);
+            var query2 = odb.Query<Profile>();
+            AssertEquals(1, query2.Execute<Profile>().Count);
             odb.Close();
         }
 
@@ -454,7 +477,7 @@ namespace Test.NDatabase.Odb.Test.Update
             odb.Close();
             odb = Open(baseName);
             // reloads the function
-            var query = odb.CreateCriteriaQuery<VO.Login.Function>();
+            var query = odb.Query<VO.Login.Function>();
             query.Descend("name").Equal("f1");
             var functions = query.Execute<VO.Login.Function>();
             var f1 = functions.GetFirst();
@@ -463,8 +486,10 @@ namespace Test.NDatabase.Odb.Test.Update
             odb.Store(profile);
             odb.Close();
             odb = Open(baseName);
-            var profiles = odb.Query<Profile>();
-            functions = odb.Query<VO.Login.Function>();
+            var query1 = odb.Query<Profile>();
+            var profiles = query1.Execute<Profile>();
+            var query2 = odb.Query<VO.Login.Function>();
+            functions = query2.Execute<VO.Login.Function>();
             odb.Close();
             DeleteBase(baseName);
             AssertEquals(1, functions.Count);

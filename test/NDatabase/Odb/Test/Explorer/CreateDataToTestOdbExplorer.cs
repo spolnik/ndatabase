@@ -39,7 +39,8 @@ namespace Test.NDatabase.Odb.Test.Explorer
 
             using (var odb = OdbFactory.OpenLast())
             {
-                var count = odb.Query<TestClass>().Count();
+                var query = odb.Query<TestClass>();
+                var count = query.Execute<TestClass>().Count<TestClass>();
                 Assert.That(count, Is.EqualTo(50));
             }
         }

@@ -1,3 +1,4 @@
+using NDatabase2.Odb;
 using NDatabase2.Tool.Wrappers;
 using NUnit.Framework;
 
@@ -31,7 +32,8 @@ namespace Test.NDatabase.Odb.Test.Update
             AssertNull(classInfo.UncommittedZoneInfo.First);
             AssertNull(classInfo.UncommittedZoneInfo.Last);
             odb = Open("unconnected");
-            AssertEquals(1, odb.Query<VO.Login.Function>().Count);
+            var query = odb.Query<VO.Login.Function>();
+            AssertEquals(1, query.Execute<VO.Login.Function>().Count);
             odb.Close();
         }
     }
