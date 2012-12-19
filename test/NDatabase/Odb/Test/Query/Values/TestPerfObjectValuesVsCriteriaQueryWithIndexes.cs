@@ -1,8 +1,5 @@
 using System;
-using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Query;
-using NDatabase2.Odb.Core.Query.Criteria;
-using NDatabase2.Odb.Core.Query.Values;
 using NDatabase2.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;
@@ -91,9 +88,9 @@ namespace Test.NDatabase.Odb.Test.Query.Values
         {
             var odb = Open("perfOValuesVsCriteriaIndex1");
             
-            var q = new ValuesCriteriaQuery<User2>().Field("name");
+            var q = odb.ValuesQuery<User2>().Field("name");
             q.Descend("name").Equal("user1599");
-            var v = odb.GetValues<User2>(q);
+            var v = odb.GetValues(q);
             Println(v.Count);
             AssertEquals(1, v.Count);
             odb.Close();

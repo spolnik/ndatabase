@@ -1,8 +1,5 @@
 using System;
 using System.Collections;
-using NDatabase2.Odb;
-using NDatabase2.Odb.Core.Query;
-using NDatabase2.Odb.Core.Query.Values;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Query.Values
@@ -23,7 +20,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             odb.Store(handler);
             odb.Close();
             odb = Open("valuesA1");
-            var values = odb.GetValues<Handler>(new ValuesCriteriaQuery<Handler>().Field("parameters"));
+            var values = odb.GetValues(odb.ValuesQuery<Handler>().Field("parameters"));
             Println(values);
             var ov = values.NextValues();
             var l = (IList) ov.GetByAlias("parameters");
@@ -47,7 +44,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             // ValuesQuery in getObjects
             try
             {
-                var objects = new ValuesCriteriaQuery<Handler>().Field("parameters").Execute<Handler>();
+                var objects = odb.ValuesQuery<Handler>().Field("parameters").Execute<Handler>();
                 Fail("Should throw exception");
             }
             catch (Exception)

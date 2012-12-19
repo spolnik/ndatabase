@@ -11,12 +11,12 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
         public override bool Match(object @object)
         {
-            return Constraints.All(constraint => constraint.Match(@object));
+            return Constraints.All(constraint => ((IInternalConstraint)constraint).Match(@object));
         }
 
         public override bool CanUseIndex()
         {
-            return Constraints.All(constraint => constraint.CanUseIndex());
+            return Constraints.All(constraint => ((IInternalConstraint)constraint).CanUseIndex());
         }
 
         public override string ToString()

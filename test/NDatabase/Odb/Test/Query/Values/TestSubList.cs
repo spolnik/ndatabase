@@ -5,7 +5,6 @@ using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Layers.Layer2.Instance;
 using NDatabase2.Odb.Core.Layers.Layer2.Meta;
 using NDatabase2.Odb.Core.Query;
-using NDatabase2.Odb.Core.Query.Values;
 using NDatabase2.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;
@@ -34,13 +33,11 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             odb.Store(handler);
             odb.Close();
             odb = Open("valuesSubList");
-            var values =
-                odb.GetValues<Handler>(
-                    new ValuesCriteriaQuery<Handler>().Field("parameters").Sublist("parameters", "sub1", 1, 5,
-                                                                                          true).Sublist("parameters",
-                                                                                                        "sub2", 1, 10).
-                        Size("parameters", "size"));
-
+            var valuesQuery =
+                odb.ValuesQuery<Handler>().Field("parameters").Sublist("parameters", "sub1", 1, 5, true).Sublist(
+                    "parameters", "sub2", 1, 10).Size("parameters", "size");
+            
+            var values = odb.GetValues(valuesQuery);
             Println(values);
             var ov = values.NextValues();
             var fulllist = (IList) ov.GetByAlias("parameters");
@@ -77,12 +74,12 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             odb.Store(handler);
             odb.Close();
             odb = Open("valuesSubList");
+            var valuesQuery =
+                odb.ValuesQuery<Handler>().Field("parameters").Sublist("parameters", "sub1", 1, 5, true).Sublist(
+                    "parameters", "sub2", 1, 10).Size("parameters", "size");
+
             var values =
-                odb.GetValues<Handler>(
-                    new ValuesCriteriaQuery<Handler>().Field("parameters").Sublist("parameters", "sub1", 1, 5,
-                                                                                          true).Sublist("parameters",
-                                                                                                        "sub2", 1, 10).
-                        Size("parameters", "size"));
+                odb.GetValues(valuesQuery);
             var ov = values.NextValues();
             // Retrieve Result values
             var fulllist = (IList) ov.GetByAlias("parameters");
@@ -110,8 +107,8 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             Println("size of list = " + h.GetListOfParameters().Count);
             var start = OdbTime.GetCurrentTimeInMs();
             var values =
-                odb.GetValues<Handler>(
-                    new ValuesCriteriaQuery<Handler>().Sublist("parameters", "sub", 490, 5, true).Size(
+                odb.GetValues(
+                    odb.ValuesQuery<Handler>().Sublist("parameters", "sub", 490, 5, true).Size(
                         "parameters", "size"));
             var end = OdbTime.GetCurrentTimeInMs();
             Println("time to load sublist of 5 itens from 40000 : " + (end - start));
@@ -149,9 +146,9 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             odb.Close();
             odb = Open("valuesSubList3");
             var start = OdbTime.GetCurrentTimeInMs();
-            var q = new ValuesCriteriaQuery<Handler>().Sublist("parameters", "sub", 9990, 5, true);
+            var q = odb.ValuesQuery<Handler>().Sublist("parameters", "sub", 9990, 5, true);
             q.SetReturnInstance(false);
-            var values = odb.GetValues<Handler>(q);
+            var values = odb.GetValues(q);
             var end = OdbTime.GetCurrentTimeInMs();
             Println("time to load sublist of 5 itens from 40000 : " + (end - start));
             Println(values);
@@ -170,7 +167,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
         {
             DeleteBase("sublist4");
             var odb = Open("sublist4");
-            var i = 0;
+            int i;
             IList<VO.Login.Function> functions1 = new List<VO.Login.Function>();
             for (i = 0; i < 30; i++)
                 functions1.Add(new VO.Login.Function("f1-" + i));
@@ -192,9 +189,9 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             var u = query.Execute<User>().GetFirst();
             Console.Out.WriteLine(u);
             var q =
-                new ValuesCriteriaQuery<Profile>().Field("name").Sublist("functions", 1, 2, false).Size(
+                odb.ValuesQuery<Profile>().Field("name").Sublist("functions", 1, 2, false).Size(
                     "functions", "fsize");
-            var v = odb.GetValues<Profile>(q);
+            var v = odb.GetValues(q);
             i = 0;
             while (v.HasNext())
             {
@@ -231,8 +228,8 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             odb.Close();
             odb = Open("valuesSubList3");
             var start = OdbTime.GetCurrentTimeInMs();
-            var q = new ValuesCriteriaQuery<Handler>().Sublist("parameters", "sub", 0, 2, true);
-            var values = odb.GetValues<Handler>(q);
+            var q = odb.ValuesQuery<Handler>().Sublist("parameters", "sub", 0, 2, true);
+            var values = odb.GetValues(q);
             var end = OdbTime.GetCurrentTimeInMs();
             Println("time to load sublist of 5 itens for " + sublistSize + " : " + (end - start));
             Println(values);

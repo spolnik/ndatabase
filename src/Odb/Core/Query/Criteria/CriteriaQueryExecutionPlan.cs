@@ -10,13 +10,13 @@ namespace NDatabase2.Odb.Core.Query.Criteria
     /// <summary>
     ///   A simple Criteria execution plan Check if the query can use index and tries to find the best index to be used
     /// </summary>
-    internal sealed class CriteriaQueryExecutionPlan<T> : IQueryExecutionPlan where T : class
+    internal sealed class CriteriaQueryExecutionPlan : IQueryExecutionPlan
     {
         [NonPersistent]
         private readonly ClassInfo _classInfo;
 
         [NonPersistent]
-        private readonly CriteriaQuery<T> _query;
+        private readonly CriteriaQuery _query;
 
         [NonPersistent]
         private ClassInfoIndex _classInfoIndex;
@@ -42,7 +42,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         {
         }
 
-        public CriteriaQueryExecutionPlan(ClassInfo classInfo, CriteriaQuery<T> query)
+        public CriteriaQueryExecutionPlan(ClassInfo classInfo, CriteriaQuery query)
         {
             _classInfo = classInfo;
             _query = query;
@@ -102,7 +102,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             _end = 0;
 
             // for instance, only manage index for one field query using 'equal'
-            if (_classInfo.HasIndex() && _query.HasCriteria() && CanUseIndex(_query.GetCriteria()))
+            if (_classInfo.HasIndex() && _query.HasCriteria() && ((IInternalConstraint)_query.GetCriteria()).CanUseIndex())
             {
                 var fields = _query.GetAllInvolvedFields();
                 if (fields.IsEmpty())
@@ -133,11 +133,6 @@ namespace NDatabase2.Odb.Core.Query.Criteria
                 fieldIds[i] = _classInfo.GetAttributeId(fields[i]);
 
             return fieldIds;
-        }
-
-        private static bool CanUseIndex(IConstraint criteria)
-        {
-            return criteria.CanUseIndex();
         }
     }
 }

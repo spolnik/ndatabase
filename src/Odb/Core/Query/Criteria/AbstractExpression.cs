@@ -3,7 +3,7 @@ using NDatabase2.Tool.Wrappers.List;
 
 namespace NDatabase2.Odb.Core.Query.Criteria
 {
-    internal abstract class AbstractExpression : IConstraint
+    internal abstract class AbstractExpression : IInternalConstraint
     {
         private readonly IQuery _query;
 

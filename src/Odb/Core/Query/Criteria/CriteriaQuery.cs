@@ -1,51 +1,50 @@
 using System;
 using System.Collections;
-using NDatabase2.Odb.Core.Query.Values;
 using NDatabase2.Tool.Wrappers.List;
 
 namespace NDatabase2.Odb.Core.Query.Criteria
 {
-    public class CriteriaQuery<T> : AbstractQuery<T> where T : class
+    internal class CriteriaQuery : AbstractQuery
     {
-        private IConstraint _criterion;
         private string _attributeName;
 
-        public CriteriaQuery()
+        public CriteriaQuery(Type underlyingType) 
+            : base(underlyingType)
         {
         }
 
         public bool HasCriteria()
         {
-            return _criterion != null;
+            return Constraint != null;
         }
 
         public bool Match(IDictionary map)
         {
-            return _criterion == null || _criterion.Match(map);
+            return Constraint == null || Constraint.Match(map);
         }
 
         public override bool Match(object @object)
         {
-            return _criterion.Match(@object);
+            return Constraint.Match(@object);
         }
 
         public IConstraint GetCriteria()
         {
-            return _criterion;
+            return Constraint;
         }
 
         public override string ToString()
         {
-            return _criterion == null
+            return Constraint == null
                        ? "no criterion"
-                       : _criterion.ToString();
+                       : Constraint.ToString();
         }
 
         public virtual IOdbList<string> GetAllInvolvedFields()
         {
-            return _criterion == null
+            return Constraint == null
                        ? new OdbList<string>()
-                       : _criterion.GetAllInvolvedFields();
+                       : Constraint.GetAllInvolvedFields();
         }
 
         public override void Add(IConstraint criterion)
@@ -53,7 +52,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             if (criterion == null)
                 return;
 
-            _criterion = criterion;
+            Constraint = (IInternalConstraint) criterion;
         }
 
         public override IQuery Descend(string attributeName)
@@ -64,19 +63,6 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             _attributeName = _attributeName == null ? attributeName : string.Join(".", _attributeName, attributeName);
 
             return this;
-        }
-
-        public override long Count()
-        {
-            var valuesCriteriaQuery = new ValuesCriteriaQuery<T>();
-            valuesCriteriaQuery.Add(GetCriteria());
-
-            var valuesQuery = valuesCriteriaQuery.Count("count");
-            var values = ((IInternalQuery)this).GetStorageEngine().GetValues<T>(valuesQuery, -1, -1);
-
-            var count = (Decimal)values.NextValues().GetByIndex(0);
-
-            return Decimal.ToInt64(count);
         }
 
         public override IConstraint Equal<TItem>(TItem value)

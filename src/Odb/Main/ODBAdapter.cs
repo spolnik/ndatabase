@@ -2,6 +2,7 @@ using NDatabase2.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase2.Odb.Core.Layers.Layer3;
 using NDatabase2.Odb.Core.Query;
 using NDatabase2.Odb.Core.Query.Criteria;
+using NDatabase2.Odb.Core.Query.Values;
 
 namespace NDatabase2.Odb.Main
 {
@@ -37,9 +38,28 @@ namespace NDatabase2.Odb.Main
 
         public IQuery Query<T>() where T : class
         {
-            var criteriaQuery = new CriteriaQuery<T>();
+            var criteriaQuery = new CriteriaQuery(typeof(T));
             ((IInternalQuery)criteriaQuery).SetStorageEngine(_storageEngine);
             return criteriaQuery;
+        }
+
+        public IValuesQuery ValuesQuery<T>() where T : class
+        {
+            var criteriaQuery = new ValuesCriteriaQuery(typeof(T));
+            ((IInternalQuery)criteriaQuery).SetStorageEngine(_storageEngine);
+            return criteriaQuery;
+        }
+
+        public IValuesQuery ValuesQuery<T>(OID oid) where T : class
+        {
+            var criteriaQuery = new ValuesCriteriaQuery(typeof(T), oid);
+            ((IInternalQuery)criteriaQuery).SetStorageEngine(_storageEngine);
+            return criteriaQuery;
+        }
+
+        public IValues GetValues(IValuesQuery query)
+        {
+            return _storageEngine.GetValues(query, -1, -1);
         }
 
         public virtual void Close()
@@ -60,11 +80,6 @@ namespace NDatabase2.Odb.Main
         public virtual void DeleteObjectWithId(OID oid)
         {
             _storageEngine.DeleteObjectWithOid(oid);
-        }
-
-        public virtual IValues GetValues<T>(IValuesQuery query) where T : class
-        {
-            return _storageEngine.GetValues<T>(query, -1, -1);
         }
 
         public OID GetObjectId<T>(T plainObject) where T : class

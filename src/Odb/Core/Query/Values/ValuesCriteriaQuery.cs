@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using NDatabase2.Odb.Core.Query.Criteria;
 using NDatabase2.Odb.Core.Query.Execution;
@@ -18,8 +19,7 @@ namespace NDatabase2.Odb.Core.Query.Values
     ///    - The Min value of a specific numeric field 
     ///    - The Average value of a specific numeric value
     /// </remarks>
-    /// <author>osmadja</author>
-    public sealed class ValuesCriteriaQuery<T> : CriteriaQuery<T>, IValuesQuery where T : class
+    internal sealed class ValuesCriteriaQuery : CriteriaQuery, IValuesQuery
     {
         private string[] _groupByFieldList;
 
@@ -32,13 +32,15 @@ namespace NDatabase2.Odb.Core.Query.Values
         /// </summary>
         private bool _returnInstance;
 
-        public ValuesCriteriaQuery(OID oid)
+        public ValuesCriteriaQuery(Type underlyingType, OID oid) 
+            : base(underlyingType)
         {
             SetOidOfObjectToQuery(oid);
             Init();
         }
 
-        public ValuesCriteriaQuery()
+        public ValuesCriteriaQuery(Type underlyingType) 
+            : base(underlyingType)
         {
             Init();
         }
@@ -271,14 +273,6 @@ namespace NDatabase2.Odb.Core.Query.Values
 
         public int ObjectActionsCount { get { return _objectActions.Count; } }
 
-        #endregion
-
-        private void Init()
-        {
-            _objectActions = new OdbList<IQueryFieldAction>();
-            _returnInstance = true;
-        }
-
         public IValuesQuery Min(string attributeName)
         {
             return Min(attributeName, attributeName);
@@ -301,6 +295,14 @@ namespace NDatabase2.Odb.Core.Query.Values
             action.SetAlias(alias);
             _objectActions.Add(action);
             return this;
+        }
+
+        #endregion
+
+        private void Init()
+        {
+            _objectActions = new OdbList<IQueryFieldAction>();
+            _returnInstance = true;
         }
     }
 }

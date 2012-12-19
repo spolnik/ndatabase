@@ -6,11 +6,11 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 {
     internal sealed class Not : AbstractExpression
     {
-        private readonly IConstraint _criterion;
+        private readonly IInternalConstraint _criterion;
 
         public Not(IQuery query, IConstraint criterion) : base(query)
         {
-            _criterion = criterion;
+            _criterion = (IInternalConstraint) criterion;
         }
 
         public override bool Match(object @object)

@@ -24,7 +24,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             var fields = new OdbList<string>(10);
 
             foreach (var constraint in Constraints)
-                FilterOutDuplicates(constraint.GetAllInvolvedFields(), fields);
+                FilterOutDuplicates(((IInternalConstraint)constraint).GetAllInvolvedFields(), fields);
 
             return fields;
         }
@@ -48,7 +48,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             var map = new AttributeValuesMap();
 
             foreach (var constraint in Constraints)
-                map.PutAll(constraint.GetValues());
+                map.PutAll(((IInternalConstraint)constraint).GetValues());
 
             return map;
         }

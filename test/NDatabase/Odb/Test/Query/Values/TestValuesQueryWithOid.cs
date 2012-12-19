@@ -29,14 +29,11 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             var oid = odb.Store(handler);
             odb.Close();
             odb = Open(baseName);
-            var values =
-                odb.GetValues<Handler>(
-                    new ValuesCriteriaQuery<Handler>(oid).Field("parameters").Sublist("parameters", "sub1", 1,
-                                                                                               5, true).Sublist(
-                                                                                                   "parameters", "sub2",
-                                                                                                   1, 10).Size(
-                                                                                                       "parameters",
-                                                                                                       "size"));
+            var valuesQuery =
+                odb.ValuesQuery<Handler>(oid).Field("parameters").Sublist("parameters", "sub1", 1, 5, true).Sublist(
+                    "parameters", "sub2", 1, 10).Size("parameters", "size");
+
+            var values = odb.GetValues(valuesQuery);
             Println(values);
             var ov = values.NextValues();
             var fulllist = (IList) ov.GetByAlias("parameters");

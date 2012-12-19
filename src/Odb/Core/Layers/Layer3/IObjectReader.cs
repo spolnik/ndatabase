@@ -88,7 +88,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3
         /// <param name="startIndex"> </param>
         /// <param name="endIndex"> </param>
         /// <returns> The list of values </returns>
-        IValues GetValues<T>(IValuesQuery query, int startIndex, int endIndex) where T : class;
+        IValues GetValues(IValuesQuery query, int startIndex, int endIndex);
 
         /// <summary>
         ///   Return Objects.
@@ -103,8 +103,9 @@ namespace NDatabase2.Odb.Core.Layers.Layer3
         /// <param name="returnObjects"> To indicate if object instances must be created </param>
         /// <param name="queryResultAction"> </param>
         /// <returns> The list of objects </returns>
-        IObjectSet<TResult> GetObjectInfos<TResult, TObject>(IQuery query, bool inMemory, int startIndex, int endIndex, bool returnObjects,
-                                      IMatchingObjectAction queryResultAction) where TObject : class;
+        IObjectSet<TResult> GetObjectInfos<TResult>(IQuery query, bool inMemory, int startIndex, int endIndex,
+                                                    bool returnObjects,
+                                                    IMatchingObjectAction queryResultAction);
 
         string GetBaseIdentification();
 

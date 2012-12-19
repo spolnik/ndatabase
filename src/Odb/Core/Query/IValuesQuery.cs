@@ -1,4 +1,5 @@
 using NDatabase2.Odb.Core.Query.Execution;
+using NDatabase2.Odb.Core.Query.Values;
 using NDatabase2.Tool.Wrappers.List;
 
 namespace NDatabase2.Odb.Core.Query
@@ -58,5 +59,9 @@ namespace NDatabase2.Odb.Core.Query
 
         int ObjectActionsCount { get; }
         IOdbList<IQueryFieldAction> GetObjectActions();
+        IValuesQuery Min(string attributeName);
+        IValuesQuery Min(string attributeName, string alias);
+        IValuesQuery Custom(string attributeName, ICustomQueryFieldAction action);
+        IValuesQuery Custom(string attributeName, string alias, ICustomQueryFieldAction action);
     }
 }

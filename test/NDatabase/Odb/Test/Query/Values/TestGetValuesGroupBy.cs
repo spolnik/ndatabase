@@ -1,6 +1,5 @@
 using System;
 using System.Globalization;
-using NDatabase2.Odb.Core.Query.Values;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Attribute;
 using Test.NDatabase.Odb.Test.VO.Login;
@@ -29,9 +28,9 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             odb.Store(tc3);
             odb.Close();
             odb = Open("values2.test1.odb");
-            var vq = new ValuesCriteriaQuery<TestClass>().Sum("int1", "sum of int1").GroupBy("int1");
+            var vq = odb.ValuesQuery<TestClass>().Sum("int1", "sum of int1").GroupBy("int1");
             vq.OrderByAsc("int1");
-            var values = odb.GetValues<TestClass>(vq);
+            var values = odb.GetValues(vq);
             AssertEquals(2, values.Count());
             Println(values);
             var ov = values.NextValues();
@@ -61,9 +60,9 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             odb.Close();
             odb = Open("values2.test2.odb");
             var vq =
-                new ValuesCriteriaQuery<TestClass>().Sum("int1", "sum of int1").Count("count").GroupBy("int1");
+                odb.ValuesQuery<TestClass>().Sum("int1", "sum of int1").Count("count").GroupBy("int1");
             vq.OrderByAsc("int1");
-            var values = odb.GetValues<TestClass>(vq);
+            var values = odb.GetValues(vq);
             Println(values);
             var ov = values.NextValues();
             AssertEquals(new Decimal(90), ov.GetByAlias("sum of int1"));
@@ -101,10 +100,10 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             odb.Close();
             odb = Open("values2.test3.odb");
             var q =
-                new ValuesCriteriaQuery<User2>().Field("profile.name").Count("count").Avg("nbLogins", "avg").
+                odb.ValuesQuery<User2>().Field("profile.name").Count("count").Avg("nbLogins", "avg").
                     GroupBy("profile.name");
             q.OrderByAsc("name");
-            var values = odb.GetValues<User2>(q);
+            var values = odb.GetValues(q);
             Println(values);
             var ov = values.NextValues();
             AssertEquals(2, values.Count());

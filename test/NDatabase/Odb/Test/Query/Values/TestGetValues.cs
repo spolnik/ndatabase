@@ -1,6 +1,5 @@
 using System;
 using NDatabase2.Odb;
-using NDatabase2.Odb.Core.Query.Criteria;
 using NDatabase2.Odb.Core.Query.Values;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Attribute;
@@ -22,7 +21,9 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             odb.Store(new VO.Login.Function("f1"));
             odb.Close();
             odb = Open("valuesA");
-            var values = odb.GetValues<VO.Login.Function>(new ValuesCriteriaQuery<VO.Login.Function>().Field("name"));
+            var valuesQuery = odb.ValuesQuery<VO.Login.Function>();
+            valuesQuery.Field("name");
+            var values = odb.GetValues(valuesQuery);
             Println(values);
             var ov = values.NextValues();
             odb.Close();
@@ -57,8 +58,9 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             odb = Open("valuesA2");
             t.Start();
             ICustomQueryFieldAction custom = new TestCustomQueryFieldAction();
+            var valuesQuery = odb.ValuesQuery<TestClass>().Custom("int1", "custom of int1", custom);
             var values =
-                odb.GetValues<TestClass>(new ValuesCriteriaQuery<TestClass>().Custom("int1", "custom of int1", custom));
+                odb.GetValues(valuesQuery);
             t.End();
             var ov = values.NextValues();
             var c = (Decimal) ov.GetByAlias("custom of int1");
@@ -94,7 +96,8 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             }
             odb = Open("valuesA3");
             t.Start();
-            var values = odb.GetValues<TestClass>(new ValuesCriteriaQuery<TestClass>().Count("nb objects"));
+            var valuesQuery = odb.ValuesQuery<TestClass>().Count("nb objects");
+            var values = odb.GetValues(valuesQuery);
             t.End();
             Println(values);
             Println(" time for count = " + t.GetDurationInMiliseconds());
@@ -114,7 +117,8 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             odb.Store(new User("user1", "email1", new Profile("profile name", new VO.Login.Function("f111"))));
             odb.Close();
             odb = Open("valuesA4");
-            var values = odb.GetValues<User>(new ValuesCriteriaQuery<User>().Field("name").Field("profile"));
+            var valuesQuery = odb.ValuesQuery<User>().Field("name").Field("profile");
+            var values = odb.GetValues(valuesQuery);
             Println(values);
             var ov = values.NextValues();
             odb.Close();
@@ -134,8 +138,9 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             odb.Store(new VO.Login.Function("f1"));
             odb.Close();
             odb = Open("valuesA21");
+            var valuesQuery = odb.ValuesQuery<VO.Login.Function>().Field("name", "Alias of the field");
             var values =
-                odb.GetValues<VO.Login.Function>(new ValuesCriteriaQuery<VO.Login.Function>().Field("name", "Alias of the field"));
+                odb.GetValues(valuesQuery);
             Println(values);
             var ov = values.NextValues();
             odb.Close();
@@ -153,7 +158,8 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             odb.Store(new User("user1", "email1", new Profile("profile name", new VO.Login.Function("f111"))));
             odb.Close();
             odb = Open("valuesA3");
-            var values = odb.GetValues<User>(new ValuesCriteriaQuery<User>().Field("name").Field("profile.name"));
+            var valuesQuery = odb.ValuesQuery<User>().Field("name").Field("profile.name");
+            var values = odb.GetValues(valuesQuery);
             Println(values);
             var ov = values.NextValues();
             odb.Close();
@@ -178,8 +184,9 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             odb.Store(tc2);
             odb.Close();
             odb = Open("valuesA4");
+            var valuesQuery = odb.ValuesQuery<TestClass>().Sum("int1", "sum of int1").Count("nb objects");
             var values =
-                odb.GetValues<TestClass>(new ValuesCriteriaQuery<TestClass>().Sum("int1", "sum of int1").Count("nb objects"));
+                odb.GetValues(valuesQuery);
             Println(values);
             var ov = values.NextValues();
             odb.Close();
@@ -204,7 +211,8 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             }
             odb.Close();
             odb = Open("valuesA5");
-            var values = odb.GetValues<TestClass>(new ValuesCriteriaQuery<TestClass>().Count("nb objects"));
+            var valuesQuery = odb.ValuesQuery<TestClass>().Count("nb objects");
+            var values = odb.GetValues(valuesQuery);
             Println(values);
             var ov = values.NextValues();
             odb.Close();
@@ -228,11 +236,12 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             }
             odb.Close();
             odb = Open("valuesA6");
-            var valuesCriteriaQuery = new ValuesCriteriaQuery<TestClass>();
+            var valuesCriteriaQuery = odb.ValuesQuery<TestClass>();
             valuesCriteriaQuery.Descend("int1").Equal(2);
 
+            var valuesQuery = valuesCriteriaQuery.Count("nb objects");
             var values =
-                odb.GetValues<TestClass>(valuesCriteriaQuery.Count("nb objects"));
+                odb.GetValues(valuesQuery);
             Println(values);
             var ov = values.NextValues();
             odb.Close();
@@ -285,10 +294,10 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             }
             odb.Close();
             odb = Open("valuesA8");
-            var values =
-                odb.GetValues<TestClass>(
-                    new ValuesCriteriaQuery<TestClass>().Max("int1", "max of int1").Avg("int1", "avg of int1").
-                        Sum("int1", "sum of int1"));
+            var valuesQuery =
+                odb.ValuesQuery<TestClass>().Max("int1", "max of int1").Avg("int1", "avg of int1").Sum("int1",
+                                                                                                       "sum of int1");
+            var values = odb.GetValues(valuesQuery);
             var ov = values.NextValues();
             var max = (Decimal) ov.GetByAlias("max of int1");
             var avg = (Decimal) ov.GetByAlias("avg of int1");
@@ -323,10 +332,10 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             }
             odb.Close();
             odb = Open("valuesA9");
-            var values =
-                odb.GetValues<TestClass>(
-                    new ValuesCriteriaQuery<TestClass>().Min("int1", "min of int1").Avg("int1", "avg of int1").
-                        Sum("int1", "sum of int1"));
+            var valuesQuery =
+                odb.ValuesQuery<TestClass>().Min("int1", "min of int1").Avg("int1", "avg of int1").Sum("int1",
+                                                                                                       "sum of int1");
+            var values = odb.GetValues(valuesQuery);
             var ov = values.NextValues();
             var min = (Decimal) ov.GetByAlias("min of int1");
             var avg = (Decimal) ov.GetByAlias("avg of int1");

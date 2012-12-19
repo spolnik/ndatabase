@@ -1,8 +1,5 @@
 using System;
-using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Query;
-using NDatabase2.Odb.Core.Query.Criteria;
-using NDatabase2.Odb.Core.Query.Values;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Human;
 
@@ -65,9 +62,9 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Store(new Woman("Karine"));
             odb.Close();
             odb = Open("multi");
-            var q = new ValuesCriteriaQuery<object>().Field("specie");
+            var q = odb.ValuesQuery<object>().Field("specie");
 
-            var os = odb.GetValues<object>(q);
+            var os = odb.GetValues(q);
             Println(os);
             odb.Close();
             AssertEquals(4, os.Count);
@@ -86,9 +83,9 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Store(new Woman("Karine"));
             odb.Close();
             odb = Open("multi");
-            var q = new ValuesCriteriaQuery<Human>().Field("specie");
+            var q = odb.ValuesQuery<Human>().Field("specie");
 
-            var os = odb.GetValues<Human>(q);
+            var os = odb.GetValues(q);
             Println(os);
             odb.Close();
             AssertEquals(2, os.Count);
@@ -107,9 +104,9 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Store(new Woman("Karine"));
             odb.Close();
             odb = Open("multi");
-            var q = new ValuesCriteriaQuery<Man>().Field("specie");
+            var q = odb.ValuesQuery<Man>().Field("specie");
 
-            var os = odb.GetValues<Man>(q);
+            var os = odb.GetValues(q);
             Println(os);
             odb.Close();
             AssertEquals(1, os.Count);

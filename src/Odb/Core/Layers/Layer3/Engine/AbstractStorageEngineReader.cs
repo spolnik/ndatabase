@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using NDatabase2.Btree;
 using NDatabase2.Odb.Core.BTree;
 using NDatabase2.Odb.Core.Layers.Layer1.Introspector;
@@ -19,14 +18,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
 {
     internal abstract class AbstractStorageEngineReader : IStorageEngine
     {
-        private static readonly Type UnclosedCriteriaQueryType = typeof (CriteriaQuery<>);
-
-        private static readonly MethodInfo GenericGetObjectInfos =
-            typeof(AbstractStorageEngineReader).GetMethod("GetObjectInfos", BindingFlags.Instance | BindingFlags.NonPublic);
-
-        private static readonly IDictionary<Type, Type> CriteriaQueryTypeCache =
-            new Dictionary<Type, Type>();
-
         private static readonly IDictionary<IStorageEngine, IInternalTriggerManager> TriggerManagers =
             new OdbHashMap<IStorageEngine, IInternalTriggerManager>();
 
@@ -78,7 +69,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             var newStorageEngine = new StorageEngine(new FileIdentification(newFileName));
             var j = 0;
 
-            var criteriaQuery = new CriteriaQuery<object>();
+            var criteriaQuery = new CriteriaQuery(typeof(object));
             var defragObjects = GetObjects<object>(criteriaQuery, true, -1, -1);
 
             foreach (var defragObject in defragObjects)
@@ -108,20 +99,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                 DLogger.Info(string.Format("New storage {0} created with {1} objects in {2} ms.", newFileName,
                                            nbObjectsAsString, timeAsString));
             }
-        }
-
-        private static IQuery PrepareCriteriaQuery(Type type)
-        {
-            Type criteriaQueryType;
-            var success = CriteriaQueryTypeCache.TryGetValue(type, out criteriaQueryType);
-
-            if (!success)
-            {
-                criteriaQueryType = UnclosedCriteriaQueryType.MakeGenericType(type);
-                CriteriaQueryTypeCache.Add(type, criteriaQueryType);
-            }
-
-            return (IQuery) Activator.CreateInstance(criteriaQueryType);
         }
 
         public abstract ISession GetSession(bool throwExceptionIfDoesNotExist);
@@ -207,10 +184,8 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             }
 
             // We must load all objects and insert them in the index!
-            var criteriaQuery = PrepareCriteriaQuery(classInfo.UnderlyingType);
-
-            var methodInfo = GenericGetObjectInfos.MakeGenericMethod(classInfo.UnderlyingType);
-            var objects = (IObjectSet<object>) methodInfo.Invoke(this, new object[] {criteriaQuery});
+            var criteriaQuery = new CriteriaQuery(classInfo.UnderlyingType);
+            var objects = GetObjectInfos(criteriaQuery);
 
             if (OdbConfiguration.IsLoggingEnabled())
             {
@@ -233,13 +208,13 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
         ///   Invoked by reflection!
         ///   //TODO: analyse what should be returned instead of object if  possible
         /// </summary>
-        internal IObjectSet<object> GetObjectInfos<T>(IQuery query) where T : class
+        internal IObjectSet<object> GetObjectInfos(IQuery query)
         {
             // Returns the query result handler for normal query result (that return a collection of objects)
             var queryResultAction = new QueryResultAction<object>(query, false, this, false,
                                                                             GetObjectReader().GetInstanceBuilder());
 
-            return ObjectReader.GetObjectInfos<object,T>(query, false, -1, -1, false,
+            return ObjectReader.GetObjectInfos<object>(query, false, -1, -1, false,
                                                   queryResultAction);
         }
 
@@ -303,7 +278,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
 
         public abstract IInternalTriggerManager GetTriggerManager();
 
-        public abstract IValues GetValues<T>(IValuesQuery arg1, int arg2, int arg3) where T : class;
+        public abstract IValues GetValues(IValuesQuery arg1, int arg2, int arg3);
 
         public abstract bool IsClosed();
 

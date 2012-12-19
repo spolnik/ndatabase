@@ -11,7 +11,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
         public override bool Match(object @object)
         {
-            return Constraints.Any(constraint => constraint.Match(@object));
+            return Constraints.Any(constraint => ((IInternalConstraint)constraint).Match(@object));
         }
 
         public override string ToString()

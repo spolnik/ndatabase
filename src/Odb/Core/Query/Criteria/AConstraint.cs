@@ -7,7 +7,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
     /// <summary>
     ///   An adapter for Criterion.
     /// </summary>
-    internal abstract class AConstraint : IConstraint
+    internal abstract class AConstraint : IInternalConstraint
     {
         /// <summary>
         ///   The name of the attribute involved by this criterion

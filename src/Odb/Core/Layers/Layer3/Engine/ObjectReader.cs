@@ -188,7 +188,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             foreach (var actualClassInfo in allClasses)
             {
                 IOdbList<ClassInfoIndex> indexes = new OdbList<ClassInfoIndex>();
-                IQuery queryClassInfo = new CriteriaQuery<ClassInfoIndex>();
+                IQuery queryClassInfo = new CriteriaQuery(typeof(ClassInfoIndex));
                 queryClassInfo.Descend("ClassInfoId").Equal(actualClassInfo.ClassInfoId);
                 var classIndexes = GetObjects<ClassInfoIndex>(queryClassInfo, true, -1, -1);
                 indexes.AddAll(classIndexes);
@@ -818,27 +818,27 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             IMatchingObjectAction queryResultAction = new QueryResultAction<T>(query, inMemory, _storageEngine,
                                                                                          true, _instanceBuilder);
             
-            var queryExecutor = QueryManager.GetQueryExecutor<T>(query, _storageEngine);
+            var queryExecutor = QueryManager.GetQueryExecutor(query, _storageEngine);
 
             return queryExecutor.Execute<T>(inMemory, startIndex, endIndex, true, queryResultAction);
         }
 
-        public IValues GetValues<T>(IValuesQuery valuesQuery, int startIndex, int endIndex) where T : class
+        public IValues GetValues(IValuesQuery valuesQuery, int startIndex, int endIndex)
         {
             IMatchingObjectAction queryResultAction;
             if (valuesQuery.HasGroupBy())
                 queryResultAction = new GroupByValuesQueryResultAction(valuesQuery, _instanceBuilder);
             else
                 queryResultAction = new ValuesQueryResultAction(valuesQuery, _storageEngine, _instanceBuilder);
-            var objects = GetObjectInfos<IObjectValues, T>(valuesQuery, true, startIndex, endIndex, false,
+            var objects = GetObjectInfos<IObjectValues>(valuesQuery, true, startIndex, endIndex, false,
                                                         queryResultAction);
             return (IValues) objects;
         }
 
-        public IObjectSet<TResult> GetObjectInfos<TResult, TObject>(IQuery query, bool inMemory, int startIndex, int endIndex,
-                                             bool returnObjects, IMatchingObjectAction queryResultAction) where TObject : class
+        public IObjectSet<TResult> GetObjectInfos<TResult>(IQuery query, bool inMemory, int startIndex, int endIndex,
+                                             bool returnObjects, IMatchingObjectAction queryResultAction)
         {
-            var executor = QueryManager.GetQueryExecutor<TObject>(query, _storageEngine);
+            var executor = QueryManager.GetQueryExecutor(query, _storageEngine);
             return executor.Execute<TResult>(inMemory, startIndex, endIndex, returnObjects, queryResultAction);
         }
 

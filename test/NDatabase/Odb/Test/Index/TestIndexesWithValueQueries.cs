@@ -23,11 +23,11 @@ namespace Test.NDatabase.Odb.Test.Index
             odb = Open(baseName);
             // build a value query to retrieve only the name of the function
             var vq =
-                new ValuesCriteriaQuery<VO.Login.Function>().Field("name");
+                odb.ValuesQuery<VO.Login.Function>().Field("name");
 
             vq.Descend("name").Equal("function " + (size - 1));
 
-            var values = odb.GetValues<VO.Login.Function>(vq);
+            var values = odb.GetValues(vq);
             AssertEquals(1, values.Count());
             Println(((IInternalQuery)vq).GetExecutionPlan().GetDetails());
             AssertEquals(true, ((IInternalQuery)vq).GetExecutionPlan().UseIndex());

@@ -6,8 +6,6 @@ using NDatabase2.Odb.Core.Layers.Layer2.Meta;
 using NDatabase2.Odb.Core.Layers.Layer3.Oid;
 using NDatabase2.Odb.Core.Layers.Layer3.Refactor;
 using NDatabase2.Odb.Core.Query;
-using NDatabase2.Odb.Core.Query.Criteria;
-using NDatabase2.Odb.Core.Query.Values;
 using NDatabase2.Odb.Core.Transaction;
 using NDatabase2.Odb.Core.Trigger;
 using NDatabase2.Tool;
@@ -431,7 +429,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             return _objectWriter.UpdateNonNativeObjectInfo(nnoi, forceUpdate);
         }
 
-        public override IValues GetValues<T>(IValuesQuery query, int startIndex, int endIndex)
+        public override IValues GetValues(IValuesQuery query, int startIndex, int endIndex)
         {
             if (IsDbClosed)
             {
@@ -439,7 +437,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                     NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
             }
 
-            return ObjectReader.GetValues<T>(query, startIndex, endIndex);
+            return ObjectReader.GetValues(query, startIndex, endIndex);
         }
 
         public override void AddCommitListener(ICommitListener commitListener)

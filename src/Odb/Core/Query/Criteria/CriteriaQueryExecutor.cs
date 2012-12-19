@@ -6,24 +6,24 @@ using NDatabase2.Tool.Wrappers.List;
 
 namespace NDatabase2.Odb.Core.Query.Criteria
 {
-    internal sealed class CriteriaQueryExecutor<T> : GenericQueryExecutor where T : class 
+    internal sealed class CriteriaQueryExecutor : GenericQueryExecutor
     {
-        private CriteriaQuery<T> _criteriaQuery;
+        private CriteriaQuery _criteriaQuery;
         private IOdbList<string> _involvedFields;
 
         public CriteriaQueryExecutor(IQuery query, IStorageEngine engine) : base(query, engine)
         {
-            _criteriaQuery = (CriteriaQuery<T>) query;
+            _criteriaQuery = (CriteriaQuery) query;
         }
 
         public override IQueryExecutionPlan GetExecutionPlan()
         {
-            return new CriteriaQueryExecutionPlan<T>(ClassInfo, (CriteriaQuery<T>)Query);
+            return new CriteriaQueryExecutionPlan(ClassInfo, (CriteriaQuery)Query);
         }
 
         public override void PrepareQuery()
         {
-            _criteriaQuery = (CriteriaQuery<T>) Query;
+            _criteriaQuery = (CriteriaQuery) Query;
             ((IInternalQuery)_criteriaQuery).SetStorageEngine(StorageEngine);
             _involvedFields = _criteriaQuery.GetAllInvolvedFields();
         }
@@ -89,14 +89,15 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
         public override IComparable ComputeIndexKey(ClassInfo ci, ClassInfoIndex index)
         {
-            var query = (CriteriaQuery<T>) Query;
-            var values = query.GetCriteria().GetValues();
+            var query = (CriteriaQuery) Query;
+            var constraint = query.GetCriteria();
+            var values = ((IInternalConstraint)constraint).GetValues();
 
             // if values.hasOid() is true, this means that we are working of the full object,
             // the index key is then the oid and not the object itself
-            if (values.HasOid())
-                return new SimpleCompareKey(values.GetOid());
-            return IndexTool.ComputeKey(ClassInfo, index, (CriteriaQuery<T>) Query);
+            return values.HasOid()
+                       ? new SimpleCompareKey(values.GetOid())
+                       : IndexTool.ComputeKey(ClassInfo, index, (CriteriaQuery) Query);
         }
 
         public override object GetCurrentObjectMetaRepresentation()

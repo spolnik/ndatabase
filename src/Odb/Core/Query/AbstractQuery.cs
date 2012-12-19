@@ -3,12 +3,15 @@ using NDatabase2.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase2.Odb.Core.Layers.Layer3;
 using NDatabase2.Odb.Core.Query.Criteria;
 using NDatabase2.Odb.Core.Query.Execution;
+using NDatabase2.Odb.Core.Query.Values;
 
 namespace NDatabase2.Odb.Core.Query
 {
-    public abstract class AbstractQuery<T> : IQuery, IInternalQuery where T : class
+    internal abstract class AbstractQuery : IQuery, IInternalQuery
     {
-        private readonly Type _underlyingType = typeof (T);
+        protected IInternalConstraint Constraint;
+        private readonly Type _underlyingType;
+
         internal IQueryExecutionPlan ExecutionPlan;
         protected string[] OrderByFields;
 
@@ -21,9 +24,16 @@ namespace NDatabase2.Odb.Core.Query
 
         [NonPersistent] private IStorageEngine _storageEngine;
 
-        protected AbstractQuery()
+        protected AbstractQuery(Type underlyingType)
         {
+            if (underlyingType == null)
+                throw new ArgumentNullException("underlyingType");
+
+            if (underlyingType.IsValueType)
+                throw new ArgumentException("Underlying type for query cannot to be value type.", "underlyingType");
+
             _orderByType = OrderByConstants.OrderByNone;
+            _underlyingType = underlyingType;
         }
 
         #region IInternalQuery Members
@@ -111,7 +121,19 @@ namespace NDatabase2.Odb.Core.Query
             return _oidOfObjectToQuery != null;
         }
 
-        public abstract long Count();
+        public long Count()
+        {
+            var valuesCriteriaQuery = new ValuesCriteriaQuery(_underlyingType);
+            valuesCriteriaQuery.Add(Constraint);
+
+            var valuesQuery = valuesCriteriaQuery.Count("count");
+            var values = ((IInternalQuery)this).GetStorageEngine().GetValues(valuesQuery, -1, -1);
+
+            var count = (Decimal)values.NextValues().GetByIndex(0);
+
+            return Decimal.ToInt64(count);
+        }
+
         public abstract IConstraint Equal<TItem>(TItem value);
         public abstract IConstraint LessOrEqual<TItem>(TItem value) where TItem : IComparable;
         public abstract IConstraint InvariantEqual(string value);

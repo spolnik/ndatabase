@@ -8,11 +8,16 @@ namespace NDatabase2.Odb.Core.Query.Criteria
     /// </summary>
     public interface IConstraint
     {
-        /// <summary>
-        ///   To check if an object matches this criterion
-        /// </summary>
-        /// <returns> true if object matches the criteria </returns>
-        bool Match(object @object);
+        IConstraint And(IConstraint with);
+        IConstraint Or(IConstraint with);
+        IConstraint Not();
+    }
+
+    internal interface IInternalConstraint : IConstraint
+    {
+        bool CanUseIndex();
+
+        AttributeValuesMap GetValues();
 
         /// <summary>
         ///   to be able to optimize query execution.
@@ -24,12 +29,10 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         /// <returns> All involved fields in criteria, List of String </returns>
         IOdbList<string> GetAllInvolvedFields();
 
-        AttributeValuesMap GetValues();
-
-        bool CanUseIndex();
-
-        IConstraint And(IConstraint with);
-        IConstraint Or(IConstraint with);
-        IConstraint Not();
+        /// <summary>
+        ///   To check if an object matches this criterion
+        /// </summary>
+        /// <returns> true if object matches the criteria </returns>
+        bool Match(object @object);
     }
 }

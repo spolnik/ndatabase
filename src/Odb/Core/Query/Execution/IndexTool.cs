@@ -76,10 +76,11 @@ namespace NDatabase2.Odb.Core.Query.Execution
         /// <param name="index"> The index </param>
         /// <param name="query"> </param>
         /// <returns> The key of the index </returns>
-        internal static IOdbComparable ComputeKey<T>(ClassInfo ci, ClassInfoIndex index, CriteriaQuery<T> query) where T : class
+        internal static IOdbComparable ComputeKey(ClassInfo ci, ClassInfoIndex index, CriteriaQuery query)
         {
             var attributesNames = ci.GetAttributeNames(index.AttributeIds);
-            var values = query.GetCriteria().GetValues();
+            var constraint = query.GetCriteria();
+            var values = ((IInternalConstraint)constraint).GetValues();
             return BuildIndexKey(index.Name, values, attributesNames);
         }
     }

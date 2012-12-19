@@ -37,7 +37,7 @@ namespace NDatabase2.Odb
         ///   Search for objects that matches the query.
         /// </summary>
         /// <returns> The list of values </returns>
-        IValues GetValues<T>(IValuesQuery query) where T : class;
+        IValues GetValues(IValuesQuery query);
 
         /// <summary>
         ///   Delete an object from database
@@ -98,5 +98,7 @@ namespace NDatabase2.Odb
         bool IsClosed();
 
         IQuery Query<T>() where T : class;
+        IValuesQuery ValuesQuery<T>() where T : class;
+        IValuesQuery ValuesQuery<T>(OID oid) where T : class;
     }
 }

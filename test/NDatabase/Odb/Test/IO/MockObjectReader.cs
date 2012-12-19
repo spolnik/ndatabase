@@ -79,7 +79,7 @@ namespace Test.NDatabase.Odb.Test.IO
         }
 
         public IObjectSet<T> GetObjectInfos<T>(IQuery query, bool inMemory, int startIndex, int endIndex,
-                                             bool returnObjects, IMatchingObjectAction queryResultAction) where T : class
+                                             bool returnObjects, IMatchingObjectAction queryResultAction)
         {
             return null;
         }
