@@ -39,15 +39,6 @@ namespace NDatabase2.Odb.Core.Query
         OrderByConstants GetOrderByType();
 
         /// <summary>
-        ///   To indicate if a query must be executed on a single object with the specific OID.
-        /// </summary>
-        /// <remarks>
-        ///   To indicate if a query must be executed on a single object with the specific OID. Used for ValuesQeuries
-        /// </remarks>
-        /// <returns> </returns>
-        bool IsForSingleOid();
-
-        /// <summary>
         ///   used with isForSingleOid == true, to indicate we are working on a single object with a specific oid
         /// </summary>
         /// <returns> </returns>

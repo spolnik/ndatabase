@@ -18,7 +18,7 @@ namespace NDatabase2.Odb.Core.Query.Execution
 
         IStorageEngine GetStorageEngine();
 
-        IQuery GetQuery();
+        IInternalQuery GetQuery();
 
         /// <summary>
         ///   The class on which to execute the query

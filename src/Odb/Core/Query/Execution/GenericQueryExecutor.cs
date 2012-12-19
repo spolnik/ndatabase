@@ -44,7 +44,7 @@ namespace NDatabase2.Odb.Core.Query.Execution
         /// <summary>
         ///   The query being executed
         /// </summary>
-        protected IQuery Query;
+        protected IInternalQuery Query;
 
         /// <summary>
         ///   The current database session
@@ -73,7 +73,7 @@ namespace NDatabase2.Odb.Core.Query.Execution
 
         protected GenericQueryExecutor(IQuery query, IStorageEngine engine)
         {
-            Query = query;
+            Query = (IInternalQuery) query;
             StorageEngine = engine;
             ObjectReader = StorageEngine.GetObjectReader();
             Session = StorageEngine.GetSession(true);
@@ -131,7 +131,7 @@ namespace NDatabase2.Odb.Core.Query.Execution
             return StorageEngine;
         }
 
-        public IQuery GetQuery()
+        public IInternalQuery GetQuery()
         {
             return Query;
         }

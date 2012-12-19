@@ -4,7 +4,7 @@ using NDatabase2.Odb.Core.Query.Execution;
 
 namespace NDatabase2.Odb.Core.Query
 {
-    internal interface IInternalQuery
+    internal interface IInternalQuery : IQuery
     {
         IQueryExecutionPlan GetExecutionPlan();
         void SetExecutionPlan(IQueryExecutionPlan plan);
@@ -13,5 +13,14 @@ namespace NDatabase2.Odb.Core.Query
         void SetStorageEngine(IStorageEngine storageEngine);
 
         void Add(IConstraint criterion);
+
+        /// <summary>
+        ///   To indicate if a query must be executed on a single object with the specific OID.
+        /// </summary>
+        /// <remarks>
+        ///   To indicate if a query must be executed on a single object with the specific OID. Used for ValuesQeuries
+        /// </remarks>
+        /// <returns> </returns>
+        bool IsForSingleOid();
     }
 }

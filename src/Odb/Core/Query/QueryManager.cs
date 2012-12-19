@@ -8,7 +8,7 @@ namespace NDatabase2.Odb.Core.Query
 {
     internal static class QueryManager
     {
-        public static int[] GetOrderByAttributeIds(ClassInfo classInfo, IQuery query)
+        public static int[] GetOrderByAttributeIds(ClassInfo classInfo, IInternalQuery query)
         {
             var fieldNames = query.GetOrderByFieldNames();
             var fieldIds = new int[fieldNames.Length];
