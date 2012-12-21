@@ -70,31 +70,6 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             return new QueryConstraint(this, ApplyAttributeName(), value);
         }
 
-        public override IConstraint LessOrEqual<TItem>(TItem value)
-        {
-            return
-                new ComparisonCriterion(this, ApplyAttributeName(), value,
-                                        ComparisonCirerion.ComparisonTypeLe);
-        }
-
-        public override IConstraint GreaterThan<TItem>(TItem value)
-        {
-            return
-                new ComparisonCriterion(this, ApplyAttributeName(), value, ComparisonCirerion.ComparisonTypeGt);
-        }
-
-        public override IConstraint GreaterOrEqual<TItem>(TItem value)
-        {
-            return
-                new ComparisonCriterion(this, ApplyAttributeName(), value, ComparisonCirerion.ComparisonTypeGe);
-        }
-
-        public override IConstraint LessThan<TItem>(TItem value)
-        {
-            return
-                new ComparisonCriterion(this, ApplyAttributeName(), value, ComparisonCirerion.ComparisonTypeLt);
-        }
-
         public override IConstraint SizeEq(int size)
         {
             return new CollectionSizeCriterion(this, ApplyAttributeName(), size, CollectionSizeCriterion.SizeEq);

@@ -88,6 +88,7 @@
     <Compile Include="Btree\Impl\Singlevalue\BTreeSingleValuePerKey.cs" />
     <Compile Include="Btree\Tool\BTreeDisplay.cs" />
     <Compile Include="Btree\Tool\BTreeValidator.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\ComparisonCirerion.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Evaluations\AEvaluation.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Evaluations\ContainsEvaluation.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Evaluations\EqualsEvaluation.cs" />
@@ -164,7 +165,6 @@
     <Compile Include="Odb\Core\Query\Criteria\AConstraint.cs" />
     <Compile Include="Odb\Core\Query\Criteria\AbstractExpression.cs" />
     <Compile Include="Odb\Core\Query\Criteria\And.cs" />
-    <Compile Include="Odb\Core\Query\Criteria\ComparisonCriterion.cs" />
     <Compile Include="Odb\Core\Query\Criteria\ComposedExpression.cs" />
     <Compile Include="Odb\Core\Query\Criteria\IConstraint.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Not.cs" />

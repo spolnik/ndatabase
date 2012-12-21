@@ -214,8 +214,8 @@ namespace NDatabase.UnitTests.CodeSnippets
         {
             using (var odb = OdbFactory.Open(TutorialDb5MinName))
             {
-                IQuery query = odb.Query<Player>();
-                query.Descend("Name").Constrain((object) "magdalena").Equals();
+                var query = odb.Query<Player>();
+                query.Descend("Name").Constrain("magdalena").Equals();
                 var players = query.Execute<Player>();
 
                 var magdalena = players.GetFirst();

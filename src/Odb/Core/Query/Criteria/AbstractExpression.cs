@@ -67,6 +67,26 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             throw new NotSupportedException();
         }
 
+        public IConstraint SmallerOrEqual()
+        {
+            throw new NotSupportedException();
+        }
+
+        public IConstraint GreaterOrEqual()
+        {
+            throw new NotSupportedException();
+        }
+
+        public IConstraint Greater()
+        {
+            throw new NotSupportedException();
+        }
+
+        public IConstraint Smaller()
+        {
+            throw new NotSupportedException();
+        }
+
         #endregion
     }
 }

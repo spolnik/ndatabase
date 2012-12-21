@@ -134,11 +134,6 @@ namespace NDatabase2.Odb.Core.Query
             return Decimal.ToInt64(count);
         }
 
-        public abstract IConstraint LessOrEqual<TItem>(TItem value) where TItem : IComparable;
-        public abstract IConstraint GreaterThan<TItem>(TItem value) where TItem : IComparable;
-        public abstract IConstraint GreaterOrEqual<TItem>(TItem value) where TItem : IComparable;
-        public abstract IConstraint LessThan<TItem>(TItem value) where TItem : IComparable;
-        
         public abstract IConstraint SizeEq(int size);
         public abstract IConstraint SizeNe(int size);
         public abstract IConstraint SizeGt(int size);

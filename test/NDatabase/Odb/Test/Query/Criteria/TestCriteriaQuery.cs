@@ -129,7 +129,8 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb = Open(baseName);
 
             IQuery query = odb.Query<MyDates>();
-            query.Descend("date1").LessOrEqual(d2).And(query.Descend("date2").GreaterOrEqual(d2)).And(query.Descend("i").Constrain((object) 5).Equals());
+            query.Descend("date1").Constrain(d2).SmallerOrEqual().And(query.Descend("date2").Constrain(d2).GreaterOrEqual()).And(
+                query.Descend("i").Constrain(5).Equals());
             var objects = query.Execute<MyDates>();
             AssertEquals(1, objects.Count);
             odb.Close();
@@ -142,7 +143,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             SetUp(baseName);
             var odb = Open(baseName);
             var aq = odb.Query<VO.Login.Function>();
-            aq.Descend("name").Constrain((object) "FuNcTiOn 1").Equals();
+            aq.Descend("name").Constrain("FuNcTiOn 1").Equals();
             aq.OrderByDesc("name");
             var l = aq.Execute<VO.Login.Function>(true, -1, -1);
             AssertEquals(0, l.Count);

@@ -50,6 +50,30 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             return this;
         }
 
+        public override IConstraint SmallerOrEqual()
+        {
+            _evaluation = new ComparisonEvaluation(TheObject, AttributeName, Query, ComparisonCirerion.ComparisonTypeLe);
+            return this;
+        }
+
+        public override IConstraint GreaterOrEqual()
+        {
+            _evaluation = new ComparisonEvaluation(TheObject, AttributeName, Query, ComparisonCirerion.ComparisonTypeGe);
+            return this;
+        }
+
+        public override IConstraint Greater()
+        {
+            _evaluation = new ComparisonEvaluation(TheObject, AttributeName, Query, ComparisonCirerion.ComparisonTypeGt);
+            return this;
+        }
+
+        public override IConstraint Smaller()
+        {
+            _evaluation = new ComparisonEvaluation(TheObject, AttributeName, Query, ComparisonCirerion.ComparisonTypeLt);
+            return this;
+        }
+
         public override bool CanUseIndex()
         {
             return _evaluation is EqualsEvaluation;

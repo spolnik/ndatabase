@@ -247,11 +247,13 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Store(c);
             odb.Store(c2);
             odb.Close();
+
             odb = Open(baseName);
             var query = odb.Query<ClassWithListOfString>();
             query.Descend("strings").Constrain(null).Contains();
             var l = query.Execute<ClassWithListOfString>();
             odb.Close();
+
             AssertEquals(1, l.Count());
         }
 

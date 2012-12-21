@@ -138,8 +138,8 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             query =
                 odb.Query<TestClass>();
 
-            ((IConstraint) query.Descend("string1").Constrain((object) "test class with values").Equals()).And(query.Descend("date1").GreaterOrEqual(new DateTime(
-                                                                                                                            correctDate.Millisecond)));
+            ((IConstraint) query.Descend("string1").Constrain((object) "test class with values").Equals()).And(query.Descend("date1").Constrain(new DateTime(
+                                                                                                                                                    correctDate.Millisecond)).GreaterOrEqual());
             l = query.Execute<TestClass>();
             if (l.Count != 1)
             {
@@ -163,11 +163,11 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var l = query.Execute<TestClass>();
             AssertEquals(1, l.Count);
             query = odb.Query<TestClass>();
-            query.Descend("double1").GreaterThan((double) 189);
+            query.Descend("double1").Constrain((double) 189).Greater();
             l = query.Execute<TestClass>();
             AssertTrue(l.Count >= 1);
             query = odb.Query<TestClass>();
-            query.Descend("double1").LessThan((double) 191);
+            query.Descend("double1").Constrain((double) 191).Smaller();
             l = query.Execute<TestClass>();
             AssertTrue(l.Count >= 1);
             odb.Close();
@@ -182,11 +182,11 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var l = query.Execute<TestClass>();
             AssertEquals(1, l.Count);
             query = odb.Query<TestClass>();
-            query.Descend("int1").GreaterThan(189);
+            query.Descend("int1").Constrain(189).Greater();
             l = query.Execute<TestClass>();
             AssertTrue(l.Count >= 1);
             query = odb.Query<TestClass>();
-            query.Descend("int1").LessThan(191);
+            query.Descend("int1").Constrain(191).Smaller();
             l = query.Execute<TestClass>();
             AssertTrue(l.Count >= 1);
             odb.Close();

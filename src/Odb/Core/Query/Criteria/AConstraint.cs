@@ -101,6 +101,26 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             throw new NotSupportedException();
         }
 
+        public virtual IConstraint SmallerOrEqual()
+        {
+            throw new NotSupportedException();
+        }
+
+        public virtual IConstraint GreaterOrEqual()
+        {
+            throw new NotSupportedException();
+        }
+
+        public virtual IConstraint Greater()
+        {
+            throw new NotSupportedException();
+        }
+
+        public virtual IConstraint Smaller()
+        {
+            throw new NotSupportedException();
+        }
+
         #endregion
 
         public virtual bool Match(AbstractObjectInfo aoi)

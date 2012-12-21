@@ -49,12 +49,8 @@ namespace NDatabase2.Odb.Core.Query
         Type UnderlyingType { get; }
 
         IQuery Descend(string attributeName);
+        IConstraint Constrain(object value);
 
-        IConstraint LessOrEqual<TItem>(TItem value) where TItem : IComparable;
-        IConstraint GreaterThan<TItem>(TItem value) where TItem : IComparable;
-        IConstraint GreaterOrEqual<TItem>(TItem value) where TItem : IComparable;
-        IConstraint LessThan<TItem>(TItem value) where TItem : IComparable;
-        
         IConstraint SizeEq(int size);
         IConstraint SizeNe(int size);
         IConstraint SizeGt(int size);
@@ -63,6 +59,5 @@ namespace NDatabase2.Odb.Core.Query
         IConstraint SizeLe(int size);
 
         long Count();
-        IConstraint Constrain(object value);
     }
 }
