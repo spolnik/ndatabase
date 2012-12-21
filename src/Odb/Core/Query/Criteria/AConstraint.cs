@@ -95,6 +95,11 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         {
             throw new NotSupportedException();
         }
+        
+        public virtual IConstraint Contains()
+        {
+            throw new NotSupportedException();
+        }
 
         #endregion
 

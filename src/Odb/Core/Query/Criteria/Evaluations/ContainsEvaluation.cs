@@ -2,62 +2,63 @@ using System;
 using System.Collections;
 using NDatabase2.Odb.Core.Layers.Layer2.Meta;
 
-namespace NDatabase2.Odb.Core.Query.Criteria
+namespace NDatabase2.Odb.Core.Query.Criteria.Evaluations
 {
-    internal sealed class ContainsCriterion : AConstraint
+    internal class ContainsEvaluation : AEvaluation
     {
         /// <summary>
         ///   For criteria query on objects, we use the oid of the object instead of the object itself.
         /// </summary>
         /// <remarks>
-        ///   For criteria query on objects, we use the oid of the object instead of the object itself. So comparison will be done with OID It is faster and avoid the need of the object (class) having to implement Serializable in client server mode
+        ///   For criteria query on objects, we use the oid of the object instead of the object itself. 
+        ///   So comparison will be done with OID It is faster and avoid the need of the object 
+        ///   (class) having to implement Serializable in client server mode
         /// </remarks>
-        private OID _oid;
+        private readonly OID _oid;
 
-        public ContainsCriterion(IQuery query, string attributeName, object criterionValue) 
-            : base(query, attributeName, criterionValue)
+        public ContainsEvaluation(object theObject, string attributeName, IQuery query) : base(theObject, attributeName)
         {
             if (IsNative())
                 return;
 
             // For non native object, we just need the oid of it
-            _oid = ((IInternalQuery)Query).GetStorageEngine().GetObjectId(TheObject, false);
+            _oid = ((IInternalQuery)query).GetStorageEngine().GetObjectId(TheObject, false);
         }
 
-        public override bool Match(object valueToMatch)
+        public override bool Evaluate(object candidate)
         {
-            if (valueToMatch == null && TheObject == null && _oid == null)
+            if (candidate == null && TheObject == null && _oid == null)
                 return true;
 
-            if (valueToMatch == null)
+            if (candidate == null)
                 return false;
 
-            if (valueToMatch is IDictionary)
+            if (candidate is IDictionary)
             {
                 // The value in the map, just take the object with the attributeName
-                var map = (IDictionary) valueToMatch;
-                valueToMatch = map[AttributeName];
+                var map = (IDictionary)candidate;
+                candidate = map[AttributeName];
 
                 // The value valueToMatch was redefined, so we need to re-make some
                 // tests
-                if (valueToMatch == null && TheObject == null && _oid == null)
+                if (candidate == null && TheObject == null && _oid == null)
                     return true;
 
-                if (valueToMatch == null)
+                if (candidate == null)
                     return false;
             }
 
-            var collection = valueToMatch as ICollection;
+            var collection = candidate as ICollection;
             if (collection != null)
                 return CheckIfCollectionContainsValue(collection);
 
-            var clazz = valueToMatch.GetType();
+            var clazz = candidate.GetType();
 
             if (clazz.IsArray)
-                return CheckIfArrayContainsValue(valueToMatch);
+                return CheckIfArrayContainsValue(candidate);
 
             throw new OdbRuntimeException(
-                NDatabaseError.QueryContainsCriterionTypeNotSupported.AddParameter(valueToMatch.GetType().FullName));
+                NDatabaseError.QueryContainsCriterionTypeNotSupported.AddParameter(candidate.GetType().FullName));
         }
 
         private bool CheckIfCollectionContainsValue(IEnumerable collection)
@@ -79,7 +80,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
                 return false;
             }
-            
+
             foreach (AbstractObjectInfo abstractObjectInfo in collection)
             {
                 if (abstractObjectInfo.IsNull() && TheObject == null && _oid == null)
@@ -103,14 +104,14 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
         private bool CheckIfArrayContainsValue(object valueToMatch)
         {
-            var arrayLength = ((Array) valueToMatch).GetLength(0);
+            var arrayLength = ((Array)valueToMatch).GetLength(0);
             for (var i = 0; i < arrayLength; i++)
             {
-                var element = ((Array) valueToMatch).GetValue(i);
+                var element = ((Array)valueToMatch).GetValue(i);
                 if (element == null && TheObject == null)
                     return true;
 
-                var abstractObjectInfo = (AbstractObjectInfo) element;
+                var abstractObjectInfo = (AbstractObjectInfo)element;
                 if (abstractObjectInfo != null && abstractObjectInfo.GetObject() != null &&
                     abstractObjectInfo.GetObject().Equals(TheObject))
                     return true;

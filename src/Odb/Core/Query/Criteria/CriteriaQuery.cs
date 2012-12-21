@@ -95,11 +95,6 @@ namespace NDatabase2.Odb.Core.Query.Criteria
                 new ComparisonCriterion(this, ApplyAttributeName(), value, ComparisonCirerion.ComparisonTypeLt);
         }
 
-        public override IConstraint Contain(object value)
-        {
-            return new ContainsCriterion(this, ApplyAttributeName(), value);
-        }
-
         public override IConstraint SizeEq(int size)
         {
             return new CollectionSizeCriterion(this, ApplyAttributeName(), size, CollectionSizeCriterion.SizeEq);

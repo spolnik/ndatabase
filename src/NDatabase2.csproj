@@ -89,6 +89,7 @@
     <Compile Include="Btree\Tool\BTreeDisplay.cs" />
     <Compile Include="Btree\Tool\BTreeValidator.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Evaluations\AEvaluation.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\Evaluations\ContainsEvaluation.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Evaluations\EqualsEvaluation.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Evaluations\IEvaluation.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Evaluations\LikeEvaluation.cs" />
@@ -166,7 +167,6 @@
     <Compile Include="Odb\Core\Query\Criteria\ComparisonCriterion.cs" />
     <Compile Include="Odb\Core\Query\Criteria\ComposedExpression.cs" />
     <Compile Include="Odb\Core\Query\Criteria\IConstraint.cs" />
-    <Compile Include="Odb\Core\Query\Criteria\ISingleCriterion.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Not.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Or.cs" />
     <Compile Include="Odb\Core\Query\Execution\GenericQueryExecutor.cs" />
@@ -238,13 +238,9 @@
     <Compile Include="Odb\Core\Oid\TransactionIdImpl.cs" />
     <Compile Include="Odb\Core\Query\Criteria\QueryResultAction.cs" />
     <Compile Include="Odb\Core\Query\Criteria\CollectionSizeCriterion.cs" />
-    <Compile Include="Odb\Core\Query\Criteria\ContainsCriterion.cs" />
     <Compile Include="Odb\Core\Query\Criteria\CriteriaQuery.cs" />
     <Compile Include="Odb\Core\Query\Criteria\CriteriaQueryExecutionPlan.cs" />
     <Compile Include="Odb\Core\Query\Criteria\CriteriaQueryExecutor.cs" />
-    <Compile Include="Odb\Core\Query\Criteria\IsNotNullCriterion.cs" />
-    <Compile Include="Odb\Core\Query\Criteria\IsNullCriterion.cs" />
-    <Compile Include="Odb\Core\Query\Criteria\LikeCriterion.cs" />
     <Compile Include="Odb\Core\Query\List\AbstractBTreeCollection.cs" />
     <Compile Include="Odb\Core\Query\List\Objects\InMemoryBTreeCollection.cs" />
     <Compile Include="Odb\Core\Query\List\Objects\LazyBTreeCollection.cs" />

@@ -58,7 +58,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
                 odb.Close();
                 odb = Open(baseName);
                 var query = odb.Query<PlayerWithList>();
-                query.Descend("games").Contain("tennis");
+                query.Descend("games").Constrain("tennis").Contains();
                 var l = query.Execute<PlayerWithList>();
                 AssertEquals(nb + 1, l.Count);
             }

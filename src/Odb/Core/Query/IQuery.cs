@@ -54,7 +54,7 @@ namespace NDatabase2.Odb.Core.Query
         IConstraint GreaterThan<TItem>(TItem value) where TItem : IComparable;
         IConstraint GreaterOrEqual<TItem>(TItem value) where TItem : IComparable;
         IConstraint LessThan<TItem>(TItem value) where TItem : IComparable;
-        IConstraint Contain(object value);
+        
         IConstraint SizeEq(int size);
         IConstraint SizeNe(int size);
         IConstraint SizeGt(int size);

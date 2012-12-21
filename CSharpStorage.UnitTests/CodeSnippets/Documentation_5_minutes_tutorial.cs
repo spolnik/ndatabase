@@ -222,7 +222,7 @@ namespace NDatabase.UnitTests.CodeSnippets
  
                 // builds a query to get all teams where mihn plays
                 query = odb.Query<Team>();
-                query.Descend("Players").Contain(magdalena);
+                query.Descend("Players").Constrain(magdalena).Contains();
                 
                 var teams = query.Execute<Team>();
 

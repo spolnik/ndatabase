@@ -44,6 +44,12 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             return this;
         }
 
+        public override IConstraint Contains()
+        {
+            _evaluation = new ContainsEvaluation(TheObject, AttributeName, Query);
+            return this;
+        }
+
         public override bool CanUseIndex()
         {
             return _evaluation is EqualsEvaluation;
