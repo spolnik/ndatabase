@@ -12,11 +12,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
     /// </summary>
     internal sealed class ClassAttributeInfo
     {
-        /// <summary>
-        ///   can be null
-        /// </summary>
-        private readonly Type _nativeClass;
-
         private OdbType _attributeType;
 
         private ClassInfo _classInfo;
@@ -40,10 +35,8 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
 
         internal ClassAttributeInfo(int attributeId, string name, Type nativeClass, string fullClassName, ClassInfo info)
         {
-            //private transient static int nb=0;
             _id = attributeId;
             _name = name;
-            _nativeClass = nativeClass;
             SetFullClassName(fullClassName);
             
             if (nativeClass != null)

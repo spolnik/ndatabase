@@ -11,6 +11,11 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         IConstraint And(IConstraint with);
         IConstraint Or(IConstraint with);
         IConstraint Not();
+
+        IConstraint Equals();
+        IConstraint InvariantEquals();
+        IConstraint Like();
+        IConstraint InvariantLike();
     }
 
     internal interface IInternalConstraint : IConstraint

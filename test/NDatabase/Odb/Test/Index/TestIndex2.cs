@@ -32,7 +32,7 @@ namespace Test.NDatabase.Odb.Test.Index
             odb.Close();
             odb = Open(baseName);
             IQuery q = odb.Query<IndexedObject3>();
-            q.Descend("i1").Equal(1);
+            q.Descend("i1").Constrain((object) 1).Equals();
             var iis = q.Execute<IndexedObject3>();
             odb.Close();
             AssertEquals(1, iis.Count);
@@ -70,7 +70,7 @@ namespace Test.NDatabase.Odb.Test.Index
             IQuery q =
                 odb.Query<IndexedObject3>();
 
-            q.Descend("i1").Equal(10).And(q.Descend("i2").Equal(2)).And(q.Descend("i3").Equal(3));
+            ((IConstraint) q.Descend("i1").Constrain((object) 10).Equals()).And(q.Descend("i2").Constrain((object) 2).Equals()).And(q.Descend("i3").Constrain((object) 3).Equals());
 
             var objects = q.Execute<IndexedObject3>();
             AssertEquals(true, ((IInternalQuery)q).GetExecutionPlan().UseIndex());
@@ -79,7 +79,7 @@ namespace Test.NDatabase.Odb.Test.Index
 
             odb = Open(baseName);
             q = odb.Query<IndexedObject3>();
-            q.Descend("i1").Equal(10).And(q.Descend("i2").Equal(2)).And(q.Descend("i3").Equal(3));
+            ((IConstraint) q.Descend("i1").Constrain((object) 10).Equals()).And(q.Descend("i2").Constrain((object) 2).Equals()).And(q.Descend("i3").Constrain((object) 3).Equals());
             objects = q.Execute<IndexedObject3>();
 
             AssertEquals(false, ((IInternalQuery)q).GetExecutionPlan().UseIndex());
@@ -151,7 +151,7 @@ namespace Test.NDatabase.Odb.Test.Index
             IQuery q =
                 odb.Query<IndexedObject3>();
 
-            q.Descend("i1").Equal(10).And(q.Descend("i2").Equal(2)).And(q.Descend("i3").Equal(3));
+            ((IConstraint) q.Descend("i1").Constrain((object) 10).Equals()).And(q.Descend("i2").Constrain((object) 2).Equals()).And(q.Descend("i3").Constrain((object) 3).Equals());
 
             var objects = q.Execute<IndexedObject3>();
             AssertEquals(true, ((IInternalQuery)q).GetExecutionPlan().UseIndex());
@@ -161,7 +161,7 @@ namespace Test.NDatabase.Odb.Test.Index
             odb = Open(baseName);
             q = odb.Query<IndexedObject3>();
 
-            q.Descend("i1").Equal(10).And(q.Descend("i2").Equal(2)).And(q.Descend("i3").Equal(3));
+            ((IConstraint) q.Descend("i1").Constrain((object) 10).Equals()).And(q.Descend("i2").Constrain((object) 2).Equals()).And(q.Descend("i3").Constrain((object) 3).Equals());
             objects = q.Execute<IndexedObject3>();
             AssertEquals(true, ((IInternalQuery)q).GetExecutionPlan().UseIndex());
             odb.Close();

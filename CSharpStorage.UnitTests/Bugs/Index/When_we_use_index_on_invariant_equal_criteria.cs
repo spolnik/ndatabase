@@ -25,7 +25,7 @@ namespace NDatabase.UnitTests.Bugs.Index
             using (var odb = OdbFactory.OpenLast())
             {
                 var query = odb.Query<SampleClass>();
-                query.Descend("ID").InvariantEqual("id.5");
+                query.Descend("ID").Constrain("id.5").InvariantEquals();
                 count = query.Count();
             }
 
@@ -35,7 +35,7 @@ namespace NDatabase.UnitTests.Bugs.Index
                 odb.IndexManagerFor<SampleClass>().AddIndexOn("index", new[] { "ID" });
 
                 var query = odb.Query<SampleClass>();
-                query.Descend("ID").InvariantEqual("id.5");
+                query.Descend("ID").Constrain("id.5").InvariantEquals();
                 count2 = query.Count();
             }
 
@@ -62,7 +62,7 @@ namespace NDatabase.UnitTests.Bugs.Index
             using (var odb = OdbFactory.OpenLast())
             {
                 var query = odb.Query<SampleClass>();
-                query.Descend("ID").InvariantEqual("id.5");
+                query.Descend("ID").Constrain("id.5").InvariantEquals();
                 count = query.Count();
             }
 
@@ -72,7 +72,7 @@ namespace NDatabase.UnitTests.Bugs.Index
                 odb.IndexManagerFor<SampleClass>().AddUniqueIndexOn("index", new[] { "ID" });
 
                 var query = odb.Query<SampleClass>();
-                query.Descend("ID").InvariantEqual("id.5");
+                query.Descend("ID").Constrain("id.5").InvariantEquals();
                 count2 = query.Count();
             }
 

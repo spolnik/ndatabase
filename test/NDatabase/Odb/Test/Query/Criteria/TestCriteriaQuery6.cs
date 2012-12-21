@@ -68,7 +68,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Close();
             odb = Open(baseName);
             var query = odb.Query<ClassB>();
-            query.Descend("name").Equal("name");
+            query.Descend("name").Constrain((object) "name").Equals();
             var l = query.Execute<ClassB>();
             odb.Close();
             AssertEquals(1, l.Count);

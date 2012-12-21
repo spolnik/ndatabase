@@ -57,7 +57,7 @@ namespace Test.NDatabase.Odb.Test.Trigger
         {
             var odb = Odb;
             var query = odb.Query<ID>();
-            query.Descend("idName").Equal(idName);
+            query.Descend("idName").Constrain((object) idName).Equals();
             var objects = query.Execute<ID>();
             if (objects.Count == 0)
             {

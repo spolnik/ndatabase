@@ -5,6 +5,7 @@ using NDatabase2.Btree;
 using NDatabase2.Odb.Core.BTree;
 using NDatabase2.Odb.Core.Layers.Layer2.Meta;
 using NDatabase2.Odb.Core.Layers.Layer3;
+using NDatabase2.Odb.Core.Query.Criteria;
 using NDatabase2.Odb.Core.Transaction;
 using NDatabase2.Tool;
 using NDatabase2.Tool.Wrappers;
@@ -44,7 +45,7 @@ namespace NDatabase2.Odb.Core.Query.Execution
         /// <summary>
         ///   The query being executed
         /// </summary>
-        protected IInternalQuery Query;
+        protected readonly CriteriaQuery Query;
 
         /// <summary>
         ///   The current database session
@@ -73,7 +74,7 @@ namespace NDatabase2.Odb.Core.Query.Execution
 
         protected GenericQueryExecutor(IQuery query, IStorageEngine engine)
         {
-            Query = (IInternalQuery) query;
+            Query = (CriteriaQuery) query;
             StorageEngine = engine;
             ObjectReader = StorageEngine.GetObjectReader();
             Session = StorageEngine.GetSession(true);

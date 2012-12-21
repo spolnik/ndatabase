@@ -18,7 +18,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Close();
             odb = Open("null-rel.neodatis");
             IQuery q = odb.Query<Class2>();
-            q.Descend("class1.name").IsNull();
+            q.Descend("class1.name").Constrain(null).Equals();
             var os = q.Execute<Class2>();
             odb.Close();
             AssertEquals(1, os.Count);

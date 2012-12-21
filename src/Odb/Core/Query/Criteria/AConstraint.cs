@@ -32,6 +32,8 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             Query = query;
             AttributeName = fieldName;
             TheObject = theObject;
+
+            ((IInternalQuery) Query).Add(this);
         }
 
         #region IConstraint Members
@@ -72,6 +74,26 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         public IConstraint Not()
         {
             return new Not(Query, this);
+        }
+
+        public virtual IConstraint Equals()
+        {
+            throw new NotSupportedException();
+        }
+
+        public virtual IConstraint InvariantEquals()
+        {
+            throw new NotSupportedException();
+        }
+
+        public virtual IConstraint Like()
+        {
+            throw new NotSupportedException();
+        }
+
+        public virtual IConstraint InvariantLike()
+        {
+            throw new NotSupportedException();
         }
 
         #endregion

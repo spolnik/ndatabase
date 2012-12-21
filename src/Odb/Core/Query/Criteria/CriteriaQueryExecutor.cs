@@ -8,24 +8,20 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 {
     internal sealed class CriteriaQueryExecutor : GenericQueryExecutor
     {
-        private CriteriaQuery _criteriaQuery;
         private IOdbList<string> _involvedFields;
 
         public CriteriaQueryExecutor(IQuery query, IStorageEngine engine) : base(query, engine)
         {
-            _criteriaQuery = (CriteriaQuery) query;
         }
 
         public override IQueryExecutionPlan GetExecutionPlan()
         {
-            return new CriteriaQueryExecutionPlan(ClassInfo, (CriteriaQuery)Query);
+            return new CriteriaQueryExecutionPlan(ClassInfo, Query);
         }
 
         public override void PrepareQuery()
         {
-            _criteriaQuery = (CriteriaQuery) Query;
-            ((IInternalQuery)_criteriaQuery).SetStorageEngine(StorageEngine);
-            _involvedFields = _criteriaQuery.GetAllInvolvedFields();
+            _involvedFields = Query.GetAllInvolvedFields();
         }
 
         public override bool MatchObjectWithOid(OID oid, bool returnObject, bool inMemory)
@@ -36,7 +32,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             {
                 ObjectInfoHeader objectInfoHeader;
 
-                if (!_criteriaQuery.HasCriteria())
+                if (!Query.HasCriteria())
                 {
                     // true, false = use cache, false = do not return object
                     // TODO Warning setting true to useCache will put all objects in the cache
@@ -63,10 +59,10 @@ namespace NDatabase2.Odb.Core.Query.Criteria
                 // Gets a map with the values with the fields involved in the query
                 var attributeValues = ObjectReader.ReadObjectInfoValuesFromOID(ClassInfo, CurrentOid, true,
                                                                                _involvedFields, _involvedFields, 0,
-                                                                               _criteriaQuery.GetOrderByFieldNames());
+                                                                               Query.GetOrderByFieldNames());
 
                 // Then apply the query on the field values
-                var objectMatches = _criteriaQuery.Match(attributeValues);
+                var objectMatches = Query.Match(attributeValues);
 
                 if (objectMatches)
                 {

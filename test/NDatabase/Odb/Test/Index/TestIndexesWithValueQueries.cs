@@ -25,7 +25,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var vq =
                 odb.ValuesQuery<VO.Login.Function>().Field("name");
 
-            vq.Descend("name").Equal("function " + (size - 1));
+            vq.Descend("name").Constrain((object) ("function " + (size - 1))).Equals();
 
             var values = odb.GetValues(vq);
             AssertEquals(1, values.Count());

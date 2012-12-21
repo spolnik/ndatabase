@@ -493,7 +493,7 @@ namespace Test.NDatabase.Odb.Test.Acid
                 if (simpleObject)
                 {
                     var query = odb.Query<VO.Login.Function>();
-                    query.Descend("name").Equal("f1000");
+                    query.Descend("name").Constrain((object) "f1000").Equals();
                     var objects = query.Execute<VO.Login.Function>();
 
                     var f = objects.GetFirst();
@@ -503,7 +503,7 @@ namespace Test.NDatabase.Odb.Test.Acid
                 else
                 {
                     var query = odb.Query<User>();
-                    query.Descend("name").Equal("f1000");
+                    query.Descend("name").Constrain((object) "f1000").Equals();
                     var objects = query.Execute<User>();
                     var f = objects.GetFirst();
                     f.SetName("new name");
@@ -521,14 +521,14 @@ namespace Test.NDatabase.Odb.Test.Acid
                 if (simpleObject)
                 {
                     var query = odb.Query<VO.Login.Function>();
-                    query.Descend("name").Equal("new name");
+                    query.Descend("name").Constrain((object) "new name").Equals();
                     var objects = query.Execute<VO.Login.Function>();
                     odb.Delete(objects.GetFirst());
                 }
                 else
                 {
                     var query = odb.Query<User>();
-                    query.Descend("name").Equal("new name");
+                    query.Descend("name").Constrain((object) "new name").Equals();
                     var objects = query.Execute<User>();
                     odb.Delete(objects.GetFirst());
                 }
@@ -546,14 +546,14 @@ namespace Test.NDatabase.Odb.Test.Acid
                 if (simpleObject)
                 {
                     var query = odb.Query<VO.Login.Function>();
-                    query.Descend("name").Equal("f1000");
+                    query.Descend("name").Constrain((object) "f1000").Equals();
                     var objects = query.Execute<VO.Login.Function>();
                     nb = objects.Count;
                 }
                 else
                 {
                     var query = odb.Query<User>();
-                    query.Descend("name").Equal("f1000");
+                    query.Descend("name").Constrain((object) "f1000").Equals();
                     var objects = query.Execute<User>();
                     nb = objects.Count;
                 }

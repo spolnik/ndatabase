@@ -105,7 +105,7 @@ namespace Test.NDatabase.Odb.Test.Update
             odb.Close();
             odb = Open(Name);
             var query = odb.Query<Profile>();
-            query.Descend("name").Equal("new profile");
+            query.Descend("name").Constrain((object) "new profile").Equals();
             var p = query.Execute<Profile>().GetFirst();
             p.SetName("new profile2");
             var query2 = odb.Query<User>();

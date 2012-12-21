@@ -81,7 +81,7 @@ namespace Test
                 odb = OdbFactory.Open(file);
                 var query = odb.Query<Function>();
                 
-                query.Descend("name").Equal("function 199");
+                query.Descend("name").Constrain((object) "function 199").Equals();
                 
                 var functions = query.Execute<Function>();
                 Console.WriteLine(" Number of functions = " + functions.Count);

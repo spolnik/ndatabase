@@ -7,7 +7,7 @@ using NDatabase2.Odb.Core.Query.Values;
 
 namespace NDatabase2.Odb.Core.Query
 {
-    internal abstract class AbstractQuery : IQuery, IInternalQuery
+    internal abstract class AbstractQuery : IInternalQuery
     {
         protected IInternalConstraint Constraint;
         private readonly Type _underlyingType;
@@ -68,7 +68,7 @@ namespace NDatabase2.Odb.Core.Query
         public abstract IObjectSet<TItem> Execute<TItem>(bool inMemory) where TItem : class;
         public abstract IObjectSet<TItem> Execute<TItem>(bool inMemory, int startIndex, int endIndex) where TItem : class;
 
-        public virtual IQuery OrderByDesc(string fields)
+        public IQuery OrderByDesc(string fields)
         {
             _orderByType = OrderByConstants.OrderByDesc;
             OrderByFields = fields.Split(',');
@@ -76,29 +76,29 @@ namespace NDatabase2.Odb.Core.Query
             return this;
         }
 
-        public virtual IQuery OrderByAsc(string fields)
+        public IQuery OrderByAsc(string fields)
         {
             _orderByType = OrderByConstants.OrderByAsc;
             OrderByFields = fields.Split(',');
             return this;
         }
 
-        public virtual string[] GetOrderByFieldNames()
+        public string[] GetOrderByFieldNames()
         {
             return OrderByFields;
         }
 
-        public virtual OrderByConstants GetOrderByType()
+        public OrderByConstants GetOrderByType()
         {
             return _orderByType;
         }
 
-        public virtual bool HasOrderBy()
+        public bool HasOrderBy()
         {
             return !_orderByType.IsOrderByNone();
         }
 
-        public virtual OID GetOidOfObjectToQuery()
+        public OID GetOidOfObjectToQuery()
         {
             return _oidOfObjectToQuery;
         }
@@ -116,7 +116,7 @@ namespace NDatabase2.Odb.Core.Query
         /// <summary>
         ///   Returns true is query must apply on a single object OID
         /// </summary>
-        public virtual bool IsForSingleOid()
+        public bool IsForSingleOid()
         {
             return _oidOfObjectToQuery != null;
         }
@@ -134,17 +134,11 @@ namespace NDatabase2.Odb.Core.Query
             return Decimal.ToInt64(count);
         }
 
-        public abstract IConstraint Equal<TItem>(TItem value);
         public abstract IConstraint LessOrEqual<TItem>(TItem value) where TItem : IComparable;
-        public abstract IConstraint InvariantEqual(string value);
-        public abstract IConstraint Like(string value);
-        public abstract IConstraint InvariantLike(string value);
         public abstract IConstraint GreaterThan<TItem>(TItem value) where TItem : IComparable;
         public abstract IConstraint GreaterOrEqual<TItem>(TItem value) where TItem : IComparable;
         public abstract IConstraint LessThan<TItem>(TItem value) where TItem : IComparable;
-        public abstract IConstraint Contain<TItem>(TItem value);
-        public abstract IConstraint IsNull();
-        public abstract IConstraint IsNotNull();
+        public abstract IConstraint Contain(object value);
         public abstract IConstraint SizeEq(int size);
         public abstract IConstraint SizeNe(int size);
         public abstract IConstraint SizeGt(int size);
@@ -154,19 +148,11 @@ namespace NDatabase2.Odb.Core.Query
 
         #endregion
 
-        public virtual void SetOrderByFields(string[] orderByFields)
-        {
-            OrderByFields = orderByFields;
-        }
-
-        public virtual void SetOrderByType(OrderByConstants orderByType)
-        {
-            _orderByType = orderByType;
-        }
-
-        public virtual void SetOidOfObjectToQuery(OID oidOfObjectToQuery)
+        internal void SetOidOfObjectToQuery(OID oidOfObjectToQuery)
         {
             _oidOfObjectToQuery = oidOfObjectToQuery;
         }
+
+        public abstract IConstraint Constrain(object value);
     }
 }

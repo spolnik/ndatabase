@@ -48,7 +48,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Close();
             odb = Open(baseName);
             var query = odb.Query<ClassWithInt>();
-            query.Descend("i").Equal((long) 1);
+            query.Descend("i").Constrain((object) ((long) 1)).Equals();
             var os = query.Execute<ClassWithInt>();
             AssertEquals(1, os.Count);
             odb.Close();
@@ -64,7 +64,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Close();
             odb = Open(baseName);
             var query = odb.Query<ClassWithLong>();
-            query.Descend("i").Equal(1L);
+            query.Descend("i").Constrain((object) 1L).Equals();
             var os = query.Execute<ClassWithLong>();
             AssertEquals(1, os.Count);
             odb.Close();

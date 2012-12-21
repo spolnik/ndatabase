@@ -65,96 +65,69 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             return this;
         }
 
-        public override IConstraint Equal<TItem>(TItem value)
+        public override IConstraint Constrain(object value)
         {
-            return ApplyConstraint(new EqualCriterion(this, ApplyAttributeName(), value));
+            return new QueryConstraint(this, ApplyAttributeName(), value);
         }
 
         public override IConstraint LessOrEqual<TItem>(TItem value)
         {
             return
-                ApplyConstraint(new ComparisonCriterion(this, ApplyAttributeName(), value,
-                                                        ComparisonCirerion.ComparisonTypeLe));
-        }
-
-        public override IConstraint InvariantEqual(string value)
-        {
-            return
-                ApplyConstraint(EqualCriterion.CreateInvartiantStringEqualCriterion(this, ApplyAttributeName(), value,
-                                                                                    false));
-        }
-
-        public override IConstraint Like(string value)
-        {
-            return ApplyConstraint(new LikeCriterion(this, ApplyAttributeName(), value, true));
-        }
-
-        public override IConstraint InvariantLike(string value)
-        {
-            return ApplyConstraint(new LikeCriterion(this, ApplyAttributeName(), value, false));
+                new ComparisonCriterion(this, ApplyAttributeName(), value,
+                                        ComparisonCirerion.ComparisonTypeLe);
         }
 
         public override IConstraint GreaterThan<TItem>(TItem value)
         {
             return
-                ApplyConstraint(new ComparisonCriterion(this, ApplyAttributeName(), value, ComparisonCirerion.ComparisonTypeGt));
+                new ComparisonCriterion(this, ApplyAttributeName(), value, ComparisonCirerion.ComparisonTypeGt);
         }
 
         public override IConstraint GreaterOrEqual<TItem>(TItem value)
         {
             return
-                ApplyConstraint(new ComparisonCriterion(this, ApplyAttributeName(), value, ComparisonCirerion.ComparisonTypeGe));
+                new ComparisonCriterion(this, ApplyAttributeName(), value, ComparisonCirerion.ComparisonTypeGe);
         }
 
         public override IConstraint LessThan<TItem>(TItem value)
         {
             return
-                ApplyConstraint(new ComparisonCriterion(this, ApplyAttributeName(), value, ComparisonCirerion.ComparisonTypeLt));
+                new ComparisonCriterion(this, ApplyAttributeName(), value, ComparisonCirerion.ComparisonTypeLt);
         }
 
-        public override IConstraint Contain<TItem>(TItem value)
+        public override IConstraint Contain(object value)
         {
-            return ApplyConstraint(new ContainsCriterion(this, ApplyAttributeName(), value));
-        }
-
-        public override IConstraint IsNull()
-        {
-            return ApplyConstraint(new IsNullCriterion(this, ApplyAttributeName()));
-        }
-
-        public override IConstraint IsNotNull()
-        {
-            return ApplyConstraint(new IsNotNullCriterion(this, ApplyAttributeName()));
+            return new ContainsCriterion(this, ApplyAttributeName(), value);
         }
 
         public override IConstraint SizeEq(int size)
         {
-            return ApplyConstraint(new CollectionSizeCriterion(this, ApplyAttributeName(), size, CollectionSizeCriterion.SizeEq));
+            return new CollectionSizeCriterion(this, ApplyAttributeName(), size, CollectionSizeCriterion.SizeEq);
         }
 
         public override IConstraint SizeNe(int size)
         {
-            return ApplyConstraint(new CollectionSizeCriterion(this, ApplyAttributeName(), size, CollectionSizeCriterion.SizeNe));
+            return new CollectionSizeCriterion(this, ApplyAttributeName(), size, CollectionSizeCriterion.SizeNe);
         }
 
         public override IConstraint SizeGt(int size)
         {
-            return ApplyConstraint(new CollectionSizeCriterion(this, ApplyAttributeName(), size, CollectionSizeCriterion.SizeGt));
+            return new CollectionSizeCriterion(this, ApplyAttributeName(), size, CollectionSizeCriterion.SizeGt);
         }
 
         public override IConstraint SizeGe(int size)
         {
-            return ApplyConstraint(new CollectionSizeCriterion(this, ApplyAttributeName(), size, CollectionSizeCriterion.SizeGe));
+            return new CollectionSizeCriterion(this, ApplyAttributeName(), size, CollectionSizeCriterion.SizeGe);
         }
 
         public override IConstraint SizeLt(int size)
         {
-            return ApplyConstraint(new CollectionSizeCriterion(this, ApplyAttributeName(), size, CollectionSizeCriterion.SizeLt));
+            return new CollectionSizeCriterion(this, ApplyAttributeName(), size, CollectionSizeCriterion.SizeLt);
         }
 
         public override IConstraint SizeLe(int size)
         {
-            return ApplyConstraint(new CollectionSizeCriterion(this, ApplyAttributeName(), size, CollectionSizeCriterion.SizeLe));
+            return new CollectionSizeCriterion(this, ApplyAttributeName(), size, CollectionSizeCriterion.SizeLe);
         }
 
         public override IObjectSet<TItem> Execute<TItem>()
@@ -182,12 +155,6 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             _attributeName = null;
 
             return attributeName;
-        }
-
-        private IConstraint ApplyConstraint(IConstraint constraint)
-        {
-            Add(constraint);
-            return constraint;
         }
     }
 }

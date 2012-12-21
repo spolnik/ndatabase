@@ -375,7 +375,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             {
                 var odb2 = Open("list5.neodatis");
                 var query = odb2.Query<ObjectWithListOfInteger>();
-                query.Descend("name").Equal("test2");
+                query.Descend("name").Constrain((object) "test2").Equals();
                 var ll = query.Execute<ObjectWithListOfInteger>();
                 var o2 = ll.GetFirst();
                 o2.GetListOfIntegers().Clear();
@@ -385,7 +385,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             }
             var odb3 = Open("list5.neodatis");
             var query2 = odb3.Query<ObjectWithListOfInteger>();
-            query2.Descend("name").Equal("test2");
+            query2.Descend("name").Constrain((object) "test2").Equals();
 
             var l = query2.Execute<ObjectWithListOfInteger>();
             AssertEquals(1, l.Count);
@@ -424,7 +424,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             {
                 var odb2 = Open("list5.neodatis");
                 var query2 = odb2.Query<ObjectWithListOfInteger>();
-                query2.Descend("name").Equal("test2");
+                query2.Descend("name").Constrain((object) "test2").Equals();
 
                 var ll = query2.Execute<ObjectWithListOfInteger>();
                 var o2 = ll.GetFirst();
@@ -434,7 +434,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             }
             var odb3 = Open("list5.neodatis");
             var query = odb3.Query<ObjectWithListOfInteger>();
-            query.Descend("name").Equal("test2");
+            query.Descend("name").Constrain((object) "test2").Equals();
             var l = query.Execute<ObjectWithListOfInteger>();
             AssertEquals(1, l.Count);
             var o3 = l.GetFirst();

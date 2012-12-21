@@ -88,6 +88,11 @@
     <Compile Include="Btree\Impl\Singlevalue\BTreeSingleValuePerKey.cs" />
     <Compile Include="Btree\Tool\BTreeDisplay.cs" />
     <Compile Include="Btree\Tool\BTreeValidator.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\Evaluations\AEvaluation.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\Evaluations\EqualsEvaluation.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\Evaluations\IEvaluation.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\Evaluations\LikeEvaluation.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\QueryConstraint.cs" />
     <Compile Include="Odb\IIndexManager.cs" />
     <Compile Include="Odb\Core\IError.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\IIntrospectionCallback.cs" />
@@ -237,7 +242,6 @@
     <Compile Include="Odb\Core\Query\Criteria\CriteriaQuery.cs" />
     <Compile Include="Odb\Core\Query\Criteria\CriteriaQueryExecutionPlan.cs" />
     <Compile Include="Odb\Core\Query\Criteria\CriteriaQueryExecutor.cs" />
-    <Compile Include="Odb\Core\Query\Criteria\EqualCriterion.cs" />
     <Compile Include="Odb\Core\Query\Criteria\IsNotNullCriterion.cs" />
     <Compile Include="Odb\Core\Query\Criteria\IsNullCriterion.cs" />
     <Compile Include="Odb\Core\Query\Criteria\LikeCriterion.cs" />

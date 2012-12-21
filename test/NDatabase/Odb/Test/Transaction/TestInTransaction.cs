@@ -124,7 +124,7 @@ namespace Test.NDatabase.Odb.Test.Transaction
                 var agassi = new Player("Andr√© Agassi", new DateTime(), new Sport("Tennis"));
                 odb.Store(agassi);
                 IQuery query = odb.Query<Player>();
-                query.Descend("favoriteSport.name").Equal("volley-ball");
+                query.Descend("favoriteSport.name").Constrain((object) "volley-ball").Equals();
                 var players = query.Execute<Player>();
                 Println("\nStep 4 : Players of Voller-ball");
                 var i = 1;
@@ -208,7 +208,7 @@ namespace Test.NDatabase.Odb.Test.Transaction
                 // Open the database
                 odb = Open(BaseName);
                 IQuery query = odb.Query<Player>();
-                query.Descend("name").Equal("olivier");
+                query.Descend("name").Constrain((object) "olivier").Equals();
                 var players = query.Execute<Player>();
                 Println("\nStep 3 : Players with name olivier");
                 var i = 1;
@@ -232,7 +232,7 @@ namespace Test.NDatabase.Odb.Test.Transaction
                 var agassi = new Player("Andr√© Agassi", new DateTime(), new Sport("Tennis"));
                 var oid = odb.Store(agassi);
                 IQuery query = odb.Query<Player>();
-                query.Descend("favoriteSport.name").Equal("volley-ball");
+                query.Descend("favoriteSport.name").Constrain((object) "volley-ball").Equals();
                 var players = query.Execute<Player>();
                 Println("\nStep 4 : Players of Voller-ball");
                 var i = 1;

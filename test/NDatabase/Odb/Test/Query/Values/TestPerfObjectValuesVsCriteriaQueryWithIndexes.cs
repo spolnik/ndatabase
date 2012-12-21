@@ -73,7 +73,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             var odb = Open("perfOValuesVsCriteriaIndex1");
             
             IQuery q = odb.Query<User2>();
-            q.Descend("name").Equal("user1599");
+            q.Descend("name").Constrain((object) "user1599").Equals();
             var objects = q.Execute<User2>(false);
             Println(objects.Count);
             AssertEquals(1, objects.Count);
@@ -89,7 +89,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             var odb = Open("perfOValuesVsCriteriaIndex1");
             
             var q = odb.ValuesQuery<User2>().Field("name");
-            q.Descend("name").Equal("user1599");
+            q.Descend("name").Constrain((object) "user1599").Equals();
             var v = odb.GetValues(q);
             Println(v.Count);
             AssertEquals(1, v.Count);

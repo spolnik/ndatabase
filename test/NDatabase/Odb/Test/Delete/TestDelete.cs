@@ -40,7 +40,7 @@ namespace Test.NDatabase.Odb.Test.Delete
             odb.Close();
             odb = Open(baseName);
             var query = odb.Query<VO.Login.Function>();
-            query.Descend("name").Equal("function2");
+            query.Descend("name").Constrain((object) "function2").Equals();
             var l = query.Execute<VO.Login.Function>();
             var function = l.GetFirst();
             odb.Delete(function);
@@ -528,7 +528,7 @@ namespace Test.NDatabase.Odb.Test.Delete
             var lfunctions = query1.Execute<VO.Login.Function>(true);
             AssertEquals(nbFunctions + 3, lfunctions.Count);
             var query = odb.Query<VO.Login.Function>();
-            query.Descend("name").Equal("function2");
+            query.Descend("name").Constrain((object) "function2").Equals();
             var l = query.Execute<VO.Login.Function>();
             var function = l.GetFirst();
             odb.Delete(function);
@@ -539,7 +539,7 @@ namespace Test.NDatabase.Odb.Test.Delete
             var l2 = query3.Execute<VO.Login.Function>(true);
             // check Profile 1
             var query2 = odb.Query<Profile>();
-            query2.Descend("name").Equal("profile1");
+            query2.Descend("name").Constrain((object) "profile1").Equals();
             var lprofile = query2.Execute<Profile>();
             var p1 = lprofile.GetFirst();
             AssertEquals(2, p1.GetFunctions().Count);
@@ -575,7 +575,7 @@ namespace Test.NDatabase.Odb.Test.Delete
             odb.Store(f1);
             odb.Commit();
             var query = odb.Query<VO.Login.Function>();
-            query.Descend("name").Like("func%");
+            query.Descend("name").Constrain("func%").Like();
             var objects = query.Execute<VO.Login.Function>();
             AssertEquals(1, objects.Count);
             var f2 = objects.GetFirst();

@@ -52,7 +52,7 @@ namespace Test.NDatabase.Odb.Test.Performance
         {
             var odb = Open(OdbFileName);
             var query = odb.Query<SimpleObject>();
-            query.Descend("name").Equal("Bonjour, comment allez vous?100");
+            query.Descend("name").Constrain((object) "Bonjour, comment allez vous?100").Equals();
             var functions =
                 query.Execute<SimpleObject>();
             odb.Close();

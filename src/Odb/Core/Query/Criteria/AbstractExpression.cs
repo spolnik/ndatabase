@@ -1,3 +1,4 @@
+using System;
 using NDatabase2.Odb.Core.Layers.Layer2.Meta;
 using NDatabase2.Tool.Wrappers.List;
 
@@ -39,6 +40,26 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         public IConstraint Not()
         {
             return new Not(_query, this);
+        }
+
+        public IConstraint Equals()
+        {
+            throw new NotSupportedException();
+        }
+
+        public IConstraint InvariantEquals()
+        {
+            throw new NotSupportedException();
+        }
+
+        public virtual IConstraint Like()
+        {
+            throw new NotSupportedException();
+        }
+
+        public virtual IConstraint InvariantLike()
+        {
+            throw new NotSupportedException();
         }
 
         #endregion

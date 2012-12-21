@@ -79,6 +79,7 @@ namespace NDatabase2.Tool.Wrappers
             var regex = new Regex(regExp);
 
             Cache.Add(regExp, regex);
+
             return regex.IsMatch(valueToCheck);
         }
     }
