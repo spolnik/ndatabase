@@ -5,7 +5,10 @@ using NDatabase2.Odb.Core.Query;
 namespace NDatabase2.Odb
 {
     /// <summary>
-    ///   The main ODB public interface: It is what the user sees.
+    /// database engine interface.
+    /// 
+    /// The <code>ObjectContainer</code> interface provides all methods
+    /// to store, retrieve and delete objects and to change object state.
     /// </summary>
     public interface IOdb : IDisposable
     {
@@ -97,6 +100,11 @@ namespace NDatabase2.Odb
 
         bool IsClosed();
 
+        /// <summary>
+        /// factory method to create a new Query
+        /// <code>Query</code> object to query this ObjectContainer.
+        /// </summary>
+        /// <returns>A new Query object</returns>
         IQuery Query<T>() where T : class;
         IValuesQuery ValuesQuery<T>() where T : class;
         IValuesQuery ValuesQuery<T>(OID oid) where T : class;

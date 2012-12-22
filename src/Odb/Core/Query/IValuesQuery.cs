@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using NDatabase2.Odb.Core.Query.Execution;
 using NDatabase2.Odb.Core.Query.Values;
 using NDatabase2.Tool.Wrappers.List;
@@ -58,10 +60,32 @@ namespace NDatabase2.Odb.Core.Query
         void SetReturnInstance(bool returnInstance);
 
         int ObjectActionsCount { get; }
+        Type UnderlyingType { get; }
         IOdbList<IQueryFieldAction> GetObjectActions();
         IValuesQuery Min(string attributeName);
         IValuesQuery Min(string attributeName, string alias);
         IValuesQuery Custom(string attributeName, ICustomQueryFieldAction action);
         IValuesQuery Custom(string attributeName, string alias, ICustomQueryFieldAction action);
+
+        /// <summary>
+        ///   Returns true if the query has an order by clause
+        /// </summary>
+        /// <returns> true if has an order by flag </returns>
+        bool HasOrderBy();
+
+        /// <summary>
+        ///   Returns the field names of the order by
+        /// </summary>
+        /// <returns> The array of fields of the order by </returns>
+        IList<string> GetOrderByFieldNames();
+
+        /// <returns> the type of the order by - ORDER_BY_NONE,ORDER_BY_DESC,ORDER_BY_ASC </returns>
+        OrderByConstants GetOrderByType();
+
+        /// <summary>
+        ///   used with isForSingleOid == true, to indicate we are working on a single object with a specific oid
+        /// </summary>
+        /// <returns> </returns>
+        OID GetOidOfObjectToQuery();
     }
 }

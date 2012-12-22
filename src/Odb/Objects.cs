@@ -3,24 +3,23 @@ using System.Collections.Generic;
 namespace NDatabase2.Odb
 {
     /// <summary>
-    ///   The main interface of all query results of NDatabase ODB.
+    /// query resultset.
+    /// 
+    /// The <code>ObjectSet</code> interface serves as a cursor to
+    /// iterate through a set of objects retrieved by a query.
     /// </summary>
-    /// <remarks>
-    ///   The main interface of all query results of NDatabase ODB. 
-    ///   Objects interface extends the Collection interface so it provides a standard collection behavior.
-    /// </remarks>
     public interface IObjectSet<TItem> : ICollection<TItem>
     {
         /// <summary>
-        ///   Inform if the internal Iterator has more objects
+        /// returns <code>true</code> if the <code>ObjectSet</code> has more elements.
         /// </summary>
-        /// <returns> </returns>
+        /// <returns><code>true</code> if the <code>ObjectSet</code> has more elements</returns>
         bool HasNext();
 
         /// <summary>
-        ///   Returns the next object of the internal iterator of the collection
+        /// returns the next object in the <code>ObjectSet</code>.
         /// </summary>
-        /// <returns> </returns>
+        /// <returns>the next object in the <code>ObjectSet</code>.</returns>C
         TItem Next();
 
         /// <summary>
@@ -30,7 +29,9 @@ namespace NDatabase2.Odb
         TItem GetFirst();
 
         /// <summary>
-        ///   Reset the internal iterator of the collection
+        /// resets the <code>ObjectSet</code> cursor before the first element. 
+        /// 
+        /// A subsequent call to <code>next()</code> will return the first element.
         /// </summary>
         void Reset();
     }

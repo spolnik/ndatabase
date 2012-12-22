@@ -16,7 +16,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
     internal sealed class QueryResultAction<T> : IMatchingObjectAction
     {
         private readonly bool _inMemory;
-        private readonly IQuery _query;
+        private readonly IInternalQuery _query;
 
         private readonly bool _queryHasOrderBy;
         private readonly bool _returnObjects;
@@ -32,12 +32,11 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         public QueryResultAction(IQuery query, bool inMemory, IStorageEngine storageEngine, bool returnObjects,
                                            IInstanceBuilder instanceBuilder)
         {
-            // TODO check if Object is ok here
-            _query = query;
+            _query = (IInternalQuery) query;
             _inMemory = inMemory;
             _storageEngine = storageEngine;
             _returnObjects = returnObjects;
-            _queryHasOrderBy = query.HasOrderBy();
+            _queryHasOrderBy = _query.HasOrderBy();
             _instanceBuilder = instanceBuilder;
         }
 
