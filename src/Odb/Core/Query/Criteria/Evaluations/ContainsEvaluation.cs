@@ -57,8 +57,18 @@ namespace NDatabase2.Odb.Core.Query.Criteria.Evaluations
             if (clazz.IsArray)
                 return CheckIfArrayContainsValue(candidate);
 
+            var candidateAsString = candidate as string;
+            if (candidateAsString != null)
+                return CheckIfStringContainsValue(candidateAsString);
+
             throw new OdbRuntimeException(
                 NDatabaseError.QueryContainsCriterionTypeNotSupported.AddParameter(candidate.GetType().FullName));
+        }
+
+        private bool CheckIfStringContainsValue(string candidate)
+        {
+            var value = TheObject as string;
+            return value != null && candidate.Contains(value);
         }
 
         private bool CheckIfCollectionContainsValue(IEnumerable collection)

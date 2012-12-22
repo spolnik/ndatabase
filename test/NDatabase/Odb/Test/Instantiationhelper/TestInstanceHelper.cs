@@ -42,7 +42,7 @@ namespace Test.NDatabase.Odb.Test.Instantiationhelper
             AssertEquals(car.GetModel(), "Ranger");
             AssertEquals(car.GetYear(), 2006);
             var query = odb.Query<Car>();
-            query.Descend("model").Constrain((object) "Ranger").Equals();
+            query.Descend("model").Constrain((object) "Ranger").Equal();
             cars = query.Execute<Car>();
             car = cars.GetFirst();
             AssertEquals(car.GetModel(), "Ranger");

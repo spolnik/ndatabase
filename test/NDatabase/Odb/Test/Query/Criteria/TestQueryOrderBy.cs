@@ -1,7 +1,5 @@
 using System;
-using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Query;
-using NDatabase2.Odb.Core.Query.Criteria;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Query.Criteria
@@ -23,7 +21,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Close();
             odb = Open(baseName);
             IQuery q = odb.Query<Class1>();
-            q.OrderByAsc("name");
+            q.Descend("name").OrderAscending();
             var objects = q.Execute<Class1>();
             AssertEquals(6, objects.Count);
             while (objects.HasNext())
@@ -99,13 +97,13 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Close();
             odb = Open(baseName);
             q = odb.Query<VO.Login.Function>();
-            q.OrderByAsc("name");
+            q.Descend("name").OrderAscending();
             objects = q.Execute<VO.Login.Function>(true, 0, 2);
             AssertEquals(2, objects.Count);
             odb.Close();
             odb = Open(baseName);
             q = odb.Query<VO.Login.Function>();
-            q.OrderByDesc("name");
+            q.Descend("name").OrderDescending();
             objects = q.Execute<VO.Login.Function>(true, 0, 2);
             AssertEquals(2, objects.Count);
             odb.Close();
@@ -123,22 +121,22 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Close();
             odb = Open(baseName);
             IQuery q = odb.Query<VO.Login.Function>();
-            q.Descend("name").Constrain(null).Equals().Not();
+            q.Descend("name").Constrain(null).Equal().Not();
             // q.orderByAsc("name");
             var objects = q.Execute<VO.Login.Function>(true, 0, 10);
             AssertEquals(size, objects.Count);
             odb.Close();
             odb = Open(baseName);
             q = odb.Query<VO.Login.Function>();
-            q.Descend("name").Constrain(null).Equals().Not();
-            q.OrderByAsc("name");
+            q.Descend("name").Constrain(null).Equal().Not();
+            q.Descend("name").OrderAscending();
             objects = q.Execute<VO.Login.Function>(true, 0, 10);
             AssertEquals(5, objects.Count);
             odb.Close();
             odb = Open(baseName);
             q = odb.Query<VO.Login.Function>();
-            q.Descend("name").Constrain(null).Equals().Not();
-            q.OrderByDesc("name");
+            q.Descend("name").Constrain(null).Equal().Not();
+            q.Descend("name").OrderDescending();
             objects = q.Execute<VO.Login.Function>(true, 0, 10);
             AssertEquals(5, objects.Count);
             odb.Close();
@@ -154,7 +152,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Close();
             odb = Open(baseName);
             IQuery q = odb.Query<VO.Login.Function>();
-            q.Descend("name").Constrain(null).Equals().Not();
+            q.Descend("name").Constrain(null).Equal().Not();
             // q.orderByAsc("name");
             var objects = q.Execute<VO.Login.Function>(true, 0, 10);
             odb.Close();
@@ -173,22 +171,22 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Close();
             odb = Open(baseName);
             IQuery q = odb.Query<VO.Login.Function>();
-            q.Descend("name").Constrain(null).Equals();
+            q.Descend("name").Constrain(null).Equal();
             // q.orderByAsc("name");
             var objects = q.Execute<VO.Login.Function>(true, 0, 10);
             AssertEquals(1, objects.Count);
             odb.Close();
             odb = Open(baseName);
             q = odb.Query<VO.Login.Function>();
-            q.Descend("name").Constrain(null).Equals();
-            q.OrderByAsc("name");
+            q.Descend("name").Constrain(null).Equal();
+            q.Descend("name").OrderAscending();
             objects = q.Execute<VO.Login.Function>(true, 0, 10);
             AssertEquals(1, objects.Count);
             odb.Close();
             odb = Open(baseName);
             q = odb.Query<VO.Login.Function>();
-            q.Descend("name").Constrain(null).Equals();
-            q.OrderByDesc("name");
+            q.Descend("name").Constrain(null).Equal();
+            q.Descend("name").OrderDescending();
             objects = q.Execute<VO.Login.Function>(true, 0, 10);
             AssertEquals(1, objects.Count);
             odb.Close();

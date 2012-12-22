@@ -176,7 +176,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Close();
             odb = Open(baseName);
             var q = odb.Query<object>();
-            q.Descend("specie").Constrain((object) "man").Equals();
+            q.Descend("specie").Constrain((object) "man").Equal();
 
             Decimal nb = q.Count();
             Println(nb);

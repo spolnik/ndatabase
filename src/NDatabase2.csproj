@@ -88,12 +88,16 @@
     <Compile Include="Btree\Impl\Singlevalue\BTreeSingleValuePerKey.cs" />
     <Compile Include="Btree\Tool\BTreeDisplay.cs" />
     <Compile Include="Btree\Tool\BTreeValidator.cs" />
-    <Compile Include="Odb\Core\Query\Criteria\ComparisonCirerion.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\ComparisonConstraint.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Evaluations\AEvaluation.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\Evaluations\CollectionSizeEvaluation.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\Evaluations\ComparisonEvaluation.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Evaluations\ContainsEvaluation.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Evaluations\EqualsEvaluation.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\Evaluations\IdentityEvaluation.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Evaluations\IEvaluation.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Evaluations\LikeEvaluation.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\IInternalConstraint.cs" />
     <Compile Include="Odb\Core\Query\Criteria\QueryConstraint.cs" />
     <Compile Include="Odb\IIndexManager.cs" />
     <Compile Include="Odb\Core\IError.cs" />
@@ -162,7 +166,6 @@
     <Compile Include="Odb\Core\Query\AbstractQuery.cs" />
     <Compile Include="Odb\Core\Query\CompareKey.cs" />
     <Compile Include="Odb\Core\Query\ComposedCompareKey.cs" />
-    <Compile Include="Odb\Core\Query\Criteria\AConstraint.cs" />
     <Compile Include="Odb\Core\Query\Criteria\AbstractExpression.cs" />
     <Compile Include="Odb\Core\Query\Criteria\And.cs" />
     <Compile Include="Odb\Core\Query\Criteria\ComposedExpression.cs" />
@@ -237,7 +240,6 @@
     <Compile Include="Odb\Core\Oid\ObjectOID.cs" />
     <Compile Include="Odb\Core\Oid\TransactionIdImpl.cs" />
     <Compile Include="Odb\Core\Query\Criteria\QueryResultAction.cs" />
-    <Compile Include="Odb\Core\Query\Criteria\CollectionSizeCriterion.cs" />
     <Compile Include="Odb\Core\Query\Criteria\CriteriaQuery.cs" />
     <Compile Include="Odb\Core\Query\Criteria\CriteriaQueryExecutionPlan.cs" />
     <Compile Include="Odb\Core\Query\Criteria\CriteriaQueryExecutor.cs" />

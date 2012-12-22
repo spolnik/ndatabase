@@ -75,7 +75,7 @@ namespace NDatabase.UnitTests.CodeSnippets
             using (var odb = OdbFactory.Open(TutorialDb5MinName))
             {
                 IQuery query = odb.Query<Player>();
-                query.Descend("Name").Constrain((object) "julia").Equals();
+                query.Descend("Name").Constrain((object) "julia").Equal();
                 
                 var players = query.Execute<Player>();
                 
@@ -112,7 +112,7 @@ namespace NDatabase.UnitTests.CodeSnippets
                 odb.Store(agassi);
 
                 IQuery query = odb.Query<Player>();
-                query.Descend("FavoriteSport._name").Constrain((object) "volley-ball").Equals();
+                query.Descend("FavoriteSport._name").Constrain((object) "volley-ball").Equal();
 //                query.Descend("FavoriteSport").Descend("_name").Constrain("volley-ball").Equal();
 
                 var players = query.Execute<Player>();
@@ -132,7 +132,7 @@ namespace NDatabase.UnitTests.CodeSnippets
             {
                 // retrieve the volley ball sport object
                 IQuery query = odb.Query<Sport>();
-                query.Descend("_name").Constrain((object) "volley-ball").Equals();
+                query.Descend("_name").Constrain((object) "volley-ball").Equal();
                 var volleyBall = query.Execute<Sport>().GetFirst();
  
                 Assert.That(volleyBall.Name, Is.EqualTo("volley-ball"));
@@ -140,7 +140,7 @@ namespace NDatabase.UnitTests.CodeSnippets
                 // Now build a query to get all players that play volley ball, using
                 // the volley ball object
                 query = odb.Query<Player>();
-                query.Descend("FavoriteSport").Constrain((object) volleyBall).Equals();
+                query.Descend("FavoriteSport").Constrain(volleyBall).Identity();
  
                 var players = query.Execute<Player>();
 
@@ -160,7 +160,7 @@ namespace NDatabase.UnitTests.CodeSnippets
                 IQuery query =
                     odb.Query<Player>();
 
-                ((IConstraint) query.Descend("FavoriteSport._name").Constrain((object) "volley-ball").Equals()).Or(
+                ((IConstraint) query.Descend("FavoriteSport._name").Constrain((object) "volley-ball").Equal()).Or(
                     query.Descend("FavoriteSport._name").Constrain("%nnis").Like());
 
                 var players = query.Execute<Player>();
@@ -179,7 +179,7 @@ namespace NDatabase.UnitTests.CodeSnippets
             using (var odb = OdbFactory.Open(TutorialDb5MinName))
             {
                 IQuery query = odb.Query<Player>();
-                ((IConstraint) query.Descend("FavoriteSport._name").Constrain((object) "volley-ball").Equals()).Not();
+                ((IConstraint) query.Descend("FavoriteSport._name").Constrain((object) "volley-ball").Equal()).Not();
  
                 var players = query.Execute<Player>();
  
@@ -215,7 +215,7 @@ namespace NDatabase.UnitTests.CodeSnippets
             using (var odb = OdbFactory.Open(TutorialDb5MinName))
             {
                 var query = odb.Query<Player>();
-                query.Descend("Name").Constrain("magdalena").Equals();
+                query.Descend("Name").Constrain("gdalen").Contains();
                 var players = query.Execute<Player>();
 
                 var magdalena = players.GetFirst();
@@ -240,7 +240,7 @@ namespace NDatabase.UnitTests.CodeSnippets
             using (var odb = OdbFactory.Open(TutorialDb5MinName))
             {
                 IQuery query = odb.Query<Player>();
-                query.OrderByAsc("Name");
+                query.Descend("Name").OrderAscending();
 
                 var players = query.Execute<Player>();
 
@@ -251,7 +251,7 @@ namespace NDatabase.UnitTests.CodeSnippets
 
                 Assert.That(players, Has.Count.EqualTo(5));
 
-                query.OrderByDesc("Name");
+                query.Descend("Name").OrderDescending();
                 players = query.Execute<Player>();
 
                 Console.WriteLine("\nStep 10: Players ordered by name desc");

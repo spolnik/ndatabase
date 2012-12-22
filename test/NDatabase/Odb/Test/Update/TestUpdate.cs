@@ -51,7 +51,7 @@ namespace Test.NDatabase.Odb.Test.Update
         {
             var odb = Open(FileName);
             IQuery query = odb.Query<VO.Login.Function>();
-            query.Descend("name").Constrain((object) "function 10").Equals();
+            query.Descend("name").Constrain((object) "function 10").Equal();
             var l = query.Execute<VO.Login.Function>();
             var size = l.Count;
             AssertFalse(l.Count == 0);
@@ -65,11 +65,11 @@ namespace Test.NDatabase.Odb.Test.Update
 
             odb = Open(FileName);
             query = odb.Query<VO.Login.Function>();
-            query.Descend("name").Constrain((object) "function 10").Equals();
+            query.Descend("name").Constrain((object) "function 10").Equal();
             l = query.Execute<VO.Login.Function>();
 
             query = odb.Query<VO.Login.Function>();
-            query.Descend("name").Constrain((object) newName).Equals();
+            query.Descend("name").Constrain((object) newName).Equal();
             AssertTrue(size == l.Count + 1);
             l = query.Execute<VO.Login.Function>();
 
@@ -87,7 +87,7 @@ namespace Test.NDatabase.Odb.Test.Update
             var query2 = odb.Query<Profile>();
             var nbProfiles = query2.Execute<Profile>().Count;
             IQuery query = odb.Query<User>();
-            query.Descend("profile.name").Constrain((object) "profile 10").Equals();
+            query.Descend("profile.name").Constrain((object) "profile 10").Equal();
             var l = query.Execute<User>();
             var size = l.Count;
             AssertFalse(l.Count == 0);
@@ -101,7 +101,7 @@ namespace Test.NDatabase.Odb.Test.Update
 
             odb = Open(FileName);
             query = odb.Query<User>();
-            query.Descend("profile.name").Constrain((object) "profile 10").Equals();
+            query.Descend("profile.name").Constrain((object) "profile 10").Equal();
             l = query.Execute<User>();
             AssertTrue(l.Count == size - 1);
 
@@ -117,11 +117,11 @@ namespace Test.NDatabase.Odb.Test.Update
         {
             var odb = Open(FileName);
             IQuery pquery = odb.Query<Profile>();
-            pquery.Descend("name").Constrain((object) "profile 10").Equals();
+            pquery.Descend("name").Constrain((object) "profile 10").Equal();
             var nbProfiles = odb.Query<Profile>().Count();
             long nbProfiles10 = pquery.Execute<Profile>().Count;
             IQuery query = odb.Query<User>();
-            query.Descend("profile.name").Constrain((object) "profile 10").Equals();
+            query.Descend("profile.name").Constrain((object) "profile 10").Equal();
             var l = query.Execute<User>();
             var size = l.Count;
             AssertFalse(l.Count == 0);
@@ -135,9 +135,9 @@ namespace Test.NDatabase.Odb.Test.Update
 
             odb = Open(FileName);
             pquery = odb.Query<Profile>();
-            pquery.Descend("name").Constrain((object) "profile 10").Equals();
+            pquery.Descend("name").Constrain((object) "profile 10").Equal();
             query = odb.Query<User>();
-            query.Descend("profile.name").Constrain((object) "profile 10").Equals();
+            query.Descend("profile.name").Constrain((object) "profile 10").Equal();
             l = query.Execute<User>();
             AssertEquals(l.Count + 1, size);
             AssertEquals(nbProfiles10, pquery.Execute<Profile>().Count + 1);
@@ -387,7 +387,7 @@ namespace Test.NDatabase.Odb.Test.Update
             odb.Close();
             odb = Open(FileName);
             var query = odb.Query<Profile>();
-            query.Descend("name").Constrain((object) "new operator").Equals();
+            query.Descend("name").Constrain((object) "new operator").Equal();
             profile2 = query.Execute<Profile>().GetFirst();
             var query1 = odb.Query<User>();
             var user2 = query1.Execute<User>().GetFirst();
@@ -478,7 +478,7 @@ namespace Test.NDatabase.Odb.Test.Update
             odb = Open(baseName);
             // reloads the function
             var query = odb.Query<VO.Login.Function>();
-            query.Descend("name").Constrain((object) "f1").Equals();
+            query.Descend("name").Constrain((object) "f1").Equal();
             var functions = query.Execute<VO.Login.Function>();
             var f1 = functions.GetFirst();
             // Create a profile with the loaded function

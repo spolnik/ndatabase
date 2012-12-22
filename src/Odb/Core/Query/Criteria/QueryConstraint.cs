@@ -1,96 +1,212 @@
+using System;
 using NDatabase2.Odb.Core.Layers.Layer2.Meta;
 using NDatabase2.Odb.Core.Query.Criteria.Evaluations;
+using NDatabase2.Tool.Wrappers.List;
 
 namespace NDatabase2.Odb.Core.Query.Criteria
 {
-    internal class QueryConstraint : AConstraint
+    internal sealed class QueryConstraint : IInternalConstraint
     {
+        /// <summary>
+        ///   The name of the attribute involved by this criterion
+        /// </summary>
+        private readonly string _attributeName;
+
+        /// <summary>
+        ///   The query containing the criterion
+        /// </summary>
+        private readonly IQuery _query;
+
+        private readonly object _theObject;
         private IEvaluation _evaluation;
 
-        public QueryConstraint(IQuery query, string fieldName, object theObject) 
-            : base(query, fieldName, theObject)
+        public QueryConstraint(IQuery query, string fieldName, object theObject)
         {
+            if (query == null)
+                throw new ArgumentNullException("query");
+
+            if (string.IsNullOrEmpty(fieldName))
+                throw new ArgumentNullException("fieldName");
+
+            _query = query;
+            _attributeName = fieldName;
+            _theObject = theObject;
+
+            ((IInternalQuery) _query).Add(this);
+
+            _evaluation = new EqualsEvaluation(_theObject, _attributeName);
         }
 
-        public override bool Match(object valueToMatch)
-        {
-            if (_evaluation == null)
-                return true;
+        #region IInternalConstraint Members
 
-            return _evaluation.Evaluate(valueToMatch);
+        public bool Match(object valueToMatch)
+        {
+            return _evaluation == null || _evaluation.Evaluate(valueToMatch);
         }
 
-        public override IConstraint Equals()
+        public IConstraint Equal()
         {
-            _evaluation = new EqualsEvaluation(TheObject, Query, AttributeName);
+            if (IsPreEvaluationTheGreater())
+            {
+                _evaluation = new ComparisonEvaluation(_theObject, _attributeName,
+                                                                       ComparisonConstraint.ComparisonTypeGe);
+                return this;
+            }
+
+            if (IsPreEvaluationTheSmaller())
+            {
+                _evaluation = new ComparisonEvaluation(_theObject, _attributeName,
+                                                                       ComparisonConstraint.ComparisonTypeLe);
+                return this;
+            }
+
+            _evaluation = new EqualsEvaluation(_theObject, _attributeName);
             return this;
         }
 
-        public override IConstraint InvariantEquals()
+        public IConstraint InvariantEqual()
         {
-            _evaluation = new EqualsEvaluation(TheObject, Query, AttributeName, false);
+            _evaluation = new EqualsEvaluation(_theObject, _attributeName, false);
             return this;
         }
 
-        public override IConstraint Like()
+        public IConstraint Identity()
         {
-            _evaluation = new LikeEvaluation(TheObject, AttributeName);
+            _evaluation = new IdentityEvaluation(_theObject, _attributeName, _query);
             return this;
         }
 
-        public override IConstraint InvariantLike()
+        public IConstraint Like()
         {
-            _evaluation = new LikeEvaluation(TheObject, AttributeName, false);
+            _evaluation = new LikeEvaluation(_theObject, _attributeName);
             return this;
         }
 
-        public override IConstraint Contains()
+        public IConstraint InvariantLike()
         {
-            _evaluation = new ContainsEvaluation(TheObject, AttributeName, Query);
+            _evaluation = new LikeEvaluation(_theObject, _attributeName, false);
             return this;
         }
 
-        public override IConstraint SmallerOrEqual()
+        public IConstraint Contains()
         {
-            _evaluation = new ComparisonEvaluation(TheObject, AttributeName, Query, ComparisonCirerion.ComparisonTypeLe);
+            _evaluation = new ContainsEvaluation(_theObject, _attributeName, _query);
             return this;
         }
 
-        public override IConstraint GreaterOrEqual()
+        public IConstraint Greater()
         {
-            _evaluation = new ComparisonEvaluation(TheObject, AttributeName, Query, ComparisonCirerion.ComparisonTypeGe);
+            _evaluation = new ComparisonEvaluation(_theObject, _attributeName,
+                                                   ComparisonConstraint.ComparisonTypeGt);
             return this;
         }
 
-        public override IConstraint Greater()
+        public IConstraint Smaller()
         {
-            _evaluation = new ComparisonEvaluation(TheObject, AttributeName, Query, ComparisonCirerion.ComparisonTypeGt);
+            _evaluation = new ComparisonEvaluation(_theObject, _attributeName,
+                                                   ComparisonConstraint.ComparisonTypeLt);
             return this;
         }
 
-        public override IConstraint Smaller()
+        public IConstraint SizeEq()
         {
-            _evaluation = new ComparisonEvaluation(TheObject, AttributeName, Query, ComparisonCirerion.ComparisonTypeLt);
+            _evaluation = new CollectionSizeEvaluation(_theObject, _attributeName, CollectionSizeEvaluation.SizeEq);
             return this;
         }
 
-        public override bool CanUseIndex()
+        public IConstraint SizeNe()
         {
-            return _evaluation is EqualsEvaluation;
+            _evaluation = new CollectionSizeEvaluation(_theObject, _attributeName, CollectionSizeEvaluation.SizeNe);
+            return this;
         }
+
+        public IConstraint SizeGt()
+        {
+            _evaluation = new CollectionSizeEvaluation(_theObject, _attributeName, CollectionSizeEvaluation.SizeGt);
+            return this;
+        }
+
+        public IConstraint SizeGe()
+        {
+            _evaluation = new CollectionSizeEvaluation(_theObject, _attributeName, CollectionSizeEvaluation.SizeGe);
+            return this;
+        }
+
+        public IConstraint SizeLt()
+        {
+            _evaluation = new CollectionSizeEvaluation(_theObject, _attributeName, CollectionSizeEvaluation.SizeLt);
+            return this;
+        }
+
+        public object GetObject()
+        {
+            return _theObject;
+        }
+
+        public IConstraint SizeLe()
+        {
+            _evaluation = new CollectionSizeEvaluation(_theObject, _attributeName, CollectionSizeEvaluation.SizeLe);
+            return this;
+        }
+
+        public bool CanUseIndex()
+        {
+            return _evaluation is EqualsEvaluation || _evaluation is IdentityEvaluation;
+        }
+
+        public AttributeValuesMap GetValues()
+        {
+            var equalsEvaluation = _evaluation as EqualsEvaluation;
+            var identityEvaluation = _evaluation as IdentityEvaluation;
+
+            return equalsEvaluation != null
+                       ? equalsEvaluation.GetValues()
+                       : identityEvaluation != null
+                             ? identityEvaluation.GetValues()
+                             : new AttributeValuesMap();
+        }
+
+        /// <summary>
+        ///   An abstract criterion only restrict one field =&gt; it returns a list of one field!
+        /// </summary>
+        /// <returns> The list of involved field of the criteria </returns>
+        public IOdbList<string> GetAllInvolvedFields()
+        {
+            return new OdbList<string>(1) {_attributeName};
+        }
+
+        public IConstraint And(IConstraint with)
+        {
+            return new And(_query).Add(this).Add(with);
+        }
+
+        public IConstraint Or(IConstraint with)
+        {
+            return new Or(_query).Add(this).Add(with);
+        }
+
+        public IConstraint Not()
+        {
+            return new Not(_query, this);
+        }
+
+        #endregion
 
         public override string ToString()
         {
             return _evaluation == null ? base.ToString() : _evaluation.ToString();
         }
 
-        public override AttributeValuesMap GetValues()
+        private bool IsPreEvaluationTheGreater()
         {
-            var equalsEvaluation = _evaluation as EqualsEvaluation;
-            if (equalsEvaluation != null)
-                return equalsEvaluation.GetValues();
+            var evaluation = _evaluation as ComparisonEvaluation;
+            return evaluation != null && evaluation.ComparisonType == ComparisonConstraint.ComparisonTypeGt;
+        }
 
-            return new AttributeValuesMap();
+        private bool IsPreEvaluationTheSmaller()
+        {
+            var evaluation = _evaluation as ComparisonEvaluation;
+            return evaluation != null && evaluation.ComparisonType == ComparisonConstraint.ComparisonTypeLt;
         }
     }
 }

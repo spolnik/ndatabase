@@ -1,8 +1,6 @@
 using System;
 using System.Threading;
 using NDatabase2.Odb;
-using NDatabase2.Odb.Core.Query;
-using NDatabase2.Odb.Core.Query.Criteria;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Query.Criteria
@@ -34,7 +32,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var aq =
                 odb.Query<VO.Login.Function>();
 
-            ((IConstraint) aq.Descend("name").Constrain((object) "function 2").Equals()).Or(aq.Descend("name").Constrain((object) "function 3").Equals());
+            (aq.Descend("name").Constrain("function 2").Equal()).Or(aq.Descend("name").Constrain("function 3").Equal());
 
             var l = aq.Execute<VO.Login.Function>(true, -1, -1);
             AssertEquals(2, l.Count);
@@ -52,7 +50,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             SetUp(baseName);
             var odb = Open(baseName);
             var aq = odb.Query<VO.Login.Function>();
-            ((IConstraint) aq.Descend("name").Constrain((object) "function 2").Equals()).Not();
+            (aq.Descend("name").Constrain("function 2").Equal()).Not();
             var l = aq.Execute<VO.Login.Function>(true, -1, -1);
             AssertEquals(49, l.Count);
             var f = l.GetFirst();
@@ -69,7 +67,8 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var aq =
                 odb.Query<VO.Login.Function>();
 
-            ((IConstraint) aq.Descend("name").Constrain((object) "function 2").Equals()).Or(aq.Descend("name").Constrain((object) "function 3").Equals()).Not();
+            (aq.Descend("name").Constrain("function 2").Equal()).Or(aq.Descend("name").Constrain("function 3").Equal()).
+                Not();
 
             var l = aq.Execute<VO.Login.Function>(true, -1, -1);
             AssertEquals(48, l.Count);
@@ -91,10 +90,11 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
                 var aq =
                     odb.Query<VO.Login.Function>();
 
-                ((IConstraint) aq.Descend("name").Constrain((object) "function 2").Equals()).Or(aq.Descend("name").Constrain((object) "function 3").Equals()).Not();
+                (aq.Descend("name").Constrain("function 2").Equal()).Or(
+                    aq.Descend("name").Constrain("function 3").Equal()).Not();
 
-                aq.OrderByDesc("name");
-                
+                aq.Descend("name").OrderDescending();
+
                 var l = aq.Execute<VO.Login.Function>(true, -1, -1);
                 odb.Close();
 
@@ -128,9 +128,10 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Close();
             odb = Open(baseName);
 
-            IQuery query = odb.Query<MyDates>();
-            query.Descend("date1").Constrain(d2).SmallerOrEqual().And(query.Descend("date2").Constrain(d2).GreaterOrEqual()).And(
-                query.Descend("i").Constrain(5).Equals());
+            var query = odb.Query<MyDates>();
+            query.Descend("date1").Constrain(d2).Smaller().Equal().And(
+                query.Descend("date2").Constrain(d2).Greater().Equal()).And(
+                    query.Descend("i").Constrain(5).Equal());
             var objects = query.Execute<MyDates>();
             AssertEquals(1, objects.Count);
             odb.Close();
@@ -143,8 +144,8 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             SetUp(baseName);
             var odb = Open(baseName);
             var aq = odb.Query<VO.Login.Function>();
-            aq.Descend("name").Constrain("FuNcTiOn 1").Equals();
-            aq.OrderByDesc("name");
+            aq.Descend("name").Constrain("FuNcTiOn 1").Equal();
+            aq.Descend("name").OrderDescending();
             var l = aq.Execute<VO.Login.Function>(true, -1, -1);
             AssertEquals(0, l.Count);
             odb.Close();
@@ -158,7 +159,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var odb = Open(baseName);
             var aq = odb.Query<VO.Login.Function>();
             aq.Descend("name").Constrain("FUNc%").InvariantLike();
-            aq.OrderByDesc("name");
+            aq.Descend("name").OrderDescending();
             var l = aq.Execute<VO.Login.Function>(true, -1, -1);
             AssertEquals(50, l.Count);
             odb.Close();
@@ -171,8 +172,8 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             SetUp(baseName);
             var odb = Open(baseName);
             var aq = odb.Query<VO.Login.Function>();
-            aq.Descend("name").Constrain("FuNcTiOn 1").InvariantEquals();
-            aq.OrderByDesc("name");
+            aq.Descend("name").Constrain("FuNcTiOn 1").InvariantEqual();
+            aq.Descend("name").OrderDescending();
             var l = aq.Execute<VO.Login.Function>(true, -1, -1);
             AssertEquals(1, l.Count);
             odb.Close();
@@ -186,7 +187,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var odb = Open(baseName);
             var aq = odb.Query<VO.Login.Function>();
             aq.Descend("name").Constrain("func%").Like();
-            aq.OrderByDesc("name");
+            aq.Descend("name").OrderDescending();
             var l = aq.Execute<VO.Login.Function>(true, -1, -1);
             AssertEquals(50, l.Count);
             odb.Close();
@@ -200,7 +201,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var odb = Open(baseName);
             var aq = odb.Query<VO.Login.Function>();
             aq.Descend("name").Constrain("FuNc%").Like();
-            aq.OrderByDesc("name");
+            aq.Descend("name").OrderDescending();
             var l = aq.Execute<VO.Login.Function>(true, -1, -1);
             AssertEquals(0, l.Count);
             odb.Close();

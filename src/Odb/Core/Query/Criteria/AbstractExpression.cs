@@ -42,12 +42,17 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             return new Not(_query, this);
         }
 
-        public IConstraint Equals()
+        public IConstraint Equal()
         {
             throw new NotSupportedException();
         }
 
-        public IConstraint InvariantEquals()
+        public IConstraint InvariantEqual()
+        {
+            throw new NotSupportedException();
+        }
+
+        public IConstraint Identity()
         {
             throw new NotSupportedException();
         }
@@ -67,22 +72,47 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             throw new NotSupportedException();
         }
 
-        public IConstraint SmallerOrEqual()
-        {
-            throw new NotSupportedException();
-        }
-
-        public IConstraint GreaterOrEqual()
-        {
-            throw new NotSupportedException();
-        }
-
         public IConstraint Greater()
         {
             throw new NotSupportedException();
         }
 
         public IConstraint Smaller()
+        {
+            throw new NotSupportedException();
+        }
+
+        public IConstraint SizeLe()
+        {
+            throw new NotSupportedException();
+        }
+
+        public IConstraint SizeEq()
+        {
+            throw new NotSupportedException();
+        }
+
+        public IConstraint SizeNe()
+        {
+            throw new NotSupportedException();
+        }
+
+        public IConstraint SizeGt()
+        {
+            throw new NotSupportedException();
+        }
+
+        public IConstraint SizeGe()
+        {
+            throw new NotSupportedException();
+        }
+
+        public IConstraint SizeLt()
+        {
+            throw new NotSupportedException();
+        }
+
+        public object GetObject()
         {
             throw new NotSupportedException();
         }

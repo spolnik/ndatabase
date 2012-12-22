@@ -1,7 +1,4 @@
 using System;
-using NDatabase2.Odb;
-using NDatabase2.Odb.Core.Query;
-using NDatabase2.Odb.Core.Query.Criteria;
 using NDatabase2.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Attribute;
@@ -22,10 +19,10 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             {
                 var testClass = new TestClass();
                 testClass.SetBigDecimal1(new Decimal(i));
-                testClass.SetBoolean1(i % 3 == 0);
-                testClass.SetChar1((char) (i % 5));
+                testClass.SetBoolean1(i%3 == 0);
+                testClass.SetChar1((char) (i%5));
                 testClass.SetDate1(new DateTime(start + i));
-                testClass.SetDouble1(((double) (i % 10)) / size);
+                testClass.SetDouble1(((double) (i%10))/size);
                 testClass.SetInt1(size - i);
                 testClass.SetString1("test class " + i);
                 odb.Store(testClass);
@@ -44,9 +41,9 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var aq =
                 odb.Query<TestClass>();
 
-            ((IConstraint) aq.Descend("string1").Constrain((object) "test class 1").Equals()).Or(aq.Descend("string1").Constrain((object) "test class 3").Equals());
-
-            aq.OrderByAsc("string1");
+            aq.Descend("string1").Constrain("test class 1").Equal().Or(
+                aq.Descend("string1").Constrain("test class 3").Equal());
+            aq.Descend("string1").OrderAscending();
             var l = aq.Execute<TestClass>(true, -1, -1);
             odb.Close();
 
@@ -62,7 +59,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             SetUp(BaseName);
             var odb = Open(BaseName);
             var aq = odb.Query<TestClass>();
-            ((IConstraint) aq.Descend("string1").Constrain((object) "test class 2").Equals()).Not();
+            (aq.Descend("string1").Constrain("test class 2").Equal()).Not();
             var l = aq.Execute<TestClass>(true, -1, -1);
             AssertEquals(49, l.Count);
             var testClass = l.GetFirst();
@@ -79,7 +76,8 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var aq =
                 odb.Query<TestClass>();
 
-            ((IConstraint) aq.Descend("string1").Constrain((object) "test class 0").Equals()).Or(aq.Descend("bigDecimal1").Constrain((object) new Decimal(5)).Equals()).Not();
+            (aq.Descend("string1").Constrain("test class 0").Equal()).Or(
+                aq.Descend("bigDecimal1").Constrain(new Decimal(5)).Equal()).Not();
 
             var l = aq.Execute<TestClass>(true, -1, -1);
             AssertEquals(48, l.Count);
@@ -97,11 +95,13 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var aq =
                 odb.Query<TestClass>();
 
-            ((IConstraint) aq.Descend("string1").Constrain((object) "test class 2").Equals()).Or(aq.Descend("string1").Constrain((object) "test class 3").Equals()).Not();
+            aq.Descend("string1").Constrain("test class 2").Equal().Or(
+                aq.Descend("string1").Constrain("test class 3").Equal()).Not();
 
-            aq.OrderByDesc("double1,int1");
+            aq.Descend("double1").OrderDescending();
+            aq.Descend("int1").OrderDescending();
             var l = aq.Execute<TestClass>(true, -1, -1);
-            
+
             AssertEquals(48, l.Count);
             var testClass = l.GetFirst();
             AssertEquals("test class 9", testClass.GetString1());
@@ -117,9 +117,11 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var aq =
                 odb.Query<TestClass>();
 
-            ((IConstraint) aq.Descend("string1").Constrain((object) "test class 2").Equals()).Or(aq.Descend("string1").Constrain((object) "test class 3").Equals()).Not();
+            aq.Descend("string1").Constrain("test class 2").Equal().Or(
+                aq.Descend("string1").Constrain("test class 3").Equal()).Not();
 
-            aq.OrderByDesc("double1,int1");
+            aq.Descend("double1").OrderDescending();
+            aq.Descend("int1").OrderDescending();
             var l = aq.Execute<TestClass>(true, -1, -1);
             AssertEquals(48, l.Count);
             var testClass = l.GetFirst();
@@ -134,9 +136,13 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             SetUp(BaseName);
             var odb = Open(BaseName);
             var aq = odb.Query<TestClass>();
-            ((IConstraint) aq.Descend("string1").Constrain((object) "test class 2").Equals()).Or(aq.Descend("string1").Constrain((object) "test class 3").Equals()).Or(
-                    aq.Descend("string1").Constrain((object) "test class 4").Equals()).Or(aq.Descend("string1").Constrain((object) "test class 5").Equals());
-            aq.OrderByDesc("boolean1,int1");
+            (aq.Descend("string1").Constrain("test class 2").Equal()).Or(
+                aq.Descend("string1").Constrain("test class 3").Equal()).Or(
+                    aq.Descend("string1").Constrain("test class 4").Equal()).Or(
+                        aq.Descend("string1").Constrain("test class 5").Equal());
+
+            aq.Descend("boolean1").OrderDescending();
+            aq.Descend("int1").OrderDescending();
             var l = aq.Execute<TestClass>(true, -1, -1);
             AssertEquals(4, l.Count);
             var testClass = l.GetFirst();

@@ -26,7 +26,9 @@ namespace Test.NDatabase.Odb.Test.List
             }
             odb.Close();
             odb = Open(baseName);
-            var q = odb.Query<User>().OrderByAsc("name,id");
+            var q = odb.Query<User>();
+            q.Descend("name").OrderAscending();
+            q.Descend("id").OrderAscending();
             var users = q.Execute<User>();
             odb.Close();
             if (k < 11)
@@ -55,7 +57,9 @@ namespace Test.NDatabase.Odb.Test.List
             }
             odb.Close();
             odb = Open(baseName);
-            var q = odb.Query<User>().OrderByDesc("name,id");
+            var q = odb.Query<User>();
+            q.Descend("name").OrderDescending();
+            q.Descend("id").OrderDescending();
             var users = q.Execute<User>();
             odb.Close();
             if (k < 11)
@@ -85,7 +89,10 @@ namespace Test.NDatabase.Odb.Test.List
             }
             odb.Close();
             odb = Open(baseName);
-            var q = odb.Query<User>().OrderByAsc("ok,id,name");
+            var q = odb.Query<User>();
+            q.Descend("ok").OrderAscending();
+            q.Descend("id").OrderAscending();
+            q.Descend("name").OrderAscending();
             var users = q.Execute<User>();
             odb.Close();
             if (k < 11)
@@ -115,7 +122,10 @@ namespace Test.NDatabase.Odb.Test.List
             }
             odb.Close();
             odb = Open(baseName);
-            var q = odb.Query<User>().OrderByDesc("ok,id,name");
+            var q = odb.Query<User>();
+            q.Descend("ok").OrderDescending();
+            q.Descend("id").OrderDescending();
+            q.Descend("name").OrderDescending();
             var users = q.Execute<User>();
             odb.Close();
             if (k < 11)

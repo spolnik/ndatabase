@@ -189,7 +189,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             {
                 IOdbList<ClassInfoIndex> indexes = new OdbList<ClassInfoIndex>();
                 IQuery queryClassInfo = new CriteriaQuery(typeof(ClassInfoIndex));
-                queryClassInfo.Descend("ClassInfoId").Constrain(actualClassInfo.ClassInfoId).Equals();
+                queryClassInfo.Descend("ClassInfoId").Constrain(actualClassInfo.ClassInfoId).Equal();
                 var classIndexes = GetObjects<ClassInfoIndex>(queryClassInfo, true, -1, -1);
                 indexes.AddAll(classIndexes);
                 // Sets the btree persister
@@ -402,7 +402,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
         public AttributeValuesMap ReadObjectInfoValuesFromOID(ClassInfo classInfo, OID oid, bool useCache,
                                                               IOdbList<string> attributeNames,
                                                               IOdbList<string> relationAttributeNames,
-                                                              int recursionLevel, string[] orderByFields)
+                                                              int recursionLevel, IList<string> orderByFields)
         {
             var position = GetObjectPositionFromItsOid(oid, useCache, true);
             return ReadObjectInfoValuesFromPosition(classInfo, oid, position, useCache, attributeNames,

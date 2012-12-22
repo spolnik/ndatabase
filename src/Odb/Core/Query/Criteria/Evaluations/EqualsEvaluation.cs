@@ -9,33 +9,17 @@ namespace NDatabase2.Odb.Core.Query.Criteria.Evaluations
     {
         private readonly bool _isCaseSensitive;
 
-        /// <summary>
-        ///   For criteria query on objects, we use the oid of the object instead of the object itself.
-        /// </summary>
-        /// <remarks>
-        ///   For criteria query on objects, we use the oid of the object instead of the object itself. 
-        ///   So comparison will be done with OID It is faster and avoid the need of the object (class) 
-        ///   having to implement Serializable in client server mode
-        /// </remarks>
-        private readonly OID _oid;
-
-        public EqualsEvaluation(object theObject, IQuery query, string attributeName, bool isCaseSensitive = true)
+        public EqualsEvaluation(object theObject, string attributeName, bool isCaseSensitive = true)
             : base(theObject, attributeName)
         {
             _isCaseSensitive = isCaseSensitive;
-
-            if (IsNative())
-                return;
-
-            // For non native object, we just need the oid of it
-            _oid = ((IInternalQuery) query).GetStorageEngine().GetObjectId(theObject, false);
         }
 
         public override bool Evaluate(object candidate)
         {
             candidate = AsAttributeValuesMapValue(candidate);
 
-            if (candidate == null && TheObject == null && _oid == null)
+            if (candidate == null && TheObject == null)
                 return true;
 
             if (AttributeValueComparator.IsNumber(candidate) && AttributeValueComparator.IsNumber(TheObject))
@@ -46,15 +30,6 @@ namespace NDatabase2.Odb.Core.Query.Criteria.Evaluations
             {
                 if (IsNative())
                     return candidate != null && Equals(candidate, TheObject);
-
-                var objectOid = (OID) candidate;
-                if (_oid == null)
-                {
-                    // TODO Should we return false or thrown exception?
-                    return false;
-                }
-
-                return _oid.Equals(objectOid);
             }
 
             // Case insensitive (iequal) only works on String or Character!
@@ -87,14 +62,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria.Evaluations
 
         public AttributeValuesMap GetValues()
         {
-            var map = new AttributeValuesMap();
-
-            if (_oid != null)
-                map.SetOid(_oid);
-            else
-                map.Add(AttributeName, TheObject);
-
-            return map;
+            return new AttributeValuesMap {{AttributeName, TheObject}};
         }
     }
 }

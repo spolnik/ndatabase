@@ -35,7 +35,7 @@ namespace Test.NDatabase.Odb.Test.Other
             {
                 odb = Open("download.neodatis");
                 var query = odb.Query<User>();
-                query.Descend("email").Constrain((object) email).Equals();
+                query.Descend("email").Constrain((object) email).Equal();
                 var users = query.Execute<User>();
                 if (users.Count != 0)
                 {

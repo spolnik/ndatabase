@@ -237,7 +237,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             odb.Close();
             odb = Open("valuesA6");
             var valuesCriteriaQuery = odb.ValuesQuery<TestClass>();
-            valuesCriteriaQuery.Descend("int1").Constrain((object) 2).Equals();
+            valuesCriteriaQuery.Descend("int1").Constrain((object) 2).Equal();
 
             var valuesQuery = valuesCriteriaQuery.Count("nb objects");
             var values =
@@ -266,7 +266,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             odb.Close();
             odb = Open("valuesA7");
             var query = odb.Query<TestClass>();
-            query.Descend("int1").Constrain((object) 2).Equals();
+            query.Descend("int1").Constrain((object) 2).Equal();
             decimal nb = query.Count();
             Println(nb);
             odb.Close();

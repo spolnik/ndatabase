@@ -11,9 +11,9 @@ namespace NDatabase2.Odb.Core.Query
         public static int[] GetOrderByAttributeIds(ClassInfo classInfo, IInternalQuery query)
         {
             var fieldNames = query.GetOrderByFieldNames();
-            var fieldIds = new int[fieldNames.Length];
+            var fieldIds = new int[fieldNames.Count];
 
-            for (var i = 0; i < fieldNames.Length; i++)
+            for (var i = 0; i < fieldNames.Count; i++)
                 fieldIds[i] = classInfo.GetAttributeId(fieldNames[i]);
 
             return fieldIds;

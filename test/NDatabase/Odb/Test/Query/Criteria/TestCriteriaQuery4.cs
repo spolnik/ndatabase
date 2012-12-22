@@ -78,7 +78,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             {
                 odb = Open(BaseName);
                 var query = odb.Query<TestClass>();
-                query.Descend("bigDecimal1").Constrain(null).Equals().Not();
+                query.Descend("bigDecimal1").Constrain(null).Equal().Not();
                 var l = query.Execute<TestClass>();
                 AssertEquals(53, l.Count);
             }
@@ -97,7 +97,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             {
                 odb = Open(BaseName);
                 var query = odb.Query<TestClass>();
-                query.Descend("bigDecimal1").Constrain(null).Equals();
+                query.Descend("bigDecimal1").Constrain(null).Equal();
                 var l = query.Execute<TestClass>();
                 AssertEquals(0, l.Count);
             }
@@ -113,11 +113,11 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
         {
             var odb = Open(BaseName);
             var query = odb.Query<TestClass>();
-            query.Descend("boolean1").Constrain((object) true).Equals();
+            query.Descend("boolean1").Constrain((object) true).Equal();
             var l = query.Execute<TestClass>();
             AssertTrue(l.Count > 1);
             query = odb.Query<TestClass>();
-            query.Descend("boolean1").Constrain((object) true).Equals();
+            query.Descend("boolean1").Constrain((object) true).Equal();
             l = query.Execute<TestClass>();
             AssertTrue(l.Count > 1);
             odb.Close();
@@ -131,20 +131,20 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             var query =
                 odb.Query<TestClass>();
 
-            ((IConstraint) query.Descend("string1").Constrain((object) "test class with values").Equals()).And(query.Descend("date1").Constrain((object) new DateTime(correctDate.Millisecond)).Equals());
+            ((IConstraint) query.Descend("string1").Constrain((object) "test class with values").Equal()).And(query.Descend("date1").Constrain((object) new DateTime(correctDate.Millisecond)).Equal());
 
             var l = query.Execute<TestClass>();
 
             query =
                 odb.Query<TestClass>();
 
-            ((IConstraint) query.Descend("string1").Constrain((object) "test class with values").Equals()).And(query.Descend("date1").Constrain(new DateTime(
-                                                                                                                                                    correctDate.Millisecond)).GreaterOrEqual());
+            ((IConstraint) query.Descend("string1").Constrain((object) "test class with values").Equal()).And(query.Descend("date1").Constrain(new DateTime(
+                                                                                                                                                   correctDate.Millisecond)).Greater().Equal());
             l = query.Execute<TestClass>();
             if (l.Count != 1)
             {
                 query = odb.Query<TestClass>();
-                query.Descend("string1").Constrain((object) "test class with null Decimal").Equals();
+                query.Descend("string1").Constrain((object) "test class with null Decimal").Equal();
                 var l2 = query.Execute<TestClass>();
                 Println(l2);
                 Println(correctDate.Millisecond);
@@ -159,7 +159,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
         {
             var odb = Open(BaseName);
             var query = odb.Query<TestClass>();
-            query.Descend("double1").Constrain((object) 190.99).Equals();
+            query.Descend("double1").Constrain((object) 190.99).Equal();
             var l = query.Execute<TestClass>();
             AssertEquals(1, l.Count);
             query = odb.Query<TestClass>();
@@ -178,7 +178,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
         {
             var odb = Open(BaseName);
             var query = odb.Query<TestClass>();
-            query.Descend("int1").Constrain((object) 190).Equals();
+            query.Descend("int1").Constrain((object) 190).Equal();
             var l = query.Execute<TestClass>();
             AssertEquals(1, l.Count);
             query = odb.Query<TestClass>();

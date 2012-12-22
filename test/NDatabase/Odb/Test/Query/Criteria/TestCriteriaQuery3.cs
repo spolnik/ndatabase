@@ -40,7 +40,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             Init(baseName);
             var odb = Open(baseName);
             var query = odb.Query<User>();
-            query.Descend("profile.name").Constrain((object) "profile2").Equals();
+            query.Descend("profile.name").Constrain((object) "profile2").Equal();
             var l = query.Execute<User>();
             AssertEquals(1, l.Count());
             odb.Close();
@@ -67,11 +67,11 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Close();
             odb = Open(baseName);
             var criteriaQuery = odb.Query<Profile>();
-            criteriaQuery.Descend("name").Constrain((object) "profileCust0").Equals();
+            criteriaQuery.Descend("name").Constrain((object) "profileCust0").Equal();
             var pp = criteriaQuery.Execute<Profile>().GetFirst();
 
             var query = odb.Query<User>();
-            query.Descend("profile").Constrain((object) pp).Equals();
+            query.Descend("profile").Constrain(pp).Identity();
             var l = query.Execute<User>();
             AssertEquals(1, l.Count());
             user = l.GetFirst();
@@ -100,7 +100,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Close();
             odb = Open(baseName);
             var criteriaQuery = odb.Query<VO.Login.Function>();
-            criteriaQuery.Descend("name").Constrain((object) "f2").Equals();
+            criteriaQuery.Descend("name").Constrain((object) "f2").Equal();
             var f2bis = criteriaQuery.Execute<VO.Login.Function>().GetFirst();
             var query = odb.Query<User>();
             query.Descend("profile.functions").Constrain(f2bis).Contains();
@@ -130,7 +130,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Close();
             odb = Open(baseName);
             var criteriaQuery = odb.Query<VO.Login.Function>();
-            criteriaQuery.Descend("name").Constrain((object) "f2").Equals();
+            criteriaQuery.Descend("name").Constrain((object) "f2").Equal();
             var f2bis = criteriaQuery.Execute<VO.Login.Function>().GetFirst();
             var query = odb.Query<Profile>();
             query.Descend("functions").Constrain(f2bis).Contains();
@@ -193,7 +193,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             odb.Close();
             odb = Open(baseName);
             var criteriaQuery = odb.Query<VO.Login.Function>();
-            criteriaQuery.Descend("name").Constrain((object) "f22").Equals();
+            criteriaQuery.Descend("name").Constrain((object) "f22").Equal();
             var f2bis = criteriaQuery.Execute<VO.Login.Function>().GetFirst();
             var query = odb.Query<User>();
             query.Descend("profile.functions").Constrain(f2bis).Contains();
@@ -291,7 +291,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             {
                 odb = Open(baseName);
                 var query = odb.Query<User>();
-                query.Descend("profile.functions").SizeEq(0);
+                query.Descend("profile.functions").Constrain(0).SizeEq();
                 var l = query.Execute<User>();
                 AssertEquals(1, l.Count());
                 var u = l.GetFirst();
@@ -314,7 +314,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
                 Init(baseName);
                 odb = Open(baseName);
                 var query = odb.Query<User>();
-                query.Descend("profile.functions").SizeEq(1);
+                query.Descend("profile.functions").Constrain(1).SizeEq();
                 var l = query.Execute<User>();
                 AssertEquals(10, l.Count());
             }
@@ -335,7 +335,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
                 Init(baseName);
                 odb = Open(baseName);
                 var query = odb.Query<User>();
-                query.Descend("profile.functions").SizeEq(4);
+                query.Descend("profile.functions").Constrain(4).SizeEq();
                 var l = query.Execute<User>();
                 AssertEquals(1, l.Count());
                 var u = l.GetFirst();
@@ -359,7 +359,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
                 Init(baseName);
                 odb = Open(baseName);
                 var query = odb.Query<User>();
-                query.Descend("profile.functions").SizeGt(2);
+                query.Descend("profile.functions").Constrain(2).SizeGt();
                 var l = query.Execute<User>();
                 AssertEquals(1, l.Count());
             }
@@ -380,7 +380,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
                 Init(baseName);
                 odb = Open(baseName);
                 var query = odb.Query<User>();
-                query.Descend("profile.functions").SizeNe(1);
+                query.Descend("profile.functions").Constrain(1).SizeNe();
                 var l = query.Execute<User>();
                 AssertEquals(2, l.Count());
             }

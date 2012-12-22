@@ -36,7 +36,7 @@ namespace Test.NDatabase.Odb.Test.Index
                 var io = objects.GetFirst();
 
                 IQuery q = odb.Query<IndexedObject2>();
-                q.Descend("object").Constrain((object) io).Equals();
+                q.Descend("object").Constrain(io).Identity();
 
                 var objects2 = q.Execute<IndexedObject2>();
                 IndexedObject2 o2 = objects2.GetFirst();
@@ -64,7 +64,7 @@ namespace Test.NDatabase.Odb.Test.Index
             odb.Close();
             odb = Open("index-object");
             IQuery q = odb.Query<IndexedObject>();
-            q.Descend("name").Constrain((object) ("Inner Object " + (size - 1))).Equals();
+            q.Descend("name").Constrain((object) ("Inner Object " + (size - 1))).Equal();
             // First get the object used to index, the last one. There is no index
             // on the class and field
             var start0 = OdbTime.GetCurrentTimeInMs();
@@ -74,7 +74,7 @@ namespace Test.NDatabase.Odb.Test.Index
             Println("d0=" + (end0 - start0));
             Println(((IInternalQuery)q).GetExecutionPlan().GetDetails());
             q = odb.Query<IndexedObject2>();
-            q.Descend("object").Constrain((object) io).Equals();
+            q.Descend("object").Constrain(io).Identity();
             var start = OdbTime.GetCurrentTimeInMs();
 
             var objects2 = q.Execute<IndexedObject2>();
@@ -128,7 +128,7 @@ namespace Test.NDatabase.Odb.Test.Index
             odb.Close();
             odb = Open(baseName);
             IQuery q = odb.Query<IndexedObject>();
-            q.Descend("name").Constrain((object) ("Inner Object " + (size - 1))).Equals();
+            q.Descend("name").Constrain((object) ("Inner Object " + (size - 1))).Equal();
             // First get the object used to index, the last one. There is no index
             // on the class and field
             var start0 = OdbTime.GetCurrentTimeInMs();
@@ -140,7 +140,7 @@ namespace Test.NDatabase.Odb.Test.Index
             Println("d0=" + (end0 - start0));
             Println(((IInternalQuery)q).GetExecutionPlan().GetDetails());
             q = odb.Query<IndexedObject2>();
-            q.Descend("object").Constrain((object) io).Equals();
+            q.Descend("object").Constrain(io).Identity();
             var start = OdbTime.GetCurrentTimeInMs();
 
             var objects2 = q.Execute<IndexedObject2>();

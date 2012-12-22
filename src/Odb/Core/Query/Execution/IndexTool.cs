@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using NDatabase2.Odb.Core.Layers.Layer2.Meta;
 using NDatabase2.Odb.Core.Query.Criteria;
 using NDatabase2.Tool.Wrappers;
@@ -42,13 +43,13 @@ namespace NDatabase2.Odb.Core.Query.Execution
             return new ComposedCompareKey(keys);
         }
 
-        internal static IOdbComparable BuildIndexKey(string indexName, AttributeValuesMap values, string[] fields)
+        internal static IOdbComparable BuildIndexKey(string indexName, AttributeValuesMap values, IList<string> fields)
         {
-            if (fields.Length == 1)
+            if (fields.Count == 1)
                 return new SimpleCompareKey(values.GetComparable(fields[0]));
 
-            var keys = new IOdbComparable[fields.Length];
-            for (var i = 0; i < fields.Length; i++)
+            var keys = new IOdbComparable[fields.Count];
+            for (var i = 0; i < fields.Count; i++)
             {
                 // Todo : can we assume that the object is a Comparable
                 try

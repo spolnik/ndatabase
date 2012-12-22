@@ -517,8 +517,8 @@ namespace Test.NDatabase.Odb.Test.Update.Nullobject
             AT newAT = null;
             SensorAT newSensor = null;
             IQuery query = odb.Query<SensorAT>();
-            query.Descend("at.name").Constrain((object) at.GetName()).Equals();
-            query.OrderByAsc("lane");
+            query.Descend("at.name").Constrain(at.GetName()).Equal();
+            query.Descend("lane").OrderAscending();
             var sensors = query.Execute<SensorAT>();
             Println("Duplicando AT " + at.GetName());
             for (var i = 0; i < 10; i++)

@@ -29,7 +29,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             odb.Close();
             odb = Open("values2.test1.odb");
             var vq = odb.ValuesQuery<TestClass>().Sum("int1", "sum of int1").GroupBy("int1");
-            vq.OrderByAsc("int1");
+            vq.Descend("int1").OrderAscending();
             var values = odb.GetValues(vq);
             AssertEquals(2, values.Count());
             Println(values);
@@ -61,7 +61,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             odb = Open("values2.test2.odb");
             var vq =
                 odb.ValuesQuery<TestClass>().Sum("int1", "sum of int1").Count("count").GroupBy("int1");
-            vq.OrderByAsc("int1");
+            vq.Descend("int1").OrderAscending();
             var values = odb.GetValues(vq);
             Println(values);
             var ov = values.NextValues();
@@ -102,7 +102,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             var q =
                 odb.ValuesQuery<User2>().Field("profile.name").Count("count").Avg("nbLogins", "avg").
                     GroupBy("profile.name");
-            q.OrderByAsc("name");
+            q.Descend("name").OrderAscending();
             var values = odb.GetValues(q);
             Println(values);
             var ov = values.NextValues();

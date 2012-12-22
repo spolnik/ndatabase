@@ -41,14 +41,14 @@ namespace Test.NDatabase.Odb.Test.Index
                 odb.IndexManagerFor<IndexedObject>().AddUniqueIndexOn("index1", names);
                 Println("\n\n after create index\n\n");
                 var query = odb.Query<IndexedObject>();
-                query.Descend("name").Constrain((object) "name0").Equals();
+                query.Descend("name").Constrain((object) "name0").Equal();
                 var objects =
                     query.Execute<IndexedObject>(true);
 
                 Println("\n\nafter get Objects\n\n");
                 AssertEquals(1, objects.Count);
                 var query2 = odb.Query<IndexedObject>();
-                query2.Descend("duration").Constrain((object) 9).Equals();
+                query2.Descend("duration").Constrain((object) 9).Equal();
 
                 objects = query2.Execute<IndexedObject>(true);
 
@@ -97,7 +97,7 @@ namespace Test.NDatabase.Odb.Test.Index
                 odb.IndexManagerFor<IndexedObject>().AddUniqueIndexOn("index1", names);
                 Println("\n\n after create index\n\n");
                 var query = odb.Query<IndexedObject>();
-                query.Descend("name").Constrain((object) "name0").Equals();
+                query.Descend("name").Constrain((object) "name0").Equal();
 
                 var objects =
                     query.Execute<IndexedObject>(true);
@@ -105,7 +105,7 @@ namespace Test.NDatabase.Odb.Test.Index
                 Println("\n\nafter get Objects\n\n");
                 AssertEquals(1, objects.Count);
                 var query2 = odb.Query<IndexedObject>();
-                query2.Descend("duration").Constrain((object) 10).Equals();
+                query2.Descend("duration").Constrain((object) 10).Equal();
 
                 objects = query2.Execute<IndexedObject>(true);
 
@@ -145,7 +145,7 @@ namespace Test.NDatabase.Odb.Test.Index
                 var names = new[] {"name"};
                 odb.IndexManagerFor<IndexedObject>().AddUniqueIndexOn("index1", names);
                 var query = odb.Query<IndexedObject>();
-                query.Descend("name").Constrain((object) "name").Equals();
+                query.Descend("name").Constrain((object) "name").Equal();
 
                 var objects =
                     query.Execute<IndexedObject>(true);
@@ -183,7 +183,7 @@ namespace Test.NDatabase.Odb.Test.Index
                 var names = new[] {"name"};
                 odb.IndexManagerFor<IndexedObject>().AddUniqueIndexOn("index1", names);
                 var query = odb.Query<IndexedObject>();
-                query.Descend("name").Constrain((object) "name0").Equals();
+                query.Descend("name").Constrain((object) "name0").Equal();
 
                 var objects =
                     query.Execute<IndexedObject>(true);

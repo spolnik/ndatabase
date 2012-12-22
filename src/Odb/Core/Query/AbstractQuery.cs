@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using NDatabase2.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase2.Odb.Core.Layers.Layer3;
 using NDatabase2.Odb.Core.Query.Criteria;
 using NDatabase2.Odb.Core.Query.Execution;
 using NDatabase2.Odb.Core.Query.Values;
+using System.Linq;
 
 namespace NDatabase2.Odb.Core.Query
 {
@@ -13,14 +15,14 @@ namespace NDatabase2.Odb.Core.Query
         private readonly Type _underlyingType;
 
         internal IQueryExecutionPlan ExecutionPlan;
-        protected string[] OrderByFields;
+        protected List<string> OrderByFields;
 
         /// <summary>
         ///   The OID attribute is used when the query must be restricted the object with this OID
         /// </summary>
         private OID _oidOfObjectToQuery;
 
-        private OrderByConstants _orderByType;
+        protected OrderByConstants OrderByType;
 
         [NonPersistent] private IStorageEngine _storageEngine;
 
@@ -32,8 +34,9 @@ namespace NDatabase2.Odb.Core.Query
             if (underlyingType.IsValueType)
                 throw new ArgumentException("Underlying type for query cannot to be value type.", "underlyingType");
 
-            _orderByType = OrderByConstants.OrderByNone;
+            OrderByType = OrderByConstants.OrderByNone;
             _underlyingType = underlyingType;
+            OrderByFields = new List<string>();
         }
 
         #region IInternalQuery Members
@@ -68,42 +71,28 @@ namespace NDatabase2.Odb.Core.Query
         public abstract IObjectSet<TItem> Execute<TItem>(bool inMemory) where TItem : class;
         public abstract IObjectSet<TItem> Execute<TItem>(bool inMemory, int startIndex, int endIndex) where TItem : class;
 
-        public IQuery OrderByDesc(string fields)
-        {
-            _orderByType = OrderByConstants.OrderByDesc;
-            OrderByFields = fields.Split(',');
+        public abstract IQuery OrderAscending();
+        public abstract IQuery OrderDescending();
 
-            return this;
-        }
-
-        public IQuery OrderByAsc(string fields)
-        {
-            _orderByType = OrderByConstants.OrderByAsc;
-            OrderByFields = fields.Split(',');
-            return this;
-        }
-
-        public string[] GetOrderByFieldNames()
+        public IList<string> GetOrderByFieldNames()
         {
             return OrderByFields;
         }
 
         public OrderByConstants GetOrderByType()
         {
-            return _orderByType;
+            return OrderByType;
         }
 
         public bool HasOrderBy()
         {
-            return !_orderByType.IsOrderByNone();
+            return !OrderByType.IsOrderByNone();
         }
 
         public OID GetOidOfObjectToQuery()
         {
             return _oidOfObjectToQuery;
         }
-
-        public abstract bool Match(object @object);
 
         public Type UnderlyingType
         {
@@ -133,13 +122,6 @@ namespace NDatabase2.Odb.Core.Query
 
             return Decimal.ToInt64(count);
         }
-
-        public abstract IConstraint SizeEq(int size);
-        public abstract IConstraint SizeNe(int size);
-        public abstract IConstraint SizeGt(int size);
-        public abstract IConstraint SizeGe(int size);
-        public abstract IConstraint SizeLt(int size);
-        public abstract IConstraint SizeLe(int size);
 
         #endregion
 

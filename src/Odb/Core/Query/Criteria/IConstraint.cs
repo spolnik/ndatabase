@@ -1,48 +1,118 @@
-using NDatabase2.Odb.Core.Layers.Layer2.Meta;
-using NDatabase2.Tool.Wrappers.List;
-
 namespace NDatabase2.Odb.Core.Query.Criteria
 {
     /// <summary>
-    ///   An interface for all criteria
+    /// constraint to limit the objects returned upon
+    /// query execution.
+    /// 
+    /// 
+    /// Constraints are constructed by calling 
+    /// Query.Constrain().
+    /// 
+    /// 
+    /// Constraints can be joined with the methods And() and Or().
+    /// 
+    /// 
+    /// The methods to modify the constraint evaluation algorithm may
+    /// be merged, to construct combined evaluation rules.
+    /// Examples:
+    /// <ul>
+    ///   <li> <code>Constraint#Smaller().Equal()</code> for "smaller or equal" </li>
+    ///   <li> <code>Constraint#Like().Not()</code> for "not like" </li>
+    ///   <li> <code>Constraint#Greater().Equal().Not()</code> for "not greater or equal" </li>
+    /// </ul>
+    ///
     /// </summary>
     public interface IConstraint
     {
+        /// <summary>
+        /// Links two IConstrains for AND evaluation. 
+        /// </summary>
+        /// <param name="with">The other IConstraint</param>
+        /// <returns>A new IConstraint, that can be used for further calls to and() and or()</returns>
         IConstraint And(IConstraint with);
+
+
+        /// <summary>
+        /// Links two IConstrains for OR evaluation.
+        /// </summary>
+        /// <param name="with">The other IConstraint</param>
+        /// <returns>A new IConstraint, that can be used for further calls to and() and or()</returns>
         IConstraint Or(IConstraint with);
+
+
+        /// <summary>
+        /// Sets the evaluation mode to <code>==</code>.
+        /// </summary>
+        /// <returns>this IConstraint to allow the chaining of method calls.</returns>
+        IConstraint Equal();
+
+
+        /// <summary>
+        /// Sets the evaluation mode to <code>&gt;</code>.
+        /// </summary>
+        /// <returns>this IConstraint to allow the chaining of method calls.</returns>
+        IConstraint Greater();
+
+
+        /// <summary>
+        /// Sets the evaluation mode to <code>&lt;</code>.
+        /// </summary>
+        /// <returns>this IConstraint to allow the chaining of method calls.</returns>
+        IConstraint Smaller();
+
+
+        /// <summary>
+        /// Sets the evaluation mode to identity comparison.
+        /// </summary>
+        /// <returns>this IConstraint to allow the chaining of method calls.</returns>
+        IConstraint Identity();
+
+
+        /// <summary>
+        /// Sets the evaluation mode to "like" comparison.
+        /// </summary>
+        /// <returns>this IConstraint to allow the chaining of method calls.</returns>
+        IConstraint Like();
+
+
+        /// <summary>
+        /// Sets the evaluation mode to containment comparison.
+        /// 
+        /// Evaluation is dependant on the constrained query node:
+        /// <dl>
+        ///  <dt><code>String</code></dt>
+        ///   <dd>the persistent object is tested to contain a substring.</dd>
+        ///  <dt>arrays, collections</dt>
+        ///   <dd>the persistent object is tested to contain all elements of
+        ///      the constraining object.</dd>
+        /// </dl>
+        /// </summary>
+        /// <returns>this IConstraint to allow the chaining of method calls.</returns>
+        IConstraint Contains();
+
+
+        /// <summary>
+        /// turns on not() comparison.
+        /// </summary>
+        /// <returns>this IConstraint to allow the chaining of method calls.</returns>
         IConstraint Not();
 
-        IConstraint Equals();
-        IConstraint InvariantEquals();
-        IConstraint Like();
+        IConstraint InvariantEqual();
         IConstraint InvariantLike();
-        IConstraint Contains();
-        IConstraint SmallerOrEqual();
-        IConstraint GreaterOrEqual();
-        IConstraint Greater();
-        IConstraint Smaller();
-    }
 
-    internal interface IInternalConstraint : IConstraint
-    {
-        bool CanUseIndex();
+        IConstraint SizeLe();
+        IConstraint SizeEq();
+        IConstraint SizeNe();
+        IConstraint SizeGt();
+        IConstraint SizeGe();
+        IConstraint SizeLt();
 
-        AttributeValuesMap GetValues();
 
         /// <summary>
-        ///   to be able to optimize query execution.
+        /// returns the Object the query graph was constrained with to
+        /// create this IConstraint.
         /// </summary>
-        /// <remarks>
-        ///   to be able to optimize query execution. 
-        ///   Get only the field involved in the query instead of getting all the object
-        /// </remarks>
-        /// <returns> All involved fields in criteria, List of String </returns>
-        IOdbList<string> GetAllInvolvedFields();
-
-        /// <summary>
-        ///   To check if an object matches this criterion
-        /// </summary>
-        /// <returns> true if object matches the criteria </returns>
-        bool Match(object @object);
+        /// <returns>The constraining object.</returns>
+        object GetObject();
     }
 }

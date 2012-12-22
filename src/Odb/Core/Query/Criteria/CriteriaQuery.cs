@@ -23,11 +23,6 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             return Constraint == null || Constraint.Match(map);
         }
 
-        public override bool Match(object @object)
-        {
-            return Constraint.Match(@object);
-        }
-
         public IConstraint GetCriteria()
         {
             return Constraint;
@@ -65,39 +60,33 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             return this;
         }
 
+        public override IQuery OrderAscending()
+        {
+            if (string.IsNullOrEmpty(_attributeName))
+                throw new ArgumentException("Descend field not set.");
+
+            OrderByFields.Add(_attributeName);
+            OrderByType = OrderByConstants.OrderByAsc;
+            _attributeName = null;
+
+            return this;
+        }
+
+        public override IQuery OrderDescending()
+        {
+            if (string.IsNullOrEmpty(_attributeName))
+                throw new ArgumentException("Descend field not set.");
+
+            OrderByFields.Add(_attributeName);
+            OrderByType = OrderByConstants.OrderByDesc;
+            _attributeName = null;
+
+            return this;
+        }
+
         public override IConstraint Constrain(object value)
         {
             return new QueryConstraint(this, ApplyAttributeName(), value);
-        }
-
-        public override IConstraint SizeEq(int size)
-        {
-            return new CollectionSizeCriterion(this, ApplyAttributeName(), size, CollectionSizeCriterion.SizeEq);
-        }
-
-        public override IConstraint SizeNe(int size)
-        {
-            return new CollectionSizeCriterion(this, ApplyAttributeName(), size, CollectionSizeCriterion.SizeNe);
-        }
-
-        public override IConstraint SizeGt(int size)
-        {
-            return new CollectionSizeCriterion(this, ApplyAttributeName(), size, CollectionSizeCriterion.SizeGt);
-        }
-
-        public override IConstraint SizeGe(int size)
-        {
-            return new CollectionSizeCriterion(this, ApplyAttributeName(), size, CollectionSizeCriterion.SizeGe);
-        }
-
-        public override IConstraint SizeLt(int size)
-        {
-            return new CollectionSizeCriterion(this, ApplyAttributeName(), size, CollectionSizeCriterion.SizeLt);
-        }
-
-        public override IConstraint SizeLe(int size)
-        {
-            return new CollectionSizeCriterion(this, ApplyAttributeName(), size, CollectionSizeCriterion.SizeLe);
         }
 
         public override IObjectSet<TItem> Execute<TItem>()

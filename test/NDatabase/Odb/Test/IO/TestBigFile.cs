@@ -60,7 +60,7 @@ namespace Test.NDatabase.Odb.Test.IO
                 var start = OdbTime.GetCurrentTimeInMs();
                 odb = Open(baseName);
                 IQuery q = odb.Query<VO.Login.Function>();
-                q.Descend("name").Constrain((object) "login10000").Equals();
+                q.Descend("name").Constrain((object) "login10000").Equal();
                 var functions = q.Execute<VO.Login.Function>(true, 0, 1);
                 Console.Out.WriteLine(((IInternalQuery)q).GetExecutionPlan().GetDetails());
                 Console.Out.WriteLine(functions.Count);

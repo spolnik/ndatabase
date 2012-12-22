@@ -78,7 +78,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             var odb = Open("perfOValuesVsCriteria");
             
             var q = odb.ValuesQuery<User2>().Field("name");
-            q.Descend("nbLogins").Constrain((object) 10).Equals();
+            q.Descend("nbLogins").Constrain((object) 10).Equal();
             var v = odb.GetValues(q);
             Println(v.Count);
             Console.Out.WriteLine(((IInternalQuery)q).GetExecutionPlan().GetDetails());

@@ -47,7 +47,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3
         AttributeValuesMap ReadObjectInfoValuesFromOID(ClassInfo classInfo, OID oid, bool useCache,
                                                        IOdbList<string> attributeNames,
                                                        IOdbList<string> relationAttributeNames, int recursionLevel,
-                                                       string[] orderByFields);
+                                                       IList<string> orderByFields);
 
         object ReadAtomicNativeObjectInfoAsObject(long position, int odbTypeId);
 

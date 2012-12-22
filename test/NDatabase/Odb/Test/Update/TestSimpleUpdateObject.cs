@@ -119,7 +119,7 @@ namespace Test.NDatabase.Odb.Test.Update
             odb.Close();
             odb = Open("t1u2.neodatis");
             var query = odb.Query<VO.Login.Function>();
-            query.Descend("name").Constrain(null).Equals();
+            query.Descend("name").Constrain(null).Equal();
             login = query.Execute<VO.Login.Function>().GetFirst();
             AssertTrue(login.GetName() == null);
             login.SetName("login");

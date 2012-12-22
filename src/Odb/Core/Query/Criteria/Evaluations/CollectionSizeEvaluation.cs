@@ -1,34 +1,35 @@
 using System;
 using System.Collections;
 
-namespace NDatabase2.Odb.Core.Query.Criteria
+namespace NDatabase2.Odb.Core.Query.Criteria.Evaluations
 {
-    /// <summary>
-    ///   A criterio to test collection or array size
-    /// </summary>
-    internal sealed class CollectionSizeCriterion : AConstraint
+    internal class CollectionSizeEvaluation : AEvaluation
     {
-        public const int SizeEq = 1;
-        public const int SizeNe = 2;
-        public const int SizeGt = 3;
-        public const int SizeGe = 4;
-        public const int SizeLt = 5;
-        public const int SizeLe = 6;
-
+        internal const int SizeEq = 1;
+        internal const int SizeNe = 2;
+        internal const int SizeGt = 3;
+        internal const int SizeGe = 4;
+        internal const int SizeLt = 5;
+        internal const int SizeLe = 6;
+        
         private readonly int _sizeType;
 
-        public CollectionSizeCriterion(IQuery query, string attributeName, int size, int sizeType)
-            : base(query, attributeName, size)
+        public CollectionSizeEvaluation(object theObject, string attributeName, int sizeType) 
+            : base(theObject, attributeName)
         {
             _sizeType = sizeType;
         }
 
-        public override bool Match(object valueToMatch)
+        public override bool Evaluate(object candidate)
         {
-            valueToMatch = AsAttributeValuesMapValue(valueToMatch);
-            var size = (int) TheObject;
+            candidate = AsAttributeValuesMapValue(candidate);
 
-            if (valueToMatch == null)
+            if (!(TheObject is int))
+                throw new ArgumentException("Constrain argument need to be int (size).");
+
+            var size = (int)TheObject;
+
+            if (candidate == null)
             {
                 // Null list are considered 0-sized list
                 if (_sizeType == SizeEq && size == 0)
@@ -38,18 +39,18 @@ namespace NDatabase2.Odb.Core.Query.Criteria
                 return _sizeType == SizeNe && size != 0;
             }
 
-            var collection = valueToMatch as ICollection;
+            var collection = candidate as ICollection;
             if (collection != null)
                 return MatchSize(collection.Count, size, _sizeType);
 
-            var clazz = valueToMatch.GetType();
+            var clazz = candidate.GetType();
             if (clazz.IsArray)
             {
-                var arrayLength = ((Array) valueToMatch).GetLength(0);
+                var arrayLength = ((Array)candidate).GetLength(0);
                 return MatchSize(arrayLength, size, _sizeType);
             }
 
-            throw new OdbRuntimeException(NDatabaseError.QueryBadCriteria.AddParameter(valueToMatch.GetType().FullName));
+            throw new OdbRuntimeException(NDatabaseError.QueryBadCriteria.AddParameter(candidate.GetType().FullName));
         }
 
         private static bool MatchSize(int collectionSize, int requestedSize, int sizeType)

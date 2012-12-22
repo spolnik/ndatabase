@@ -1,6 +1,6 @@
 namespace NDatabase2.Odb.Core.Query.Criteria
 {
-    internal static class ComparisonCirerion
+    internal static class ComparisonConstraint
     {
         internal const int ComparisonTypeGt = 1;
 
