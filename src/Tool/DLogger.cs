@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -69,19 +68,6 @@ namespace NDatabase2.Tool
                 logger.Error(@object == null
                                       ? "null"
                                       : @object.ToString());
-            }
-        }
-
-        internal static void Error(object @object, Exception t)
-        {
-            var type = new StackFrame(1).GetMethod().DeclaringType.Name;
-
-            foreach (var logger in Loggers)
-            {
-                logger.Info(string.Concat(type, ": "));
-                logger.Error(@object == null
-                                      ? "null"
-                                      : @object.ToString(), t);
             }
         }
     }

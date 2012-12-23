@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NDatabase2.Tool.Wrappers
 {
-    public static class OdbClassUtil
+    internal static class OdbClassUtil
     {
         private static readonly Dictionary<string, string> CacheByFullClassName = new Dictionary<string, string>();
         private static readonly Dictionary<Type, string> CacheByType = new Dictionary<Type, string>();
@@ -38,11 +38,6 @@ namespace NDatabase2.Tool.Wrappers
             return index == -1
                        ? string.Empty
                        : fullClassName.Substring(0, index);
-        }
-
-        public static String GetFullName<T>()
-        {
-            return GetFullName(typeof (T));
         }
 
         public static String GetFullName(Type type)

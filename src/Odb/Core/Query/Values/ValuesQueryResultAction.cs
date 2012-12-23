@@ -11,7 +11,7 @@ namespace NDatabase2.Odb.Core.Query.Values
     internal sealed class ValuesQueryResultAction : IMatchingObjectAction
     {
         private readonly IStorageEngine _engine;
-        private readonly IValuesQuery _query;
+        private readonly IInternalValuesQuery _query;
 
         /// <summary>
         ///   A copy of the query object actions
@@ -26,13 +26,13 @@ namespace NDatabase2.Odb.Core.Query.Values
                                        IInstanceBuilder instanceBuilder)
         {
             _engine = storageEngine;
-            _query = query;
+            _query = (IInternalValuesQuery) query;
             _queryHasOrderBy = query.HasOrderBy();
             _returnArraySize = query.ObjectActionsCount;
             _queryFieldActions = new IQueryFieldAction[_returnArraySize];
 
             var i = 0;
-            foreach (var action in query.GetObjectActions())
+            foreach (var action in _query.GetObjectActions())
             {
                 _queryFieldActions[i] = action.Copy();
                 _queryFieldActions[i].SetReturnInstance(query.ReturnInstance());

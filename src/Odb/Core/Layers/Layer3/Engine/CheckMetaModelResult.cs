@@ -3,8 +3,7 @@ using NDatabase2.Tool.Wrappers.List;
 
 namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
 {
-    
-    public sealed class CheckMetaModelResult
+    internal sealed class CheckMetaModelResult
     {
         private bool _modelHasBeenUpdated;
 

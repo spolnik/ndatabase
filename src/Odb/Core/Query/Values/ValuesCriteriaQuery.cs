@@ -19,7 +19,7 @@ namespace NDatabase2.Odb.Core.Query.Values
     ///    - The Min value of a specific numeric field 
     ///    - The Average value of a specific numeric value
     /// </remarks>
-    internal sealed class ValuesCriteriaQuery : CriteriaQuery, IValuesQuery
+    internal sealed class ValuesCriteriaQuery : CriteriaQuery, IInternalValuesQuery
     {
         private string[] _groupByFieldList;
 

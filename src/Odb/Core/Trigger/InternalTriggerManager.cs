@@ -84,33 +84,31 @@ namespace NDatabase2.Odb.Core.Trigger
             return _listOfUpdateTriggers.ContainsKey(type) || _listOfUpdateTriggers.ContainsKey(typeof (object));
         }
 
-        public bool ManageInsertTriggerBefore(Type type, object @object)
+        public void ManageInsertTriggerBefore(Type type, object @object)
         {
-            if (HasInsertTriggersFor(type))
+            if (!HasInsertTriggersFor(type)) 
+                return;
+
+            foreach (InsertTrigger trigger in GetListOfInsertTriggersFor(type))
             {
-                foreach (InsertTrigger trigger in GetListOfInsertTriggersFor(type))
+                if (trigger.Odb == null)
+                    trigger.Odb = new OdbForTrigger(_storageEngine);
+
+                try
                 {
-                    if (trigger.Odb == null)
-                        trigger.Odb = new OdbForTrigger(_storageEngine);
+                    if (@object != null)
+                        trigger.BeforeInsert(@object);
+                }
+                catch (Exception e)
+                {
+                    var warning =
+                        NDatabaseError.BeforeInsertTriggerHasThrownException.AddParameter(trigger.GetType().FullName)
+                            .AddParameter(e.ToString());
 
-                    try
-                    {
-                        if (@object != null)
-                            trigger.BeforeInsert(@object);
-                    }
-                    catch (Exception e)
-                    {
-                        var warning =
-                            NDatabaseError.BeforeInsertTriggerHasThrownException.AddParameter(trigger.GetType().FullName)
-                                .AddParameter(e.ToString());
-
-                        if (OdbConfiguration.IsLoggingEnabled())
-                            DLogger.Warning(warning);
-                    }
+                    if (OdbConfiguration.IsLoggingEnabled())
+                        DLogger.Warning(warning);
                 }
             }
-
-            return true;
         }
 
         public void ManageInsertTriggerAfter(Type type, object @object, OID oid)
@@ -139,31 +137,30 @@ namespace NDatabase2.Odb.Core.Trigger
             }
         }
 
-        public bool ManageUpdateTriggerBefore(Type type, NonNativeObjectInfo oldNnoi, object newObject, OID oid)
+        public void ManageUpdateTriggerBefore(Type type, NonNativeObjectInfo oldNnoi, object newObject, OID oid)
         {
-            if (HasUpdateTriggersFor(type))
+            if (!HasUpdateTriggersFor(type)) 
+                return;
+
+            foreach (UpdateTrigger trigger in GetListOfUpdateTriggersFor(type))
             {
-                foreach (UpdateTrigger trigger in GetListOfUpdateTriggersFor(type))
+                if (trigger.Odb == null)
+                    trigger.Odb = new OdbForTrigger(_storageEngine);
+
+                try
                 {
-                    if (trigger.Odb == null)
-                        trigger.Odb = new OdbForTrigger(_storageEngine);
+                    trigger.BeforeUpdate(new ObjectRepresentation(oldNnoi), newObject, oid);
+                }
+                catch (Exception e)
+                {
+                    var warning =
+                        NDatabaseError.BeforeUpdateTriggerHasThrownException.AddParameter(trigger.GetType().FullName)
+                            .AddParameter(e.ToString());
 
-                    try
-                    {
-                        trigger.BeforeUpdate(new ObjectRepresentation(oldNnoi), newObject, oid);
-                    }
-                    catch (Exception e)
-                    {
-                        var warning =
-                            NDatabaseError.BeforeUpdateTriggerHasThrownException.AddParameter(trigger.GetType().FullName)
-                                .AddParameter(e.ToString());
-
-                        if (OdbConfiguration.IsLoggingEnabled())
-                            DLogger.Warning(warning);
-                    }
+                    if (OdbConfiguration.IsLoggingEnabled())
+                        DLogger.Warning(warning);
                 }
             }
-            return true;
         }
 
         public void ManageUpdateTriggerAfter(Type type, NonNativeObjectInfo oldNnoi, object newObject, OID oid)
@@ -192,31 +189,30 @@ namespace NDatabase2.Odb.Core.Trigger
             }
         }
 
-        public bool ManageDeleteTriggerBefore(Type type, object @object, OID oid)
+        public void ManageDeleteTriggerBefore(Type type, object @object, OID oid)
         {
-            if (HasDeleteTriggersFor(type))
+            if (!HasDeleteTriggersFor(type)) 
+                return;
+
+            foreach (DeleteTrigger trigger in GetListOfDeleteTriggersFor(type))
             {
-                foreach (DeleteTrigger trigger in GetListOfDeleteTriggersFor(type))
+                if (trigger.Odb == null)
+                    trigger.Odb = new OdbForTrigger(_storageEngine);
+
+                try
                 {
-                    if (trigger.Odb == null)
-                        trigger.Odb = new OdbForTrigger(_storageEngine);
+                    trigger.BeforeDelete(@object, oid);
+                }
+                catch (Exception e)
+                {
+                    var warning =
+                        NDatabaseError.BeforeDeleteTriggerHasThrownException.AddParameter(trigger.GetType().FullName)
+                            .AddParameter(e.ToString());
 
-                    try
-                    {
-                        trigger.BeforeDelete(@object, oid);
-                    }
-                    catch (Exception e)
-                    {
-                        var warning =
-                            NDatabaseError.BeforeDeleteTriggerHasThrownException.AddParameter(trigger.GetType().FullName)
-                                .AddParameter(e.ToString());
-
-                        if (OdbConfiguration.IsLoggingEnabled())
-                            DLogger.Warning(warning);
-                    }
+                    if (OdbConfiguration.IsLoggingEnabled())
+                        DLogger.Warning(warning);
                 }
             }
-            return true;
         }
 
         public void ManageDeleteTriggerAfter(Type type, object @object, OID oid)

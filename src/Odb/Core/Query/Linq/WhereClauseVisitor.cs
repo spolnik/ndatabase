@@ -1,16 +1,17 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using NDatabase2.Odb.Core.Query.Criteria;
 
 namespace NDatabase2.Odb.Core.Query.Linq
 {
-    internal class WhereClauseVisitor : ExpressionQueryBuilder
+    internal sealed class WhereClauseVisitor : ExpressionQueryBuilder
     {
-        private static readonly IDictionary<Expression, IQueryBuilderRecord> Cache =
-            new Dictionary<Expression, IQueryBuilderRecord>(50);
+        private static readonly ConcurrentDictionary<Expression, IQueryBuilderRecord> Cache =
+            new ConcurrentDictionary<Expression, IQueryBuilderRecord>();
 
-        protected override IDictionary<Expression, IQueryBuilderRecord> GetCachingStrategy()
+        protected override ConcurrentDictionary<Expression, IQueryBuilderRecord> GetCachingStrategy()
         {
             return Cache;
         }

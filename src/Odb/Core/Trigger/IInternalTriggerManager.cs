@@ -5,17 +5,17 @@ namespace NDatabase2.Odb.Core.Trigger
 {
     internal interface IInternalTriggerManager
     {
-        bool ManageInsertTriggerBefore(Type type, object @object);
+        void ManageInsertTriggerBefore(Type type, object @object);
 
         void ManageInsertTriggerAfter(Type type, object @object, OID oid);
 
-        bool ManageUpdateTriggerBefore(Type type, NonNativeObjectInfo oldObjectRepresentation, object newObject,
+        void ManageUpdateTriggerBefore(Type type, NonNativeObjectInfo oldObjectRepresentation, object newObject,
                                        OID oid);
 
         void ManageUpdateTriggerAfter(Type type, NonNativeObjectInfo oldObjectRepresentation, object newObject,
                                       OID oid);
 
-        bool ManageDeleteTriggerBefore(Type type, object @object, OID oid);
+        void ManageDeleteTriggerBefore(Type type, object @object, OID oid);
 
         void ManageDeleteTriggerAfter(Type type, object @object, OID oid);
 
@@ -28,13 +28,5 @@ namespace NDatabase2.Odb.Core.Trigger
         void AddDeleteTriggerFor(Type type, DeleteTrigger trigger);
 
         void AddSelectTriggerFor(Type type, SelectTrigger trigger);
-
-        bool HasDeleteTriggersFor(Type type);
-
-        bool HasInsertTriggersFor(Type type);
-
-        bool HasSelectTriggersFor(Type type);
-
-        bool HasUpdateTriggersFor(Type type);
     }
 }

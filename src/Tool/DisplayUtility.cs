@@ -1,10 +1,11 @@
+using System.Collections.Generic;
 using System.Text;
 
 namespace NDatabase2.Tool
 {
     internal static class DisplayUtility
     {
-        internal static string ByteArrayToString(byte[] bytes)
+        internal static string ByteArrayToString(IEnumerable<byte> bytes)
         {
             var buffer = new StringBuilder();
             foreach (var value in bytes)
@@ -13,7 +14,7 @@ namespace NDatabase2.Tool
             return buffer.ToString();
         }
 
-        internal static string LongArrayToString(long[] longs)
+        internal static string LongArrayToString(IEnumerable<long> longs)
         {
             var buffer = new StringBuilder();
             foreach (var value in longs)

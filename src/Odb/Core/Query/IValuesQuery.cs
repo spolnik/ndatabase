@@ -6,6 +6,12 @@ using NDatabase2.Tool.Wrappers.List;
 
 namespace NDatabase2.Odb.Core.Query
 {
+    internal interface IInternalValuesQuery : IValuesQuery
+    {
+        IOdbList<string> GetAllInvolvedFields();
+        IOdbList<IQueryFieldAction> GetObjectActions();
+    }
+
     public interface IValuesQuery : IQuery
     {
         IValuesQuery Count(string alias);
@@ -44,8 +50,6 @@ namespace NDatabase2.Odb.Core.Query
 
         bool HasGroupBy();
 
-        IOdbList<string> GetAllInvolvedFields();
-
         /// <summary>
         ///   To indicate if a query will return one row (for example, sum, average, max and min, or will return more than one row
         /// </summary>
@@ -61,7 +65,6 @@ namespace NDatabase2.Odb.Core.Query
 
         int ObjectActionsCount { get; }
         Type UnderlyingType { get; }
-        IOdbList<IQueryFieldAction> GetObjectActions();
         IValuesQuery Min(string attributeName);
         IValuesQuery Min(string attributeName, string alias);
         IValuesQuery Custom(string attributeName, ICustomQueryFieldAction action);

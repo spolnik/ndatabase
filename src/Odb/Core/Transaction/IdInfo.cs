@@ -8,7 +8,7 @@ namespace NDatabase2.Odb.Core.Transaction
             Status = status;
         }
 
-        internal long Position { get; set; }
+        internal long Position { get; private set; }
         internal byte Status { get; set; }
     }
 }

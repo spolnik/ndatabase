@@ -439,39 +439,39 @@ namespace NDatabase2.Odb.Core.Transaction
                 if (newClassInfo == null)
                     continue;
 
-                ClassInfo lastCommittedCI;
+                ClassInfo lastCommittedClassInfo;
 
                 if (lastCommitedMetaModel.ExistClass(newClassInfo.UnderlyingType))
                 {
                     // The last CI represents the last committed meta model of the
                     // database
-                    lastCommittedCI = lastCommitedMetaModel.GetClassInfoFromId(newClassInfo.ClassInfoId);
+                    lastCommittedClassInfo = lastCommitedMetaModel.GetClassInfoFromId(newClassInfo.ClassInfoId);
                     // Just be careful to keep track of current CI committed zone
                     // deleted objects
-                    lastCommittedCI.CommitedZoneInfo.SetNbDeletedObjects(
+                    lastCommittedClassInfo.CommitedZoneInfo.SetNbDeletedObjects(
                         newClassInfo.CommitedZoneInfo.GetNbDeletedObjects());
                 }
                 else
-                    lastCommittedCI = newClassInfo;
+                    lastCommittedClassInfo = newClassInfo;
 
-                var lastCommittedObjectOIDOfThisTransaction = newClassInfo.CommitedZoneInfo.Last;
-                var lastCommittedObjectOIDOfPrevTransaction = lastCommittedCI.CommitedZoneInfo.Last;
-                var lastCommittedObjectOID = lastCommittedObjectOIDOfPrevTransaction;
+                var lastCommittedObjectOidOfThisTransaction = newClassInfo.CommitedZoneInfo.Last;
+                var lastCommittedObjectOidOfPrevTransaction = lastCommittedClassInfo.CommitedZoneInfo.Last;
+                var lastCommittedObjectOid = lastCommittedObjectOidOfPrevTransaction;
 
                 // If some object have been created then
-                if (lastCommittedObjectOIDOfPrevTransaction != null)
+                if (lastCommittedObjectOidOfPrevTransaction != null)
                 {
                     // Checks if last object of committed meta model has not been
                     // deleted
-                    if (_session.GetCache().IsDeleted(lastCommittedObjectOIDOfPrevTransaction))
+                    if (_session.GetCache().IsDeleted(lastCommittedObjectOidOfPrevTransaction))
                     {
                         // TODO This is wrong: if a committed transaction deleted a
                         // committed object and creates x new
                         // objects, then all these new objects will be lost:
                         // if it has been deleted then use the last object of the
                         // session class info
-                        lastCommittedObjectOID = lastCommittedObjectOIDOfThisTransaction;
-                        newClassInfo.CommitedZoneInfo.Last = lastCommittedObjectOID;
+                        lastCommittedObjectOid = lastCommittedObjectOidOfThisTransaction;
+                        newClassInfo.CommitedZoneInfo.Last = lastCommittedObjectOid;
                     }
                 }
 
@@ -480,17 +480,17 @@ namespace NDatabase2.Odb.Core.Transaction
                 // uncommitted object
                 // make previous oid of first uncommitted object point to
                 // last committed object
-                if (lastCommittedObjectOID != null && newClassInfo.UncommittedZoneInfo.HasObjects())
+                if (lastCommittedObjectOid != null && newClassInfo.UncommittedZoneInfo.HasObjects())
                 {
                     if (newClassInfo.CommitedZoneInfo.HasObjects())
                     {
                         // these 2 updates are executed directly without
                         // transaction, because
                         // We are in the commit process.
-                        writer.UpdateNextObjectFieldOfObjectInfo(lastCommittedObjectOID,
+                        writer.UpdateNextObjectFieldOfObjectInfo(lastCommittedObjectOid,
                                                                  newClassInfo.UncommittedZoneInfo.First, false);
                         writer.UpdatePreviousObjectFieldOfObjectInfo(newClassInfo.UncommittedZoneInfo.First,
-                                                                     lastCommittedObjectOID, false);
+                                                                     lastCommittedObjectOid, false);
                     }
                     else
                     {
@@ -507,7 +507,7 @@ namespace NDatabase2.Odb.Core.Transaction
                 // object
                 // because it will set the number of objects and the number of
                 // deleted objects
-                newClassInfo.CommitedZoneInfo.SetNbObjects(lastCommittedCI.CommitedZoneInfo);
+                newClassInfo.CommitedZoneInfo.SetNbObjects(lastCommittedClassInfo.CommitedZoneInfo);
 
                 // and don't forget to set the deleted objects
                 // This sets the number of objects, the first object OID and the
@@ -522,7 +522,7 @@ namespace NDatabase2.Odb.Core.Transaction
                     DLogger.Debug(string.Format("\t-Commited CI   = {0}", newClassInfo));
                     DLogger.Debug(
                         string.Format("\t-connect last commited object with oid {0} to first uncommited object {1}",
-                                      lastCommittedObjectOID, newClassInfo.UncommittedZoneInfo.First));
+                                      lastCommittedObjectOid, newClassInfo.UncommittedZoneInfo.First));
                     DLogger.Debug(string.Concat("\t-Commiting new Number of objects = ", newClassInfo.NumberOfObjects.ToString()));
                 }
             }

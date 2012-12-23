@@ -607,7 +607,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             // use Transaction (using WriteAction)
             var objectIsInConnectedZone = cache.IsInCommitedZone(header.GetOid());
             // triggers
-            // FIXME
             _triggerManager.ManageDeleteTriggerBefore(ci.UnderlyingType, null, header.GetOid());
             
             var previousObjectOID = header.GetPreviousObjectOID();

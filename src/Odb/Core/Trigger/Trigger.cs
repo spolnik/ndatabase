@@ -5,6 +5,6 @@ namespace NDatabase2.Odb.Core.Trigger
     /// </summary>
     public abstract class Trigger
     {
-        public virtual IOdb Odb { get; set; }
+        public IOdb Odb { get; set; }
     }
 }

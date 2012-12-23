@@ -125,18 +125,6 @@ namespace NDatabase2.Tool.Wrappers.Map
                 Add(key, map[key]);
         }
 
-        public void Put(TKey k, TValue v)
-        {
-            Add(k, v);
-        }
-
-        public TValue Get(TKey k)
-        {
-            TValue value;
-            TryGetValue(k, out value);
-            return value;
-        }
-
         public TValue Remove2(TKey key)
         {
             TValue value;

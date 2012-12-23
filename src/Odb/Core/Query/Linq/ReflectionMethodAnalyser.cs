@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Reflection;
 using System.Reflection.Emit;
 using Mono.Reflection;
@@ -8,7 +8,8 @@ namespace NDatabase2.Odb.Core.Query.Linq
 {
     internal class ReflectionMethodAnalyser
     {
-        private static readonly IDictionary<MethodInfo, FieldInfo> FieldCache = new Dictionary<MethodInfo, FieldInfo>();
+        private static readonly ConcurrentDictionary<MethodInfo, FieldInfo> FieldCache =
+            new ConcurrentDictionary<MethodInfo, FieldInfo>();
 
         private static readonly ILPattern GetterPattern =
             ILPattern.Sequence(
@@ -56,15 +57,7 @@ namespace NDatabase2.Odb.Core.Query.Linq
 
         private static FieldInfo GetBackingField(MethodInfo method)
         {
-            FieldInfo value;
-            var success = FieldCache.TryGetValue(method, out value);
-
-            if (success)
-                return value;
-
-            var resolveBackingField = ResolveBackingField(method);
-            FieldCache.Add(method, resolveBackingField);
-            return resolveBackingField;
+            return FieldCache.GetOrAdd(method, ResolveBackingField);
         }
 
         private static FieldInfo ResolveBackingField(MethodInfo method)

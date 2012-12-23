@@ -15,17 +15,15 @@ namespace NDatabase2.Tool.Wrappers.List
 
         #region IOdbList<E> Members
 
-        public virtual bool AddAll(IEnumerable<TItem> collection)
+        public void AddAll(IEnumerable<TItem> collection)
         {
             AddRange(collection);
-            return true;
         }
 
-        public virtual bool RemoveAll(IEnumerable<TItem> collection)
+        public void RemoveAll(IEnumerable<TItem> collection)
         {
             foreach (var item in collection)
                 Remove(item);
-            return true;
         }
 
         public virtual TItem Get(int index)
@@ -46,7 +44,7 @@ namespace NDatabase2.Tool.Wrappers.List
             stringBuilder.Append("[");
 
             foreach (var item in this)
-                stringBuilder.Append(item.ToString() + ", ");
+                stringBuilder.Append(item + ", ");
 
             if (stringBuilder.Length > 3)
                 stringBuilder.Remove(stringBuilder.Length - 3, 2);
