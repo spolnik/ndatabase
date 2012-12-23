@@ -23,11 +23,11 @@ namespace NDatabase2.Odb.Core.Query.Values
         {
             var number = Convert.ToDecimal(values[AttributeName]);
             var bd = ValuesUtil.Convert(number);
-            if (bd.CompareTo(_maxValue) > 0)
-            {
-                _oidOfMaxValues = oid;
-                _maxValue = bd;
-            }
+            if (bd.CompareTo(_maxValue) <= 0)
+                return;
+
+            _oidOfMaxValues = oid;
+            _maxValue = bd;
         }
 
         public override object GetValue()

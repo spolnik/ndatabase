@@ -15,13 +15,13 @@ namespace NDatabase2.Tool.Wrappers.List
 
         #region IOdbList<E> Members
 
-        public virtual bool AddAll(ICollection<TItem> collection)
+        public virtual bool AddAll(IEnumerable<TItem> collection)
         {
             AddRange(collection);
             return true;
         }
 
-        public virtual bool RemoveAll(ICollection<TItem> collection)
+        public virtual bool RemoveAll(IEnumerable<TItem> collection)
         {
             foreach (var item in collection)
                 Remove(item);

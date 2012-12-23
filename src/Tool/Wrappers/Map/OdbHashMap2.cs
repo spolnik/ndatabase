@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NDatabase2.Tool.Wrappers.Map
 {
-    public sealed class OdbHashMap<TKey, TValue> : IDictionary<TKey, TValue>
+    internal sealed class OdbHashMap<TKey, TValue> : IDictionary<TKey, TValue>
     {
         private readonly IDictionary<TKey, TValue> _dictionary;
 
@@ -118,13 +118,11 @@ namespace NDatabase2.Tool.Wrappers.Map
 
         #endregion
 
-        public bool PutAll(IDictionary<TKey, TValue> map)
+        private void PutAll(IDictionary<TKey, TValue> map)
         {
             var keys = map.Keys;
             foreach (var key in keys)
                 Add(key, map[key]);
-
-            return true;
         }
 
         public void Put(TKey k, TValue v)

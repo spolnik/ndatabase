@@ -2,7 +2,7 @@ using NDatabase2.Tool.Wrappers.Map;
 
 namespace Test.NDatabase.Odb.Test.VO.Arraycollectionmap
 {
-    public class Dictionnary
+    internal class Dictionnary
     {
         private readonly string name;
 

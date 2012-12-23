@@ -129,12 +129,12 @@ namespace NDatabase2.Odb.Core.Query.Linq
             throw new LinqQueryException(e.ToString());
         }
 
-        protected static void CannotOptimize(ElementInit init)
+        private static void CannotOptimize(ElementInit init)
         {
             throw new LinqQueryException(init.ToString());
         }
 
-        protected static void CannotOptimize(MemberBinding binding)
+        private static void CannotOptimize(MemberBinding binding)
         {
             throw new LinqQueryException(binding.ToString());
         }

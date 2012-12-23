@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NDatabase2.Odb.Core.Query.Linq.Helper
+namespace NDatabase2.Odb.Core.Query.Linq
 {
     internal static class TypeSystem
     {

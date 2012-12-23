@@ -36,8 +36,8 @@ namespace NDatabase2.Odb.Core.Transaction
 
         protected Session(string id, string baseIdentification)
         {
-            _cache = BuildInMemoryStorage();
-            _readObjectsCache = BuildTmpCache();
+            _cache = new OdbCache();
+            _readObjectsCache = new ReadObjectsCache();
             _id = id;
             _baseIdentification = baseIdentification;
         }
@@ -163,16 +163,6 @@ namespace NDatabase2.Odb.Core.Transaction
         }
 
         #endregion
-
-        public IOdbCache BuildInMemoryStorage()
-        {
-            return new OdbCache();
-        }
-
-        public IReadObjectsCache BuildTmpCache()
-        {
-            return new ReadObjectsCache();
-        }
 
         public override string ToString()
         {

@@ -9,12 +9,8 @@ namespace NDatabase2.Odb.Core.Query.List.Values
     /// <remarks>
     ///   A simple list to hold query result for Object Values API. It is used when no index and no order by is used and inMemory = true
     /// </remarks>
-    public sealed class SimpleListForValues : SimpleList<IObjectValues>, IInternalValues
+    internal sealed class SimpleListForValues : SimpleList<IObjectValues>, IInternalValues
     {
-        public SimpleListForValues()
-        {
-        }
-
         public SimpleListForValues(int initialCapacity) : base(initialCapacity)
         {
         }

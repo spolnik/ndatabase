@@ -22,11 +22,11 @@ namespace NDatabase2.Odb.Core.Query.Values
         {
             var number = Convert.ToDecimal(values[AttributeName]);
             var bd = ValuesUtil.Convert(number);
-            if (_minValue.CompareTo(bd) > 0)
-            {
-                _oidOfMinValues = oid;
-                _minValue = bd;
-            }
+            if (_minValue.CompareTo(bd) <= 0) 
+                return;
+
+            _oidOfMinValues = oid;
+            _minValue = bd;
         }
 
         public override object GetValue()

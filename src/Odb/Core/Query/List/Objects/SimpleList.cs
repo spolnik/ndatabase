@@ -9,7 +9,7 @@ namespace NDatabase2.Odb.Core.Query.List.Objects
     /// <remarks>
     ///   A simple list to hold query result. It is used when no index and no order by is used and inMemory = true
     /// </remarks>
-    public class SimpleList<TItem> : List<TItem>, IInternalObjectSet<TItem>
+    internal class SimpleList<TItem> : List<TItem>, IInternalObjectSet<TItem>
     {
         private int _currentPosition;
 
@@ -17,7 +17,7 @@ namespace NDatabase2.Odb.Core.Query.List.Objects
         {
         }
 
-        public SimpleList(int initialCapacity) : base(initialCapacity)
+        protected SimpleList(int initialCapacity) : base(initialCapacity)
         {
         }
 

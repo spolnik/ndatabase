@@ -6,22 +6,23 @@ namespace NDatabase2.Odb.Core.Transaction
     /// <summary>
     ///   The session object used when ODB is used in local/embedded mode
     /// </summary>
-    /// <author>olivier s</author>
     internal sealed class LocalSession : Session
     {
         private IFileSystemInterface _fsiToApplyTransaction;
         private IStorageEngine _storageEngine;
         private ITransaction _transaction;
 
-        public LocalSession(IStorageEngine engine, string sessionId)
-            : base(sessionId, engine.GetBaseIdentification().Id)
+        private static string GetSessionId()
         {
-            _storageEngine = engine;
+            return
+                string.Concat("local ", OdbTime.GetCurrentTimeInTicks().ToString(),
+                              OdbRandom.GetRandomInteger().ToString());
         }
 
         public LocalSession(IStorageEngine engine)
-            : this(engine, string.Concat("local ", OdbTime.GetCurrentTimeInTicks().ToString(), OdbRandom.GetRandomInteger().ToString()))
+            : base(GetSessionId(), engine.GetBaseIdentification().Id)
         {
+            _storageEngine = engine;
         }
 
         public override void SetFileSystemInterfaceToApplyTransaction(IFileSystemInterface fsi)

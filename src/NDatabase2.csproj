@@ -108,7 +108,7 @@
     <Compile Include="Odb\Core\Query\Linq\ExpressionTransformer.cs" />
     <Compile Include="Odb\Core\Query\Linq\ExpressionTreeNormalizer.cs" />
     <Compile Include="Odb\Core\Query\Linq\ExpressionVisitor.cs" />
-    <Compile Include="Odb\Core\Query\Linq\Helper\TypeSystem.cs" />
+    <Compile Include="Odb\Core\Query\Linq\TypeSystem.cs" />
     <Compile Include="Odb\Core\Query\Linq\ILinqQueryInternal.cs" />
     <Compile Include="Odb\Core\Query\Linq\ILinqQueryable.cs" />
     <Compile Include="Odb\Core\Query\Linq\LinqQuery.cs" />
@@ -310,7 +310,7 @@
     <Compile Include="Odb\Main\ODBAdapter.cs" />
     <Compile Include="Odb\Main\OdbExt.cs" />
     <Compile Include="Odb\Main\ODBForTrigger.cs" />
-    <Compile Include="Odb\Tool\UUID.cs" />
+    <Compile Include="Odb\Tool\UniqueIdGenerator.cs" />
     <Compile Include="Odb\ObjectRepresentation.cs" />
     <Compile Include="Odb\Objects.cs" />
     <Compile Include="Odb\ObjectValues.cs" />

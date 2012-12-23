@@ -277,32 +277,27 @@ namespace NDatabase2.Odb.Core.Trigger
             triggers.Add(trigger);
         }
 
-        /// <summary>
-        ///   FIXME try to cache l1+l2
-        /// </summary>
-        /// <param name="type"> </param>
-        /// <returns> </returns>
-        public IOdbList<Trigger> GetListOfDeleteTriggersFor(Type type)
+        private IEnumerable<Trigger> GetListOfDeleteTriggersFor(Type type)
         {
             return GetListOfTriggersFor(type, _listOfDeleteTriggers);
         }
 
-        public IOdbList<Trigger> GetListOfInsertTriggersFor(Type type)
+        private IEnumerable<Trigger> GetListOfInsertTriggersFor(Type type)
         {
             return GetListOfTriggersFor(type, _listOfInsertTriggers);
         }
 
-        public IOdbList<Trigger> GetListOfSelectTriggersFor(Type type)
+        private IEnumerable<Trigger> GetListOfSelectTriggersFor(Type type)
         {
             return GetListOfTriggersFor(type, _listOfSelectTriggers);
         }
 
-        public IOdbList<Trigger> GetListOfUpdateTriggersFor(Type type)
+        private IEnumerable<Trigger> GetListOfUpdateTriggersFor(Type type)
         {
             return GetListOfTriggersFor(type, _listOfUpdateTriggers);
         }
 
-        private static IOdbList<Trigger> GetListOfTriggersFor(Type type,
+        private static IEnumerable<Trigger> GetListOfTriggersFor(Type type,
                                                               IDictionary<Type, IOdbList<Trigger>> listOfTriggers)
         {
             var listOfTriggersBuClassName = listOfTriggers[type];
@@ -314,7 +309,7 @@ namespace NDatabase2.Odb.Core.Trigger
                 if (listOfTriggersBuClassName != null)
                     size = size + listOfTriggersBuClassName.Count;
 
-                IOdbList<Trigger> listOfTriggersToReturn = new OdbList<Trigger>(size);
+                var listOfTriggersToReturn = new OdbList<Trigger>(size);
 
                 if (listOfTriggersBuClassName != null)
                     listOfTriggersToReturn.AddAll(listOfTriggersBuClassName);

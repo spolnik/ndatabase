@@ -52,7 +52,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
 
         public IDatabaseId WriteDatabaseId(IStorageEngine storageEngine, long creationDate, bool writeInTransaction)
         {
-            var databaseId = UUID.GetDatabaseId(creationDate);
+            var databaseId = UniqueIdGenerator.GetDatabaseId(creationDate);
 
             FileSystemInterface.WriteLong(databaseId.GetIds()[0], writeInTransaction, "database id 1/4");
             FileSystemInterface.WriteLong(databaseId.GetIds()[1], writeInTransaction, "database id 2/4");

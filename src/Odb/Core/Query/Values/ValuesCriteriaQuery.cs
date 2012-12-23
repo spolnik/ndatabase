@@ -161,15 +161,15 @@ namespace NDatabase2.Odb.Core.Query.Values
             while (iterator.MoveNext())
             {
                 var queryFieldAction = iterator.Current;
-                if (queryFieldAction.GetType() != typeof (CountAction))
-                {
-                    name = queryFieldAction.GetAttributeName();
-                    if (!map.ContainsKey(name))
-                    {
-                        list.Add(name);
-                        map.Add(name, name);
-                    }
-                }
+                if (queryFieldAction is CountAction) 
+                    continue;
+
+                name = queryFieldAction.GetAttributeName();
+                if (map.ContainsKey(name)) 
+                    continue;
+
+                list.Add(name);
+                map.Add(name, name);
             }
 
             if (_hasGroupBy)
@@ -178,11 +178,11 @@ namespace NDatabase2.Odb.Core.Query.Values
                 {
                     name = groupByField;
 
-                    if (!map.ContainsKey(name))
-                    {
-                        list.Add(name);
-                        map.Add(name, name);
-                    }
+                    if (map.ContainsKey(name)) 
+                        continue;
+
+                    list.Add(name);
+                    map.Add(name, name);
                 }
             }
 
@@ -191,11 +191,11 @@ namespace NDatabase2.Odb.Core.Query.Values
                 foreach (var field in OrderByFields)
                 {
                     name = field;
-                    if (!map.ContainsKey(name))
-                    {
-                        list.Add(name);
-                        map.Add(name, name);
-                    }
+                    if (map.ContainsKey(name)) 
+                        continue;
+
+                    list.Add(name);
+                    map.Add(name, name);
                 }
             }
             map.Clear();

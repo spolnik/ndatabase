@@ -200,7 +200,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3
             if (oid == null)
                 throw new OdbRuntimeException(NDatabaseError.CacheNullOid);
 
-            var idInfo = new IdInfo(oid, objectPosition, IDStatus.Active);
+            var idInfo = new IdInfo(objectPosition, IDStatus.Active);
             _objectPositionsByIds[oid] = idInfo;
         }
 
@@ -216,7 +216,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3
                 idInfo.Status = IDStatus.Deleted;
             else
             {
-                idInfo = new IdInfo(oid, -1, IDStatus.Deleted);
+                idInfo = new IdInfo(-1, IDStatus.Deleted);
                 _objectPositionsByIds[oid] = idInfo;
             }
         }

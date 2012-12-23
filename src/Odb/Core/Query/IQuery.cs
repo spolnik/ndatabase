@@ -72,10 +72,9 @@ namespace NDatabase2.Odb.Core.Query
         /// returns a reference to a descendant node in the query graph.
         /// If the node does not exist, it will be created.
         /// 
-        /// All classes represented in the query node are tested, whether
-        /// they contain a field with the specified field name. The
-        /// descendant Query node will be created from all possible candidate
-        /// classes.
+        /// Quert defined class represented in the query node is tested, whether
+        /// it contains a field with the specified field name. The
+        /// descendant Query node will be created from all possible candidates.
         /// </summary>
         /// <param name="attributeName">field path to the descendant.</param>
         /// <returns>descendant Query node</returns>

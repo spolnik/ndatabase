@@ -10,7 +10,7 @@ namespace NDatabase2.Odb.Core.Query.List
     /// <summary>
     ///   A collection that uses a BTree as an underlying system to provide ordered by Collections <p></p>
     /// </summary>
-    public abstract class AbstractBTreeCollection<TItem> : IObjectSet<TItem>, IInternalObjectSet<TItem>
+    internal abstract class AbstractBTreeCollection<TItem> : IInternalObjectSet<TItem>
     {
         private readonly OrderByConstants _orderByType;
         private readonly IBTree _tree;
@@ -145,7 +145,7 @@ namespace NDatabase2.Odb.Core.Query.List
 
         #endregion
 
-        public abstract IBTree BuildTree(int degree);
+        protected abstract IBTree BuildTree(int degree);
 
         public virtual bool AddAll(ICollection<TItem> collection)
         {
@@ -175,7 +175,7 @@ namespace NDatabase2.Odb.Core.Query.List
             throw new OdbRuntimeException(NDatabaseError.OperationNotImplemented.AddParameter("retainAll"));
         }
 
-        public virtual object[] ToArray()
+        protected object[] ToArray()
         {
             return ToArray(new object[_size]);
         }
