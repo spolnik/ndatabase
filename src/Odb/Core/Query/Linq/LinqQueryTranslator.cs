@@ -11,6 +11,14 @@ namespace NDatabase2.Odb.Core.Query.Linq
 {
     internal class LinqQueryTranslator : ExpressionTransformer
     {
+        private bool _optimize = true;
+
+        private bool Optimize
+        {
+            get { return _optimize; }
+            set { _optimize = value; }
+        }
+
         public static Expression Translate(Expression expression)
         {
             return new LinqQueryTranslator().Visit(expression);
@@ -72,15 +80,22 @@ namespace NDatabase2.Odb.Core.Query.Linq
             return lambda.Type == delegateType ? lambda : expression;
         }
 
-        private static MethodInfo ReplaceQueryableMethod(MethodInfo method)
+        private MethodInfo ReplaceQueryableMethod(MethodInfo method)
         {
             MethodInfo match;
-            
-            if (TryMatchMethod(typeof (LinqQueryExtensions), method, out match))
-                return match;
+
+            if (Optimize)
+            {
+                if (TryMatchMethod(typeof (LinqQueryExtensions), method, out match))
+                    return match;
+            }
 
             if (TryMatchMethod(typeof (Enumerable), method, out match))
+            {
+                if (Optimize)
+                    Optimize = false;
                 return match;
+            }
 
             throw new ArgumentException(string.Format("Failed to find a replacement for {0}", method));
         }
