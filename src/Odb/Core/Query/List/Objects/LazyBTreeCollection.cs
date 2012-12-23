@@ -27,7 +27,7 @@ namespace NDatabase2.Odb.Core.Query.List.Objects
         {
         }
 
-        public override IBTree BuildTree(int degree)
+        protected override IBTree BuildTree(int degree)
         {
             return new InMemoryBTreeMultipleValuesPerKey("default", degree);
         }

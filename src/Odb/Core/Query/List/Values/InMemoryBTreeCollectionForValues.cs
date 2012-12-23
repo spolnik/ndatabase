@@ -29,7 +29,7 @@ namespace NDatabase2.Odb.Core.Query.List.Values
 
         #endregion
 
-        public override IBTree BuildTree(int degree)
+        protected override IBTree BuildTree(int degree)
         {
             return new InMemoryBTreeMultipleValuesPerKey("default", degree);
         }
