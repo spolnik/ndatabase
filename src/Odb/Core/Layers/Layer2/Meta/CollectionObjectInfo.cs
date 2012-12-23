@@ -29,7 +29,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
             SetNonNativeObjects(nonNativeObjects);
         }
 
-        public CollectionObjectInfo(ICollection<AbstractObjectInfo> collection, OdbType type,
+        private CollectionObjectInfo(ICollection<AbstractObjectInfo> collection, OdbType type,
                                     ICollection<NonNativeObjectInfo> nonNativeObjects) : base(collection, type)
         {
             _realCollectionClassName = OdbType.DefaultCollectionClassName;

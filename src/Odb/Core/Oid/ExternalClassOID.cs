@@ -1,7 +1,6 @@
 namespace NDatabase2.Odb.Core.Oid
 {
-    
-    public sealed class ExternalClassOID : ClassOID, IExternalOID
+    internal sealed class ExternalClassOID : ClassOID, IExternalOID
     {
         private readonly IDatabaseId _databaseId;
 

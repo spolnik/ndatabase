@@ -5,9 +5,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
     /// <summary>
     ///   Meta representation of a null native object
     /// </summary>
-    /// <author>osmadja</author>
-    
-    public sealed class NullNativeObjectInfo : NativeObjectInfo
+    internal sealed class NullNativeObjectInfo : NativeObjectInfo
     {
         private static readonly NullNativeObjectInfo Instance = new NullNativeObjectInfo();
 

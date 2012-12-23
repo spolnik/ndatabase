@@ -58,17 +58,17 @@ namespace NDatabase2.Odb.Core.Query.Linq
             return false;
         }
 
-        protected static bool IsFieldAccessExpression(MemberExpression m)
+        private static bool IsFieldAccessExpression(MemberExpression m)
         {
             return m.Member.MemberType == MemberTypes.Field;
         }
 
-        protected static bool IsPropertyAccessExpression(MemberExpression m)
+        private static bool IsPropertyAccessExpression(MemberExpression m)
         {
             return m.Member.MemberType == MemberTypes.Property;
         }
 
-        protected static MethodInfo GetGetMethod(MemberExpression m)
+        private static MethodInfo GetGetMethod(MemberExpression m)
         {
             return ((PropertyInfo) m.Member).GetGetMethod();
         }

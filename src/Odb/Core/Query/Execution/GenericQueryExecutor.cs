@@ -40,7 +40,7 @@ namespace NDatabase2.Odb.Core.Query.Execution
         /// <summary>
         ///   The object used to read object data from database
         /// </summary>
-        protected IObjectReader ObjectReader;
+        protected readonly IObjectReader ObjectReader;
 
         /// <summary>
         ///   The query being executed
@@ -50,12 +50,12 @@ namespace NDatabase2.Odb.Core.Query.Execution
         /// <summary>
         ///   The current database session
         /// </summary>
-        protected ISession Session;
+        protected readonly ISession Session;
 
         /// <summary>
         ///   The storage engine
         /// </summary>
-        protected IStorageEngine StorageEngine;
+        protected readonly IStorageEngine StorageEngine;
 
         /// <summary>
         ///   Used for multi class executor to indicate not to execute start and end method of query result action

@@ -4,7 +4,6 @@ using NDatabase2.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase2.Odb.Core.Layers.Layer3;
 using NDatabase2.Odb.Core.Query.Criteria;
 using NDatabase2.Odb.Core.Query.Execution;
-using NDatabase2.Odb.Core.Query.Linq;
 using NDatabase2.Odb.Core.Query.Values;
 
 namespace NDatabase2.Odb.Core.Query
@@ -14,8 +13,8 @@ namespace NDatabase2.Odb.Core.Query
         protected IInternalConstraint Constraint;
         private readonly Type _underlyingType;
 
-        internal IQueryExecutionPlan ExecutionPlan;
-        protected List<string> OrderByFields;
+        private IQueryExecutionPlan _executionPlan;
+        protected readonly List<string> OrderByFields;
 
         /// <summary>
         ///   The OID attribute is used when the query must be restricted the object with this OID
@@ -43,14 +42,14 @@ namespace NDatabase2.Odb.Core.Query
 
         IQueryExecutionPlan IInternalQuery.GetExecutionPlan()
         {
-            if (ExecutionPlan == null)
+            if (_executionPlan == null)
                 throw new OdbRuntimeException(NDatabaseError.ExecutionPlanIsNullQueryHasNotBeenExecuted);
-            return ExecutionPlan;
+            return _executionPlan;
         }
 
         void IInternalQuery.SetExecutionPlan(IQueryExecutionPlan plan)
         {
-            ExecutionPlan = plan;
+            _executionPlan = plan;
         }
 
         IStorageEngine IInternalQuery.GetStorageEngine()

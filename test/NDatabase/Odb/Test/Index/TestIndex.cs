@@ -1297,7 +1297,7 @@ namespace Test.NDatabase.Odb.Test.Index
             DeleteBase(baseName);
 
             Println(duration);
-            double d = 408;
+            double d = 500;
 
             if (duration > d)
                 Fail("Time of search in index is greater than " + d + " ms : " + duration);

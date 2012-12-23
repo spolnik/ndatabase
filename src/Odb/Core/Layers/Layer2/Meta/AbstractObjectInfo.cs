@@ -5,8 +5,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
     /// <summary>
     ///   To keep meta informations about an object
     /// </summary>
-    /// <author>olivier smadja</author>
-    public abstract class AbstractObjectInfo
+    internal abstract class AbstractObjectInfo
     {
         /// <summary>
         ///   The Type of the object

@@ -21,12 +21,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria.Evaluations
 
         protected bool IsNative()
         {
-            return IsNative(TheObject);
-        }
-
-        protected bool IsNative(object theObject)
-        {
-            return theObject == null || OdbType.IsNative(theObject.GetType());
+            return TheObject == null || OdbType.IsNative(TheObject.GetType());
         }
 
         protected object AsAttributeValuesMapValue(object valueToMatch)

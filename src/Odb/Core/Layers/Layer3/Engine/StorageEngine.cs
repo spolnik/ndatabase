@@ -526,7 +526,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             return GetLocalTriggerManager();
         }
 
-        public void UpdateMetaModel()
+        private void UpdateMetaModel()
         {
             if (OdbConfiguration.IsLoggingEnabled())
                 DLogger.Info("Automatic refactoring : updating meta model");

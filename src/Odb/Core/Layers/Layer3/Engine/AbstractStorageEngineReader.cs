@@ -204,11 +204,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                 DLogger.Info(string.Format("{0} created!", indexName));
         }
 
-        /// <summary>
-        ///   Invoked by reflection!
-        ///   //TODO: analyse what should be returned instead of object if  possible
-        /// </summary>
-        internal IObjectSet<object> GetObjectInfos(IQuery query)
+        private IObjectSet<object> GetObjectInfos(IQuery query)
         {
             // Returns the query result handler for normal query result (that return a collection of objects)
             var queryResultAction = new QueryResultAction<object>(query, false, this, false,

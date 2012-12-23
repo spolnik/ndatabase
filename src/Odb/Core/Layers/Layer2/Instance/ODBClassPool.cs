@@ -1,6 +1,5 @@
 using System;
-using System.Collections.Generic;
-using NDatabase2.Tool.Wrappers.Map;
+using System.Collections.Concurrent;
 
 namespace NDatabase2.Odb.Core.Layers.Layer2.Instance
 {
@@ -9,8 +8,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Instance
     /// </summary>
     public static class OdbClassPool
     {
-        private static readonly IDictionary<string, Type> ClassMap = new OdbHashMap<string, Type>();
-        private static readonly object Access = new object();
+        private static readonly ConcurrentDictionary<string, Type> ClassMap = new ConcurrentDictionary<string, Type>();
 
         public static void Reset()
         {
@@ -19,24 +17,18 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Instance
 
         public static Type GetClass(string className)
         {
-            lock (Access)
+            return ClassMap.GetOrAdd(className, GetType);
+        }
+
+        private static Type GetType(string className)
+        {
+            try
             {
-                Type clazz;
-                var success = ClassMap.TryGetValue(className, out clazz);
-                if (success)
-                    return clazz;
-
-                try
-                {
-                    clazz = Type.GetType(className);
-                }
-                catch (Exception e)
-                {
-                    throw new OdbRuntimeException(NDatabaseError.ClassPoolCreateClass.AddParameter(className), e);
-                }
-
-                ClassMap[className] = clazz;
-                return clazz;
+                return Type.GetType(className);
+            }
+            catch (Exception e)
+            {
+                throw new OdbRuntimeException(NDatabaseError.ClassPoolCreateClass.AddParameter(className), e);
             }
         }
     }

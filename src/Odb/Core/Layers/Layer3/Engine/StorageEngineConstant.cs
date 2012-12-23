@@ -5,10 +5,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
     /// <summary>
     ///   Some Storage engine constants about offset position for object writing/reading.
     /// </summary>
-    /// <remarks>
-    ///   Some Storage engine constants about offset position for object writing/reading.
-    /// </remarks>
-    public static class StorageEngineConstant
+    internal static class StorageEngineConstant
     {
         public const long NullObjectIdId = 0;
 
@@ -49,19 +46,22 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
         /// </summary>
         public const int Version9 = 9;
 
-        public const int Version20 = 20;
+        /// <summary>
+        ///   2.0 - 2.3 file format
+        /// </summary>
+        private const int Version20 = 20;
 
         public const int CurrentFileFormatVersion = Version20;
 
-        public const long ClassOffsetBlockSize = 0;
-        public const long ObjectOffsetBlockSize = 0;
+        private const long ClassOffsetBlockSize = 0;
+        private const long ObjectOffsetBlockSize = 0;
 
         /// <summary>
         ///   pull id type (byte),id(long),
         /// </summary>
-        public const long BlockIdRepetitionIdType = 0;
+        private const long BlockIdRepetitionIdType = 0;
 
-        public const long NativeObjectOffsetBlockSize = 0;
+        private const long NativeObjectOffsetBlockSize = 0;
         public const byte NoEncryption = 0;
 
         public const byte WithEncryption = 1;
@@ -74,7 +74,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
         /// <summary>
         ///   File format version : 1 int (4 bytes)
         /// </summary>
-        public static readonly int DatabaseHeaderVersionPosition = 0;
+        public const int DatabaseHeaderVersionPosition = 0;
 
         /// <summary>
         ///   The Database ID : 4 Long (4*8 bytes)
@@ -139,13 +139,13 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                 DatabaseHeaderLastCloseStatusPosition, DatabaseHeaderDatabaseCharacterEncodingPosition, DatabaseHeaderEmptySpaceWhichCouldBeUsedInTheFuture
             };
 
-        public static readonly long ClassOffsetBlockType = ClassOffsetBlockSize + OdbType.Integer.Size;
+        private static readonly long ClassOffsetBlockType = ClassOffsetBlockSize + OdbType.Integer.Size;
 
-        public static readonly long ClassOffsetCategory = ClassOffsetBlockType + OdbType.Byte.Size;
+        private static readonly long ClassOffsetCategory = ClassOffsetBlockType + OdbType.Byte.Size;
 
-        public static readonly long ClassOffsetId = ClassOffsetCategory + OdbType.Byte.Size;
+        private static readonly long ClassOffsetId = ClassOffsetCategory + OdbType.Byte.Size;
 
-        public static readonly long ClassOffsetPreviousClassPosition = ClassOffsetId + OdbType.Long.Size;
+        private static readonly long ClassOffsetPreviousClassPosition = ClassOffsetId + OdbType.Long.Size;
 
         public static readonly long ClassOffsetNextClassPosition = ClassOffsetPreviousClassPosition +
                                                                    OdbType.Long.Size;
@@ -156,7 +156,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
 
         public static readonly long ObjectOffsetBlockType = ObjectOffsetBlockSize + OdbType.Integer.Size;
 
-        public static readonly long ObjectOffsetObjectId = ObjectOffsetBlockType + OdbType.Byte.Size;
+        private static readonly long ObjectOffsetObjectId = ObjectOffsetBlockType + OdbType.Byte.Size;
 
         public static readonly long ObjectOffsetClassInfoId = ObjectOffsetObjectId + OdbType.Long.Size;
 
@@ -164,15 +164,15 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
 
         public static readonly long ObjectOffsetNextObjectOid = ObjectOffsetPreviousObjectOid + OdbType.Long.Size;
 
-        public static readonly long ObjectOffsetCreationDate = ObjectOffsetNextObjectOid + OdbType.Long.Size;
+        private static readonly long ObjectOffsetCreationDate = ObjectOffsetNextObjectOid + OdbType.Long.Size;
 
-        public static readonly long ObjectOffsetUpdateDate = ObjectOffsetCreationDate + OdbType.Long.Size;
+        private static readonly long ObjectOffsetUpdateDate = ObjectOffsetCreationDate + OdbType.Long.Size;
 
-        public static readonly long ObjectOffsetVersion = ObjectOffsetUpdateDate + OdbType.Long.Size;
+        private static readonly long ObjectOffsetVersion = ObjectOffsetUpdateDate + OdbType.Long.Size;
 
-        public static readonly long ObjectOffsetReferencePointer = ObjectOffsetVersion + OdbType.Integer.Size;
+        private static readonly long ObjectOffsetReferencePointer = ObjectOffsetVersion + OdbType.Integer.Size;
 
-        public static readonly long ObjectOffsetIsExternallySynchronized = ObjectOffsetReferencePointer +
+        private static readonly long ObjectOffsetIsExternallySynchronized = ObjectOffsetReferencePointer +
                                                                            OdbType.Long.Size;
 
         public static readonly long ObjectOffsetNbAttributes = ObjectOffsetIsExternallySynchronized +
@@ -191,7 +191,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
         /// </summary>
         public static readonly long BlockIdOffsetForBlockStatus = OdbType.Integer.Size + OdbType.Byte.Size;
 
-        public static readonly long BlockIdOffsetForPrevBlock = BlockIdOffsetForBlockStatus + OdbType.Byte.Size;
+        private static readonly long BlockIdOffsetForPrevBlock = BlockIdOffsetForBlockStatus + OdbType.Byte.Size;
 
         public static readonly long BlockIdOffsetForNextBlock = BlockIdOffsetForPrevBlock + OdbType.Long.Size;
 
@@ -201,7 +201,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
 
         public static readonly long BlockIdOffsetForStartOfRepetition = BlockIdOffsetForMaxId + OdbType.Long.Size;
 
-        public static readonly long BlockIdRepetitionId = BlockIdRepetitionIdType + OdbType.Byte.Size;
+        private static readonly long BlockIdRepetitionId = BlockIdRepetitionIdType + OdbType.Byte.Size;
 
         public static readonly long BlockIdRepetitionIdStatus = BlockIdRepetitionId + OdbType.Long.Size;
 
@@ -210,9 +210,9 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
         public static readonly long NativeObjectOffsetBlockType = NativeObjectOffsetBlockSize +
                                                                   OdbType.Integer.Size;
 
-        public static readonly long NativeObjectOffsetOdbTypeId = NativeObjectOffsetBlockType + OdbType.Byte.Size;
+        private static readonly long NativeObjectOffsetOdbTypeId = NativeObjectOffsetBlockType + OdbType.Byte.Size;
 
-        public static readonly long NativeObjectOffsetObjectIsNull = NativeObjectOffsetOdbTypeId +
+        private static readonly long NativeObjectOffsetObjectIsNull = NativeObjectOffsetOdbTypeId +
                                                                      OdbType.Integer.Size;
 
         public static readonly long NativeObjectOffsetDataArea = NativeObjectOffsetObjectIsNull +

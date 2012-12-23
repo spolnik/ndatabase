@@ -64,29 +64,9 @@ namespace NDatabase2.Odb.Core.Trigger
             AddTriggerFor(type, trigger, _listOfSelectTriggers);
         }
 
-        public bool HasDeleteTriggersFor(Type type)
-        {
-            return _listOfDeleteTriggers.ContainsKey(type) || _listOfDeleteTriggers.ContainsKey(typeof (object));
-        }
-
-        public bool HasInsertTriggersFor(Type type)
-        {
-            return _listOfInsertTriggers.ContainsKey(type) || _listOfInsertTriggers.ContainsKey(typeof (object));
-        }
-
-        public bool HasSelectTriggersFor(Type type)
-        {
-            return _listOfSelectTriggers.ContainsKey(type) || _listOfSelectTriggers.ContainsKey(typeof (object));
-        }
-
-        public bool HasUpdateTriggersFor(Type type)
-        {
-            return _listOfUpdateTriggers.ContainsKey(type) || _listOfUpdateTriggers.ContainsKey(typeof (object));
-        }
-
         public void ManageInsertTriggerBefore(Type type, object @object)
         {
-            if (!HasInsertTriggersFor(type)) 
+            if (!HasInsertTriggersFor(type))
                 return;
 
             foreach (InsertTrigger trigger in GetListOfInsertTriggersFor(type))
@@ -139,7 +119,7 @@ namespace NDatabase2.Odb.Core.Trigger
 
         public void ManageUpdateTriggerBefore(Type type, NonNativeObjectInfo oldNnoi, object newObject, OID oid)
         {
-            if (!HasUpdateTriggersFor(type)) 
+            if (!HasUpdateTriggersFor(type))
                 return;
 
             foreach (UpdateTrigger trigger in GetListOfUpdateTriggersFor(type))
@@ -191,7 +171,7 @@ namespace NDatabase2.Odb.Core.Trigger
 
         public void ManageDeleteTriggerBefore(Type type, object @object, OID oid)
         {
-            if (!HasDeleteTriggersFor(type)) 
+            if (!HasDeleteTriggersFor(type))
                 return;
 
             foreach (DeleteTrigger trigger in GetListOfDeleteTriggersFor(type))
@@ -258,6 +238,26 @@ namespace NDatabase2.Odb.Core.Trigger
 
         #endregion
 
+        private bool HasDeleteTriggersFor(Type type)
+        {
+            return _listOfDeleteTriggers.ContainsKey(type) || _listOfDeleteTriggers.ContainsKey(typeof (object));
+        }
+
+        private bool HasInsertTriggersFor(Type type)
+        {
+            return _listOfInsertTriggers.ContainsKey(type) || _listOfInsertTriggers.ContainsKey(typeof (object));
+        }
+
+        private bool HasSelectTriggersFor(Type type)
+        {
+            return _listOfSelectTriggers.ContainsKey(type) || _listOfSelectTriggers.ContainsKey(typeof (object));
+        }
+
+        private bool HasUpdateTriggersFor(Type type)
+        {
+            return _listOfUpdateTriggers.ContainsKey(type) || _listOfUpdateTriggers.ContainsKey(typeof (object));
+        }
+
         private static void AddTriggerFor<TTrigger>(Type type, TTrigger trigger,
                                                     IDictionary<Type, IOdbList<Trigger>> listOfTriggers)
             where TTrigger : Trigger
@@ -294,7 +294,7 @@ namespace NDatabase2.Odb.Core.Trigger
         }
 
         private static IEnumerable<Trigger> GetListOfTriggersFor(Type type,
-                                                              IDictionary<Type, IOdbList<Trigger>> listOfTriggers)
+                                                                 IDictionary<Type, IOdbList<Trigger>> listOfTriggers)
         {
             var listOfTriggersBuClassName = listOfTriggers[type];
             var listOfTriggersByAllClassTrigger = listOfTriggers[typeof (object)];

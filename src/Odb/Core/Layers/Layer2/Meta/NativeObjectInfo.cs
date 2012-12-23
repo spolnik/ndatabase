@@ -3,9 +3,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
     /// <summary>
     ///   To keep info about a native instance
     /// </summary>
-    /// <author>olivier s</author>
-    
-    public abstract class NativeObjectInfo : AbstractObjectInfo
+    internal abstract class NativeObjectInfo : AbstractObjectInfo
     {
         protected bool Equals(NativeObjectInfo other)
         {

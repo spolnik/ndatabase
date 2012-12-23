@@ -21,18 +21,8 @@ namespace NDatabase2.Odb.Core.Query.Linq
 
         public LinqQuery(LinqQuery<T> parent, IQueryBuilderRecord record)
         {
-            _odb = parent.QueryFactory;
-            _record = new CompositeQueryBuilderRecord(parent.Record, record);
-        }
-
-        public IOdb QueryFactory
-        {
-            get { return _odb; }
-        }
-
-        public IQueryBuilderRecord Record
-        {
-            get { return _record; }
+            _odb = parent._odb;
+            _record = new CompositeQueryBuilderRecord(parent._record, record);
         }
 
         public int Count
@@ -72,14 +62,9 @@ namespace NDatabase2.Odb.Core.Query.Linq
 
         public IEnumerable<T> UnoptimizedWhere(Func<T, bool> func)
         {
-            return GetExtentResult().Where(func);
+            return _odb.Query<T>().Execute<T>().Where(func);
         }
 
         #endregion
-
-        public IObjectSet<T> GetExtentResult()
-        {
-            return _odb.Query<T>().Execute<T>();
-        }
     }
 }

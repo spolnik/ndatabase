@@ -6,9 +6,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
     /// <summary>
     ///   To keep info about a native object like int,char, long, Does not include array or collection
     /// </summary>
-    /// <author>olivier s</author>
-    
-    public sealed class AtomicNativeObjectInfo : NativeObjectInfo, IComparable
+    internal sealed class AtomicNativeObjectInfo : NativeObjectInfo, IComparable
     {
         public AtomicNativeObjectInfo(object @object, int odbTypeId) : base(@object, odbTypeId)
         {

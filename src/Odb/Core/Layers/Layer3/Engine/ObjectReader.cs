@@ -21,7 +21,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
     /// <summary>
     ///   Manage all IO Reading
     /// </summary>
-    /// <author>olivier smadja</author>
     internal sealed class ObjectReader : IObjectReader
     {
         /// <summary>
@@ -857,7 +856,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
         /// <summary>
         ///   A small method for indentation
         /// </summary>
-        public string DepthToSpaces()
+        private string DepthToSpaces()
         {
             var buffer = new StringBuilder();
             for (var i = 0; i < _currentDepth; i++)
@@ -1591,11 +1590,14 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
         /// <summary>
         ///   Reads an enum object
         /// </summary>
-        public EnumNativeObjectInfo ReadEnumObjectInfo(long position, int odbTypeId)
+        private EnumNativeObjectInfo ReadEnumObjectInfo(long position, int odbTypeId)
         {
             var enumClassInfoId = _fsi.ReadLong("EnumClassInfoId");
             var enumValue = _fsi.ReadString();
-            var enumCi = _storageEngine.GetSession(true).GetMetaModel().GetClassInfoFromId(OIDFactory.BuildClassOID(enumClassInfoId));
+            var enumCi =
+                _storageEngine.GetSession(true).GetMetaModel().GetClassInfoFromId(
+                    OIDFactory.BuildClassOID(enumClassInfoId));
+
             return new EnumNativeObjectInfo(enumCi, enumValue);
         }
 
@@ -1748,7 +1750,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
         /// </summary>
         /// <param name="objectPosition"> </param>
         /// <returns> The object class name @ </returns>
-        public string GetObjectTypeFromPosition(long objectPosition)
+        private string GetObjectTypeFromPosition(long objectPosition)
         {
             var blockPosition = objectPosition + StorageEngineConstant.ObjectOffsetBlockType;
             _fsi.SetReadPosition(blockPosition);

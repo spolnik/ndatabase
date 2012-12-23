@@ -1,10 +1,9 @@
-using NDatabase.Odb;
 using NDatabase2.Odb.Core.Oid;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Serialization.Identification
 {
-    public class When_we_are_using_db_object_oid : InstanceSpecification<ObjectOID>
+    internal class When_we_are_using_db_object_oid : InstanceSpecification<ObjectOID>
     {
         private long _oid;
         private long _returnValue;

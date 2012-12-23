@@ -131,7 +131,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Oid
         /// <param name="idStatus"> </param>
         /// <param name="label"> A label for debug </param>
         /// <returns> The id </returns>
-        internal OID GetNextId(long objectPosition, byte idType, byte idStatus, string label)
+        private OID GetNextId(long objectPosition, byte idType, byte idStatus, string label)
         {
             lock (this)
             {

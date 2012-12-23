@@ -6,7 +6,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 {
     internal abstract class ComposedExpression : AbstractExpression
     {
-        protected IOdbList<IConstraint> Constraints;
+        protected readonly IOdbList<IConstraint> Constraints;
 
         protected ComposedExpression(IQuery query) : base(query)
         {

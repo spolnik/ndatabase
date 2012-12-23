@@ -608,7 +608,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             }
         }
 
-        public void EncodeOid(OID oid, byte[] bytes, int offset)
+        private static void EncodeOid(OID oid, byte[] bytes, int offset)
         {
             if (oid == null)
                 LongToByteArray(-1, bytes, offset);

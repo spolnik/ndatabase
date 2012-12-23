@@ -7,11 +7,11 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.IO
         ///<summary>
         ///  The number of buffers.
         ///</summary>
-        internal static readonly int NumberOfBuffers = 5;
+        internal const int NumberOfBuffers = 5;
 
-        internal static readonly int DefaultBufferSizeForData = 4096 * 4;
+        internal const int DefaultBufferSizeForData = 4096 * 4;
 
-        internal static readonly int DefaultBufferSizeForTransaction = 4096 * 4;
+        internal const int DefaultBufferSizeForTransaction = 4096 * 4;
 
         ///<summary>
         ///  The buffer size.

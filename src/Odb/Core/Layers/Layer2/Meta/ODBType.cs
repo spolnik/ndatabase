@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using NDatabase2.Odb.Core.Layers.Layer2.Instance;
 using NDatabase2.Odb.Core.Oid;
@@ -10,19 +11,21 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
     /// <summary>
     ///   Contains the list for the ODB types
     /// </summary>
-    public sealed class OdbType
+    internal sealed class OdbType
     {
         private static readonly IDictionary<int, OdbType> TypesById = new Dictionary<int, OdbType>();
-
         private static readonly IDictionary<string, OdbType> TypesByName = new Dictionary<string, OdbType>();
 
         /// <summary>
         ///   This cache is used to cache non default types.
         /// </summary>
         /// <remarks>
-        ///   This cache is used to cache non default types. Instead or always testing if a class is an array or a collection or any other, we put the odbtype in this cache
+        ///   This cache is used to cache non default types. 
+        ///   Instead or always testing if a class is an array 
+        ///   or a collection or any other, we put the odbtype in this cache
         /// </remarks>
-        private static readonly IDictionary<string, OdbType> CacheOfTypesByName = new Dictionary<string, OdbType>();
+        private static readonly ConcurrentDictionary<string, OdbType> CacheOfTypesByName =
+            new ConcurrentDictionary<string, OdbType>();
 
         public static readonly string DefaultCollectionClassName = OdbClassUtil.GetFullName(typeof (ArrayList));
 
@@ -184,30 +187,23 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
             if (clazz.IsArray)
             {
                 var type = new OdbType(Array._isPrimitive, ArrayId, Array.Name, 0)
-                    {_subType = GetFromClass(clazz.GetElementType())};
+                               {_subType = GetFromClass(clazz.GetElementType())};
 
-                CacheOfTypesByName.Add(className, type);
-                return type;
+                return CacheOfTypesByName.GetOrAdd(className, type);
             }
 
             if (IsMap(clazz))
-            {
-                CacheOfTypesByName.Add(className, Map);
-                return Map;
-            }
+                return CacheOfTypesByName.GetOrAdd(className, Map);
+
             // check if it is a list
             if (IsCollection(clazz))
-            {
-                CacheOfTypesByName.Add(className, Collection);
-                return Collection;
-            }
+                return CacheOfTypesByName.GetOrAdd(className, Collection);
 
             var nonNative = new OdbType(NonNative._isPrimitive, NonNativeId, className, 0);
-            CacheOfTypesByName.Add(className, nonNative);
-            return nonNative;
+            return CacheOfTypesByName.GetOrAdd(className, nonNative);
         }
 
-        public static bool IsMap(Type clazz)
+        private static bool IsMap(Type clazz)
         {
             var isNonGenericMap = Map._baseClass.IsAssignableFrom(clazz);
 
@@ -540,9 +536,9 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
         /// </summary>
         public const int EnumId = 211;
 
-        public const int NativeFixSizeMaxId = ClassOidId;
+        private const int NativeFixSizeMaxId = ClassOidId;
 
-        public const int NativeMaxId = StringId;
+        private const int NativeMaxId = StringId;
 
         public const int CollectionId = 250;
         public const int CollectionGenericId = 251;

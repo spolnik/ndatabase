@@ -96,8 +96,8 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
         internal void SetFullClassName(string fullClassName)
         {
             _fullClassName = fullClassName;
-            SetClassName(OdbClassUtil.GetClassName(fullClassName));
-            SetNamespace(OdbClassUtil.GetNamespace(fullClassName));
+            _className = OdbClassUtil.GetClassName(fullClassName);
+            _namespace = OdbClassUtil.GetNamespace(fullClassName);
         }
 
         public override string ToString()
@@ -108,16 +108,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
                 Append(" | type=").Append(GetFullClassname()).Append(" | isIndex=").Append(_isIndex);
 
             return buffer.ToString();
-        }
-
-        internal void SetClassName(string className)
-        {
-            _className = className;
-        }
-
-        internal void SetNamespace(string @namespace)
-        {
-            _namespace = @namespace;
         }
 
         internal string GetFullClassname()

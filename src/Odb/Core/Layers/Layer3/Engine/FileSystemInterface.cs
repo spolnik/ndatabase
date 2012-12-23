@@ -62,7 +62,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             _io.SetCurrentWritePosition(position);
 
             if (writeInTransacation)
-                GetSession().GetTransaction().SetWritePosition(position);
+                _session.GetTransaction().SetWritePosition(position);
         }
 
         public void SetWritePosition(long position, bool writeInTransacation)
@@ -79,7 +79,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
 
             _io.SetCurrentWritePosition(position);
             if (writeInTransacation)
-                GetSession().GetTransaction().SetWritePosition(position);
+                _session.GetTransaction().SetWritePosition(position);
         }
 
         public void SetReadPosition(long position)
@@ -122,7 +122,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             }
             else
             {
-                GetSession().GetTransaction().ManageWriteAction(_io.CurrentPosition, bytes);
+                _session.GetTransaction().ManageWriteAction(_io.CurrentPosition, bytes);
                 EnsureSpaceFor(OdbType.Byte);
             }
         }
@@ -176,7 +176,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             }
             else
             {
-                GetSession().GetTransaction().ManageWriteAction(_io.CurrentPosition, bytes);
+                _session.GetTransaction().ManageWriteAction(_io.CurrentPosition, bytes);
                 EnsureSpaceFor(OdbType.SByte);
             }
         }
@@ -225,7 +225,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             }
             else
             {
-                GetSession().GetTransaction().ManageWriteAction(_io.CurrentPosition, bytes);
+                _session.GetTransaction().ManageWriteAction(_io.CurrentPosition, bytes);
                 EnsureSpaceFor(bytes.Length, OdbType.Byte);
             }
         }
@@ -586,7 +586,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                 _io.WriteBytes(bytes);
             else
             {
-                GetSession().GetTransaction().ManageWriteAction(_io.CurrentPosition, bytes);
+                _session.GetTransaction().ManageWriteAction(_io.CurrentPosition, bytes);
                 EnsureSpaceFor(bytes.Length, OdbType.Decimal);
             }
         }
@@ -681,7 +681,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             }
             else
             {
-                GetSession().GetTransaction().ManageWriteAction(_io.CurrentPosition, bytes);
+                _session.GetTransaction().ManageWriteAction(_io.CurrentPosition, bytes);
                 EnsureSpaceFor(bytes.Length, OdbType.String);
             }
         }
@@ -876,11 +876,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
 
         #endregion
 
-        public ISession GetSession()
-        {
-            return _session;
-        }
-
         /// <summary>
         ///   Writing at position &lt; DATABASE_HEADER_PROTECTED_ZONE_SIZE is writing in ODB Header place.
         /// </summary>
@@ -891,7 +886,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
         /// </remarks>
         /// <param name="position"> </param>
         /// <returns> </returns>
-        internal bool IsWritingInWrongPlace(long position)
+        private static bool IsWritingInWrongPlace(long position)
         {
             if (position < StorageEngineConstant.DatabaseHeaderProtectedZoneSize)
             {
@@ -949,7 +944,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             }
             else
             {
-                GetSession().GetTransaction().ManageWriteAction(_io.CurrentPosition, bytes);
+                _session.GetTransaction().ManageWriteAction(_io.CurrentPosition, bytes);
                 EnsureSpaceFor(odbType);
             }
         }

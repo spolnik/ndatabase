@@ -95,7 +95,8 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Instance
                 // Gets the id of this field
                 var attributeId = classInfo.GetAttributeId(fieldInfo.Name);
                 if (OdbConfiguration.IsLoggingEnabled())
-                    DLogger.Debug(string.Concat("getting field with name ", fieldInfo.Name, ", attribute id is ", attributeId.ToString()));
+                    DLogger.Debug(string.Concat("getting field with name ", fieldInfo.Name, ", attribute id is ",
+                                                attributeId.ToString()));
 
                 var abstractObjectInfo = objectInfo.GetAttributeValueFromId(attributeId);
 
@@ -206,7 +207,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Instance
 
         #endregion
 
-        public object BuildOneInstance(AbstractObjectInfo objectInfo)
+        private object BuildOneInstance(AbstractObjectInfo objectInfo)
         {
             if (objectInfo is NonNativeNullObjectInfo)
                 return null;
@@ -218,16 +219,16 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Instance
             return instance;
         }
 
-        public object BuildCollectionInstance(CollectionObjectInfo coi)
+        private object BuildCollectionInstance(CollectionObjectInfo coi)
         {
             var type = OdbClassPool.GetClass(coi.GetRealCollectionClassName());
 
             return type.IsGenericType
                        ? BuildGenericCollectionInstance(coi, type)
-                       : BuildNonGenericCollectionInstance(coi, type);
+                       : BuildNonGenericCollectionInstance(coi);
         }
 
-        public object BuildGenericCollectionInstance(CollectionObjectInfo coi, Type t)
+        private object BuildGenericCollectionInstance(CollectionObjectInfo coi, Type t)
         {
             object newCollection;
             try
@@ -252,9 +253,11 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Instance
             return newCollection;
         }
 
-        public object BuildNonGenericCollectionInstance(CollectionObjectInfo coi, Type t)
+        private object BuildNonGenericCollectionInstance(CollectionObjectInfo coi)
         {
-            var newCollection = (IList)Activator.CreateInstance(OdbClassPool.GetClass(coi.GetRealCollectionClassName()));
+            var newCollection =
+                (IList) Activator.CreateInstance(OdbClassPool.GetClass(coi.GetRealCollectionClassName()));
+
             IEnumerator iterator = coi.GetCollection().GetEnumerator();
 
             while (iterator.MoveNext())
@@ -263,13 +266,14 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Instance
                 if (!abstractObjectInfo.IsDeletedObject())
                     newCollection.Add(BuildOneInstance(abstractObjectInfo));
             }
+
             return newCollection;
         }
 
         /// <summary>
         ///   Builds an instance of an enum
         /// </summary>
-        public object BuildEnumInstance(EnumNativeObjectInfo enoi, Type enumClass)
+        private static object BuildEnumInstance(EnumNativeObjectInfo enoi, Type enumClass)
         {
             return Enum.Parse(enumClass, enoi.GetEnumName(), false);
         }
@@ -277,7 +281,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Instance
         /// <summary>
         ///   Builds an instance of an array
         /// </summary>
-        public object BuildArrayInstance(ArrayObjectInfo aoi)
+        private object BuildArrayInstance(ArrayObjectInfo aoi)
         {
             // first check if array element type is native (int,short, for example)
             var type = OdbType.GetFromName(aoi.GetRealArrayComponentClassName());
@@ -288,16 +292,16 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Instance
             for (var i = 0; i < aoi.GetArrayLength(); i++)
             {
                 var abstractObjectInfo = (AbstractObjectInfo) aoi.GetArray()[i];
-                if (abstractObjectInfo != null && !abstractObjectInfo.IsDeletedObject() && !abstractObjectInfo.IsNull())
-                {
-                    var instance = BuildOneInstance(abstractObjectInfo);
-                    ((Array) array).SetValue(instance, i);
-                }
+                if (abstractObjectInfo == null || abstractObjectInfo.IsDeletedObject() || abstractObjectInfo.IsNull())
+                    continue;
+
+                var instance = BuildOneInstance(abstractObjectInfo);
+                ((Array) array).SetValue(instance, i);
             }
             return array;
         }
 
-        public object BuildMapInstance(MapObjectInfo moi)
+        private object BuildMapInstance(MapObjectInfo moi)
         {
             var type = OdbClassPool.GetClass(moi.GetRealMapClassName());
 
@@ -306,7 +310,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Instance
                        : BuildNonGenericMapInstance(moi, type);
         }
 
-        public IDictionary BuildNonGenericMapInstance(MapObjectInfo mapObjectInfo, Type t)
+        private IDictionary BuildNonGenericMapInstance(MapObjectInfo mapObjectInfo, Type t)
         {
             var map = mapObjectInfo.GetMap();
             IDictionary newMap;
@@ -331,7 +335,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Instance
             return newMap;
         }
 
-        public object BuildGenericMapInstance(MapObjectInfo mapObjectInfo, Type t)
+        private object BuildGenericMapInstance(MapObjectInfo mapObjectInfo, Type t)
         {
             var map = mapObjectInfo.GetMap();
             object newMap;
@@ -358,7 +362,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Instance
             return newMap;
         }
 
-        public object BuildOneInstance(NativeObjectInfo objectInfo)
+        private object BuildOneInstance(NativeObjectInfo objectInfo)
         {
             if (objectInfo.IsAtomicNativeObject())
                 return BuildOneInstance((AtomicNativeObjectInfo) objectInfo);
@@ -379,7 +383,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Instance
                 NDatabaseError.InstanceBuilderNativeType.AddParameter(OdbType.GetNameFromId(objectInfo.GetOdbTypeId())));
         }
 
-        public object BuildOneInstance(AtomicNativeObjectInfo objectInfo)
+        private object BuildOneInstance(AtomicNativeObjectInfo objectInfo)
         {
             var odbTypeId = objectInfo.GetOdbTypeId();
             long l;
@@ -519,7 +523,5 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Instance
                 }
             }
         }
-
-        public static readonly string InstanceBuilderKey = "InstanceBuilder";
     }
 }

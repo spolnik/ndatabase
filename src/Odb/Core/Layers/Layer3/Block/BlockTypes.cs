@@ -3,7 +3,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Block
     /// <summary>
     ///   All Block Types of the ODB database format.
     /// </summary>
-    public static class BlockTypes
+    internal static class BlockTypes
     {
         public const byte BlockTypeClassHeader = 1;
 
@@ -13,11 +13,11 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Block
 
         public const byte BlockTypeNonNativeObject = 4;
 
-        public const byte BlockTypePointer = 5;
+        private const byte BlockTypePointer = 5;
 
         public const byte BlockTypeDeleted = 6;
 
-        public const byte BlockTypeNonNativeNullObject = 7;
+        private const byte BlockTypeNonNativeNullObject = 7;
 
         public const byte BlockTypeNativeNullObject = 77;
 

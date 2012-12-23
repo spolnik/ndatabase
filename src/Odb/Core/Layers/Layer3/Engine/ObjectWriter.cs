@@ -342,7 +342,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
         /// <param name="oid"> The object id </param>
         /// <param name="nnoi"> The object meta represenation </param>
         /// <returns> The number of indexes </returns>
-        internal static int ManageIndexesForDelete(OID oid, NonNativeObjectInfo nnoi)
+        private static int ManageIndexesForDelete(OID oid, NonNativeObjectInfo nnoi)
         {
             var indexes = nnoi.GetClassInfo().GetIndexes();
 
@@ -984,30 +984,32 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                 NDatabaseError.AbstractObjectInfoTypeNotSupported.AddParameter(aoi.GetType().FullName));
         }
 
-        public ObjectInfoHeader UpdateNextObjectPreviousPointersInCache(OID nextObjectOID, OID previousObjectOID,
-                                                                                IOdbCache cache)
+        private void UpdateNextObjectPreviousPointersInCache(OID nextObjectOID, OID previousObjectOID, IOdbCache cache)
         {
             var oip = cache.GetObjectInfoHeaderByOid(nextObjectOID, false);
+
             // If object is not in the cache, then read the header from the file
             if (oip == null)
             {
                 oip = _objectReader.ReadObjectInfoHeaderFromOid(nextObjectOID, false);
                 cache.AddObjectInfoOfNonCommitedObject(oip);
             }
+
             oip.SetPreviousObjectOID(previousObjectOID);
-            return oip;
         }
 
-        public ObjectInfoHeader UpdatePreviousObjectNextPointersInCache(OID nextObjectOID, OID previousObjectOID,
+        private ObjectInfoHeader UpdatePreviousObjectNextPointersInCache(OID nextObjectOID, OID previousObjectOID,
                                                                                 IOdbCache cache)
         {
             var oip = cache.GetObjectInfoHeaderByOid(previousObjectOID, false);
+
             // If object is not in the cache, then read the header from the file
             if (oip == null)
             {
                 oip = _objectReader.ReadObjectInfoHeaderFromOid(previousObjectOID, false);
                 cache.AddObjectInfoOfNonCommitedObject(oip);
             }
+
             oip.SetNextObjectOID(nextObjectOID);
             return oip;
         }
@@ -1300,7 +1302,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             return -1;
         }
 
-        public long WriteEnumNativeObject(EnumNativeObjectInfo anoi, bool writeInTransaction)
+        private long WriteEnumNativeObject(EnumNativeObjectInfo anoi, bool writeInTransaction)
         {
             var startPosition = FileSystemProcessor.FileSystemInterface.GetPosition();
             var odbTypeId = anoi.GetOdbTypeId();
@@ -1323,7 +1325,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             return WriteAtomicNativeObject(anoi, writeInTransaction, -1);
         }
 
-        public void StoreFreeSpace(long currentPosition, int blockSize)
+        private void StoreFreeSpace(long currentPosition, int blockSize)
         {
             if (OdbConfiguration.IsLoggingEnabled())
                 DLogger.Debug(string.Concat("Storing free space at position ", currentPosition.ToString(),

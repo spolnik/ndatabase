@@ -34,12 +34,8 @@ namespace NDatabase2.Odb.Core.Query.Criteria.Evaluations
                 return true;
             
             var objectOid = (OID) candidate;
-            if (_oid == null)
-            {
-                return false;
-            }
-
-            return _oid.Equals(objectOid);
+            
+            return _oid != null && _oid.Equals(objectOid);
         }
 
         public AttributeValuesMap GetValues()

@@ -174,7 +174,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             return ByteArrayToUInt(bytes, 0);
         }
 
-        public static uint ByteArrayToUInt(byte[] bytes, int offset)
+        private static uint ByteArrayToUInt(byte[] bytes, int offset)
         {
             return BitConverter.ToUInt32(bytes, offset);
         }
@@ -235,7 +235,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             return BitConverter.ToInt64(bytes, offset);
         }
 
-        public static ulong ByteArrayToULong(byte[] bytes, int offset)
+        private static ulong ByteArrayToULong(byte[] bytes, int offset)
         {
             return BitConverter.ToUInt64(bytes, offset);
         }

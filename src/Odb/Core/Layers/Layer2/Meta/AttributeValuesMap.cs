@@ -7,7 +7,10 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
     ///   A Map to contain values of attributes of an object.
     /// </summary>
     /// <remarks>
-    ///   A Map to contain values of attributes of an object. It is used to optimize a criteria query execution where ODB , while reading an instance data, tries to retrieve only values of attributes involved in the query instead of reading the entire object.
+    ///   A Map to contain values of attributes of an object. 
+    ///   It is used to optimize a criteria query execution where ODB , 
+    ///   while reading an instance data, tries to retrieve only 
+    ///   values of attributes involved in the query instead of reading the entire object.
     /// </remarks>
     public sealed class AttributeValuesMap : Hashtable
     {
@@ -20,7 +23,9 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
         ///   The oid of the object.
         /// </summary>
         /// <remarks>
-        ///   The oid of the object. This is used when some criteria (example is equalCriterion) is on an object, in this case the comparison is done on the oid of the object and not on the object itself.
+        ///   The oid of the object. This is used when some criteria 
+        ///   (example is equalCriterion) is on an object, in this case 
+        ///   the comparison is done on the oid of the object and not on the object itself.
         /// </remarks>
         private OID _oid;
 
@@ -34,14 +39,9 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
             _objectInfoHeader = objectInfoHeader;
         }
 
-        public object GetAttributeValue(string attributeName)
-        {
-            return this[attributeName];
-        }
-
         public IComparable GetComparable(string attributeName)
         {
-            return (IComparable) GetAttributeValue(attributeName);
+            return (IComparable) this[attributeName];
         }
 
         public bool HasOid()

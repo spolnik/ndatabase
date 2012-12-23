@@ -203,12 +203,11 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
         {
             Debug.Assert(attributeName != null);
 
-            int attributeId;
             var isRelation = attributeName.IndexOf(".", StringComparison.Ordinal) != -1;
 
             if (!isRelation)
             {
-                attributeId = GetClassInfo().GetAttributeId(attributeName);
+                var attributeId = GetClassInfo().GetAttributeId(attributeName);
                 return GetAttributeValueFromId(attributeId).GetObject();
             }
 

@@ -12,7 +12,7 @@ namespace NDatabase2.Odb.Core.Query.Linq
         private readonly Expression _expression;
         private readonly ILinqQuery<TElement> _query;
 
-        public LinqQueryable(Expression expression)
+        private LinqQueryable(Expression expression)
         {
             if (expression == null)
                 throw new ArgumentNullException("expression");

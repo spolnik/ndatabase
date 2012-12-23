@@ -269,7 +269,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.IO
             _overlappingBuffers = GetOverlappingBuffers(newPosition, _buffer.Size);
             // Choose the first overlaping buffer
             bufferIndex = _overlappingBuffers[0];
-            if (MultiBuffer.NumberOfBuffers > 1 && _overlappingBuffers[1] != -1 && bufferIndex == _currentBufferIndex)
+            if (_overlappingBuffers[1] != -1 && bufferIndex == _currentBufferIndex)
                 bufferIndex = _overlappingBuffers[1];
 
             if (bufferIndex == -1)
@@ -420,7 +420,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.IO
             return indexes;
         }
 
-        public byte[] ReadBytes(byte[] bytes, int startIndex, int endIndex)
+        private byte[] ReadBytes(byte[] bytes, int startIndex, int endIndex)
         {
             var size = endIndex - startIndex;
             var bufferIndex = ManageBufferForNewPosition(_currentPositionWhenUsingBuffer, IsReading, size);
@@ -434,7 +434,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.IO
             return bytes;
         }
 
-        public void WriteBytes(byte[] bytes, int startIndex, int endIndex)
+        private void WriteBytes(byte[] bytes, int startIndex, int endIndex)
         {
             if (!_isUsingBuffer)
             {

@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Serialization.Identification
 {
-    public class When_we_are_using_db_class_oid : InstanceSpecification<ClassOID>
+    internal class When_we_are_using_db_class_oid : InstanceSpecification<ClassOID>
     {
         private long _oid;
         private long _returnValue;
