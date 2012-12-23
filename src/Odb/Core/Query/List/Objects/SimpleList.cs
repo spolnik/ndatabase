@@ -23,10 +23,9 @@ namespace NDatabase2.Odb.Core.Query.List.Objects
 
         #region IObjects<E> Members
 
-        public virtual bool AddWithKey(IOdbComparable key, TItem o)
+        public virtual void AddWithKey(IOdbComparable key, TItem o)
         {
             Add(o);
-            return true;
         }
 
         public virtual bool AddWithKey(int key, TItem o)

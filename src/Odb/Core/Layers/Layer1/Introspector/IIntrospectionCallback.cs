@@ -11,7 +11,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer1.Introspector
         ///   Called when the introspector find a non native object.
         /// </remarks>
         /// <param name="object"> </param>
-        /// <returns> true to continue going recursively, false do not go deeper </returns>
-        bool ObjectFound(object @object);
+        void ObjectFound(object @object);
     }
 }

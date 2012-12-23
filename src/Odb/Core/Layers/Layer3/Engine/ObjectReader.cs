@@ -238,9 +238,9 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                 nextIndexPosition = _fsi.ReadLong("next index pos");
                 classInfoIndex.Name = _fsi.ReadString("Index name");
                 classInfoIndex.IsUnique = _fsi.ReadBoolean("index is unique");
-                classInfoIndex.Status = _fsi.ReadByte("index status");
+                var indexStatus = _fsi.ReadByte("index status");
                 classInfoIndex.CreationDate = _fsi.ReadLong("creation date");
-                classInfoIndex.LastRebuild = _fsi.ReadLong("last rebuild");
+                var lastRebuild = _fsi.ReadLong("last rebuild");
                 var nbAttributes = _fsi.ReadInt("number of fields");
                 var attributeIds = new int[nbAttributes];
                 for (var j = 0; j < nbAttributes; j++)
@@ -633,9 +633,10 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                         throw new CorruptedDatabaseException(NDatabaseError.ObjectWithOidDoesNotExist.AddParameter(oid));
                     throw new CorruptedDatabaseException(NDatabaseError.ObjectIsMarkedAsDeletedForOid.AddParameter(oid));
                 }
-                if (objectPosition == 0)
-                    return StorageEngineConstant.ObjectDoesNotExist;
-                return StorageEngineConstant.DeletedObjectPosition;
+
+                return objectPosition == 0
+                           ? StorageEngineConstant.ObjectDoesNotExist
+                           : StorageEngineConstant.DeletedObjectPosition;
             }
             if (OdbConfiguration.IsLoggingEnabled())
             {
@@ -986,17 +987,15 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
         private static OID DecodeOid(byte[] bytes, int offset)
         {
             var oid = ByteArrayConverter.ByteArrayToLong(bytes, offset);
-            if (oid == -1)
-                return null;
-            return OIDFactory.BuildObjectOID(oid);
+            
+            return oid == -1 ? null : OIDFactory.BuildObjectOID(oid);
         }
 
         private OID ReadOid(string label)
         {
             var oid = _fsi.ReadLong(label);
-            if (oid == -1)
-                return null;
-            return OIDFactory.BuildObjectOID(oid);
+            
+            return oid == -1 ? null : OIDFactory.BuildObjectOID(oid);
         }
 
         /// <summary>
@@ -1273,14 +1272,17 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                     var odbTypeId = _fsi.ReadInt();
                     // Reads a boolean to know if object is null
                     var isNull = _fsi.ReadBoolean("Native object is null ?");
-                    if (isNull)
-                        return new NullNativeObjectInfo(odbTypeId);
+
                     // last parameter is false=> no need to read native object
                     // header, it has been done
-                    return ReadNativeObjectInfo(odbTypeId, objectPosition, useCache, returnObjects, false);
+                    return isNull
+                               ? new NullNativeObjectInfo(odbTypeId)
+                               : ReadNativeObjectInfo(odbTypeId, objectPosition, useCache, returnObjects, false);
                 }
+
                 if (BlockTypes.IsNonNative(blockType))
                     throw new OdbRuntimeException(NDatabaseError.ObjectReaderDirectCall);
+
                 throw new OdbRuntimeException(
                     NDatabaseError.UnknownBlockType.AddParameter(blockType).AddParameter(_fsi.GetPosition() - 1));
             }
@@ -1299,8 +1301,8 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
         /// <param name="recursionLevel"> The recursion level of this call </param>
         /// <returns> A Map where keys are attributes names and values are the values of there attributes @ </returns>
         private AttributeValuesMap ReadObjectInfoValuesFromPosition(ClassInfo classInfo, OID oid, long position,
-                                                                    bool useCache, IOdbList<string> attributeNames,
-                                                                    IOdbList<string> relationAttributeNames,
+                                                                    bool useCache, IList<string> attributeNames,
+                                                                    IList<string> relationAttributeNames,
                                                                     int recursionLevel)
         {
             _currentDepth++;
@@ -1583,14 +1585,14 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             if (OdbType.IsMap(realTypeId))
                 return ReadMap(position, useCache, returnObject);
             if (OdbType.IsEnum(realTypeId))
-                return ReadEnumObjectInfo(position, realTypeId);
+                return ReadEnumObjectInfo();
             throw new OdbRuntimeException(NDatabaseError.NativeTypeNotSupported.AddParameter(realTypeId));
         }
 
         /// <summary>
         ///   Reads an enum object
         /// </summary>
-        private EnumNativeObjectInfo ReadEnumObjectInfo(long position, int odbTypeId)
+        private EnumNativeObjectInfo ReadEnumObjectInfo()
         {
             var enumClassInfoId = _fsi.ReadLong("EnumClassInfoId");
             var enumValue = _fsi.ReadString();

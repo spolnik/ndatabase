@@ -249,10 +249,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
             if (clazz.IsArray)
                 return true;
 
-            if (Map._baseClass.IsAssignableFrom(clazz))
-                return true;
-
-            return Collection._baseClass.IsAssignableFrom(clazz);
+            return Map._baseClass.IsAssignableFrom(clazz) || Collection._baseClass.IsAssignableFrom(clazz);
         }
 
         public static bool Exist(string name)

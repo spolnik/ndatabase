@@ -25,9 +25,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
         /// <returns> Returns the id. </returns>
         public OID GetOid()
         {
-            if (_nnoi != null)
-                return _nnoi.GetOid();
-            return _id;
+            return _nnoi != null ? _nnoi.GetOid() : _id;
         }
 
         public override bool IsObjectReference()

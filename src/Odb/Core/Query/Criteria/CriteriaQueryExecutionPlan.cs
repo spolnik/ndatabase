@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Text;
 using NDatabase2.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase2.Odb.Core.Layers.Layer2.Meta;
@@ -125,7 +126,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         /// </summary>
         /// <param name="fields"> </param>
         /// <returns> The array of field ids </returns>
-        private int[] GetAllInvolvedFieldIds(IOdbList<string> fields)
+        private int[] GetAllInvolvedFieldIds(IList<string> fields)
         {
             var nbFields = fields.Count;
             var fieldIds = new int[nbFields];

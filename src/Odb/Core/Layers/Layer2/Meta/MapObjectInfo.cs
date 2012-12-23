@@ -29,9 +29,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
 
         public override string ToString()
         {
-            if (TheObject != null)
-                return TheObject.ToString();
-            return "null map";
+            return TheObject != null ? TheObject.ToString() : "null map";
         }
 
         public override bool IsMapObject()

@@ -383,7 +383,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Instance
                 NDatabaseError.InstanceBuilderNativeType.AddParameter(OdbType.GetNameFromId(objectInfo.GetOdbTypeId())));
         }
 
-        private object BuildOneInstance(AtomicNativeObjectInfo objectInfo)
+        private static object BuildOneInstance(AtomicNativeObjectInfo objectInfo)
         {
             var odbTypeId = objectInfo.GetOdbTypeId();
             long l;

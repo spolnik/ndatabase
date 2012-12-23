@@ -59,13 +59,11 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
             _oid = oid;
         }
 
-        public bool PutAll(IDictionary map)
+        public void PutAll(IDictionary map)
         {
             var keys = map.Keys;
             foreach (var key in keys)
                 Add(key, map[key]);
-
-            return true;
         }
     }
 }

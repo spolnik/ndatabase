@@ -51,9 +51,8 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta.Compare
                 return true;
             if (value is double)
                 return true;
-            if (value is decimal)
-                return true;
-            return false;
+            
+            return value is decimal;
         }
 
         public static bool IsNumber(object value)
@@ -78,9 +77,8 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta.Compare
                 return true;
             if (value is double)
                 return true;
-            if (value is decimal)
-                return true;
-            return false;
+            
+            return value is decimal;
         }
     }
 }

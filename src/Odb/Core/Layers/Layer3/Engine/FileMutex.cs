@@ -57,12 +57,12 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             }
         }
 
-        public bool OpenFile(string fileName)
+        public void OpenFile(string fileName)
         {
             var canOpenfile = CanOpenFile(fileName);
 
             if (canOpenfile)
-                return true;
+                return;
 
             var nbRetry = 0;
             while (!CanOpenFile(fileName) && nbRetry < NumberOfRetryToOpenFile)
@@ -71,8 +71,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
 
                 nbRetry++;
             }
-
-            return nbRetry < NumberOfRetryToOpenFile;
         }
     }
 }

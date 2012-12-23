@@ -76,7 +76,7 @@ namespace NDatabase2.Odb.Core.Query.Linq
         {
             MethodInfo match;
             
-            if (TryMatchMethod(typeof (NdbLinqQueryExtensions), method, out match))
+            if (TryMatchMethod(typeof (LinqQueryExtensions), method, out match))
                 return match;
 
             if (TryMatchMethod(typeof (Enumerable), method, out match))
@@ -119,7 +119,7 @@ namespace NDatabase2.Odb.Core.Query.Linq
             return true;
         }
 
-        private static bool TryMatchGenericMethod(MethodInfo method, ref MethodInfo candidate)
+        private static bool TryMatchGenericMethod(MethodBase method, ref MethodInfo candidate)
         {
             if (method.IsGenericMethod)
             {
@@ -152,9 +152,9 @@ namespace NDatabase2.Odb.Core.Query.Linq
             return true;
         }
 
-        private static bool LengthMatch<T1, T2>(T1[] a, T2[] b)
+        private static bool LengthMatch<T1, T2>(ICollection<T1> a, ICollection<T2> b)
         {
-            return a.Length == b.Length;
+            return a.Count == b.Count;
         }
 
         private static Func<Type, Type, bool> GetTypeComparer(Type type)
@@ -169,7 +169,7 @@ namespace NDatabase2.Odb.Core.Query.Linq
         private static readonly Dictionary<Type, Func<Type, Type>> FuncMappers = new Dictionary<Type, Func<Type, Type>>
                                                                                      {
                                                                                          {
-                                                                                             typeof (NdbLinqQueryExtensions),
+                                                                                             typeof (LinqQueryExtensions),
                                                                                              MapQueryableToNDb
                                                                                          },
                                                                                          {

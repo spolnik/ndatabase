@@ -105,11 +105,12 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             long positionToWrite = StorageEngineConstant.DatabaseHeaderFirstClassOid;
             FileSystemInterface.SetWritePosition(positionToWrite, inTransaction);
             WriteOid(classInfoId, inTransaction, "first class info oid");
-            if (OdbConfiguration.IsLoggingEnabled())
-            {
-                var positionToWriteAsString = positionToWrite.ToString();
-                DLogger.Debug("Updating first class info oid at " + positionToWriteAsString + " with oid " + classInfoId);
-            }
+            
+            if (!OdbConfiguration.IsLoggingEnabled()) 
+                return;
+
+            var positionToWriteAsString = positionToWrite.ToString();
+            DLogger.Debug("Updating first class info oid at " + positionToWriteAsString + " with oid " + classInfoId);
         }
 
         /// <summary>
@@ -162,15 +163,13 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
         /// <param name="nextBlockPosition"> </param>
         /// <param name="writeInTransaction"> </param>
         /// <returns> The block position @ </returns>
-        public long MarkIdBlockAsFull(long blockPosition, long nextBlockPosition, bool writeInTransaction)
+        public void MarkIdBlockAsFull(long blockPosition, long nextBlockPosition, bool writeInTransaction)
         {
             FileSystemInterface.SetWritePosition(blockPosition + StorageEngineConstant.BlockIdOffsetForBlockStatus, writeInTransaction);
             FileSystemInterface.WriteByte(BlockStatus.BlockFull, writeInTransaction);
             FileSystemInterface.SetWritePosition(blockPosition + StorageEngineConstant.BlockIdOffsetForNextBlock, writeInTransaction);
 
             FileSystemInterface.WriteLong(nextBlockPosition, writeInTransaction, "next id block pos");
-
-            return blockPosition;
         }
 
         /// <summary>

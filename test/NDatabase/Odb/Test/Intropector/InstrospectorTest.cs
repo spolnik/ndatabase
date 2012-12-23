@@ -698,36 +698,6 @@ namespace Test.NDatabase.Odb.Test.Intropector
         }
 
         [Test]
-        public virtual void TestGetDependentObjects()
-        {
-            var dbName = "TestGetDependentObjects.odb";
-            DeleteBase(dbName);
-            var odb = OdbFactory.Open(dbName);
-
-            var user = new User("olivier smadja", "olivier@neodatis.com",
-                                new Profile("operator", new VO.Login.Function("login")));
-            var callback = new DependentObjectIntrospectingCallback();
-            var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
-
-            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
-
-            var instanceInfo =
-                (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null, callback);
-
-            AssertEquals(OdbClassUtil.GetFullName(user.GetType()), instanceInfo.GetClassInfo().FullClassName);
-            AssertEquals("olivier smadja", instanceInfo.GetAttributeValueFromId(ci.GetAttributeId("name")).ToString());
-            AssertEquals(typeof (AtomicNativeObjectInfo),
-                         instanceInfo.GetAttributeValueFromId(ci.GetAttributeId("name")).GetType());
-            var objects = callback.GetObjects();
-            AssertEquals(3, objects.Count);
-            AssertTrue(objects.Contains(user.GetProfile()));
-            AssertTrue(objects.Contains(user.GetProfile().GetFunctions()[0]));
-
-            odb.Close();
-        }
-
-        [Test]
         public virtual void TestCopy()
         {
             var dbName = "introspectortest2.odb";

@@ -40,7 +40,7 @@ namespace NDatabase2.Odb.Core.Query.List.Objects
 
         #region IObjects<T> Members
 
-        public bool AddWithKey(IOdbComparable key, T @object)
+        public void AddWithKey(IOdbComparable key, T @object)
         {
             throw new OdbRuntimeException(NDatabaseError.OperationNotImplemented);
         }

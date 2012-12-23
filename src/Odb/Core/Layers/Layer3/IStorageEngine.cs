@@ -117,7 +117,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3
 
         void ResetCommitListeners();
 
-        ClassInfoList AddClasses(ClassInfoList classInfoList);
+        void AddClasses(ClassInfoList classInfoList);
 
         IDatabaseId GetDatabaseId();
 
@@ -141,7 +141,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3
         ///   Receive the current class info (loaded from current java classes present on classpath and check against the persisted meta model
         /// </summary>
         /// <param name="currentCIs"> </param>
-        CheckMetaModelResult CheckMetaModelCompatibility(IDictionary<string, ClassInfo> currentCIs);
+        void CheckMetaModelCompatibility(IDictionary<string, ClassInfo> currentCIs);
 
         IObjectIntrospector BuildObjectIntrospector();
 

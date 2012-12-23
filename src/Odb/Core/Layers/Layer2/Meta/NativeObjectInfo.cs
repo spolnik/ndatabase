@@ -34,9 +34,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
 
         public override string ToString()
         {
-            if (TheObject != null)
-                return TheObject.ToString();
-            return "null";
+            return TheObject != null ? TheObject.ToString() : "null";
         }
 
         public override bool Equals(object obj)
@@ -46,9 +44,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
 
             var noi = (NativeObjectInfo) obj;
 
-            if (TheObject == noi.GetObject())
-                return true;
-            return TheObject.Equals(noi.GetObject());
+            return TheObject == noi.GetObject() || TheObject.Equals(noi.GetObject());
         }
 
         public virtual bool IsNativeObject()

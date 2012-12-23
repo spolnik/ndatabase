@@ -307,7 +307,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
         /// <param name="oid"> The object id </param>
         /// <param name="nnoi"> The object meta represenation </param>
         /// <returns> The number of indexes </returns>
-        public int ManageIndexesForInsert(OID oid, NonNativeObjectInfo nnoi)
+        public void ManageIndexesForInsert(OID oid, NonNativeObjectInfo nnoi)
         {
             var indexes = nnoi.GetClassInfo().GetIndexes();
 
@@ -333,7 +333,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                             AddParameter(nnoi.GetClassInfo().NumberOfObjects));
                 }
             }
-            return indexes.Count;
         }
 
         /// <summary>
@@ -1320,12 +1319,12 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
         /// <param name="anoi"> </param>
         /// <param name="writeInTransaction"> To specify if data must be written in the transaction or directly to database file </param>
         /// <returns> The object position </returns>
-        public long WriteAtomicNativeObject(AtomicNativeObjectInfo anoi, bool writeInTransaction)
+        private long WriteAtomicNativeObject(AtomicNativeObjectInfo anoi, bool writeInTransaction)
         {
             return WriteAtomicNativeObject(anoi, writeInTransaction, -1);
         }
 
-        private void StoreFreeSpace(long currentPosition, int blockSize)
+        private static void StoreFreeSpace(long currentPosition, int blockSize)
         {
             if (OdbConfiguration.IsLoggingEnabled())
                 DLogger.Debug(string.Concat("Storing free space at position ", currentPosition.ToString(),

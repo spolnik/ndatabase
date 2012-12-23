@@ -393,11 +393,9 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
                     ClassInfoId = _oidInfo.ID,
                     CreationDate = OdbTime.GetCurrentTimeInTicks(),
                     Name = name,
-                    Status = ClassInfoIndex.Enabled,
                     IsUnique = !acceptMultipleValuesForSameKey
                 };
 
-            cii.LastRebuild = cii.CreationDate;
             var attributeIds = new int[indexFields.Length];
 
             for (var i = 0; i < indexFields.Length; i++)

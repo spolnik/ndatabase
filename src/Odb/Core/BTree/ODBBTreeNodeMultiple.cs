@@ -146,13 +146,13 @@ namespace NDatabase2.Odb.Core.BTree
             var childOid = (OID) node.GetChildIdAt(childIndex, throwExceptionIfDoesNotExist);
             _childrenOids[indexDestination] = childOid;
 
-            if (childOid != null)
-            {
-                // The parent of the child has changed
-                var child = Btree.GetPersister().LoadNodeById(childOid);
-                child.SetParent(this);
-                Btree.GetPersister().SaveNode(child);
-            }
+            if (childOid == null) 
+                return;
+
+            // The parent of the child has changed
+            var child = Btree.GetPersister().LoadNodeById(childOid);
+            child.SetParent(this);
+            Btree.GetPersister().SaveNode(child);
         }
 
         public override void SetNullChildAt(int childIndex)

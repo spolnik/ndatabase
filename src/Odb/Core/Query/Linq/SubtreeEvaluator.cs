@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace NDatabase2.Odb.Core.Query.Linq
 {
-    internal class SubtreeEvaluator : LinqQueryTranslator
+    internal sealed class SubtreeEvaluator : LinqQueryTranslator
     {
         private readonly HashSet<Expression> _candidates;
 
@@ -41,7 +41,7 @@ namespace NDatabase2.Odb.Core.Query.Linq
 
         #region Nested type: Nominator
 
-        private class Nominator : ExpressionTransformer
+        private sealed class Nominator : ExpressionTransformer
         {
             private readonly HashSet<Expression> _candidates = new HashSet<Expression>();
             private readonly Func<Expression, bool> _predicate;

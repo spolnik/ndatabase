@@ -106,10 +106,9 @@ namespace NDatabase2.Odb.Core.Query.Execution
                                                 queryResultAction);
 
                 // When query must be applied to a single object
-                if (Query.IsForSingleOid())
-                    return ExecuteForOneOid<T>(inMemory, returnObjects, queryResultAction);
-
-                return ExecuteFullScan<T>(inMemory, startIndex, endIndex, returnObjects, queryResultAction);
+                return Query.IsForSingleOid()
+                           ? ExecuteForOneOid<T>(inMemory, returnObjects, queryResultAction)
+                           : ExecuteFullScan<T>(inMemory, startIndex, endIndex, returnObjects, queryResultAction);
             }
             finally
             {
@@ -144,17 +143,16 @@ namespace NDatabase2.Odb.Core.Query.Execution
 
         #endregion
 
-        public abstract IQueryExecutionPlan GetExecutionPlan();
+        protected abstract IQueryExecutionPlan GetExecutionPlan();
 
-        public abstract void PrepareQuery();
+        protected abstract void PrepareQuery();
 
-        public abstract IComparable ComputeIndexKey(ClassInfo ci, ClassInfoIndex index);
+        protected abstract IComparable ComputeIndexKey(ClassInfo ci, ClassInfoIndex index);
 
         /// <summary>
         ///   This can be a NonNAtiveObjectInf or AttributeValuesMap
         /// </summary>
-        /// <returns> </returns>
-        public abstract object GetCurrentObjectMetaRepresentation();
+        protected abstract object GetCurrentObjectMetaRepresentation();
 
         /// <summary>
         ///   Check if the object with oid matches the query, returns true This method must compute the next object oid and the orderBy key if it exists!
@@ -162,7 +160,7 @@ namespace NDatabase2.Odb.Core.Query.Execution
         /// <param name="oid"> The object position </param>
         /// <param name="loadObjectInfo"> To indicate if object must loaded (when the query indicator 'in memory' is false, we do not need to load object, only ids) </param>
         /// <param name="inMemory"> To indicate if object must be actually loaded to memory </param>
-        public abstract bool MatchObjectWithOid(OID oid, bool loadObjectInfo, bool inMemory);
+        protected abstract bool MatchObjectWithOid(OID oid, bool loadObjectInfo, bool inMemory);
 
         /// <summary>
         ///   Query execution full scan <pre>startIndex &amp; endIndex
@@ -406,31 +404,22 @@ namespace NDatabase2.Odb.Core.Query.Execution
             return queryResultAction.GetObjects<T>();
         }
 
-        /// <summary>
-        ///   TODO very bad.
-        /// </summary>
-        /// <remarks>
-        ///   TODO very bad. Should remove the instanceof
-        /// </remarks>
-        /// <param name="object"> </param>
-        /// <returns> </returns>
-        public virtual IOdbComparable BuildOrderByKey(object @object)
+        protected IOdbComparable BuildOrderByKey(object @object)
         {
             var attributeValuesMap = @object as AttributeValuesMap;
 
-            if (attributeValuesMap != null)
-                return BuildOrderByKey(attributeValuesMap);
-
-            return BuildOrderByKey((NonNativeObjectInfo) @object);
+            return attributeValuesMap != null
+                       ? BuildOrderByKey(attributeValuesMap)
+                       : BuildOrderByKey((NonNativeObjectInfo) @object);
         }
 
-        public virtual IOdbComparable BuildOrderByKey(NonNativeObjectInfo nnoi)
+        protected IOdbComparable BuildOrderByKey(NonNativeObjectInfo nnoi)
         {
             // TODO cache the attributes ids to compute them only once
             return IndexTool.BuildIndexKey("OrderBy", nnoi, QueryManager.GetOrderByAttributeIds(ClassInfo, Query));
         }
 
-        public virtual IOdbComparable BuildOrderByKey(AttributeValuesMap values)
+        protected IOdbComparable BuildOrderByKey(AttributeValuesMap values)
         {
             return IndexTool.BuildIndexKey("OrderBy", values, Query.GetOrderByFieldNames());
         }

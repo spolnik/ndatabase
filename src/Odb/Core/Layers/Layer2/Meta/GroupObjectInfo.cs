@@ -6,9 +6,9 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
     ///   A super class for CollectionObjectInfo, MapObjectInfo and ArrayObjectInfo.
     /// </summary>
     /// <remarks>
-    ///   A super class for CollectionObjectInfo, MapObjectInfo and ArrayObjectInfo. It keeps a list of reference to non native objects contained in theses structures
+    ///   A super class for CollectionObjectInfo, MapObjectInfo and ArrayObjectInfo. 
+    ///   It keeps a list of reference to non native objects contained in theses structures
     /// </remarks>
-    /// <author>osmadja</author>
     internal abstract class GroupObjectInfo : NativeObjectInfo
     {
         private ICollection<NonNativeObjectInfo> _nonNativeObjects;
@@ -28,12 +28,12 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
             return _nonNativeObjects;
         }
 
-        public virtual void SetNonNativeObjects(ICollection<NonNativeObjectInfo> nonNativeObjects)
+        protected void SetNonNativeObjects(ICollection<NonNativeObjectInfo> nonNativeObjects)
         {
             _nonNativeObjects = nonNativeObjects;
         }
 
-        public virtual void AddNonNativeObjectInfo(NonNativeObjectInfo nnoi)
+        public void AddNonNativeObjectInfo(NonNativeObjectInfo nnoi)
         {
             _nonNativeObjects.Add(nnoi);
         }

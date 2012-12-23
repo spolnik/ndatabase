@@ -14,17 +14,17 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         {
         }
 
-        public override IQueryExecutionPlan GetExecutionPlan()
+        protected override IQueryExecutionPlan GetExecutionPlan()
         {
             return new CriteriaQueryExecutionPlan(ClassInfo, Query);
         }
 
-        public override void PrepareQuery()
+        protected override void PrepareQuery()
         {
             _involvedFields = Query.GetAllInvolvedFields();
         }
 
-        public override bool MatchObjectWithOid(OID oid, bool returnObject, bool inMemory)
+        protected override bool MatchObjectWithOid(OID oid, bool returnObject, bool inMemory)
         {
             CurrentOid = oid;
             var tmpCache = Session.GetTmpCache();
@@ -83,20 +83,19 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             }
         }
 
-        public override IComparable ComputeIndexKey(ClassInfo ci, ClassInfoIndex index)
+        protected override IComparable ComputeIndexKey(ClassInfo ci, ClassInfoIndex index)
         {
-            var query = (CriteriaQuery) Query;
-            var constraint = query.GetCriteria();
+            var constraint = Query.GetCriteria();
             var values = ((IInternalConstraint)constraint).GetValues();
 
             // if values.hasOid() is true, this means that we are working of the full object,
             // the index key is then the oid and not the object itself
             return values.HasOid()
                        ? new SimpleCompareKey(values.GetOid())
-                       : IndexTool.ComputeKey(ClassInfo, index, (CriteriaQuery) Query);
+                       : IndexTool.ComputeKey(ClassInfo, index, Query);
         }
 
-        public override object GetCurrentObjectMetaRepresentation()
+        protected override object GetCurrentObjectMetaRepresentation()
         {
             return CurrentNnoi;
         }

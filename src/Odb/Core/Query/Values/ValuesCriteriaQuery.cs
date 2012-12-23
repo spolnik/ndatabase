@@ -130,7 +130,7 @@ namespace NDatabase2.Odb.Core.Query.Values
             return this;
         }
 
-        public IOdbList<IQueryFieldAction> GetObjectActions()
+        public IEnumerable<IQueryFieldAction> GetObjectActions()
         {
             return _objectActions;
         }

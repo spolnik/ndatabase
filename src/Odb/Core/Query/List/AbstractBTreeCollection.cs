@@ -36,14 +36,10 @@ namespace NDatabase2.Odb.Core.Query.List
         /// <summary>
         ///   Adds the object in the btree with the specific key
         /// </summary>
-        /// <param name="key"> </param>
-        /// <param name="o"> </param>
-        /// <returns> </returns>
-        public virtual bool AddWithKey(IOdbComparable key, TItem o)
+        public virtual void AddWithKey(IOdbComparable key, TItem o)
         {
             _tree.Insert(key, o);
             _size++;
-            return true;
         }
 
         /// <summary>
@@ -147,7 +143,7 @@ namespace NDatabase2.Odb.Core.Query.List
 
         protected abstract IBTree BuildTree(int degree);
 
-        public virtual bool AddAll(ICollection<TItem> collection)
+        public bool AddAll(IEnumerable<TItem> collection)
         {
             var iterator = collection.GetEnumerator();
             while (iterator.MoveNext())
@@ -155,22 +151,22 @@ namespace NDatabase2.Odb.Core.Query.List
             return true;
         }
 
-        public virtual bool ContainsAll(ICollection collection)
+        public bool ContainsAll(ICollection collection)
         {
             throw new OdbRuntimeException(NDatabaseError.OperationNotImplemented.AddParameter("containsAll"));
         }
 
-        public virtual bool IsEmpty()
+        public bool IsEmpty()
         {
             return _size == 0;
         }
 
-        public virtual bool RemoveAll(ICollection collection)
+        public bool RemoveAll(ICollection collection)
         {
             throw new OdbRuntimeException(NDatabaseError.OperationNotImplemented.AddParameter("removeAll"));
         }
 
-        public virtual bool RetainAll(ICollection collection)
+        public bool RetainAll(ICollection collection)
         {
             throw new OdbRuntimeException(NDatabaseError.OperationNotImplemented.AddParameter("retainAll"));
         }
@@ -180,7 +176,7 @@ namespace NDatabase2.Odb.Core.Query.List
             return ToArray(new object[_size]);
         }
 
-        public virtual object[] ToArray(object[] objects)
+        protected object[] ToArray(object[] objects)
         {
             IEnumerator iterator = GetEnumerator();
             var i = 0;

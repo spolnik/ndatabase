@@ -7,8 +7,7 @@ namespace NDatabase2.Odb.Core.Query.Values
     /// <summary>
     ///   An action to count objects of a query
     /// </summary>
-    
-    public sealed class CountAction : AbstractQueryFieldAction
+    internal sealed class CountAction : AbstractQueryFieldAction
     {
         private static readonly Decimal One = new decimal(1);
 

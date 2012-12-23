@@ -173,7 +173,7 @@ namespace NDatabase2.Odb.Core.Query.Linq
             var obj = Visit(m.Object);
             IEnumerable<Expression> args = VisitExpressionList(m.Arguments);
             
-            if (obj != m.Object || args != m.Arguments)
+            if (obj != m.Object || !Equals(args, m.Arguments))
                 return Expression.Call(obj, m.Method, args);
 
             return m;
@@ -191,26 +191,28 @@ namespace NDatabase2.Odb.Core.Query.Linq
         protected virtual MemberAssignment VisitMemberAssignment(MemberAssignment assignment)
         {
             var e = Visit(assignment.Expression);
-            if (e != assignment.Expression) return Expression.Bind(assignment.Member, e);
-            return assignment;
+
+            return e != assignment.Expression 
+                ? Expression.Bind(assignment.Member, e) 
+                : assignment;
         }
 
         protected virtual MemberMemberBinding VisitMemberMemberBinding(MemberMemberBinding binding)
         {
             var bindings = VisitBindingList(binding.Bindings);
 
-            return bindings != binding.Bindings 
-                ? Expression.MemberBind(binding.Member, bindings) 
-                : binding;
+            return !Equals(bindings, binding.Bindings)
+                       ? Expression.MemberBind(binding.Member, bindings)
+                       : binding;
         }
 
         protected virtual MemberListBinding VisitMemberListBinding(MemberListBinding binding)
         {
             var initializers = VisitElementInitializerList(binding.Initializers);
-            
-            return initializers != binding.Initializers 
-                ? Expression.ListBind(binding.Member, initializers) 
-                : binding;
+
+            return !Equals(initializers, binding.Initializers)
+                       ? Expression.ListBind(binding.Member, initializers)
+                       : binding;
         }
 
         protected virtual IEnumerable<MemberBinding> VisitBindingList(ReadOnlyCollection<MemberBinding> original)
@@ -262,10 +264,10 @@ namespace NDatabase2.Odb.Core.Query.Linq
         protected virtual NewExpression VisitNew(NewExpression nex)
         {
             IEnumerable<Expression> args = VisitExpressionList(nex.Arguments);
-            
-            return args != nex.Arguments
-                ? Expression.New(nex.Constructor, args, nex.Members) 
-                : nex;
+
+            return !Equals(args, nex.Arguments)
+                       ? Expression.New(nex.Constructor, args, nex.Members)
+                       : nex;
         }
 
         protected virtual Expression VisitMemberInit(MemberInitExpression init)
@@ -273,7 +275,7 @@ namespace NDatabase2.Odb.Core.Query.Linq
             var n = VisitNew(init.NewExpression);
             var bindings = VisitBindingList(init.Bindings);
 
-            if (n != init.NewExpression || bindings != init.Bindings) 
+            if (n != init.NewExpression || !Equals(bindings, init.Bindings)) 
                 return Expression.MemberInit(n, bindings);
 
             return init;
@@ -284,7 +286,7 @@ namespace NDatabase2.Odb.Core.Query.Linq
             var n = VisitNew(init.NewExpression);
             var initializers = VisitElementInitializerList(init.Initializers);
 
-            if (n != init.NewExpression || initializers != init.Initializers)
+            if (n != init.NewExpression || !Equals(initializers, init.Initializers))
                 return Expression.ListInit(n, initializers);
 
             return init;
@@ -294,7 +296,7 @@ namespace NDatabase2.Odb.Core.Query.Linq
         {
             IEnumerable<Expression> exprs = VisitExpressionList(na.Expressions);
             
-            if (exprs != na.Expressions)
+            if (!Equals(exprs, na.Expressions))
             {
                 return na.NodeType == ExpressionType.NewArrayInit
                            ? Expression.NewArrayInit(na.Type.GetElementType(), exprs)
@@ -309,7 +311,7 @@ namespace NDatabase2.Odb.Core.Query.Linq
             IEnumerable<Expression> args = VisitExpressionList(iv.Arguments);
             var expr = Visit(iv.Expression);
 
-            if (args != iv.Arguments || expr != iv.Expression) 
+            if (!Equals(args, iv.Arguments) || expr != iv.Expression) 
                 return Expression.Invoke(expr, args);
 
             return iv;

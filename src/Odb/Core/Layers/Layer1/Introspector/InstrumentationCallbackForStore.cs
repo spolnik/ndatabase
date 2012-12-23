@@ -15,7 +15,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer1.Introspector
 
         #region IIntrospectionCallback Members
 
-        public bool ObjectFound(object @object)
+        public void ObjectFound(object @object)
         {
             if (!_isUpdate)
             {
@@ -25,8 +25,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer1.Introspector
                     _triggerManager.ManageInsertTriggerBefore(type, @object);
                 }
             }
-
-            return true;
         }
 
         #endregion

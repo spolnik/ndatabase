@@ -92,12 +92,12 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
             return _allClassInfos;
         }
 
-        public ICollection<ClassInfo> GetUserClasses()
+        public IEnumerable<ClassInfo> GetUserClasses()
         {
             return _rapidAccessForUserClassesByName.Values;
         }
 
-        public ICollection<ClassInfo> GetSystemClasses()
+        public IEnumerable<ClassInfo> GetSystemClasses()
         {
             return _rapidAccessForSystemClassesByName.Values;
         }
@@ -174,7 +174,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
             return _hasChanged;
         }
 
-        public ICollection<ClassInfo> GetChangedClassInfo()
+        public IEnumerable<ClassInfo> GetChangedClassInfo()
         {
             IOdbList<ClassInfo> list = new OdbList<ClassInfo>();
             list.AddAll(_changedClasses.Keys);

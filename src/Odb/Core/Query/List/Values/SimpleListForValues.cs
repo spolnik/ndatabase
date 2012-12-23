@@ -22,7 +22,7 @@ namespace NDatabase2.Odb.Core.Query.List.Values
             return Next();
         }
 
-        public override bool AddWithKey(IOdbComparable key, IObjectValues @object)
+        public override void AddWithKey(IOdbComparable key, IObjectValues @object)
         {
             throw new OdbRuntimeException(NDatabaseError.OperationNotImplemented.AddParameter("addWithKey"));
         }

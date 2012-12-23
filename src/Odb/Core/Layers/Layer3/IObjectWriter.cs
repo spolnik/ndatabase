@@ -104,8 +104,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3
         /// </summary>
         /// <param name="oid"> The object id </param>
         /// <param name="nnoi"> The object meta represenation </param>
-        /// <returns> The number of indexes </returns>
-        int ManageIndexesForInsert(OID oid, NonNativeObjectInfo nnoi);
+        void ManageIndexesForInsert(OID oid, NonNativeObjectInfo nnoi);
 
         /// <summary>
         ///   Store a meta representation of an object(already as meta representation)in ODBFactory database.

@@ -214,7 +214,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                                                   queryResultAction);
         }
 
-        public abstract ClassInfoList AddClasses(ClassInfoList arg1);
+        public abstract void AddClasses(ClassInfoList arg1);
 
         public abstract void AddCommitListener(ICommitListener arg1);
 
@@ -234,7 +234,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
 
         public abstract IInternalTriggerManager BuildTriggerManager();
 
-        public abstract CheckMetaModelResult CheckMetaModelCompatibility(IDictionary<string, ClassInfo> arg1);
+        public abstract void CheckMetaModelCompatibility(IDictionary<string, ClassInfo> arg1);
 
         public abstract void Close();
 

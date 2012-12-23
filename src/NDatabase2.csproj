@@ -113,7 +113,7 @@
     <Compile Include="Odb\Core\Query\Linq\ILinqQueryable.cs" />
     <Compile Include="Odb\Core\Query\Linq\LinqQuery.cs" />
     <Compile Include="Odb\Core\Query\Linq\LinqQueryTranslator.cs" />
-    <Compile Include="Odb\Core\Query\Linq\NdbLinqQueryExtensions.cs" />
+    <Compile Include="Odb\Core\Query\Linq\LinqQueryExtensions.cs" />
     <Compile Include="Odb\Core\Query\Linq\LinqQueryable.cs" />
     <Compile Include="Odb\Core\Query\Linq\OptimizeableMethodConstrains.cs" />
     <Compile Include="Odb\Core\Query\Linq\OrderByAscendingClauseVisitor.cs" />
@@ -237,7 +237,6 @@
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\ClassIntrospector.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\DefaultInstrumentationCallback.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\InstrumentationCallbackForStore.cs" />
-    <Compile Include="Odb\Core\Layers\Layer1\Introspector\DependentObjectIntrospectingCallback.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\ObjectIntrospector.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\NonPersistentAttribute.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Instance\InstanceBuilder.cs" />

@@ -19,20 +19,20 @@ namespace NDatabase2.Odb.Core.Query.Values
             _criteriaQuery = (CriteriaQuery) query;
         }
 
-        public override IQueryExecutionPlan GetExecutionPlan()
+        protected override IQueryExecutionPlan GetExecutionPlan()
         {
-            IQueryExecutionPlan plan = new CriteriaQueryExecutionPlan(ClassInfo, (CriteriaQuery) Query);
+            IQueryExecutionPlan plan = new CriteriaQueryExecutionPlan(ClassInfo, Query);
             return plan;
         }
 
-        public override void PrepareQuery()
+        protected override void PrepareQuery()
         {
-            _criteriaQuery = (CriteriaQuery) Query;
-            ((IInternalQuery)_criteriaQuery).SetStorageEngine(StorageEngine);
+            _criteriaQuery = Query;
+            ((IInternalQuery) _criteriaQuery).SetStorageEngine(StorageEngine);
             _involvedFields = _criteriaQuery.GetAllInvolvedFields();
         }
 
-        public override bool MatchObjectWithOid(OID oid, bool returnObject, bool inMemory)
+        protected override bool MatchObjectWithOid(OID oid, bool returnObject, bool inMemory)
         {
             CurrentOid = oid;
 
@@ -53,12 +53,12 @@ namespace NDatabase2.Odb.Core.Query.Values
             return objectMatches;
         }
 
-        public override IComparable ComputeIndexKey(ClassInfo ci, ClassInfoIndex index)
+        protected override IComparable ComputeIndexKey(ClassInfo ci, ClassInfoIndex index)
         {
-            return IndexTool.ComputeKey(ClassInfo, index, (CriteriaQuery) Query);
+            return IndexTool.ComputeKey(ClassInfo, index, Query);
         }
 
-        public override object GetCurrentObjectMetaRepresentation()
+        protected override object GetCurrentObjectMetaRepresentation()
         {
             return _values;
         }

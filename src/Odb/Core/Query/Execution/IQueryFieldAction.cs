@@ -6,7 +6,11 @@ namespace NDatabase2.Odb.Core.Query.Execution
     ///   Used to implement generic action on matching object.
     /// </summary>
     /// <remarks>
-    ///   Used to implement generic action on matching object. The Generic query executor is responsible for checking if an object meets the criteria conditions. Then an(some) object actions are called to execute what must be done with matching objects. A ValuesQuery can contain more than one QueryFieldAction.
+    ///   Used to implement generic action on matching object.
+    ///   The Generic query executor is responsible for checking if 
+    ///   an object meets the criteria conditions. Then an(some) object 
+    ///   actions are called to execute what must be done with matching 
+    ///   objects. A ValuesQuery can contain more than one QueryFieldAction.
     /// </remarks>
     public interface IQueryFieldAction
     {

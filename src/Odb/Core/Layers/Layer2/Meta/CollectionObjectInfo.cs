@@ -43,9 +43,9 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
 
         public override string ToString()
         {
-            if (TheObject != null)
-                return TheObject.ToString();
-            return "null collection";
+            return TheObject != null 
+                ? TheObject.ToString() 
+                : "null collection";
         }
 
         public override bool IsCollectionObject()

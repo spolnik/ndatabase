@@ -7,7 +7,7 @@ namespace NDatabase2.Odb.Core.Query.Linq
 {
     internal abstract class ExpressionQueryBuilder : ExpressionVisitor
     {
-        public QueryBuilderRecorder Recorder { get; private set; }
+        protected QueryBuilderRecorder Recorder { get; set; }
 
         public virtual IQueryBuilderRecord Process(LambdaExpression expression)
         {
@@ -103,7 +103,7 @@ namespace NDatabase2.Odb.Core.Query.Linq
             return !expression.Type.IsEnum ? null : expression.Type;
         }
 
-        protected void AnalyseMethod(QueryBuilderRecorder recorder, MethodInfo method)
+        protected static void AnalyseMethod(QueryBuilderRecorder recorder, MethodInfo method)
         {
             try
             {

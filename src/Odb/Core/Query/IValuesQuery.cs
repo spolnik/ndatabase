@@ -9,7 +9,7 @@ namespace NDatabase2.Odb.Core.Query
     internal interface IInternalValuesQuery : IValuesQuery
     {
         IOdbList<string> GetAllInvolvedFields();
-        IOdbList<IQueryFieldAction> GetObjectActions();
+        IEnumerable<IQueryFieldAction> GetObjectActions();
     }
 
     public interface IValuesQuery : IQuery

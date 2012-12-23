@@ -38,9 +38,7 @@ namespace NDatabase2.Odb.Core.Query.Execution
                 }
             }
 
-            if (keys.Length == 1)
-                return keys[0];
-            return new ComposedCompareKey(keys);
+            return keys.Length == 1 ? keys[0] : new ComposedCompareKey(keys);
         }
 
         internal static IOdbComparable BuildIndexKey(string indexName, AttributeValuesMap values, IList<string> fields)

@@ -54,7 +54,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             // false : do not write data in transaction. Data are always written
             // directly to disk. Pointers are written in transaction
             var newOid = WriteNonNativeObjectInfo(oid, nnoi, -1, false, isNewObject);
-            if (newOid != StorageEngineConstant.NullObjectId)
+            if (!Equals(newOid, StorageEngineConstant.NullObjectId))
                 _session.GetCache().AddObject(newOid, @object, nnoi.GetHeader());
             
             return newOid;
@@ -608,7 +608,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             }
         }
 
-        private static void EncodeOid(OID oid, byte[] bytes, int offset)
+        private static void EncodeOid(OID oid, IList<byte> bytes, int offset)
         {
             if (oid == null)
                 LongToByteArray(-1, bytes, offset);
@@ -634,7 +634,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             _objectWriter.FileSystemProcessor.FileSystemInterface.SetWritePosition(currentPosition, writeInTransaction);
         }
 
-        private static void BooleanToByteArray(bool b, byte[] arrayWhereToWrite, int offset)
+        private static void BooleanToByteArray(bool b, IList<byte> arrayWhereToWrite, int offset)
         {
             const byte byteForTrue = 1;
             const byte byteForFalse = 0;

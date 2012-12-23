@@ -69,7 +69,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
         /// <param name="nextBlockPosition"> </param>
         /// <param name="writeInTransaction"> </param>
         /// <returns> The block position @ </returns>
-        long MarkIdBlockAsFull(long blockPosition, long nextBlockPosition, bool writeInTransaction);
+        void MarkIdBlockAsFull(long blockPosition, long nextBlockPosition, bool writeInTransaction);
 
         /// <summary>
         ///   Creates the header of the file

@@ -41,7 +41,7 @@ namespace NDatabase2.Odb.Core.Query.Linq
             return new BackingFieldPattern();
         }
 
-        private static MatchContext MatchGetter(MethodInfo method)
+        private static MatchContext MatchGetter(MethodBase method)
         {
             return ILPattern.Match(method, GetterPattern);
         }

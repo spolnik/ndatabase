@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq.Expressions;
 
@@ -158,12 +159,10 @@ namespace NDatabase2.Odb.Core.Query.Linq
             VisitExpressionList(methodCall.Arguments);
         }
 
-        protected virtual void VisitList<T>(ReadOnlyCollection<T> list, Action<T> visitor)
+        protected virtual void VisitList<T>(IEnumerable<T> list, Action<T> visitor)
         {
             foreach (var element in list)
-            {
                 visitor(element);
-            }
         }
 
         protected virtual void VisitExpressionList<TExp>(ReadOnlyCollection<TExp> list) where TExp : Expression

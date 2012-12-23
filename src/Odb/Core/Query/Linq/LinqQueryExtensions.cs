@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace NDatabase2.Odb.Core.Query.Linq
 {
-    public static class NdbLinqQueryExtensions
+    public static class LinqQueryExtensions
     {
         public static ILinqQuery<TSource> Where<TSource>(this ILinqQuery<TSource> self,
                                                          Expression<Func<TSource, bool>> expression)

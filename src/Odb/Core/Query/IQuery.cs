@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using NDatabase2.Odb.Core.Query.Criteria;
-using NDatabase2.Odb.Core.Query.Linq;
 
 namespace NDatabase2.Odb.Core.Query
 {

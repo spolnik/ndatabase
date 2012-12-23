@@ -130,7 +130,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
         ///   Receive the current class info (loaded from current classes present on runtime and check against the persisted meta model
         /// </summary>
         /// <param name="currentCIs"> </param>
-        public override CheckMetaModelResult CheckMetaModelCompatibility(IDictionary<string, ClassInfo> currentCIs)
+        public override void CheckMetaModelCompatibility(IDictionary<string, ClassInfo> currentCIs)
         {
             ClassInfo currentCI;
             ClassInfoCompareResult result;
@@ -168,13 +168,11 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                 DLogger.Info(result.ToString());
             }
 
-            if (!checkMetaModelResult.GetResults().IsEmpty())
-            {
-                UpdateMetaModel();
-                checkMetaModelResult.SetModelHasBeenUpdated(true);
-            }
+            if (checkMetaModelResult.GetResults().IsEmpty()) 
+                return;
 
-            return checkMetaModelResult;
+            UpdateMetaModel();
+            checkMetaModelResult.SetModelHasBeenUpdated(true);
         }
 
         public override OID Store<T>(T plainObject)
@@ -500,9 +498,9 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             _triggerManager.AddUpdateTriggerFor(type, trigger);
         }
 
-        public override ClassInfoList AddClasses(ClassInfoList classInfoList)
+        public override void AddClasses(ClassInfoList classInfoList)
         {
-            return GetObjectWriter().AddClasses(classInfoList);
+            GetObjectWriter().AddClasses(classInfoList);
         }
 
         public override ISession BuildDefaultSession()
@@ -617,9 +615,9 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             // During the introspection process, if object is to be updated, then the oid has been set
             mustUpdate = nnoi.GetOid() != null;
 
-            if (mustUpdate)
-                return _objectWriter.UpdateNonNativeObjectInfo(nnoi, false);
-            return _objectWriter.InsertNonNativeObject(oid, nnoi, true);
+            return mustUpdate
+                       ? _objectWriter.UpdateNonNativeObjectInfo(nnoi, false)
+                       : _objectWriter.InsertNonNativeObject(oid, nnoi, true);
         }
 
         /// <summary>

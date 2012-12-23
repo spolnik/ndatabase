@@ -21,11 +21,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
 
         public bool IsUnique { get; set; }
 
-        public long LastRebuild { get; set; }
-
         public string Name { get; set; }
-
-        public byte Status { get; set; }
 
         public IBTree BTree { get; set; }
 

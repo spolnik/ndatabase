@@ -47,10 +47,7 @@ namespace NDatabase2.Odb.Core.BTree
             if (_returnObjects)
             {
                 var loadedObject = nnoi.GetObject();
-                if (loadedObject != null)
-                    return loadedObject;
-
-                return _storageEngine.GetObjectReader().BuildOneInstance(nnoi);
+                return loadedObject ?? _storageEngine.GetObjectReader().BuildOneInstance(nnoi);
             }
 
             return nnoi;

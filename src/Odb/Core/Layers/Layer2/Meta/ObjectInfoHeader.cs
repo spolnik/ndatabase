@@ -222,9 +222,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
 
             var other = (ObjectInfoHeader) obj;
             
-            if (_position != other._position)
-                return false;
-            return true;
+            return _position == other._position;
         }
 
         public void IncrementVersionAndUpdateDate()

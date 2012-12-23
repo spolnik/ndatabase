@@ -7,11 +7,8 @@ namespace NDatabase2.Odb.Core.Query.Values
     /// <summary>
     ///   An action to compute the average value of a field
     /// </summary>
-    /// <author>osmadja</author>
-    
-    public sealed class AverageValueAction : AbstractQueryFieldAction
+    internal sealed class AverageValueAction : AbstractQueryFieldAction
     {
-        private readonly int _roundType;
         private readonly int _scale;
         private Decimal _average;
         private int _nbValues;
@@ -23,7 +20,6 @@ namespace NDatabase2.Odb.Core.Query.Values
             _nbValues = 0;
             AttributeName = attributeName;
             _scale = OdbConfiguration.GetScaleForAverageDivision();
-            _roundType = OdbConfiguration.GetRoundTypeForAverageDivision();
         }
 
         public override void Execute(OID oid, AttributeValuesMap values)
