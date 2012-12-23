@@ -47,11 +47,6 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             throw new NotSupportedException();
         }
 
-        public IConstraint InvariantEqual()
-        {
-            throw new NotSupportedException();
-        }
-
         public IConstraint Identity()
         {
             throw new NotSupportedException();
@@ -113,6 +108,16 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         }
 
         public object GetObject()
+        {
+            throw new NotSupportedException();
+        }
+
+        public IConstraint EndsWith(bool isCaseSensitive)
+        {
+            throw new NotSupportedException();
+        }
+
+        public IConstraint StartsWith(bool isCaseSensitive)
         {
             throw new NotSupportedException();
         }

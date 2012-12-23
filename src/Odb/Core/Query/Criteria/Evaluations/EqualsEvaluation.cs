@@ -7,12 +7,9 @@ namespace NDatabase2.Odb.Core.Query.Criteria.Evaluations
 {
     internal class EqualsEvaluation : AEvaluation
     {
-        private readonly bool _isCaseSensitive;
-
-        public EqualsEvaluation(object theObject, string attributeName, bool isCaseSensitive = true)
+        public EqualsEvaluation(object theObject, string attributeName)
             : base(theObject, attributeName)
         {
-            _isCaseSensitive = isCaseSensitive;
         }
 
         public override bool Evaluate(object candidate)
@@ -22,35 +19,13 @@ namespace NDatabase2.Odb.Core.Query.Criteria.Evaluations
             if (candidate == null && TheObject == null)
                 return true;
 
+            if (candidate == null || TheObject == null)
+                return false;
+
             if (AttributeValueComparator.IsNumber(candidate) && AttributeValueComparator.IsNumber(TheObject))
                 return AttributeValueComparator.Compare((IComparable) candidate, (IComparable) TheObject) == 0;
 
-            // if case sensitive (default value), just call the equals on the objects
-            if (_isCaseSensitive)
-            {
-                if (IsNative())
-                    return candidate != null && Equals(candidate, TheObject);
-            }
-
-            // Case insensitive (iequal) only works on String or Character!
-            var typeOfValueToMatch = candidate.GetType();
-
-            var canUseCaseInsensitive = TheObject != null &&
-                                         ((TheObject is string && typeOfValueToMatch == typeof (string)) ||
-                                          (TheObject is char && typeOfValueToMatch == typeof (char)));
-            if (!canUseCaseInsensitive)
-            {
-                throw new OdbRuntimeException(
-                    NDatabaseError.QueryAttributeTypeNotSupportedInIequalExpression.AddParameter(
-                        typeOfValueToMatch.FullName));
-            }
-
-            // Cast to string to make the right comparison using the
-            // equalsIgnoreCase
-            var s1 = (string) candidate;
-            var s2 = TheObject as string;
-
-            return String.Compare(s1, s2, StringComparison.OrdinalIgnoreCase) == 0;
+            return Equals(candidate, TheObject);
         }
 
         public override string ToString()

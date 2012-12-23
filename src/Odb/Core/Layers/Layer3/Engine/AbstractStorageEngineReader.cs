@@ -53,7 +53,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             TriggerManagers.Remove(this);
         }
 
-        public virtual IInternalObjectSet<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex) where T : class
+        public virtual IInternalObjectSet<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex)
         {
             if (IsDbClosed)
                 throw new OdbRuntimeException(NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));

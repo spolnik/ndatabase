@@ -2,6 +2,7 @@ using NDatabase2.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase2.Odb.Core.Layers.Layer3;
 using NDatabase2.Odb.Core.Query;
 using NDatabase2.Odb.Core.Query.Criteria;
+using NDatabase2.Odb.Core.Query.Linq;
 using NDatabase2.Odb.Core.Query.Values;
 
 namespace NDatabase2.Odb.Main
@@ -36,7 +37,7 @@ namespace NDatabase2.Odb.Main
             return _storageEngine.Store(plainObject);
         }
 
-        public IQuery Query<T>() where T : class
+        public IQuery Query<T>()
         {
             var criteriaQuery = new CriteriaQuery(typeof(T));
             ((IInternalQuery)criteriaQuery).SetStorageEngine(_storageEngine);
@@ -55,6 +56,15 @@ namespace NDatabase2.Odb.Main
             var criteriaQuery = new ValuesCriteriaQuery(typeof(T), oid);
             ((IInternalQuery)criteriaQuery).SetStorageEngine(_storageEngine);
             return criteriaQuery;
+        }
+
+        public ILinqQueryable<T> AsQueryable<T>()
+        {
+            if (typeof(T) == typeof(object)) 
+                return new PlaceHolderQuery<T>(this).AsQueryable();
+
+            var linqQuery = new LinqQuery<T>(this);
+            return linqQuery.AsQueryable();
         }
 
         public IValues GetValues(IValuesQuery query)

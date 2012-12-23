@@ -213,6 +213,12 @@ namespace NDatabase2.Odb.Core
         internal static readonly NDatabaseError TransactionAlreadyCommitedOrRollbacked = new NDatabaseError(1017,
                                                                                                         "Transaction have already been 'committed' or 'rollbacked'");
 
+        internal static readonly NDatabaseError QueryStartsWithConstraintTypeNotSupported = new NDatabaseError(1019,
+                                                                                                            "startsWith() can not be used with a @1, only strings are supported");
+
+        internal static readonly NDatabaseError QueryEndsWithConstraintTypeNotSupported = new NDatabaseError(1020,
+                                                                                                            "endsWith() can not be used with a @1, only strings are supported");
+
         internal static readonly NDatabaseError QueryBadCriteria = new NDatabaseError(1021,
                                                                                   "CollectionSizeCriteria only work with Collection or Array, and you passed a @1 instead");
 

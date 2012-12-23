@@ -813,7 +813,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             return _instanceBuilder.BuildOneInstance(objectInfo, _storageEngine.GetSession(true).GetCache());
         }
 
-        public IInternalObjectSet<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex) where T : class
+        public IInternalObjectSet<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex)
         {
             IMatchingObjectAction queryResultAction = new QueryResultAction<T>(query, inMemory, _storageEngine,
                                                                                          true, _instanceBuilder);

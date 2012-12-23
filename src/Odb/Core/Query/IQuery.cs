@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using NDatabase2.Odb.Core.Query.Criteria;
+using NDatabase2.Odb.Core.Query.Linq;
 
 namespace NDatabase2.Odb.Core.Query
 {
@@ -43,7 +45,7 @@ namespace NDatabase2.Odb.Core.Query
         /// executes the Query.
         /// </summary>
         /// <returns>ObjectSet - the result of the Query.</returns>
-        IObjectSet<T> Execute<T>() where T : class;
+        IObjectSet<T> Execute<T>();
 
 
         /// <summary>

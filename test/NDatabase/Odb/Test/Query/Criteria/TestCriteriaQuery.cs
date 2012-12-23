@@ -172,10 +172,10 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             SetUp(baseName);
             var odb = Open(baseName);
             var aq = odb.Query<VO.Login.Function>();
-            aq.Descend("name").Constrain("FuNcTiOn 1").InvariantEqual();
+            aq.Descend("name").Constrain("FuNcTiOn 1").InvariantLike();
             aq.Descend("name").OrderDescending();
             var l = aq.Execute<VO.Login.Function>(true, -1, -1);
-            AssertEquals(1, l.Count);
+            AssertEquals(11, l.Count);
             odb.Close();
         }
 

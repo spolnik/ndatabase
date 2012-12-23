@@ -97,7 +97,6 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         /// <returns>this IConstraint to allow the chaining of method calls.</returns>
         IConstraint Not();
 
-        IConstraint InvariantEqual();
         IConstraint InvariantLike();
 
         IConstraint SizeLe();
@@ -114,5 +113,8 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         /// </summary>
         /// <returns>The constraining object.</returns>
         object GetObject();
+
+        IConstraint EndsWith(bool isCaseSensitive);
+        IConstraint StartsWith(bool isCaseSensitive);
     }
 }

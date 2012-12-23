@@ -64,12 +64,6 @@ namespace NDatabase2.Odb.Core.Query.Criteria
             return this;
         }
 
-        public IConstraint InvariantEqual()
-        {
-            _evaluation = new EqualsEvaluation(_theObject, _attributeName, false);
-            return this;
-        }
-
         public IConstraint Identity()
         {
             _evaluation = new IdentityEvaluation(_theObject, _attributeName, _query);
@@ -141,6 +135,18 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         public object GetObject()
         {
             return _theObject;
+        }
+
+        public IConstraint EndsWith(bool isCaseSensitive)
+        {
+            _evaluation = new EndsWithEvaluation(_theObject, _attributeName, isCaseSensitive);
+            return this;
+        }
+
+        public IConstraint StartsWith(bool isCaseSensitive)
+        {
+            _evaluation = new StartsWithEvaluation(_theObject, _attributeName, isCaseSensitive);
+            return this;
         }
 
         public IConstraint SizeLe()

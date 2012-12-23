@@ -34,7 +34,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3
 
         IValues GetValues(IValuesQuery query, int startIndex, int endIndex);
 
-        IInternalObjectSet<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex) where T : class;
+        IInternalObjectSet<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex);
 
         IObjectReader GetObjectReader();
 

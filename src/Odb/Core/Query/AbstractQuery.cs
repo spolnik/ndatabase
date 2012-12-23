@@ -4,8 +4,8 @@ using NDatabase2.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase2.Odb.Core.Layers.Layer3;
 using NDatabase2.Odb.Core.Query.Criteria;
 using NDatabase2.Odb.Core.Query.Execution;
+using NDatabase2.Odb.Core.Query.Linq;
 using NDatabase2.Odb.Core.Query.Values;
-using System.Linq;
 
 namespace NDatabase2.Odb.Core.Query
 {
@@ -67,7 +67,7 @@ namespace NDatabase2.Odb.Core.Query
 
         #region IQuery Members
 
-        public abstract IObjectSet<TItem> Execute<TItem>() where TItem : class;
+        public abstract IObjectSet<TItem> Execute<TItem>();
         public abstract IObjectSet<TItem> Execute<TItem>(bool inMemory) where TItem : class;
         public abstract IObjectSet<TItem> Execute<TItem>(bool inMemory, int startIndex, int endIndex) where TItem : class;
 

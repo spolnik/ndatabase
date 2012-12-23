@@ -8,45 +8,38 @@ using NDatabase2.Odb.Core.Query.Linq.Helper;
 
 namespace NDatabase2.Odb.Core.Query.Linq
 {
-    public class OdbQueryable<TElement> : IOrderedQueryable<TElement>, IQueryProvider
+    internal class LinqQueryable<TElement> : ILinqQueryable<TElement>, IQueryProvider
     {
         private readonly Expression _expression;
-        private readonly IQueryProvider _provider;
+        private readonly ILinqQuery<TElement> _query;
 
-        protected OdbQueryable(IQueryProvider provider)
+        public LinqQueryable(Expression expression)
         {
-            if (provider == null)
-                throw new ArgumentNullException("provider");
-
-            _provider = provider;
-            _expression = Expression.Constant(this);
-        }
-
-        protected OdbQueryable(IQueryProvider provider, Expression expression)
-        {
-            if (provider == null)
-                throw new ArgumentNullException("provider");
-
             if (expression == null)
                 throw new ArgumentNullException("expression");
 
             if (!typeof (IQueryable<TElement>).IsAssignableFrom(expression.Type))
                 throw new ArgumentOutOfRangeException("expression");
 
-            _provider = provider;
             _expression = expression;
         }
 
-        #region IOrderedQueryable<TItem> Members
+        public LinqQueryable(ILinqQuery<TElement> query)
+        {
+            _expression = Expression.Constant(this);
+            _query = query;
+        }
+
+        #region ILinqQueryable<TElement> Members
 
         public IEnumerator<TElement> GetEnumerator()
         {
-            return _provider.Execute<IEnumerable<TElement>>(_expression).GetEnumerator();
+            return Execute<IEnumerable<TElement>>(_expression).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return _provider.Execute<IEnumerable>(_expression).GetEnumerator();
+            return GetEnumerator();
         }
 
         public Expression Expression
@@ -61,12 +54,22 @@ namespace NDatabase2.Odb.Core.Query.Linq
 
         public IQueryProvider Provider
         {
-            get { return _provider; }
+            get { return this; }
+        }
+
+        public ILinqQuery GetQuery()
+        {
+            return _query;
         }
 
         #endregion
 
         #region IQueryProvider Members
+
+        public IQueryable<T> CreateQuery<T>(Expression expression)
+        {
+            return new LinqQueryable<T>(expression);
+        }
 
         public IQueryable CreateQuery(Expression expression)
         {
@@ -76,8 +79,8 @@ namespace NDatabase2.Odb.Core.Query.Linq
             {
                 return
                     (IQueryable)
-                    Activator.CreateInstance(typeof(OdbQueryable<>).MakeGenericType(elementType),
-                                             new object[] { this, expression });
+                    Activator.CreateInstance(typeof (LinqQueryable<>).MakeGenericType(elementType),
+                                             new object[] {expression});
             }
             catch (TargetInvocationException tie)
             {
@@ -85,19 +88,14 @@ namespace NDatabase2.Odb.Core.Query.Linq
             }
         }
 
-        public IQueryable<T> CreateQuery<T>(Expression expression)
+        public TResult Execute<TResult>(Expression expression)
         {
-            return new OdbQueryable<T>(this, expression);
+            return Expression.Lambda<Func<TResult>>(TranslateQuery(expression)).Compile().Invoke();
         }
 
         public object Execute(Expression expression)
         {
             return Expression.Lambda(TranslateQuery(expression)).Compile().DynamicInvoke();
-        }
-
-        public TResult Execute<TResult>(Expression expression)
-        {
-            return Expression.Lambda<Func<TResult>>(TranslateQuery(expression)).Compile().Invoke();
         }
 
         #endregion

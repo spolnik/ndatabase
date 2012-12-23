@@ -49,6 +49,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Mono.Reflection">
+      <HintPath>..\packages\Mono.Reflection.1.0.0.0\lib\Mono.Reflection.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -93,12 +96,37 @@
     <Compile Include="Odb\Core\Query\Criteria\Evaluations\CollectionSizeEvaluation.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Evaluations\ComparisonEvaluation.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Evaluations\ContainsEvaluation.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\Evaluations\EndsWithEvaluation.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Evaluations\EqualsEvaluation.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Evaluations\IdentityEvaluation.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Evaluations\IEvaluation.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Evaluations\LikeEvaluation.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\Evaluations\StartsWithEvaluation.cs" />
     <Compile Include="Odb\Core\Query\Criteria\IInternalConstraint.cs" />
     <Compile Include="Odb\Core\Query\Criteria\QueryConstraint.cs" />
+    <Compile Include="Odb\Core\Query\Linq\ExpressionQueryBuilder.cs" />
+    <Compile Include="Odb\Core\Query\Linq\ExpressionTransformer.cs" />
+    <Compile Include="Odb\Core\Query\Linq\ExpressionTreeNormalizer.cs" />
+    <Compile Include="Odb\Core\Query\Linq\ExpressionVisitor.cs" />
+    <Compile Include="Odb\Core\Query\Linq\Helper\TypeSystem.cs" />
+    <Compile Include="Odb\Core\Query\Linq\ILinqQueryInternal.cs" />
+    <Compile Include="Odb\Core\Query\Linq\ILinqQueryable.cs" />
+    <Compile Include="Odb\Core\Query\Linq\LinqQuery.cs" />
+    <Compile Include="Odb\Core\Query\Linq\LinqQueryTranslator.cs" />
+    <Compile Include="Odb\Core\Query\Linq\NdbLinqQueryExtensions.cs" />
+    <Compile Include="Odb\Core\Query\Linq\LinqQueryable.cs" />
+    <Compile Include="Odb\Core\Query\Linq\OptimizeableMethodConstrains.cs" />
+    <Compile Include="Odb\Core\Query\Linq\OrderByAscendingClauseVisitor.cs" />
+    <Compile Include="Odb\Core\Query\Linq\OrderByClauseVisitorBase.cs" />
+    <Compile Include="Odb\Core\Query\Linq\OrderByDescendingClauseVisitor.cs" />
+    <Compile Include="Odb\Core\Query\Linq\PlaceHolderQuery.cs" />
+    <Compile Include="Odb\Core\Query\Linq\QueryBuilderContext.cs" />
+    <Compile Include="Odb\Core\Query\Linq\QueryBuilderRecorder.cs" />
+    <Compile Include="Odb\Core\Query\Linq\LinqQueryException.cs" />
+    <Compile Include="Odb\Core\Query\Linq\ReflectionMethodAnalyser.cs" />
+    <Compile Include="Odb\Core\Query\Linq\SubtreeEvaluator.cs" />
+    <Compile Include="Odb\Core\Query\Linq\UnoptimizedQuery.cs" />
+    <Compile Include="Odb\Core\Query\Linq\WhereClauseVisitor.cs" />
     <Compile Include="Odb\IIndexManager.cs" />
     <Compile Include="Odb\Core\IError.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\IIntrospectionCallback.cs" />
@@ -332,6 +360,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Odb\Core\Lookup\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

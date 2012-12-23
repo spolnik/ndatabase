@@ -1,6 +1,7 @@
 using System;
 using NDatabase2.Odb.Core.Layers.Layer3;
 using NDatabase2.Odb.Core.Query;
+using NDatabase2.Odb.Core.Query.Linq;
 
 namespace NDatabase2.Odb
 {
@@ -105,8 +106,10 @@ namespace NDatabase2.Odb
         /// <code>Query</code> object to query this ObjectContainer.
         /// </summary>
         /// <returns>A new Query object</returns>
-        IQuery Query<T>() where T : class;
+        IQuery Query<T>();
         IValuesQuery ValuesQuery<T>() where T : class;
         IValuesQuery ValuesQuery<T>(OID oid) where T : class;
+
+        ILinqQueryable<T> AsQueryable<T>();
     }
 }

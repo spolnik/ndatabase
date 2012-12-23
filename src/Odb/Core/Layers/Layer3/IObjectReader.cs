@@ -79,7 +79,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3
         /// <param name="startIndex"> </param>
         /// <param name="endIndex"> </param>
         /// <returns> The list of objects </returns>
-        IInternalObjectSet<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex) where T : class;
+        IInternalObjectSet<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex);
 
         /// <summary>
         ///   Get a list of values matching the query

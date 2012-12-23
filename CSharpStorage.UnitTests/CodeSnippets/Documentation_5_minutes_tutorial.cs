@@ -4,6 +4,7 @@ using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Query;
 using NDatabase2.Odb.Core.Query.Criteria;
 using NUnit.Framework;
+using System.Linq;
 
 namespace NDatabase.UnitTests.CodeSnippets
 {
@@ -23,6 +24,7 @@ namespace NDatabase.UnitTests.CodeSnippets
             Step1();
             Step2();
             Step3();
+            Step3Linq();
             Step4();
             Step5();
             Step6();
@@ -75,7 +77,7 @@ namespace NDatabase.UnitTests.CodeSnippets
             using (var odb = OdbFactory.Open(TutorialDb5MinName))
             {
                 IQuery query = odb.Query<Player>();
-                query.Descend("Name").Constrain((object) "julia").Equal();
+                query.Descend("Name").Constrain("julia").Equal();
                 
                 var players = query.Execute<Player>();
                 
@@ -88,20 +90,22 @@ namespace NDatabase.UnitTests.CodeSnippets
             }
         }
 
-//        private static void Step3Linq()
-//        {
-//            using (var odb = OdbFactory.Open(TutorialDb5MinName))
-//            {
-//                var players = odb.CriteriaQuery<Player>().Where(player => player.Name.Equals("julia"));
+        private static void Step3Linq()
+        {
+            using (var odb = OdbFactory.Open(TutorialDb5MinName))
+            {
+                var players = from player in odb.AsQueryable<Player>()
+                              where player.Name.Equals("julia")
+                              select player;
 
-//                Console.WriteLine("\nStep 3 : Players with name julia");
+                Console.WriteLine("\nStep 3 : Players with name julia");
 
-//                foreach (var player in players)
-//                    Console.WriteLine("\t{0}", player);
+                foreach (var player in players)
+                    Console.WriteLine("\t{0}", player);
 
-//                Assert.That(players, Has.Count.EqualTo(1));
-//            }
-//        }
+                Assert.That(players.Count(), Is.EqualTo(1));
+            }
+        }
 
 
         private static void Step4()
