@@ -64,5 +64,9 @@ packages/
 *.testsettings
 
 #own
-UnitTests/
-Artifacts/
+UnitTests/*.pdb
+UnitTests/*.dll
+UnitTests/*.exe
+Artifacts/*.pdb
+Artifacts/*.dll
+Artifacts/*.exe
