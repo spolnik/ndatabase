@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using LINQPad;
 
 namespace NDatabase2.Odb
 {
@@ -8,7 +9,7 @@ namespace NDatabase2.Odb
     /// The <code>ObjectSet</code> interface serves as a cursor to
     /// iterate through a set of objects retrieved by a query.
     /// </summary>
-    public interface IObjectSet<TItem> : ICollection<TItem>
+    public interface IObjectSet<TItem> : ICollection<TItem>, ICustomMemberProvider
     {
         /// <summary>
         /// returns <code>true</code> if the <code>ObjectSet</code> has more elements.

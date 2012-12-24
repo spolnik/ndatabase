@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using NDatabase2.Btree;
 using NDatabase2.Odb.Core.Layers.Layer1.Introspector;
@@ -208,6 +210,32 @@ namespace NDatabase2.Odb.Core.Query.List
             }
             s.Append("]");
             return s.ToString();
+        }
+
+        public IEnumerable<string> GetNames()
+        {
+            var names = new List<string>();
+            var namePrefix = typeof(TItem).Name;
+
+            for (var i = 0; i < Count; i++)
+                names.Add(string.Format("{0}_{1}", namePrefix, i));
+
+            return names;
+        }
+
+        public IEnumerable<Type> GetTypes()
+        {
+            var types = new List<Type>();
+            for (var i = 0; i < Count; i++)
+                types.Add(typeof(TItem));
+
+            return types;
+        }
+
+        public IEnumerable<object> GetValues()
+        {
+            var values = this.Select(item => (object)item).ToList();
+            return values;
         }
     }
 }

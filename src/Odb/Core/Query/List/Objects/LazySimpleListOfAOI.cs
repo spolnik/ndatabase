@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using NDatabase2.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase2.Odb.Core.Layers.Layer2.Instance;
@@ -135,6 +136,32 @@ namespace NDatabase2.Odb.Core.Query.List.Objects
             var buffer = new StringBuilder();
             buffer.Append("list with ").Append(Count).Append(" elements");
             return buffer.ToString();
+        }
+
+        public IEnumerable<string> GetNames()
+        {
+            var names = new List<string>();
+            var namePrefix = typeof (T).Name;
+
+            for (var i = 0; i < Count; i++)
+                names.Add(string.Format("{0}_{1}", namePrefix, i));
+
+            return names;
+        }
+
+        public IEnumerable<Type> GetTypes()
+        {
+            var types = new List<Type>();
+            for (var i = 0; i < Count; i++)
+                types.Add(typeof (T));
+
+            return types;
+        }
+
+        public IEnumerable<object> GetValues()
+        {
+            var values = this.Select(item => (object) item).ToList();
+            return values;
         }
     }
 }

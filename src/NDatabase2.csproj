@@ -91,6 +91,7 @@
     <Compile Include="Btree\Impl\Singlevalue\BTreeSingleValuePerKey.cs" />
     <Compile Include="Btree\Tool\BTreeDisplay.cs" />
     <Compile Include="Btree\Tool\BTreeValidator.cs" />
+    <Compile Include="LinqPad\ICustomMemberProvider.cs" />
     <Compile Include="Odb\Core\Query\Criteria\ComparisonConstraint.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Evaluations\AEvaluation.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Evaluations\CollectionSizeEvaluation.cs" />
