@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Data\Address.cs" />
     <Compile Include="Data\City.cs" />
+    <Compile Include="TestCase_getting_schema_for_linq_pad.cs" />
     <Compile Include="TestCase_working_with_linq.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data\User.cs" />
@@ -56,7 +57,11 @@
       <Name>NDatabase2</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="working_with_linq.ndb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>echo POSTBUILDSTEP for $(ProjectName)

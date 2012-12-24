@@ -1,3 +1,5 @@
+using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+
 namespace NDatabase2.Odb
 {
     /// <summary>
@@ -56,5 +58,7 @@ namespace NDatabase2.Odb
         /// </summary>
         /// <returns> the file name </returns>
         string GetDbId();
+
+        IMetaModel GetSchema();
     }
 }

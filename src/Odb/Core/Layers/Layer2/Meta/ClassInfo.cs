@@ -8,10 +8,17 @@ using NDatabase2.Tool.Wrappers.Map;
 
 namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
 {
+    public interface IClassInfo
+    {
+        Type UnderlyingType { get; }
+        string[] GetAttributeNames();
+        string[] GetAttributeTypes();
+    }
+
     /// <summary>
     ///   A meta representation of a class
     /// </summary>
-    internal sealed class ClassInfo
+    internal sealed class ClassInfo : IClassInfo
     {
         /// <summary>
         ///   Constant used for the classCategory variable to indicate a system class
@@ -468,6 +475,30 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
             return _indexes == null
                        ? null
                        : _indexes.FirstOrDefault(classInfoIndex => classInfoIndex.MatchAttributeIds(attributeIds));
+        }
+
+        public string[] GetAttributeNames()
+        {
+            var names = new string[Attributes.Count];
+
+            for (var i = 0; i < Attributes.Count; i++)
+                names[i] = Attributes[i].GetName();
+
+            return names.Select(name => name.StartsWith("<")
+                                            ? name.Substring(1, name.IndexOf('>') - 1)
+                                            : name).ToArray();
+        }
+
+        public string[] GetAttributeTypes()
+        {
+            var names = new string[Attributes.Count];
+
+            for (var i = 0; i < Attributes.Count; i++)
+                names[i] = Attributes[i].GetFullClassname();
+
+            return names.Select(name => name.StartsWith("<")
+                                            ? name.Substring(1, name.IndexOf('>') - 1)
+                                            : name).ToArray();
         }
 
         public string[] GetAttributeNames(int[] attributeIds)

@@ -1,10 +1,11 @@
 using NDatabase2.Odb.Core;
+using NDatabase2.Odb.Core.Layers.Layer2.Meta;
 using NDatabase2.Odb.Core.Layers.Layer3;
 using NDatabase2.Odb.Core.Oid;
 
 namespace NDatabase2.Odb.Main
 {
-    public sealed class OdbExt : IOdbExt
+    internal sealed class OdbExt : IOdbExt
     {
         private readonly IStorageEngine _storageEngine;
 
@@ -65,6 +66,11 @@ namespace NDatabase2.Odb.Main
         public string GetDbId()
         {
             return _storageEngine.GetBaseIdentification().Id;
+        }
+
+        public IMetaModel GetSchema()
+        {
+            return _storageEngine.GetSession(true).GetMetaModel();
         }
 
         #endregion

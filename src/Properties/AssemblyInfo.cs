@@ -41,5 +41,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("3.0.0.*")]
 [assembly: AssemblyFileVersion("3.0.0.0")]
 [assembly: AssemblyInformationalVersion("3.0.0-beta")]
-[assembly: InternalsVisibleTo("NDatabase.UnitTests")]
-[assembly: InternalsVisibleTo("NDatabase.Old.UnitTests")]
+[assembly: InternalsVisibleTo("NDatabase.UnitTests, PublicKey=0024000004800000940000000602000000240000525341310004000001000100c1c760fb343a9b1f47adc9244a8f153b56a47272c1acfac768d3021e82bee142b6c657168f99c9482218b9c84b4d956bd08b9559cda75aace051b23db95825004517e4564a3e492440ea2b6cc3f21ccb8e7400c39c5b50006a48d65c21afcb072122fa82d984a454c97e880c50349503fcd74b1b6ee0a2c3eb9ba5f8c32637cf")]
+[assembly: InternalsVisibleTo("NDatabase.Old.UnitTests, PublicKey=0024000004800000940000000602000000240000525341310004000001000100c1c760fb343a9b1f47adc9244a8f153b56a47272c1acfac768d3021e82bee142b6c657168f99c9482218b9c84b4d956bd08b9559cda75aace051b23db95825004517e4564a3e492440ea2b6cc3f21ccb8e7400c39c5b50006a48d65c21afcb072122fa82d984a454c97e880c50349503fcd74b1b6ee0a2c3eb9ba5f8c32637cf")]

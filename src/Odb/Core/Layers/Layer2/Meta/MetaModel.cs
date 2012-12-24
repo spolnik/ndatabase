@@ -9,10 +9,16 @@ using NDatabase2.Tool.Wrappers.Map;
 
 namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
 {
+    public interface IMetaModel
+    {
+        IEnumerable<IClassInfo> GetSchemaClasses();
+        int GetNumberOfClasses();
+    }
+
     /// <summary>
     ///   The database meta-model
     /// </summary>
-    internal sealed class MetaModel
+    internal sealed class MetaModel : IMetaModel
     {
         /// <summary>
         ///   A simple list to hold all class infos.
@@ -93,6 +99,11 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
         }
 
         public IEnumerable<ClassInfo> GetUserClasses()
+        {
+            return _rapidAccessForUserClassesByName.Values;
+        }
+
+        public IEnumerable<IClassInfo> GetSchemaClasses()
         {
             return _rapidAccessForUserClassesByName.Values;
         }

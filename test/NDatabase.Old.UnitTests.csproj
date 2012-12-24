@@ -48,6 +48,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>NDatabase.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Windows.Forms" />
@@ -335,6 +341,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="NDatabase\Odb\Test\Arraycollectionmap\ObjectWith2DimensionsArrayOfInteger.java" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NDatabase.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
