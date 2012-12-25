@@ -115,7 +115,7 @@ namespace NDatabase2.Odb.Core.Transaction
             return _baseIdentification;
         }
 
-        public virtual MetaModel GetMetaModel()
+        public MetaModel GetMetaModel()
         {
             if (_metaModel == null)
             {

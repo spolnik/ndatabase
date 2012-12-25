@@ -10,17 +10,17 @@ namespace NDatabase.Client.UnitTests
     {
         private const string DbName = "working_with_linq.ndb";
 
-        [SetUp]
-        public void SetUp()
-        {
-            CleanDb();
-            PrepareTheData();
-        }
+//        [SetUp]
+//        public void SetUp()
+//        {
+//            CleanDb();
+//            PrepareTheData();
+//        }
 
         [Test]
         public void Test_simple_select()
         {
-            using (var odb = OdbFactory.OpenLast())
+            using (var odb = OdbFactory.Open(DbName))
             {
                 var users = from user in odb.AsQueryable<User>()
                             select user;
@@ -30,9 +30,28 @@ namespace NDatabase.Client.UnitTests
         }
 
         [Test]
+        public void Test_simple_select_soda()
+        {
+            List<User> users;
+            using (var odb = OdbFactory.Open(DbName))
+            {
+                users = odb.Query<User>().Execute<User>().ToList();
+            }
+            Assert.That(users.Count(), Is.EqualTo(10));
+        }
+
+        [Test]
+        public void Test_simple_select_TypedDataContext()
+        {
+            var typedDataContext = new TypedDataContext();
+            var users = typedDataContext.Users;
+            Assert.That(users.Count(), Is.EqualTo(10));
+        }
+
+        [Test]
         public void Test_simple_where()
         {
-            using (var odb = OdbFactory.OpenLast())
+            using (var odb = OdbFactory.Open(DbName))
             {
                 var users = from user in odb.AsQueryable<User>()
                             where user.Age < 10
@@ -51,7 +70,7 @@ namespace NDatabase.Client.UnitTests
         [Test]
         public void Test_where_with_order_by_asc()
         {
-            using (var odb = OdbFactory.OpenLast())
+            using (var odb = OdbFactory.Open(DbName))
             {
                 var users = from user in odb.AsQueryable<User>()
                             where user.Age > 30 && user.Name.Contains("n")
@@ -71,7 +90,7 @@ namespace NDatabase.Client.UnitTests
         [Test]
         public void Test_where_with_order_by_desc()
         {
-            using (var odb = OdbFactory.OpenLast())
+            using (var odb = OdbFactory.Open(DbName))
             {
                 var users = from user in odb.AsQueryable<User>()
                             where user.Age > 30 && user.Name.Contains("n")

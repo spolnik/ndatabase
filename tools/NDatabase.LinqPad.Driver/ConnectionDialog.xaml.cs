@@ -1,6 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.IO;
+using System.Windows;
 using LINQPad.Extensibility.DataContext;
-using Microsoft.Win32;
 
 namespace NDatabase.LinqPad.Driver
 {
@@ -9,27 +10,85 @@ namespace NDatabase.LinqPad.Driver
     /// </summary>
     public partial class ConnectionDialog : Window
     {
-        private readonly NDatabaseDynamicDriverProperties _properties;
-
+        private readonly IConnectionInfo _cxInfo;
+        
         public ConnectionDialog(IConnectionInfo cxInfo)
         {
-            DataContext = _properties = new NDatabaseDynamicDriverProperties(cxInfo);
+            _cxInfo = cxInfo;
+            DataContext = cxInfo.CustomTypeInfo;
             Background = SystemColors.ControlBrush;
+
             InitializeComponent();
         }
 
-        private void btnOK_Click(object sender, RoutedEventArgs e)
+        private void OkClick(object sender, RoutedEventArgs e)
         {
             DialogResult = true;
         }
 
-        private void btnBrowse_Click(object sender, RoutedEventArgs e)
+        private void BrowseCustomAssemblyClick(object sender, RoutedEventArgs e)
         {
-            var fileDialog = new OpenFileDialog {DefaultExt = ".ndb", Filter = "NDatabase db file (.ndb)|*.ndb"};
+            var dialog = new Microsoft.Win32.OpenFileDialog
+                             {
+                                 Title = "Choose custom assembly",
+                                 DefaultExt = ".dll",
+                             };
 
-            var result = fileDialog.ShowDialog();
-            if (result == true)
-                _properties.DbFilePath = fileDialog.FileName;
+            if (dialog.ShowDialog() == true)
+                _cxInfo.CustomTypeInfo.CustomAssemblyPath = dialog.FileName;
+        }
+
+        private void ChooseClick(object sender, RoutedEventArgs e)
+        {
+            var assemPath = _cxInfo.CustomTypeInfo.CustomAssemblyPath;
+            if (assemPath.Length == 0)
+            {
+                MessageBox.Show("First enter a path to an assembly.");
+                return;
+            }
+
+            if (!File.Exists(assemPath))
+            {
+                MessageBox.Show("File '" + assemPath + "' does not exist.");
+                return;
+            }
+
+            string[] customTypes;
+            try
+            {
+                // TODO: In a real-world driver, call the method accepting a base type instead (unless you're.
+                // working with a POCO ORM). For instance: GetCustomTypesInAssembly ("System.Data.Linq.DataContext")
+                // You can put interfaces in here, too.
+                customTypes = _cxInfo.CustomTypeInfo.GetCustomTypesInAssembly();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error obtaining custom types: " + ex.Message);
+                return;
+            }
+            if (customTypes.Length == 0)
+            {
+                MessageBox.Show("There are no public types in that assembly.");  // based on.........
+                return;
+            }
+
+            var result =
+                (string) LINQPad.Extensibility.DataContext.UI.Dialogs.PickFromList("Choose Custom Type", customTypes);
+
+            if (result != null) 
+                _cxInfo.CustomTypeInfo.CustomTypeName = result;
+        }
+
+        private void BrowseAppConfig(object sender, RoutedEventArgs e)
+        {
+            var dialog = new Microsoft.Win32.OpenFileDialog
+                             {
+                                 Title = "Choose application config file",
+                                 DefaultExt = ".config",
+                             };
+
+            if (dialog.ShowDialog() == true)
+                _cxInfo.AppConfigPath = dialog.FileName;
         }
     }
 }

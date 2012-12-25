@@ -9,13 +9,11 @@ namespace NDatabase.Client.UnitTests
         [Test] 
         public void Test_if_code_could_easily_get_the_schema()
         {
-            IMetaModel schema;
             using (var odb = OdbFactory.Open("working_with_linq.ndb"))
             {
-                schema = odb.Ext().GetSchema();
+                var schema = odb.Ext().GetSchema();
+                Assert.That(schema.GetNumberOfClasses(), Is.EqualTo(3));
             }
-
-            Assert.That(schema.GetNumberOfClasses(), Is.EqualTo(3));
         }
     }
 }

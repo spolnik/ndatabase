@@ -87,7 +87,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
         public ClassInfo(string fullClassName) : this()
         {
             _underlyingType = CheckIfTypeIsInstantiable(fullClassName);
-
             _fullClassName = fullClassName;
         }
 
@@ -198,13 +197,31 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
             type = Type.GetType(fullClassName);
 
             if (type == null)
-            {
-                throw new ArgumentException(
-                    string.Format("Given full class name is not enough to create the Type from that: {0}", fullClassName));
-            }
+                CannotInstantiateType(fullClassName);
 
             TypeCache.Add(fullClassName, type);
             return type;
+        }
+
+        private static void CannotInstantiateType(string fullClassName)
+        {
+            var message = ContainsAssemblyName(fullClassName)
+                              ? string.Format("{0} domain library is not loaded! Cannot proces db schema.", ExtractAssemblyName(fullClassName))
+                              : string.Format("Given full class name is not enough to create the Type from that: {0}",
+                                              fullClassName);
+
+            throw new ArgumentException(message);
+        }
+
+        private static string ExtractAssemblyName(string fullClassName)
+        {
+            var indexOfComma = fullClassName.IndexOf(",");
+            return fullClassName.Substring(indexOfComma + 1);
+        }
+
+        private static bool ContainsAssemblyName(string fullClassName)
+        {
+            return fullClassName.Contains(",");
         }
 
         private void FillAttributesMap()

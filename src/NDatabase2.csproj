@@ -97,7 +97,6 @@
     <Compile Include="Btree\Impl\Singlevalue\BTreeSingleValuePerKey.cs" />
     <Compile Include="Btree\Tool\BTreeDisplay.cs" />
     <Compile Include="Btree\Tool\BTreeValidator.cs" />
-    <Compile Include="LinqPad\ICustomMemberProvider.cs" />
     <Compile Include="Odb\Core\Query\Criteria\ComparisonConstraint.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Evaluations\AEvaluation.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Evaluations\CollectionSizeEvaluation.cs" />
@@ -382,15 +381,9 @@ if errorlevel 1 goto BuildEventFailed
 xcopy "$(TargetPath)" "$(SolutionDir)UnitTests" /i /d /y
 if errorlevel 1 goto BuildEventFailed
 
-xcopy "$(TargetPath)" "$(SolutionDir)LinqPadDriver" /i /d /y
-if errorlevel 1 goto BuildEventFailed
-
-
 xcopy "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)Artifacts" /i /d /y
 if errorlevel 1 goto BuildEventFailed
 xcopy "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)UnitTests" /i /d /y
-if errorlevel 1 goto BuildEventFailed
-xcopy "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)LinqPadDriver" /i /d /y
 if errorlevel 1 goto BuildEventFailed
  
 REM Exit properly because the build will not fail 
