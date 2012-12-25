@@ -8,7 +8,7 @@ using Test.NDatabase.Odb.Test.VO.Login;
 namespace Test.NDatabase.Odb.Test.Update
 {
     [TestFixture]
-    public class TestUpdate2 : ODBTest
+    internal class TestUpdate2 : ODBTest
     {
         public static readonly string Name = "update.db";
 

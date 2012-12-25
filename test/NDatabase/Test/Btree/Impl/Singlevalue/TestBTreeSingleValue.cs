@@ -11,7 +11,7 @@ using Test.NDatabase.Odb.Test;
 namespace Test.NDatabase.Test.Btree.Impl.Singlevalue
 {
     [TestFixture]
-    public class TestBTreeSingleValue : ODBTest
+    internal class TestBTreeSingleValue : ODBTest
     {
         private IBTreeSingleValuePerKey GetBTree(int degree)
         {

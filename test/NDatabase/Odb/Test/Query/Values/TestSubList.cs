@@ -5,6 +5,7 @@ using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Layers.Layer2.Instance;
 using NDatabase2.Odb.Core.Layers.Layer2.Meta;
 using NDatabase2.Odb.Core.Query;
+using NDatabase2.Odb.Main;
 using NDatabase2.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;
@@ -45,7 +46,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             var size = (long) ov.GetByAlias("size");
             AssertEquals(10, size);
 
-            var instanceBuilder = new InstanceBuilder(odb.GetStorageEngine());
+            var instanceBuilder = new InstanceBuilder(((OdbAdapter)odb).GetStorageEngine());
 
             var p = GetParameterInstance(instanceBuilder, fulllist[0]);
             AssertEquals("value 0", p.GetValue());
@@ -119,7 +120,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             var size = (long) ov.GetByAlias("size");
             AssertEquals(500, size);
 
-            var instanceBuilder = new InstanceBuilder(odb.GetStorageEngine());
+            var instanceBuilder = new InstanceBuilder(((OdbAdapter)odb).GetStorageEngine());
 
             var p = GetParameterInstance(instanceBuilder, sublist[0]);
             AssertEquals("value 490", p.GetValue());
@@ -237,7 +238,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             var sublist = (IList) ov.GetByAlias("sub");
             AssertEquals(2, sublist.Count);
 
-            var instanceBuilder = new InstanceBuilder(odb.GetStorageEngine());
+            var instanceBuilder = new InstanceBuilder(((OdbAdapter)odb).GetStorageEngine());
 
             var parameter = GetParameterInstance(instanceBuilder, sublist[1]);
             AssertEquals("value 1", parameter.GetValue());

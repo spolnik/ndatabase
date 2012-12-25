@@ -49,7 +49,7 @@ namespace NDatabase.UnitTests.Layer2
 
             Assert.That(classInfo.ToString(),
                         Is.EqualTo(
-                            " [ NDatabase.UnitTests.Layer2.When_we_use_class_info+Country,NDatabase.UnitTests - id= - previousClass= - nextClass= - attributes=(not yet defined) ]"));
+                            " [ NDatabase.UnitTests.Layer2.When_we_use_class_info+Country,NDatabase.UnitTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0c7aa341ab3f9c12 - id= - previousClass= - nextClass= - attributes=(not yet defined) ]"));
         }
     }
 }

@@ -1,9 +1,9 @@
 using NDatabase2.Odb.Core.Layers.Layer3;
+using NDatabase2.Odb.Main;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Other
 {
-    /// <author>olivier</author>
     [TestFixture]
     public class TestGetDatabaseName : ODBTest
     {
@@ -16,7 +16,7 @@ namespace Test.NDatabase.Odb.Test.Other
             IStorageEngine engine;
             using (var odb = Open(baseName))
             {
-                engine = odb.GetStorageEngine();
+                engine = ((OdbAdapter)odb).GetStorageEngine();
             }
 
             var s = engine.GetBaseIdentification().Id;

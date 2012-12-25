@@ -19,19 +19,19 @@ namespace Test.NDatabase.Odb.Test
             return string.Format("{0}{1}.neodatis", GetName(), guid.ToString());
         }
 
-        public virtual OdbAdapter Open(String fileName, String user, String password)
+        public virtual IOdb Open(String fileName, String user, String password)
         {
-            return (OdbAdapter) OdbFactory.Open(fileName);
+            return OdbFactory.Open(fileName);
         }
 
-        public virtual OdbAdapter Open(String fileName)
+        public virtual IOdb Open(String fileName)
         {
-            return (OdbAdapter) OdbFactory.Open(fileName);
+            return OdbFactory.Open(fileName);
         }
 
-        public virtual OdbAdapter OpenLocal(String fileName)
+        public virtual IOdb OpenLocal(String fileName)
         {
-            return (OdbAdapter) OdbFactory.Open(fileName);
+            return OdbFactory.Open(fileName);
         }
 
         public virtual void failCS()

@@ -2,6 +2,7 @@ using System;
 using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Layers.Layer2.Meta;
 using NDatabase2.Odb.Core.Query.Criteria;
+using NDatabase2.Odb.Main;
 using NDatabase2.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;
@@ -387,7 +388,7 @@ namespace Test.NDatabase.Odb.Test.Resistance
             Println("re-updated");
             var query2 = odb.Query<User>();
             objects = query2.Execute<User>();
-            var engine = odb.GetStorageEngine();
+            var engine = ((OdbAdapter)odb).GetStorageEngine();
             var uncommited =
                 engine.GetSession(true).GetMetaModel().GetClassInfo(typeof (User).FullName, true).UncommittedZoneInfo;
             CIZoneInfo commited =

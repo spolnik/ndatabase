@@ -201,7 +201,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             t2 = OdbTime.GetCurrentTimeInTicks();
             // assertEquals(TEST_SIZE,
             // odb.getSession().getCache().getNumberOfObjects ());
-            var engine = odb.GetStorageEngine();
+            var engine = ((OdbAdapter)odb).GetStorageEngine();
             Println("NB WAs=" + engine.GetSession(true).GetTransaction().GetNumberOfWriteActions());
             odb.Commit();
             t3 = OdbTime.GetCurrentTimeInTicks();

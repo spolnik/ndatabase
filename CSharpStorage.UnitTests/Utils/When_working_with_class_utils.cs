@@ -60,7 +60,7 @@ namespace NDatabase.UnitTests.Utils
         public void It_should_return_proper_full_name_for_custom_class()
         {
             var fullName = OdbClassUtil.GetFullName(typeof (Person));
-            Assert.That(fullName, Is.EqualTo("NDatabase.UnitTests.Utils.Person,NDatabase.UnitTests"));
+            Assert.That(fullName, Is.StringStarting("NDatabase.UnitTests.Utils.Person,NDatabase.UnitTests"));
         }
 
         [Test]

@@ -2,6 +2,7 @@ using System.Collections;
 using NDatabase2.Odb.Core.Layers.Layer2.Instance;
 using NDatabase2.Odb.Core.Layers.Layer2.Meta;
 using NDatabase2.Odb.Core.Query.Values;
+using NDatabase2.Odb.Main;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Query.Values
@@ -41,7 +42,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             var size = (long) ov.GetByAlias("size");
             AssertEquals(10, size);
 
-            var instanceBuilder = new InstanceBuilder(odb.GetStorageEngine());
+            var instanceBuilder = new InstanceBuilder(((OdbAdapter)odb).GetStorageEngine());
 
             var p = GetParameterInstance(instanceBuilder, fulllist[0]);
             AssertEquals("value 0", p.GetValue());

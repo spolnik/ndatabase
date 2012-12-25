@@ -3,6 +3,7 @@ using System.Collections;
 using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Query;
 using NDatabase2.Odb.Core.Query.Criteria;
+using NDatabase2.Odb.Main;
 using NDatabase2.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;
@@ -324,7 +325,7 @@ namespace Test.NDatabase.Odb.Test.Update
                 function.SetName(function.GetName() + function.GetName() + function.GetName() + function.GetName());
                 odb.Store(function);
             }
-            var engine = odb.GetStorageEngine();
+            var engine = ((OdbAdapter)odb).GetStorageEngine();
 
             var fullClassName = OdbClassUtil.GetFullName(typeof (VO.Login.Function));
 

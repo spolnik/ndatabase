@@ -10,11 +10,11 @@ namespace NDatabase2.Odb.Main
     /// <summary>
     ///   A basic adapter for ODB interface
     /// </summary>
-    public abstract class OdbAdapter : IOdb
+    internal abstract class OdbAdapter : IOdb
     {
         private readonly IStorageEngine _storageEngine;
         private IOdbExt _ext;
-
+        
         internal OdbAdapter(IStorageEngine storageEngine)
         {
             _storageEngine = storageEngine;
@@ -87,7 +87,7 @@ namespace NDatabase2.Odb.Main
         ///   Delete an object from the database with the id
         /// </summary>
         /// <param name="oid"> The object id to be deleted </param>
-        public virtual void DeleteObjectWithId(OID oid)
+        public void DeleteObjectWithId(OID oid)
         {
             _storageEngine.DeleteObjectWithOid(oid);
         }

@@ -1,4 +1,4 @@
-using NDatabase2.Odb;
+using NDatabase2.Odb.Main;
 using NDatabase2.Tool.Wrappers;
 using NUnit.Framework;
 
@@ -20,7 +20,7 @@ namespace Test.NDatabase.Odb.Test.Update
             var f2 = (VO.Login.Function) odb.GetObjectFromId(oid);
             f2.SetName("New Function");
             odb.Store(f2);
-            var storageEngine = odb.GetStorageEngine();
+            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
             // retrieve the class info to check connected and unconnected zone
             var fullClassName = OdbClassUtil.GetFullName(typeof (VO.Login.Function));
             var classInfo = storageEngine.GetSession(true).GetMetaModel().GetClassInfo(fullClassName, true);
