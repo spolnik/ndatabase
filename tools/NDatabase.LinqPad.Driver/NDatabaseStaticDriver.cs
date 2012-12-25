@@ -14,7 +14,7 @@ namespace NDatabase.LinqPad.Driver
     {
         public override string Name
         {
-            get { return "NDatabase 3.0 - Object Database"; }
+            get { return "NDatabase 2.5 - Object Database"; }
         }
 
         public override string Author

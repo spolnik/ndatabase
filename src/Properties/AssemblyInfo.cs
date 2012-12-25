@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("NDatabase")]
 [assembly: AssemblyProduct("NDatabase")]
-[assembly: AssemblyCopyright("Copyright ©  2012")]
+[assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("NDatabase")]
 [assembly: AssemblyCulture("")]
 
@@ -38,8 +38,8 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("3.0.0.*")]
-[assembly: AssemblyFileVersion("3.0.0.0")]
-[assembly: AssemblyInformationalVersion("3.0.0-beta")]
+[assembly: AssemblyVersion("2.5.0.*")]
+[assembly: AssemblyFileVersion("2.5.0.0")]
+[assembly: AssemblyInformationalVersion("2.5.0-stable")]
 [assembly: InternalsVisibleTo("NDatabase.UnitTests, PublicKey=0024000004800000940000000602000000240000525341310004000001000100971ce27ab917545c21e06ee265bdf0767ce2c9ac172c7bf3df8fbb31bc006f154020b546f2404a086f6be8465430f6e686a07d19cede84be6cc49042e4fe04395baee592b086370a065f6f8165c700c71adaf1ffb8baa96d91792b729354ae773844269b17762fe1d7fc5b7993f31ce73fa959fed5ce80edd51d71f0f2f17a92")]
 [assembly: InternalsVisibleTo("NDatabase.Old.UnitTests, PublicKey=0024000004800000940000000602000000240000525341310004000001000100971ce27ab917545c21e06ee265bdf0767ce2c9ac172c7bf3df8fbb31bc006f154020b546f2404a086f6be8465430f6e686a07d19cede84be6cc49042e4fe04395baee592b086370a065f6f8165c700c71adaf1ffb8baa96d91792b729354ae773844269b17762fe1d7fc5b7993f31ce73fa959fed5ce80edd51d71f0f2f17a92")]
