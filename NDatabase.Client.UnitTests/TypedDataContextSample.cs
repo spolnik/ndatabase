@@ -1,15 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
 using NDatabase.Client.UnitTests.Data;
 using NDatabase2.Odb;
 
 namespace NDatabase.Client.UnitTests
 {
-    public class TypedDataContext
+    public class TypedDataContextSample
     {
-        private static readonly string DbName = @"D:\Workspace\NDatabase_git\ndatabase\NDatabase.Client.UnitTests\bin\Debug\working_with_linq.ndb";
+        private const string DbName =
+            @"D:\Workspace\NDatabase_git\ndatabase\NDatabase.Client.UnitTests\bin\Debug\working_with_linq.ndb";
+
+
+        public IEnumerable<object> All
+        {
+            get
+            {
+                IList<object> result;
+                using (var odb = OdbFactory.Open(DbName))
+                {
+                    result = odb.Query<object>().Execute<object>().ToList();
+                }
+                return result;
+            }
+        }
 
         public IEnumerable<Address> Addresses
         {

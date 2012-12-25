@@ -43,7 +43,7 @@ namespace NDatabase.Client.UnitTests
         [Test]
         public void Test_simple_select_TypedDataContext()
         {
-            var typedDataContext = new TypedDataContext();
+            var typedDataContext = new TypedDataContextSample();
             var users = typedDataContext.Users;
             Assert.That(users.Count(), Is.EqualTo(10));
         }
