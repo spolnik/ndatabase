@@ -41,5 +41,3 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("2.0.1.*")]
 [assembly: AssemblyFileVersion("2.0.1.0")]
 [assembly: AssemblyInformationalVersion("2.0.1-stable")]
-[assembly: InternalsVisibleTo("NDatabase.UnitTests")]
-[assembly: InternalsVisibleTo("NDatabase.Old.UnitTests")]

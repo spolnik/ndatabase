@@ -34,7 +34,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>NDatabase.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\NDatabase.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework">
@@ -104,7 +104,9 @@
     <Folder Include="Queries\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="NDatabase.pfx" />
+    <None Include="..\NDatabase.snk">
+      <Link>NDatabase.snk</Link>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -70,3 +70,7 @@ UnitTests/*.exe
 Artifacts/*.pdb
 Artifacts/*.dll
 Artifacts/*.exe
+LinqPadDriver/NDatabase.LinqPad.Driver.dll
+LinqPadDriver/NDatabase.LinqPad.Driver.pdb
+LinqPadDriver/NDatabase2.dll
+LinqPadDriver/NDatabase2.pdb

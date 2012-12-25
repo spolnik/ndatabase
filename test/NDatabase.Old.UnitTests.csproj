@@ -52,7 +52,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>NDatabase.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\NDatabase.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -343,7 +343,9 @@
     <Content Include="NDatabase\Odb\Test\Arraycollectionmap\ObjectWith2DimensionsArrayOfInteger.java" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="NDatabase.pfx" />
+    <None Include="..\NDatabase.snk">
+      <Link>NDatabase.snk</Link>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

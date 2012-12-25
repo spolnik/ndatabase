@@ -52,11 +52,11 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>NDatabase.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\NDatabase.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Mono.Reflection">
-      <HintPath>..\packages\Mono.Reflection.1.0.0.0\lib\Mono.Reflection.dll</HintPath>
+    <Reference Include="Mono.Reflection, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\External-Lib\Mono.Reflection.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml.Linq">
@@ -368,8 +368,9 @@
     <Folder Include="Odb\Core\Lookup\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="NDatabase.pfx" />
-    <None Include="packages.config" />
+    <None Include="..\NDatabase.snk">
+      <Link>NDatabase.snk</Link>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
@@ -380,9 +381,16 @@ if errorlevel 1 goto BuildEventFailed
 
 xcopy "$(TargetPath)" "$(SolutionDir)UnitTests" /i /d /y
 if errorlevel 1 goto BuildEventFailed
+
+xcopy "$(TargetPath)" "$(SolutionDir)LinqPadDriver" /i /d /y
+if errorlevel 1 goto BuildEventFailed
+
+
 xcopy "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)Artifacts" /i /d /y
 if errorlevel 1 goto BuildEventFailed
 xcopy "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)UnitTests" /i /d /y
+if errorlevel 1 goto BuildEventFailed
+xcopy "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)LinqPadDriver" /i /d /y
 if errorlevel 1 goto BuildEventFailed
  
 REM Exit properly because the build will not fail 
