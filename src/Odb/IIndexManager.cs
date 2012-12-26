@@ -5,23 +5,17 @@ namespace NDatabase2.Odb
     /// </summary>
     public interface IIndexManager
     {
-        /// <param name="name"> The name of the index </param>
+        /// <param name="indexName"> The name of the index </param>
         /// <param name="indexFields"> The list of fields of the index </param>
-        /// <exception cref="System.IO.IOException">System.IO.IOException</exception>
-        /// <exception cref="System.Exception">System.Exception</exception>
-        void AddUniqueIndexOn(string name, string[] indexFields);
+        void AddUniqueIndexOn(string indexName, params string[] indexFields);
 
-        /// <param name="name"> The name of the index </param>
+        /// <param name="indexName"> The name of the index </param>
         /// <param name="indexFields"> The list of fields of the index </param>
-        /// <exception cref="System.IO.IOException">System.IO.IOException</exception>
-        /// <exception cref="System.Exception">System.Exception</exception>
-        void AddIndexOn(string name, string[] indexFields);
+        void AddIndexOn(string indexName, params string[] indexFields);
 
         /// <summary>
         ///   To check if an index exist
         /// </summary>
-        /// <param name="indexName"> </param>
-        /// <returns> </returns>
         bool ExistIndex(string indexName);
 
         void RebuildIndex(string indexName);

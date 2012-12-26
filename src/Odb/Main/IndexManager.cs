@@ -17,14 +17,14 @@ namespace NDatabase2.Odb.Main
 
         #region IClassRepresentation Members
 
-        public void AddUniqueIndexOn(string name, string[] indexFields)
+        public void AddUniqueIndexOn(string indexName, params string[] indexFields)
         {
-            _storageEngine.AddIndexOn(_classInfo.FullClassName, name, indexFields, false);
+            _storageEngine.AddIndexOn(_classInfo.FullClassName, indexName, indexFields, false);
         }
 
-        public void AddIndexOn(string name, string[] indexFields)
+        public void AddIndexOn(string indexName, params string[] indexFields)
         {
-            _storageEngine.AddIndexOn(_classInfo.FullClassName, name, indexFields, true);
+            _storageEngine.AddIndexOn(_classInfo.FullClassName, indexName, indexFields, true);
         }
 
         public bool ExistIndex(string indexName)

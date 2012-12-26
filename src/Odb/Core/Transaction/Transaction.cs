@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using NDatabase2.Odb.Core.Layers.Layer2.Meta;
 using NDatabase2.Odb.Core.Layers.Layer3;
@@ -321,11 +322,11 @@ namespace NDatabase2.Odb.Core.Transaction
         {
             var parameters = _fsiToApplyWriteActions.GetFileIdentification();
 
-            var buffer =
-                new StringBuilder(parameters.Directory).Append("/").Append(parameters.Id).Append("-").Append(
-                    _creationDateTime).Append("-").Append(_session.GetId()).Append(".transaction");
+            var filename = 
+                string.Format("{0}-{1}-{2}.transaction", parameters.Id, _creationDateTime, _session.GetId());
+            var filePath = Path.Combine(parameters.Directory, filename);
 
-            return new FileIdentification(buffer.ToString());
+            return new FileIdentification(filePath);
         }
 
         private void CheckFileAccess(string fileName)

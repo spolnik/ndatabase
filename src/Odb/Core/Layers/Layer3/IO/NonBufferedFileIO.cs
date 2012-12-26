@@ -121,8 +121,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.IO
                 return;
 
             OdbFactory.Delete(_wholeFileName);
-            if (File.Exists(_wholeFileName))
-                throw new OdbRuntimeException(NDatabaseError.CanNotDeleteFile.AddParameter(_wholeFileName));
         }
     }
 }
