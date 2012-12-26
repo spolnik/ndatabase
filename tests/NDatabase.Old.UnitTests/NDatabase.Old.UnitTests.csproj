@@ -52,7 +52,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\NDatabase.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\..\NDatabase.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -317,7 +317,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\NDatabase2.csproj">
+    <ProjectReference Include="..\..\src\NDatabase2.csproj">
       <Project>{4B6993D5-995D-4AAA-BBCE-423D1B5451F6}</Project>
       <Name>NDatabase2</Name>
     </ProjectReference>
@@ -343,7 +343,7 @@
     <Content Include="NDatabase\Odb\Test\Arraycollectionmap\ObjectWith2DimensionsArrayOfInteger.java" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\NDatabase.snk">
+    <None Include="..\..\NDatabase.snk">
       <Link>NDatabase.snk</Link>
     </None>
   </ItemGroup>
