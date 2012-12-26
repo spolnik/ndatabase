@@ -104,31 +104,31 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
         public IConstraint SizeEq()
         {
-            _evaluation = new CollectionSizeEvaluation(_theObject, _attributeName, CollectionSizeEvaluation.SizeEq);
+            _evaluation = new CollectionSizeEvaluation(_theObject, _attributeName, _query, CollectionSizeEvaluation.SizeEq);
             return this;
         }
 
         public IConstraint SizeNe()
         {
-            _evaluation = new CollectionSizeEvaluation(_theObject, _attributeName, CollectionSizeEvaluation.SizeNe);
+            _evaluation = new CollectionSizeEvaluation(_theObject, _attributeName, _query, CollectionSizeEvaluation.SizeNe);
             return this;
         }
 
         public IConstraint SizeGt()
         {
-            _evaluation = new CollectionSizeEvaluation(_theObject, _attributeName, CollectionSizeEvaluation.SizeGt);
+            _evaluation = new CollectionSizeEvaluation(_theObject, _attributeName, _query, CollectionSizeEvaluation.SizeGt);
             return this;
         }
 
         public IConstraint SizeGe()
         {
-            _evaluation = new CollectionSizeEvaluation(_theObject, _attributeName, CollectionSizeEvaluation.SizeGe);
+            _evaluation = new CollectionSizeEvaluation(_theObject, _attributeName, _query, CollectionSizeEvaluation.SizeGe);
             return this;
         }
 
         public IConstraint SizeLt()
         {
-            _evaluation = new CollectionSizeEvaluation(_theObject, _attributeName, CollectionSizeEvaluation.SizeLt);
+            _evaluation = new CollectionSizeEvaluation(_theObject, _attributeName, _query, CollectionSizeEvaluation.SizeLt);
             return this;
         }
 
@@ -151,7 +151,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
 
         public IConstraint SizeLe()
         {
-            _evaluation = new CollectionSizeEvaluation(_theObject, _attributeName, CollectionSizeEvaluation.SizeLe);
+            _evaluation = new CollectionSizeEvaluation(_theObject, _attributeName, _query, CollectionSizeEvaluation.SizeLe);
             return this;
         }
 

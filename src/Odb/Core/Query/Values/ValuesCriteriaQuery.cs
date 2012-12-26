@@ -71,7 +71,7 @@ namespace NDatabase2.Odb.Core.Query.Values
 
         public IValuesQuery Sublist(string attributeName, string alias, int fromIndex, int size, bool throwException)
         {
-            _objectActions.Add(new SublistAction(attributeName, alias, fromIndex, size, throwException));
+            _objectActions.Add(new SublistAction(this, attributeName, alias, fromIndex, size, throwException));
             return this;
         }
 
@@ -82,7 +82,7 @@ namespace NDatabase2.Odb.Core.Query.Values
 
         public IValuesQuery Sublist(string attributeName, string alias, int fromIndex, int toIndex)
         {
-            _objectActions.Add(new SublistAction(attributeName, alias, fromIndex, toIndex));
+            _objectActions.Add(new SublistAction(this, attributeName, alias, fromIndex, toIndex));
             return this;
         }
 
@@ -93,7 +93,7 @@ namespace NDatabase2.Odb.Core.Query.Values
 
         public IValuesQuery Size(string attributeName, string alias)
         {
-            _objectActions.Add(new SizeAction(attributeName, alias));
+            _objectActions.Add(new SizeAction(this, attributeName, alias));
             return this;
         }
 

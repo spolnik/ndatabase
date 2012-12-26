@@ -11,12 +11,14 @@ namespace NDatabase2.Odb.Core.Query.Criteria.Evaluations
         internal const int SizeGe = 4;
         internal const int SizeLt = 5;
         internal const int SizeLe = 6;
-        
+
+        private readonly IInternalQuery _query;
         private readonly int _sizeType;
 
-        public CollectionSizeEvaluation(object theObject, string attributeName, int sizeType) 
+        public CollectionSizeEvaluation(object theObject, string attributeName, IQuery query, int sizeType) 
             : base(theObject, attributeName)
         {
+            _query = (IInternalQuery) query;
             _sizeType = sizeType;
         }
 
@@ -28,6 +30,12 @@ namespace NDatabase2.Odb.Core.Query.Criteria.Evaluations
                 throw new ArgumentException("Constrain argument need to be int (size).");
 
             var size = (int)TheObject;
+
+            if (candidate is OID)
+            {
+                var oid = (OID)candidate;
+                candidate = _query.GetStorageEngine().GetObjectFromOid(oid);
+            }
 
             if (candidate == null)
             {

@@ -471,32 +471,32 @@ namespace NDatabase.UnitTests.Layer2
             Assert.That(odbType.IsStringOrBigDecimal(), Is.False);
         }
 
-        [Test]
-        public void It_should_contain_valid_collection_generic_type()
-        {
-            var odbType = OdbType.CollectionGeneric;
-
-            Assert.That(odbType.BaseClass, Is.EqualTo(typeof(ICollection<object>)));
-            Assert.That(odbType.Id, Is.EqualTo(OdbType.CollectionGenericId));
-            Assert.That(odbType.Name, Is.StringStarting("System.Collections.Generic.ICollection"));
-            Assert.That(odbType.Size, Is.EqualTo(0));
-            Assert.That(odbType.SubType, Is.Null);
-            Assert.That(odbType.GetNativeClass(), Is.EqualTo(typeof(ICollection<object>)));
-            Assert.That(odbType.HasFixSize(), Is.False);
-
-            Assert.That(odbType.IsArray(), Is.False);
-            Assert.That(odbType.IsArrayOrCollection(), Is.True);
-            Assert.That(odbType.IsAtomicNative(), Is.False);
-            Assert.That(odbType.IsBoolean(), Is.False);
-            Assert.That(odbType.IsCollection(), Is.True);
-            Assert.That(odbType.IsDate(), Is.False);
-            Assert.That(odbType.IsEnum(), Is.False);
-            Assert.That(odbType.IsMap(), Is.False);
-            Assert.That(odbType.IsNative(), Is.True);
-            Assert.That(odbType.IsNonNative(), Is.False);
-            Assert.That(odbType.IsNull(), Is.False);
-            Assert.That(odbType.IsStringOrBigDecimal(), Is.False);
-        }
+//        [Test]
+//        public void It_should_contain_valid_collection_generic_type()
+//        {
+//            var odbType = OdbType.CollectionGeneric;
+//
+//            Assert.That(odbType.BaseClass, Is.EqualTo(typeof(ICollection<object>)));
+//            Assert.That(odbType.Id, Is.EqualTo(OdbType.CollectionGenericId));
+//            Assert.That(odbType.Name, Is.StringStarting("System.Collections.Generic.ICollection"));
+//            Assert.That(odbType.Size, Is.EqualTo(0));
+//            Assert.That(odbType.SubType, Is.Null);
+//            Assert.That(odbType.GetNativeClass(), Is.EqualTo(typeof(ICollection<object>)));
+//            Assert.That(odbType.HasFixSize(), Is.False);
+//
+//            Assert.That(odbType.IsArray(), Is.False);
+//            Assert.That(odbType.IsArrayOrCollection(), Is.True);
+//            Assert.That(odbType.IsAtomicNative(), Is.False);
+//            Assert.That(odbType.IsBoolean(), Is.False);
+//            Assert.That(odbType.IsCollection(), Is.True);
+//            Assert.That(odbType.IsDate(), Is.False);
+//            Assert.That(odbType.IsEnum(), Is.False);
+//            Assert.That(odbType.IsMap(), Is.False);
+//            Assert.That(odbType.IsNative(), Is.True);
+//            Assert.That(odbType.IsNonNative(), Is.False);
+//            Assert.That(odbType.IsNull(), Is.False);
+//            Assert.That(odbType.IsStringOrBigDecimal(), Is.False);
+//        }
 
         [Test]
         public void It_should_contain_valid_array_type()

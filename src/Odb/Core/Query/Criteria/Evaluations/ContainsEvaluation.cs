@@ -16,22 +16,35 @@ namespace NDatabase2.Odb.Core.Query.Criteria.Evaluations
         /// </remarks>
         private readonly OID _oid;
 
-        public ContainsEvaluation(object theObject, string attributeName, IQuery query) : base(theObject, attributeName)
+        private IInternalQuery _query;
+
+        public ContainsEvaluation(object theObject, string attributeName, IQuery query) 
+            : base(theObject, attributeName)
         {
+            _query = (IInternalQuery) query;
+
             if (IsNative())
                 return;
 
             // For non native object, we just need the oid of it
-            _oid = ((IInternalQuery)query).GetStorageEngine().GetObjectId(TheObject, false);
+            _oid = _query.GetStorageEngine().GetObjectId(TheObject, false);
         }
 
         public override bool Evaluate(object candidate)
         {
+            candidate = AsAttributeValuesMapValue(candidate);
+
             if (candidate == null && TheObject == null && _oid == null)
                 return true;
 
             if (candidate == null)
                 return false;
+
+            if (candidate is OID)
+            {
+                var oid = (OID) candidate;
+                candidate = _query.GetStorageEngine().GetObjectFromOid(oid);
+            }
 
             if (candidate is IDictionary)
             {
@@ -73,40 +86,84 @@ namespace NDatabase2.Odb.Core.Query.Criteria.Evaluations
 
         private bool CheckIfCollectionContainsValue(IEnumerable collection)
         {
+            var genericTypeDefinition = collection.GetType().GetGenericArguments()[0];
+
             // If the object to compared is native
             if (IsNative())
             {
-                foreach (AbstractObjectInfo abstractObjectInfo in collection)
+                if (genericTypeDefinition == typeof(AbstractObjectInfo))
                 {
-                    if (abstractObjectInfo == null && TheObject == null)
-                        return true;
+                    foreach (AbstractObjectInfo abstractObjectInfo in collection)
+                    {
+                        if (abstractObjectInfo == null && TheObject == null)
+                            return true;
 
-                    if (abstractObjectInfo != null && TheObject == null)
-                        return false;
+                        if (abstractObjectInfo != null && TheObject == null)
+                            return false;
 
-                    if (abstractObjectInfo != null && TheObject.Equals(abstractObjectInfo.GetObject()))
-                        return true;
+                        if (abstractObjectInfo != null && TheObject.Equals(abstractObjectInfo.GetObject()))
+                            return true;
+                    }
+                }
+                else
+                {
+                    foreach (var item in collection)
+                    {
+                        if (item == null && TheObject == null)
+                            return true;
+
+                        if (item != null && TheObject == null)
+                            return false;
+
+                        if (TheObject.Equals(item))
+                            return true;
+                    }
+                    
                 }
 
                 return false;
             }
 
-            foreach (AbstractObjectInfo abstractObjectInfo in collection)
+
+            if (genericTypeDefinition == typeof(AbstractObjectInfo))
             {
-                if (abstractObjectInfo.IsNull() && TheObject == null && _oid == null)
-                    return true;
+                foreach (AbstractObjectInfo abstractObjectInfo in collection)
+                {
+                    if (abstractObjectInfo.IsNull() && TheObject == null && _oid == null)
+                        return true;
 
-                if (_oid == null)
-                    continue;
+                    if (_oid == null)
+                        continue;
 
-                if (!abstractObjectInfo.IsNonNativeObject())
-                    continue;
+                    if (!abstractObjectInfo.IsNonNativeObject())
+                        continue;
 
-                var nnoi1 = (NonNativeObjectInfo)abstractObjectInfo;
-                var isEqual = nnoi1.GetOid() != null && _oid != null && nnoi1.GetOid().Equals(_oid);
+                    var nnoi1 = (NonNativeObjectInfo)abstractObjectInfo;
+                    var isEqual = nnoi1.GetOid() != null && _oid != null && nnoi1.GetOid().Equals(_oid);
 
-                if (isEqual)
-                    return true;
+                    if (isEqual)
+                        return true;
+                }
+            }
+            else
+            {
+                foreach (var item in collection)
+                {
+                    if (item == null && TheObject == null && _oid == null)
+                        return true;
+
+                    if (Equals(item, TheObject))
+                        return true;
+
+                    if (_oid == null || item == null)
+                        continue;
+
+                    if (!OdbType.IsNative(item.GetType()))
+                        continue;
+
+                    if (Equals(item, _oid))
+                        return true;
+                }
             }
 
             return false;

@@ -45,7 +45,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
 
         static OdbType()
         {
-            IList<OdbType> allTypes = new List<OdbType>(100);
+            IList<OdbType> allTypes = new List<OdbType>(32);
             //// DO NOT FORGET DO ADD THE TYPE IN THIS LIST WHEN CREATING A NEW ONE!!!
             allTypes.Add(Null);
             allTypes.Add(Byte);
@@ -65,7 +65,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
             allTypes.Add(String);
             allTypes.Add(Enum);
             allTypes.Add(Collection);
-            allTypes.Add(CollectionGeneric);
             allTypes.Add(Array);
             allTypes.Add(Map);
             allTypes.Add(Oid);
@@ -195,7 +194,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
             if (IsMap(clazz))
                 return CacheOfTypesByName.GetOrAdd(className, Map);
 
-            // check if it is a list
             if (IsCollection(clazz))
                 return CacheOfTypesByName.GetOrAdd(className, Collection);
 
@@ -229,13 +227,27 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
 
         public static bool IsCollection(Type clazz)
         {
+            var types = clazz.GetInterfaces();
+
+            if (IsCollection(types, "System.Collections.Generic.ICollection"))
+                return false;
+
             var isNonGenericCollection = Collection._baseClass.IsAssignableFrom(clazz);
             if (isNonGenericCollection)
                 return true;
-            var types = clazz.GetInterfaces();
 
-            return IsCollection(types, "System.Collections.Generic.ICollection");
+            return IsCollection(types, "System.Collections.ICollection");
         }
+
+//        public static bool IsGenericCollection(Type clazz)
+//        {
+//            var isGenericCollection = CollectionGeneric._baseClass.IsAssignableFrom(clazz);
+//            if (isGenericCollection)
+//                return true;
+//            var types = clazz.GetInterfaces();
+
+//            return IsCollection(types, "System.Collections.Generic.ICollection");
+//        }
 
         public static bool IsNative(Type clazz)
         {
@@ -249,6 +261,11 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
             if (clazz.IsArray)
                 return true;
 
+            var types = clazz.GetInterfaces();
+
+            if (IsCollection(types, "System.Collections.Generic.ICollection"))
+                return false;
+
             return Map._baseClass.IsAssignableFrom(clazz) || Collection._baseClass.IsAssignableFrom(clazz);
         }
 
@@ -260,6 +277,11 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
         public bool IsCollection()
         {
             return _id == CollectionId || _id == CollectionGenericId;
+        }
+
+        public bool IsGenericCollection()
+        {
+            return _id == CollectionGenericId;
         }
 
         public static bool IsCollection(int odbTypeId)
@@ -633,10 +655,10 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
                                                                 OdbClassUtil.GetFullName(typeof (ICollection)), 0,
                                                                 typeof (ICollection));
 
-        public static readonly OdbType CollectionGeneric = new OdbType(false, CollectionGenericId,
-                                                                       OdbClassUtil.GetFullName(
-                                                                           typeof (ICollection<object>)), 0,
-                                                                       typeof (ICollection<object>));
+//        public static readonly OdbType CollectionGeneric = new OdbType(false, CollectionGenericId,
+//                                                                       OdbClassUtil.GetFullName(
+//                                                                           typeof (ICollection<object>)), 0,
+//                                                                       typeof (ICollection<object>));
 
         public static readonly OdbType Array = new OdbType(false, ArrayId, "array", 0);
 

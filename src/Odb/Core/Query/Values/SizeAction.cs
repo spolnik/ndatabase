@@ -12,15 +12,25 @@ namespace NDatabase2.Odb.Core.Query.Values
     /// </remarks>
     internal sealed class SizeAction : AbstractQueryFieldAction
     {
+        private readonly IInternalQuery _query;
         private long _size;
 
-        public SizeAction(string attributeName, string alias) : base(attributeName, alias, true)
+        public SizeAction(IInternalQuery _query, string attributeName, string alias) : base(attributeName, alias, true)
         {
+            this._query = _query;
         }
 
         public override void Execute(OID oid, AttributeValuesMap values)
         {
-            var list = (IList) values[AttributeName];
+            var candidate = values[AttributeName];
+
+            if (candidate is OID)
+            {
+                var candidateOid = (OID)candidate;
+                candidate = _query.GetStorageEngine().GetObjectFromOid(candidateOid);
+            }
+
+            var list = (IList) candidate;
             _size = list.Count;
         }
 
@@ -44,7 +54,7 @@ namespace NDatabase2.Odb.Core.Query.Values
 
         public override IQueryFieldAction Copy()
         {
-            return new SizeAction(AttributeName, Alias);
+            return new SizeAction(_query, AttributeName, Alias);
         }
     }
 }

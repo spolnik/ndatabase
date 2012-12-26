@@ -32,7 +32,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var classInfoList = ClassIntrospector.Introspect(user.GetType(), true);
             AssertEquals(OdbClassUtil.GetFullName(user.GetType()), classInfoList.GetMainClassInfo().FullClassName);
             AssertEquals(3, classInfoList.GetMainClassInfo().Attributes.Count);
-            AssertEquals(2, classInfoList.GetClassInfos().Count);
+            AssertEquals(3, classInfoList.GetClassInfos().Count);
         }
 
         [Test]

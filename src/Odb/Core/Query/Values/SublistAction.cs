@@ -16,22 +16,25 @@ namespace NDatabase2.Odb.Core.Query.Values
     /// </remarks>
     internal sealed class SublistAction : AbstractQueryFieldAction
     {
+        private readonly IInternalQuery _query;
         private readonly int _fromIndex;
         private readonly int _size;
         private readonly bool _throwExceptionIfOutOfBound;
         private IOdbList<object> _sublist;
 
-        public SublistAction(string attributeName, string alias, int fromIndex, int size,
-                             bool throwExceptionIfOutOfBound) : base(attributeName, alias, true)
+        public SublistAction(IInternalQuery query, string attributeName, string alias, int fromIndex, int size, bool throwExceptionIfOutOfBound) 
+            : base(attributeName, alias, true)
         {
+            _query = query;
             _fromIndex = fromIndex;
             _size = size;
             _throwExceptionIfOutOfBound = throwExceptionIfOutOfBound;
         }
 
-        public SublistAction(string attributeName, string alias, int fromIndex, int toIndex)
+        public SublistAction(IInternalQuery query, string attributeName, string alias, int fromIndex, int toIndex)
             : base(attributeName, alias, true)
         {
+            _query = query;
             _fromIndex = fromIndex;
             _size = toIndex - fromIndex;
             _throwExceptionIfOutOfBound = true;
@@ -39,7 +42,15 @@ namespace NDatabase2.Odb.Core.Query.Values
 
         public override void Execute(OID oid, AttributeValuesMap values)
         {
-            var l = ((IEnumerable)values[AttributeName]).Cast<object>().ToList();
+            var candidate = values[AttributeName];
+
+            if (candidate is OID)
+            {
+                var candidateOid = (OID)candidate;
+                candidate = _query.GetStorageEngine().GetObjectFromOid(candidateOid);
+            }
+
+            var l = ((IEnumerable)candidate).Cast<object>().ToList();
             var localFromIndex = _fromIndex;
             var localEndIndex = _fromIndex + _size;
 
@@ -83,7 +94,7 @@ namespace NDatabase2.Odb.Core.Query.Values
 
         public override IQueryFieldAction Copy()
         {
-            return new SublistAction(AttributeName, Alias, _fromIndex, _size, _throwExceptionIfOutOfBound);
+            return new SublistAction(_query, AttributeName, Alias, _fromIndex, _size, _throwExceptionIfOutOfBound);
         }
     }
 }
