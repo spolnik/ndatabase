@@ -55,11 +55,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NDbUtil.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="NorthwindNDbGeneratorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="NorthwindNDbGeneratorForm.Designer.cs">
+      <DependentUpon>NorthwindNDbGeneratorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="NorthwindDataSet.cs">
       <DependentUpon>NorthwindDataSet.xsd</DependentUpon>
@@ -72,8 +72,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="NorthwindNDbGeneratorForm.resx">
+      <DependentUpon>NorthwindNDbGeneratorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
