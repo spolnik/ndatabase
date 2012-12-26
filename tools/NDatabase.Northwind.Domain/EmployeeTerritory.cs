@@ -2,24 +2,13 @@
 {
     public class EmployeeTerritory
     {
-        Employee employeeID;
-        Territory territoryID;
-
         public string EmployeeTerritoryID
         {
-            get { return employeeID.EmployeeID.ToString() + "-" + territoryID.TerritoryID.ToString(); }
+            get { return Employee.EmployeeID.ToString() + "-" + Territory.TerritoryID; }
         }
 
-        public Employee EmployeeID
-        {
-            get { return employeeID; }
-            set { employeeID = value; }
-        }
+        public Employee Employee { get; set; }
 
-        public Territory TerritoryID
-        {
-            get { return territoryID; }
-            set { territoryID = value; }
-        }
+        public Territory Territory { get; set; }
     }
 }

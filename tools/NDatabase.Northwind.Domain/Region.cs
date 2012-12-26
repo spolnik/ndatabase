@@ -2,19 +2,10 @@
 {
     public class Region
     {
-        long regionID;
-        string regionDescription;
+        public static readonly string PK = "RegionID";
 
-        public long RegionID
-        {
-            get { return regionID; }
-            set { regionID = value; }
-        }
+        public long RegionID { get; set; }
 
-        public string RegionDescription
-        {
-            get { return regionDescription; }
-            set { regionDescription = value; }
-        }
+        public string RegionDescription { get; set; }
     }
 }

@@ -4,33 +4,14 @@ namespace NDatabase.Northwind.Domain
 {
     public class Category
     {
-        long categoryID;
-        string categoryName;
-        string description;
-        Byte[] picture;
+        public static readonly string PK = "CategoryID";
 
-        public long CategoryID
-        {
-            get { return categoryID; }
-            set { categoryID = value; }
-        }
+        public long CategoryID { get; set; }
 
-        public string CategoryName
-        {
-            get { return categoryName; }
-            set { categoryName = value; }
-        }
+        public string CategoryName { get; set; }
 
-        public string Description
-        {
-            get { return description; }
-            set { description = value; }
-        }
+        public string Description { get; set; }
 
-        public Byte[] Picture
-        {
-            get { return picture; }
-            set { picture = value; }
-        }
+        public Byte[] Picture { get; set; }
     }
 }

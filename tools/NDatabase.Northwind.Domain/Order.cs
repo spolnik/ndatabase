@@ -4,103 +4,34 @@ namespace NDatabase.Northwind.Domain
 {
     public class Order
     {
-        long orderID;
-        Customer customerID;
-        Employee employeeID;
-        DateTime orderDate;
-        DateTime requiredDate;
-        DateTime shippedDate;
-        Shipper shipVia;
-        double freight;
-        string shipName;
-        string shipAddress;
-        string shipCity;
-        string shipRegion;
-        string shipPostalCode;
-        string shipCountry;
+        public static readonly string PK = "OrderID";
 
-        public long OrderID
-        {
-            get { return orderID; }
-            set { orderID = value; }
-        }
+        public long OrderID { get; set; }
 
-        public Customer CustomerID
-        {
-            get { return customerID; }
-            set { customerID = value; }
-        }
+        public Customer Customer { get; set; }
 
-        public Employee EmployeeID
-        {
-            get { return employeeID; }
-            set { employeeID = value; }
-        }
+        public Employee Employee { get; set; }
 
-        public DateTime OrderDate
-        {
-            get { return orderDate; }
-            set { orderDate = value; }
-        }
+        public DateTime OrderDate { get; set; }
 
-        public DateTime RequiredDate
-        {
-            get { return requiredDate; }
-            set { requiredDate = value; }
-        }
+        public DateTime RequiredDate { get; set; }
 
-        public DateTime ShippedDate
-        {
-            get { return shippedDate; }
-            set { shippedDate = value; }
-        }
+        public DateTime ShippedDate { get; set; }
 
-        public Shipper ShipVia
-        {
-            get { return shipVia; }
-            set { shipVia = value; }
-        }
+        public Shipper ShipVia { get; set; }
 
-        public double Freight
-        {
-            get { return freight; }
-            set { freight = value; }
-        }
+        public double Freight { get; set; }
 
-        public string ShipName
-        {
-            get { return shipName; }
-            set { shipName = value; }
-        }
+        public string ShipName { get; set; }
 
-        public string ShipAddress
-        {
-            get { return shipAddress; }
-            set { shipAddress = value; }
-        }
+        public string ShipAddress { get; set; }
 
-        public string ShipCity
-        {
-            get { return shipCity; }
-            set { shipCity = value; }
-        }
+        public string ShipCity { get; set; }
 
-        public string ShipRegion
-        {
-            get { return shipRegion; }
-            set { shipRegion = value; }
-        }
+        public string ShipRegion { get; set; }
 
-        public string ShipPostalCode
-        {
-            get { return shipPostalCode; }
-            set { shipPostalCode = value; }
-        }
+        public string ShipPostalCode { get; set; }
 
-        public string ShipCountry
-        {
-            get { return shipCountry; }
-            set { shipCountry = value; }
-        }
+        public string ShipCountry { get; set; }
     }
 }

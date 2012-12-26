@@ -2,26 +2,12 @@
 {
     public class Territory
     {
-        string territoryID;
-        string territoryDescription;
-        Region regionID;
+        public static readonly string PK = "TerritoryID";
 
-        public string TerritoryID
-        {
-            get { return territoryID; }
-            set { territoryID = value; }
-        }
+        public string TerritoryID { get; set; }
 
-        public string TerritoryDescription
-        {
-            get { return territoryDescription; }
-            set { territoryDescription = value; }
-        }
+        public string TerritoryDescription { get; set; }
 
-        public Region RegionID
-        {
-            get { return regionID; }
-            set { regionID = value; }
-        }
+        public Region Region { get; set; }
     }
 }

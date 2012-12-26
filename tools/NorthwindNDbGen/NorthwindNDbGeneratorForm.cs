@@ -135,7 +135,7 @@ namespace NorthwindNDb
             odb.Commit();
 
             LogMessage("Commit done, starting create index ...", false);
-            odb.IndexManagerFor<Customer>().AddUniqueIndexOn("Customer_CustomerID_PK_index", "customerID");
+            odb.IndexManagerFor<Customer>().AddUniqueIndexOn("Customer_CustomerID_PK_index", Customer.PK);
             odb.Commit();
             LogMessage(" index created.", true);
 
@@ -172,7 +172,7 @@ namespace NorthwindNDb
             odb.Commit();
 
             LogMessage("Commit done, starting create index ...", false);
-            odb.IndexManagerFor<Category>().AddUniqueIndexOn("Category_CategoryID_PK_index", "categoryID");
+            odb.IndexManagerFor<Category>().AddUniqueIndexOn("Category_CategoryID_PK_index", Category.PK);
             odb.Commit();
             LogMessage(" index created.", true);
 
@@ -217,7 +217,7 @@ namespace NorthwindNDb
             odb.Commit();
 
             LogMessage("Commit done, starting create index ...", false);
-            odb.IndexManagerFor<Supplier>().AddUniqueIndexOn("Supplier_SupplierID_PK_index", "supplierID");
+            odb.IndexManagerFor<Supplier>().AddUniqueIndexOn("Supplier_SupplierID_PK_index", Supplier.PK);
             odb.Commit();
             LogMessage(" index created.", true);
 
@@ -253,7 +253,7 @@ namespace NorthwindNDb
             odb.Commit();
 
             LogMessage("Commit done, starting create index ...", false);
-            odb.IndexManagerFor<Shipper>().AddUniqueIndexOn("Shipper_ShipperID_PK_index", "shipperID");
+            odb.IndexManagerFor<Shipper>().AddUniqueIndexOn("Shipper_ShipperID_PK_index", Shipper.PK);
             odb.Commit();
             LogMessage(" index created.", true);
 
@@ -284,7 +284,7 @@ namespace NorthwindNDb
             odb.Commit();
 
             LogMessage("Commit done, starting create index ...", false);
-            odb.IndexManagerFor<Region>().AddUniqueIndexOn("Region_RegionID_PK_index", "regionID");
+            odb.IndexManagerFor<Region>().AddUniqueIndexOn("Region_RegionID_PK_index", NDatabase.Northwind.Domain.Region.PK);
             odb.Commit();
             LogMessage(" index created.", true);
 
@@ -351,7 +351,7 @@ namespace NorthwindNDb
             odb.Commit();
 
             LogMessage("Commit done, starting create index ...", false);
-            odb.IndexManagerFor<Employee>().AddUniqueIndexOn("Employee_EmployeeID_PK_index", "employeeID");
+            odb.IndexManagerFor<Employee>().AddUniqueIndexOn("Employee_EmployeeID_PK_index", Employee.PK);
             odb.Commit();
             LogMessage(" index created.", true);
 
@@ -387,7 +387,7 @@ namespace NorthwindNDb
 
             LogMessage("Commit done, starting create index ...", false);
             odb.IndexManagerFor<CustomerDemographics>().AddUniqueIndexOn(
-                "CustomerDemographics_CustomerTypeID_PK_index", "customerTypeID");
+                "CustomerDemographics_CustomerTypeID_PK_index", CustomerDemographics.PK);
             odb.Commit();
             LogMessage(" index created.", true);
 
@@ -412,20 +412,14 @@ namespace NorthwindNDb
 
                 var ccd = new CustomerCustomerDemo();
                 LogMessage("linking members...", false);
-                ccd.CustomerID = NDbUtil.GetByStringID<Customer>(odb, "customerID", row.CustomerID);
-                ccd.CustomerTypeID = NDbUtil.GetByStringID<CustomerDemographics>(odb, "customerTypeID",
+                ccd.CustomerID = NDbUtil.GetByStringID<Customer>(odb, Customer.PK, row.CustomerID);
+                ccd.CustomerTypeID = NDbUtil.GetByStringID<CustomerDemographics>(odb, CustomerDemographics.PK,
                                                                                  row.CustomerTypeID);
 
                 odb.Store(ccd);
                 LogMessage("saved (" + ccd.CustomerID.CustomerID + "/" + ccd.CustomerTypeID.CustomerTypeID + ")", true);
             }
             odb.Commit();
-
-            LogMessage("Commit done, starting create index ...", false);
-            odb.IndexManagerFor<CustomerCustomerDemo>().AddUniqueIndexOn(
-                "CustomerCustomerDemo_CustomerID_CustomerTypeID_PK_index", "customerID", "customerTypeID");
-            odb.Commit();
-            LogMessage(" index created.", true);
 
             long objectCount = NDbUtil.GetAllInstances<CustomerCustomerDemo>(odb).Count;
             if (table1.Count == objectCount)
@@ -449,7 +443,7 @@ namespace NorthwindNDb
                 var t = new Territory {TerritoryID = row.TerritoryID, TerritoryDescription = row.TerritoryDescription};
 
                 LogMessage("linking member...", false);
-                t.RegionID = NDbUtil.GetByNumericalID<Region>(odb, "regionID", row.RegionID);
+                t.Region = NDbUtil.GetByNumericalID<Region>(odb, NDatabase.Northwind.Domain.Region.PK, row.RegionID);
 
                 odb.Store(t);
                 LogMessage("saved (" + t.TerritoryID + ")", true);
@@ -457,7 +451,7 @@ namespace NorthwindNDb
             odb.Commit();
 
             LogMessage("Commit done, starting create index ...", false);
-            odb.IndexManagerFor<Territory>().AddUniqueIndexOn("Territory_TerritoryID_PK_index", "territoryID");
+            odb.IndexManagerFor<Territory>().AddUniqueIndexOn("Territory_TerritoryID_PK_index", Territory.PK);
             odb.Commit();
             LogMessage(" index created.", true);
 
@@ -482,20 +476,14 @@ namespace NorthwindNDb
 
                 var et = new EmployeeTerritory();
                 LogMessage("linking members...", false);
-                et.EmployeeID = NDbUtil.GetByNumericalID<Employee>(odb, "employeeID", row.EmployeeID);
-                et.TerritoryID = NDbUtil.GetByStringID<Territory>(odb, "territoryID", row.TerritoryID);
+                et.Employee = NDbUtil.GetByNumericalID<Employee>(odb, Employee.PK, row.EmployeeID);
+                et.Territory = NDbUtil.GetByStringID<Territory>(odb, Territory.PK, row.TerritoryID);
 
                 odb.Store(et);
-                LogMessage("saved (" + et.EmployeeID.EmployeeID.ToString() + "/" + et.TerritoryID.TerritoryID + ")",
+                LogMessage("saved (" + et.Employee.EmployeeID.ToString() + "/" + et.Territory.TerritoryID + ")",
                            true);
             }
             odb.Commit();
-
-            LogMessage("Commit done, starting create index ...", false);
-            odb.IndexManagerFor<EmployeeTerritory>().AddUniqueIndexOn(
-                "EmployeeTerritory_EmployeeID_TerritoryID_PK_index", "territoryID", "employeeID");
-            odb.Commit();
-            LogMessage(" index created.", true);
 
             long objectCount = NDbUtil.GetAllInstances<EmployeeTerritory>(odb).Count;
             if (table1.Count == objectCount)
@@ -543,15 +531,15 @@ namespace NorthwindNDb
                 {
                     LogMessage("linking member...", false);
                     var supplierID = Convert.ToInt64(suppliers[p.ProductID]);
-                    var found = NDbUtil.GetByNumericalID<Supplier>(odb, "supplierID", supplierID);
-                    p.SupplierID = found;
+                    var found = NDbUtil.GetByNumericalID<Supplier>(odb, Supplier.PK, supplierID);
+                    p.Supplier = found;
                 }
                 if (categories.ContainsKey(p.ProductID))
                 {
                     LogMessage("linking member...", false);
                     var categoryID = Convert.ToInt64(categories[p.ProductID]);
-                    var found = NDbUtil.GetByNumericalID<Category>(odb, "categoryID", categoryID);
-                    p.CategoryID = found;
+                    var found = NDbUtil.GetByNumericalID<Category>(odb, Category.PK, categoryID);
+                    p.Category = found;
                 }
                 odb.Store(p);
 
@@ -560,7 +548,7 @@ namespace NorthwindNDb
             odb.Commit();
 
             LogMessage("Commit done, starting create index ...", false);
-            odb.IndexManagerFor<Product>().AddUniqueIndexOn("Product_ProductID_PK_index", "productID");
+            odb.IndexManagerFor<Product>().AddUniqueIndexOn("Product_ProductID_PK_index", Product.PK);
             odb.Commit();
             LogMessage(" index created.", true);
 
@@ -619,21 +607,21 @@ namespace NorthwindNDb
                 {
                     LogMessage("linking member...", false);
                     var customerID = Convert.ToString(customers[o.OrderID]);
-                    var found = NDbUtil.GetByStringID<Customer>(odb, "customerID", customerID);
-                    o.CustomerID = found;
+                    var found = NDbUtil.GetByStringID<Customer>(odb, Customer.PK, customerID);
+                    o.Customer = found;
                 }
                 if (employees.ContainsKey(o.OrderID))
                 {
                     LogMessage("linking member...", false);
                     var employeeID = Convert.ToInt64(employees[o.OrderID]);
-                    var found = NDbUtil.GetByNumericalID<Employee>(odb, "employeeID", employeeID);
-                    o.EmployeeID = found;
+                    var found = NDbUtil.GetByNumericalID<Employee>(odb, Employee.PK, employeeID);
+                    o.Employee = found;
                 }
                 if (shippers.ContainsKey(o.OrderID))
                 {
                     LogMessage("linking member...", false);
                     var shipperID = Convert.ToInt64(shippers[o.OrderID]);
-                    var found = NDbUtil.GetByNumericalID<Shipper>(odb, "shipperID", shipperID);
+                    var found = NDbUtil.GetByNumericalID<Shipper>(odb, Shipper.PK, shipperID);
                     o.ShipVia = found;
                 }
                 odb.Store(o);
@@ -643,7 +631,7 @@ namespace NorthwindNDb
             odb.Commit();
 
             LogMessage("Commit done, starting create index ...", false);
-            odb.IndexManagerFor<Order>().AddUniqueIndexOn("Order_OrderID_PK_index", "orderID");
+            odb.IndexManagerFor<Order>().AddUniqueIndexOn("Order_OrderID_PK_index", Order.PK);
             odb.Commit();
             LogMessage(" index created.", true);
 
@@ -668,23 +656,18 @@ namespace NorthwindNDb
 
                 var od = new OrderDetail();
                 LogMessage("linking members...", false);
-                od.OrderID = NDbUtil.GetByNumericalID<Order>(odb, "orderID", row.OrderID);
-                od.ProductID = NDbUtil.GetByNumericalID<Product>(odb, "productID", row.ProductID);
+                od.Order = NDbUtil.GetByNumericalID<Order>(odb, Order.PK, row.OrderID);
+                od.Product = NDbUtil.GetByNumericalID<Product>(odb, Product.PK, row.ProductID);
                 od.UnitPrice = Convert.ToDouble(row.UnitPrice);
                 od.Quantity = row.Quantity;
                 od.Discount = Convert.ToDouble(row.Discount);
 
                 odb.Store(od);
                 StepFinished(progress += 0.029);
-                LogMessage("saved (" + od.OrderID.OrderID.ToString() + "/" + od.ProductID.ProductID.ToString() + ")",
+                LogMessage("saved (" + od.Order.OrderID.ToString() + "/" + od.Product.ProductID.ToString() + ")",
                            true);
             }
             odb.Commit();
-
-            LogMessage("Commit done, starting create index ...", false);
-            odb.IndexManagerFor<OrderDetail>().AddUniqueIndexOn("OrderDetail_OrderID_ProductID_PK_index", "orderID", "productID");
-            odb.Commit();
-            LogMessage(" index created.", true);
 
             long objectCount = NDbUtil.GetAllInstances<OrderDetail>(odb).Count;
             if (table1.Count == objectCount)

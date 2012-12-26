@@ -8,7 +8,7 @@ namespace NDatabase.Client.UnitTests
     public class TypedDataContextSample
     {
         private const string DbName =
-            @"D:\Workspace\NDatabase_git\ndatabase\NDatabase.Client.UnitTests\bin\Debug\working_with_linq.ndb";
+            @"D:\WORKSPACE\NDatabase_git\ndatabase\tests\NDatabase.Client.UnitTests\bin\Debug\working_with_linq.ndb";
 
 
         public IEnumerable<object> All
@@ -45,19 +45,6 @@ namespace NDatabase.Client.UnitTests
                 using (var odb = OdbFactory.Open(DbName))
                 {
                     result = odb.Query<User>().Execute<User>().ToList();
-                }
-                return result;
-            }
-        }
-
-        public IEnumerable<City> Cities
-        {
-            get
-            {
-                IList<City> result;
-                using (var odb = OdbFactory.Open(DbName))
-                {
-                    result = odb.Query<City>().Execute<City>().ToList();
                 }
                 return result;
             }

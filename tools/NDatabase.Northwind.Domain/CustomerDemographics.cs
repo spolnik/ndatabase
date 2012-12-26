@@ -2,19 +2,10 @@
 {
     public class CustomerDemographics
     {
-        string customerTypeID;
-        string customerDesc;
+        public static readonly string PK = "CustomerTypeID";
 
-        public string CustomerTypeID
-        {
-            get { return customerTypeID; }
-            set { customerTypeID = value; }
-        }
+        public string CustomerTypeID { get; set; }
 
-        public string CustomerDesc
-        {
-            get { return customerDesc; }
-            set { customerDesc = value; }
-        }
+        public string CustomerDesc { get; set; }
     }
 }

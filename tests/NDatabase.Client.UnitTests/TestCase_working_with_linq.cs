@@ -10,12 +10,12 @@ namespace NDatabase.Client.UnitTests
     {
         private const string DbName = "working_with_linq.ndb";
 
-//        [SetUp]
-//        public void SetUp()
-//        {
-//            CleanDb();
-//            PrepareTheData();
-//        }
+        [SetUp]
+        public void SetUp()
+        {
+            CleanDb();
+            PrepareTheData();
+        }
 
         [Test]
         public void Test_simple_select()

@@ -2,26 +2,12 @@
 {
     public class Shipper
     {
-        long shipperID;
-        string companyName;
-        string phone;
+        public static readonly string PK = "ShipperID";
 
-        public long ShipperID
-        {
-            get { return shipperID; }
-            set { shipperID = value; }
-        }
+        public long ShipperID { get; set; }
 
-        public string CompanyName
-        {
-            get { return companyName; }
-            set { companyName = value; }
-        }
+        public string CompanyName { get; set; }
 
-        public string Phone
-        {
-            get { return phone; }
-            set { phone = value; }
-        }
+        public string Phone { get; set; }
     }
 }
