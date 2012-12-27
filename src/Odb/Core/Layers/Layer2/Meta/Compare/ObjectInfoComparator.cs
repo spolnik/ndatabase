@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using NDatabase2.Tool;
@@ -249,15 +248,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta.Compare
                     }
                     continue;
                 }
-                if (value1.IsCollectionObject())
-                {
-                    var coi1 = (CollectionObjectInfo) value1;
-                    var coi2 = (CollectionObjectInfo) value2;
-                    var collectionHasChanged = ManageCollectionChanges(nnoi1, nnoi2, id, coi1, coi2,
-                                                                        objectRecursionLevel);
-                    hasChanged = hasChanged || collectionHasChanged;
-                    continue;
-                }
                 if (value1.IsArrayObject())
                 {
                     var aoi1 = (ArrayObjectInfo) value1;
@@ -398,68 +388,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta.Compare
         }
 
         /// <summary>
-        ///   Checks if something in the Collection has changed, if yes, stores the change
-        /// </summary>
-        /// <param name="nnoi1"> The first Object meta representation (nnoi = NonNativeObjectInfo) </param>
-        /// <param name="nnoi2"> The second object meta representation </param>
-        /// <param name="fieldId"> The field index that this collection represents </param>
-        /// <param name="coi1"> The Meta representation of the collection 1 (coi = CollectionObjectInfo) </param>
-        /// <param name="coi2"> The Meta representation of the collection 2 </param>
-        /// <param name="objectRecursionLevel"> </param>
-        /// <returns> true if 2 collection representation are different </returns>
-        private bool ManageCollectionChanges(NonNativeObjectInfo nnoi1, NonNativeObjectInfo nnoi2, int fieldId,
-                                             CollectionObjectInfo coi1, CollectionObjectInfo coi2,
-                                             int objectRecursionLevel)
-        {
-            var collection1 = coi1.GetCollection();
-            var collection2 = coi2.GetCollection();
-            if (collection1.Count != collection2.Count)
-            {
-                var buffer = new StringBuilder();
-                buffer.Append("Collection size has changed oldsize=").Append(collection1.Count).Append("/newsize=").
-                    Append(collection2.Count);
-                StoreChangedObject(nnoi1, nnoi2, fieldId, coi1, coi2, buffer.ToString(), objectRecursionLevel);
-                return true;
-            }
-            IEnumerator iterator1 = collection1.GetEnumerator();
-            IEnumerator iterator2 = collection2.GetEnumerator();
-            var index = 0;
-            while (iterator1.MoveNext())
-            {
-                iterator2.MoveNext();
-                var value1 = (AbstractObjectInfo) iterator1.Current;
-                var value2 = (AbstractObjectInfo) iterator2.Current;
-                var hasChanged = HasChanged(value1, value2, objectRecursionLevel);
-                if (hasChanged)
-                {
-                    // We consider collection has changed only if object are
-                    // different, If objects are the same instance, but something in
-                    // the object has changed, then the collection has not
-                    // changed,only the object
-                    if (value1.IsNonNativeObject() && value2.IsNonNativeObject())
-                    {
-                        var nnoia = (NonNativeObjectInfo) value1;
-                        if (nnoia.GetOid() != null && !nnoia.GetOid().Equals(nnoi2.GetOid()))
-                        {
-                            // Objects are not the same instance -> the collection
-                            // has changed
-                            StoreChangedObject(nnoi1, nnoi2, fieldId, value1, value2,
-                                               string.Format("List element index {0} has changed", index), objectRecursionLevel);
-                        }
-                    }
-                    else
-                    {
-                        _nbChanges++;
-                    }
-                    //storeChangedObject(nnoi1, nnoi2, fieldId, value1, value2, "List element index " + index + " has changed", objectRecursionLevel);
-                    return true;
-                }
-                index++;
-            }
-            return false;
-        }
-
-        /// <summary>
         ///   Checks if something in the Arary has changed, if yes, stores the change
         /// </summary>
         /// <param name="nnoi1"> The first Object meta representation (nnoi = NonNativeObjectInfo) </param>
@@ -488,11 +416,11 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta.Compare
                 var value1 = (AbstractObjectInfo) array1[i];
                 var value2 = (AbstractObjectInfo) array2[i];
                 var localHasChanged = HasChanged(value1, value2, objectRecursionLevel);
-                if (localHasChanged)
-                {
-                    StoreArrayChange(nnoi1, fieldId, i, value2);
-                    return true;
-                }
+                if (!localHasChanged) 
+                    continue;
+
+                StoreArrayChange(nnoi1, fieldId, i, value2);
+                return true;
             }
             return false;
         }

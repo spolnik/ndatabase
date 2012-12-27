@@ -103,75 +103,63 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Instance
                 // Check consistency
                 // ensureClassCompatibily(field,
                 // instanceInfo.getClassInfo().getAttributeinfo(i).getFullClassname());
-                if (abstractObjectInfo != null && (!abstractObjectInfo.IsNull()))
-                {
-                    if (abstractObjectInfo.IsNative())
-                    {
-                        if (abstractObjectInfo.IsAtomicNativeObject())
-                        {
-                            value = abstractObjectInfo.IsNull()
-                                        ? null
-                                        : abstractObjectInfo.GetObject();
-                        }
+                if (abstractObjectInfo == null || (abstractObjectInfo.IsNull())) 
+                    continue;
 
-                        if (abstractObjectInfo.IsCollectionObject())
-                        {
-                            value = BuildCollectionInstance((CollectionObjectInfo) abstractObjectInfo);
-                            // Manage a specific case of Set
-                            /*
-							if (typeof(Java.Util.Set).IsAssignableFrom(field.GetType()) && typeof(ICollection).IsAssignableFrom(value.GetType()))
-							{
-								Java.Util.Set s = new Java.Util.HashSet();
-								s.AddAll((System.Collections.ICollection)value);
-								value = s;
-							}*/
-                        }
-                        if (abstractObjectInfo.IsArrayObject())
-                            value = BuildArrayInstance((ArrayObjectInfo) abstractObjectInfo);
-                        if (abstractObjectInfo.IsMapObject())
-                            value = BuildMapInstance((MapObjectInfo) abstractObjectInfo);
-                        if (abstractObjectInfo.IsEnumObject())
-                            value = BuildEnumInstance((EnumNativeObjectInfo) abstractObjectInfo, fieldInfo.FieldType);
-                    }
-                    else
+                if (abstractObjectInfo.IsNative())
+                {
+                    if (abstractObjectInfo.IsAtomicNativeObject())
                     {
-                        if (abstractObjectInfo.IsNonNativeObject())
+                        value = abstractObjectInfo.IsNull()
+                                    ? null
+                                    : abstractObjectInfo.GetObject();
+                    }
+
+                    if (abstractObjectInfo.IsArrayObject())
+                        value = BuildArrayInstance((ArrayObjectInfo) abstractObjectInfo);
+                    if (abstractObjectInfo.IsMapObject())
+                        value = BuildMapInstance((MapObjectInfo) abstractObjectInfo);
+                    if (abstractObjectInfo.IsEnumObject())
+                        value = BuildEnumInstance((EnumNativeObjectInfo) abstractObjectInfo, fieldInfo.FieldType);
+                }
+                else
+                {
+                    if (abstractObjectInfo.IsNonNativeObject())
+                    {
+                        if (abstractObjectInfo.IsDeletedObject())
                         {
-                            if (abstractObjectInfo.IsDeletedObject())
+                            if (OdbConfiguration.IsLoggingEnabled())
                             {
-                                if (OdbConfiguration.IsLoggingEnabled())
-                                {
-                                    var warning =
-                                        NDatabaseError.AttributeReferencesADeletedObject.AddParameter(
-                                            objectInfo.GetClassInfo().FullClassName).AddParameter(
-                                                objectInfo.GetOid()).AddParameter(fieldInfo.Name);
-                                    DLogger.Warning(warning.ToString());
-                                }
-                                value = null;
+                                var warning =
+                                    NDatabaseError.AttributeReferencesADeletedObject.AddParameter(
+                                        objectInfo.GetClassInfo().FullClassName).AddParameter(
+                                            objectInfo.GetOid()).AddParameter(fieldInfo.Name);
+                                DLogger.Warning(warning.ToString());
                             }
-                            else
-                                value = BuildOneInstance((NonNativeObjectInfo) abstractObjectInfo);
+                            value = null;
                         }
+                        else
+                            value = BuildOneInstance((NonNativeObjectInfo) abstractObjectInfo);
                     }
-                    if (value != null)
-                    {
-                        if (OdbConfiguration.IsLoggingEnabled())
-                        {
-                            DLogger.Debug(String.Format("Setting field {0}({1}) to {2} / {3}", fieldInfo.Name,
-                                                        fieldInfo.GetType().FullName, value, value.GetType().FullName));
-                        }
-                        try
-                        {
-                            fieldInfo.SetValue(o, value);
-                        }
-                        catch (Exception e)
-                        {
-                            throw new OdbRuntimeException(
-                                NDatabaseError.InstanceBuilderWrongObjectContainerType.AddParameter(
-                                    objectInfo.GetClassInfo().FullClassName).AddParameter(value.GetType().FullName)
-                                    .AddParameter(fieldInfo.GetType().FullName), e);
-                        }
-                    }
+                }
+                if (value == null) 
+                    continue;
+
+                if (OdbConfiguration.IsLoggingEnabled())
+                {
+                    DLogger.Debug(String.Format("Setting field {0}({1}) to {2} / {3}", fieldInfo.Name,
+                                                fieldInfo.GetType().FullName, value, value.GetType().FullName));
+                }
+                try
+                {
+                    fieldInfo.SetValue(o, value);
+                }
+                catch (Exception e)
+                {
+                    throw new OdbRuntimeException(
+                        NDatabaseError.InstanceBuilderWrongObjectContainerType.AddParameter(
+                            objectInfo.GetClassInfo().FullClassName).AddParameter(value.GetType().FullName)
+                            .AddParameter(fieldInfo.GetType().FullName), e);
                 }
             }
             if (o.GetType() != objectInfo.GetClassInfo().UnderlyingType)
@@ -217,57 +205,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Instance
                                : BuildOneInstance((NativeObjectInfo) objectInfo);
 
             return instance;
-        }
-
-        private object BuildCollectionInstance(CollectionObjectInfo coi)
-        {
-            var type = OdbClassPool.GetClass(coi.GetRealCollectionClassName());
-
-            return type.IsGenericType
-                       ? BuildGenericCollectionInstance(coi, type)
-                       : BuildNonGenericCollectionInstance(coi);
-        }
-
-        private object BuildGenericCollectionInstance(CollectionObjectInfo coi, Type t)
-        {
-            object newCollection;
-            try
-            {
-                newCollection = Activator.CreateInstance(t);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw new OdbRuntimeException(
-                    NDatabaseError.CollectionInstanciationError.AddParameter(coi.GetRealCollectionClassName()));
-            }
-
-            var method = t.GetMethod("Add");
-
-            foreach (var abstractObjectInfo in coi.GetCollection())
-            {
-                if (!abstractObjectInfo.IsDeletedObject())
-                    method.Invoke(newCollection, new[] { BuildOneInstance(abstractObjectInfo) });
-            }
-
-            return newCollection;
-        }
-
-        private object BuildNonGenericCollectionInstance(CollectionObjectInfo coi)
-        {
-            var newCollection =
-                (IList) Activator.CreateInstance(OdbClassPool.GetClass(coi.GetRealCollectionClassName()));
-
-            IEnumerator iterator = coi.GetCollection().GetEnumerator();
-
-            while (iterator.MoveNext())
-            {
-                var abstractObjectInfo = (AbstractObjectInfo) iterator.Current;
-                if (!abstractObjectInfo.IsDeletedObject())
-                    newCollection.Add(BuildOneInstance(abstractObjectInfo));
-            }
-
-            return newCollection;
         }
 
         /// <summary>
@@ -366,13 +303,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Instance
         {
             if (objectInfo.IsAtomicNativeObject())
                 return BuildOneInstance((AtomicNativeObjectInfo) objectInfo);
-            if (objectInfo.IsCollectionObject())
-            {
-                var coi = (CollectionObjectInfo) objectInfo;
-                var value = BuildCollectionInstance(coi);
-                
-                return value;
-            }
             if (objectInfo.IsArrayObject())
                 return BuildArrayInstance((ArrayObjectInfo) objectInfo);
             if (objectInfo.IsMapObject())

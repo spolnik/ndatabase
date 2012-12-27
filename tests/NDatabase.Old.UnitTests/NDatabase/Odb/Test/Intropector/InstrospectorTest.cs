@@ -261,66 +261,6 @@ namespace Test.NDatabase.Odb.Test.Intropector
         }
 
         [Test]
-        [Ignore("To be removed if collections will be native")]
-        public virtual void TestCompareCollection3CollectionContentChange()
-        {
-            var dbName = "introspectortest4.odb";
-            DeleteBase(dbName);
-            var odb = OdbFactory.Open(dbName);
-
-            var function = new VO.Login.Function("login");
-            var user = new User("olivier smadja", "olivier@neodatis.com", new Profile("operator", function));
-            IObjectInfoComparator comparator = new ObjectInfoComparator();
-            var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
-
-            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
-
-            var instanceInfo =
-                (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
-                                                                            new InstrumentationCallbackForStore(null,
-                                                                                                                false));
-            // Sets attributes offsets - this is normally done by reading then from
-            // disk, but in this junit,
-            // we must set them manually
-            var offsets = new[] {1L, 2L, 3L};
-            var ids = new[] {1, 2, 3};
-            instanceInfo.GetHeader().SetAttributesIdentification(offsets);
-            instanceInfo.GetHeader().SetAttributesIds(ids);
-            instanceInfo.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
-            var nnoiProfile = (NonNativeObjectInfo) instanceInfo.GetAttributeValueFromId(3);
-            nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
-            var nnoi = (NonNativeObjectInfo) instanceInfo.GetAttributeValueFromId(ci.GetAttributeId("profile"));
-            nnoi.GetHeader().SetAttributesIdentification(offsets);
-            nnoi.GetHeader().SetAttributesIds(ids);
-            nnoi.SetOid(OIDFactory.BuildObjectOID(2));
-            var nnoi2 =
-                (CollectionObjectInfo) nnoi.GetAttributeValueFromId(nnoi.GetClassInfo().GetAttributeId("functions"));
-
-            var enumerator = nnoi2.GetCollection().GetEnumerator();
-            enumerator.MoveNext();
-            var nnoi3 = (NonNativeObjectInfo) enumerator.Current;
-            nnoi3.GetHeader().SetAttributesIdentification(offsets);
-            nnoi3.GetHeader().SetAttributesIds(ids);
-            function.SetName("login function");
-            var instanceInfo3 =
-                (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
-                                                                            new InstrumentationCallbackForStore(null,
-                                                                                                                false));
-            instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
-            nnoiProfile = (NonNativeObjectInfo) instanceInfo3.GetAttributeValueFromId(3);
-            nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
-            AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
-            AssertEquals(1, comparator.GetNbChanges());
-            var cnaa = (ChangedNativeAttributeAction) comparator.GetChangedAttributeActions()[0];
-            AssertEquals(1, comparator.GetChangedAttributeActions().Count);
-            AssertEquals(function.GetName(), cnaa.GetNoiWithNewValue().GetObject());
-
-            odb.Close();
-        }
-
-        [Test]
         public virtual void TestCompareCollection4CollectionContentChange()
         {
             var dbName = "introspectortest22.odb";

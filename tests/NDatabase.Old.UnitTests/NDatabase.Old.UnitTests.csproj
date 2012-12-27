@@ -198,7 +198,6 @@
     <Compile Include="NDatabase\Odb\Test\Performance\TestComparisonDotNet.cs" />
     <Compile Include="NDatabase\Odb\Test\Performance\TestFilePersisterHighPerformance2.cs" />
     <Compile Include="NDatabase\Odb\Test\Performance\TestGetWithStartIndex.cs" />
-    <Compile Include="NDatabase\Odb\Test\Performance\TestInstanceOf.cs" />
     <Compile Include="NDatabase\Odb\Test\Performance\TestLazy.cs" />
     <Compile Include="NDatabase\Odb\Test\Performance\TestMapPerf.cs" />
     <Compile Include="NDatabase\Odb\Test\Performance\TestWeakReference.cs" />

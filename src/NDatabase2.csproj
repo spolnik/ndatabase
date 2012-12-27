@@ -149,7 +149,6 @@
     <Compile Include="Odb\Core\Layers\Layer2\Meta\ClassInfoCompareResult.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\ClassInfoIndex.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\ClassInfoList.cs" />
-    <Compile Include="Odb\Core\Layers\Layer2\Meta\CollectionObjectInfo.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\CommittedCIZoneInfo.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\ArrayModifyElement.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\ChangedAttribute.cs" />

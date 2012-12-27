@@ -92,79 +92,74 @@ namespace NDatabase2.Odb.Core.Layers.Layer1.Introspector
             }
             else
             {
-                if (type.IsCollection())
-                    aoi = IntrospectCollection((ICollection) o, recursive, alreadyReadObjects, callback);
+                if (type.IsArray())
+                {
+                    if (o == null)
+                        aoi = new ArrayObjectInfo(null);
+                    else
+                    {
+                        // Gets the type of the elements of the array
+                        var realArrayClassName = OdbClassUtil.GetFullName(o.GetType().GetElementType());
+                        var arrayObjectInfo = recursive
+                                                  ? IntrospectArray(o, true, alreadyReadObjects, type, callback)
+                                                  : new ArrayObjectInfo((object[]) o);
+
+                        arrayObjectInfo.SetRealArrayComponentClassName(realArrayClassName);
+                        aoi = arrayObjectInfo;
+                    }
+                }
                 else
                 {
-                    if (type.IsArray())
+                    if (type.IsMap())
                     {
                         if (o == null)
-                            aoi = new ArrayObjectInfo(null);
+                            aoi = new MapObjectInfo(null, type, typeof (Hashtable).FullName);
                         else
                         {
-                            // Gets the type of the elements of the array
-                            var realArrayClassName = OdbClassUtil.GetFullName(o.GetType().GetElementType());
-                            var arrayObjectInfo = recursive
-                                                      ? IntrospectArray(o, true, alreadyReadObjects, type, callback)
-                                                      : new ArrayObjectInfo((object[]) o);
+                            MapObjectInfo moi;
+                            var realMapClassName = OdbClassUtil.GetFullName(o.GetType());
 
-                            arrayObjectInfo.SetRealArrayComponentClassName(realArrayClassName);
-                            aoi = arrayObjectInfo;
+                            if (o is IDictionary)
+                            {
+                                moi =
+                                    new MapObjectInfo(
+                                        IntrospectNonGenericMap((IDictionary) o, recursive, alreadyReadObjects,
+                                                                callback), type, realMapClassName);
+                            }
+                            else
+                            {
+                                // Must be an instance of the generic IDictionary.
+                                var mapType =
+                                    o.GetType().GetInterfaces().First(
+                                        it =>
+                                        it.IsGenericType && it.GetGenericTypeDefinition() == typeof (IDictionary<,>));
+
+                                var methodInfo = GenericMapIntrospector.MakeGenericMethod(mapType.GetGenericArguments());
+                                var map =
+                                    (IDictionary<AbstractObjectInfo, AbstractObjectInfo>)
+                                    methodInfo.Invoke(this, new[] {o, recursive, alreadyReadObjects, callback});
+
+                                moi = new MapObjectInfo(map, type, realMapClassName);
+                            }
+                            aoi = moi;
                         }
                     }
                     else
                     {
-                        if (type.IsMap())
+                        if (type.IsEnum())
                         {
-                            if (o == null)
-                                aoi = new MapObjectInfo(null, type, typeof(Hashtable).FullName);
+                            var enumObject = (Enum) o;
+                            if (enumObject == null)
+                                aoi = new NullNativeObjectInfo(type.Size);
                             else
                             {
-                                MapObjectInfo moi;
-                                var realMapClassName = OdbClassUtil.GetFullName(o.GetType());
-                                
-                                if (o is IDictionary)
-                                {
-                                    moi =
-                                        new MapObjectInfo(
-                                            IntrospectNonGenericMap((IDictionary) o, recursive, alreadyReadObjects,
-                                                                    callback), type, realMapClassName);
-                                }
-                                else
-                                {
-                                    // Must be an instance of the generic IDictionary.
-                                    var mapType =
-                                        o.GetType().GetInterfaces().First(
-                                            it =>
-                                            it.IsGenericType && it.GetGenericTypeDefinition() == typeof (IDictionary<,>));
-
-                                   var methodInfo = GenericMapIntrospector.MakeGenericMethod(mapType.GetGenericArguments());
-                                   var map =
-                                        (IDictionary<AbstractObjectInfo, AbstractObjectInfo>)
-                                        methodInfo.Invoke(this, new[] {o, recursive, alreadyReadObjects, callback});
-
-                                   moi = new MapObjectInfo(map, type, realMapClassName);
-                                }
-                                aoi = moi;
-                            }
-                        }
-                        else
-                        {
-                            if (type.IsEnum())
-                            {
-                                var enumObject = (Enum) o;
-                                if (enumObject == null)
-                                    aoi = new NullNativeObjectInfo(type.Size);
-                                else
-                                {
-                                    // Here we must check if the enum is already in the meta model. Enum must be stored in the meta
-                                    // model to optimize its storing as we need to keep track of the enum class
-                                    // for each enum stored. So instead of storing the enum class name, we can store enum class id, a long
-                                    // instead of the full enum class name string
-                                    var classInfo = GetClassInfo(enumObject.GetType());
-                                    var enumValue = enumObject.ToString();
-                                    aoi = new EnumNativeObjectInfo(classInfo, enumValue);
-                                }
+                                // Here we must check if the enum is already in the meta model. Enum must be stored in the meta
+                                // model to optimize its storing as we need to keep track of the enum class
+                                // for each enum stored. So instead of storing the enum class name, we can store enum class id, a long
+                                // instead of the full enum class name string
+                                var classInfo = GetClassInfo(enumObject.GetType());
+                                var enumValue = enumObject.ToString();
+                                aoi = new EnumNativeObjectInfo(classInfo, enumValue);
                             }
                         }
                     }
@@ -297,50 +292,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer1.Introspector
                 alreadyReadObjects.Clear();
 
             return mainAoi;
-        }
-
-        private CollectionObjectInfo IntrospectCollection(ICollection collection, bool introspect,
-                                                          IDictionary<object, NonNativeObjectInfo> alreadyReadObjects,
-                                                          IIntrospectionCallback callback)
-        {
-            if (collection == null)
-                return new CollectionObjectInfo();
-
-            // A collection that contain all meta representations of the collection
-            // objects
-            ICollection<AbstractObjectInfo> collectionCopy = new List<AbstractObjectInfo>(collection.Count);
-            // A collection to keep references all all non native objects of the
-            // collection
-            // This will be used later to get all non native objects contained in an
-            // object
-            ICollection<NonNativeObjectInfo> nonNativesObjects = new List<NonNativeObjectInfo>(collection.Count);
-
-            foreach (var o in collection)
-            {
-                // Null objects are not inserted in list
-                if (o == null)
-                    continue;
-
-                var classInfo = GetClassInfo(o.GetType());
-                var abstractObjectInfo = GetObjectInfo(o, classInfo, introspect, alreadyReadObjects, callback);
-
-                collectionCopy.Add(abstractObjectInfo);
-
-                if (abstractObjectInfo.IsNonNativeObject())
-                {
-                    // o is not null, call the callback with it
-                    //callback.objectFound(o);
-                    // This is a non native object
-                    nonNativesObjects.Add((NonNativeObjectInfo) abstractObjectInfo);
-                }
-            }
-
-            var collectionObjectInfo = new CollectionObjectInfo(collectionCopy, nonNativesObjects);
-
-            var realCollectionClassName = OdbClassUtil.GetFullName(collection.GetType());
-
-            collectionObjectInfo.SetRealCollectionClassName(realCollectionClassName);
-            return collectionObjectInfo;
         }
 
         private IDictionary<AbstractObjectInfo, AbstractObjectInfo> IntrospectNonGenericMap(IDictionary map,

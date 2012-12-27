@@ -341,7 +341,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
         /// <param name="oid"> The object id </param>
         /// <param name="nnoi"> The object meta represenation </param>
         /// <returns> The number of indexes </returns>
-        private static int ManageIndexesForDelete(OID oid, NonNativeObjectInfo nnoi)
+        private static void ManageIndexesForDelete(OID oid, NonNativeObjectInfo nnoi)
         {
             var indexes = nnoi.GetClassInfo().GetIndexes();
 
@@ -358,7 +358,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                             AddParameter(nnoi.GetClassInfo().NumberOfObjects));
                 }
             }
-            return indexes.Count;
         }
 
         /// <param name="oid"> The Oid of the object to be inserted </param>
@@ -831,8 +830,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                 WriteNullNativeObjectHeader(noi.GetOdbTypeId(), writeInTransaction);
                 return position;
             }
-            if (noi.IsCollectionObject())
-                return WriteCollection((CollectionObjectInfo) noi, writeInTransaction);
             if (noi.IsMapObject())
                 return WriteMap((MapObjectInfo) noi, writeInTransaction);
             if (noi.IsArrayObject())
@@ -1011,67 +1008,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
 
             oip.SetNextObjectOID(nextObjectOID);
             return oip;
-        }
-
-        /// <summary>
-        ///   TODO check if we should pass the position instead of requesting if to fsi <pre>Write a collection to the database
-        ///                                                                               This is done by writing the number of element s and then the position of all elements.</pre>
-        /// </summary>
-        /// <remarks>
-        ///   TODO check if we should pass the position instead of requesting if to fsi <pre>Write a collection to the database
-        ///                                                                               This is done by writing the number of element s and then the position of all elements.
-        ///                                                                               Example : a list with two string element : 'ola' and 'chico'
-        ///                                                                               write 2 (as an int) : the number of elements
-        ///                                                                               write two times 0 (as long) to reserve the space for the elements positions
-        ///                                                                               then write the string 'ola', and keeps its position in the 'positions' array of long
-        ///                                                                               then write the string 'chico' and keeps its position in the 'positions' array of long
-        ///                                                                               Then write back all the positions (in this case , 2 positions) after the size of the collection
-        ///                                                                               &lt;pre&gt;
-        ///                                                                               &#064;param coi
-        ///                                                                               &#064;param writeInTransaction
-        ///                                                                               &#064;</pre>
-        /// </remarks>
-        private long WriteCollection(CollectionObjectInfo coi, bool writeInTransaction)
-        {
-            var startPosition = FileSystemProcessor.FileSystemInterface.GetPosition();
-            WriteNativeObjectHeader(coi.GetOdbTypeId(), coi.IsNull(), BlockTypes.BlockTypeCollectionObject,
-                                    writeInTransaction);
-            if (coi.IsNull())
-                return startPosition;
-            var collection = coi.GetCollection();
-            var collectionSize = collection.Count;
-            IEnumerator iterator = collection.GetEnumerator();
-            // write the real type of the collection
-            FileSystemProcessor.FileSystemInterface.WriteString(coi.GetRealCollectionClassName(), writeInTransaction);
-            // write the size of the collection
-            FileSystemProcessor.FileSystemInterface.WriteInt(collectionSize, writeInTransaction, "collection size");
-            // build a n array to store all element positions
-            var attributeIdentifications = new long[collectionSize];
-            // Gets the current position, to know later where to put the
-            // references
-            var firstObjectPosition = FileSystemProcessor.FileSystemInterface.GetPosition();
-            // reserve space for object positions : write 'collectionSize' long
-            // with zero to store each object position
-            for (var i = 0; i < collectionSize; i++)
-                FileSystemProcessor.FileSystemInterface.WriteLong(0, writeInTransaction, "collection element pos ");
-            var currentElement = 0;
-            while (iterator.MoveNext())
-            {
-                var element = (AbstractObjectInfo) iterator.Current;
-                attributeIdentifications[currentElement] = InternalStoreObjectWrapper(element);
-                currentElement++;
-            }
-            var positionAfterWrite = FileSystemProcessor.FileSystemInterface.GetPosition();
-            // now that all objects have been stored, sets their position in the
-            // space that have been reserved
-            FileSystemProcessor.FileSystemInterface.SetWritePosition(firstObjectPosition, writeInTransaction);
-            for (var i = 0; i < collectionSize; i++)
-            {
-                FileSystemProcessor.FileSystemInterface.WriteLong(attributeIdentifications[i], writeInTransaction, "collection element real pos ");
-            }
-            // Goes back to the end of the array
-            FileSystemProcessor.FileSystemInterface.SetWritePosition(positionAfterWrite, writeInTransaction);
-            return startPosition;
         }
 
         /// <summary>

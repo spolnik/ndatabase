@@ -27,8 +27,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
         private static readonly ConcurrentDictionary<string, OdbType> CacheOfTypesByName =
             new ConcurrentDictionary<string, OdbType>();
 
-        public static readonly string DefaultCollectionClassName = OdbClassUtil.GetFullName(typeof (ArrayList));
-
         public static readonly string DefaultArrayComponentClassName = OdbClassUtil.GetFullName(typeof (object));
 
         private readonly Type _baseClass;
@@ -238,21 +236,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
             return TypesByName.ContainsKey(name);
         }
 
-        public bool IsCollection()
-        {
-            return _id == CollectionId || _id == CollectionGenericId;
-        }
-
-        public bool IsGenericCollection()
-        {
-            return _id == CollectionGenericId;
-        }
-
-        public static bool IsCollection(int odbTypeId)
-        {
-            return odbTypeId == CollectionId;
-        }
-
         public bool IsArray()
         {
             return _id == ArrayId;
@@ -271,11 +254,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
         public static bool IsMap(int odbTypeId)
         {
             return odbTypeId == MapId;
-        }
-
-        public bool IsArrayOrCollection()
-        {
-            return IsArray() || IsCollection();
         }
 
         public static bool IsNative(int odbtypeId)
@@ -522,9 +500,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
         private const int NativeFixSizeMaxId = ClassOidId;
 
         private const int NativeMaxId = StringId;
-
-        public const int CollectionId = 250;
-        public const int CollectionGenericId = 251;
 
         public const int ArrayId = 260;
 

@@ -1578,8 +1578,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                 return ReadAtomicNativeObjectInfo(position, realTypeId);
             if (OdbType.IsNull(realTypeId))
                 return new NullNativeObjectInfo(realTypeId);
-            if (OdbType.IsCollection(realTypeId))
-                return ReadCollection(position, useCache, returnObject);
             if (OdbType.IsArray(realTypeId))
                 return ReadArray(position, useCache, returnObject);
             if (OdbType.IsMap(realTypeId))
@@ -1601,46 +1599,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                     OIDFactory.BuildClassOID(enumClassInfoId));
 
             return new EnumNativeObjectInfo(enumCi, enumValue);
-        }
-
-        /// <summary>
-        ///   Reads a collection from the database file <p /> <pre>This method do not returns the object but a collection of representation of the objects using AsbtractObjectInfo
-        ///                                                     &lt;p/&gt;
-        ///                                                     The conversion to a real Map object will be done by the buildInstance method</pre>
-        /// </summary>
-        private CollectionObjectInfo ReadCollection(long position, bool useCache, bool returnObjects)
-        {
-            var realCollectionClassName = _fsi.ReadString("Real collection class name");
-            // read the size of the collection
-            var collectionSize = _fsi.ReadInt("Collection size");
-
-            ICollection<AbstractObjectInfo> c = new List<AbstractObjectInfo>(collectionSize);
-            // build a n array to store all element positions
-            var objectIdentifications = new long[collectionSize];
-            for (var i = 0; i < collectionSize; i++)
-            {
-                var index = (i + 1).ToString();
-                objectIdentifications[i] = _fsi.ReadLong("position of element " + index);
-            }
-            for (var i = 0; i < collectionSize; i++)
-            {
-                try
-                {
-                    var aoi = ReadObjectInfo(objectIdentifications[i], useCache, returnObjects);
-                    if (!(aoi is NonNativeDeletedObjectInfo))
-                        c.Add(aoi);
-                }
-                catch (Exception e)
-                {
-                    var positionAsString = position.ToString();
-                    throw new OdbRuntimeException(
-                        NDatabaseError.InternalError.AddParameter("in ObjectReader.readCollection - at position " +
-                                                                 positionAsString), e);
-                }
-            }
-            var coi = new CollectionObjectInfo(c);
-            coi.SetRealCollectionClassName(realCollectionClassName);
-            return coi;
         }
 
         /// <summary>
