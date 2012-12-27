@@ -27,7 +27,6 @@ namespace NDatabase.UnitTests.Layer2
             Assert.That(odbType.IsBoolean(), Is.False);
             Assert.That(odbType.IsDate(), Is.False);
             Assert.That(odbType.IsEnum(), Is.False);
-            Assert.That(odbType.IsMap(), Is.False);
             Assert.That(odbType.IsNative(), Is.True);
             Assert.That(odbType.IsNonNative(), Is.False);
             Assert.That(odbType.IsNull(), Is.True);
@@ -52,7 +51,6 @@ namespace NDatabase.UnitTests.Layer2
             Assert.That(odbType.IsBoolean(), Is.True);
             Assert.That(odbType.IsDate(), Is.False);
             Assert.That(odbType.IsEnum(), Is.False);
-            Assert.That(odbType.IsMap(), Is.False);
             Assert.That(odbType.IsNative(), Is.True);
             Assert.That(odbType.IsNonNative(), Is.False);
             Assert.That(odbType.IsNull(), Is.False);
@@ -77,7 +75,6 @@ namespace NDatabase.UnitTests.Layer2
             Assert.That(odbType.IsBoolean(), Is.False);
             Assert.That(odbType.IsDate(), Is.False);
             Assert.That(odbType.IsEnum(), Is.False);
-            Assert.That(odbType.IsMap(), Is.False);
             Assert.That(odbType.IsNative(), Is.True);
             Assert.That(odbType.IsNonNative(), Is.False);
             Assert.That(odbType.IsNull(), Is.False);
@@ -102,7 +99,6 @@ namespace NDatabase.UnitTests.Layer2
             Assert.That(odbType.IsBoolean(), Is.False);
             Assert.That(odbType.IsDate(), Is.False);
             Assert.That(odbType.IsEnum(), Is.False);
-            Assert.That(odbType.IsMap(), Is.False);
             Assert.That(odbType.IsNative(), Is.True);
             Assert.That(odbType.IsNonNative(), Is.False);
             Assert.That(odbType.IsNull(), Is.False);
@@ -127,7 +123,6 @@ namespace NDatabase.UnitTests.Layer2
             Assert.That(odbType.IsBoolean(), Is.False);
             Assert.That(odbType.IsDate(), Is.False);
             Assert.That(odbType.IsEnum(), Is.False);
-            Assert.That(odbType.IsMap(), Is.False);
             Assert.That(odbType.IsNative(), Is.True);
             Assert.That(odbType.IsNonNative(), Is.False);
             Assert.That(odbType.IsNull(), Is.False);
@@ -152,7 +147,6 @@ namespace NDatabase.UnitTests.Layer2
             Assert.That(odbType.IsBoolean(), Is.False);
             Assert.That(odbType.IsDate(), Is.False);
             Assert.That(odbType.IsEnum(), Is.False);
-            Assert.That(odbType.IsMap(), Is.False);
             Assert.That(odbType.IsNative(), Is.True);
             Assert.That(odbType.IsNonNative(), Is.False);
             Assert.That(odbType.IsNull(), Is.False);
@@ -177,7 +171,6 @@ namespace NDatabase.UnitTests.Layer2
             Assert.That(odbType.IsBoolean(), Is.False);
             Assert.That(odbType.IsDate(), Is.False);
             Assert.That(odbType.IsEnum(), Is.False);
-            Assert.That(odbType.IsMap(), Is.False);
             Assert.That(odbType.IsNative(), Is.True);
             Assert.That(odbType.IsNonNative(), Is.False);
             Assert.That(odbType.IsNull(), Is.False);
@@ -202,7 +195,6 @@ namespace NDatabase.UnitTests.Layer2
             Assert.That(odbType.IsBoolean(), Is.False);
             Assert.That(odbType.IsDate(), Is.False);
             Assert.That(odbType.IsEnum(), Is.False);
-            Assert.That(odbType.IsMap(), Is.False);
             Assert.That(odbType.IsNative(), Is.True);
             Assert.That(odbType.IsNonNative(), Is.False);
             Assert.That(odbType.IsNull(), Is.False);
@@ -227,7 +219,6 @@ namespace NDatabase.UnitTests.Layer2
             Assert.That(odbType.IsBoolean(), Is.False);
             Assert.That(odbType.IsDate(), Is.False);
             Assert.That(odbType.IsEnum(), Is.False);
-            Assert.That(odbType.IsMap(), Is.False);
             Assert.That(odbType.IsNative(), Is.True);
             Assert.That(odbType.IsNonNative(), Is.False);
             Assert.That(odbType.IsNull(), Is.False);
@@ -252,7 +243,6 @@ namespace NDatabase.UnitTests.Layer2
             Assert.That(odbType.IsBoolean(), Is.False);
             Assert.That(odbType.IsDate(), Is.False);
             Assert.That(odbType.IsEnum(), Is.False);
-            Assert.That(odbType.IsMap(), Is.False);
             Assert.That(odbType.IsNative(), Is.True);
             Assert.That(odbType.IsNonNative(), Is.False);
             Assert.That(odbType.IsNull(), Is.False);
@@ -277,7 +267,6 @@ namespace NDatabase.UnitTests.Layer2
             Assert.That(odbType.IsBoolean(), Is.False);
             Assert.That(odbType.IsDate(), Is.True);
             Assert.That(odbType.IsEnum(), Is.False);
-            Assert.That(odbType.IsMap(), Is.False);
             Assert.That(odbType.IsNative(), Is.True);
             Assert.That(odbType.IsNonNative(), Is.False);
             Assert.That(odbType.IsNull(), Is.False);
@@ -302,7 +291,6 @@ namespace NDatabase.UnitTests.Layer2
             Assert.That(odbType.IsBoolean(), Is.False);
             Assert.That(odbType.IsDate(), Is.False);
             Assert.That(odbType.IsEnum(), Is.True);
-            Assert.That(odbType.IsMap(), Is.False);
             Assert.That(odbType.IsNative(), Is.True);
             Assert.That(odbType.IsNonNative(), Is.False);
             Assert.That(odbType.IsNull(), Is.False);
@@ -327,7 +315,6 @@ namespace NDatabase.UnitTests.Layer2
             Assert.That(odbType.IsBoolean(), Is.False);
             Assert.That(odbType.IsDate(), Is.False);
             Assert.That(odbType.IsEnum(), Is.False);
-            Assert.That(odbType.IsMap(), Is.False);
             Assert.That(odbType.IsNative(), Is.True);
             Assert.That(odbType.IsNonNative(), Is.False);
             Assert.That(odbType.IsNull(), Is.False);
@@ -352,7 +339,6 @@ namespace NDatabase.UnitTests.Layer2
             Assert.That(odbType.IsBoolean(), Is.False);
             Assert.That(odbType.IsDate(), Is.False);
             Assert.That(odbType.IsEnum(), Is.False);
-            Assert.That(odbType.IsMap(), Is.False);
             Assert.That(odbType.IsNative(), Is.True);
             Assert.That(odbType.IsNonNative(), Is.False);
             Assert.That(odbType.IsNull(), Is.False);
@@ -377,7 +363,6 @@ namespace NDatabase.UnitTests.Layer2
             Assert.That(odbType.IsBoolean(), Is.False);
             Assert.That(odbType.IsDate(), Is.False);
             Assert.That(odbType.IsEnum(), Is.False);
-            Assert.That(odbType.IsMap(), Is.False);
             Assert.That(odbType.IsNative(), Is.True);
             Assert.That(odbType.IsNonNative(), Is.False);
             Assert.That(odbType.IsNull(), Is.False);
@@ -402,7 +387,6 @@ namespace NDatabase.UnitTests.Layer2
             Assert.That(odbType.IsBoolean(), Is.False);
             Assert.That(odbType.IsDate(), Is.False);
             Assert.That(odbType.IsEnum(), Is.False);
-            Assert.That(odbType.IsMap(), Is.False);
             Assert.That(odbType.IsNative(), Is.True);
             Assert.That(odbType.IsNonNative(), Is.False);
             Assert.That(odbType.IsNull(), Is.False);
@@ -427,38 +411,12 @@ namespace NDatabase.UnitTests.Layer2
             Assert.That(odbType.IsBoolean(), Is.False);
             Assert.That(odbType.IsDate(), Is.False);
             Assert.That(odbType.IsEnum(), Is.False);
-            Assert.That(odbType.IsMap(), Is.False);
             Assert.That(odbType.IsNative(), Is.True);
             Assert.That(odbType.IsNonNative(), Is.False);
             Assert.That(odbType.IsNull(), Is.False);
             Assert.That(odbType.IsStringOrBigDecimal(), Is.False);
         }
-
-        [Test]
-        public void It_should_contain_valid_map_type()
-        {
-            var odbType = OdbType.Map;
-
-            Assert.That(odbType.BaseClass, Is.EqualTo(typeof(IDictionary)));
-            Assert.That(odbType.Id, Is.EqualTo(OdbType.MapId));
-            Assert.That(odbType.Name, Is.StringStarting("System.Collections.IDictionary,mscorlib"));
-            Assert.That(odbType.Size, Is.EqualTo(0));
-            Assert.That(odbType.SubType, Is.Null);
-            Assert.That(odbType.GetNativeClass(), Is.EqualTo(typeof(IDictionary)));
-            Assert.That(odbType.HasFixSize(), Is.False);
-
-            Assert.That(odbType.IsArray(), Is.False);
-            Assert.That(odbType.IsAtomicNative(), Is.False);
-            Assert.That(odbType.IsBoolean(), Is.False);
-            Assert.That(odbType.IsDate(), Is.False);
-            Assert.That(odbType.IsEnum(), Is.False);
-            Assert.That(odbType.IsMap(), Is.True);
-            Assert.That(odbType.IsNative(), Is.True);
-            Assert.That(odbType.IsNonNative(), Is.False);
-            Assert.That(odbType.IsNull(), Is.False);
-            Assert.That(odbType.IsStringOrBigDecimal(), Is.False);
-        }
-
+        
         [Test]
         public void It_should_contain_valid_non_native_type()
         {
@@ -477,7 +435,6 @@ namespace NDatabase.UnitTests.Layer2
             Assert.That(odbType.IsBoolean(), Is.False);
             Assert.That(odbType.IsDate(), Is.False);
             Assert.That(odbType.IsEnum(), Is.False);
-            Assert.That(odbType.IsMap(), Is.False);
             Assert.That(odbType.IsNative(), Is.False);
             Assert.That(odbType.IsNonNative(), Is.True);
             Assert.That(odbType.IsNull(), Is.False);

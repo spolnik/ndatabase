@@ -830,8 +830,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                 WriteNullNativeObjectHeader(noi.GetOdbTypeId(), writeInTransaction);
                 return position;
             }
-            if (noi.IsMapObject())
-                return WriteMap((MapObjectInfo) noi, writeInTransaction);
             if (noi.IsArrayObject())
                 return WriteArray((ArrayObjectInfo) noi, writeInTransaction);
             if (noi.IsEnumObject())
@@ -1091,65 +1089,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             {
                 FileSystemProcessor.FileSystemInterface.WriteLong(attributeIdentifications[i], writeInTransaction, "array real element pos");
             }
-            // Gos back to the end of the array
-            FileSystemProcessor.FileSystemInterface.SetWritePosition(positionAfterWrite, writeInTransaction);
-            return startPosition;
-        }
-
-        /// <summary>
-        ///   <pre>Write a map to the database
-        ///     This is done by writing the number of element s and then the key and value pair of all elements.</pre>
-        /// </summary>
-        /// <remarks>
-        ///   <pre>Write a map to the database
-        ///     This is done by writing the number of element s and then the key and value pair of all elements.
-        ///     Example : a map with two string element : '1/olivier' and '2/chico'
-        ///     write 2 (as an int) : the number of elements
-        ///     write 4 times 0 (as long) to reserve the space for the elements positions
-        ///     then write the object '1' and 'olivier', and keeps the two posiitons in the 'positions' array of long
-        ///     then write the object '2' and the string chico' and keep the two position in the 'positions' array of long
-        ///     Then write back all the positions (in this case , 4 positions) after the size of the map
-        ///     &#064;param object
-        ///     &#064;param writeInTransaction To specify if these writes must be done in or out of a transaction
-        ///     &#064;</pre>
-        /// </remarks>
-        private long WriteMap(MapObjectInfo moi, bool writeInTransaction)
-        {
-            var startPosition = FileSystemProcessor.FileSystemInterface.GetPosition();
-            WriteNativeObjectHeader(moi.GetOdbTypeId(), moi.IsNull(), BlockTypes.BlockTypeMapObject, writeInTransaction);
-            if (moi.IsNull())
-                return startPosition;
-            var map = moi.GetMap();
-            var mapSize = map.Count;
-            // write the map class
-            FileSystemProcessor.FileSystemInterface.WriteString(moi.GetRealMapClassName(), writeInTransaction);
-            // write the size of the map
-            FileSystemProcessor.FileSystemInterface.WriteInt(mapSize, writeInTransaction, "map size");
-            // build a n array to store all element positions
-            var positions = new long[mapSize*2];
-            // Gets the current position, to know later where to put the
-            // references
-            var firstObjectPosition = FileSystemProcessor.FileSystemInterface.GetPosition();
-            // reserve space for object positions : write 'mapSize*2' long
-            // with zero to store each object position
-            for (var i = 0; i < mapSize*2; i++)
-                FileSystemProcessor.FileSystemInterface.WriteLong(0, writeInTransaction, "map element pos");
-            var currentElement = 0;
-
-            foreach (var key in map.Keys)
-            {
-                var value = map[key];
-
-                positions[currentElement++] = InternalStoreObjectWrapper(key);
-                positions[currentElement++] = InternalStoreObjectWrapper(value);
-            }
-
-            var positionAfterWrite = FileSystemProcessor.FileSystemInterface.GetPosition();
-            // now that all objects have been stored, sets their position in the
-            // space that have been reserved
-            FileSystemProcessor.FileSystemInterface.SetWritePosition(firstObjectPosition, writeInTransaction);
-            for (var i = 0; i < mapSize*2; i++)
-                FileSystemProcessor.FileSystemInterface.WriteLong(positions[i], writeInTransaction, "map real element pos");
             // Gos back to the end of the array
             FileSystemProcessor.FileSystemInterface.SetWritePosition(positionAfterWrite, writeInTransaction);
             return startPosition;

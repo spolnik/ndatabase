@@ -1580,8 +1580,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
                 return new NullNativeObjectInfo(realTypeId);
             if (OdbType.IsArray(realTypeId))
                 return ReadArray(position, useCache, returnObject);
-            if (OdbType.IsMap(realTypeId))
-                return ReadMap(position, useCache, returnObject);
             if (OdbType.IsEnum(realTypeId))
                 return ReadEnumObjectInfo();
             throw new OdbRuntimeException(NDatabaseError.NativeTypeNotSupported.AddParameter(realTypeId));
@@ -1660,49 +1658,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
             aoi.SetRealArrayComponentClassName(realArrayComponentClassName);
             aoi.SetComponentTypeId(subTypeId.Id);
             return aoi;
-        }
-
-        /// <summary>
-        ///   Reads a map from the database file <p /> <pre>WARNING : this method returns a collection representation of the map
-        ///                                              &lt;p/&gt;
-        ///                                              Firts it does not return the objects but its meta information using AbstractObjectInfo
-        ///                                              &lt;p/&gt;
-        ///                                              So for example, the map [1=olivier,2=chico]
-        ///                                              will be returns as a collection : [1,olivier,2,chico]
-        ///                                              and each element of the collection is an abstractObjectInfo (NativeObjectInfo or NonNativeObjectInfo)
-        ///                                              &lt;p/&gt;
-        ///                                              The conversion to a real Map object will be done by the buildInstance method</pre>
-        /// </summary>
-        private MapObjectInfo ReadMap(long position, bool useCache, bool returnObjects)
-        {
-            // Reads the real map class
-            var realMapClassName = _fsi.ReadString();
-            // read the size of the map
-            var mapSize = _fsi.ReadInt();
-            IDictionary<AbstractObjectInfo, AbstractObjectInfo> map =
-                new OdbHashMap<AbstractObjectInfo, AbstractObjectInfo>();
-
-            // build a n array to store all element positions
-            var objectIdentifications = new long[mapSize * 2];
-            for (var i = 0; i < mapSize * 2; i++)
-                objectIdentifications[i] = _fsi.ReadLong();
-            for (var i = 0; i < mapSize; i++)
-            {
-                try
-                {
-                    var aoiKey = ReadObjectInfo(objectIdentifications[2 * i], useCache, returnObjects);
-                    var aoiValue = ReadObjectInfo(objectIdentifications[2 * i + 1], useCache, returnObjects);
-                    if (!aoiKey.IsDeletedObject() && !aoiValue.IsDeletedObject())
-                        map.Add(aoiKey, aoiValue);
-                }
-                catch (Exception e)
-                {
-                    var positionAsString = position.ToString();
-                    throw new OdbRuntimeException(
-                        NDatabaseError.InternalError.AddParameter("in ObjectReader.readMap - at position " + positionAsString), e);
-                }
-            }
-            return new MapObjectInfo(map, realMapClassName);
         }
 
         /// <summary>

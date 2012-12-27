@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Globalization;
 using System.Runtime.Serialization;
 using NDatabase2.Odb.Core.Layers.Layer1.Introspector;
@@ -117,8 +116,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Instance
 
                     if (abstractObjectInfo.IsArrayObject())
                         value = BuildArrayInstance((ArrayObjectInfo) abstractObjectInfo);
-                    if (abstractObjectInfo.IsMapObject())
-                        value = BuildMapInstance((MapObjectInfo) abstractObjectInfo);
                     if (abstractObjectInfo.IsEnumObject())
                         value = BuildEnumInstance((EnumNativeObjectInfo) abstractObjectInfo, fieldInfo.FieldType);
                 }
@@ -238,75 +235,12 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Instance
             return array;
         }
 
-        private object BuildMapInstance(MapObjectInfo moi)
-        {
-            var type = OdbClassPool.GetClass(moi.GetRealMapClassName());
-
-            return type.IsGenericType
-                       ? BuildGenericMapInstance(moi, type)
-                       : BuildNonGenericMapInstance(moi, type);
-        }
-
-        private IDictionary BuildNonGenericMapInstance(MapObjectInfo mapObjectInfo, Type t)
-        {
-            var map = mapObjectInfo.GetMap();
-            IDictionary newMap;
-
-            try
-            {
-                newMap = (IDictionary) Activator.CreateInstance(t);
-            }
-            catch (Exception e)
-            {
-                throw new OdbRuntimeException(
-                    NDatabaseError.MapInstanciationError.AddParameter(map.GetType().FullName), e);
-            }
-
-            foreach (var key in map.Keys)
-            {
-                var realKey = BuildOneInstance(key);
-                var realValue = BuildOneInstance(map[key]);
-                newMap[realKey] = realValue;
-            }
-
-            return newMap;
-        }
-
-        private object BuildGenericMapInstance(MapObjectInfo mapObjectInfo, Type t)
-        {
-            var map = mapObjectInfo.GetMap();
-            object newMap;
-            try
-            {
-                newMap = Activator.CreateInstance(t);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw new OdbRuntimeException(NDatabaseError.MapInstanciationError.AddParameter(map.GetType().FullName),
-                                              e);
-            }
-
-            var method = t.GetMethod("Add", t.GetGenericArguments());
-
-            foreach (var key in map.Keys)
-            {
-                var realKey = BuildOneInstance(key);
-                var realValue = BuildOneInstance(map[key]);
-                method.Invoke(newMap, new[] { realKey, realValue });
-            }
-            
-            return newMap;
-        }
-
         private object BuildOneInstance(NativeObjectInfo objectInfo)
         {
             if (objectInfo.IsAtomicNativeObject())
                 return BuildOneInstance((AtomicNativeObjectInfo) objectInfo);
             if (objectInfo.IsArrayObject())
                 return BuildArrayInstance((ArrayObjectInfo) objectInfo);
-            if (objectInfo.IsMapObject())
-                return BuildMapInstance((MapObjectInfo) objectInfo);
             if (objectInfo.IsNull())
                 return null;
             throw new OdbRuntimeException(

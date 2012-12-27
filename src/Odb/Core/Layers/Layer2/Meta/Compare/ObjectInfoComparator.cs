@@ -234,8 +234,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta.Compare
                 {
                     if (!value1.Equals(value2))
                     {
-                        // storeChangedObject(nnoi1, nnoi2, id,
-                        // objectRecursionLevel);
                         StoreChangedAttributeAction(new ChangedNativeAttributeAction(nnoi1, nnoi2,
                                                                                      nnoi1.GetHeader().
                                                                                          GetAttributeIdentificationFromId
@@ -254,12 +252,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta.Compare
                     var aoi2 = (ArrayObjectInfo) value2;
                     var arrayHasChanged = ManageArrayChanges(nnoi1, nnoi2, id, aoi1, aoi2, objectRecursionLevel);
                     hasChanged = hasChanged || arrayHasChanged;
-                    continue;
-                }
-                if (value1.IsMapObject())
-                {
-                    // for now, every dictionary is reloaded without checking for changes
-                    hasChanged = true;
                     continue;
                 }
                 if (value1.IsEnumObject())

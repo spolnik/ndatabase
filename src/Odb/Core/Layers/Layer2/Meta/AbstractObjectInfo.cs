@@ -37,12 +37,12 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
 
         public virtual bool IsNative()
         {
-            return IsAtomicNativeObject() || IsArrayObject() || IsMapObject();
+            return IsAtomicNativeObject() || IsArrayObject();
         }
 
         public virtual bool IsGroup()
         {
-            return IsMapObject() || IsArrayObject();
+            return IsArrayObject();
         }
 
         public virtual bool IsNull()
@@ -90,11 +90,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
         }
 
         public virtual bool IsAtomicNativeObject()
-        {
-            return false;
-        }
-
-        public virtual bool IsMapObject()
         {
             return false;
         }

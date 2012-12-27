@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using NDatabase2.Odb.Core.Layers.Layer2.Instance;
@@ -63,7 +62,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
             allTypes.Add(String);
             allTypes.Add(Enum);
             allTypes.Add(Array);
-            allTypes.Add(Map);
             allTypes.Add(Oid);
             allTypes.Add(ObjectOid);
             allTypes.Add(ClassOid);
@@ -188,35 +186,8 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
                 return CacheOfTypesByName.GetOrAdd(className, type);
             }
 
-            if (IsMap(clazz))
-                return CacheOfTypesByName.GetOrAdd(className, Map);
-
             var nonNative = new OdbType(NonNative._isPrimitive, NonNativeId, className, 0);
             return CacheOfTypesByName.GetOrAdd(className, nonNative);
-        }
-
-        private static bool IsMap(Type clazz)
-        {
-            var isNonGenericMap = Map._baseClass.IsAssignableFrom(clazz);
-
-            if (isNonGenericMap)
-                return true;
-
-            var types = clazz.GetInterfaces();
-
-            return IsCollection(types, "System.Collections.Generic.IDictionary");
-        }
-
-        private static bool IsCollection(IEnumerable<Type> types, string collectionName)
-        {
-            foreach (var type in types)
-            {
-                var ind = type.FullName.IndexOf(collectionName, StringComparison.Ordinal);
-                if (ind != -1)
-                    return true;
-            }
-
-            return false;
         }
 
         public static bool IsNative(Type clazz)
@@ -225,10 +196,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
 
             TypesByName.TryGetValue(OdbClassUtil.GetFullName(clazz), out odbType);
 
-            if (odbType != null)
-                return true;
-
-            return clazz.IsArray || Map._baseClass.IsAssignableFrom(clazz);
+            return odbType != null || clazz.IsArray;
         }
 
         public static bool Exist(string name)
@@ -244,16 +212,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
         public static bool IsArray(int odbTypeId)
         {
             return odbTypeId == ArrayId;
-        }
-
-        public bool IsMap()
-        {
-            return _id == MapId;
-        }
-
-        public static bool IsMap(int odbTypeId)
-        {
-            return odbTypeId == MapId;
         }
 
         public static bool IsNative(int odbtypeId)
@@ -503,8 +461,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
 
         public const int ArrayId = 260;
 
-        public const int MapId = 270;
-
         public const int NonNativeId = 300;
 
         #endregion
@@ -590,19 +546,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
 
         public static readonly OdbType Enum = new OdbType(false, EnumId, OdbClassUtil.GetFullName(typeof (Enum)), 1);
 
-//        public static readonly OdbType Collection = new OdbType(false, CollectionId,
-//                                                                OdbClassUtil.GetFullName(typeof (ICollection)), 0,
-//                                                                typeof (ICollection));
-
-//        public static readonly OdbType CollectionGeneric = new OdbType(false, CollectionGenericId,
-//                                                                       OdbClassUtil.GetFullName(
-//                                                                           typeof (ICollection<object>)), 0,
-//                                                                       typeof (ICollection<object>));
-
         public static readonly OdbType Array = new OdbType(false, ArrayId, "array", 0);
-
-        public static readonly OdbType Map = new OdbType(false, MapId, OdbClassUtil.GetFullName(typeof (IDictionary)), 0,
-                                                         typeof (IDictionary));
 
         public static readonly OdbType Oid = new OdbType(false, OidId, OdbClassUtil.GetFullName(typeof (OID)), 0,
                                                          typeof (OID));

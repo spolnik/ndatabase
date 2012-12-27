@@ -44,7 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bugs\When_we_want_to_serialize_class_with_HashSet_as_the_property.cs" />
+    <Compile Include="Bugs\When_we_want_to_serialize_collections.cs" />
     <Compile Include="Data\Address.cs" />
     <Compile Include="Data\City.cs" />
     <Compile Include="TestCase_working_with_linq.cs" />

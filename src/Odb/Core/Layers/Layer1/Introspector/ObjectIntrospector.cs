@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using NDatabase2.Odb.Core.Layers.Layer2.Meta;
 using NDatabase2.Odb.Core.Layers.Layer3;
 using NDatabase2.Tool.Wrappers;
@@ -16,9 +13,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer1.Introspector
     internal sealed class ObjectIntrospector : IObjectIntrospector
     {
         private IStorageEngine _storageEngine;
-
-        private static readonly MethodInfo GenericMapIntrospector =
-            typeof (ObjectIntrospector).GetMethod("IntrospectGenericMap", BindingFlags.Instance | BindingFlags.NonPublic);
 
         public ObjectIntrospector(IStorageEngine storageEngine)
         {
@@ -108,60 +102,20 @@ namespace NDatabase2.Odb.Core.Layers.Layer1.Introspector
                         aoi = arrayObjectInfo;
                     }
                 }
-                else
+                else if (type.IsEnum())
                 {
-                    if (type.IsMap())
-                    {
-                        if (o == null)
-                            aoi = new MapObjectInfo(null, type, typeof (Hashtable).FullName);
-                        else
-                        {
-                            MapObjectInfo moi;
-                            var realMapClassName = OdbClassUtil.GetFullName(o.GetType());
-
-                            if (o is IDictionary)
-                            {
-                                moi =
-                                    new MapObjectInfo(
-                                        IntrospectNonGenericMap((IDictionary) o, recursive, alreadyReadObjects,
-                                                                callback), type, realMapClassName);
-                            }
-                            else
-                            {
-                                // Must be an instance of the generic IDictionary.
-                                var mapType =
-                                    o.GetType().GetInterfaces().First(
-                                        it =>
-                                        it.IsGenericType && it.GetGenericTypeDefinition() == typeof (IDictionary<,>));
-
-                                var methodInfo = GenericMapIntrospector.MakeGenericMethod(mapType.GetGenericArguments());
-                                var map =
-                                    (IDictionary<AbstractObjectInfo, AbstractObjectInfo>)
-                                    methodInfo.Invoke(this, new[] {o, recursive, alreadyReadObjects, callback});
-
-                                moi = new MapObjectInfo(map, type, realMapClassName);
-                            }
-                            aoi = moi;
-                        }
-                    }
+                    var enumObject = (Enum) o;
+                    if (enumObject == null)
+                        aoi = new NullNativeObjectInfo(type.Size);
                     else
                     {
-                        if (type.IsEnum())
-                        {
-                            var enumObject = (Enum) o;
-                            if (enumObject == null)
-                                aoi = new NullNativeObjectInfo(type.Size);
-                            else
-                            {
-                                // Here we must check if the enum is already in the meta model. Enum must be stored in the meta
-                                // model to optimize its storing as we need to keep track of the enum class
-                                // for each enum stored. So instead of storing the enum class name, we can store enum class id, a long
-                                // instead of the full enum class name string
-                                var classInfo = GetClassInfo(enumObject.GetType());
-                                var enumValue = enumObject.ToString();
-                                aoi = new EnumNativeObjectInfo(classInfo, enumValue);
-                            }
-                        }
+                        // Here we must check if the enum is already in the meta model. Enum must be stored in the meta
+                        // model to optimize its storing as we need to keep track of the enum class
+                        // for each enum stored. So instead of storing the enum class name, we can store enum class id, a long
+                        // instead of the full enum class name string
+                        var classInfo = GetClassInfo(enumObject.GetType());
+                        var enumValue = enumObject.ToString();
+                        aoi = new EnumNativeObjectInfo(classInfo, enumValue);
                     }
                 }
             }
@@ -292,63 +246,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer1.Introspector
                 alreadyReadObjects.Clear();
 
             return mainAoi;
-        }
-
-        private IDictionary<AbstractObjectInfo, AbstractObjectInfo> IntrospectNonGenericMap(IDictionary map,
-                                                                                            bool introspect,
-                                                                                            IDictionary <object, NonNativeObjectInfo> alreadyReadObjects,
-                                                                                            IIntrospectionCallback callback)
-        {
-            IDictionary<AbstractObjectInfo, AbstractObjectInfo> mapCopy =
-                new OdbHashMap<AbstractObjectInfo, AbstractObjectInfo>();
-            var keySet = map.Keys;
-            ClassInfo ciValue = null;
-
-            foreach (var key in keySet)
-            {
-                if (key == null)
-                    continue;
-                
-                var value = map[key];
-
-                var classInfoKey = GetClassInfo(key.GetType());
-                if (value != null)
-                    ciValue = GetClassInfo(value.GetType());
-
-                var abstractObjectInfoForKey = GetObjectInfo(key, classInfoKey, introspect, alreadyReadObjects, callback);
-                var abstractObjectInfoForValue = GetObjectInfo(value, ciValue, introspect, alreadyReadObjects, callback);
-                mapCopy.Add(abstractObjectInfoForKey, abstractObjectInfoForValue);
-            }
-
-            return mapCopy;
-        }
-
-        //TODO: how to remove boxing from this code?
-        internal IDictionary<AbstractObjectInfo, AbstractObjectInfo> IntrospectGenericMap<TKey, TValue>(
-            IDictionary<TKey, TValue> map, bool introspect,
-            IDictionary<object, NonNativeObjectInfo> alreadyReadObjects, IIntrospectionCallback callback)
-        {
-            var mapCopy = new OdbHashMap<AbstractObjectInfo, AbstractObjectInfo>();
-
-            ClassInfo ciValue = null;
-
-            foreach (var key in map.Keys)
-            {
-                if (key == null)
-                    continue;
-
-                var value = map[key];
-
-                var classInfoKey = GetClassInfo(key.GetType());
-                if (value != null)
-                    ciValue = GetClassInfo(value.GetType());
-
-                var abstractObjectInfoForKey = GetObjectInfo(key, classInfoKey, introspect, alreadyReadObjects, callback);
-                var abstractObjectInfoForValue = GetObjectInfo(value, ciValue, introspect, alreadyReadObjects, callback);
-                mapCopy.Add(abstractObjectInfoForKey, abstractObjectInfoForValue);
-            }
-
-            return mapCopy;
         }
 
         private ClassInfo GetClassInfo(Type type)
