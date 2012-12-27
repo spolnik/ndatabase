@@ -25,7 +25,7 @@ namespace NDatabase2.Odb.Core.Query.Values
         public override void Execute(OID oid, AttributeValuesMap values)
         {
             _value = values[AttributeName];
-            if (!OdbType.IsCollection(_value.GetType()))
+            if (!(_value is IEnumerable))
                 return;
 
             // For collection,we encapsulate it in an lazy load list that will create objects on demand

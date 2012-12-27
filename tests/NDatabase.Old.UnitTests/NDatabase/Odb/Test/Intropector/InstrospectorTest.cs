@@ -114,6 +114,10 @@ namespace Test.NDatabase.Odb.Test.Intropector
             instanceInfo.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
             var nnoiProfile = (NonNativeObjectInfo) instanceInfo.GetAttributeValueFromId(3);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
+
+            var nnoiFunctions = (NonNativeObjectInfo) nnoiProfile.GetAttributeValueFromId(1);
+            nnoiFunctions.SetOid(OIDFactory.BuildObjectOID(3));
+
             user.SetName("Olivier Smadja");
             var instanceInfo3 =
                 (NonNativeObjectInfo)
@@ -123,6 +127,10 @@ namespace Test.NDatabase.Odb.Test.Intropector
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
             nnoiProfile = (NonNativeObjectInfo) instanceInfo3.GetAttributeValueFromId(3);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
+
+            nnoiFunctions = (NonNativeObjectInfo)nnoiProfile.GetAttributeValueFromId(1);
+            nnoiFunctions.SetOid(OIDFactory.BuildObjectOID(3));
+
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
             AssertEquals(1, comparator.GetNbChanges());
             AssertEquals(1, comparator.GetChangedAttributeActions().Count);
@@ -162,6 +170,10 @@ namespace Test.NDatabase.Odb.Test.Intropector
             object o = instanceInfo.GetAttributeValueFromId(3);
             var nnoiProfile = (NonNativeObjectInfo) o;
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
+
+            var nnoiFunctions = (NonNativeObjectInfo)nnoiProfile.GetAttributeValueFromId(1);
+            nnoiFunctions.SetOid(OIDFactory.BuildObjectOID(3));
+
             user.SetName("Olivier Smadja");
             user.SetEmail("olivier@neodatis.org");
             var instanceInfo3 =
@@ -172,6 +184,10 @@ namespace Test.NDatabase.Odb.Test.Intropector
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
             nnoiProfile = (NonNativeObjectInfo) instanceInfo3.GetAttributeValueFromId(3);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
+
+            nnoiFunctions = (NonNativeObjectInfo)nnoiProfile.GetAttributeValueFromId(1);
+            nnoiFunctions.SetOid(OIDFactory.BuildObjectOID(3));
+
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
             AssertEquals(2, comparator.GetNbChanges());
             AssertEquals(2, comparator.GetChangedAttributeActions().Count);
@@ -215,6 +231,9 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var nnoiProfile = (NonNativeObjectInfo) instanceInfo.GetAttributeValueFromId(3);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
 
+            var nnoiFunctions = (NonNativeObjectInfo)nnoiProfile.GetAttributeValueFromId(1);
+            nnoiFunctions.SetOid(OIDFactory.BuildObjectOID(3));
+
             user.SetName(null);
 
             var instanceInfo3 =
@@ -229,6 +248,9 @@ namespace Test.NDatabase.Odb.Test.Intropector
             nnoiProfile = (NonNativeObjectInfo) instanceInfo3.GetAttributeValueFromId(3);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
 
+            nnoiFunctions = (NonNativeObjectInfo)nnoiProfile.GetAttributeValueFromId(1);
+            nnoiFunctions.SetOid(OIDFactory.BuildObjectOID(3));
+
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
             AssertEquals(1, comparator.GetNbChanges());
             AssertEquals(1, comparator.GetAttributeToSetToNull().Count);
@@ -239,6 +261,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         }
 
         [Test]
+        [Ignore("To be removed if collections will be native")]
         public virtual void TestCompareCollection3CollectionContentChange()
         {
             var dbName = "introspectortest4.odb";
@@ -327,6 +350,9 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var nnoiProfile = (NonNativeObjectInfo) instanceInfo.GetAttributeValueFromId(3);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
 
+            var nnoiFunctions = (NonNativeObjectInfo)nnoiProfile.GetAttributeValueFromId(1);
+            nnoiFunctions.SetOid(OIDFactory.BuildObjectOID(3));
+
             function.SetName(null);
 
             var instanceInfo3 =
@@ -341,10 +367,14 @@ namespace Test.NDatabase.Odb.Test.Intropector
             nnoiProfile = (NonNativeObjectInfo) instanceInfo3.GetAttributeValueFromId(3);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
 
+            nnoiFunctions = (NonNativeObjectInfo)nnoiProfile.GetAttributeValueFromId(1);
+            nnoiFunctions.SetOid(OIDFactory.BuildObjectOID(3));
+
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
-            AssertEquals(1, comparator.GetNbChanges());
+            AssertEquals(2, comparator.GetNbChanges());
             AssertEquals(1, comparator.GetAttributeToSetToNull().Count);
+            AssertEquals(1, comparator.GetArrayChanges().Count);
             var cnaa = comparator.GetAttributeToSetToNull()[0];
             AssertEquals(function.GetName(), ((VO.Login.Function) cnaa.GetNnoi().GetObject()).GetName());
 
@@ -381,6 +411,10 @@ namespace Test.NDatabase.Odb.Test.Intropector
             instanceInfo.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
             var nnoiProfile = (NonNativeObjectInfo) instanceInfo.GetAttributeValueFromId(3);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
+
+            var nnoiFunctions = (NonNativeObjectInfo)nnoiProfile.GetAttributeValueFromId(1);
+            nnoiFunctions.SetOid(OIDFactory.BuildObjectOID(3));
+
             profile.GetFunctions().Add(new VO.Login.Function("logout"));
             var instanceInfo3 =
                 (NonNativeObjectInfo)
@@ -390,11 +424,13 @@ namespace Test.NDatabase.Odb.Test.Intropector
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
             nnoiProfile = (NonNativeObjectInfo) instanceInfo3.GetAttributeValueFromId(3);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
-            AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
-            AssertEquals(1, comparator.GetNbChanges());
-            var nnoi = (NonNativeObjectInfo) comparator.GetChangedObjectMetaRepresentation(0);
-            AssertEquals(2, ((IList) nnoi.GetValueOf("functions")).Count);
 
+            nnoiFunctions = (NonNativeObjectInfo)nnoiProfile.GetAttributeValueFromId(1);
+            nnoiFunctions.SetOid(OIDFactory.BuildObjectOID(3));
+
+            AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
+            AssertEquals(3, comparator.GetNbChanges());
+            
             odb.Close();
         }
 
@@ -428,6 +464,10 @@ namespace Test.NDatabase.Odb.Test.Intropector
             instanceInfo.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
             var nnoiProfile = (NonNativeObjectInfo) instanceInfo.GetAttributeValueFromId(3);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
+
+            var nnoiFunctions = (NonNativeObjectInfo)nnoiProfile.GetAttributeValueFromId(1);
+            nnoiFunctions.SetOid(OIDFactory.BuildObjectOID(3));
+
             var nnoi = (NonNativeObjectInfo) instanceInfo.GetAttributeValueFromId(ci.GetAttributeId("profile"));
             nnoi.GetHeader().SetAttributesIdentification(offsets);
             nnoi.GetHeader().SetAttributesIds(ids);
@@ -440,6 +480,10 @@ namespace Test.NDatabase.Odb.Test.Intropector
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
             nnoiProfile = (NonNativeObjectInfo) instanceInfo3.GetAttributeValueFromId(3);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
+
+            nnoiFunctions = (NonNativeObjectInfo)nnoiProfile.GetAttributeValueFromId(1);
+            nnoiFunctions.SetOid(OIDFactory.BuildObjectOID(3));
+
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
             AssertEquals(1, comparator.GetNbChanges());
             var cnaa = (ChangedNativeAttributeAction) comparator.GetChangedAttributeActions()[0];
@@ -479,6 +523,10 @@ namespace Test.NDatabase.Odb.Test.Intropector
             instanceInfo.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
             var nnoiProfile = (NonNativeObjectInfo) instanceInfo.GetAttributeValueFromId(3);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
+
+            var nnoiFunctions = (NonNativeObjectInfo)nnoiProfile.GetAttributeValueFromId(1);
+            nnoiFunctions.SetOid(OIDFactory.BuildObjectOID(3));
+
             // / Set the same name
             profile.SetName("operator");
             var instanceInfo3 =
@@ -489,6 +537,10 @@ namespace Test.NDatabase.Odb.Test.Intropector
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
             nnoiProfile = (NonNativeObjectInfo) instanceInfo3.GetAttributeValueFromId(3);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
+
+            nnoiFunctions = (NonNativeObjectInfo)nnoiProfile.GetAttributeValueFromId(1);
+            nnoiFunctions.SetOid(OIDFactory.BuildObjectOID(3));
+
             AssertFalse(comparator.HasChanged(instanceInfo, instanceInfo3));
             AssertEquals(0, comparator.GetNbChanges());
 
@@ -568,6 +620,10 @@ namespace Test.NDatabase.Odb.Test.Intropector
             instanceInfo.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
             var nnoiProfile = (NonNativeObjectInfo) instanceInfo.GetAttributeValueFromId(3);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
+
+            var nnoiFunctions = (NonNativeObjectInfo)nnoiProfile.GetAttributeValueFromId(1);
+            nnoiFunctions.SetOid(OIDFactory.BuildObjectOID(3));
+
             user.SetName("Kiko");
             var instanceInfo3 =
                 (NonNativeObjectInfo)
@@ -577,6 +633,10 @@ namespace Test.NDatabase.Odb.Test.Intropector
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
             nnoiProfile = (NonNativeObjectInfo) instanceInfo3.GetAttributeValueFromId(3);
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
+
+            nnoiFunctions = (NonNativeObjectInfo)nnoiProfile.GetAttributeValueFromId(1);
+            nnoiFunctions.SetOid(OIDFactory.BuildObjectOID(3));
+
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
             AssertEquals(1, comparator.GetNbChanges());
             var cnaa = (ChangedNativeAttributeAction) comparator.GetChangedAttributeActions()[0];

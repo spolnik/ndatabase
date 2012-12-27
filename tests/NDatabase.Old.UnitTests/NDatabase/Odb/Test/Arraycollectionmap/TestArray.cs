@@ -1,6 +1,7 @@
 using System;
 using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Layers.Layer3.Engine;
+using NDatabase2.Odb.Core.Query;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Arraycollectionmap;
 
@@ -411,39 +412,25 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
         [Test]
         public virtual void TestArrayQuery()
         {
-            IOdb odb = null;
-            try
+            DeleteBase("array4.neodatis");
+            decimal nb;
+            using (var odb = Open("array4.neodatis"))
             {
-                DeleteBase("array4.neodatis");
-                odb = Open("array4.neodatis");
-                decimal nb = odb.Query<PlayerWithArray>().Count();
+                nb = odb.Query<PlayerWithArray>().Count();
                 var player = new PlayerWithArray("kiko");
                 player.AddGame("volley-ball");
                 player.AddGame("squash");
                 player.AddGame("tennis");
                 player.AddGame("ping-pong");
                 odb.Store(player);
-                odb.Close();
-                odb = Open("array4.neodatis");
+            }
+
+            using (var odb = Open("array4.neodatis"))
+            {
                 var query = odb.Query<PlayerWithArray>();
                 query.Descend("games").Constrain("tennis").Contains();
                 var l = query.Execute<PlayerWithArray>();
                 AssertEquals(nb + 1, l.Count);
-            }
-            catch (Exception)
-            {
-                if (odb != null)
-                {
-                    odb.Rollback();
-                    odb = null;
-                }
-                throw;
-            }
-            finally
-            {
-                if (odb != null)
-                    odb.Close();
-                DeleteBase("array4.neodatis");
             }
         }
 

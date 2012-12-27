@@ -61,14 +61,14 @@ namespace NDatabase2.Odb.Core.Query.Criteria.Evaluations
                     return false;
             }
 
-            var collection = candidate as ICollection;
-            if (collection != null)
-                return CheckIfCollectionContainsValue(collection);
-
             var clazz = candidate.GetType();
 
             if (clazz.IsArray)
                 return CheckIfArrayContainsValue(candidate);
+
+            var collection = candidate as ICollection;
+            if (collection != null)
+                return CheckIfCollectionContainsValue(collection);
 
             var candidateAsString = candidate as string;
             if (candidateAsString != null)
@@ -84,14 +84,27 @@ namespace NDatabase2.Odb.Core.Query.Criteria.Evaluations
             return value != null && candidate.Contains(value);
         }
 
-        private bool CheckIfCollectionContainsValue(IEnumerable collection)
+        private bool CheckIfCollectionContainsValue(ICollection collection)
         {
-            var genericTypeDefinition = collection.GetType().GetGenericArguments()[0];
+            Type typeDefinition = typeof(object);
+            if (collection.GetType().IsGenericType)
+                typeDefinition = collection.GetType().GetGenericArguments()[0];
+            else
+            {
+                if (collection.Count > 0)
+                {
+                    var enumerator = collection.GetEnumerator();
+                    enumerator.MoveNext();
+                    var abstractObjectInfo = enumerator.Current as AbstractObjectInfo;
+                    if (abstractObjectInfo != null)
+                        typeDefinition = typeof(AbstractObjectInfo);
+                }
+            }
 
             // If the object to compared is native
             if (IsNative())
             {
-                if (genericTypeDefinition == typeof(AbstractObjectInfo))
+                if (typeDefinition == typeof(AbstractObjectInfo))
                 {
                     foreach (AbstractObjectInfo abstractObjectInfo in collection)
                     {
@@ -125,7 +138,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria.Evaluations
             }
 
 
-            if (genericTypeDefinition == typeof(AbstractObjectInfo))
+            if (typeDefinition == typeof(AbstractObjectInfo))
             {
                 foreach (AbstractObjectInfo abstractObjectInfo in collection)
                 {

@@ -64,7 +64,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
             allTypes.Add(Date);
             allTypes.Add(String);
             allTypes.Add(Enum);
-            allTypes.Add(Collection);
+//            allTypes.Add(Collection);
             allTypes.Add(Array);
             allTypes.Add(Map);
             allTypes.Add(Oid);
@@ -194,8 +194,8 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
             if (IsMap(clazz))
                 return CacheOfTypesByName.GetOrAdd(className, Map);
 
-            if (IsCollection(clazz))
-                return CacheOfTypesByName.GetOrAdd(className, Collection);
+//            if (IsCollection(clazz))
+//                return CacheOfTypesByName.GetOrAdd(className, Collection);
 
             var nonNative = new OdbType(NonNative._isPrimitive, NonNativeId, className, 0);
             return CacheOfTypesByName.GetOrAdd(className, nonNative);
@@ -225,19 +225,19 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
             return false;
         }
 
-        public static bool IsCollection(Type clazz)
-        {
-            var types = clazz.GetInterfaces();
-
-            if (IsCollection(types, "System.Collections.Generic.ICollection"))
-                return false;
-
-            var isNonGenericCollection = Collection._baseClass.IsAssignableFrom(clazz);
-            if (isNonGenericCollection)
-                return true;
-
-            return IsCollection(types, "System.Collections.ICollection");
-        }
+//        public static bool IsCollection(Type clazz)
+//        {
+//            var types = clazz.GetInterfaces();
+//
+//            if (IsCollection(types, "System.Collections.Generic.ICollection"))
+//                return false;
+//
+//            var isNonGenericCollection = Collection._baseClass.IsAssignableFrom(clazz);
+//            if (isNonGenericCollection)
+//                return true;
+//
+//            return IsCollection(types, "System.Collections.ICollection");
+//        }
 
 //        public static bool IsGenericCollection(Type clazz)
 //        {
@@ -263,10 +263,10 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
 
             var types = clazz.GetInterfaces();
 
-            if (IsCollection(types, "System.Collections.Generic.ICollection"))
-                return false;
+//            if (IsCollection(types, "System.Collections.Generic.ICollection"))
+//                return false;
 
-            return Map._baseClass.IsAssignableFrom(clazz) || Collection._baseClass.IsAssignableFrom(clazz);
+            return Map._baseClass.IsAssignableFrom(clazz);// || Collection._baseClass.IsAssignableFrom(clazz);
         }
 
         public static bool Exist(string name)
@@ -651,9 +651,9 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
 
         public static readonly OdbType Enum = new OdbType(false, EnumId, OdbClassUtil.GetFullName(typeof (Enum)), 1);
 
-        public static readonly OdbType Collection = new OdbType(false, CollectionId,
-                                                                OdbClassUtil.GetFullName(typeof (ICollection)), 0,
-                                                                typeof (ICollection));
+//        public static readonly OdbType Collection = new OdbType(false, CollectionId,
+//                                                                OdbClassUtil.GetFullName(typeof (ICollection)), 0,
+//                                                                typeof (ICollection));
 
 //        public static readonly OdbType CollectionGeneric = new OdbType(false, CollectionGenericId,
 //                                                                       OdbClassUtil.GetFullName(

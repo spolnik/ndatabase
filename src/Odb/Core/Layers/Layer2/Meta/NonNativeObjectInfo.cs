@@ -309,6 +309,9 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
                     return nnoi;
             }
 
+            if (_theObject == null)
+                return new NonNativeNullObjectInfo(_classInfo);
+
             if (onlyData)
             {
                 var oih = new ObjectInfoHeader();

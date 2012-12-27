@@ -507,44 +507,61 @@ namespace Test.NDatabase.Odb.Test.Delete
         public virtual void Test2()
         {
             var baseName = GetBaseName();
-            var odb = Open(baseName);
-            var nbFunctions = odb.Query<VO.Login.Function>().Count();
-            decimal nbProfiles = odb.Query<Profile>().Count();
-            var function1 = new VO.Login.Function("function1");
-            var function2 = new VO.Login.Function("function2");
-            var function3 = new VO.Login.Function("function3");
-            var functions = new List<VO.Login.Function>();
-            functions.Add(function1);
-            functions.Add(function2);
-            functions.Add(function3);
-            var profile1 = new Profile("profile1", functions);
-            var profile2 = new Profile("profile2", function1);
-            odb.Store(profile1);
-            odb.Store(profile2);
-            odb.Close();
-            odb = Open(baseName);
-            // checks functions
-            var query1 = odb.Query<VO.Login.Function>();
-            var lfunctions = query1.Execute<VO.Login.Function>(true);
-            AssertEquals(nbFunctions + 3, lfunctions.Count);
-            var query = odb.Query<VO.Login.Function>();
-            query.Descend("name").Constrain((object) "function2").Equal();
-            var l = query.Execute<VO.Login.Function>();
-            var function = l.GetFirst();
-            odb.Delete(function);
-            odb.Close();
-            odb = Open(baseName);
-            AssertEquals(nbFunctions + 2, odb.Query<VO.Login.Function>().Count());
-            var query3 = odb.Query<VO.Login.Function>();
-            var l2 = query3.Execute<VO.Login.Function>(true);
-            // check Profile 1
-            var query2 = odb.Query<Profile>();
-            query2.Descend("name").Constrain((object) "profile1").Equal();
-            var lprofile = query2.Execute<Profile>();
-            var p1 = lprofile.GetFirst();
-            AssertEquals(2, p1.GetFunctions().Count);
-            odb.Close();
             DeleteBase(baseName);
+
+            long nbFunctions;
+            using (var odb = Open(baseName))
+            {
+                nbFunctions = odb.Query<VO.Login.Function>().Count();
+                decimal nbProfiles = odb.Query<Profile>().Count();
+
+                var function1 = new VO.Login.Function("function1");
+                var function2 = new VO.Login.Function("function2");
+                var function3 = new VO.Login.Function("function3");
+                var functions = new List<VO.Login.Function>();
+
+                functions.Add(function1);
+                functions.Add(function2);
+                functions.Add(function3);
+
+                var profile1 = new Profile("profile1", functions);
+                var profile2 = new Profile("profile2", function1);
+
+                odb.Store(profile1);
+                odb.Store(profile2);
+            }
+
+            using (var odb = Open(baseName))
+            {
+                var query1 = odb.Query<VO.Login.Function>();
+                var lfunctions = query1.Execute<VO.Login.Function>(true);
+                AssertEquals(nbFunctions + 3, lfunctions.Count);
+
+                var query = odb.Query<VO.Login.Function>();
+                query.Descend("name").Constrain("function2").Equal();
+                var l = query.Execute<VO.Login.Function>();
+                var function = l.GetFirst();
+
+                odb.Delete(function);
+            }
+
+            using (var odb = Open(baseName))
+            {
+                AssertEquals(nbFunctions + 2, odb.Query<VO.Login.Function>().Count());
+
+                var query3 = odb.Query<VO.Login.Function>();
+                var l2 = query3.Execute<VO.Login.Function>(true);
+
+                // check Profile 1
+                var query2 = odb.Query<Profile>();
+                query2.Descend("name").Constrain("profile1").Equal();
+
+                var lprofile = query2.Execute<Profile>();
+                var p1 = lprofile.GetFirst();
+                AssertEquals(3, p1.GetFunctions().Count);
+                Assert.That(p1.GetFunctions(), Contains.Item(null));
+            }
+            
         }
 
         /// <summary>
