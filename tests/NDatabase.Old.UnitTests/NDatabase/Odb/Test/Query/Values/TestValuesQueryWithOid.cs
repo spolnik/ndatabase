@@ -1,23 +1,18 @@
 using System.Collections;
 using NDatabase2.Odb.Core.Layers.Layer2.Instance;
-using NDatabase2.Odb.Core.Layers.Layer2.Meta;
-using NDatabase2.Odb.Core.Query.Values;
 using NDatabase2.Odb.Main;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Query.Values
 {
-    /// <author>olivier</author>
     [TestFixture]
     public class TestValuesQueryWithOid : ODBTest
     {
-        private static Parameter GetParameterInstance(IInstanceBuilder instanceBuilder, object nonNativeObjectInfo)
+        private static Parameter GetParameter(object nonNativeObjectInfo)
         {
-            return (Parameter) instanceBuilder.BuildOneInstance((NonNativeObjectInfo) nonNativeObjectInfo);
+            return (Parameter) nonNativeObjectInfo;
         }
 
-        /// <exception cref="System.IO.IOException"></exception>
-        /// <exception cref="System.Exception"></exception>
         [Test]
         public virtual void Test1()
         {
@@ -42,17 +37,15 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             var size = (long) ov.GetByAlias("size");
             AssertEquals(10, size);
 
-            var instanceBuilder = new InstanceBuilder(((OdbAdapter)odb).GetStorageEngine());
-
-            var p = GetParameterInstance(instanceBuilder, fulllist[0]);
+            var p = GetParameter(fulllist[0]);
             AssertEquals("value 0", p.GetValue());
-            var p2 = GetParameterInstance(instanceBuilder, fulllist[9]);
+            var p2 = GetParameter(fulllist[9]);
             AssertEquals("value 9", p2.GetValue());
             var sublist = (IList) ov.GetByAlias("sub1");
             AssertEquals(5, sublist.Count);
-            p = GetParameterInstance(instanceBuilder, sublist[0]);
+            p = GetParameter(sublist[0]);
             AssertEquals("value 1", p.GetValue());
-            p2 = GetParameterInstance(instanceBuilder, sublist[4]);
+            p2 = GetParameter(sublist[4]);
             AssertEquals("value 5", p2.GetValue());
             var sublist2 = (IList) ov.GetByAlias("sub2");
             AssertEquals(9, sublist2.Count);

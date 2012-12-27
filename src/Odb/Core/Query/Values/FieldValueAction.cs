@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NDatabase2.Odb.Core.Layers.Layer2.Meta;
@@ -25,7 +27,7 @@ namespace NDatabase2.Odb.Core.Query.Values
         public override void Execute(OID oid, AttributeValuesMap values)
         {
             _value = values[AttributeName];
-            if (!(_value is IEnumerable))
+            if (!(_value is ICollection || IsGenericCollection(_value.GetType())))
                 return;
 
             // For collection,we encapsulate it in an lazy load list that will create objects on demand
@@ -33,6 +35,13 @@ namespace NDatabase2.Odb.Core.Query.Values
             var l = new LazySimpleListOfAoi<object>(GetInstanceBuilder(), ReturnInstance());
             l.AddAll(c);
             _value = l;
+        }
+
+        private static bool IsGenericCollection(Type type)
+        {
+            return type.GetInterfaces()
+                            .Any(x => x.IsGenericType &&
+                            x.GetGenericTypeDefinition() == typeof(ICollection<>));
         }
 
         public override object GetValue()
