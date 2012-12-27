@@ -64,7 +64,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
             allTypes.Add(Date);
             allTypes.Add(String);
             allTypes.Add(Enum);
-//            allTypes.Add(Collection);
             allTypes.Add(Array);
             allTypes.Add(Map);
             allTypes.Add(Oid);
@@ -194,9 +193,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
             if (IsMap(clazz))
                 return CacheOfTypesByName.GetOrAdd(className, Map);
 
-//            if (IsCollection(clazz))
-//                return CacheOfTypesByName.GetOrAdd(className, Collection);
-
             var nonNative = new OdbType(NonNative._isPrimitive, NonNativeId, className, 0);
             return CacheOfTypesByName.GetOrAdd(className, nonNative);
         }
@@ -225,30 +221,6 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
             return false;
         }
 
-//        public static bool IsCollection(Type clazz)
-//        {
-//            var types = clazz.GetInterfaces();
-//
-//            if (IsCollection(types, "System.Collections.Generic.ICollection"))
-//                return false;
-//
-//            var isNonGenericCollection = Collection._baseClass.IsAssignableFrom(clazz);
-//            if (isNonGenericCollection)
-//                return true;
-//
-//            return IsCollection(types, "System.Collections.ICollection");
-//        }
-
-//        public static bool IsGenericCollection(Type clazz)
-//        {
-//            var isGenericCollection = CollectionGeneric._baseClass.IsAssignableFrom(clazz);
-//            if (isGenericCollection)
-//                return true;
-//            var types = clazz.GetInterfaces();
-
-//            return IsCollection(types, "System.Collections.Generic.ICollection");
-//        }
-
         public static bool IsNative(Type clazz)
         {
             OdbType odbType;
@@ -258,15 +230,7 @@ namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
             if (odbType != null)
                 return true;
 
-            if (clazz.IsArray)
-                return true;
-
-            var types = clazz.GetInterfaces();
-
-//            if (IsCollection(types, "System.Collections.Generic.ICollection"))
-//                return false;
-
-            return Map._baseClass.IsAssignableFrom(clazz);// || Collection._baseClass.IsAssignableFrom(clazz);
+            return clazz.IsArray || Map._baseClass.IsAssignableFrom(clazz);
         }
 
         public static bool Exist(string name)
