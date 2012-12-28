@@ -1,7 +1,6 @@
 using System;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Query.Execution;
-using NDatabase2.Odb;
 
 namespace NDatabase.Odb.Core.Query.Values
 {

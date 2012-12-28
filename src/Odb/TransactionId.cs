@@ -1,4 +1,4 @@
-namespace NDatabase2.Odb
+namespace NDatabase.Odb
 {
     public interface ITransactionId
     {

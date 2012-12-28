@@ -1,6 +1,6 @@
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
-namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
+namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
     /// <summary>
     ///   Some Storage engine constants about offset position for object writing/reading.

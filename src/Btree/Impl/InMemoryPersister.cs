@@ -1,4 +1,4 @@
-using NDatabase2.Odb;
+using NDatabase.Odb;
 
 namespace NDatabase.Btree.Impl
 {

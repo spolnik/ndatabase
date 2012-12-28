@@ -1,5 +1,4 @@
-﻿using NDatabase2.Odb;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Interfaces;
 
 namespace Test.NDatabase.Odb.Test.Interfaces

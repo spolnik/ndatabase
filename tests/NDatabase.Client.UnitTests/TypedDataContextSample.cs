@@ -2,7 +2,6 @@
 using System.Linq;
 using NDatabase.Client.UnitTests.Data;
 using NDatabase.Odb;
-using NDatabase2.Odb;
 
 namespace NDatabase.Client.UnitTests
 {

@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using NDatabase.Odb;
-using NDatabase2.Odb;
 using NUnit.Framework;
 using System.Linq;
 

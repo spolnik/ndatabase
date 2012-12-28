@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using NDatabase.Odb;
-using NDatabase2.Odb;
 
 namespace NorthwindNDb
 {

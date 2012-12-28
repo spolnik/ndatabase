@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDatabase.Old.UnitTests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDatabase.UnitTests", "tests\NDatabase.UnitTests\NDatabase.UnitTests.csproj", "{5A12A273-4159-489D-8A77-3C5AB22860E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDatabase.Converter1To2", "tools\NDatabase.Converter1To2\NDatabase.Converter1To2.csproj", "{3D0F9ABC-22DB-4281-A8E2-2F8C07B03C01}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDatabase.Converter", "tools\NDatabase.Converter1To2\NDatabase.Converter.csproj", "{3D0F9ABC-22DB-4281-A8E2-2F8C07B03C01}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

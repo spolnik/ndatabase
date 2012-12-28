@@ -1,6 +1,6 @@
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
-namespace NDatabase2.Odb
+namespace NDatabase.Odb
 {
     /// <summary>
     ///   An interface to provider extended access to ODB.

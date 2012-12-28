@@ -2,7 +2,6 @@ using System.Linq;
 using NDatabase.Btree;
 using NDatabase.Odb.Core.Query.Execution;
 using NDatabase.Tool.Wrappers;
-using NDatabase2.Odb;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {

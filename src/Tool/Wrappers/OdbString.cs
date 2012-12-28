@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using NDatabase2.Odb;
-using NDatabase2.Odb.Core;
+using NDatabase.Odb;
+using NDatabase.Odb.Core;
 
 namespace NDatabase.Tool.Wrappers
 {

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
+using NDatabase.Odb.Core;
 using NDatabase.Tool.Wrappers;
-using NDatabase2.Odb.Core;
 
-namespace NDatabase2.Odb
+namespace NDatabase.Odb
 {
     internal interface IInternalObjectSet<TItem> : IObjectSet<TItem>
     {

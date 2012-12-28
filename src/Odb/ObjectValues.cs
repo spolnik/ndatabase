@@ -1,4 +1,4 @@
-namespace NDatabase2.Odb
+namespace NDatabase.Odb
 {
     /// <summary>
     ///   Interface that will be implemented to hold a row of a result of an Object Values Query

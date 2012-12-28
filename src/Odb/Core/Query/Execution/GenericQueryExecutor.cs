@@ -4,13 +4,11 @@ using System.Collections.Generic;
 using NDatabase.Btree;
 using NDatabase.Odb.Core.BTree;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
-using NDatabase2.Odb;
-using NDatabase2.Odb.Core;
-using NDatabase2.Odb.Core.Layers.Layer3;
 
 namespace NDatabase.Odb.Core.Query.Execution
 {

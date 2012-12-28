@@ -8,7 +8,7 @@ using NDatabase.Odb.Core.Trigger;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
 
-namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
+namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
     internal sealed class NonNativeObjectWriter : INonNativeObjectWriter
     {

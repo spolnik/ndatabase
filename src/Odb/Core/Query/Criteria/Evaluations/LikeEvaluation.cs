@@ -1,7 +1,5 @@
 using System;
 using NDatabase.Tool.Wrappers;
-using NDatabase2.Odb;
-using NDatabase2.Odb.Core;
 
 namespace NDatabase.Odb.Core.Query.Criteria.Evaluations
 {

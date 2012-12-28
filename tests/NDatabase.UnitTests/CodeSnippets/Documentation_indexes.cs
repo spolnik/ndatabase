@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using NDatabase.Odb;
 using NDatabase.UnitTests.CodeSnippets.Data;
-using NDatabase2.Odb;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.CodeSnippets

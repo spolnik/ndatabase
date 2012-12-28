@@ -1,7 +1,5 @@
 using NDatabase.Odb.Core.Query.List.Objects;
 using NDatabase.Tool.Wrappers;
-using NDatabase2.Odb;
-using NDatabase2.Odb.Core;
 
 namespace NDatabase.Odb.Core.Query.List.Values
 {

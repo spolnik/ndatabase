@@ -5,7 +5,6 @@ using NDatabase.Odb;
 using NDatabase.Odb.Core.BTree;
 using NDatabase.Odb.Main;
 using NDatabase.Tool.Wrappers;
-using NDatabase2.Odb;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test;
 

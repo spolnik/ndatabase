@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("NDatabase Converter 1 to 2")]
-[assembly: AssemblyDescription("NDatabase Converter 1 to 2")]
+[assembly: AssemblyTitle("NDatabase Converter")]
+[assembly: AssemblyDescription("NDatabase Converter from v2.0 - v.2.3 to v3.0")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("NDatabase")]
-[assembly: AssemblyProduct("NDatabase Converter 1 to 2")]
-[assembly: AssemblyCopyright("Copyright ©  2012")]
+[assembly: AssemblyProduct("NDatabase Converter")]
+[assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("NDatabase")]
 [assembly: AssemblyCulture("")]
 
@@ -38,6 +37,6 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("2.0.1.*")]
-[assembly: AssemblyFileVersion("2.0.1.0")]
-[assembly: AssemblyInformationalVersion("2.0.1-stable")]
+[assembly: AssemblyVersion("3.0.0.*")]
+[assembly: AssemblyFileVersion("3.0.0.0")]
+[assembly: AssemblyInformationalVersion("3.0.0-stable")]

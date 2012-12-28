@@ -1,6 +1,5 @@
 using NDatabase.Btree;
 using NDatabase.Btree.Impl.Multiplevalue;
-using NDatabase2.Odb;
 
 namespace NDatabase.Odb.Core.BTree
 {

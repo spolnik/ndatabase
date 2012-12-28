@@ -1,6 +1,6 @@
 using System;
 
-namespace NDatabase2.Odb
+namespace NDatabase.Odb
 {
     public interface OID : IComparable<OID>, IComparable
     {

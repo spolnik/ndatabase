@@ -1,4 +1,4 @@
-namespace NDatabase2.Odb.Core.Layers.Layer3.Oid
+namespace NDatabase.Odb.Core.Layers.Layer3.Oid
 {
     /// <summary>
     ///   Status of ID.

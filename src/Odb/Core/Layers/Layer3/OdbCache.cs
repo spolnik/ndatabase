@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Layers.Layer3.Engine;
+using NDatabase.Odb.Core.Layers.Layer3.Oid;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Tool.Wrappers.Map;
-using NDatabase2.Odb.Core.Layers.Layer3.Engine;
-using NDatabase2.Odb.Core.Layers.Layer3.Oid;
 
-namespace NDatabase2.Odb.Core.Layers.Layer3
+namespace NDatabase.Odb.Core.Layers.Layer3
 {
     /// <summary>
     ///   A cache of objects.

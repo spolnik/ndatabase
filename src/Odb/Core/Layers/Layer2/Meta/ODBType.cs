@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Oid;
 using NDatabase.Tool.Wrappers;
-using NDatabase2.Odb;
-using NDatabase2.Odb.Core;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {

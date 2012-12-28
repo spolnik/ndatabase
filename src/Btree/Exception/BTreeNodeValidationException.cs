@@ -1,5 +1,5 @@
-using NDatabase2.Odb;
-using NDatabase2.Odb.Core;
+using NDatabase.Odb;
+using NDatabase.Odb.Core;
 
 namespace NDatabase.Btree.Exception
 {

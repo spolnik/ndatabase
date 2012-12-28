@@ -2,8 +2,6 @@ using System;
 using System.Text;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer2.Meta.Compare;
-using NDatabase2.Odb;
-using NDatabase2.Odb.Core;
 
 namespace NDatabase.Odb.Core.Query.Criteria.Evaluations
 {

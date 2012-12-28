@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace NDatabase2.Odb.Core.Layers.Layer3.Oid
+namespace NDatabase.Odb.Core.Layers.Layer3.Oid
 {
     /// <summary>
     ///   Used to obtain internal infos about all database ids

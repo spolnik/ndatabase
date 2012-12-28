@@ -1,7 +1,7 @@
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Tool.Wrappers.List;
 
-namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
+namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
     internal sealed class CheckMetaModelResult
     {

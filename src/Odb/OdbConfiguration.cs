@@ -1,6 +1,6 @@
 using NDatabase.Tool;
 
-namespace NDatabase2.Odb
+namespace NDatabase.Odb
 {
     /// <summary>
     ///   The main NDatabase ODB Configuration class.

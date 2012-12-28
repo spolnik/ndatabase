@@ -2,7 +2,6 @@
 using System.Collections;
 using NDatabase.Odb;
 using NDatabase.Odb.Main;
-using NDatabase2.Odb;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.School;
 

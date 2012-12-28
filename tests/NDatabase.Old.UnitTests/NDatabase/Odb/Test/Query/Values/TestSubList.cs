@@ -6,7 +6,6 @@ using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Main;
 using NDatabase.Tool.Wrappers;
-using NDatabase2.Odb;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;
 

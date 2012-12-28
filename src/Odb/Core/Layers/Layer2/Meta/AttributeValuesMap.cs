@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using NDatabase2.Odb;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {

@@ -1,8 +1,8 @@
 using System;
+using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Trigger;
-using NDatabase2.Odb.Core.Layers.Layer3;
 
-namespace NDatabase2.Odb
+namespace NDatabase.Odb
 {
     internal class TriggerManager<T> : ITriggerManager where T : class
     {

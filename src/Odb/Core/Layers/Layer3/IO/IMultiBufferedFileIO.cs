@@ -1,6 +1,6 @@
 using System;
 
-namespace NDatabase2.Odb.Core.Layers.Layer3.IO
+namespace NDatabase.Odb.Core.Layers.Layer3.IO
 {
     /// <summary>
     ///   The interface for buffered IO

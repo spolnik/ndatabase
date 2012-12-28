@@ -1,8 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 using NDatabase.Odb;
-using NDatabase2.Odb;
-using NDatabase2.Odb.Core.Layers.Layer3.IO;
+using NDatabase.Odb.Core.Layers.Layer3.IO;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Layer3

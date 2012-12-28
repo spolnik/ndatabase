@@ -1,4 +1,4 @@
-using NDatabase2.Odb;
+using NDatabase.Odb;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Other

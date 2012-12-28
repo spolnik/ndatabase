@@ -1,5 +1,4 @@
 using NDatabase.Odb.Core.Query;
-using NDatabase2.Odb;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Query.Criteria

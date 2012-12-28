@@ -6,7 +6,6 @@ using System.Text;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Query.Execution;
 using NDatabase.Odb.Core.Query.List.Objects;
-using NDatabase2.Odb;
 
 namespace NDatabase.Odb.Core.Query.Values
 {

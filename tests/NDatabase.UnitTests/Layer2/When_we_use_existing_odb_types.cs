@@ -1,7 +1,7 @@
 ﻿using System;
+using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Oid;
-using NDatabase2.Odb;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Layer2
@@ -303,7 +303,7 @@ namespace NDatabase.UnitTests.Layer2
 
             Assert.That(odbType.BaseClass, Is.EqualTo(typeof(OID)));
             Assert.That(odbType.Id, Is.EqualTo(OdbType.OidId));
-            Assert.That(odbType.Name, Is.StringStarting("NDatabase2.Odb.OID,NDatabase"));
+            Assert.That(odbType.Name, Is.StringStarting("NDatabase.Odb.OID,NDatabase"));
             Assert.That(odbType.Size, Is.EqualTo(0));
             Assert.That(odbType.SubType, Is.Null);
             Assert.That(odbType.GetNativeClass(), Is.EqualTo(typeof(OID)));
@@ -327,7 +327,7 @@ namespace NDatabase.UnitTests.Layer2
 
             Assert.That(odbType.BaseClass, Is.EqualTo(typeof(ObjectOID)));
             Assert.That(odbType.Id, Is.EqualTo(OdbType.ObjectOidId));
-            Assert.That(odbType.Name, Is.StringStarting("NDatabase2.Odb.Core.Oid.ObjectOID,NDatabase"));
+            Assert.That(odbType.Name, Is.StringStarting("NDatabase.Odb.Core.Oid.ObjectOID,NDatabase"));
             Assert.That(odbType.Size, Is.EqualTo(0));
             Assert.That(odbType.SubType, Is.Null);
             Assert.That(odbType.GetNativeClass(), Is.EqualTo(typeof(ObjectOID)));
@@ -351,7 +351,7 @@ namespace NDatabase.UnitTests.Layer2
 
             Assert.That(odbType.BaseClass, Is.EqualTo(typeof(ClassOID)));
             Assert.That(odbType.Id, Is.EqualTo(OdbType.ClassOidId));
-            Assert.That(odbType.Name, Is.StringStarting("NDatabase2.Odb.Core.Oid.ClassOID,NDatabase"));
+            Assert.That(odbType.Name, Is.StringStarting("NDatabase.Odb.Core.Oid.ClassOID,NDatabase"));
             Assert.That(odbType.Size, Is.EqualTo(0));
             Assert.That(odbType.SubType, Is.Null);
             Assert.That(odbType.GetNativeClass(), Is.EqualTo(typeof(ClassOID)));

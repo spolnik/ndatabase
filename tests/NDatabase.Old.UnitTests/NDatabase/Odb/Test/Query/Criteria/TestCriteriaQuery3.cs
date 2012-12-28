@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using NDatabase.Odb;
 using NDatabase.Tool.Wrappers;
-using NDatabase2.Odb;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;
 

@@ -13,8 +13,8 @@
     <ProjectGuid>{3D0F9ABC-22DB-4281-A8E2-2F8C07B03C01}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NDatabase.Converter1To2</RootNamespace>
-    <AssemblyName>NDatabase.Converter1To2</AssemblyName>
+    <RootNamespace>NDatabase.Converter</RootNamespace>
+    <AssemblyName>NDatabase.Converter</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
@@ -39,9 +39,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NDatabase">
-      <HintPath>..\..\packages\NDatabase.1.0.4\lib\net35\NDatabase.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

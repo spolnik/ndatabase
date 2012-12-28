@@ -1,5 +1,4 @@
 using NDatabase.Odb.Core.Query.Criteria;
-using NDatabase2.Odb;
 
 namespace NDatabase.Odb.Core.Query
 {

@@ -1,4 +1,4 @@
-namespace NDatabase2.Odb.Core.Layers.Layer3
+namespace NDatabase.Odb.Core.Layers.Layer3
 {
     /// <summary>
     ///   ID types are used for classes(class id) and objects(Object Id) to specify the type of the id in the ID blocks

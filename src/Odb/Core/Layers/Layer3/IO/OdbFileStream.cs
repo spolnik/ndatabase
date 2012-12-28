@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace NDatabase2.Odb.Core.Layers.Layer3.IO
+namespace NDatabase.Odb.Core.Layers.Layer3.IO
 {
     internal sealed class OdbFileStream : IOdbFileStream
     {

@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using NDatabase2.Odb;
-using NDatabase2.Odb.Core;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {

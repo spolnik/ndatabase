@@ -4,7 +4,7 @@ using System.Text;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
 
-namespace NDatabase2.Odb.Core.Layers.Layer3.IO
+namespace NDatabase.Odb.Core.Layers.Layer3.IO
 {
     /// <summary>
     ///   Class allowing buffering for IO This class is used to give 

@@ -1,7 +1,7 @@
 using System;
+using NDatabase.Odb.Core.Layers.Layer3;
+using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Transaction;
-using NDatabase2.Odb.Core.Layers.Layer3;
-using NDatabase2.Odb.Core.Layers.Layer3.Engine;
 
 namespace Test.NDatabase.Odb.Test.IO
 {

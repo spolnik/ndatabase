@@ -2,7 +2,7 @@ using System;
 using System.Reflection;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
-namespace NDatabase2.Odb.Core.Layers.Layer3.Refactor
+namespace NDatabase.Odb.Core.Layers.Layer3.Refactor
 {
     public sealed class RefactorManager : IRefactorManager
     {

@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Concurrent;
-using NDatabase2.Odb;
-using NDatabase2.Odb.Core;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Instance
 {

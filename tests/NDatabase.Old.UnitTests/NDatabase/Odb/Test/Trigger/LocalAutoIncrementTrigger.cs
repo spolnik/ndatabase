@@ -1,8 +1,8 @@
 using System;
 using System.Threading;
+using NDatabase.Odb;
+using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Trigger;
-using NDatabase2.Odb;
-using NDatabase2.Odb.Core;
 
 namespace Test.NDatabase.Odb.Test.Trigger
 {

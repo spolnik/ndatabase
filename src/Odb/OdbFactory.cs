@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using NDatabase2.Odb;
 
 namespace NDatabase.Odb
 {

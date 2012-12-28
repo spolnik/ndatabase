@@ -5,7 +5,6 @@ using NDatabase.Odb.Core.Query.Execution;
 using NDatabase.Odb.Core.Query.List.Values;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.Map;
-using NDatabase2.Odb;
 
 namespace NDatabase.Odb.Core.Query.Values
 {

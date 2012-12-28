@@ -1,10 +1,9 @@
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
+using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Core.Query.Linq;
 using NDatabase.Odb.Core.Query.Values;
-using NDatabase2.Odb;
-using NDatabase2.Odb.Core.Layers.Layer3;
 
 namespace NDatabase.Odb.Main
 {

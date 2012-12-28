@@ -1,6 +1,6 @@
 using System;
+using NDatabase.Odb;
 using NDatabase.Odb.Core.Trigger;
-using NDatabase2.Odb;
 
 namespace Test.NDatabase.Odb.Test.Trigger
 {

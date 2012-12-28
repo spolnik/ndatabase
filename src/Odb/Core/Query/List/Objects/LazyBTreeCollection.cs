@@ -2,8 +2,7 @@ using System.Collections.Generic;
 using NDatabase.Btree;
 using NDatabase.Btree.Impl.Multiplevalue;
 using NDatabase.Odb.Core.BTree;
-using NDatabase2.Odb.Core;
-using NDatabase2.Odb.Core.Layers.Layer3;
+using NDatabase.Odb.Core.Layers.Layer3;
 
 namespace NDatabase.Odb.Core.Query.List.Objects
 {

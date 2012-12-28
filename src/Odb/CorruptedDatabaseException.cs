@@ -1,6 +1,6 @@
-using NDatabase2.Odb.Core;
+using NDatabase.Odb.Core;
 
-namespace NDatabase2.Odb
+namespace NDatabase.Odb
 {
     /// <summary>
     ///   An exception thrown by ODB when a corrupted block is found

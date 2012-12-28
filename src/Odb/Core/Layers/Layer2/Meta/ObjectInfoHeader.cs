@@ -1,7 +1,6 @@
 using System.Text;
+using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Tool.Wrappers;
-using NDatabase2.Odb;
-using NDatabase2.Odb.Core.Layers.Layer3.Engine;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {

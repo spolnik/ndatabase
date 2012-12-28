@@ -6,8 +6,6 @@ using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
-using NDatabase2.Odb;
-using NDatabase2.Odb.Core;
 
 namespace NDatabase.Odb.Core.Query.List.Objects
 {

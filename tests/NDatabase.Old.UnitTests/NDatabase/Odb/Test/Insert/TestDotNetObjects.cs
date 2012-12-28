@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using NDatabase2.Odb;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Insert

@@ -2,13 +2,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Layers.Layer3;
+using NDatabase.Odb.Core.Layers.Layer3.Engine;
+using NDatabase.Odb.Core.Layers.Layer3.IO;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
-using NDatabase2.Odb;
-using NDatabase2.Odb.Core;
-using NDatabase2.Odb.Core.Layers.Layer3;
-using NDatabase2.Odb.Core.Layers.Layer3.Engine;
-using NDatabase2.Odb.Core.Layers.Layer3.IO;
 
 namespace NDatabase.Odb.Core.Transaction
 {

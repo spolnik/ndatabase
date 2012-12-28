@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace NDatabase2.Odb.Core.Layers.Layer3
+namespace NDatabase.Odb.Core.Layers.Layer3
 {
     /// <summary>
     ///   Database Parameters for local database access

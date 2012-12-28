@@ -5,13 +5,13 @@ using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer2.Meta.Compare;
 using NDatabase.Odb.Core.Layers.Layer3.Block;
+using NDatabase.Odb.Core.Layers.Layer3.Oid;
 using NDatabase.Odb.Core.Oid;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Odb.Core.Trigger;
 using NDatabase.Tool;
-using NDatabase2.Odb.Core.Layers.Layer3.Oid;
 
-namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
+namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
     /// <summary>
     ///   Manage all IO writing

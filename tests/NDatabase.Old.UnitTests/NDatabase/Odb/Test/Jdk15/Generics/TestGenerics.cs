@@ -1,4 +1,3 @@
-using NDatabase2.Odb;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Jdk15.Generics

@@ -1,10 +1,10 @@
 using System;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Layers.Layer3.IO;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Tool;
-using NDatabase2.Odb.Core.Layers.Layer3.IO;
 
-namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
+namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
     /// <summary>
     ///   Class that knows how to read/write all language native types : byte, char, String, int, long,....

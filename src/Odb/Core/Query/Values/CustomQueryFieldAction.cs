@@ -1,7 +1,5 @@
 using System;
 using NDatabase.Odb.Core.Query.Execution;
-using NDatabase2.Odb;
-using NDatabase2.Odb.Core;
 
 namespace NDatabase.Odb.Core.Query.Values
 {

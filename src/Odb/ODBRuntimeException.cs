@@ -1,7 +1,7 @@
 using System;
-using NDatabase2.Odb.Core;
+using NDatabase.Odb.Core;
 
-namespace NDatabase2.Odb
+namespace NDatabase.Odb
 {
     /// <summary>
     ///   Generic ODB Runtime exception : Used to report all problems.

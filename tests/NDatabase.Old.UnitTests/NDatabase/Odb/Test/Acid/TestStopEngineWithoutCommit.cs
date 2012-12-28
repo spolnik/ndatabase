@@ -1,5 +1,5 @@
 using System;
-using NDatabase2.Odb;
+using NDatabase.Odb;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;
 

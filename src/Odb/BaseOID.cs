@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace NDatabase2.Odb
+namespace NDatabase.Odb
 {
     /// <summary>
     ///   The abstract class to represent OID.

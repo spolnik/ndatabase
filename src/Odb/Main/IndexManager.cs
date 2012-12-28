@@ -1,6 +1,5 @@
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase2.Odb;
-using NDatabase2.Odb.Core.Layers.Layer3;
+using NDatabase.Odb.Core.Layers.Layer3;
 
 namespace NDatabase.Odb.Main
 {

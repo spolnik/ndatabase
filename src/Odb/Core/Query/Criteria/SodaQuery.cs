@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using NDatabase.Tool.Wrappers.List;
-using NDatabase2.Odb;
-using NDatabase2.Odb.Core;
 
 namespace NDatabase.Odb.Core.Query.Criteria
 {

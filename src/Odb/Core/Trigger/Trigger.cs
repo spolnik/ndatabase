@@ -1,5 +1,3 @@
-using NDatabase2.Odb;
-
 namespace NDatabase.Odb.Core.Trigger
 {
     /// <summary>

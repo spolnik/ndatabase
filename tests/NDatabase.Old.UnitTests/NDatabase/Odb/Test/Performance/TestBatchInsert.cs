@@ -1,5 +1,4 @@
 using System;
-using NDatabase2.Odb;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Performance

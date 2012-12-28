@@ -3,9 +3,8 @@
 using NDatabase.Odb;
 #if USER1
 #endif
+using NDatabase.Odb.Core.Layers.Layer3.Refactor;
 using NDatabase.Odb.Main;
-using NDatabase2.Odb;
-using NDatabase2.Odb.Core.Layers.Layer3.Refactor;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Refactoring

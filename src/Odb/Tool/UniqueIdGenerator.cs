@@ -1,6 +1,5 @@
 using NDatabase.Odb.Core.Oid;
 using NDatabase.Tool.Wrappers;
-using NDatabase2.Odb;
 
 namespace NDatabase.Odb.Tool
 {

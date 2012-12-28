@@ -2,7 +2,7 @@ using System.Text;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
 
-namespace NDatabase2.Odb.Core
+namespace NDatabase.Odb.Core
 {
     /// <summary>
     ///   All NDatabase ODB Errors.

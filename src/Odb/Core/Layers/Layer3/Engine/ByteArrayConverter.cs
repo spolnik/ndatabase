@@ -2,7 +2,7 @@ using System;
 using System.Text;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
-namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
+namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
     /// <summary>
     ///   Converts array of bytes into native objects and native objects into array of bytes

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using NDatabase.Odb.Core;
 using NDatabase.Tool.Wrappers;
-using NDatabase2.Odb.Core;
 
 namespace NDatabase.Btree
 {

@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.Map;
-using NDatabase2.Odb;
-using NDatabase2.Odb.Core;
-using NDatabase2.Odb.Core.Layers.Layer3;
 
 namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 {

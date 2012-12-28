@@ -1,6 +1,6 @@
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
-namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
+namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
     internal sealed class PendingReading
     {

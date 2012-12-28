@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace NDatabase2.Odb
+namespace NDatabase.Odb
 {
     /// <summary>
     /// query resultset.

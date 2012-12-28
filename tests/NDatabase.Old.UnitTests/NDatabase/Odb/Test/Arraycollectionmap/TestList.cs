@@ -1,6 +1,5 @@
 using System;
 using NDatabase.Odb;
-using NDatabase2.Odb;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Arraycollectionmap;
 using Test.NDatabase.Odb.Test.VO.Sport;

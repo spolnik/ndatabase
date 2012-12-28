@@ -1,4 +1,4 @@
-using NDatabase2.Odb.Core;
+using NDatabase.Odb.Core;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Error

@@ -10,7 +10,6 @@ using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Oid;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
-using NDatabase2.Odb;
 
 namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 {

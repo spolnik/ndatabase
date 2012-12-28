@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
+using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Tool.Wrappers;
-using NDatabase2.Odb;
-using NDatabase2.Odb.Core;
-using NDatabase2.Odb.Core.Layers.Layer3.Engine;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {

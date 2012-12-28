@@ -1,7 +1,7 @@
 using System;
+using NDatabase.Odb;
 using NDatabase.Odb.Core.Oid;
 using NDatabase.Tool.Wrappers.Map;
-using NDatabase2.Odb;
 using NUnit.Framework;
 using Test.NDatabase.Tool;
 

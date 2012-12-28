@@ -4,6 +4,7 @@ using NDatabase.Btree;
 using NDatabase.Odb.Core.BTree;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Layers.Layer3.Oid;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Core.Transaction;
@@ -12,9 +13,8 @@ using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
 using NDatabase.Tool.Wrappers.Map;
-using NDatabase2.Odb.Core.Layers.Layer3.Oid;
 
-namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
+namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
     internal abstract class AbstractStorageEngineReader : IStorageEngine
     {

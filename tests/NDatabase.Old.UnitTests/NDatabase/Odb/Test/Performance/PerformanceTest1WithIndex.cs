@@ -2,7 +2,6 @@ using System;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Tool.Wrappers;
-using NDatabase2.Odb;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Performance

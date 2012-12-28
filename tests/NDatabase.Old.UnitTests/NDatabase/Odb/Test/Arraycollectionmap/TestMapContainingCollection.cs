@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using NDatabase.Odb;
 using NDatabase.Tool.Wrappers.Map;
-using NDatabase2.Odb;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Arraycollectionmap

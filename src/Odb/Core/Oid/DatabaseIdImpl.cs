@@ -1,7 +1,6 @@
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using NDatabase2.Odb;
 
 namespace NDatabase.Odb.Core.Oid
 {

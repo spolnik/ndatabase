@@ -1,6 +1,3 @@
-using NDatabase2.Odb;
-using NDatabase2.Odb.Core;
-
 namespace NDatabase.Odb.Core.Query.Execution
 {
     /// <summary>

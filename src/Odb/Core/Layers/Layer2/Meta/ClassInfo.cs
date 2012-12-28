@@ -5,7 +5,6 @@ using System.Text;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
 using NDatabase.Tool.Wrappers.Map;
-using NDatabase2.Odb;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {
