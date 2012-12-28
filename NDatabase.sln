@@ -23,8 +23,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDatabase.Old.UnitTests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDatabase.UnitTests", "tests\NDatabase.UnitTests\NDatabase.UnitTests.csproj", "{5A12A273-4159-489D-8A77-3C5AB22860E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDatabase.Converter", "tools\NDatabase.Converter1To2\NDatabase.Converter.csproj", "{3D0F9ABC-22DB-4281-A8E2-2F8C07B03C01}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,10 +57,6 @@ Global
 		{5A12A273-4159-489D-8A77-3C5AB22860E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A12A273-4159-489D-8A77-3C5AB22860E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A12A273-4159-489D-8A77-3C5AB22860E4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3D0F9ABC-22DB-4281-A8E2-2F8C07B03C01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3D0F9ABC-22DB-4281-A8E2-2F8C07B03C01}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3D0F9ABC-22DB-4281-A8E2-2F8C07B03C01}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3D0F9ABC-22DB-4281-A8E2-2F8C07B03C01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -75,7 +69,6 @@ Global
 		{857EB24D-9D32-4A95-A8F7-00D2E1458888} = {E69C9239-6AB1-45D8-A666-ECF1425552E2}
 		{38EBE4FF-5835-40C5-BDDC-1D0A261CA59A} = {E69C9239-6AB1-45D8-A666-ECF1425552E2}
 		{E58257BE-7CF9-4471-9E5E-99510FF70637} = {E69C9239-6AB1-45D8-A666-ECF1425552E2}
-		{3D0F9ABC-22DB-4281-A8E2-2F8C07B03C01} = {E69C9239-6AB1-45D8-A666-ECF1425552E2}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = src\NDatabase2.csproj
