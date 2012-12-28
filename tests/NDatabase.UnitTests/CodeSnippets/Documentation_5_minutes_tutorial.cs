@@ -122,7 +122,8 @@ namespace NDatabase.UnitTests.CodeSnippets
                 odb.Store(agassi);
 
                 var query = odb.Query<Player>();
-                query.Descend("FavoriteSport").Descend("_name").Constrain("volley-ball").Equal();
+                query.Descend("FavoriteSport").Descend("_name")
+						.Constrain("volley-ball").Equal();
 
                 var players = query.Execute<Player>();
 
@@ -212,8 +213,8 @@ namespace NDatabase.UnitTests.CodeSnippets
                 var query =
                     odb.Query<Player>();
 
-                (query.Descend("FavoriteSport._name").Constrain("volley-ball").Equal()).Or(
-                    query.Descend("FavoriteSport._name").Constrain("%nnis").Like());
+                (query.Descend("FavoriteSport._name").Constrain("volley-ball").Equal())
+				.Or(query.Descend("FavoriteSport._name").Constrain("%nnis").Like());
 
                 var players = query.Execute<Player>();
 
@@ -250,7 +251,8 @@ namespace NDatabase.UnitTests.CodeSnippets
             using (var odb = OdbFactory.Open(TutorialDb5MinName))
             {
                 var query = odb.Query<Player>();
-                query.Descend("FavoriteSport._name").Constrain("volley-ball").Equal().Not();
+                query.Descend("FavoriteSport._name").Constrain("volley-ball")
+						.Equal().Not();
 
                 var players = query.Execute<Player>();
 
@@ -303,7 +305,8 @@ namespace NDatabase.UnitTests.CodeSnippets
             using (var odb = OdbFactory.Open(TutorialDb5MinName))
             {
                 var players = from player in odb.AsQueryable<Player>()
-                              where player.FavoriteSport.Name.StartsWith("VOLLEY", true, CultureInfo.InvariantCulture)
+                              where player.FavoriteSport.Name
+								.StartsWith("VOLLEY", true, CultureInfo.InvariantCulture)
                               select player;
 
                 Console.WriteLine("\nStep 8 (Linq): Players that play Volley-ball");
