@@ -3,11 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using NDatabase.Northwind.Domain;
+using NDatabase.Northwind.Generator.NorthwindDataSetTableAdapters;
 using NDatabase.Odb;
-using NorthwindNDb.NorthwindDataSetTableAdapters;
-using Region = NDatabase.Northwind.Domain.Region;
 
-namespace NorthwindNDb
+namespace NDatabase.Northwind.Generator
 {
     public partial class NorthwindNDbGeneratorForm : Form
     {
@@ -284,7 +283,7 @@ namespace NorthwindNDb
             odb.Commit();
 
             LogMessage("Commit done, starting create index ...", false);
-            odb.IndexManagerFor<Region>().AddUniqueIndexOn("Region_RegionID_PK_index", NDatabase.Northwind.Domain.Region.PK);
+            odb.IndexManagerFor<Region>().AddUniqueIndexOn("Region_RegionID_PK_index", Domain.Region.PK);
             odb.Commit();
             LogMessage(" index created.", true);
 
@@ -443,7 +442,7 @@ namespace NorthwindNDb
                 var t = new Territory {TerritoryID = row.TerritoryID, TerritoryDescription = row.TerritoryDescription};
 
                 LogMessage("linking member...", false);
-                t.Region = NDbUtil.GetByNumericalID<Region>(odb, NDatabase.Northwind.Domain.Region.PK, row.RegionID);
+                t.Region = NDbUtil.GetByNumericalID<Region>(odb, Domain.Region.PK, row.RegionID);
 
                 odb.Store(t);
                 LogMessage("saved (" + t.TerritoryID + ")", true);

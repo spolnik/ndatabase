@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using NDatabase.Odb;
 
-namespace NorthwindNDb
+namespace NDatabase.Northwind.Generator
 {
     internal static class NDbUtil
     {

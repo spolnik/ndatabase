@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace NorthwindNDb
+namespace NDatabase.Northwind.Generator
 {
     static class Program
     {

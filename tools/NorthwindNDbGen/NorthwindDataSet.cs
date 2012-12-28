@@ -1,4 +1,4 @@
-﻿namespace NorthwindNDb
+﻿namespace NDatabase.Northwind.Generator
 {
     
     

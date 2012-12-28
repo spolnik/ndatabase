@@ -8,8 +8,8 @@
     <ProjectGuid>{38EBE4FF-5835-40C5-BDDC-1D0A261CA59A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NorthwindNDb</RootNamespace>
-    <AssemblyName>NorthwindNDbGen</AssemblyName>
+    <RootNamespace>NDatabase.Northwind.Generator</RootNamespace>
+    <AssemblyName>NDatabase.Northwind.Generator</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,10 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>NorthwindNDb.Program</StartupObject>
+    <StartupObject>NDatabase.Northwind.Generator.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>logo256.ico</ApplicationIcon>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -154,7 +154,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="logo.ico" />
-    <Content Include="logo256.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,4 +1,4 @@
-﻿namespace NorthwindNDb
+﻿namespace NDatabase.Northwind.Generator
 {
     partial class NorthwindNDbGeneratorForm
     {
@@ -38,7 +38,7 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.northwindDataSet = new NorthwindNDb.NorthwindDataSet();
+            this.northwindDataSet = new NDatabase.Northwind.Generator.NorthwindDataSet();
             this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.northwindDataSet)).BeginInit();
@@ -136,7 +136,7 @@
             this.Controls.Add(this.txtOutput);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "NorthwindNDbGeneratorForm";
-            this.Text = "Northwind >> NDatabase 2.5";
+            this.Text = "Northwind >> NDatabase 3";
             this.Load += new System.EventHandler(this.NorthwindNDbGeneratorForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.northwindDataSet)).EndInit();
@@ -148,7 +148,7 @@
         #endregion
 
         private System.Windows.Forms.BindingSource bindingSource1;
-        private NorthwindNDb.NorthwindDataSet northwindDataSet;
+        private NDatabase.Northwind.Generator.NorthwindDataSet northwindDataSet;
         private System.Windows.Forms.RichTextBox txtOutput;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label lblTimer;
