@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace NDatabase2.Odb.Core.Query.Linq
+namespace NDatabase.Odb.Core.Query.Linq
 {
     internal class LinqQueryTranslator : ExpressionTransformer
     {

@@ -1,4 +1,6 @@
-namespace NDatabase2.Odb.Core.Trigger
+using NDatabase2.Odb;
+
+namespace NDatabase.Odb.Core.Trigger
 {
     public abstract class UpdateTrigger : Trigger
     {

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using NDatabase2.Odb.Core.Query.Criteria;
+using NDatabase.Odb.Core.Query.Criteria;
 
-namespace NDatabase2.Odb.Core.Query.Linq
+namespace NDatabase.Odb.Core.Query.Linq
 {
     internal class QueryBuilderContext
     {

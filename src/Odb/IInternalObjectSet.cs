@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using NDatabase.Tool.Wrappers;
 using NDatabase2.Odb.Core;
-using NDatabase2.Tool.Wrappers;
 
 namespace NDatabase2.Odb
 {

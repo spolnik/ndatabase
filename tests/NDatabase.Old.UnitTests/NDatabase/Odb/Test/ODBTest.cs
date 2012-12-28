@@ -1,7 +1,7 @@
 using System;
 using System.IO;
+using NDatabase.Odb;
 using NDatabase2.Odb;
-using NDatabase2.Odb.Main;
 
 namespace Test.NDatabase.Odb.Test
 {

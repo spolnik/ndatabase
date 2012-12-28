@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace NDatabase2.Odb.Core.Query.Linq
+namespace NDatabase.Odb.Core.Query.Linq
 {
     internal class LinqQueryable<TElement> : ILinqQueryable<TElement>, IQueryProvider
     {

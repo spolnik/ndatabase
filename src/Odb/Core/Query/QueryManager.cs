@@ -1,10 +1,12 @@
-using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Query.Criteria;
+using NDatabase.Odb.Core.Query.Execution;
+using NDatabase.Odb.Core.Query.Values;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core;
 using NDatabase2.Odb.Core.Layers.Layer3;
-using NDatabase2.Odb.Core.Query.Criteria;
-using NDatabase2.Odb.Core.Query.Execution;
-using NDatabase2.Odb.Core.Query.Values;
 
-namespace NDatabase2.Odb.Core.Query
+namespace NDatabase.Odb.Core.Query
 {
     internal static class QueryManager
     {
@@ -27,7 +29,7 @@ namespace NDatabase2.Odb.Core.Query
             if (query is ValuesCriteriaQuery)
                 return new MultiClassGenericQueryExecutor(new ValuesCriteriaQueryExecutor(query, engine));
 
-            if (query is CriteriaQuery)
+            if (query is SodaQuery)
                 return new MultiClassGenericQueryExecutor(new CriteriaQueryExecutor(query, engine));
 
             throw new OdbRuntimeException(NDatabaseError.QueryTypeNotImplemented.AddParameter(query.GetType().FullName));

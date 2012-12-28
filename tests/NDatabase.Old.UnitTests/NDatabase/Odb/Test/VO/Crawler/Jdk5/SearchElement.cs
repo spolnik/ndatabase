@@ -1,4 +1,4 @@
-using NDatabase2.Tool.Wrappers;
+using NDatabase.Tool.Wrappers;
 
 namespace Test.NDatabase.Odb.Test.VO.Crawler.Jdk5
 {

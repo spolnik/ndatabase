@@ -1,6 +1,6 @@
+using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Query.Values;
 using NDatabase2.Odb;
-using NDatabase2.Odb.Core.Layers.Layer2.Meta;
-using NDatabase2.Odb.Core.Query.Values;
 
 namespace Test.NDatabase.Odb.Test.Query.Values
 {

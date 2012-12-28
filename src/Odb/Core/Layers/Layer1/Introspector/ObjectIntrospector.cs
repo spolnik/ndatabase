@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
-using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Tool.Wrappers;
+using NDatabase.Tool.Wrappers.Map;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core;
 using NDatabase2.Odb.Core.Layers.Layer3;
-using NDatabase2.Tool.Wrappers;
-using NDatabase2.Tool.Wrappers.Map;
 
-namespace NDatabase2.Odb.Core.Layers.Layer1.Introspector
+namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 {
     /// <summary>
     ///   The local implementation of the Object Instrospector.

@@ -1,6 +1,6 @@
 using NDatabase2.Odb.Core.Layers.Layer3;
 
-namespace NDatabase2.Odb.Core.Transaction
+namespace NDatabase.Odb.Core.Transaction
 {
     internal interface ITransaction
     {

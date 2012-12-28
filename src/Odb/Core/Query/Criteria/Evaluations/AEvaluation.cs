@@ -1,6 +1,6 @@
-using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
-namespace NDatabase2.Odb.Core.Query.Criteria.Evaluations
+namespace NDatabase.Odb.Core.Query.Criteria.Evaluations
 {
     internal abstract class AEvaluation : IEvaluation
     {

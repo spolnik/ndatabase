@@ -3,9 +3,9 @@
 using NDatabase.Odb;
 #if USER1
 #endif
+using NDatabase.Odb.Main;
 using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Layers.Layer3.Refactor;
-using NDatabase2.Odb.Main;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Refactoring
@@ -17,7 +17,7 @@ namespace NDatabase.UnitTests.Refactoring
         
 #if USER1
         [Test]
-        [Ignore]
+        [Ignore("Manual test")]
         public void Step1()
         {
             OdbFactory.Delete(RefactoringDbName);
@@ -29,7 +29,7 @@ namespace NDatabase.UnitTests.Refactoring
         }
 
         [Test]
-        [Ignore]
+        [Ignore("Manual test")]
         public void Step2()
         {
             using (var odb = OdbFactory.Open(RefactoringDbName))

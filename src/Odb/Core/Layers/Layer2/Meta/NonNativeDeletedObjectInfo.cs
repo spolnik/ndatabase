@@ -1,4 +1,4 @@
-namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
+namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {
     /// <summary>
     ///   To specify that an object has been mark as deleted

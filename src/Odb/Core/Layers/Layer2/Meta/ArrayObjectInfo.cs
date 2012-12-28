@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using NDatabase2.Odb;
 
-namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
+namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {
     /// <summary>
     ///   A meta representation of an Array

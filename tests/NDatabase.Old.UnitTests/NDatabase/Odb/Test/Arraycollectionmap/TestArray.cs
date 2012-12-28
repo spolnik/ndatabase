@@ -1,7 +1,7 @@
 using System;
+using NDatabase.Odb;
 using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Layers.Layer3.Engine;
-using NDatabase2.Odb.Core.Query;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Arraycollectionmap;
 

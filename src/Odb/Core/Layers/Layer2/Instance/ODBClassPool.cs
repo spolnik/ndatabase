@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Concurrent;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core;
 
-namespace NDatabase2.Odb.Core.Layers.Layer2.Instance
+namespace NDatabase.Odb.Core.Layers.Layer2.Instance
 {
     /// <summary>
     ///   A simple class pool, to optimize instance creation

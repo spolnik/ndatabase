@@ -1,9 +1,10 @@
 using System;
+using NDatabase.Odb.Core.Query;
+using NDatabase.Odb.Core.Query.Linq;
+using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Layers.Layer3;
-using NDatabase2.Odb.Core.Query;
-using NDatabase2.Odb.Core.Query.Linq;
 
-namespace NDatabase2.Odb
+namespace NDatabase.Odb
 {
     /// <summary>
     /// database engine interface.

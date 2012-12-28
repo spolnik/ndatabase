@@ -1,6 +1,6 @@
-using NDatabase2.Tool.Wrappers;
+using NDatabase.Tool.Wrappers;
 
-namespace NDatabase2.Odb.Core.Query
+namespace NDatabase.Odb.Core.Query
 {
     public abstract class CompareKey : IOdbComparable
     {

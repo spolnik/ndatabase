@@ -1,7 +1,8 @@
-using NDatabase2.Btree;
-using NDatabase2.Btree.Impl.Singlevalue;
+using NDatabase.Btree;
+using NDatabase.Btree.Impl.Singlevalue;
+using NDatabase2.Odb;
 
-namespace NDatabase2.Odb.Core.BTree
+namespace NDatabase.Odb.Core.BTree
 {
     /// <summary>
     ///   The NDatabase ODB BTree.

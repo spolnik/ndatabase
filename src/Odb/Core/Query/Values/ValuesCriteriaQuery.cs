@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
-using NDatabase2.Odb.Core.Query.Criteria;
-using NDatabase2.Odb.Core.Query.Execution;
-using NDatabase2.Tool.Wrappers.List;
-using NDatabase2.Tool.Wrappers.Map;
+using NDatabase.Odb.Core.Query.Criteria;
+using NDatabase.Odb.Core.Query.Execution;
+using NDatabase.Tool.Wrappers.List;
+using NDatabase.Tool.Wrappers.Map;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core;
 
-namespace NDatabase2.Odb.Core.Query.Values
+namespace NDatabase.Odb.Core.Query.Values
 {
     /// <summary>
     ///   A values Criteria query is a query to retrieve object values instead of objects.
@@ -19,7 +21,7 @@ namespace NDatabase2.Odb.Core.Query.Values
     ///    - The Min value of a specific numeric field 
     ///    - The Average value of a specific numeric value
     /// </remarks>
-    internal sealed class ValuesCriteriaQuery : CriteriaQuery, IInternalValuesQuery
+    internal sealed class ValuesCriteriaQuery : SodaQuery, IInternalValuesQuery
     {
         private string[] _groupByFieldList;
 

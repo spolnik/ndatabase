@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NDatabase2.Tool
+namespace NDatabase.Tool
 {
     internal static class DisplayUtility
     {

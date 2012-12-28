@@ -1,8 +1,10 @@
 using System;
-using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core;
 using NDatabase2.Odb.Core.Layers.Layer3;
 
-namespace NDatabase2.Odb.Core.Transaction
+namespace NDatabase.Odb.Core.Transaction
 {
     /// <summary>
     ///   An ODB Session.

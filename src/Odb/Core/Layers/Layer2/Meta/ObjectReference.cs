@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core;
 
-namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
+namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {
     /// <summary>
     ///   Meta representation of an object reference.

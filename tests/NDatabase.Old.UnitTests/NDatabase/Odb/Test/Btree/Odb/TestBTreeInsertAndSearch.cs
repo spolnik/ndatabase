@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
-using NDatabase2.Btree;
-using NDatabase2.Btree.Impl.Multiplevalue;
-using NDatabase2.Tool.Wrappers;
+using NDatabase.Btree;
+using NDatabase.Btree.Impl.Multiplevalue;
+using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Btree.Odb

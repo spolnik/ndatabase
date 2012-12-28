@@ -1,5 +1,6 @@
 using System.IO;
-using NDatabase2.Tool;
+using NDatabase.Odb;
+using NDatabase.Tool;
 
 namespace NDatabase2.Odb.Core.Layers.Layer3.IO
 {

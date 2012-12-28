@@ -1,4 +1,4 @@
-namespace NDatabase2.Odb.Core.Layers.Layer2.Meta.Compare
+namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
 {
     public interface IChangedAttribute
     {

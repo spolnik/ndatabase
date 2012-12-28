@@ -1,7 +1,7 @@
 using NDatabase2.Odb;
 using NDatabase2.Odb.Core;
 
-namespace NDatabase2.Btree.Exception
+namespace NDatabase.Btree.Exception
 {
     public class BTreeException : OdbRuntimeException
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace NDatabase2.Odb.Core.Query.Linq
+namespace NDatabase.Odb.Core.Query.Linq
 {
     public static class LinqQueryExtensions
     {

@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using NDatabase2.Odb.Core.Layers.Layer2.Instance;
-using NDatabase2.Odb.Core.Oid;
-using NDatabase2.Tool.Wrappers;
+using NDatabase.Odb.Core.Layers.Layer2.Instance;
+using NDatabase.Odb.Core.Oid;
+using NDatabase.Tool.Wrappers;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core;
 
-namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
+namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {
     /// <summary>
     ///   Contains the list for the ODB types

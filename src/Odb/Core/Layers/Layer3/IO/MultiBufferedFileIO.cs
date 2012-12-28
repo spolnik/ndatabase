@@ -1,8 +1,8 @@
 using System;
 using System.IO;
 using System.Text;
-using NDatabase2.Tool;
-using NDatabase2.Tool.Wrappers;
+using NDatabase.Tool;
+using NDatabase.Tool.Wrappers;
 
 namespace NDatabase2.Odb.Core.Layers.Layer3.IO
 {

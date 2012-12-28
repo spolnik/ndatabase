@@ -1,6 +1,6 @@
 using System;
 
-namespace NDatabase2.Odb.Core.Query.Linq
+namespace NDatabase.Odb.Core.Query.Linq
 {
     public class LinqQueryException : Exception
     {

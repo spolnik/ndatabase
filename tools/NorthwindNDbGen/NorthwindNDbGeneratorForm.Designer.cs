@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NorthwindNDbGeneratorForm));
             this.txtOutput = new System.Windows.Forms.RichTextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.lblTimer = new System.Windows.Forms.Label();
@@ -133,6 +134,7 @@
             this.Controls.Add(this.lblTimer);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.txtOutput);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "NorthwindNDbGeneratorForm";
             this.Text = "Northwind >> NDatabase 2.5";
             this.Load += new System.EventHandler(this.NorthwindNDbGeneratorForm_Load);

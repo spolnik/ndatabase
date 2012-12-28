@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NorthwindNDb</RootNamespace>
-    <AssemblyName>NorthwindNDb</AssemblyName>
+    <AssemblyName>NorthwindNDbGen</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,6 +32,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>NorthwindNDb.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>logo256.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -140,14 +143,18 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\NDatabase2.csproj">
+    <ProjectReference Include="..\..\src\NDatabase.csproj">
       <Project>{4B6993D5-995D-4AAA-BBCE-423D1B5451F6}</Project>
-      <Name>NDatabase2</Name>
+      <Name>NDatabase</Name>
     </ProjectReference>
     <ProjectReference Include="..\NDatabase.Northwind.Domain\NDatabase.Northwind.Domain.csproj">
       <Project>{E58257BE-7CF9-4471-9E5E-99510FF70637}</Project>
       <Name>NDatabase.Northwind.Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="logo.ico" />
+    <Content Include="logo256.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

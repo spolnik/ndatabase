@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace NDatabase2.Btree.Tool
+namespace NDatabase.Btree.Tool
 {
     /// <summary>
     ///   an utility to display a btree

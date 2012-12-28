@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using NDatabase2.Odb;
 using NDatabase2.Odb.Core;
 
-namespace NDatabase2.Btree
+namespace NDatabase.Btree
 {
     public abstract class AbstractBTreeIterator<T> : IterarorAdapter, IEnumerator<T>
     {

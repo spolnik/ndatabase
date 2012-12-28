@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace NDatabase2.Odb.Core.Layers.Layer2.Meta.Compare
+namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
 {
     /// <summary>
     ///   Used to store informations about object changes

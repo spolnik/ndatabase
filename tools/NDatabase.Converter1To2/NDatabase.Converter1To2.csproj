@@ -58,9 +58,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\NDatabase2.csproj">
+    <ProjectReference Include="..\..\src\NDatabase.csproj">
       <Project>{4B6993D5-995D-4AAA-BBCE-423D1B5451F6}</Project>
-      <Name>NDatabase2</Name>
+      <Name>NDatabase</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

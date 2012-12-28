@@ -1,4 +1,4 @@
-using NDatabase2.Odb.Main;
+using NDatabase.Odb.Main;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Oid

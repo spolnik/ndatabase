@@ -1,5 +1,5 @@
 ﻿using System;
-using NDatabase2.Odb.Core.Layers.Layer1.Introspector;
+using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NUnit.Framework;
 using System.Linq;
 

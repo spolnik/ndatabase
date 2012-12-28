@@ -1,5 +1,5 @@
-using NDatabase2.Odb.Main;
-using NDatabase2.Tool.Wrappers;
+using NDatabase.Odb.Main;
+using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Update

@@ -1,4 +1,7 @@
-namespace NDatabase2.Odb.Core.Query.Execution
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core;
+
+namespace NDatabase.Odb.Core.Query.Execution
 {
     /// <summary>
     ///   <p>A class to execute a query on more than one class and then merges the result.</p>

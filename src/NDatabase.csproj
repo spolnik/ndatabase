@@ -8,8 +8,8 @@
     <ProjectGuid>{4B6993D5-995D-4AAA-BBCE-423D1B5451F6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NDatabase2</RootNamespace>
-    <AssemblyName>NDatabase2</AssemblyName>
+    <RootNamespace>NDatabase</RootNamespace>
+    <AssemblyName>NDatabase3</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -55,18 +55,10 @@
     <AssemblyOriginatorKeyFile>..\NDatabase.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Mono.Reflection, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
-      <HintPath>..\External-Lib\Mono.Reflection.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Btree\AbstractBTreeIterator.cs" />
@@ -129,7 +121,6 @@
     <Compile Include="Odb\Core\Query\Linq\QueryBuilderContext.cs" />
     <Compile Include="Odb\Core\Query\Linq\QueryBuilderRecorder.cs" />
     <Compile Include="Odb\Core\Query\Linq\LinqQueryException.cs" />
-    <Compile Include="Odb\Core\Query\Linq\ReflectionMethodAnalyser.cs" />
     <Compile Include="Odb\Core\Query\Linq\SubtreeEvaluator.cs" />
     <Compile Include="Odb\Core\Query\Linq\UnoptimizedQuery.cs" />
     <Compile Include="Odb\Core\Query\Linq\WhereClauseVisitor.cs" />
@@ -271,7 +262,7 @@
     <Compile Include="Odb\Core\Oid\ObjectOID.cs" />
     <Compile Include="Odb\Core\Oid\TransactionIdImpl.cs" />
     <Compile Include="Odb\Core\Query\Criteria\QueryResultAction.cs" />
-    <Compile Include="Odb\Core\Query\Criteria\CriteriaQuery.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\SodaQuery.cs" />
     <Compile Include="Odb\Core\Query\Criteria\CriteriaQueryExecutionPlan.cs" />
     <Compile Include="Odb\Core\Query\Criteria\CriteriaQueryExecutor.cs" />
     <Compile Include="Odb\Core\Query\List\AbstractBTreeCollection.cs" />
@@ -321,7 +312,7 @@
     <Compile Include="Odb\BaseOID.cs" />
     <Compile Include="Odb\OdbConfiguration.cs" />
     <Compile Include="Odb\ODBExt.cs" />
-    <Compile Include="Odb\NDb.cs" />
+    <Compile Include="Odb\OdbFactory.cs" />
     <Compile Include="Odb\ODBRuntimeException.cs" />
     <Compile Include="Odb\OID.cs" />
     <Compile Include="Odb\TransactionId.cs" />
@@ -361,9 +352,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Odb\Core\Lookup\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="..\NDatabase.snk">
       <Link>NDatabase.snk</Link>

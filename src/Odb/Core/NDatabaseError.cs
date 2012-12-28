@@ -1,6 +1,6 @@
 using System.Text;
-using NDatabase2.Tool.Wrappers;
-using NDatabase2.Tool.Wrappers.List;
+using NDatabase.Tool.Wrappers;
+using NDatabase.Tool.Wrappers.List;
 
 namespace NDatabase2.Odb.Core
 {

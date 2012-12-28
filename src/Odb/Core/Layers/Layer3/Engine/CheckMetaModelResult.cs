@@ -1,5 +1,5 @@
-using NDatabase2.Odb.Core.Layers.Layer2.Meta;
-using NDatabase2.Tool.Wrappers.List;
+using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Tool.Wrappers.List;
 
 namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
 {

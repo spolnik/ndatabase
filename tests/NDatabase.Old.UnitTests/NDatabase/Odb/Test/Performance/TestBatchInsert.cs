@@ -1,7 +1,5 @@
 using System;
 using NDatabase2.Odb;
-using NDatabase2.Odb.Core.Query;
-using NDatabase2.Odb.Core.Query.Criteria;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Performance

@@ -1,11 +1,12 @@
-using NDatabase2.Odb.Core.Layers.Layer1.Introspector;
+using NDatabase.Odb.Core.Layers.Layer1.Introspector;
+using NDatabase.Odb.Core.Query;
+using NDatabase.Odb.Core.Query.Criteria;
+using NDatabase.Odb.Core.Query.Linq;
+using NDatabase.Odb.Core.Query.Values;
+using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Layers.Layer3;
-using NDatabase2.Odb.Core.Query;
-using NDatabase2.Odb.Core.Query.Criteria;
-using NDatabase2.Odb.Core.Query.Linq;
-using NDatabase2.Odb.Core.Query.Values;
 
-namespace NDatabase2.Odb.Main
+namespace NDatabase.Odb.Main
 {
     /// <summary>
     ///   A basic adapter for ODB interface
@@ -39,7 +40,7 @@ namespace NDatabase2.Odb.Main
 
         public IQuery Query<T>()
         {
-            var criteriaQuery = new CriteriaQuery(typeof(T));
+            var criteriaQuery = new SodaQuery(typeof(T));
             ((IInternalQuery)criteriaQuery).SetStorageEngine(_storageEngine);
             return criteriaQuery;
         }

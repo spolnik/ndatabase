@@ -1,5 +1,5 @@
 using System;
-using NDatabase2.Odb.Core.Layers.Layer2.Meta.Compare;
+using NDatabase.Odb.Core.Layers.Layer2.Meta.Compare;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Conversion

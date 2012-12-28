@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
 
-namespace NDatabase2.Odb.Core.Query.Linq
+namespace NDatabase.Odb.Core.Query.Linq
 {
     internal abstract class OrderByClauseVisitorBase : ExpressionQueryBuilder
     {
@@ -9,7 +9,16 @@ namespace NDatabase2.Odb.Core.Query.Linq
         protected override void VisitMethodCall(MethodCallExpression methodCall)
         {
             Visit(methodCall.Object);
-            AnalyseMethod(Recorder, methodCall.Method);
+
+            var method = methodCall.Method;
+
+            var descendingEnumType = ResolveDescendingEnumType(methodCall);
+            Recorder.Add(
+                ctx =>
+                {
+                    ctx.Descend(method.Name);
+                    ctx.PushDescendigFieldEnumType(descendingEnumType);
+                });
         }
 
         protected override void VisitMemberAccess(MemberExpression m)

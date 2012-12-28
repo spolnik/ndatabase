@@ -1,5 +1,6 @@
+using NDatabase.Odb;
+using NDatabase.Tool.Wrappers;
 using NDatabase2.Odb;
-using NDatabase2.Tool.Wrappers;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Performance

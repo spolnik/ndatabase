@@ -1,4 +1,4 @@
-﻿using NDatabase2.Tool.Wrappers;
+﻿using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 
 public class WithoutNamespace

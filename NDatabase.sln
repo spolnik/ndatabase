@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{E76EB467-4E14-4C7B-AED8-FE2DF37A0AFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDatabase2", "src\NDatabase2.csproj", "{4B6993D5-995D-4AAA-BBCE-423D1B5451F6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDatabase", "src\NDatabase.csproj", "{4B6993D5-995D-4AAA-BBCE-423D1B5451F6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B03057A0-2DA7-419C-A1B7-DF75264F5186}"
 EndProject

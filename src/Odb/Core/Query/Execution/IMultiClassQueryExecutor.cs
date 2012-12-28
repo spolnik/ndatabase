@@ -1,7 +1,7 @@
-using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase2.Odb.Core.Layers.Layer3;
 
-namespace NDatabase2.Odb.Core.Query.Execution
+namespace NDatabase.Odb.Core.Query.Execution
 {
     internal interface IMultiClassQueryExecutor : IQueryExecutor
     {

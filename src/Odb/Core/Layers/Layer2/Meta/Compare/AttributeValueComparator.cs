@@ -1,6 +1,6 @@
 using System;
 
-namespace NDatabase2.Odb.Core.Layers.Layer2.Meta.Compare
+namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
 {
     public static class AttributeValueComparator
     {

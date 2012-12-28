@@ -1,7 +1,7 @@
 using System;
 using System.Globalization;
 
-namespace NDatabase2.Odb.Core.Query.Values
+namespace NDatabase.Odb.Core.Query.Values
 {
     public static class ValuesUtil
     {

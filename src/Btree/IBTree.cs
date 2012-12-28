@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using NDatabase2.Odb.Core;
 
-namespace NDatabase2.Btree
+namespace NDatabase.Btree
 {
     public interface IBTree
     {

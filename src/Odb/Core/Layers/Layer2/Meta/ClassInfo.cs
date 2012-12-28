@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NDatabase2.Tool.Wrappers;
-using NDatabase2.Tool.Wrappers.List;
-using NDatabase2.Tool.Wrappers.Map;
+using NDatabase.Tool.Wrappers;
+using NDatabase.Tool.Wrappers.List;
+using NDatabase.Tool.Wrappers.Map;
+using NDatabase2.Odb;
 
-namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
+namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {
     public interface IClassInfo
     {

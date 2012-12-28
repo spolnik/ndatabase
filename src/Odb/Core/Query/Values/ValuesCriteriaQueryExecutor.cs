@@ -1,22 +1,23 @@
 using System;
-using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Query.Criteria;
+using NDatabase.Odb.Core.Query.Execution;
+using NDatabase.Tool.Wrappers.List;
+using NDatabase2.Odb;
 using NDatabase2.Odb.Core.Layers.Layer3;
-using NDatabase2.Odb.Core.Query.Criteria;
-using NDatabase2.Odb.Core.Query.Execution;
-using NDatabase2.Tool.Wrappers.List;
 
-namespace NDatabase2.Odb.Core.Query.Values
+namespace NDatabase.Odb.Core.Query.Values
 {
     internal sealed class ValuesCriteriaQueryExecutor : GenericQueryExecutor
     {
-        private CriteriaQuery _criteriaQuery;
+        private SodaQuery _sodaQuery;
         private IOdbList<string> _involvedFields;
 
         private AttributeValuesMap _values;
 
         public ValuesCriteriaQueryExecutor(IQuery query, IStorageEngine engine) : base(query, engine)
         {
-            _criteriaQuery = (CriteriaQuery) query;
+            _sodaQuery = (SodaQuery) query;
         }
 
         protected override IQueryExecutionPlan GetExecutionPlan()
@@ -27,9 +28,9 @@ namespace NDatabase2.Odb.Core.Query.Values
 
         protected override void PrepareQuery()
         {
-            _criteriaQuery = Query;
-            ((IInternalQuery) _criteriaQuery).SetStorageEngine(StorageEngine);
-            _involvedFields = _criteriaQuery.GetAllInvolvedFields();
+            _sodaQuery = Query;
+            ((IInternalQuery) _sodaQuery).SetStorageEngine(StorageEngine);
+            _involvedFields = _sodaQuery.GetAllInvolvedFields();
         }
 
         protected override bool MatchObjectWithOid(OID oid, bool returnObject, bool inMemory)
@@ -38,13 +39,13 @@ namespace NDatabase2.Odb.Core.Query.Values
 
             // Gets a map with the values with the fields involved in the query
             _values = ObjectReader.ReadObjectInfoValuesFromOID(ClassInfo, CurrentOid, true, _involvedFields,
-                                                               _involvedFields, 0, _criteriaQuery.GetOrderByFieldNames());
+                                                               _involvedFields, 0, _sodaQuery.GetOrderByFieldNames());
 
             var objectMatches = true;
-            if (!_criteriaQuery.IsForSingleOid())
+            if (!_sodaQuery.IsForSingleOid())
             {
                 // Then apply the query on the field values
-                objectMatches = _criteriaQuery.Match(_values);
+                objectMatches = _sodaQuery.Match(_values);
             }
 
             var objectInfoHeader = _values.GetObjectInfoHeader();

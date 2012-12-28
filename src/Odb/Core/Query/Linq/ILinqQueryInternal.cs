@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace NDatabase2.Odb.Core.Query.Linq
+namespace NDatabase.Odb.Core.Query.Linq
 {
     internal interface ILinqQueryInternal<out T> : ILinqQuery<T>
     {

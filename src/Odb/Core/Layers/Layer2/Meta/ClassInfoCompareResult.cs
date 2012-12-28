@@ -1,7 +1,7 @@
 using System.Text;
-using NDatabase2.Tool.Wrappers.List;
+using NDatabase.Tool.Wrappers.List;
 
-namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
+namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {
     /// <summary>
     ///   To keep track of differences between two ClassInfo.

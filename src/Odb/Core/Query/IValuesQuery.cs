@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
-using NDatabase2.Odb.Core.Query.Execution;
-using NDatabase2.Odb.Core.Query.Values;
-using NDatabase2.Tool.Wrappers.List;
+using NDatabase.Odb.Core.Query.Execution;
+using NDatabase.Odb.Core.Query.Values;
+using NDatabase.Tool.Wrappers.List;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core;
 
-namespace NDatabase2.Odb.Core.Query
+namespace NDatabase.Odb.Core.Query
 {
     internal interface IInternalValuesQuery : IValuesQuery
     {

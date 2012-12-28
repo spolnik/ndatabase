@@ -1,7 +1,8 @@
-using NDatabase2.Odb.Core.Oid;
-using NDatabase2.Tool.Wrappers;
+using NDatabase.Odb.Core.Oid;
+using NDatabase.Tool.Wrappers;
+using NDatabase2.Odb;
 
-namespace NDatabase2.Odb.Tool
+namespace NDatabase.Odb.Tool
 {
     internal static class UniqueIdGenerator
     {

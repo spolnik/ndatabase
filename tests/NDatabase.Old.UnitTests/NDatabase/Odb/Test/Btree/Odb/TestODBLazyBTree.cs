@@ -1,9 +1,9 @@
 using System;
-using NDatabase2.Btree;
+using NDatabase.Btree;
+using NDatabase.Odb.Core.BTree;
+using NDatabase.Tool.Wrappers;
 using NDatabase2.Odb.Core;
-using NDatabase2.Odb.Core.BTree;
 using NDatabase2.Odb.Core.Layers.Layer3.Engine;
-using NDatabase2.Tool.Wrappers;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Btree.Odb

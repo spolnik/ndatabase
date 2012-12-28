@@ -1,6 +1,7 @@
-using NDatabase2.Odb.Core.Query.Criteria;
+using NDatabase.Odb.Core.Query.Criteria;
+using NDatabase2.Odb;
 
-namespace NDatabase2.Odb.Core.Query
+namespace NDatabase.Odb.Core.Query
 {
     /// <summary>
     /// handle to a node in the query graph.

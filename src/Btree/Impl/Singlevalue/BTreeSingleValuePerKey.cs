@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using NDatabase2.Odb.Core;
 
-namespace NDatabase2.Btree.Impl.Singlevalue
+namespace NDatabase.Btree.Impl.Singlevalue
 {
     
     public abstract class BTreeSingleValuePerKey : AbstractBTree, IBTreeSingleValuePerKey

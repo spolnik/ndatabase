@@ -95,9 +95,9 @@
     <Compile Include="Utils\When_working_with_string_utils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\NDatabase2.csproj">
+    <ProjectReference Include="..\..\src\NDatabase.csproj">
       <Project>{4B6993D5-995D-4AAA-BBCE-423D1B5451F6}</Project>
-      <Name>NDatabase2</Name>
+      <Name>NDatabase</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

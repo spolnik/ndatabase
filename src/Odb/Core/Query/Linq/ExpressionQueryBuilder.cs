@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace NDatabase2.Odb.Core.Query.Linq
+namespace NDatabase.Odb.Core.Query.Linq
 {
     internal abstract class ExpressionQueryBuilder : ExpressionVisitor
     {
@@ -76,7 +76,7 @@ namespace NDatabase2.Odb.Core.Query.Linq
         protected void ProcessMemberAccess(MemberExpression m)
         {
             Visit(m.Expression);
-            if (IsFieldAccessExpression(m))
+            if (IsFieldAccessExpression(m) || IsPropertyAccessExpression(m))
             {
                 var descendingEnumType = ResolveDescendingEnumType(m);
                 Recorder.Add(
@@ -89,31 +89,12 @@ namespace NDatabase2.Odb.Core.Query.Linq
                 return;
             }
 
-            if (IsPropertyAccessExpression(m))
-            {
-                AnalyseMethod(Recorder, GetGetMethod(m));
-                return;
-            }
-
             CannotOptimize(m);
         }
 
-        private static Type ResolveDescendingEnumType(Expression expression)
+        internal static Type ResolveDescendingEnumType(Expression expression)
         {
             return !expression.Type.IsEnum ? null : expression.Type;
-        }
-
-        protected static void AnalyseMethod(QueryBuilderRecorder recorder, MethodInfo method)
-        {
-            try
-            {
-                var analyser = ReflectionMethodAnalyser.FromMethod(method);
-                analyser.Run(recorder);
-            }
-            catch (Exception e)
-            {
-                throw new LinqQueryException(e.Message, e);
-            }
         }
 
         protected static void CannotOptimize(Expression e)

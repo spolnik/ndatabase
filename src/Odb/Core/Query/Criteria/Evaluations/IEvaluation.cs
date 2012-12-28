@@ -1,4 +1,4 @@
-namespace NDatabase2.Odb.Core.Query.Criteria.Evaluations
+namespace NDatabase.Odb.Core.Query.Criteria.Evaluations
 {
     public interface IEvaluation
     {

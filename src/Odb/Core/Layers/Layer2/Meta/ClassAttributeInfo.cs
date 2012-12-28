@@ -1,8 +1,8 @@
 using System;
 using System.Text;
-using NDatabase2.Tool.Wrappers;
+using NDatabase.Tool.Wrappers;
 
-namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
+namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {
     /// <summary>
     ///   to keep informations about an attribute of a class : 

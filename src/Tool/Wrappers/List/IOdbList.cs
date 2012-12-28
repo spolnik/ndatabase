@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace NDatabase2.Tool.Wrappers.List
+namespace NDatabase.Tool.Wrappers.List
 {
     internal interface IOdbList<TItem> : IList<TItem>
     {

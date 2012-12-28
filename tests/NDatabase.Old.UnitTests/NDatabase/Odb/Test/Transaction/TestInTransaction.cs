@@ -1,6 +1,7 @@
 ﻿using System;
+using NDatabase.Odb;
+using NDatabase.Odb.Core.Query;
 using NDatabase2.Odb;
-using NDatabase2.Odb.Core.Query;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;
 using Test.NDatabase.Odb.Test.VO.Sport;

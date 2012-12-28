@@ -1,7 +1,8 @@
 using System;
 using System.IO;
+using NDatabase2.Odb;
 
-namespace NDatabase2.Odb
+namespace NDatabase.Odb
 {
     /// <summary>
     ///   The NDatabase Factory to open new instance of local odb.
@@ -19,7 +20,7 @@ namespace NDatabase2.Odb
         public static IOdb Open(string fileName)
         {
             _last = fileName;
-            return Main.Odb.GetInstance(fileName);
+            return NDatabase.Odb.Main.Odb.GetInstance(fileName);
         }
 
         /// <summary>
@@ -28,7 +29,7 @@ namespace NDatabase2.Odb
         /// <returns> A local ODB implementation </returns>
         public static IOdb OpenLast()
         {
-            return Main.Odb.GetInstance(_last);
+            return NDatabase.Odb.Main.Odb.GetInstance(_last);
         }
 
         /// <summary>

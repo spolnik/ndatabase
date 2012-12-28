@@ -1,7 +1,8 @@
 using System;
-using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase2.Odb;
 
-namespace NDatabase2.Odb.Core.Trigger
+namespace NDatabase.Odb.Core.Trigger
 {
     internal interface IInternalTriggerManager
     {

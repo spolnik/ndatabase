@@ -1,5 +1,5 @@
-using NDatabase2.Btree;
-using NDatabase2.Btree.Impl.Multiplevalue;
+using NDatabase.Btree;
+using NDatabase.Btree.Impl.Multiplevalue;
 using NDatabase2.Odb.Core;
 using NUnit.Framework;
 

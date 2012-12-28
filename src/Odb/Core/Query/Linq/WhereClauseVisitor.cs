@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Linq.Expressions;
-using NDatabase2.Odb.Core.Query.Criteria;
+using NDatabase.Odb.Core.Query.Criteria;
 
-namespace NDatabase2.Odb.Core.Query.Linq
+namespace NDatabase.Odb.Core.Query.Linq
 {
     internal sealed class WhereClauseVisitor : ExpressionQueryBuilder
     {
@@ -32,7 +32,13 @@ namespace NDatabase2.Odb.Core.Query.Linq
                 return;
             }
 
-            AnalyseMethod(Recorder, m.Method);
+            var descendingEnumType = ResolveDescendingEnumType(m);
+            Recorder.Add(
+                ctx =>
+                {
+                    ctx.Descend(m.Method.Name);
+                    ctx.PushDescendigFieldEnumType(descendingEnumType);
+                });
         }
 
         private void ProcessStringMethod(MethodCallExpression call)

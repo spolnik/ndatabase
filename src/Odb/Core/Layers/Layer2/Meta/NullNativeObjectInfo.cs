@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using NDatabase2.Odb;
 
-namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
+namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {
     /// <summary>
     ///   Meta representation of a null native object

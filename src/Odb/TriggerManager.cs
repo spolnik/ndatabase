@@ -1,6 +1,6 @@
 using System;
+using NDatabase.Odb.Core.Trigger;
 using NDatabase2.Odb.Core.Layers.Layer3;
-using NDatabase2.Odb.Core.Trigger;
 
 namespace NDatabase2.Odb
 {

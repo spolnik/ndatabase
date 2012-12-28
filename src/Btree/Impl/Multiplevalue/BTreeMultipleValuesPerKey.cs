@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using NDatabase2.Odb.Core;
 
-namespace NDatabase2.Btree.Impl.Multiplevalue
+namespace NDatabase.Btree.Impl.Multiplevalue
 {
     
     public abstract class BTreeMultipleValuesPerKey : AbstractBTree, IBTreeMultipleValuesPerKey

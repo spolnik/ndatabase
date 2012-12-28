@@ -1,4 +1,4 @@
-namespace NDatabase2.Odb.Core.Transaction
+namespace NDatabase.Odb.Core.Transaction
 {
     internal sealed class IdInfo
     {

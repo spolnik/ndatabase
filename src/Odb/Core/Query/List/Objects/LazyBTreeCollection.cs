@@ -1,10 +1,11 @@
 using System.Collections.Generic;
-using NDatabase2.Btree;
-using NDatabase2.Btree.Impl.Multiplevalue;
-using NDatabase2.Odb.Core.BTree;
+using NDatabase.Btree;
+using NDatabase.Btree.Impl.Multiplevalue;
+using NDatabase.Odb.Core.BTree;
+using NDatabase2.Odb.Core;
 using NDatabase2.Odb.Core.Layers.Layer3;
 
-namespace NDatabase2.Odb.Core.Query.List.Objects
+namespace NDatabase.Odb.Core.Query.List.Objects
 {
     /// <summary>
     ///   A collection using a BTtree as a back-end component.

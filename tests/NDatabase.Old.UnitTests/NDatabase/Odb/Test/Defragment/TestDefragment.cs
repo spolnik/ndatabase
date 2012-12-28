@@ -1,5 +1,4 @@
 using System;
-using NDatabase2.Odb.Core.Query.Criteria;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;
 

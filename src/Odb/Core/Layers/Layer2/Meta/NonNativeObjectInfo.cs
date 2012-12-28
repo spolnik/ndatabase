@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using NDatabase2.Odb.Core.Layers.Layer1.Introspector;
+using NDatabase.Odb.Core.Layers.Layer1.Introspector;
+using NDatabase.Tool.Wrappers;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core;
 using NDatabase2.Odb.Core.Layers.Layer3.Engine;
-using NDatabase2.Tool.Wrappers;
 
-namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
+namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {
     /// <summary>
     ///   To keep info about a non native object <pre>- Keeps its class info : a meta information to describe its type

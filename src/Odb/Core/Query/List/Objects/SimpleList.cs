@@ -1,9 +1,9 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using NDatabase2.Tool.Wrappers;
+using NDatabase.Tool.Wrappers;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core;
 
-namespace NDatabase2.Odb.Core.Query.List.Objects
+namespace NDatabase.Odb.Core.Query.List.Objects
 {
     /// <summary>
     ///   A simple list to hold query result.

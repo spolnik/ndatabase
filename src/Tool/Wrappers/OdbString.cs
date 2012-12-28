@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using NDatabase2.Odb;
 using NDatabase2.Odb.Core;
 
-namespace NDatabase2.Tool.Wrappers
+namespace NDatabase.Tool.Wrappers
 {
     internal static class OdbString
     {

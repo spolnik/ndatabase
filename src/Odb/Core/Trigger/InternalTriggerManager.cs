@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
-using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Main;
+using NDatabase.Tool;
+using NDatabase.Tool.Wrappers.List;
+using NDatabase.Tool.Wrappers.Map;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core;
 using NDatabase2.Odb.Core.Layers.Layer3;
-using NDatabase2.Odb.Main;
-using NDatabase2.Tool;
-using NDatabase2.Tool.Wrappers.List;
-using NDatabase2.Tool.Wrappers.Map;
 
-namespace NDatabase2.Odb.Core.Trigger
+namespace NDatabase.Odb.Core.Trigger
 {
     internal sealed class InternalTriggerManager : IInternalTriggerManager
     {

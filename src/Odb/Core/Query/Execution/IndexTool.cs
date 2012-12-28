@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
-using NDatabase2.Odb.Core.Layers.Layer2.Meta;
-using NDatabase2.Odb.Core.Query.Criteria;
-using NDatabase2.Tool.Wrappers;
+using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Query.Criteria;
+using NDatabase.Tool.Wrappers;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core;
 
-namespace NDatabase2.Odb.Core.Query.Execution
+namespace NDatabase.Odb.Core.Query.Execution
 {
     internal static class IndexTool
     {
@@ -75,7 +77,7 @@ namespace NDatabase2.Odb.Core.Query.Execution
         /// <param name="index"> The index </param>
         /// <param name="query"> </param>
         /// <returns> The key of the index </returns>
-        internal static IOdbComparable ComputeKey(ClassInfo ci, ClassInfoIndex index, CriteriaQuery query)
+        internal static IOdbComparable ComputeKey(ClassInfo ci, ClassInfoIndex index, SodaQuery query)
         {
             var attributesNames = ci.GetAttributeNames(index.AttributeIds);
             var constraint = query.GetCriteria();

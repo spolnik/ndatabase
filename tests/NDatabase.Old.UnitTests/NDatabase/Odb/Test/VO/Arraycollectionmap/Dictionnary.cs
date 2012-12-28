@@ -1,4 +1,4 @@
-using NDatabase2.Tool.Wrappers.Map;
+using NDatabase.Tool.Wrappers.Map;
 
 namespace Test.NDatabase.Odb.Test.VO.Arraycollectionmap
 {

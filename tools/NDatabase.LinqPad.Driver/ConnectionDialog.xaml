@@ -1,7 +1,7 @@
 ﻿<Window x:Class="NDatabase.LinqPad.Driver.ConnectionDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="NDatabase Connection" SizeToContent="Height"
-        WindowStartupLocation="CenterScreen" Background="{x:Static SystemColors.ControlBrush}" Width="336">
+        WindowStartupLocation="CenterScreen" Background="{x:Static SystemColors.ControlBrush}" Width="336" >
     <StackPanel Margin="7">
 
         <DockPanel>

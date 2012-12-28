@@ -1,7 +1,7 @@
+using NDatabase.Tool.Wrappers;
 using NDatabase2.Odb.Core.Layers.Layer3;
-using NDatabase2.Tool.Wrappers;
 
-namespace NDatabase2.Odb.Core.Transaction
+namespace NDatabase.Odb.Core.Transaction
 {
     /// <summary>
     ///   The session object used when ODB is used in local/embedded mode

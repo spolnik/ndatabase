@@ -1,12 +1,13 @@
 using System.Collections.Generic;
-using NDatabase2.Odb.Core.Layers.Layer2.Instance;
-using NDatabase2.Odb.Core.Layers.Layer2.Meta;
-using NDatabase2.Odb.Core.Query.Execution;
-using NDatabase2.Odb.Core.Query.List.Values;
-using NDatabase2.Tool.Wrappers;
-using NDatabase2.Tool.Wrappers.Map;
+using NDatabase.Odb.Core.Layers.Layer2.Instance;
+using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Query.Execution;
+using NDatabase.Odb.Core.Query.List.Values;
+using NDatabase.Tool.Wrappers;
+using NDatabase.Tool.Wrappers.Map;
+using NDatabase2.Odb;
 
-namespace NDatabase2.Odb.Core.Query.Values
+namespace NDatabase.Odb.Core.Query.Values
 {
     internal sealed class GroupByValuesQueryResultAction : IMatchingObjectAction
     {

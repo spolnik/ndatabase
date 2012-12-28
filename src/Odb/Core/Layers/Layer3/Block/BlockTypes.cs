@@ -1,4 +1,4 @@
-namespace NDatabase2.Odb.Core.Layers.Layer3.Block
+namespace NDatabase.Odb.Core.Layers.Layer3.Block
 {
     /// <summary>
     ///   All Block Types of the ODB database format.

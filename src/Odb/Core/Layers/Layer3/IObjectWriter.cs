@@ -1,7 +1,7 @@
 using System;
-using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Trigger;
 using NDatabase2.Odb.Core.Layers.Layer3.Engine;
-using NDatabase2.Odb.Core.Trigger;
 
 namespace NDatabase2.Odb.Core.Layers.Layer3
 {

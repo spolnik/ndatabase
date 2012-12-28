@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using NDatabase.Odb.Core.Query.Criteria;
+using NDatabase.Odb.Core.Query.Execution;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core;
 using NDatabase2.Odb.Core.Layers.Layer3;
-using NDatabase2.Odb.Core.Query.Criteria;
-using NDatabase2.Odb.Core.Query.Execution;
 
-namespace NDatabase2.Odb.Core.Query
+namespace NDatabase.Odb.Core.Query
 {
     internal interface IInternalQuery : IQuery
     {

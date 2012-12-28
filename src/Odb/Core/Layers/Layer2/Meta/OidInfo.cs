@@ -1,4 +1,6 @@
-namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
+using NDatabase2.Odb;
+
+namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {
     internal sealed class OidInfo
     {

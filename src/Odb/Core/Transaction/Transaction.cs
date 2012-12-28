@@ -1,14 +1,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Tool;
+using NDatabase.Tool.Wrappers;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core;
 using NDatabase2.Odb.Core.Layers.Layer3;
 using NDatabase2.Odb.Core.Layers.Layer3.Engine;
 using NDatabase2.Odb.Core.Layers.Layer3.IO;
-using NDatabase2.Tool;
-using NDatabase2.Tool.Wrappers;
 
-namespace NDatabase2.Odb.Core.Transaction
+namespace NDatabase.Odb.Core.Transaction
 {
     /// <summary>
     ///   <pre>The transaction class is used to guarantee ACID behavior.</pre>

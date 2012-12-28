@@ -1,6 +1,6 @@
 using NDatabase2.Odb;
 
-namespace NDatabase2.Btree.Impl
+namespace NDatabase.Btree.Impl
 {
     /// <summary>
     ///   In memory persister

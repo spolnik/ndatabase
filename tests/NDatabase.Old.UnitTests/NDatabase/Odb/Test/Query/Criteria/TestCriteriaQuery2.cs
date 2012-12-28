@@ -1,5 +1,5 @@
 using System;
-using NDatabase2.Tool.Wrappers;
+using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Attribute;
 

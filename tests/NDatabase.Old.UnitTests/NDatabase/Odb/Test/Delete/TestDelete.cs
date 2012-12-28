@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
+using NDatabase.Odb;
+using NDatabase.Odb.Main;
+using NDatabase.Tool.Wrappers;
 using NDatabase2.Odb;
-using NDatabase2.Odb.Core.Query;
-using NDatabase2.Odb.Core.Query.Criteria;
-using NDatabase2.Odb.Main;
-using NDatabase2.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;
 

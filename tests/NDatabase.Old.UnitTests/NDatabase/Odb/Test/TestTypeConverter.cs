@@ -1,5 +1,5 @@
 using System;
-using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test

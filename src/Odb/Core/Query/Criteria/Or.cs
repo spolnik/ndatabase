@@ -1,7 +1,7 @@
 using System.Linq;
 using System.Text;
 
-namespace NDatabase2.Odb.Core.Query.Criteria
+namespace NDatabase.Odb.Core.Query.Criteria
 {
     internal sealed class Or : ComposedExpression
     {

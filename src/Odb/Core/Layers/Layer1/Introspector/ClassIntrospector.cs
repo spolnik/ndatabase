@@ -2,16 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using NDatabase2.Btree;
-using NDatabase2.Btree.Impl;
-using NDatabase2.Odb.Core.BTree;
-using NDatabase2.Odb.Core.Layers.Layer2.Instance;
-using NDatabase2.Odb.Core.Layers.Layer2.Meta;
-using NDatabase2.Odb.Core.Oid;
-using NDatabase2.Tool.Wrappers;
-using NDatabase2.Tool.Wrappers.List;
+using NDatabase.Btree;
+using NDatabase.Btree.Impl;
+using NDatabase.Odb.Core.BTree;
+using NDatabase.Odb.Core.Layers.Layer2.Instance;
+using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Oid;
+using NDatabase.Tool.Wrappers;
+using NDatabase.Tool.Wrappers.List;
+using NDatabase2.Odb;
 
-namespace NDatabase2.Odb.Core.Layers.Layer1.Introspector
+namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 {
     /// <summary>
     ///   The ClassIntrospector is used to introspect classes.

@@ -1,14 +1,16 @@
 using System;
 using System.Collections;
-using NDatabase2.Tool.Wrappers.List;
+using NDatabase.Tool.Wrappers.List;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core;
 
-namespace NDatabase2.Odb.Core.Query.Criteria
+namespace NDatabase.Odb.Core.Query.Criteria
 {
-    internal class CriteriaQuery : AbstractQuery
+    internal class SodaQuery : AbstractQuery
     {
         private string _attributeName;
 
-        public CriteriaQuery(Type underlyingType) 
+        public SodaQuery(Type underlyingType) 
             : base(underlyingType)
         {
         }

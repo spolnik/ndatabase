@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using NDatabase2.Tool.Wrappers.Map;
+using NDatabase.Tool.Wrappers.Map;
 
-namespace NDatabase2.Odb.Core.Layers.Layer2.Meta
+namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {
     internal sealed class AttributesCache
     {

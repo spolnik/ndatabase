@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace NDatabase2.Odb.Core.Layers.Layer2.Meta.Compare
+namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
 {
     internal interface IObjectInfoComparator
     {

@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
-using NDatabase2.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core;
 
-namespace NDatabase2.Odb.Core.Query.Criteria.Evaluations
+namespace NDatabase.Odb.Core.Query.Criteria.Evaluations
 {
     internal class ContainsEvaluation : AEvaluation
     {

@@ -1,9 +1,9 @@
 using System;
 using System.Text;
-using NDatabase2.Odb.Core.Layers.Layer2.Meta;
-using NDatabase2.Odb.Core.Layers.Layer2.Meta.Compare;
+using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Layers.Layer2.Meta.Compare;
 
-namespace NDatabase2.Odb.Core.Query.Criteria.Evaluations
+namespace NDatabase.Odb.Core.Query.Criteria.Evaluations
 {
     internal class EqualsEvaluation : AEvaluation
     {

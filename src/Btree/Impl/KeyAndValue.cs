@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 
-namespace NDatabase2.Btree.Impl
+namespace NDatabase.Btree.Impl
 {
     
     public sealed class KeyAndValue : IKeyAndValue

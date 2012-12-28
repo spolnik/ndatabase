@@ -1,9 +1,10 @@
-using NDatabase2.Btree;
-using NDatabase2.Btree.Exception;
-using NDatabase2.Btree.Impl.Singlevalue;
-using NDatabase2.Odb.Core.Layers.Layer1.Introspector;
+using NDatabase.Btree;
+using NDatabase.Btree.Exception;
+using NDatabase.Btree.Impl.Singlevalue;
+using NDatabase.Odb.Core.Layers.Layer1.Introspector;
+using NDatabase2.Odb;
 
-namespace NDatabase2.Odb.Core.BTree
+namespace NDatabase.Odb.Core.BTree
 {
     /// <summary>
     ///   The NDatabase ODB BTree Node implementation.

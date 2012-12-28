@@ -1,6 +1,6 @@
 using System;
 
-namespace NDatabase2.Tool
+namespace NDatabase.Tool
 {
     public interface ILogger
     {

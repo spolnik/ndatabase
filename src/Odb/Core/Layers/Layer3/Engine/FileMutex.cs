@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading;
-using NDatabase2.Tool.Wrappers.Map;
+using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase2.Odb.Core.Layers.Layer3.Engine
 {

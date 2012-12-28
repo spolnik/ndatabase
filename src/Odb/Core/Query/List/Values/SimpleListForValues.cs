@@ -1,7 +1,9 @@
-using NDatabase2.Odb.Core.Query.List.Objects;
-using NDatabase2.Tool.Wrappers;
+using NDatabase.Odb.Core.Query.List.Objects;
+using NDatabase.Tool.Wrappers;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core;
 
-namespace NDatabase2.Odb.Core.Query.List.Values
+namespace NDatabase.Odb.Core.Query.List.Values
 {
     /// <summary>
     ///   A simple list to hold query result for Object Values API.

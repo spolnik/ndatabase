@@ -1,6 +1,6 @@
 using System;
 
-namespace NDatabase2.Btree
+namespace NDatabase.Btree
 {
     /// <author>olivier</author>
     public interface IKeyAndValue

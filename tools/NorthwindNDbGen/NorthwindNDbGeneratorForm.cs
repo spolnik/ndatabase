@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using NDatabase.Northwind.Domain;
+using NDatabase.Odb;
 using NDatabase2.Odb;
 using NorthwindNDb.NorthwindDataSetTableAdapters;
 using Region = NDatabase.Northwind.Domain.Region;

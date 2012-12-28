@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 
-namespace NDatabase2.Btree
+namespace NDatabase.Btree
 {
     public interface IBTreeMultipleValuesPerKey : IBTree
     {

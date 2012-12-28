@@ -1,6 +1,6 @@
 using System;
 
-namespace NDatabase2.Odb.Core.Query
+namespace NDatabase.Odb.Core.Query
 {
     /// <summary>
     ///   A simple compare key : an object that contains various values used for indexing query result <p></p>

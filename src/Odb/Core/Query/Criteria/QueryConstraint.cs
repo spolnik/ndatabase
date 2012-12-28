@@ -1,9 +1,9 @@
 using System;
-using NDatabase2.Odb.Core.Layers.Layer2.Meta;
-using NDatabase2.Odb.Core.Query.Criteria.Evaluations;
-using NDatabase2.Tool.Wrappers.List;
+using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Query.Criteria.Evaluations;
+using NDatabase.Tool.Wrappers.List;
 
-namespace NDatabase2.Odb.Core.Query.Criteria
+namespace NDatabase.Odb.Core.Query.Criteria
 {
     internal sealed class QueryConstraint : IInternalConstraint
     {

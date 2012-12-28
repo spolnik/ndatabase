@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using NDatabase.Tool.Wrappers;
 using NDatabase2.Odb.Core;
-using NDatabase2.Tool.Wrappers;
 
-namespace NDatabase2.Btree
+namespace NDatabase.Btree
 {
     /// <summary>
     ///   ODB BTree Errors All @ in error description will be replaced by parameters

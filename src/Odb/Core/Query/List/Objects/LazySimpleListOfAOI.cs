@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using NDatabase2.Odb.Core.Layers.Layer1.Introspector;
-using NDatabase2.Odb.Core.Layers.Layer2.Instance;
-using NDatabase2.Odb.Core.Layers.Layer2.Meta;
-using NDatabase2.Tool.Wrappers;
-using NDatabase2.Tool.Wrappers.List;
+using NDatabase.Odb.Core.Layers.Layer1.Introspector;
+using NDatabase.Odb.Core.Layers.Layer2.Instance;
+using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Tool.Wrappers;
+using NDatabase.Tool.Wrappers.List;
+using NDatabase2.Odb;
+using NDatabase2.Odb.Core;
 
-namespace NDatabase2.Odb.Core.Query.List.Objects
+namespace NDatabase.Odb.Core.Query.List.Objects
 {
     /// <summary>
     ///   A simple list to hold query result.

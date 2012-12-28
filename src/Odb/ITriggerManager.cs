@@ -1,4 +1,4 @@
-﻿using NDatabase2.Odb.Core.Trigger;
+﻿using NDatabase.Odb.Core.Trigger;
 
 namespace NDatabase2.Odb
 {

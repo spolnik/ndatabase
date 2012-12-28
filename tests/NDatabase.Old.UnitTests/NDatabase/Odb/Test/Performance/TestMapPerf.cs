@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using NDatabase.Odb.Core.Oid;
 using NDatabase2.Odb;
-using NDatabase2.Odb.Core.Oid;
 using NUnit.Framework;
 using Test.NDatabase.Tool;
 

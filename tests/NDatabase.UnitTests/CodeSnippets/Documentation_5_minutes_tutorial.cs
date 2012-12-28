@@ -1,8 +1,9 @@
 ﻿using System;
+using NDatabase.Odb;
+using NDatabase.Odb.Core.Query;
+using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.UnitTests.CodeSnippets.Data;
 using NDatabase2.Odb;
-using NDatabase2.Odb.Core.Query;
-using NDatabase2.Odb.Core.Query.Criteria;
 using NUnit.Framework;
 using System.Linq;
 

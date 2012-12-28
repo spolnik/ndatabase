@@ -1,12 +1,11 @@
 using System.Collections.Generic;
 using System.Text;
-using NDatabase2.Odb.Core.Layers.Layer1.Introspector;
-using NDatabase2.Odb.Core.Layers.Layer2.Meta;
-using NDatabase2.Odb.Core.Query.Execution;
-using NDatabase2.Tool.Wrappers;
-using NDatabase2.Tool.Wrappers.List;
+using NDatabase.Odb.Core.Layers.Layer1.Introspector;
+using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Odb.Core.Query.Execution;
+using NDatabase.Tool.Wrappers;
 
-namespace NDatabase2.Odb.Core.Query.Criteria
+namespace NDatabase.Odb.Core.Query.Criteria
 {
     /// <summary>
     ///   A simple Criteria execution plan Check if the query can use index and tries to find the best index to be used
@@ -17,7 +16,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         private readonly ClassInfo _classInfo;
 
         [NonPersistent]
-        private readonly CriteriaQuery _query;
+        private readonly SodaQuery _query;
 
         [NonPersistent]
         private ClassInfoIndex _classInfoIndex;
@@ -43,7 +42,7 @@ namespace NDatabase2.Odb.Core.Query.Criteria
         {
         }
 
-        public CriteriaQueryExecutionPlan(ClassInfo classInfo, CriteriaQuery query)
+        public CriteriaQueryExecutionPlan(ClassInfo classInfo, SodaQuery query)
         {
             _classInfo = classInfo;
             _query = query;

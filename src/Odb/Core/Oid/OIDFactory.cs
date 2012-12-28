@@ -1,4 +1,6 @@
-namespace NDatabase2.Odb.Core.Oid
+using NDatabase2.Odb;
+
+namespace NDatabase.Odb.Core.Oid
 {
     public static class OIDFactory
     {

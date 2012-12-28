@@ -1,4 +1,4 @@
-using NDatabase2.Tool;
+using NDatabase.Tool;
 
 namespace NDatabase2.Odb
 {

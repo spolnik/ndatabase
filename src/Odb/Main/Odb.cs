@@ -1,7 +1,7 @@
 using NDatabase2.Odb.Core.Layers.Layer3;
 using NDatabase2.Odb.Core.Layers.Layer3.Engine;
 
-namespace NDatabase2.Odb.Main
+namespace NDatabase.Odb.Main
 {
     /// <summary>
     ///   The Local ODB implementation.

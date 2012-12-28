@@ -1,4 +1,4 @@
-namespace NDatabase2.Btree.Exception
+namespace NDatabase.Btree.Exception
 {
     public sealed class DuplicatedKeyException : BTreeException
     {
