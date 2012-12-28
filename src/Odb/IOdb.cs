@@ -64,7 +64,7 @@ namespace NDatabase.Odb
         /// <summary>
         ///   Get the object with a specific id
         /// </summary>
-        /// <param name="id"> </param>
+        /// <param name="id">Object ID</param>
         /// <returns> The object with the specific id @ </returns>
         object GetObjectFromId(OID id);
 
@@ -102,14 +102,27 @@ namespace NDatabase.Odb
         bool IsClosed();
 
         /// <summary>
-        /// factory method to create a new Query
-        /// <code>Query</code> object to query this ObjectContainer.
+        /// factory method to create a new <code>Query</code> object to query this ObjectContainer.
         /// </summary>
         /// <returns>A new Query object</returns>
         IQuery Query<T>();
+
+        /// <summary>
+        /// factory method to create a new <code>ValuesQuery</code> object to query this ObjectContainer.
+        /// </summary>
+        /// <returns>A new Query object</returns>
         IValuesQuery ValuesQuery<T>() where T : class;
+
+        /// <summary>
+        /// factory method to create a new <code>ValuesQuery</code> object to query this ObjectContainer.
+        /// </summary>
+        /// <returns>A new Query object</returns>
         IValuesQuery ValuesQuery<T>(OID oid) where T : class;
 
+        /// <summary>
+        /// Linq to NDatabase
+        /// </summary>
+        /// <returns>Queryable collection</returns>
         ILinqQueryable<T> AsQueryable<T>();
     }
 }

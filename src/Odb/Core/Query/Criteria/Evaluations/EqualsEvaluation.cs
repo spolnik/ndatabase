@@ -7,9 +7,16 @@ namespace NDatabase.Odb.Core.Query.Criteria.Evaluations
 {
     internal class EqualsEvaluation : AEvaluation
     {
-        public EqualsEvaluation(object theObject, string attributeName)
+        private readonly OID _oid;
+
+        public EqualsEvaluation(object theObject, string attributeName, IQuery query)
             : base(theObject, attributeName)
         {
+            if (IsNative() || theObject == null)
+                return;
+
+            // For non native object, we just need the oid of it
+            _oid = ((IInternalQuery)query).GetStorageEngine().GetObjectId(theObject, false);
         }
 
         public override bool Evaluate(object candidate)
@@ -21,6 +28,10 @@ namespace NDatabase.Odb.Core.Query.Criteria.Evaluations
 
             if (candidate == null || TheObject == null)
                 return false;
+
+            var oid = candidate as OID;
+            if (oid != null && !IsNative())
+                return _oid != null && _oid.Equals(oid);
 
             if (AttributeValueComparator.IsNumber(candidate) && AttributeValueComparator.IsNumber(TheObject))
                 return AttributeValueComparator.Compare((IComparable) candidate, (IComparable) TheObject) == 0;
@@ -37,7 +48,14 @@ namespace NDatabase.Odb.Core.Query.Criteria.Evaluations
 
         public AttributeValuesMap GetValues()
         {
-            return new AttributeValuesMap {{AttributeName, TheObject}};
+            var map = new AttributeValuesMap();
+
+            if (_oid != null)
+                map.SetOid(_oid);
+            else
+                map.Add(AttributeName, TheObject);
+
+            return map;
         }
     }
 }

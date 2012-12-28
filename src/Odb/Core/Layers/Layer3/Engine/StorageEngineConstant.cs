@@ -27,12 +27,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// </remarks>
         internal const long FieldDoesNotExist = -1;
 
-        /// <summary>
-        ///   2.0 - 2.3 file format
-        /// </summary>
-        private const int Version25 = 25;
+        private const int Version30 = 30;
 
-        internal const int CurrentFileFormatVersion = Version25;
+        internal const int CurrentFileFormatVersion = Version30;
 
         private const long ClassOffsetBlockSize = 0;
         private const long ObjectOffsetBlockSize = 0;

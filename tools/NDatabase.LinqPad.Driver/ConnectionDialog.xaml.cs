@@ -56,9 +56,6 @@ namespace NDatabase.LinqPad.Driver
             string[] customTypes;
             try
             {
-                // TODO: In a real-world driver, call the method accepting a base type instead (unless you're.
-                // working with a POCO ORM). For instance: GetCustomTypesInAssembly ("System.Data.Linq.DataContext")
-                // You can put interfaces in here, too.
                 customTypes = _cxInfo.CustomTypeInfo.GetCustomTypesInAssembly();
             }
             catch (Exception ex)

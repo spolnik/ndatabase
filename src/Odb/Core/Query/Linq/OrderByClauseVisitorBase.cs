@@ -10,15 +10,7 @@ namespace NDatabase.Odb.Core.Query.Linq
         {
             Visit(methodCall.Object);
 
-            var method = methodCall.Method;
-
-            var descendingEnumType = ResolveDescendingEnumType(methodCall);
-            Recorder.Add(
-                ctx =>
-                {
-                    ctx.Descend(method.Name);
-                    ctx.PushDescendigFieldEnumType(descendingEnumType);
-                });
+            AnalyseMethod(Recorder, methodCall.Method);
         }
 
         protected override void VisitMemberAccess(MemberExpression m)
@@ -29,7 +21,7 @@ namespace NDatabase.Odb.Core.Query.Linq
         public override IQueryBuilderRecord Process(LambdaExpression expression)
         {
             if (!StartsWithParameterReference(expression.Body))
-                CannotOptimize(expression.Body);
+                CannotConvertToSoda(expression.Body);
 
             return ApplyDirection(base.Process(expression));
         }

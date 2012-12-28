@@ -86,6 +86,11 @@ namespace NDatabase.Odb.Core.Query.Criteria
 
         public override IConstraint Constrain(object value)
         {
+            if (string.IsNullOrEmpty(_attributeName))
+            {
+                return new EmptyConstraint(value);
+            }
+            
             return new QueryConstraint(this, ApplyAttributeName(), value);
         }
 
@@ -106,10 +111,6 @@ namespace NDatabase.Odb.Core.Query.Criteria
 
         private string ApplyAttributeName()
         {
-            if (string.IsNullOrEmpty(_attributeName))
-                throw new ArgumentException(
-                    "Attribute name name cannot be null or empty. Use query.Descend(<param_name>) firstly.");
-
             var attributeName = String.Copy(_attributeName);
             _attributeName = null;
 

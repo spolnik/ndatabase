@@ -75,7 +75,7 @@ namespace NDatabase.Odb.Core.Query.Linq
                 case ExpressionType.ListInit:
                     return VisitListInit((ListInitExpression) exp);
                 default:
-                    throw new Exception(string.Format("Unhandled expression type: '{0}'", exp.NodeType));
+                    throw new LinqQueryException(string.Format("Unhandled expression type: '{0}'", exp.NodeType));
             }
         }
 
@@ -90,7 +90,7 @@ namespace NDatabase.Odb.Core.Query.Linq
                 case MemberBindingType.ListBinding:
                     return VisitMemberListBinding((MemberListBinding) binding);
                 default:
-                    throw new Exception(string.Format("Unhandled binding type '{0}'", binding.BindingType));
+                    throw new LinqQueryException(string.Format("Unhandled binding type '{0}'", binding.BindingType));
             }
         }
 

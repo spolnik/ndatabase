@@ -34,7 +34,7 @@ namespace NDatabase.Odb.Core.Query.Criteria
 
             ((IInternalQuery) _query).Add(this);
 
-            _evaluation = new EqualsEvaluation(_theObject, _attributeName);
+            _evaluation = new EqualsEvaluation(_theObject, _attributeName, _query);
         }
 
         #region IInternalConstraint Members
@@ -60,7 +60,7 @@ namespace NDatabase.Odb.Core.Query.Criteria
                 return this;
             }
 
-            _evaluation = new EqualsEvaluation(_theObject, _attributeName);
+            _evaluation = new EqualsEvaluation(_theObject, _attributeName, _query);
             return this;
         }
 

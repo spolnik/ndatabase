@@ -2,19 +2,15 @@ using System;
 
 namespace NDatabase.Odb.Core.Query.Linq
 {
-    public class LinqQueryException : Exception
+    public class LinqQueryException : OdbRuntimeException
     {
-        internal LinqQueryException()
-        {
-        }
-
         internal LinqQueryException(string message)
-            : base(message)
+            : base(NDatabaseError.BtreeError.AddParameter(message))
         {
         }
 
-        internal LinqQueryException(string message, Exception innerException)
-            : base(message, innerException)
+        internal LinqQueryException(string message, Exception cause)
+            : base(NDatabaseError.BtreeError.AddParameter(message), cause)
         {
         }
     }

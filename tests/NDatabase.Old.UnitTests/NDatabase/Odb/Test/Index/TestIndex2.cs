@@ -1,7 +1,10 @@
 using System;
+using System.Linq;
 using NDatabase.Btree.Exception;
+using NDatabase.Odb;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.Criteria;
+using NDatabase.Tool.Wrappers.List;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Index
@@ -37,6 +40,29 @@ namespace Test.NDatabase.Odb.Test.Index
             AssertEquals(1, iis.Count);
             AssertTrue(((IInternalQuery)q).GetExecutionPlan().UseIndex());
             DeleteBase(baseName);
+        }
+
+        [Test]
+        public void Test_if_odb_list_is_properly_stored()
+        {
+            IOdbList<string> list = new OdbList<string> {"one", "two"};
+            const string dbName = "list.ndb";
+
+            OdbFactory.Delete(dbName);
+
+            using (var odb = OdbFactory.Open(dbName))
+            {
+                odb.Store(list);
+            }
+            
+            using (var odb = OdbFactory.Open(dbName))
+            {
+                var items = odb.Query<IOdbList<string>>().Execute<IOdbList<string>>().First();
+                CollectionAssert.AreEqual(items, list);
+
+                var items2 = odb.Query<OdbList<string>>().Execute<OdbList<string>>().First();
+                CollectionAssert.AreEqual(items2, list);
+            }
         }
 
         /// <summary>

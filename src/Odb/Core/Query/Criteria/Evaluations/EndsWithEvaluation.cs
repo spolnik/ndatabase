@@ -14,6 +14,8 @@ namespace NDatabase.Odb.Core.Query.Criteria.Evaluations
 
         public override bool Evaluate(object candidate)
         {
+            candidate = AsAttributeValuesMapValue(candidate);
+
             if (candidate == null && TheObject == null)
                 return true;
 

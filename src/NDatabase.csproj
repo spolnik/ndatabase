@@ -90,6 +90,7 @@
     <Compile Include="Btree\Tool\BTreeDisplay.cs" />
     <Compile Include="Btree\Tool\BTreeValidator.cs" />
     <Compile Include="Odb\Core\Query\Criteria\ComparisonConstraint.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\EmptyConstraint.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Evaluations\AEvaluation.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Evaluations\CollectionSizeEvaluation.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Evaluations\ComparisonEvaluation.cs" />
@@ -318,6 +319,12 @@
     <Compile Include="Odb\TransactionId.cs" />
     <Compile Include="Odb\TriggerManager.cs" />
     <Compile Include="Odb\Values.cs" />
+    <Compile Include="Reflection\ByteBuffer.cs" />
+    <Compile Include="Reflection\ILPattern.cs" />
+    <Compile Include="Reflection\Instruction.cs" />
+    <Compile Include="Reflection\MatchContext.cs" />
+    <Compile Include="Reflection\MethodBodyReader.cs" />
+    <Compile Include="Odb\Core\Query\Linq\ReflectionMethodAnalyser.cs" />
     <Compile Include="Tool\ConsoleLogger.cs" />
     <Compile Include="Tool\DisplayUtility.cs" />
     <Compile Include="Tool\DLogger.cs" />

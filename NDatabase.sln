@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDatabase.LinqPad.Driver", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{37B33591-CDBA-4AF2-9F7F-E808FEFD43E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDatabase.NorthwindNDbGen", "tools\NorthwindNDbGen\NDatabase.NorthwindNDbGen.csproj", "{38EBE4FF-5835-40C5-BDDC-1D0A261CA59A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDatabase.Northwind.Generator", "tools\NorthwindNDbGen\NDatabase.Northwind.Generator.csproj", "{38EBE4FF-5835-40C5-BDDC-1D0A261CA59A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDatabase.Northwind.Domain", "tools\NDatabase.Northwind.Domain\NDatabase.Northwind.Domain.csproj", "{E58257BE-7CF9-4471-9E5E-99510FF70637}"
 EndProject

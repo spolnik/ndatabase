@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq.Expressions;
 using NDatabase.Odb.Core.Query.Criteria;
 
@@ -32,13 +34,7 @@ namespace NDatabase.Odb.Core.Query.Linq
                 return;
             }
 
-            var descendingEnumType = ResolveDescendingEnumType(m);
-            Recorder.Add(
-                ctx =>
-                {
-                    ctx.Descend(m.Method.Name);
-                    ctx.PushDescendigFieldEnumType(descendingEnumType);
-                });
+            AnalyseMethod(Recorder, m.Method);
         }
 
         private void ProcessStringMethod(MethodCallExpression call)
@@ -46,12 +42,17 @@ namespace NDatabase.Odb.Core.Query.Linq
             switch (call.Method.Name)
             {
                 case "EndsWith":
-                    RecordConstraintApplication(c => c.EndsWith(true));
+                {
+                    var caseSensitive = IsCaseSensitive(call.Arguments);
+                    RecordConstraintApplication(c => c.EndsWith(caseSensitive));
                     return;
-
+                }
                 case "StartsWith":
-                    RecordConstraintApplication(c => c.StartsWith(true));
+                {
+                    var caseSensitive = IsCaseSensitive(call.Arguments);
+                    RecordConstraintApplication(c => c.StartsWith(caseSensitive));
                     return;
+                }
 
                 case "Contains":
                     RecordConstraintApplication(c => c.Contains());
@@ -61,7 +62,36 @@ namespace NDatabase.Odb.Core.Query.Linq
                     return;
             }
 
-            CannotOptimize(call);
+            CannotConvertToSoda(call);
+        }
+
+        private static bool IsCaseSensitive(ReadOnlyCollection<Expression> arguments)
+        {
+            string value = string.Empty;
+            if (arguments.Count == 1)
+                return true;
+
+            var expression = arguments[1];
+
+            if (expression.NodeType == ExpressionType.IsFalse)
+                return true;
+
+            if (expression.NodeType == ExpressionType.IsTrue)
+                return false;
+
+            if (expression.Type.IsEnum)
+            {
+                var constantExpression = expression as ConstantExpression;
+                if (constantExpression != null)
+                {
+                    if (constantExpression.Value.ToString().EndsWith("IgnoreCase"))
+                        return false;
+                }
+
+                return true;
+            }
+
+            return true;
         }
 
         private void RecordConstraintApplication(Func<IConstraint, IConstraint> application)
@@ -80,7 +110,7 @@ namespace NDatabase.Odb.Core.Query.Linq
                     return;
             }
 
-            CannotOptimize(call);
+            CannotConvertToSoda(call);
         }
 
         private static bool IsCallOnCollectionOfStrings(MethodCallExpression call)
@@ -131,7 +161,7 @@ namespace NDatabase.Odb.Core.Query.Linq
                 return;
             }
 
-            CannotOptimize(b);
+            CannotConvertToSoda(b);
         }
 
         protected override void VisitUnary(UnaryExpression u)
@@ -150,7 +180,7 @@ namespace NDatabase.Odb.Core.Query.Linq
                 return;
             }
 
-            CannotOptimize(u);
+            CannotConvertToSoda(u);
         }
 
         private void ProcessConditionalExpression(BinaryExpression b)
@@ -200,7 +230,7 @@ namespace NDatabase.Odb.Core.Query.Linq
         protected override void VisitMemberAccess(MemberExpression m)
         {
             if (!StartsWithParameterReference(m)) 
-                CannotOptimize(m);
+                CannotConvertToSoda(m);
 
             ProcessMemberAccess(m);
         }
@@ -219,7 +249,7 @@ namespace NDatabase.Odb.Core.Query.Linq
             if (StartsWithParameterReference(b.Right)) 
                 return false;
 
-            CannotOptimize(b);
+            CannotConvertToSoda(b);
             return false;
         }
 
@@ -245,7 +275,7 @@ namespace NDatabase.Odb.Core.Query.Linq
                     RecordConstraintApplication(c => c.Greater().Equal());
                     break;
                 default:
-                    CannotOptimize(b);
+                    CannotConvertToSoda(b);
                     break;
             }
         }

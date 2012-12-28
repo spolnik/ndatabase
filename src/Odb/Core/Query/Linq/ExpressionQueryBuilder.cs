@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Concurrent;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq.Expressions;
 using System.Reflection;
+using NDatabase.Reflection;
 
 namespace NDatabase.Odb.Core.Query.Linq
 {
@@ -35,6 +37,8 @@ namespace NDatabase.Odb.Core.Query.Linq
 
         private static bool IsParameter(Expression expression)
         {
+            if (expression == null)
+                return false;
             return expression.NodeType == ExpressionType.Parameter;
         }
 
@@ -68,6 +72,19 @@ namespace NDatabase.Odb.Core.Query.Linq
             return m.Member.MemberType == MemberTypes.Property;
         }
 
+        protected void AnalyseMethod(QueryBuilderRecorder recorder, MethodInfo method)
+        {
+            try
+            {
+                var analyser = new ReflectionMethodAnalyser(method);
+                analyser.Run(recorder);
+            }
+            catch (Exception e)
+            {
+                throw new EventLogException(e.Message, e);
+            }
+        }
+
         private static MethodInfo GetGetMethod(MemberExpression m)
         {
             return ((PropertyInfo) m.Member).GetGetMethod();
@@ -76,7 +93,7 @@ namespace NDatabase.Odb.Core.Query.Linq
         protected void ProcessMemberAccess(MemberExpression m)
         {
             Visit(m.Expression);
-            if (IsFieldAccessExpression(m) || IsPropertyAccessExpression(m))
+            if (IsFieldAccessExpression(m))
             {
                 var descendingEnumType = ResolveDescendingEnumType(m);
                 Recorder.Add(
@@ -89,7 +106,13 @@ namespace NDatabase.Odb.Core.Query.Linq
                 return;
             }
 
-            CannotOptimize(m);
+            if (IsPropertyAccessExpression(m))
+            {
+                AnalyseMethod(Recorder, GetGetMethod(m));
+                return;
+            }
+
+            CannotConvertToSoda(m);
         }
 
         internal static Type ResolveDescendingEnumType(Expression expression)
@@ -97,54 +120,54 @@ namespace NDatabase.Odb.Core.Query.Linq
             return !expression.Type.IsEnum ? null : expression.Type;
         }
 
-        protected static void CannotOptimize(Expression e)
+        protected static void CannotConvertToSoda(Expression e)
         {
             throw new LinqQueryException(e.ToString());
         }
 
-        private static void CannotOptimize(ElementInit init)
+        private static void CannotConvertToSoda(ElementInit init)
         {
             throw new LinqQueryException(init.ToString());
         }
 
-        private static void CannotOptimize(MemberBinding binding)
+        private static void CannotConvertToSoda(MemberBinding binding)
         {
             throw new LinqQueryException(binding.ToString());
         }
 
         protected override void VisitBinding(MemberBinding binding)
         {
-            CannotOptimize(binding);
+            CannotConvertToSoda(binding);
         }
 
         protected override void VisitConditional(ConditionalExpression conditional)
         {
-            CannotOptimize(conditional);
+            CannotConvertToSoda(conditional);
         }
 
         protected override void VisitElementInitializer(ElementInit initializer)
         {
-            CannotOptimize(initializer);
+            CannotConvertToSoda(initializer);
         }
 
         protected override void VisitInvocation(InvocationExpression invocation)
         {
-            CannotOptimize(invocation);
+            CannotConvertToSoda(invocation);
         }
 
         protected override void VisitListInit(ListInitExpression init)
         {
-            CannotOptimize(init);
+            CannotConvertToSoda(init);
         }
 
         protected override void VisitNew(NewExpression nex)
         {
-            CannotOptimize(nex);
+            CannotConvertToSoda(nex);
         }
 
         protected override void VisitNewArray(NewArrayExpression newArray)
         {
-            CannotOptimize(newArray);
+            CannotConvertToSoda(newArray);
         }
     }
 }
