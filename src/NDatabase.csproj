@@ -56,9 +56,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
+    <Reference Include="System.Xml.Linq" />
+	<Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Btree\AbstractBTreeIterator.cs" />

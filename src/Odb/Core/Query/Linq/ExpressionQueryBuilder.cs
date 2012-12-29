@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Concurrent;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq.Expressions;
 using System.Reflection;
-using NDatabase.Reflection;
 
 namespace NDatabase.Odb.Core.Query.Linq
 {
@@ -81,7 +79,7 @@ namespace NDatabase.Odb.Core.Query.Linq
             }
             catch (Exception e)
             {
-                throw new EventLogException(e.Message, e);
+                throw new LinqQueryException(e.Message, e);
             }
         }
 
