@@ -1,5 +1,6 @@
 using System;
-using System.Collections.Concurrent;
+using System.Collections.Generic;
+using NDatabase.Tool;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Instance
 {
@@ -8,7 +9,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
     /// </summary>
     public static class OdbClassPool
     {
-        private static readonly ConcurrentDictionary<string, Type> ClassMap = new ConcurrentDictionary<string, Type>();
+        private static readonly Dictionary<string, Type> ClassMap = new Dictionary<string, Type>();
 
         public static void Reset()
         {

@@ -1,15 +1,16 @@
 using System;
-using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using NDatabase.Reflection;
+using NDatabase.Tool;
 
 namespace NDatabase.Odb.Core.Query.Linq
 {
     internal class ReflectionMethodAnalyser
     {
-        private static readonly ConcurrentDictionary<MethodInfo, FieldInfo> FieldCache =
-            new ConcurrentDictionary<MethodInfo, FieldInfo>();
+        private static readonly Dictionary<MethodInfo, FieldInfo> FieldCache =
+            new Dictionary<MethodInfo, FieldInfo>();
 
         private static ILPattern BackingField()
         {

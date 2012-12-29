@@ -55,7 +55,7 @@ namespace NDatabase.Odb.Core.Query.Criteria
             if (string.IsNullOrEmpty(attributeName))
                 throw new ArgumentNullException("attributeName", "Attribute name name cannot be null or empty");
 
-            _attributeName = _attributeName == null ? attributeName : string.Join(".", _attributeName, attributeName);
+            _attributeName = _attributeName == null ? attributeName : string.Format("{0}.{1}", _attributeName, attributeName);
 
             return this;
         }

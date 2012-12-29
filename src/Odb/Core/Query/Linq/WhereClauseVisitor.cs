@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.ObjectModel;
-using System.Globalization;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using NDatabase.Odb.Core.Query.Criteria;
 
@@ -9,10 +7,10 @@ namespace NDatabase.Odb.Core.Query.Linq
 {
     internal sealed class WhereClauseVisitor : ExpressionQueryBuilder
     {
-        private static readonly ConcurrentDictionary<Expression, IQueryBuilderRecord> Cache =
-            new ConcurrentDictionary<Expression, IQueryBuilderRecord>();
+        private static readonly Dictionary<Expression, IQueryBuilderRecord> Cache =
+            new Dictionary<Expression, IQueryBuilderRecord>();
 
-        protected override ConcurrentDictionary<Expression, IQueryBuilderRecord> GetCachingStrategy()
+        protected override Dictionary<Expression, IQueryBuilderRecord> GetCachingStrategy()
         {
             return Cache;
         }
@@ -43,14 +41,12 @@ namespace NDatabase.Odb.Core.Query.Linq
             {
                 case "EndsWith":
                 {
-                    var caseSensitive = IsCaseSensitive(call.Arguments);
-                    RecordConstraintApplication(c => c.EndsWith(caseSensitive));
+                    RecordConstraintApplication(c => c.EndsWith(true));
                     return;
                 }
                 case "StartsWith":
                 {
-                    var caseSensitive = IsCaseSensitive(call.Arguments);
-                    RecordConstraintApplication(c => c.StartsWith(caseSensitive));
+                    RecordConstraintApplication(c => c.StartsWith(true));
                     return;
                 }
 
@@ -63,35 +59,6 @@ namespace NDatabase.Odb.Core.Query.Linq
             }
 
             CannotConvertToSoda(call);
-        }
-
-        private static bool IsCaseSensitive(ReadOnlyCollection<Expression> arguments)
-        {
-            string value = string.Empty;
-            if (arguments.Count == 1)
-                return true;
-
-            var expression = arguments[1];
-
-            if (expression.NodeType == ExpressionType.IsFalse)
-                return true;
-
-            if (expression.NodeType == ExpressionType.IsTrue)
-                return false;
-
-            if (expression.Type.IsEnum)
-            {
-                var constantExpression = expression as ConstantExpression;
-                if (constantExpression != null)
-                {
-                    if (constantExpression.Value.ToString().EndsWith("IgnoreCase"))
-                        return false;
-                }
-
-                return true;
-            }
-
-            return true;
         }
 
         private void RecordConstraintApplication(Func<IConstraint, IConstraint> application)

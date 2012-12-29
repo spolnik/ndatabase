@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace NDatabase.Odb.Core.Query.Linq
 {
-    public interface ILinqQueryable<out TElement> : IOrderedQueryable<TElement>, ILinqQueryable
+    public interface ILinqQueryable<TElement> : IOrderedQueryable<TElement>, ILinqQueryable
     {
     }
 
@@ -13,7 +13,7 @@ namespace NDatabase.Odb.Core.Query.Linq
         ILinqQuery GetQuery();
     }
 
-    public interface ILinqQuery<out T> : ILinqQuery, IEnumerable<T>
+    public interface ILinqQuery<T> : ILinqQuery, IEnumerable<T>
     {
     }
 

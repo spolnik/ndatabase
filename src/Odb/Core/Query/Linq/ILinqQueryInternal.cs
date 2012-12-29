@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NDatabase.Odb.Core.Query.Linq
 {
-    internal interface ILinqQueryInternal<out T> : ILinqQuery<T>
+    internal interface ILinqQueryInternal<T> : ILinqQuery<T>
     {
         IEnumerable<T> UnoptimizedThenBy<TKey>(Func<T, TKey> function);
 

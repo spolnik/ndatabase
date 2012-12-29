@@ -58,7 +58,5 @@ namespace NDatabase.Odb
         /// </summary>
         /// <returns> the file name </returns>
         string GetDbId();
-
-        IMetaModel GetSchema();
     }
 }

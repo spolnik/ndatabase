@@ -30,6 +30,8 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -325,6 +327,7 @@
     <Compile Include="Reflection\MethodBodyReader.cs" />
     <Compile Include="Odb\Core\Query\Linq\ReflectionMethodAnalyser.cs" />
     <Compile Include="Tool\ConsoleLogger.cs" />
+    <Compile Include="Tool\DictionaryExtensions.cs" />
     <Compile Include="Tool\DisplayUtility.cs" />
     <Compile Include="Tool\DLogger.cs" />
     <Compile Include="Tool\ILogger.cs" />

@@ -1,7 +1,8 @@
 using System;
-using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
+using NDatabase.Tool;
 
 namespace NDatabase.Odb.Core.Query.Linq
 {
@@ -19,7 +20,7 @@ namespace NDatabase.Odb.Core.Query.Linq
             return new ExpressionTreeNormalizer().Normalize(expression);
         }
 
-        protected abstract ConcurrentDictionary<Expression, IQueryBuilderRecord> GetCachingStrategy();
+        protected abstract Dictionary<Expression, IQueryBuilderRecord> GetCachingStrategy();
 
         private IQueryBuilderRecord ProcessExpression(Expression expression)
         {

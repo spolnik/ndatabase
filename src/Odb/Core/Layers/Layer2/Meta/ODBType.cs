@@ -1,8 +1,8 @@
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Oid;
+using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta
@@ -23,8 +23,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         ///   Instead or always testing if a class is an array 
         ///   or a collection or any other, we put the odbtype in this cache
         /// </remarks>
-        private static readonly ConcurrentDictionary<string, OdbType> CacheOfTypesByName =
-            new ConcurrentDictionary<string, OdbType>();
+        private static readonly Dictionary<string, OdbType> CacheOfTypesByName =
+            new Dictionary<string, OdbType>();
 
         public static readonly string DefaultArrayComponentClassName = OdbClassUtil.GetFullName(typeof (object));
 
