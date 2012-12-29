@@ -49,7 +49,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>True</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\NDatabase.snk</AssemblyOriginatorKeyFile>
@@ -57,7 +57,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml.Linq" />
-	<Reference Include="System.Core" />
+    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Btree\AbstractBTreeIterator.cs" />
