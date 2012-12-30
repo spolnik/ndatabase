@@ -6,7 +6,7 @@ using NDatabase.Odb;
 using NUnit.Framework;
 using System.Linq;
 
-namespace NDatabase.Client.UnitTests.Bugs
+namespace NDatabase.Client.UnitTests.Types
 {
     public class When_we_want_to_serialize_collections
     {

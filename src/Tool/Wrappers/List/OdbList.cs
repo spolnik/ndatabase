@@ -3,7 +3,7 @@ using System.Text;
 
 namespace NDatabase.Tool.Wrappers.List
 {
-    public class OdbList<TItem> : List<TItem>, IOdbList<TItem>
+    internal class OdbList<TItem> : List<TItem>, IOdbList<TItem>
     {
         public OdbList()
         {
