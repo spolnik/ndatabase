@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using NDatabase.Tutorial.Shared.Heroes;
 using NDatabase.Tutorial.Shared.Items;
-using NDatabase2.Odb;
+using NDatabase.Odb;
 using log4net.Config;
 
 namespace NDatabase.Tutorial.Logging.log4net
@@ -30,7 +30,7 @@ namespace NDatabase.Tutorial.Logging.log4net
 
             using (var odb = OdbFactory.OpenLast())
             {
-                var warriors = odb.Query<Warrior>().ToList();
+                var warriors = odb.Query<Warrior>().Execute<Warrior>().ToList();
 
                 for (var i = 0; i < Count; i++)
                 {
@@ -42,7 +42,7 @@ namespace NDatabase.Tutorial.Logging.log4net
 
             using (var odb = OdbFactory.OpenLast())
             {
-                var warriors = odb.Query<Warrior>().ToList();
+                var warriors = odb.Query<Warrior>().Execute<Warrior>().ToList();
 
                 foreach (var warrior in warriors)
                     odb.Delete(warrior);
@@ -50,7 +50,7 @@ namespace NDatabase.Tutorial.Logging.log4net
 
             using (var odb = OdbFactory.OpenLast())
             {
-                var finalCount = odb.Query<Warrior>().Count;
+                var finalCount = odb.Query<Warrior>().Execute<Warrior>().Count;
                 Console.WriteLine("Final count: {0}", finalCount);
             }
         }
