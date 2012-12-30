@@ -74,7 +74,6 @@ namespace NDatabase.Odb.Main
 
         public virtual void Close()
         {
-            _storageEngine.Commit();
             _storageEngine.Close();
         }
 

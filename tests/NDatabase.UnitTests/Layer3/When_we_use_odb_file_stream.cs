@@ -48,7 +48,7 @@ namespace NDatabase.UnitTests.Layer3
         [Test]
         public void It_should_be_able_to_read_written_byte()
         {
-            SubjectUnderTest.Seek(0L);
+            SubjectUnderTest.SetPosition(0L);
             var value = SubjectUnderTest.Read();
             Assert.That(value, Is.EqualTo(_testByte));
         }
@@ -65,7 +65,7 @@ namespace NDatabase.UnitTests.Layer3
             const byte val = 1;
             SubjectUnderTest.Write(val);
 
-            SubjectUnderTest.Seek(0L);
+            SubjectUnderTest.SetPosition(0L);
             var value = SubjectUnderTest.Read();
             Assert.That(value, Is.EqualTo(_testByte));
 
@@ -79,7 +79,7 @@ namespace NDatabase.UnitTests.Layer3
             const byte val = 1;
             SubjectUnderTest.Write(val);
 
-            SubjectUnderTest.Seek(1L);
+            SubjectUnderTest.SetPosition(1L);
 
             var secondValue = SubjectUnderTest.Read();
             Assert.That(secondValue, Is.EqualTo(val));
@@ -95,7 +95,7 @@ namespace NDatabase.UnitTests.Layer3
 
             Assert.That(SubjectUnderTest.Length, Is.EqualTo(bytes.Length + 1));
 
-            SubjectUnderTest.Seek(1L);
+            SubjectUnderTest.SetPosition(1L);
             var buffer = new byte[bytes.Length];
             var size = SubjectUnderTest.Read(buffer, bytes.Length);
 

@@ -86,7 +86,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 j++;
             }
 
-            newStorageEngine.Commit();
             newStorageEngine.Close();
 
             var time = OdbTime.GetCurrentTimeInMs() - start;

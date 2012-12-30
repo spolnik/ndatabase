@@ -267,11 +267,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public override void Close()
         {
-            if (IsDbClosed)
-            {
-                throw new OdbRuntimeException(
-                    NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
-            }
+            Commit();
 
             var lsession = GetSession(true);
             _objectWriter.FileSystemProcessor.WriteLastOdbCloseStatus(true, false);
@@ -285,6 +281,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             _objectWriter.Close();
             // Logically release this file (only for this machine)
             FileMutex.GetInstance().ReleaseFile(GetStorageDeviceName());
+
             lsession.Close();
 
             if (_objectIntrospector != null)
