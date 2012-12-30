@@ -185,12 +185,12 @@ namespace NDatabase.Odb.Core.Query.List
             return objects;
         }
 
-        protected virtual OrderByConstants GetOrderByType()
+        protected OrderByConstants GetOrderByType()
         {
             return _orderByType;
         }
 
-        protected virtual IBTree GetTree()
+        protected IBTree GetTree()
         {
             return _tree;
         }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Linq.Expressions;
 using NDatabase.Odb.Core.Query.Criteria;
 
@@ -67,7 +66,6 @@ namespace NDatabase.Odb.Core.Query.Linq
 
         private static bool IsCaseSensitive(ReadOnlyCollection<Expression> arguments)
         {
-            string value = string.Empty;
             if (arguments.Count == 1)
                 return true;
 

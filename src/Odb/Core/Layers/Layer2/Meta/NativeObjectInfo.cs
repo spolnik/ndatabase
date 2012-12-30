@@ -47,11 +47,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return TheObject == noi.GetObject() || TheObject.Equals(noi.GetObject());
         }
 
-        public virtual bool IsNativeObject()
-        {
-            return true;
-        }
-
         public override object GetObject()
         {
             return TheObject;

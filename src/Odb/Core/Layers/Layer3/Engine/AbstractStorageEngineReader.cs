@@ -300,7 +300,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         #endregion
 
-        protected virtual MetaModel GetMetaModel()
+        protected MetaModel GetMetaModel()
         {
             return GetSession(true).GetMetaModel();
         }

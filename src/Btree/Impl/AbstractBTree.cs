@@ -247,7 +247,7 @@ namespace NDatabase.Btree.Impl
         /// <param name="keyAndValue"> </param>
         /// <returns> </returns>
         /// <exception cref="System.Exception">System.Exception</exception>
-        protected virtual object InternalDelete(IBTreeNode node, IKeyAndValue keyAndValue)
+        protected object InternalDelete(IBTreeNode node, IKeyAndValue keyAndValue)
         {
             var positionOfKey = node.GetPositionOfKey(keyAndValue.GetKey());
             var keyIsHere = positionOfKey > 0;
@@ -578,7 +578,7 @@ namespace NDatabase.Btree.Impl
             InsertNonFull(nodeToDescend, key, value);
         }
 
-        public virtual string GetName()
+        public string GetName()
         {
             return _name;
         }

@@ -16,7 +16,7 @@ namespace NDatabase.Odb.Core.Query.Criteria.Evaluations
         /// </remarks>
         private readonly OID _oid;
 
-        private IInternalQuery _query;
+        private readonly IInternalQuery _query;
 
         public ContainsEvaluation(object theObject, string attributeName, IQuery query) 
             : base(theObject, attributeName)
@@ -86,7 +86,7 @@ namespace NDatabase.Odb.Core.Query.Criteria.Evaluations
 
         private bool CheckIfCollectionContainsValue(ICollection collection)
         {
-            Type typeDefinition = typeof(object);
+            var typeDefinition = typeof(object);
             if (collection.GetType().IsGenericType)
                 typeDefinition = collection.GetType().GetGenericArguments()[0];
             else

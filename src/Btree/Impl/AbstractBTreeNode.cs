@@ -7,7 +7,6 @@ using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 
 namespace NDatabase.Btree.Impl
 {
-    
     public abstract class AbstractBTreeNode : IBTreeNode
     {
         /// <summary>
@@ -369,7 +368,7 @@ namespace NDatabase.Btree.Impl
 
         protected abstract void Init();
 
-        protected virtual void RightShiftFrom(int position, bool shiftChildren)
+        protected void RightShiftFrom(int position, bool shiftChildren)
         {
             if (IsFull())
                 throw new BTreeException("Node is full, can't right shift!");
@@ -394,7 +393,7 @@ namespace NDatabase.Btree.Impl
             SetNullChildAt(position);
         }
 
-        protected virtual void LeftShiftFrom(int position, bool shiftChildren)
+        protected void LeftShiftFrom(int position, bool shiftChildren)
         {
             for (var i = position; i < NbKeys - 1; i++)
             {

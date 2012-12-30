@@ -40,11 +40,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return IsAtomicNativeObject() || IsArrayObject();
         }
 
-        public virtual bool IsGroup()
-        {
-            return IsArrayObject();
-        }
-
         public virtual bool IsNull()
         {
             return GetObject() == null;
@@ -54,12 +49,12 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public abstract void SetObject(object @object);
 
-        public virtual int GetOdbTypeId()
+        public int GetOdbTypeId()
         {
             return OdbTypeId;
         }
 
-        public virtual void SetOdbTypeId(int odbTypeId)
+        public void SetOdbTypeId(int odbTypeId)
         {
             OdbTypeId = odbTypeId;
         }
@@ -74,12 +69,12 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             Position = position;
         }
 
-        public virtual OdbType GetOdbType()
+        public OdbType GetOdbType()
         {
             return OdbType ?? (OdbType = OdbType.GetFromId(OdbTypeId));
         }
 
-        public virtual void SetOdbType(OdbType odbType)
+        public void SetOdbType(OdbType odbType)
         {
             OdbType = odbType;
         }

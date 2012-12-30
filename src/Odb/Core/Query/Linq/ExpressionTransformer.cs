@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace NDatabase.Odb.Core.Query.Linq
 {
-    public abstract class ExpressionTransformer
+    internal abstract class ExpressionTransformer
     {
         protected virtual Expression Visit(Expression exp)
         {
@@ -79,7 +79,7 @@ namespace NDatabase.Odb.Core.Query.Linq
             }
         }
 
-        protected virtual MemberBinding VisitBinding(MemberBinding binding)
+        protected MemberBinding VisitBinding(MemberBinding binding)
         {
             switch (binding.BindingType)
             {
@@ -94,7 +94,7 @@ namespace NDatabase.Odb.Core.Query.Linq
             }
         }
 
-        protected virtual ElementInit VisitElementInitializer(ElementInit initializer)
+        protected ElementInit VisitElementInitializer(ElementInit initializer)
         {
             var arguments = VisitExpressionList(initializer.Arguments);
             
@@ -128,7 +128,7 @@ namespace NDatabase.Odb.Core.Query.Linq
             return b;
         }
 
-        protected virtual Expression VisitTypeIs(TypeBinaryExpression b)
+        protected Expression VisitTypeIs(TypeBinaryExpression b)
         {
             var expr = Visit(b.Expression);
 
@@ -142,7 +142,7 @@ namespace NDatabase.Odb.Core.Query.Linq
             return c;
         }
 
-        protected virtual Expression VisitConditional(ConditionalExpression c)
+        protected Expression VisitConditional(ConditionalExpression c)
         {
             var test = Visit(c.Test);
             var ifTrue = Visit(c.IfTrue);
@@ -154,12 +154,12 @@ namespace NDatabase.Odb.Core.Query.Linq
             return c;
         }
 
-        protected virtual Expression VisitParameter(ParameterExpression p)
+        protected Expression VisitParameter(ParameterExpression p)
         {
             return p;
         }
 
-        protected virtual Expression VisitMemberAccess(MemberExpression m)
+        protected Expression VisitMemberAccess(MemberExpression m)
         {
             var exp = Visit(m.Expression);
 
@@ -179,7 +179,7 @@ namespace NDatabase.Odb.Core.Query.Linq
             return m;
         }
 
-        protected virtual ReadOnlyCollection<Expression> VisitExpressionList(ReadOnlyCollection<Expression> original)
+        protected ReadOnlyCollection<Expression> VisitExpressionList(ReadOnlyCollection<Expression> original)
         {
             var list = VisitList(original, Visit);
             
@@ -188,7 +188,7 @@ namespace NDatabase.Odb.Core.Query.Linq
                 : new ReadOnlyCollection<Expression>(list);
         }
 
-        protected virtual MemberAssignment VisitMemberAssignment(MemberAssignment assignment)
+        protected MemberAssignment VisitMemberAssignment(MemberAssignment assignment)
         {
             var e = Visit(assignment.Expression);
 
@@ -197,7 +197,7 @@ namespace NDatabase.Odb.Core.Query.Linq
                 : assignment;
         }
 
-        protected virtual MemberMemberBinding VisitMemberMemberBinding(MemberMemberBinding binding)
+        protected MemberMemberBinding VisitMemberMemberBinding(MemberMemberBinding binding)
         {
             var bindings = VisitBindingList(binding.Bindings);
 
@@ -206,7 +206,7 @@ namespace NDatabase.Odb.Core.Query.Linq
                        : binding;
         }
 
-        protected virtual MemberListBinding VisitMemberListBinding(MemberListBinding binding)
+        protected MemberListBinding VisitMemberListBinding(MemberListBinding binding)
         {
             var initializers = VisitElementInitializerList(binding.Initializers);
 
@@ -215,12 +215,12 @@ namespace NDatabase.Odb.Core.Query.Linq
                        : binding;
         }
 
-        protected virtual IEnumerable<MemberBinding> VisitBindingList(ReadOnlyCollection<MemberBinding> original)
+        protected IEnumerable<MemberBinding> VisitBindingList(ReadOnlyCollection<MemberBinding> original)
         {
             return VisitList(original, VisitBinding);
         }
 
-        protected virtual IEnumerable<ElementInit> VisitElementInitializerList(ReadOnlyCollection<ElementInit> original)
+        protected IEnumerable<ElementInit> VisitElementInitializerList(ReadOnlyCollection<ElementInit> original)
         {
             return VisitList(original, VisitElementInitializer);
         }
@@ -261,7 +261,7 @@ namespace NDatabase.Odb.Core.Query.Linq
                 : lambda;
         }
 
-        protected virtual NewExpression VisitNew(NewExpression nex)
+        protected NewExpression VisitNew(NewExpression nex)
         {
             IEnumerable<Expression> args = VisitExpressionList(nex.Arguments);
 
@@ -270,7 +270,7 @@ namespace NDatabase.Odb.Core.Query.Linq
                        : nex;
         }
 
-        protected virtual Expression VisitMemberInit(MemberInitExpression init)
+        protected Expression VisitMemberInit(MemberInitExpression init)
         {
             var n = VisitNew(init.NewExpression);
             var bindings = VisitBindingList(init.Bindings);
@@ -281,7 +281,7 @@ namespace NDatabase.Odb.Core.Query.Linq
             return init;
         }
 
-        protected virtual Expression VisitListInit(ListInitExpression init)
+        protected Expression VisitListInit(ListInitExpression init)
         {
             var n = VisitNew(init.NewExpression);
             var initializers = VisitElementInitializerList(init.Initializers);
@@ -292,7 +292,7 @@ namespace NDatabase.Odb.Core.Query.Linq
             return init;
         }
 
-        protected virtual Expression VisitNewArray(NewArrayExpression na)
+        protected Expression VisitNewArray(NewArrayExpression na)
         {
             IEnumerable<Expression> exprs = VisitExpressionList(na.Expressions);
             
@@ -306,7 +306,7 @@ namespace NDatabase.Odb.Core.Query.Linq
             return na;
         }
 
-        protected virtual Expression VisitInvocation(InvocationExpression iv)
+        protected Expression VisitInvocation(InvocationExpression iv)
         {
             IEnumerable<Expression> args = VisitExpressionList(iv.Arguments);
             var expr = Visit(iv.Expression);

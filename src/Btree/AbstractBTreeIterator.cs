@@ -77,7 +77,7 @@ namespace NDatabase.Btree
             return Current;
         }
 
-        protected virtual T NextAsc()
+        protected T NextAsc()
         {
             // Try to go down till a leaf
             while (!CurrentNode.IsLeaf())
@@ -110,7 +110,7 @@ namespace NDatabase.Btree
             return (T) value;
         }
 
-        protected virtual T NextDesc()
+        protected T NextDesc()
         {
             // Try to go down till a leaf
             while (!CurrentNode.IsLeaf())
@@ -153,10 +153,6 @@ namespace NDatabase.Btree
 
             var errorMessage = string.Format("parent {0} does not have the specified child : {1}", parent, child);
             throw new OdbRuntimeException(NDatabaseError.InternalError.AddParameter(errorMessage));
-        }
-
-        public virtual void Remove()
-        {
         }
     }
 }
