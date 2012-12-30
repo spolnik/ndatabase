@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Web;
 using Domain;
-using NDatabase2.Odb;
+using NDatabase.Odb;
 
 namespace TutorialWebSite
 {
@@ -16,20 +16,17 @@ namespace TutorialWebSite
 
             using (var odb = OdbFactory.Open(path))
             {
-                var employees = odb.GetObjects<Employee>().ToList();
-                var enrichedByIdEmployees =
-                    employees.Select(
-                        employee =>
-                        new
-                        {
-                            ID = odb.GetObjectId(employee).ObjectId,
-                            employee.Name,
-                            employee.City,
-                            employee.Age,
-                            Employment_Date = employee.EmploymentDate.ToString("yyyy-MM-dd")
-                        }).ToList();
+                var employees = from employee in odb.AsQueryable<Employee>()
+                                select new
+                                           {
+                                               ID = odb.GetObjectId(employee).ObjectId,
+                                               employee.Name,
+                                               employee.City,
+                                               employee.Age,
+                                               Employment_Date = employee.EmploymentDate.ToString("yyyy-MM-dd")
+                                           };
 
-                EmployeesGridView.DataSource = enrichedByIdEmployees;
+                EmployeesGridView.DataSource = employees.ToList();
                 EmployeesGridView.DataBind();
             }
         }

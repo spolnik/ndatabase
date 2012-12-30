@@ -2,8 +2,7 @@
 using System.Diagnostics;
 using FileHelpers;
 using System.Linq;
-using NDatabase2.Odb;
-using NDatabase2.Odb.Core.Query.Criteria;
+using NDatabase.Odb;
 
 namespace NDatabase.CSV.Analyzer.Pure
 {
@@ -57,8 +56,9 @@ namespace NDatabase.CSV.Analyzer.Pure
             long count2;
             using (var odb = OdbFactory.Open("FileOut.ndb"))
             {
-                var query = new CriteriaQuery<ExportData>(Where.Equal("CountryOrArea", "EGYPT"));
-                count2 = odb.Count(query);
+                count2 = (from data in odb.AsQueryable<ExportData>()
+                          where data.CountryOrArea.Equals("EGYPT")
+                          select data).Count();
             }
             stopwatch.Stop();
 
