@@ -1,5 +1,5 @@
 ﻿using System;
-using NDatabase2.Odb;
+using NDatabase.Odb;
 
 namespace NDatabase.Tutorial.ExceptionHandling
 {
@@ -39,7 +39,7 @@ namespace NDatabase.Tutorial.ExceptionHandling
 
             using (var odb = OdbFactory.Open(ExceptionLogNDatabase))
             {
-                var exceptions = odb.Query<Exception>();
+                var exceptions = odb.Query<Exception>().Execute<Exception>();
 
                 foreach (var ex in exceptions)
                 {

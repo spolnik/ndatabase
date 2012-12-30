@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using NDatabase.Tutorial.Shared;
 using NDatabase.Tutorial.Shared.Heroes;
 using NDatabase.Tutorial.Shared.Items;
-using System.Linq;
-using NDatabase2.Odb;
+using NDatabase.Odb;
 
 namespace NDatabase.Tutorial.Basic.NDb
 {
@@ -40,7 +40,7 @@ namespace NDatabase.Tutorial.Basic.NDb
 
             using (var odb = OdbFactory.OpenLast())
             {
-                var warriors = odb.Query<Warrior>().ToList();
+                var warriors = odb.Query<Warrior>().Execute<Warrior>().ToList();
 
                 for (var i = 0; i < count; i++)
                 {
@@ -57,7 +57,7 @@ namespace NDatabase.Tutorial.Basic.NDb
 
             using (var odb = OdbFactory.OpenLast())
             {
-                var warriors = odb.Query<Warrior>().ToList();
+                var warriors = odb.Query<Warrior>().Execute<Warrior>().ToList();
 
                 foreach (var warrior in warriors)
                     odb.Delete(warrior);
@@ -70,7 +70,7 @@ namespace NDatabase.Tutorial.Basic.NDb
 
             using (var odb = OdbFactory.OpenLast())
             {
-                var finalCount = odb.Query<Warrior>().Count;
+                var finalCount = odb.Query<Warrior>().Execute<Warrior>().Count;
                 Console.WriteLine("Final count: {0}", finalCount);
             }
 
@@ -107,7 +107,7 @@ namespace NDatabase.Tutorial.Basic.NDb
 
             using (var odb = OdbFactory.OpenLast())
             {
-                IList<Warrior> warriors = odb.Query<Warrior>().ToList();
+                IList<Warrior> warriors = odb.Query<Warrior>().Execute<Warrior>().ToList();
 
                 warriors[0].RightHand = sword1;
                 warriors[0].LeftHand = field1;
@@ -124,7 +124,7 @@ namespace NDatabase.Tutorial.Basic.NDb
         {
             using (var odb1 = OdbFactory.OpenLast())
             {
-                IList<IItem> items = odb1.Query<IItem>().ToList();
+                IList<IItem> items = odb1.Query<IItem>().Execute<IItem>().ToList();
 
                 foreach (var item in items)
                     Console.WriteLine(item);
@@ -135,7 +135,7 @@ namespace NDatabase.Tutorial.Basic.NDb
         {
             using (var odb1 = OdbFactory.OpenLast())
             {
-                IList<Warrior> warriors = odb1.Query<Warrior>().ToList();
+                IList<Warrior> warriors = odb1.Query<Warrior>().Execute<Warrior>().ToList();
 
                 foreach (var warrior in warriors)
                     Console.WriteLine(warrior);
@@ -151,7 +151,7 @@ namespace NDatabase.Tutorial.Basic.NDb
         {
             int count;
             using (var odb = OdbFactory.OpenLast())
-                count = odb.Query<Warrior>().Count;
+                count = odb.Query<Warrior>().Execute<Warrior>().Count;
 
             Console.WriteLine("Warriors count: {0}", count);
         }
