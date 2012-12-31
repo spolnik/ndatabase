@@ -11,8 +11,7 @@ namespace NDatabase.Odb.Core.BTree
     /// <remarks>
     ///   The NDatabase ODB BTree Node implementation. It extends the DefaultBTreeNode generic implementation to be able to be stored in the ODB database.
     /// </remarks>
-    /// <author>osmadja</author>
-    public sealed class OdbBtreeNodeMultiple : BTreeNodeMultipleValuesPerKey
+    internal sealed class OdbBtreeNodeMultiple : BTreeNodeMultipleValuesPerKey
     {
         private OID[] _childrenOids;
         private OID _oid;

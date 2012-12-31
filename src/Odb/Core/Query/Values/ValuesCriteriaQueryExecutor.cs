@@ -38,7 +38,7 @@ namespace NDatabase.Odb.Core.Query.Values
 
             // Gets a map with the values with the fields involved in the query
             _values = ObjectReader.ReadObjectInfoValuesFromOID(ClassInfo, CurrentOid, true, _involvedFields,
-                                                               _involvedFields, 0, _sodaQuery.GetOrderByFieldNames());
+                                                               _involvedFields, 0);
 
             var objectMatches = true;
             if (!_sodaQuery.IsForSingleOid())

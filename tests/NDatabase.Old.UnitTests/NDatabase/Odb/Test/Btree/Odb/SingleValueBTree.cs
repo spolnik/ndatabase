@@ -19,7 +19,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
             using (var odb = OdbFactory.Open(singlevaluebtreeTest1DbName))
             {
                 var size = 1000;
-                IBTree tree = new OdbBtreeSingle("test1", 50, new LazyOdbBtreePersister(odb));
+                IBTree tree = new OdbBtreeSingle(50, new LazyOdbBtreePersister(odb));
                 for (var i = 0; i < size; i++)
                 {
                     if (i % 10000 == 0)

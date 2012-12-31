@@ -31,7 +31,7 @@ namespace NDatabase.Client.UnitTests.Types
             HashSet<string> restoredItem;
             using (var odb = OdbFactory.Open(DbName))
             {
-                restoredItem = odb.Query<HashSet<string>>().Execute<HashSet<string>>().FirstOrDefault();
+                restoredItem = odb.QueryAndExecute<HashSet<string>>().FirstOrDefault();
             }
 
             Assert.That(restoredItem, Is.Not.Null);
@@ -51,7 +51,7 @@ namespace NDatabase.Client.UnitTests.Types
             List<string> restoredItem;
             using (var odb = OdbFactory.Open(DbName))
             {
-                restoredItem = odb.Query<List<string>>().Execute<List<string>>().FirstOrDefault();
+                restoredItem = odb.QueryAndExecute<List<string>>().FirstOrDefault();
             }
 
             Assert.That(restoredItem, Is.Not.Null);
@@ -77,7 +77,7 @@ namespace NDatabase.Client.UnitTests.Types
             LinkedList<string> restoredItem;
             using (var odb = OdbFactory.Open(DbName))
             {
-                restoredItem = odb.Query<LinkedList<string>>().Execute<LinkedList<string>>().FirstOrDefault();
+                restoredItem = odb.QueryAndExecute<LinkedList<string>>().FirstOrDefault();
             }
 
             Assert.That(restoredItem, Is.Not.Null);
@@ -97,7 +97,7 @@ namespace NDatabase.Client.UnitTests.Types
             ArrayList restoredItem;
             using (var odb = OdbFactory.Open(DbName))
             {
-                restoredItem = odb.Query<ArrayList>().Execute<ArrayList>().FirstOrDefault();
+                restoredItem = odb.QueryAndExecute<ArrayList>().FirstOrDefault();
             }
 
             Assert.That(restoredItem, Is.Not.Null);
@@ -124,7 +124,7 @@ namespace NDatabase.Client.UnitTests.Types
             Stack restoredItem;
             using (var odb = OdbFactory.Open(DbName))
             {
-                restoredItem = odb.Query<Stack>().Execute<Stack>().FirstOrDefault();
+                restoredItem = odb.QueryAndExecute<Stack>().FirstOrDefault();
             }
 
             Assert.That(restoredItem, Is.Not.Null);
@@ -152,7 +152,7 @@ namespace NDatabase.Client.UnitTests.Types
             ConcurrentStack<string> restoredItem;
             using (var odb = OdbFactory.Open(DbName))
             {
-                restoredItem = odb.Query<ConcurrentStack<string>>().Execute<ConcurrentStack<string>>().FirstOrDefault();
+                restoredItem = odb.QueryAndExecute<ConcurrentStack<string>>().FirstOrDefault();
             }
 
             Assert.That(restoredItem, Is.Not.Null);
@@ -179,7 +179,7 @@ namespace NDatabase.Client.UnitTests.Types
             Stack<string> restoredItem;
             using (var odb = OdbFactory.Open(DbName))
             {
-                restoredItem = odb.Query<Stack<string>>().Execute<Stack<string>>().FirstOrDefault();
+                restoredItem = odb.QueryAndExecute<Stack<string>>().FirstOrDefault();
             }
 
             Assert.That(restoredItem, Is.Not.Null);
@@ -206,7 +206,7 @@ namespace NDatabase.Client.UnitTests.Types
             Queue restoredItem;
             using (var odb = OdbFactory.Open(DbName))
             {
-                restoredItem = odb.Query<Queue>().Execute<Queue>().FirstOrDefault();
+                restoredItem = odb.QueryAndExecute<Queue>().FirstOrDefault();
             }
 
             Assert.That(restoredItem, Is.Not.Null);
@@ -234,7 +234,7 @@ namespace NDatabase.Client.UnitTests.Types
             ConcurrentQueue<string> restoredItem;
             using (var odb = OdbFactory.Open(DbName))
             {
-                restoredItem = odb.Query<ConcurrentQueue<string>>().Execute<ConcurrentQueue<string>>().FirstOrDefault();
+                restoredItem = odb.QueryAndExecute<ConcurrentQueue<string>>().FirstOrDefault();
             }
 
             Assert.That(restoredItem, Is.Not.Null);
@@ -261,7 +261,7 @@ namespace NDatabase.Client.UnitTests.Types
             Queue<string> restoredItem;
             using (var odb = OdbFactory.Open(DbName))
             {
-                restoredItem = odb.Query<Queue<string>>().Execute<Queue<string>>().FirstOrDefault();
+                restoredItem = odb.QueryAndExecute<Queue<string>>().FirstOrDefault();
             }
 
             Assert.That(restoredItem, Is.Not.Null);
@@ -288,7 +288,7 @@ namespace NDatabase.Client.UnitTests.Types
             StringCollection restoredItem;
             using (var odb = OdbFactory.Open(DbName))
             {
-                restoredItem = odb.Query<StringCollection>().Execute<StringCollection>().FirstOrDefault();
+                restoredItem = odb.QueryAndExecute<StringCollection>().FirstOrDefault();
             }
 
             Assert.That(restoredItem, Is.Not.Null);
@@ -315,7 +315,7 @@ namespace NDatabase.Client.UnitTests.Types
             Hashtable restoredItem;
             using (var odb = OdbFactory.Open(DbName))
             {
-                restoredItem = odb.Query<Hashtable>().Execute<Hashtable>().FirstOrDefault();
+                restoredItem = odb.QueryAndExecute<Hashtable>().FirstOrDefault();
             }
 
             Assert.That(restoredItem, Is.Not.Null);
@@ -343,7 +343,7 @@ namespace NDatabase.Client.UnitTests.Types
             Dictionary<string, string> restoredItem;
             using (var odb = OdbFactory.Open(DbName))
             {
-                restoredItem = odb.Query<Dictionary<string, string>>().Execute<Dictionary<string, string>>().FirstOrDefault();
+                restoredItem = odb.QueryAndExecute<Dictionary<string, string>>().FirstOrDefault();
             }
 
             Assert.That(restoredItem, Is.Not.Null);
@@ -371,7 +371,7 @@ namespace NDatabase.Client.UnitTests.Types
             ListDictionary restoredItem;
             using (var odb = OdbFactory.Open(DbName))
             {
-                restoredItem = odb.Query<ListDictionary>().Execute<ListDictionary>().FirstOrDefault();
+                restoredItem = odb.QueryAndExecute<ListDictionary>().FirstOrDefault();
             }
 
             Assert.That(restoredItem, Is.Not.Null);
@@ -399,7 +399,7 @@ namespace NDatabase.Client.UnitTests.Types
             StringDictionary restoredItem;
             using (var odb = OdbFactory.Open(DbName))
             {
-                restoredItem = odb.Query<StringDictionary>().Execute<StringDictionary>().FirstOrDefault();
+                restoredItem = odb.QueryAndExecute<StringDictionary>().FirstOrDefault();
             }
 
             Assert.That(restoredItem, Is.Not.Null);
@@ -427,7 +427,7 @@ namespace NDatabase.Client.UnitTests.Types
             HybridDictionary restoredItem;
             using (var odb = OdbFactory.Open(DbName))
             {
-                restoredItem = odb.Query<HybridDictionary>().Execute<HybridDictionary>().FirstOrDefault();
+                restoredItem = odb.QueryAndExecute<HybridDictionary>().FirstOrDefault();
             }
 
             Assert.That(restoredItem, Is.Not.Null);
@@ -456,8 +456,7 @@ namespace NDatabase.Client.UnitTests.Types
             using (var odb = OdbFactory.Open(DbName))
             {
                 restoredItem =
-                    odb.Query<SortedDictionary<string, string>>().Execute<SortedDictionary<string, string>>().
-                        FirstOrDefault();
+                    odb.QueryAndExecute<SortedDictionary<string, string>>().FirstOrDefault();
             }
 
             Assert.That(restoredItem, Is.Not.Null);
@@ -487,8 +486,7 @@ namespace NDatabase.Client.UnitTests.Types
             using (var odb = OdbFactory.Open(DbName))
             {
                 restoredItem =
-                    odb.Query<ConcurrentDictionary<string, string>>().Execute<ConcurrentDictionary<string, string>>().
-                        FirstOrDefault();
+                    odb.QueryAndExecute<ConcurrentDictionary<string, string>>().FirstOrDefault();
             }
 
             Assert.That(restoredItem, Is.Not.Null);
@@ -516,7 +514,7 @@ namespace NDatabase.Client.UnitTests.Types
             SortedList<string, string> restoredItem;
             using (var odb = OdbFactory.Open(DbName))
             {
-                restoredItem = odb.Query<SortedList<string, string>>().Execute<SortedList<string, string>>().FirstOrDefault();
+                restoredItem = odb.QueryAndExecute<SortedList<string, string>>().FirstOrDefault();
             }
 
             Assert.That(restoredItem, Is.Not.Null);

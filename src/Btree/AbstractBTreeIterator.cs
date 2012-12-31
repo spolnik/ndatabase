@@ -4,7 +4,7 @@ using NDatabase.Odb.Core;
 
 namespace NDatabase.Btree
 {
-    public abstract class AbstractBTreeIterator<T> : IterarorAdapter, IEnumerator<T>
+    internal abstract class AbstractBTreeIterator<T> : IterarorAdapter, IEnumerator<T>
     {
         private readonly IBTree _btree;
         private readonly OrderByConstants _orderByType;

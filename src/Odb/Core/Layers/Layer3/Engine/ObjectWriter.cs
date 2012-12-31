@@ -163,7 +163,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                         var existingClassInfo = metaModel.GetClassInfo(classAttributeInfo.GetFullClassname(), false);
                         if (existingClassInfo == null)
                         {
-                            AddClasses(ClassIntrospector.Introspect(classAttributeInfo.GetFullClassname(), true));
+                            AddClasses(ClassIntrospector.Introspect(classAttributeInfo.GetFullClassname()));
                         }
                         else
                         {
@@ -272,7 +272,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     var existingClassInfo = metaModel.GetClassInfo(classAttributeInfo.GetFullClassname(), false);
                     if (existingClassInfo == null)
                     {
-                        AddClasses(ClassIntrospector.Introspect(classAttributeInfo.GetFullClassname(), true));
+                        AddClasses(ClassIntrospector.Introspect(classAttributeInfo.GetFullClassname()));
                     }
                     else
                     {

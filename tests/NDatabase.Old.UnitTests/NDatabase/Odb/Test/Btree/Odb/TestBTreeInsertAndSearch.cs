@@ -14,7 +14,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
         public virtual void Test1()
         {
             var degree = 3;
-            IBTreeMultipleValuesPerKey tree = new InMemoryBTreeMultipleValuesPerKey("test1", degree);
+            IBTreeMultipleValuesPerKey tree = new InMemoryBTreeMultipleValuesPerKey(degree);
             tree.Insert(1, "Value 1");
             tree.Insert(20, "Value 20");
             tree.Insert(25, "Value 25");
@@ -47,7 +47,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
         public virtual void Test2()
         {
             var degree = 10;
-            IBTreeMultipleValuesPerKey tree = new InMemoryBTreeMultipleValuesPerKey("test2", degree);
+            IBTreeMultipleValuesPerKey tree = new InMemoryBTreeMultipleValuesPerKey(degree);
             for (var i = 0; i < 50000; i++)
                 tree.Insert(i, "Value " + i);
             AssertEquals("Value 0", tree.Search(0)[0]);
@@ -70,7 +70,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
         public virtual void Test3()
         {
             var degree = 3;
-            IBTree tree = new InMemoryBTreeMultipleValuesPerKey("test3", degree);
+            IBTree tree = new InMemoryBTreeMultipleValuesPerKey(degree);
             tree.Insert(1, "A");
             // tree.insert(new Integer(2),"B");
             tree.Insert(3, "C");
@@ -108,28 +108,28 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
         public virtual void Test4()
         {
             var degree = 3;
-            IBTreeMultipleValuesPerKey tree1 = new InMemoryBTreeMultipleValuesPerKey("1", degree);
+            IBTreeMultipleValuesPerKey tree1 = new InMemoryBTreeMultipleValuesPerKey(degree);
             tree1.Insert(1, "A");
             // tree.insert(new Integer(2),"B");
             tree1.Insert(3, "C");
             tree1.Insert(4, "D");
             tree1.Insert(5, "E");
-            IBTreeMultipleValuesPerKey tree2 = new InMemoryBTreeMultipleValuesPerKey("2", degree);
+            IBTreeMultipleValuesPerKey tree2 = new InMemoryBTreeMultipleValuesPerKey(degree);
             tree2.Insert(10, "J");
             tree2.Insert(11, "K");
-            IBTreeMultipleValuesPerKey tree3 = new InMemoryBTreeMultipleValuesPerKey("3", degree);
+            IBTreeMultipleValuesPerKey tree3 = new InMemoryBTreeMultipleValuesPerKey(degree);
             tree3.Insert(14, "N");
             tree3.Insert(15, "O");
-            IBTreeMultipleValuesPerKey tree4 = new InMemoryBTreeMultipleValuesPerKey("4", degree);
+            IBTreeMultipleValuesPerKey tree4 = new InMemoryBTreeMultipleValuesPerKey(degree);
             tree4.Insert(18, "R");
             tree4.Insert(19, "S");
             tree4.Insert(20, "T");
             tree4.Insert(21, "U");
             tree4.Insert(22, "V");
-            IBTreeMultipleValuesPerKey tree5 = new InMemoryBTreeMultipleValuesPerKey("5", degree);
+            IBTreeMultipleValuesPerKey tree5 = new InMemoryBTreeMultipleValuesPerKey(degree);
             tree5.Insert(25, "Y");
             tree5.Insert(26, "Z");
-            IBTreeMultipleValuesPerKey tree6 = new InMemoryBTreeMultipleValuesPerKey("6", degree);
+            IBTreeMultipleValuesPerKey tree6 = new InMemoryBTreeMultipleValuesPerKey(degree);
             tree6.Insert(7, "G");
             tree6.Insert(13, "M");
             tree6.Insert(16, "P");
@@ -201,7 +201,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
         public virtual void Test5()
         {
             var degree = 40;
-            IBTreeMultipleValuesPerKey tree = new InMemoryBTreeMultipleValuesPerKey("5", degree);
+            IBTreeMultipleValuesPerKey tree = new InMemoryBTreeMultipleValuesPerKey(degree);
             var a0 = OdbTime.GetCurrentTimeInMs();
             for (var i = 0; i < 500000; i++)
                 tree.Insert(i, "Value " + i);
@@ -225,7 +225,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
         [Test]
         public virtual void TestInsertUsingInt1()
         {
-            IBTreeMultipleValuesPerKey tree = new InMemoryBTreeMultipleValuesPerKey("default", 5);
+            IBTreeMultipleValuesPerKey tree = new InMemoryBTreeMultipleValuesPerKey(5);
             tree.Insert(50, "50");
             tree.Insert(40, "40");
             tree.Insert(30, "30");
@@ -245,7 +245,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
         public virtual void TestInsertUsingInt2()
         {
             var size = 8000;
-            IBTreeMultipleValuesPerKey tree = new InMemoryBTreeMultipleValuesPerKey("default", 5);
+            IBTreeMultipleValuesPerKey tree = new InMemoryBTreeMultipleValuesPerKey(5);
             for (var i = 1; i < size; i++)
                 tree.Insert(i, i.ToString());
             var l = tree.Search(1);
@@ -266,7 +266,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
         public virtual void TestNonUniqueKey()
         {
             var degree = 3;
-            IBTreeMultipleValuesPerKey tree1 = new InMemoryBTreeMultipleValuesPerKey("7", degree);
+            IBTreeMultipleValuesPerKey tree1 = new InMemoryBTreeMultipleValuesPerKey(degree);
             tree1.Insert(1, "A");
             tree1.Insert(1, "AA");
             tree1.Insert(1, "AAA");
@@ -281,7 +281,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
         public virtual void TestNonUniqueKey2()
         {
             var degree = 3;
-            IBTreeMultipleValuesPerKey tree1 = new InMemoryBTreeMultipleValuesPerKey("7", degree);
+            IBTreeMultipleValuesPerKey tree1 = new InMemoryBTreeMultipleValuesPerKey(degree);
             tree1.Insert(1, "A");
             tree1.Insert(1, "AA");
             tree1.Insert(1, "AAA");
@@ -303,7 +303,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
         [Test]
         public virtual void TestString1()
         {
-            IBTreeMultipleValuesPerKey tree = new InMemoryBTreeMultipleValuesPerKey("default", 5);
+            IBTreeMultipleValuesPerKey tree = new InMemoryBTreeMultipleValuesPerKey(5);
             tree.Insert("50", "50");
             tree.Insert("40", "40");
             tree.Insert("30", "30");
@@ -324,7 +324,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
         {
             var size = 300;
             var max = 0;
-            IBTreeMultipleValuesPerKey tree = new InMemoryBTreeMultipleValuesPerKey("default", 5);
+            IBTreeMultipleValuesPerKey tree = new InMemoryBTreeMultipleValuesPerKey(5);
             for (var i = 1; i < size; i++)
             {
                 for (var j = 1; j < size; j++)

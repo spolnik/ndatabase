@@ -35,7 +35,7 @@ namespace NDatabase.Client.UnitTests
             List<User> users;
             using (var odb = OdbFactory.Open(DbName))
             {
-                users = odb.Query<User>().Execute<User>().ToList();
+                users = odb.QueryAndExecute<User>().ToList();
             }
             Assert.That(users.Count(), Is.EqualTo(10));
         }

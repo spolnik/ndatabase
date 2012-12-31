@@ -5,7 +5,7 @@ namespace NDatabase.Btree.Tool
     /// <summary>
     ///   an utility to display a btree
     /// </summary>
-    public sealed class BTreeDisplay
+    internal sealed class BTreeDisplay
     {
         private StringBuilder[] _lines;
         private StringBuilder _result;

@@ -17,7 +17,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
             var odb = Open("btree45.neodatis");
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
             var persister = new LazyOdbBtreePersister(storageEngine);
-            IBTreeMultipleValuesPerKey tree = new OdbBtreeMultiple("t", 3, persister);
+            IBTreeMultipleValuesPerKey tree = new OdbBtreeMultiple(3, persister);
             tree.Insert(1, new MyObject("Value 1"));
             tree.Insert(20, new MyObject("Value 20"));
             tree.Insert(25, new MyObject("Value 25"));
@@ -58,7 +58,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
         {
             DeleteBase("btree46.neodatis");
             var odb = Open("btree46.neodatis");
-            IBTree tree = new OdbBtreeMultiple("t", 3, new InMemoryPersister());
+            IBTree tree = new OdbBtreeMultiple(3, new InMemoryPersister());
             IBTreeNodeMultipleValuesPerKey node = new OdbBtreeNodeMultiple(tree);
             odb.Store(node);
             for (var i = 0; i < 4; i++)

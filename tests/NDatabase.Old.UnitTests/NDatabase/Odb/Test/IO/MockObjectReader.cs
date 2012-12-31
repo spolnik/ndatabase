@@ -13,10 +13,6 @@ namespace Test.NDatabase.Odb.Test.IO
 {
     internal class MockObjectReader : IObjectReader
     {
-        public MockObjectReader(IStorageEngine engine)
-        {
-        }
-
         #region IObjectReader Members
 
         public void ReadDatabaseHeader()
@@ -104,7 +100,7 @@ namespace Test.NDatabase.Odb.Test.IO
             return null;
         }
 
-        public AtomicNativeObjectInfo ReadAtomicNativeObjectInfo(long position, int odbTypeId)
+        public AtomicNativeObjectInfo ReadAtomicNativeObjectInfo(int odbTypeId)
         {
             return null;
         }
@@ -112,12 +108,12 @@ namespace Test.NDatabase.Odb.Test.IO
         public AttributeValuesMap ReadObjectInfoValuesFromOID(ClassInfo classInfo, OID oid, bool useCache,
                                                               IOdbList<string> attributeNames,
                                                               IOdbList<string> relationAttributeNames,
-                                                              int recursionLevel, IList<string> orderByFields)
+                                                              int recursionLevel)
         {
             return null;
         }
 
-        public Object ReadAtomicNativeObjectInfoAsObject(long position, int odbTypeId)
+        public Object ReadAtomicNativeObjectInfoAsObject(int odbTypeId)
         {
             return null;
         }

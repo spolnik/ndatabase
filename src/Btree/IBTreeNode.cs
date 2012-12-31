@@ -5,7 +5,7 @@ namespace NDatabase.Btree
     /// <summary>
     ///   The interface for btree node.
     /// </summary>
-    public interface IBTreeNode
+    internal interface IBTreeNode
     {
         int GetNbKeys();
 
@@ -22,10 +22,6 @@ namespace NDatabase.Btree
         IKeyAndValue GetLastKeyAndValue();
 
         IBTreeNode GetChildAt(int index, bool throwExceptionIfNotExist);
-
-        IBTreeNode GetLastChild();
-
-        IBTreeNode GetLastPositionChild();
 
         IBTreeNode GetParent();
 
@@ -51,8 +47,6 @@ namespace NDatabase.Btree
 
         void MoveChildFromTo(int sourceIndex, int destinationIndex, bool throwExceptionIfDoesNotExist);
 
-        void IncrementNbKeys();
-
         void IncrementNbChildren();
 
         /// <summary>
@@ -74,8 +68,6 @@ namespace NDatabase.Btree
         void InsertKeyAndValue(IComparable key, object value);
 
         void MergeWith(IBTreeNode node);
-
-        void RemoveKeyAndValueAt(int index);
 
         void SetNbKeys(int nbKeys);
 

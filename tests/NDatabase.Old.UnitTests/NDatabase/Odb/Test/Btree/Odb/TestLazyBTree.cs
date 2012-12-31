@@ -12,7 +12,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
         public virtual void Test1()
         {
             var size = 100000;
-            IBTree tree = new InMemoryBTreeMultipleValuesPerKey("test1", 2);
+            IBTree tree = new InMemoryBTreeMultipleValuesPerKey(2);
             for (var i = 0; i < size; i++)
                 tree.Insert(i + 1, "value " + (i + 1));
             AssertEquals(size, tree.GetSize());
@@ -32,7 +32,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
         public virtual void Test2()
         {
             var size = 100000;
-            IBTree tree = new InMemoryBTreeMultipleValuesPerKey("test2", 2);
+            IBTree tree = new InMemoryBTreeMultipleValuesPerKey(2);
             for (var i = 0; i < size; i++)
                 tree.Insert(i + 1, "value " + (i + 1));
             AssertEquals(size, tree.GetSize());
@@ -52,7 +52,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
         public virtual void Test3()
         {
             var size = 100000;
-            IBTree tree = new InMemoryBTreeMultipleValuesPerKey("test1", 2);
+            IBTree tree = new InMemoryBTreeMultipleValuesPerKey(2);
             for (var i = 0; i < size; i++)
             {
                 // println(i);

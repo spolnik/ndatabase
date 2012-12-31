@@ -4,8 +4,7 @@ using NDatabase.Odb.Core;
 
 namespace NDatabase.Btree.Impl.Multiplevalue
 {
-    
-    public sealed class InMemoryBTreeMultipleValuesPerKey : AbstractBTree, IBTreeMultipleValuesPerKey
+    internal sealed class InMemoryBTreeMultipleValuesPerKey : AbstractBTree, IBTreeMultipleValuesPerKey
     {
         private static int _nextId = 1;
 
@@ -15,13 +14,13 @@ namespace NDatabase.Btree.Impl.Multiplevalue
         {
         }
 
-        public InMemoryBTreeMultipleValuesPerKey(string name, int degree, IBTreePersister persister) 
-            : base(name, degree, persister)
+        public InMemoryBTreeMultipleValuesPerKey(int degree, IBTreePersister persister) 
+            : base(degree, persister)
         {
         }
 
-        public InMemoryBTreeMultipleValuesPerKey(string name, int degree) 
-            : base(name, degree, new InMemoryPersister())
+        public InMemoryBTreeMultipleValuesPerKey(int degree) 
+            : base(degree, new InMemoryPersister())
         {
             _id = _nextId++;
         }

@@ -401,14 +401,14 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public AttributeValuesMap ReadObjectInfoValuesFromOID(ClassInfo classInfo, OID oid, bool useCache,
                                                               IOdbList<string> attributeNames,
                                                               IOdbList<string> relationAttributeNames,
-                                                              int recursionLevel, IList<string> orderByFields)
+                                                              int recursionLevel)
         {
             var position = GetObjectPositionFromItsOid(oid, useCache, true);
             return ReadObjectInfoValuesFromPosition(classInfo, oid, position, useCache, attributeNames,
                                                     relationAttributeNames, recursionLevel);
         }
 
-        public object ReadAtomicNativeObjectInfoAsObject(long position, int odbTypeId)
+        public object ReadAtomicNativeObjectInfoAsObject(int odbTypeId)
         {
             object o = null;
             switch (odbTypeId)
@@ -535,9 +535,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <summary>
         ///   Reads an atomic object
         /// </summary>
-        public AtomicNativeObjectInfo ReadAtomicNativeObjectInfo(long position, int odbTypeId)
+        public AtomicNativeObjectInfo ReadAtomicNativeObjectInfo(int odbTypeId)
         {
-            var @object = ReadAtomicNativeObjectInfoAsObject(position, odbTypeId);
+            var @object = ReadAtomicNativeObjectInfoAsObject(odbTypeId);
             return new AtomicNativeObjectInfo(@object, odbTypeId);
         }
 
@@ -1575,7 +1575,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 realTypeId = nah.GetOdbTypeId();
             }
             if (OdbType.IsAtomicNative(realTypeId))
-                return ReadAtomicNativeObjectInfo(position, realTypeId);
+                return ReadAtomicNativeObjectInfo(realTypeId);
             if (OdbType.IsNull(realTypeId))
                 return new NullNativeObjectInfo(realTypeId);
             if (OdbType.IsArray(realTypeId))

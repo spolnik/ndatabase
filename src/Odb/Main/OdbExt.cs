@@ -1,5 +1,4 @@
 using NDatabase.Odb.Core;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Oid;
 
@@ -66,11 +65,6 @@ namespace NDatabase.Odb.Main
         public string GetDbId()
         {
             return _storageEngine.GetBaseIdentification().Id;
-        }
-
-        public IMetaModel GetSchema()
-        {
-            return _storageEngine.GetSession().GetMetaModel();
         }
 
         #endregion

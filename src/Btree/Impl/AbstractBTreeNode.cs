@@ -7,7 +7,7 @@ using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 
 namespace NDatabase.Btree.Impl
 {
-    public abstract class AbstractBTreeNode : IBTreeNode
+    internal abstract class AbstractBTreeNode : IBTreeNode
     {
         /// <summary>
         ///   The BTree owner of this node
@@ -176,11 +176,6 @@ namespace NDatabase.Btree.Impl
             NbChildren++;
         }
 
-        public virtual void IncrementNbKeys()
-        {
-            NbKeys++;
-        }
-
         public virtual void SetKeyAndValueAt(IComparable key, object value, int index)
         {
             Keys[index] = key;
@@ -244,21 +239,6 @@ namespace NDatabase.Btree.Impl
             NbKeys += node.GetNbKeys();
             NbChildren += node.GetNbChildren();
             BTreeValidator.ValidateNode(this);
-        }
-
-        public virtual void RemoveKeyAndValueAt(int index)
-        {
-            throw new BTreeException("Not implemented");
-        }
-
-        public virtual IBTreeNode GetLastChild()
-        {
-            return GetChildAt(NbChildren - 1, true);
-        }
-
-        public virtual IBTreeNode GetLastPositionChild()
-        {
-            return GetChildAt(MaxNbChildren - 1, false);
         }
 
         public virtual int GetNbKeys()

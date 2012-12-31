@@ -152,14 +152,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var classInfoIndex = classInfo.AddIndexOn(indexName, indexFields, acceptMultipleValuesForSameKey);
             IBTree btree;
 
+            var lazyOdbBtreePersister = new LazyOdbBtreePersister(this);
+
             if (acceptMultipleValuesForSameKey)
-            {
-                btree = new OdbBtreeMultiple(className, OdbConfiguration.GetDefaultIndexBTreeDegree(),
-                                             new LazyOdbBtreePersister(this));
-            }
+                btree = new OdbBtreeMultiple(OdbConfiguration.GetDefaultIndexBTreeDegree(), lazyOdbBtreePersister);
             else
-                btree = new OdbBtreeSingle(className, OdbConfiguration.GetDefaultIndexBTreeDegree(),
-                                           new LazyOdbBtreePersister(this));
+                btree = new OdbBtreeSingle(OdbConfiguration.GetDefaultIndexBTreeDegree(), lazyOdbBtreePersister);
 
             classInfoIndex.BTree = btree;
             Store(classInfoIndex);

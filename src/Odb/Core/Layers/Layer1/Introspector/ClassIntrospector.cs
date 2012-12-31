@@ -115,7 +115,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             return classInfoSet;
         }
 
-        public static ClassInfoList Introspect(String fullClassName, bool recursive)
+        public static ClassInfoList Introspect(String fullClassName)
         {
             return Introspect(OdbClassPool.GetClass(fullClassName), true);
         }

@@ -42,16 +42,14 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         /// <param name="attributeNames"> The names of attributes to read the values, an attributename can contain relation like profile.name </param>
         /// <param name="relationAttributeNames"> The original names of attributes to read the values, an attributename can contain relation like profile.name </param>
         /// <param name="recursionLevel"> The recursion level of this method call </param>
-        /// <param name="orderByFields"> </param>
         /// <returns> The map with attribute values </returns>
         AttributeValuesMap ReadObjectInfoValuesFromOID(ClassInfo classInfo, OID oid, bool useCache,
                                                        IOdbList<string> attributeNames,
-                                                       IOdbList<string> relationAttributeNames, int recursionLevel,
-                                                       IList<string> orderByFields);
+                                                       IOdbList<string> relationAttributeNames, int recursionLevel);
 
-        object ReadAtomicNativeObjectInfoAsObject(long position, int odbTypeId);
+        object ReadAtomicNativeObjectInfoAsObject(int odbTypeId);
 
-        AtomicNativeObjectInfo ReadAtomicNativeObjectInfo(long position, int odbTypeId);
+        AtomicNativeObjectInfo ReadAtomicNativeObjectInfo(int odbTypeId);
 
         long ReadOidPosition(OID oid);
 

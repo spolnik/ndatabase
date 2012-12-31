@@ -12,7 +12,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
         public virtual void Test1()
         {
             var size = 100000;
-            IBTree tree = new InMemoryBTreeMultipleValuesPerKey("test1", 50);
+            IBTree tree = new InMemoryBTreeMultipleValuesPerKey(50);
             for (var i = 0; i < size; i++)
             {
                 if (i % 10000 == 0)
@@ -37,7 +37,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
         {
             var size = 1000;
             var size2 = 100;
-            IBTree tree = new InMemoryBTreeMultipleValuesPerKey("test1", 50);
+            IBTree tree = new InMemoryBTreeMultipleValuesPerKey(50);
             for (var i = 0; i < size; i++)
             {
                 if (i % 10000 == 0)

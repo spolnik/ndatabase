@@ -5,7 +5,7 @@ namespace NDatabase.Btree.Impl
     /// <summary>
     ///   In memory persister
     /// </summary>
-    public sealed class InMemoryPersister : IBTreePersister
+    internal sealed class InMemoryPersister : IBTreePersister
     {
         #region IBTreePersister Members
 

@@ -4,7 +4,7 @@ using NDatabase.Odb.Core;
 
 namespace NDatabase.Btree
 {
-    public interface IBTree
+    internal interface IBTree
     {
         void Insert(IComparable key, object value);
 
