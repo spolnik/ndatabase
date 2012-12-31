@@ -7,7 +7,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
     /// <summary>
     ///   Converts array of bytes into native objects and native objects into array of bytes
     /// </summary>
-    public static class ByteArrayConverter
+    internal static class ByteArrayConverter
     {
         private static readonly byte[] BytesForTrue = new byte[] {1};
 
@@ -17,49 +17,49 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         private static readonly int IntSizeX2 = OdbType.Integer.Size * 2;
 
-        public static byte[] BooleanToByteArray(bool b)
+        internal static byte[] BooleanToByteArray(bool b)
         {
             return b
                        ? BytesForTrue
                        : BytesForFalse;
         }
 
-        public static bool ByteArrayToBoolean(byte[] bytes, int offset = 0)
+        internal static bool ByteArrayToBoolean(byte[] bytes, int offset = 0)
         {
             return bytes[offset] != 0;
         }
 
-        public static byte[] ShortToByteArray(short s)
+        internal static byte[] ShortToByteArray(short s)
         {
             return BitConverter.GetBytes(s);
         }
 
-        public static byte[] UShortToByteArray(ushort s)
+        internal static byte[] UShortToByteArray(ushort s)
         {
             return BitConverter.GetBytes(s);
         }
 
-        public static short ByteArrayToShort(byte[] bytes)
+        internal static short ByteArrayToShort(byte[] bytes)
         {
             return BitConverter.ToInt16(bytes, 0);
         }
 
-        public static ushort ByteArrayToUShort(byte[] bytes)
+        internal static ushort ByteArrayToUShort(byte[] bytes)
         {
             return BitConverter.ToUInt16(bytes, 0);
         }
 
-        public static byte[] CharToByteArray(char c)
+        internal static byte[] CharToByteArray(char c)
         {
             return BitConverter.GetBytes(c);
         }
 
-        public static char ByteArrayToChar(byte[] bytes)
+        internal static char ByteArrayToChar(byte[] bytes)
         {
             return BitConverter.ToChar(bytes, 0);
         }
 
-        public static int GetNumberOfBytesOfAString(String s)
+        internal static int GetNumberOfBytesOfAString(String s)
         {
             return Encoding.UTF8.GetBytes(s).Length + IntSizeX2;
         }
@@ -67,7 +67,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <param name="s">Input</param>
         /// <param name="totalSpace"> The total space of the string (can be bigger that the real string size - to support later in place update) </param>
         /// <returns> The byte array that represent the string </returns>
-        public static byte[] StringToByteArray(String s, int totalSpace)
+        internal static byte[] StringToByteArray(String s, int totalSpace)
         {
             var stringBytes = Encoding.UTF8.GetBytes(s);
 
@@ -95,13 +95,13 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         }
 
         /// <returns> The String represented by the byte array </returns>
-        public static String ByteArrayToString(byte[] bytes)
+        internal static String ByteArrayToString(byte[] bytes)
         {
             var realSize = ByteArrayToInt(bytes, IntSize);
             return Encoding.UTF8.GetString(bytes, IntSizeX2, realSize);
         }
 
-        public static byte[] DecimalToByteArray(Decimal bigDecimal)
+        internal static byte[] DecimalToByteArray(Decimal bigDecimal)
         {
             var bits = Decimal.GetBits(bigDecimal);
 
@@ -134,7 +134,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return buffer;
         }
 
-        public static Decimal ByteArrayToDecimal(byte[] buffer)
+        internal static Decimal ByteArrayToDecimal(byte[] buffer)
         {
             var lo = (buffer[0]) | (buffer[1] << 8) | (buffer[2] << 16) | (buffer[3] << 24);
             var mid = (buffer[4]) | (buffer[5] << 8) | (buffer[6] << 16) | (buffer[7] << 24);
@@ -144,22 +144,22 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return new Decimal(new[] {lo, mid, hi, flags});
         }
 
-        public static byte[] IntToByteArray(int l)
+        internal static byte[] IntToByteArray(int l)
         {
             return BitConverter.GetBytes(l);
         }
 
-        public static byte[] UIntToByteArray(uint l)
+        internal static byte[] UIntToByteArray(uint l)
         {
             return BitConverter.GetBytes(l);
         }
 
-        public static int ByteArrayToInt(byte[] bytes, int offset = 0)
+        internal static int ByteArrayToInt(byte[] bytes, int offset = 0)
         {
             return BitConverter.ToInt32(bytes, offset);
         }
 
-        public static uint ByteArrayToUInt(byte[] bytes)
+        internal static uint ByteArrayToUInt(byte[] bytes)
         {
             return ByteArrayToUInt(bytes, 0);
         }
@@ -169,53 +169,53 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return BitConverter.ToUInt32(bytes, offset);
         }
 
-        public static byte[] LongToByteArray(long l)
+        internal static byte[] LongToByteArray(long l)
         {
             return BitConverter.GetBytes(l);
         }
 
-        public static byte[] ULongToByteArray(ulong l)
+        internal static byte[] ULongToByteArray(ulong l)
         {
             return BitConverter.GetBytes(l);
         }
 
-        public static ulong ByteArrayToULong(byte[] bytes)
+        internal static ulong ByteArrayToULong(byte[] bytes)
         {
             return ByteArrayToULong(bytes, 0);
         }
 
-        public static byte[] DateToByteArray(DateTime date)
+        internal static byte[] DateToByteArray(DateTime date)
         {
             return LongToByteArray(date.Ticks);
         }
 
-        public static DateTime ByteArrayToDate(byte[] bytes)
+        internal static DateTime ByteArrayToDate(byte[] bytes)
         {
             var ticks = ByteArrayToLong(bytes);
             return new DateTime(ticks);
         }
 
-        public static byte[] FloatToByteArray(float f)
+        internal static byte[] FloatToByteArray(float f)
         {
             return BitConverter.GetBytes(f);
         }
 
-        public static float ByteArrayToFloat(byte[] bytes)
+        internal static float ByteArrayToFloat(byte[] bytes)
         {
             return BitConverter.ToSingle(bytes, 0);
         }
 
-        public static byte[] DoubleToByteArray(double d)
+        internal static byte[] DoubleToByteArray(double d)
         {
             return BitConverter.GetBytes(d);
         }
 
-        public static double ByteArrayToDouble(byte[] bytes)
+        internal static double ByteArrayToDouble(byte[] bytes)
         {
             return BitConverter.ToDouble(bytes, 0);
         }
 
-        public static long ByteArrayToLong(byte[] bytes, int offset = 0)
+        internal static long ByteArrayToLong(byte[] bytes, int offset = 0)
         {
             return BitConverter.ToInt64(bytes, offset);
         }

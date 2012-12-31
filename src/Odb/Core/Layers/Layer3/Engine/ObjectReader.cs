@@ -80,7 +80,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             databaseIdsArray[1] = _fsi.ReadLong();
             databaseIdsArray[2] = _fsi.ReadLong();
             databaseIdsArray[3] = _fsi.ReadLong();
-            IDatabaseId databaseId = new DatabaseIdImpl(databaseIdsArray);
+            IDatabaseId databaseId = new DatabaseId(databaseIdsArray);
 
             var lastTransactionId = ReadLastTransactionId(databaseId);
             // Increment transaction id
@@ -665,11 +665,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return queryExecutor.Execute<T>(inMemory, startIndex, endIndex, true, queryResultAction);
         }
 
-        public IValues GetValues(IValuesQuery valuesQuery, int startIndex, int endIndex)
+        public IValues GetValues(IInternalValuesQuery valuesQuery, int startIndex, int endIndex)
         {
             IMatchingObjectAction queryResultAction;
             if (valuesQuery.HasGroupBy())
-                queryResultAction = new GroupByValuesQueryResultAction(valuesQuery, _instanceBuilder);
+                queryResultAction = new GroupByValuesQueryResultAction((ValuesCriteriaQuery) valuesQuery, _instanceBuilder);
             else
                 queryResultAction = new ValuesQueryResultAction(valuesQuery, _storageEngine, _instanceBuilder);
             var objects = GetObjectInfos<IObjectValues>(valuesQuery, true, startIndex, endIndex, false,

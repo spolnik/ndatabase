@@ -24,18 +24,6 @@ namespace NDatabase.Btree.Impl
         private int _degree;
         private int _maxNbKeys;
 
-        protected AbstractBTreeNode()
-        {
-            Btree = null;
-            _degree = -1;
-            _maxNbKeys = -1;
-            MaxNbChildren = -1;
-            Keys = null;
-            Values = null;
-            NbKeys = 0;
-            NbChildren = 0;
-        }
-
         protected AbstractBTreeNode(IBTree btree)
         {
             BasicInit(btree);
@@ -84,13 +72,11 @@ namespace NDatabase.Btree.Impl
                 if (bTreeNode != null)
                     bTreeNode.SetParent(rightPartNode);
 
-                // rightPart.setChildAt(getChildAt(i,false), j);
                 SetNullChildAt(i);
                 j++;
             }
 
-            // rightPart.setChildAt(getLastPositionChild(), j);
-            rightPartNode.SetChildAt(this, GetMaxNbChildren() - 1, j, false);
+            rightPartNode.SetChildAt(this, MaxNbChildren - 1, j, false);
             // correct father id
             var c1TreeNode = rightPartNode.GetChildAt(j, false);
             if (c1TreeNode != null)
@@ -295,11 +281,6 @@ namespace NDatabase.Btree.Impl
             return currentValue;
         }
 
-        public virtual int GetMaxNbChildren()
-        {
-            return MaxNbChildren;
-        }
-
         public virtual void SetBTree(IBTree btree)
         {
             Btree = btree;
@@ -329,7 +310,7 @@ namespace NDatabase.Btree.Impl
 
         public abstract void SetId(object arg1);
 
-        public abstract void SetNullChildAt(int arg1);
+        protected abstract void SetNullChildAt(int arg1);
 
         #endregion
 

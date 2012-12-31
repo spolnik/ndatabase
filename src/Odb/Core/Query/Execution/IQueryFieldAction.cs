@@ -10,7 +10,7 @@ namespace NDatabase.Odb.Core.Query.Execution
     ///   actions are called to execute what must be done with matching 
     ///   objects. A ValuesQuery can contain more than one QueryFieldAction.
     /// </remarks>
-    public interface IQueryFieldAction
+    internal interface IQueryFieldAction
     {
         void Start();
 

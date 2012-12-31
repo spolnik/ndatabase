@@ -93,7 +93,7 @@ namespace NDatabase.Btree.Impl.Multiplevalue
             _children[destinationIndex] = _children[sourceIndex];
         }
 
-        public override void SetNullChildAt(int childIndex)
+        protected override void SetNullChildAt(int childIndex)
         {
             _children[childIndex] = null;
         }

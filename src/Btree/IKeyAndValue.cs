@@ -2,7 +2,7 @@ using System;
 
 namespace NDatabase.Btree
 {
-    public interface IKeyAndValue
+    internal interface IKeyAndValue
     {
         IComparable GetKey();
 

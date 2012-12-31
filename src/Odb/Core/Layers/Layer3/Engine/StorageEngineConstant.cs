@@ -134,29 +134,16 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         internal static readonly long ClassOffsetClassNbObjects = ClassOffsetNextClassPosition + OdbType.Long.Size;
 
-        internal static readonly long ObjectOffsetBlockType = ObjectOffsetBlockSize + OdbType.Integer.Size;
+        private static readonly long ObjectOffsetBlockType = ObjectOffsetBlockSize + OdbType.Integer.Size;
 
         private static readonly long ObjectOffsetObjectId = ObjectOffsetBlockType + OdbType.Byte.Size;
 
-        internal static readonly long ObjectOffsetClassInfoId = ObjectOffsetObjectId + OdbType.Long.Size;
+        private static readonly long ObjectOffsetClassInfoId = ObjectOffsetObjectId + OdbType.Long.Size;
 
         internal static readonly long ObjectOffsetPreviousObjectOid = ObjectOffsetClassInfoId + OdbType.Long.Size;
 
         internal static readonly long ObjectOffsetNextObjectOid = ObjectOffsetPreviousObjectOid + OdbType.Long.Size;
 
-        private static readonly long ObjectOffsetCreationDate = ObjectOffsetNextObjectOid + OdbType.Long.Size;
-
-        private static readonly long ObjectOffsetUpdateDate = ObjectOffsetCreationDate + OdbType.Long.Size;
-
-        private static readonly long ObjectOffsetVersion = ObjectOffsetUpdateDate + OdbType.Long.Size;
-
-        private static readonly long ObjectOffsetReferencePointer = ObjectOffsetVersion + OdbType.Integer.Size;
-
-        private static readonly long ObjectOffsetIsExternallySynchronized = ObjectOffsetReferencePointer +
-                                                                           OdbType.Long.Size;
-
-        internal static readonly long ObjectOffsetNbAttributes = ObjectOffsetIsExternallySynchronized +
-                                                               OdbType.Boolean.Size;
 
         /// <summary>
         ///   <pre>ID Block Header :

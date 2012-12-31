@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Layer3
 {
-    public class When_we_use_odb_file_stream : InstanceSpecification<IOdbFileStream>
+    internal class When_we_use_odb_file_stream : InstanceSpecification<IOdbFileStream>
     {
         private byte _testByte;
         private const string ExistingDbName = "odbfilestream.ndb";

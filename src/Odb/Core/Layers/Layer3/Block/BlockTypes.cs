@@ -29,8 +29,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Block
 
         public const byte BlockTypeIds = 20;
 
-        public const byte BlockTypeIndex = 21;
-
         public static bool IsClassHeader(int blockType)
         {
             return blockType == BlockTypeClassHeader;

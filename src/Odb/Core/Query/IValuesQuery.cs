@@ -1,16 +1,7 @@
-using System;
 using System.Collections.Generic;
-using NDatabase.Odb.Core.Query.Execution;
-using NDatabase.Tool.Wrappers.List;
 
 namespace NDatabase.Odb.Core.Query
 {
-    internal interface IInternalValuesQuery : IValuesQuery
-    {
-        IOdbList<string> GetAllInvolvedFields();
-        IEnumerable<IQueryFieldAction> GetObjectActions();
-    }
-
     public interface IValuesQuery : IQuery
     {
         IValuesQuery Count(string alias);
@@ -45,33 +36,13 @@ namespace NDatabase.Odb.Core.Query
 
         IValuesQuery GroupBy(string fieldList);
 
-        string[] GetGroupByFieldList();
-
-        bool HasGroupBy();
-
-        /// <summary>
-        ///   To indicate if a query will return one row (for example, sum, average, max and min, or will return more than one row
-        /// </summary>
-        bool IsMultiRow();
-
-        /// <returns> </returns>
-        bool ReturnInstance();
-
         /// <summary>
         ///   To indicate if query execution must build instances or return object representation, Default value is true(return instance)
         /// </summary>
         void SetReturnInstance(bool returnInstance);
 
-        int ObjectActionsCount { get; }
-        Type UnderlyingType { get; }
         IValuesQuery Min(string attributeName);
         IValuesQuery Min(string attributeName, string alias);
-
-        /// <summary>
-        ///   Returns true if the query has an order by clause
-        /// </summary>
-        /// <returns> true if has an order by flag </returns>
-        bool HasOrderBy();
 
         /// <summary>
         ///   Returns the field names of the order by
@@ -79,13 +50,7 @@ namespace NDatabase.Odb.Core.Query
         /// <returns> The array of fields of the order by </returns>
         IList<string> GetOrderByFieldNames();
 
-        /// <returns> the type of the order by - ORDER_BY_NONE,ORDER_BY_DESC,ORDER_BY_ASC </returns>
+        /// <returns> the type of the order by - NONE, DESC, ASC </returns>
         OrderByConstants GetOrderByType();
-
-        /// <summary>
-        ///   used with isForSingleOid == true, to indicate we are working on a single object with a specific oid
-        /// </summary>
-        /// <returns> </returns>
-        OID GetOidOfObjectToQuery();
     }
 }

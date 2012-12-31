@@ -103,6 +103,7 @@
     <Compile Include="Odb\Core\Query\Criteria\Evaluations\StartsWithEvaluation.cs" />
     <Compile Include="Odb\Core\Query\Criteria\IInternalConstraint.cs" />
     <Compile Include="Odb\Core\Query\Criteria\QueryConstraint.cs" />
+    <Compile Include="Odb\Core\Query\IInternalValuesQuery.cs" />
     <Compile Include="Odb\Core\Query\Linq\ExpressionQueryBuilder.cs" />
     <Compile Include="Odb\Core\Query\Linq\ExpressionTransformer.cs" />
     <Compile Include="Odb\Core\Query\Linq\ExpressionTreeNormalizer.cs" />
@@ -252,7 +253,7 @@
     <Compile Include="Odb\Core\Layers\Layer3\Oid\IdManager.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Oid\IDStatus.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Refactor\RefactorManager.cs" />
-    <Compile Include="Odb\Core\Oid\DatabaseIdImpl.cs" />
+    <Compile Include="Odb\Core\Oid\DatabaseId.cs" />
     <Compile Include="Odb\Core\Oid\ExternalObjectOID.cs" />
     <Compile Include="Odb\Core\Oid\ClassOID.cs" />
     <Compile Include="Odb\Core\Oid\ObjectOID.cs" />

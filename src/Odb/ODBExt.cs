@@ -1,5 +1,3 @@
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
-
 namespace NDatabase.Odb
 {
     /// <summary>
@@ -29,12 +27,6 @@ namespace NDatabase.Odb
         /// </summary>
         /// <returns> The external OID </returns>
         IExternalOID ConvertToExternalOID(OID oid);
-
-        /// <summary>
-        ///   Gets the current transaction Id
-        /// </summary>
-        /// <returns> The current transaction Id </returns>
-        ITransactionId GetCurrentTransactionId();
 
         /// <summary>
         ///   Returns the object version of the object that has the specified OID

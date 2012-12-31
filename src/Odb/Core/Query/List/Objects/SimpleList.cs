@@ -28,12 +28,6 @@ namespace NDatabase.Odb.Core.Query.List.Objects
             Add(o);
         }
 
-        public virtual bool AddWithKey(int key, TItem o)
-        {
-            Add(o);
-            return true;
-        }
-
         public virtual TItem GetFirst()
         {
             return Count == 0 ? default(TItem) : this[0];

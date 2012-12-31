@@ -84,12 +84,12 @@ namespace Test.NDatabase.Odb.Test.IO
             return null;
         }
 
-        public IValues GetValues<T>(IValuesQuery query, int startIndex, int endIndex) where T : class
+        public IValues GetValues<T>(IInternalValuesQuery query, int startIndex, int endIndex) where T : class
         {
             return null;
         }
 
-        public IValues GetValues(IValuesQuery query, int startIndex, int endIndex)
+        public IValues GetValues(IInternalValuesQuery query, int startIndex, int endIndex)
         {
             return null;
         }

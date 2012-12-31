@@ -2,6 +2,9 @@
 
 namespace NDatabase.Odb
 {
+    /// <summary>
+    /// Triggers manager
+    /// </summary>
     public interface ITriggerManager
     {
         /// <summary>

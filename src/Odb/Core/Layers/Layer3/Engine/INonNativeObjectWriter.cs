@@ -11,9 +11,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <returns> The position of the inserted object </returns>
         OID InsertNonNativeObject(OID oid, NonNativeObjectInfo nnoi, bool isNewObject);
 
-        OID WriteNonNativeObjectInfo(OID existingOid, NonNativeObjectInfo objectInfo, long position,
-                                     bool writeDataInTransaction, bool isNewObject);
-
         void SetTriggerManager(IInternalTriggerManager triggerManager);
 
         /// <summary>

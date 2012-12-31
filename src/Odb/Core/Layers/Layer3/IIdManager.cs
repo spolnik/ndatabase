@@ -1,6 +1,6 @@
 namespace NDatabase.Odb.Core.Layers.Layer3
 {
-    public interface IIdManager
+    internal interface IIdManager
     {
         /// <summary>
         ///   Gets an id for an object (instance)

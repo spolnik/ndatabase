@@ -107,40 +107,5 @@ namespace Test.NDatabase.Odb.Test.Ext
             }
             odb.Close();
         }
-
-        [Test]
-        public virtual void TestTransactionId()
-        {
-            DeleteBase("ext0");
-            var odb = Open("ext0");
-            var transactionId = odb.Ext().GetCurrentTransactionId();
-            Println(transactionId);
-            AssertTrue(transactionId.ToString().StartsWith("tid=01"));
-            odb.Close();
-            odb = Open("ext0");
-            transactionId = odb.Ext().GetCurrentTransactionId();
-            Println(transactionId);
-            AssertTrue(transactionId.ToString().StartsWith("tid=02"));
-            odb.Close();
-        }
-
-        [Test]
-        public virtual void TestTransactionId2()
-        {
-            DeleteBase("exta");
-            IOdb odb = null;
-            ITransactionId transactionId = null;
-            var size = 200;
-            for (var i = 0; i < size; i++)
-            {
-                odb = Open("exta");
-                transactionId = odb.Ext().GetCurrentTransactionId();
-                // println(transactionId);
-                AssertTrue(transactionId.ToString().StartsWith("tid=0" + (i + 1)));
-                odb.Close();
-                if (i % 10 == 0)
-                    Println("Transaction " + i);
-            }
-        }
     }
 }

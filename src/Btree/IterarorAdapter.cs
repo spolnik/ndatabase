@@ -2,7 +2,7 @@
 
 namespace NDatabase.Btree
 {
-    public abstract class IterarorAdapter : IEnumerator
+    internal abstract class IterarorAdapter : IEnumerator
     {
         #region IEnumerator Members
 

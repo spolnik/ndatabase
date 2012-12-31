@@ -73,7 +73,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         /// <param name="startIndex"> </param>
         /// <param name="endIndex"> </param>
         /// <returns> The list of values </returns>
-        IValues GetValues(IValuesQuery query, int startIndex, int endIndex);
+        IValues GetValues(IInternalValuesQuery query, int startIndex, int endIndex);
 
         /// <summary>
         ///   Return Objects.

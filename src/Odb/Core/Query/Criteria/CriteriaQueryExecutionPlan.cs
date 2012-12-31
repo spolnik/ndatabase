@@ -37,10 +37,6 @@ namespace NDatabase.Odb.Core.Query.Criteria
 
         private bool _useIndex;
 
-        public CriteriaQueryExecutionPlan()
-        {
-        }
-
         public CriteriaQueryExecutionPlan(ClassInfo classInfo, SodaQuery query)
         {
             _classInfo = classInfo;

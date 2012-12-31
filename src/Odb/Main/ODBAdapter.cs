@@ -74,7 +74,7 @@ namespace NDatabase.Odb.Main
 
         public IValues GetValues(IValuesQuery query)
         {
-            return _storageEngine.GetValues(query, -1, -1);
+            return _storageEngine.GetValues((IInternalValuesQuery) query, -1, -1);
         }
 
         public virtual void Close()

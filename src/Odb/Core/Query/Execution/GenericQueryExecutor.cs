@@ -101,7 +101,7 @@ namespace NDatabase.Odb.Core.Query.Execution
 
             try
             {
-                if (executionPlan.UseIndex() && OdbConfiguration.UseIndex())
+                if (executionPlan.UseIndex())
                     return ExecuteUsingIndex<T>(executionPlan.GetIndex(), inMemory, returnObjects,
                                                 queryResultAction);
 

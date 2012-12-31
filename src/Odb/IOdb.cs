@@ -74,11 +74,17 @@ namespace NDatabase.Odb
         void DefragmentTo(string newFileName);
 
         /// <summary>
-        ///   Get an abstract representation of a class
+        ///   Get an index manager
         /// </summary>
-        /// <returns> a public meta-representation of a class </returns>
+        /// <typeparam name="T">Stored class</typeparam>
+        /// <returns> Index Manager </returns>
         IIndexManager IndexManagerFor<T>() where T : class;
 
+        /// <summary>
+        /// Get a trigger manager
+        /// </summary>
+        /// <typeparam name="T">Stored class</typeparam>
+        /// <returns> Trigger Manager </returns>
         ITriggerManager TriggerManagerFor<T>() where T : class;
 
         /// <summary>
@@ -99,6 +105,10 @@ namespace NDatabase.Odb
         /// </remarks>
         void Disconnect<T>(T plainObject) where T : class;
 
+        /// <summary>
+        /// Check if db is closed
+        /// </summary>
+        /// <returns>True if db is closed, if not then false</returns>
         bool IsClosed();
 
         /// <summary>

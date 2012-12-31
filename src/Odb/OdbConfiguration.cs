@@ -24,11 +24,6 @@ namespace NDatabase.Odb
         /// </summary>
         private static int _defaultIndexBTreeDegree = 20;
 
-        /// <summary>
-        ///   To activate or desactivate the use of index
-        /// </summary>
-        private static bool _useIndex = true;
-
         public static int GetMaxNumberOfWriteObjectPerTransaction()
         {
             return _maxNumberOfWriteObjectPerTransaction;
@@ -67,16 +62,6 @@ namespace NDatabase.Odb
         public static void SetDefaultIndexBTreeDegree(int defaultIndexBTreeSize)
         {
             _defaultIndexBTreeDegree = defaultIndexBTreeSize;
-        }
-
-        public static bool UseIndex()
-        {
-            return _useIndex;
-        }
-
-        public static void SetUseIndex(bool useIndex)
-        {
-            _useIndex = useIndex;
         }
 
         public static bool IsLoggingEnabled()

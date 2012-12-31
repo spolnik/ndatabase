@@ -60,7 +60,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return newOid;
         }
 
-        public OID WriteNonNativeObjectInfo(OID existingOid, NonNativeObjectInfo objectInfo, long position,
+        private OID WriteNonNativeObjectInfo(OID existingOid, NonNativeObjectInfo objectInfo, long position,
                                                     bool writeDataInTransaction, bool isNewObject)
         {
             var lsession = _session;

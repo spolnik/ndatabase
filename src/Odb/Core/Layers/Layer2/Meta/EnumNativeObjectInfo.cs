@@ -10,7 +10,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// </remarks>
     internal sealed class EnumNativeObjectInfo : NativeObjectInfo
     {
-        private ClassInfo _enumClassInfo;
+        private readonly ClassInfo _enumClassInfo;
 
         public EnumNativeObjectInfo(ClassInfo classInfo, string enumName) : base(enumName, OdbType.EnumId)
         {

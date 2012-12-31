@@ -4,12 +4,11 @@ using System.Text;
 
 namespace NDatabase.Odb.Core.Oid
 {
-    
-    public sealed class DatabaseIdImpl : IDatabaseId
+    internal sealed class DatabaseId : IDatabaseId
     {
         private readonly long[] _ids;
 
-        public DatabaseIdImpl(long[] ids)
+        internal DatabaseId(long[] ids)
         {
             _ids = ids;
         }
@@ -38,24 +37,12 @@ namespace NDatabase.Odb.Core.Oid
             return buffer.ToString();
         }
 
-        public static IDatabaseId FromString(string sid)
-        {
-            var tokens = sid.Split('-');
-
-            var ids = new long[tokens.Length];
-
-            for (var i = 0; i < ids.Length; i++)
-                ids[i] = long.Parse(tokens[i]);
-
-            return new DatabaseIdImpl(ids);
-        }
-
         public override bool Equals(object @object)
         {
-            if (@object == null || @object.GetType() != typeof (DatabaseIdImpl))
+            if (@object == null || @object.GetType() != typeof (DatabaseId))
                 return false;
 
-            var dbId = (DatabaseIdImpl) @object;
+            var dbId = (DatabaseId) @object;
 
             for (var i = 0; i < _ids.Length; i++)
             {

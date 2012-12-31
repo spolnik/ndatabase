@@ -31,7 +31,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         void Close();
 
-        IValues GetValues(IValuesQuery query, int startIndex, int endIndex);
+        IValues GetValues(IInternalValuesQuery query, int startIndex, int endIndex);
 
         IInternalObjectSet<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex);
 

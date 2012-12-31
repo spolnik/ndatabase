@@ -172,7 +172,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 return;
 
             UpdateMetaModel();
-            checkMetaModelResult.SetModelHasBeenUpdated(true);
         }
 
         public override OID Store<T>(T plainObject)
@@ -399,7 +398,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return FileIdentification;
         }
 
-        public override IValues GetValues(IValuesQuery query, int startIndex, int endIndex)
+        public override IValues GetValues(IInternalValuesQuery query, int startIndex, int endIndex)
         {
             if (IsDbClosed)
             {

@@ -22,11 +22,11 @@ namespace NDatabase.Odb.Core.Query.Values
         private readonly int _returnArraySize;
         private IInternalValues _result;
 
-        public ValuesQueryResultAction(IValuesQuery query, IStorageEngine storageEngine,
+        public ValuesQueryResultAction(IInternalValuesQuery query, IStorageEngine storageEngine,
                                        IInstanceBuilder instanceBuilder)
         {
             _engine = storageEngine;
-            _query = (IInternalValuesQuery) query;
+            _query = query;
             _queryHasOrderBy = query.HasOrderBy();
             _returnArraySize = query.ObjectActionsCount;
             _queryFieldActions = new IQueryFieldAction[_returnArraySize];

@@ -128,7 +128,7 @@ namespace NDatabase.Btree.Impl.Multiplevalue
 
         public abstract override void SetId(object arg1);
 
-        public abstract override void SetNullChildAt(int arg1);
+        protected abstract override void SetNullChildAt(int arg1);
 
         #endregion
 

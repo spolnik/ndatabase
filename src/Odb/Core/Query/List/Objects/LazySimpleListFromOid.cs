@@ -45,11 +45,6 @@ namespace NDatabase.Odb.Core.Query.List.Objects
             throw new OdbRuntimeException(NDatabaseError.OperationNotImplemented);
         }
 
-        public bool AddWithKey(int key, T @object)
-        {
-            throw new OdbRuntimeException(NDatabaseError.OperationNotImplemented);
-        }
-
         public T GetFirst()
         {
             try

@@ -5,40 +5,26 @@ namespace NDatabase.Reflection
 {
     internal sealed class Instruction
     {
-        private readonly int _offset;
-        private OpCode _opcode;
-        private object _operand;
-
         internal Instruction(int offset, OpCode opcode)
         {
-            _offset = offset;
-            _opcode = opcode;
+            Offset = offset;
+            OpCode = opcode;
         }
 
         public Instruction Next { get; internal set; }
 
-        public int Offset
-        {
-            get { return _offset; }
-        }
+        public int Offset { get; private set; }
 
-        public OpCode OpCode
-        {
-            get { return _opcode; }
-        }
+        public OpCode OpCode { get; private set; }
 
-        public object Operand
-        {
-            get { return _operand; }
-            internal set { _operand = value; }
-        }
+        public object Operand { get; internal set; }
 
         public Instruction Previous { get; internal set; }
 
         private static void AppendLabel(StringBuilder builder, Instruction instruction)
         {
             builder.Append("IL_");
-            builder.Append(instruction._offset.ToString("x4"));
+            builder.Append(instruction.Offset.ToString("x4"));
         }
 
         public override string ToString()
@@ -47,21 +33,21 @@ namespace NDatabase.Reflection
             AppendLabel(builder, this);
             builder.Append(':');
             builder.Append(' ');
-            builder.Append(_opcode.Name);
-            if (_operand != null)
+            builder.Append(OpCode.Name);
+            if (Operand != null)
             {
                 builder.Append(' ');
-                switch (_opcode.OperandType)
+                switch (OpCode.OperandType)
                 {
                     case OperandType.InlineString:
                         builder.Append('"');
-                        builder.Append(_operand);
+                        builder.Append(Operand);
                         builder.Append('"');
                         break;
 
                     case OperandType.InlineSwitch:
                         {
-                            var operand = (Instruction[]) _operand;
+                            var operand = (Instruction[]) Operand;
                             for (var i = 0; i < operand.Length; i++)
                             {
                                 if (i > 0)
@@ -74,11 +60,11 @@ namespace NDatabase.Reflection
                         }
                     case OperandType.ShortInlineBrTarget:
                     case OperandType.InlineBrTarget:
-                        AppendLabel(builder, (Instruction) _operand);
+                        AppendLabel(builder, (Instruction) Operand);
                         break;
 
                     default:
-                        builder.Append(_operand);
+                        builder.Append(Operand);
                         break;
                 }
             }

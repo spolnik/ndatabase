@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Layer3
 {
-    public class When_we_use_multi_buffered_file_io : InstanceSpecification<IMultiBufferedFileIO>
+    internal class When_we_use_multi_buffered_file_io : InstanceSpecification<IMultiBufferedFileIO>
     {
         private const long StartWritePosition = 10L;
         private string _fileName;

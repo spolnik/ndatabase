@@ -150,7 +150,7 @@ namespace NDatabase.Odb.Core.BTree
             Btree.GetPersister().SaveNode(child);
         }
 
-        public override void SetNullChildAt(int childIndex)
+        protected override void SetNullChildAt(int childIndex)
         {
             _childrenOids[childIndex] = null;
         }

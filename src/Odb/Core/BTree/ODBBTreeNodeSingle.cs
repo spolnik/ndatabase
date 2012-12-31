@@ -151,7 +151,7 @@ namespace NDatabase.Odb.Core.BTree
             }
         }
 
-        public override void SetNullChildAt(int childIndex)
+        protected override void SetNullChildAt(int childIndex)
         {
             _childrenOids[childIndex] = null;
         }

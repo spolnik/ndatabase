@@ -3,6 +3,9 @@ using NDatabase.Odb.Core;
 
 namespace NDatabase.Btree.Exception
 {
+    /// <summary>
+    /// Exception raised when error in BTrees will appear (validation error)
+    /// </summary>
     public sealed class BTreeNodeValidationException : OdbRuntimeException
     {
         internal BTreeNodeValidationException(string message, System.Exception cause)

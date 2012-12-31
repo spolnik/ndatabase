@@ -1,6 +1,6 @@
 namespace NDatabase.Odb
 {
-    public interface ITransactionId
+    internal interface ITransactionId
     {
         long GetId1();
 

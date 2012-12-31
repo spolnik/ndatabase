@@ -57,16 +57,13 @@ namespace NDatabase.Reflection
             return new SequencePattern(patterns);
         }
 
-        public bool TryMatch(MatchContext context)
+        public void TryMatch(MatchContext context)
         {
             var instruction = context.Instruction;
             Match(context);
 
-            if (context.Success)
-                return true;
-
-            context.Reset(instruction);
-            return false;
+            if (!context.Success)
+                context.Reset(instruction);
         }
 
         #region Nested type: OpCodePattern

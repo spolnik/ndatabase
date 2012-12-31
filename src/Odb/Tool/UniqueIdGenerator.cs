@@ -22,7 +22,7 @@ namespace NDatabase.Odb.Tool
         {
             var id = new[] {creationDate, GetRandomLongId(), GetRandomLongId(), GetRandomLongId()};
             
-            return new DatabaseIdImpl(id);
+            return new DatabaseId(id);
         }
     }
 }

@@ -266,7 +266,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public abstract IInternalTriggerManager GetTriggerManager();
 
-        public abstract IValues GetValues(IValuesQuery arg1, int arg2, int arg3);
+        public abstract IValues GetValues(IInternalValuesQuery query, int arg2, int arg3);
 
         public abstract bool IsClosed();
 

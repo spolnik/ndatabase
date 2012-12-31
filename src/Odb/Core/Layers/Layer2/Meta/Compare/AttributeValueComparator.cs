@@ -2,7 +2,7 @@ using System;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
 {
-    public static class AttributeValueComparator
+    internal static class AttributeValueComparator
     {
         /// <summary>
         ///   The following method compares any 2 objects and test if they are equal.
@@ -13,7 +13,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
         ///   IsEqual(123, 123.0) //is true
         ///   IsEqual(654f, 654d) //is true
         /// </summary>
-        public static int Compare(IComparable a, IComparable b)
+        internal static int Compare(IComparable a, IComparable b)
         {
             if (IsNumber(a) && IsNumber(b))
             {
@@ -55,7 +55,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
             return value is decimal;
         }
 
-        public static bool IsNumber(object value)
+        internal static bool IsNumber(object value)
         {
             if (value is sbyte)
                 return true;

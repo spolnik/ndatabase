@@ -70,7 +70,7 @@ namespace NDatabase.Odb.Core.Query.Linq
             return m.Member.MemberType == MemberTypes.Property;
         }
 
-        protected void AnalyseMethod(QueryBuilderRecorder recorder, MethodInfo method)
+        protected static void AnalyseMethod(QueryBuilderRecorder recorder, MethodInfo method)
         {
             try
             {
