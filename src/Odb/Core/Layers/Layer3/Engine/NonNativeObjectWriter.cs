@@ -596,7 +596,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 {
                     var btree = index.BTree;
                     // TODO manage collision!
-                    var old = btree.Delete(oldKey, oid);
+                    // Unused old value - result from delete
+                    btree.Delete(oldKey, oid);
                     // TODO check if old is equal to oldKey
                     btree.Insert(newKey, oid);
                     // Check consistency : index should have size equal to the class

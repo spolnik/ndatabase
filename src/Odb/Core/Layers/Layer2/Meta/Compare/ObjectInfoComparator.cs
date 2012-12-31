@@ -50,11 +50,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
             return HasChanged(aoi1, aoi2, -1);
         }
 
-        public AbstractObjectInfo GetChangedObjectMetaRepresentation(int i)
-        {
-            return _changedObjectMetaRepresentations[i];
-        }
-
         public IList<object> GetNewObjects()
         {
             return _newObjects;

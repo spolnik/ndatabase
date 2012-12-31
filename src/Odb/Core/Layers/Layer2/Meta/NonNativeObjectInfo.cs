@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
-using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta
@@ -343,35 +342,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         public int GetMaxNbattributes()
         {
             return _maxNbattributes;
-        }
-
-        /// <summary>
-        ///   Return the position where the position of an attribute is stored.
-        /// </summary>
-        /// <remarks>
-        ///   Return the position where the position of an attribute is stored. <pre>If a object has 3 attributes and if it is stored at position x
-        ///                                                                       Then the number of attributes (3) is stored at x+StorageEngineConstant.OBJECT_OFFSET_NB_ATTRIBUTES
-        ///                                                                       and first attribute id definition is stored at x+StorageEngineConstant.OBJECT_OFFSET_NB_ATTRIBUTES+size-of(int)
-        ///                                                                       and first attribute position is stored at x+StorageEngineConstant.OBJECT_OFFSET_NB_ATTRIBUTES+size-of(int)+size-of(int)
-        ///                                                                       the second attribute id is stored at x+StorageEngineConstant.OBJECT_OFFSET_NB_ATTRIBUTES+size-of(int)+size-of(int)+size-of(long)
-        ///                                                                       the second attribute position is stored at x+StorageEngineConstant.OBJECT_OFFSET_NB_ATTRIBUTES+size-of(int)+size-of(int)+size-of(long)+size-of(int)</pre>
-        ///   <pre>FIXME Remove dependency of StorageEngineConstant!</pre>
-        /// </remarks>
-        /// <param name="attributeId"> </param>
-        /// <returns> The position where this attribute is stored </returns>
-        public long GetAttributeDefinitionPosition(int attributeId)
-        {
-            var offset = StorageEngineConstant.ObjectOffsetNbAttributes;
-            // delta =
-            // Skip NbAttribute (int) +
-            // Delta attribute (attributeId-1) * attribute definition size =
-            // INT+LONG
-            // Skip attribute Id (int)
-            long delta = OdbType.Integer.Size +
-                         (attributeId - 1) * (OdbType.Integer.Size + OdbType.Long.Size) +
-                         OdbType.Integer.Size;
-
-            return GetPosition() + offset + delta;
         }
 
         public override void SetObject(object @object)

@@ -19,7 +19,5 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
         IList<ArrayModifyElement> GetArrayChanges();
 
         IList<SetAttributeToNullAction> GetAttributeToSetToNull();
-
-        AbstractObjectInfo GetChangedObjectMetaRepresentation(int i);
     }
 }

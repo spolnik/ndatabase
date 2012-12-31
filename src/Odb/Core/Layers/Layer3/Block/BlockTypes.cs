@@ -76,10 +76,5 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Block
         {
             return blockType == BlockTypeNativeNullObject || blockType == BlockTypeNonNativeNullObject;
         }
-
-        public static bool IsIndex(byte blockType)
-        {
-            return blockType == BlockTypeIndex;
-        }
     }
 }

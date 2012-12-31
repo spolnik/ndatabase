@@ -7,6 +7,15 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
     /// </summary>
     internal static class StorageEngineConstant
     {
+        private const int NbIdsPerBlock = 1000;
+
+        private const int IdBlockRepetitionSize = 18;
+
+        /// <summary>
+        ///   header(34) + 1000 * 18
+        /// </summary>
+        internal const int IdBlockSize = 34 + NbIdsPerBlock * IdBlockRepetitionSize;
+
         internal const long NullObjectIdId = 0;
 
         internal const long DeletedObjectPosition = 0;
@@ -178,14 +187,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         internal static readonly long NativeObjectOffsetBlockType = NativeObjectOffsetBlockSize +
                                                                   OdbType.Integer.Size;
-
-        private static readonly long NativeObjectOffsetOdbTypeId = NativeObjectOffsetBlockType + OdbType.Byte.Size;
-
-        private static readonly long NativeObjectOffsetObjectIsNull = NativeObjectOffsetOdbTypeId +
-                                                                     OdbType.Integer.Size;
-
-        internal static readonly long NativeObjectOffsetDataArea = NativeObjectOffsetObjectIsNull +
-                                                                 OdbType.Boolean.Size;
 
         // ********************************************************
         // DATABASE HEADER

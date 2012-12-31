@@ -253,7 +253,6 @@
     <Compile Include="Odb\Core\Layers\Layer3\Oid\IDStatus.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Refactor\RefactorManager.cs" />
     <Compile Include="Odb\Core\Oid\DatabaseIdImpl.cs" />
-    <Compile Include="Odb\Core\Oid\ExternalClassOID.cs" />
     <Compile Include="Odb\Core\Oid\ExternalObjectOID.cs" />
     <Compile Include="Odb\Core\Oid\ClassOID.cs" />
     <Compile Include="Odb\Core\Oid\ObjectOID.cs" />

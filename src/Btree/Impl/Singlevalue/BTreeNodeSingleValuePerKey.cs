@@ -5,10 +5,6 @@ namespace NDatabase.Btree.Impl.Singlevalue
 {
     internal abstract class BTreeNodeSingleValuePerKey : AbstractBTreeNode, IBTreeNodeOneValuePerKey
     {
-        protected BTreeNodeSingleValuePerKey()
-        {
-        }
-
         protected BTreeNodeSingleValuePerKey(IBTree btree) : base(btree)
         {
         }

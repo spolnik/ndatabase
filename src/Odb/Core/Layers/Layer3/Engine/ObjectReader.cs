@@ -1374,9 +1374,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var size = OdbType.Integer.Size + OdbType.Byte.Size + OdbType.Integer.Size +
                        OdbType.Boolean.Size;
             var bytes = _fsi.ReadBytes(size);
-            //TODO: block size not used
+            //TODO: block size and type not used
             ByteArrayConverter.ByteArrayToInt(bytes);
-            var blockType = bytes[4];
+            
             var odbTypeId = ByteArrayConverter.ByteArrayToInt(bytes, 5);
             var isNull = ByteArrayConverter.ByteArrayToBoolean(bytes, 9);
             
@@ -1499,28 +1499,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             aoi.SetRealArrayComponentClassName(realArrayComponentClassName);
             aoi.SetComponentTypeId(subTypeId.Id);
             return aoi;
-        }
-
-        /// <summary>
-        ///   Returns the name of the class of an object from its position
-        /// </summary>
-        /// <param name="objectPosition"> </param>
-        /// <returns> The object class name @ </returns>
-        private string GetObjectTypeFromPosition(long objectPosition)
-        {
-            var blockPosition = objectPosition + StorageEngineConstant.ObjectOffsetBlockType;
-            _fsi.SetReadPosition(blockPosition);
-            var blockType = _fsi.ReadByte();
-            if (BlockTypes.IsNull(blockType))
-            {
-                var classIdForNullObject = OIDFactory.BuildClassOID(_fsi.ReadLong("class id of object"));
-                return "null " +
-                       _storageEngine.GetSession().GetMetaModel().GetClassInfoFromId(classIdForNullObject).FullClassName;
-            }
-            var classIdPosition = objectPosition + StorageEngineConstant.ObjectOffsetClassInfoId;
-            _fsi.SetReadPosition(classIdPosition);
-            var classId = OIDFactory.BuildClassOID(_fsi.ReadLong("class id of object"));
-            return _storageEngine.GetSession().GetMetaModel().GetClassInfoFromId(classId).FullClassName;
         }
 
         /// <param name="blockNumberToFind"> </param>

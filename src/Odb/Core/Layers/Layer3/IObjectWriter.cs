@@ -29,19 +29,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         /// <returns> The oid of the object, as a negative number </returns>
         OID UpdateNonNativeObjectInfo(NonNativeObjectInfo nnoi, bool forceUpdate);
 
-        /// <summary>
-        ///   Write an object representation to database file
-        /// </summary>
-        /// <param name="existingOid"> The oid of the object, can be null </param>
-        /// <param name="objectInfo"> The Object meta representation </param>
-        /// <param name="position"> The position where the object must be written, can be -1 </param>
-        /// <param name="writeDataInTransaction"> To indicate if the write must be done in or out of transaction </param>
-        /// <param name="isNewObject"> </param>
-        /// <returns> The oid of the object </returns>
-        /// <exception cref="System.Exception">System.Exception</exception>
-        OID WriteNonNativeObjectInfo(OID existingOid, NonNativeObjectInfo objectInfo, long position,
-                                     bool writeDataInTransaction, bool isNewObject);
-
         IIdManager GetIdManager();
 
         void Close();

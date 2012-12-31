@@ -65,10 +65,5 @@ namespace NDatabase.Odb.Core.Query.Execution
         }
 
         #endregion
-
-        public bool ExecuteStartAndEndOfQueryAction()
-        {
-            return false;
-        }
     }
 }

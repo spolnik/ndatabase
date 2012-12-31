@@ -110,11 +110,6 @@ namespace NDatabase.Odb.Core.Transaction
 
         public abstract void SetFileSystemInterfaceToApplyTransaction(IFileSystemInterface fsi);
 
-        public virtual string GetBaseIdentification()
-        {
-            return _baseIdentification;
-        }
-
         public MetaModel GetMetaModel()
         {
             if (_metaModel == null)
@@ -146,20 +141,6 @@ namespace NDatabase.Odb.Core.Transaction
         public virtual void RemoveObjectFromCache(object @object)
         {
             _cache.RemoveObject(@object);
-        }
-
-        public virtual void AddObjectToCache(OID oid, object @object, ObjectInfoHeader oih)
-        {
-            if (@object == null)
-                throw new OdbRuntimeException(NDatabaseError.CacheNullObject.AddParameter("@object"));
-
-            if (oid == null)
-                throw new OdbRuntimeException(NDatabaseError.CacheNullOid.AddParameter("oid"));
-
-            if (oih == null)
-                throw new OdbRuntimeException(NDatabaseError.CacheNullObject.AddParameter("oih"));
-
-            _cache.AddObject(oid, @object, oih);
         }
 
         #endregion

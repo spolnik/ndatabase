@@ -6,7 +6,7 @@ namespace NDatabase.Odb.Core.Query.Values
 {
     internal abstract class AbstractQueryFieldAction : IQueryFieldAction
     {
-        protected string Alias;
+        protected readonly string Alias;
         protected string AttributeName;
 
         private IInstanceBuilder _instanceBuilder;

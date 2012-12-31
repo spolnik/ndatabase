@@ -237,7 +237,7 @@ namespace NDatabase.Odb.Core.Transaction
             {
                 if (_currentWriteAction == null)
                 {
-                    _currentWriteAction = new WriteAction(position, null);
+                    _currentWriteAction = new WriteAction(position);
                 }
                 _currentWriteAction.AddBytes(bytes);
                 _currentWritePositionInWa += bytes.Length;

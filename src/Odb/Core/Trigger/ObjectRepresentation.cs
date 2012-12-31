@@ -44,10 +44,5 @@ namespace NDatabase.Odb.Core.Trigger
         }
 
         #endregion
-
-        public NonNativeObjectInfo GetNnoi()
-        {
-            return _nnoi;
-        }
     }
 }

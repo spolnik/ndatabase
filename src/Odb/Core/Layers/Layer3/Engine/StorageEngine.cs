@@ -168,7 +168,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 DLogger.Info(result.ToString());
             }
 
-            if (checkMetaModelResult.GetResults().IsEmpty()) 
+            if (checkMetaModelResult.GetResults().Count == 0) 
                 return;
 
             UpdateMetaModel();

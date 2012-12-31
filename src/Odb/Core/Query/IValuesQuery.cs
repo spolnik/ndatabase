@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using NDatabase.Odb.Core.Query.Execution;
-using NDatabase.Odb.Core.Query.Values;
 using NDatabase.Tool.Wrappers.List;
 
 namespace NDatabase.Odb.Core.Query

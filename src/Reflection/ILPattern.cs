@@ -8,11 +8,6 @@ namespace NDatabase.Reflection
 {
     internal abstract class ILPattern
     {
-        public static ILPattern Either(ILPattern a, ILPattern b)
-        {
-            return new EitherPattern(a, b);
-        }
-
         protected static Instruction GetLastMatchingInstruction(MatchContext context)
         {
             return context.Instruction == null ? null : context.Instruction.Previous;
@@ -73,28 +68,6 @@ namespace NDatabase.Reflection
             context.Reset(instruction);
             return false;
         }
-
-        #region Nested type: EitherPattern
-
-        private class EitherPattern : ILPattern
-        {
-            private readonly ILPattern _a;
-            private readonly ILPattern _b;
-
-            public EitherPattern(ILPattern a, ILPattern b)
-            {
-                _a = a;
-                _b = b;
-            }
-
-            public override void Match(MatchContext context)
-            {
-                if (!_a.TryMatch(context))
-                    _b.Match(context);
-            }
-        }
-
-        #endregion
 
         #region Nested type: OpCodePattern
 

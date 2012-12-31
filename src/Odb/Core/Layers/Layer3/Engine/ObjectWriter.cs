@@ -294,13 +294,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             WriteClassInfoBody(classInfo, FileSystemProcessor.FileSystemInterface.GetAvailablePosition(), writeInTransaction);
         }
 
-        public OID WriteNonNativeObjectInfo(OID existingOid, NonNativeObjectInfo objectInfo, long position,
-                                                    bool writeDataInTransaction, bool isNewObject)
-        {
-            return _nonNativeObjectWriter.WriteNonNativeObjectInfo(existingOid, objectInfo, position,
-                                                                   writeDataInTransaction, isNewObject);
-        }
-
         /// <summary>
         ///   Insert the object in the index
         /// </summary>

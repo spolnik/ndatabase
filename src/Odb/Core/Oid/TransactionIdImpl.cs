@@ -3,8 +3,7 @@ using System.Text;
 
 namespace NDatabase.Odb.Core.Oid
 {
-    
-    public sealed class TransactionIdImpl : ITransactionId
+    internal sealed class TransactionIdImpl : ITransactionId
     {
         private readonly IDatabaseId _databaseId;
         private readonly long _id1;
@@ -22,11 +21,6 @@ namespace NDatabase.Odb.Core.Oid
         public long GetId1()
         {
             return _id1;
-        }
-
-        public IDatabaseId GetDatabaseId()
-        {
-            return _databaseId;
         }
 
         public long GetId2()

@@ -6,10 +6,6 @@ namespace NDatabase.Btree.Impl.Singlevalue
 {
     internal abstract class BTreeSingleValuePerKey : AbstractBTree, IBTreeSingleValuePerKey
     {
-        protected BTreeSingleValuePerKey()
-        {
-        }
-
         protected BTreeSingleValuePerKey(int degree, IBTreePersister persister) 
             : base(degree, persister)
         {

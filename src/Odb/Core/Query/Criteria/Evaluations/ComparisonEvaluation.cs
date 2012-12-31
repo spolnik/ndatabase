@@ -90,10 +90,5 @@ namespace NDatabase.Odb.Core.Query.Criteria.Evaluations
                     return "<=";}
             return "?";
         }
-
-        internal AttributeValuesMap GetValues()
-        {
-            return new AttributeValuesMap { { AttributeName, TheObject } };
-        }
     }
 }

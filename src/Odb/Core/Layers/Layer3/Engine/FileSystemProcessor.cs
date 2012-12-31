@@ -147,7 +147,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             FileSystemInterface.WriteLong(-1, writeInTransaction, "next block pos");
             FileSystemInterface.WriteInt(blockNumber, writeInTransaction, "id block number");
             FileSystemInterface.WriteLong(0, writeInTransaction, "id block max id");
-            FileSystemInterface.SetWritePosition(position + OdbConfiguration.GetIdBlockSize() - 1, writeInTransaction);
+            FileSystemInterface.SetWritePosition(position + StorageEngineConstant.IdBlockSize - 1, writeInTransaction);
             FileSystemInterface.WriteByte(0, writeInTransaction);
 
             if (OdbConfiguration.IsLoggingEnabled())
@@ -198,7 +198,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             FileSystemInterface.WriteLong(StorageEngineConstant.DatabaseHeaderFirstIdBlockPosition, false, "current id block position");
 
             // Write an empty id block
-            WriteIdBlock(-1, OdbConfiguration.GetIdBlockSize(), BlockStatus.BlockNotFull, 1, -1, false);
+            WriteIdBlock(-1, StorageEngineConstant.IdBlockSize, BlockStatus.BlockNotFull, 1, -1, false);
             Flush();
 
             var currentBlockInfo = new CurrentIdBlockInfo

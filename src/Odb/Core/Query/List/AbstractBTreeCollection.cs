@@ -27,10 +27,6 @@ namespace NDatabase.Odb.Core.Query.List
             _orderByType = orderByType;
         }
 
-        protected AbstractBTreeCollection() : this(OrderByConstants.OrderByNone)
-        {
-        }
-
         #region IInternalObjectSet<TItem> Members
 
         /// <summary>
@@ -40,19 +36,6 @@ namespace NDatabase.Odb.Core.Query.List
         {
             _tree.Insert(key, o);
             _size++;
-        }
-
-        /// <summary>
-        ///   Adds the object in the btree with the specific key
-        /// </summary>
-        /// <param name="key"> </param>
-        /// <param name="o"> </param>
-        /// <returns> </returns>
-        public virtual bool AddWithKey(int key, TItem o)
-        {
-            _tree.Insert(key, o);
-            _size++;
-            return true;
         }
 
         public virtual IEnumerator<TItem> Iterator(OrderByConstants newOrderByType)

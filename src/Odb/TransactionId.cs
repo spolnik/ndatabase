@@ -6,8 +6,6 @@ namespace NDatabase.Odb
 
         long GetId2();
 
-        IDatabaseId GetDatabaseId();
-
         ITransactionId Next();
     }
 }

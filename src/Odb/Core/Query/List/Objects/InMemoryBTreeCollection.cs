@@ -8,10 +8,6 @@ namespace NDatabase.Odb.Core.Query.List.Objects
     /// </summary>
     internal sealed class InMemoryBTreeCollection<T> : AbstractBTreeCollection<T>
     {
-        public InMemoryBTreeCollection() : base(OrderByConstants.OrderByAsc)
-        {
-        }
-
         public InMemoryBTreeCollection(OrderByConstants orderByType) : base(orderByType)
         {
         }

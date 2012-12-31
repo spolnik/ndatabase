@@ -7,10 +7,6 @@ namespace NDatabase.Btree.Impl.Multiplevalue
 {
     internal abstract class BTreeNodeMultipleValuesPerKey : AbstractBTreeNode, IBTreeNodeMultipleValuesPerKey
     {
-        protected BTreeNodeMultipleValuesPerKey()
-        {
-        }
-
         protected BTreeNodeMultipleValuesPerKey(IBTree btree) : base(btree)
         {
         }

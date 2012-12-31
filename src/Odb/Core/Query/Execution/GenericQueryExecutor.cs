@@ -234,14 +234,9 @@ namespace NDatabase.Odb.Core.Query.Execution
                 // This is an error
                 if (currentOID == null)
                 {
-                    if (OdbConfiguration.ThrowExceptionWhenInconsistencyFound())
-                    {
-                        throw new OdbRuntimeException(
-                            NDatabaseError.NullNextObjectOid.AddParameter(ClassInfo.FullClassName).AddParameter(i).
-                                AddParameter(nbObjects).AddParameter(prevOID));
-                    }
-
-                    break;
+                    throw new OdbRuntimeException(
+                        NDatabaseError.NullNextObjectOid.AddParameter(ClassInfo.FullClassName).AddParameter(i).
+                            AddParameter(nbObjects).AddParameter(prevOID));
                 }
 
                 // If there is an endIndex condition

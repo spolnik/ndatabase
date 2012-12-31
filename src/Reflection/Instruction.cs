@@ -35,49 +35,6 @@ namespace NDatabase.Reflection
 
         public Instruction Previous { get; internal set; }
 
-        public int Size
-        {
-            get
-            {
-                var size = _opcode.Size;
-                switch (_opcode.OperandType)
-                {
-                    case OperandType.InlineBrTarget:
-                    case OperandType.InlineField:
-                    case OperandType.InlineI:
-                    case OperandType.InlineMethod:
-                    case OperandType.InlineString:
-                    case OperandType.InlineTok:
-                    case OperandType.InlineType:
-                    case OperandType.ShortInlineR:
-                        return (size + 4);
-
-                    case OperandType.InlineI8:
-                    case OperandType.InlineR:
-                        return (size + 8);
-
-                    case OperandType.InlineNone:
-                    case OperandType.InlinePhi:
-                    case ((OperandType) 8):
-                    case OperandType.InlineSig:
-                        return size;
-
-                    case OperandType.InlineSwitch:
-                        return (size + ((1 + ((int[]) _operand).Length)*4));
-
-                    case OperandType.InlineVar:
-                        return (size + 2);
-
-                    case OperandType.ShortInlineBrTarget:
-                    case OperandType.ShortInlineI:
-                    case OperandType.ShortInlineVar:
-                        size++;
-                        return size;
-                }
-                return size;
-            }
-        }
-
         private static void AppendLabel(StringBuilder builder, Instruction instruction)
         {
             builder.Append("IL_");

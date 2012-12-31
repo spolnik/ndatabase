@@ -1,26 +1,22 @@
+using System.Collections.Generic;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Tool.Wrappers.List;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
     internal sealed class CheckMetaModelResult
     {
-        private bool _modelHasBeenUpdated;
-
-        private IOdbList<ClassInfoCompareResult> _results;
+        private readonly IList<ClassInfoCompareResult> _results;
 
         public CheckMetaModelResult()
         {
-            _modelHasBeenUpdated = false;
-            _results = new OdbList<ClassInfoCompareResult>();
+            _results = new List<ClassInfoCompareResult>();
         }
 
         public void SetModelHasBeenUpdated(bool modelHasBeenUpdated)
         {
-            _modelHasBeenUpdated = modelHasBeenUpdated;
         }
 
-        public IOdbList<ClassInfoCompareResult> GetResults()
+        public IList<ClassInfoCompareResult> GetResults()
         {
             return _results;
         }

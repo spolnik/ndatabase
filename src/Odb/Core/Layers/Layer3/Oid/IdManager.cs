@@ -226,7 +226,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Oid
 
         private long CreateNewBlock()
         {
-            var position = _objectWriter.FileSystemProcessor.WriteIdBlock(-1, OdbConfiguration.GetIdBlockSize(),
+            var position = _objectWriter.FileSystemProcessor.WriteIdBlock(-1, StorageEngineConstant.IdBlockSize,
                                                                           BlockStatus.BlockNotFull,
                                                                           _currentBlockIdNumber + 1,
                                                                           _currentBlockIdPosition, false);

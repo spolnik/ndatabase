@@ -85,8 +85,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         byte[] ReadDoubleBytes();
 
-        double ReadDouble();
-
         double ReadDouble(string label);
 
         void WriteBigDecimal(Decimal d, bool writeInTransaction);
@@ -100,8 +98,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         void WriteDate(DateTime d, bool writeInTransaction);
 
         byte[] ReadDateBytes();
-
-        DateTime ReadDate();
 
         DateTime ReadDate(string label);
 
@@ -125,8 +121,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         bool ReadBoolean(string label);
 
-        byte[] ReadNativeAttributeBytes(int attributeType);
-
         void Close();
 
         /// <returns> Returns the parameters. </returns>
@@ -136,19 +130,19 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         void WriteUShort(ushort s, bool writeInTransaction);
         byte[] ReadUShortBytes();
-        ushort ReadUShort();
+        
         ushort ReadUShort(string label);
         void WriteUInt(uint i, bool writeInTransaction, string label);
         byte[] ReadUIntBytes();
-        uint ReadUInt();
+        
         uint ReadUInt(string label);
         void WriteULong(ulong i, bool writeInTransaction, string label);
         byte[] ReadULongBytes();
-        ulong ReadULong();
+        
         ulong ReadULong(string label);
         void WriteSByte(sbyte i, bool writeInTransaction);
         void WriteSByte(sbyte i, bool writeInTransaction, string label);
-        sbyte ReadSByte();
+        
         sbyte ReadSByte(string label);
     }
 }
