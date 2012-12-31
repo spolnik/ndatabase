@@ -58,8 +58,7 @@ namespace NDatabase.Odb.Core.Query.Criteria
 
                 // Gets a map with the values with the fields involved in the query
                 var attributeValues = ObjectReader.ReadObjectInfoValuesFromOID(ClassInfo, CurrentOid, true,
-                                                                               _involvedFields, _involvedFields, 0,
-                                                                               Query.GetOrderByFieldNames());
+                                                                               _involvedFields, _involvedFields, 0);
 
                 // Then apply the query on the field values
                 var objectMatches = Query.Match(attributeValues);
@@ -83,7 +82,7 @@ namespace NDatabase.Odb.Core.Query.Criteria
             }
         }
 
-        protected override IComparable ComputeIndexKey(ClassInfo ci, ClassInfoIndex index)
+        protected override IComparable ComputeIndexKey(ClassInfoIndex index)
         {
             var constraint = Query.GetCriteria();
             var values = ((IInternalConstraint)constraint).GetValues();

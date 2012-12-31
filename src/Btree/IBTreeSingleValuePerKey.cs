@@ -2,7 +2,7 @@ using System;
 
 namespace NDatabase.Btree
 {
-    public interface IBTreeSingleValuePerKey : IBTree
+    internal interface IBTreeSingleValuePerKey : IBTree
     {
         object Search(IComparable key);
     }

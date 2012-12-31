@@ -6,7 +6,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
     {
         void AddObject(OID oid, object @object, ObjectInfoHeader objectInfoHeader);
 
-        void StartInsertingObjectWithOid<T>(T plainObject, OID oid, NonNativeObjectInfo nnoi) where T : class;
+        void StartInsertingObjectWithOid<T>(T plainObject, OID oid) where T : class;
 
         void UpdateIdOfInsertingObject<T>(T plainObject, OID oid) where T : class;
 

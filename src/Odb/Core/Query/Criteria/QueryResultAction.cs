@@ -105,7 +105,7 @@ namespace NDatabase.Odb.Core.Query.Criteria
         private object GetCurrentInstance(NonNativeObjectInfo nnoi)
         {
             return nnoi.GetObject() ??
-                   _instanceBuilder.BuildOneInstance(nnoi, _storageEngine.GetSession(true).GetCache());
+                   _instanceBuilder.BuildOneInstance(nnoi, _storageEngine.GetSession().GetCache());
         }
     }
 }

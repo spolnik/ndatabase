@@ -7,7 +7,7 @@ namespace NDatabase.Odb.Core.Query.Linq
 {
     internal abstract class ExpressionVisitor
     {
-        protected virtual void Visit(Expression expression)
+        protected void Visit(Expression expression)
         {
             if (expression == null)
                 return;
@@ -61,8 +61,7 @@ namespace NDatabase.Odb.Core.Query.Linq
                     VisitConstant((ConstantExpression) expression);
                     break;
                 case ExpressionType.Parameter:
-                    VisitParameter((ParameterExpression) expression);
-                    break;
+                                        break;
                 case ExpressionType.MemberAccess:
                     VisitMemberAccess((MemberExpression) expression);
                     break;
@@ -128,7 +127,7 @@ namespace NDatabase.Odb.Core.Query.Linq
             Visit(binary.Conversion);
         }
 
-        protected virtual void VisitTypeIs(TypeBinaryExpression type)
+        private void VisitTypeIs(TypeBinaryExpression type)
         {
             Visit(type.Expression);
         }
@@ -144,10 +143,6 @@ namespace NDatabase.Odb.Core.Query.Linq
             Visit(conditional.IfFalse);
         }
 
-        protected virtual void VisitParameter(ParameterExpression parameter)
-        {
-        }
-
         protected virtual void VisitMemberAccess(MemberExpression member)
         {
             Visit(member.Expression);
@@ -159,44 +154,44 @@ namespace NDatabase.Odb.Core.Query.Linq
             VisitExpressionList(methodCall.Arguments);
         }
 
-        protected virtual void VisitList<T>(IEnumerable<T> list, Action<T> visitor)
+        private static void VisitList<T>(IEnumerable<T> list, Action<T> visitor)
         {
             foreach (var element in list)
                 visitor(element);
         }
 
-        protected virtual void VisitExpressionList<TExp>(ReadOnlyCollection<TExp> list) where TExp : Expression
+        protected void VisitExpressionList<TExp>(ReadOnlyCollection<TExp> list) where TExp : Expression
         {
             VisitList(list, Visit);
         }
 
-        protected virtual void VisitMemberAssignment(MemberAssignment assignment)
+        private void VisitMemberAssignment(MemberAssignment assignment)
         {
             Visit(assignment.Expression);
         }
 
-        protected virtual void VisitMemberMemberBinding(MemberMemberBinding binding)
+        private void VisitMemberMemberBinding(MemberMemberBinding binding)
         {
             VisitBindingList(binding.Bindings);
         }
 
-        protected virtual void VisitMemberListBinding(MemberListBinding binding)
+        private void VisitMemberListBinding(MemberListBinding binding)
         {
             VisitElementInitializerList(binding.Initializers);
         }
 
-        protected virtual void VisitBindingList<TBinding>(ReadOnlyCollection<TBinding> list)
+        private void VisitBindingList<TBinding>(IEnumerable<TBinding> list)
             where TBinding : MemberBinding
         {
             VisitList(list, VisitBinding);
         }
 
-        protected virtual void VisitElementInitializerList(ReadOnlyCollection<ElementInit> list)
+        private void VisitElementInitializerList(IEnumerable<ElementInit> list)
         {
             VisitList(list, VisitElementInitializer);
         }
 
-        protected virtual void VisitLambda(LambdaExpression lambda)
+        private void VisitLambda(LambdaExpression lambda)
         {
             Visit(lambda.Body);
         }
@@ -206,7 +201,7 @@ namespace NDatabase.Odb.Core.Query.Linq
             VisitExpressionList(nex.Arguments);
         }
 
-        protected virtual void VisitMemberInit(MemberInitExpression init)
+        private void VisitMemberInit(MemberInitExpression init)
         {
             VisitNew(init.NewExpression);
             VisitBindingList(init.Bindings);

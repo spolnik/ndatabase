@@ -20,7 +20,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
             using (var odb = OdbFactory.Open(bigbtreeTest1DbName))
             {
                 var size = 10000;
-                IBTree tree = new OdbBtreeSingle("test1", 50, new LazyOdbBtreePersister(odb));
+                IBTree tree = new OdbBtreeSingle(50, new LazyOdbBtreePersister(odb));
                 for (var i = 0; i < size; i++)
                 {
                     if (i % 1000 == 0)
@@ -45,7 +45,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
         public virtual void Test2()
         {
             var size = 10000;
-            IBTree tree = new InMemoryBTreeMultipleValuesPerKey("test1", 50);
+            IBTree tree = new InMemoryBTreeMultipleValuesPerKey(50);
             for (var i = 0; i < size; i++)
             {
                 if (i % 1000 == 0)
@@ -70,7 +70,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
         public virtual void Test3()
         {
             var size = 10;
-            IBTree tree = new InMemoryBTreeMultipleValuesPerKey("test1", 5);
+            IBTree tree = new InMemoryBTreeMultipleValuesPerKey(5);
             for (var i = 0; i < size; i++)
             {
                 Println(i);

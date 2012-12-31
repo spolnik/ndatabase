@@ -29,7 +29,7 @@ namespace NDatabase.Odb.Core.Query.List.Objects
 
         protected override IBTree BuildTree(int degree)
         {
-            return new InMemoryBTreeMultipleValuesPerKey("default", degree);
+            return new InMemoryBTreeMultipleValuesPerKey(degree);
         }
 
         public override IEnumerator<T> Iterator(OrderByConstants orderByType)

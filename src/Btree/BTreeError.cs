@@ -11,20 +11,10 @@ namespace NDatabase.Btree
     /// </summary>
     internal sealed class BTreeError : IError
     {
-        public static readonly BTreeError MergeWithTwoMoreKeys = new BTreeError(500,
-                                                                                "Trying to merge two node with more keys than allowed! @1 // @2");
-
         public static readonly BTreeError LazyLoadingNode = new BTreeError(501,
                                                                            "Error while loading node lazily with oid @1");
 
-        public static readonly BTreeError NodeWithoutId = new BTreeError(502, "Node with id -1");
-
-        public static readonly BTreeError NullPersisterFound = new BTreeError(503, "Null persister for PersistentBTree");
-
         public static readonly BTreeError InvalidIdForBtree = new BTreeError(504, "Invalid id for Btree : id=@1");
-
-        public static readonly BTreeError InvalidNodeType = new BTreeError(505,
-                                                                           "Node should be a PersistentNode but is a @1");
 
         public static readonly BTreeError InternalError = new BTreeError(506, "Internal error: @1");
 

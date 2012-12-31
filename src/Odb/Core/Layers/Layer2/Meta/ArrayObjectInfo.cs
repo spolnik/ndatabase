@@ -7,7 +7,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// <summary>
     ///   A meta representation of an Array
     /// </summary>
-    internal sealed class ArrayObjectInfo : GroupObjectInfo
+    internal sealed class ArrayObjectInfo : NativeObjectInfo
     {
         private int _componentTypeId;
         private string _realArrayComponentClassName;

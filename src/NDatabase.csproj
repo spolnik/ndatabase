@@ -152,7 +152,6 @@
     <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\NewNonNativeObjectAction.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\SetAttributeToNullAction.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\EnumNativeObjectInfo.cs" />
-    <Compile Include="Odb\Core\Layers\Layer2\Meta\GroupObjectInfo.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\MetaModel.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\NativeAttributeHeader.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\NativeObjectInfo.cs" />

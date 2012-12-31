@@ -37,6 +37,11 @@ namespace NDatabase.Odb.Main
             return _storageEngine.Store(plainObject);
         }
 
+        public IObjectSet<T> QueryAndExecute<T>()
+        {
+            return Query<T>().Execute<T>();
+        }
+
         public IQuery Query<T>()
         {
             var criteriaQuery = new SodaQuery(typeof(T));
@@ -74,7 +79,6 @@ namespace NDatabase.Odb.Main
 
         public virtual void Close()
         {
-            _storageEngine.Commit();
             _storageEngine.Close();
         }
 
@@ -110,7 +114,7 @@ namespace NDatabase.Odb.Main
         public virtual IIndexManager IndexManagerFor<T>() where T : class
         {
             var clazz = typeof (T);
-            var classInfo = _storageEngine.GetSession(true).GetMetaModel().GetClassInfo(clazz, false);
+            var classInfo = _storageEngine.GetSession().GetMetaModel().GetClassInfo(clazz, false);
 
             if (classInfo == null)
             {
@@ -156,7 +160,7 @@ namespace NDatabase.Odb.Main
 
         internal IStorageEngine GetStorageEngine()
         {
-            return _storageEngine.GetSession(true).GetStorageEngine();
+            return _storageEngine.GetSession().GetStorageEngine();
         }
     }
 }

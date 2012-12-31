@@ -4,7 +4,7 @@ using NDatabase.Odb.Core;
 
 namespace NDatabase.Btree
 {
-    public abstract class AbstractBTreeIterator<T> : IterarorAdapter, IEnumerator<T>
+    internal abstract class AbstractBTreeIterator<T> : IterarorAdapter, IEnumerator<T>
     {
         private readonly IBTree _btree;
         private readonly OrderByConstants _orderByType;
@@ -77,7 +77,7 @@ namespace NDatabase.Btree
             return Current;
         }
 
-        protected virtual T NextAsc()
+        private T NextAsc()
         {
             // Try to go down till a leaf
             while (!CurrentNode.IsLeaf())
@@ -110,7 +110,7 @@ namespace NDatabase.Btree
             return (T) value;
         }
 
-        protected virtual T NextDesc()
+        private T NextDesc()
         {
             // Try to go down till a leaf
             while (!CurrentNode.IsLeaf())
@@ -153,10 +153,6 @@ namespace NDatabase.Btree
 
             var errorMessage = string.Format("parent {0} does not have the specified child : {1}", parent, child);
             throw new OdbRuntimeException(NDatabaseError.InternalError.AddParameter(errorMessage));
-        }
-
-        public virtual void Remove()
-        {
         }
     }
 }

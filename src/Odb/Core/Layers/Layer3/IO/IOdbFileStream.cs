@@ -11,7 +11,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         ///  Sets the current position of this stream to the given value
         /// </summary>
         /// <param name="position">offset</param>
-        void Seek(long position);
+        void SetPosition(long position);
 
         void Write(byte value);
 

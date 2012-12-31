@@ -46,7 +46,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             _nativeHeaderBlockSizeByte = ByteArrayConverter.IntToByteArray(NativeHeaderBlockSize);
             _comparator = new ObjectInfoComparator();
 
-            _session = engine.GetSession(true);
+            _session = engine.GetSession();
 
             _nonNativeObjectWriter = new NonNativeObjectWriter(this, _storageEngine, _comparator);
 
@@ -163,7 +163,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                         var existingClassInfo = metaModel.GetClassInfo(classAttributeInfo.GetFullClassname(), false);
                         if (existingClassInfo == null)
                         {
-                            AddClasses(ClassIntrospector.Introspect(classAttributeInfo.GetFullClassname(), true));
+                            AddClasses(ClassIntrospector.Introspect(classAttributeInfo.GetFullClassname()));
                         }
                         else
                         {
@@ -272,7 +272,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     var existingClassInfo = metaModel.GetClassInfo(classAttributeInfo.GetFullClassname(), false);
                     if (existingClassInfo == null)
                     {
-                        AddClasses(ClassIntrospector.Introspect(classAttributeInfo.GetFullClassname(), true));
+                        AddClasses(ClassIntrospector.Introspect(classAttributeInfo.GetFullClassname()));
                     }
                     else
                     {
@@ -554,7 +554,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         ///   Mark a block as deleted
         /// </summary>
         /// <returns> The block size </returns>
-        public void MarkAsDeleted(long currentPosition, OID oid, bool writeInTransaction)
+        public void MarkAsDeleted(long currentPosition, bool writeInTransaction)
         {
             FileSystemProcessor.FileSystemInterface.SetReadPosition(currentPosition);
             var blockSize = FileSystemProcessor.FileSystemInterface.ReadInt();
@@ -757,7 +757,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             GetIdManager().UpdateIdStatus(header.GetOid(), IDStatus.Deleted);
             // The update of the place must be done in transaction if object is in
             // committed zone, else it can be done directly in the file
-            MarkAsDeleted(objectPosition, header.GetOid(), objectIsInConnectedZone);
+            MarkAsDeleted(objectPosition, objectIsInConnectedZone);
             cache.MarkIdAsDeleted(header.GetOid());
             if (withIndex)
                 ManageIndexesForDelete(header.GetOid(), nnoi);
@@ -844,7 +844,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <param name="classInfo"> The class of the object being inserted </param>
         public void ManageNewObjectPointers(NonNativeObjectInfo objectInfo, ClassInfo classInfo)
         {
-            var cache = _storageEngine.GetSession(true).GetCache();
+            var cache = _storageEngine.GetSession().GetCache();
             var isFirstUncommitedObject = !classInfo.UncommittedZoneInfo.HasObjects();
             // if it is the first uncommitted object
             if (isFirstUncommitedObject)
@@ -890,7 +890,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     // object info oip has been changed, we must put it
                     // in the cache to turn this change available for current
                     // transaction until the commit
-                    _storageEngine.GetSession(true).GetCache().AddObjectInfoOfNonCommitedObject(oip);
+                    _storageEngine.GetSession().GetCache().AddObjectInfoOfNonCommitedObject(oip);
                 }
             }
             // always set the new last object oid and the number of objects
@@ -905,7 +905,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             classInfo.LastObjectInfoHeader = objectInfo.GetHeader();
             // // Saves the fact that something has changed in the class (number of
             // objects and/or last object oid)
-            _storageEngine.GetSession(true).GetMetaModel().AddChangedClass(classInfo);
+            _storageEngine.GetSession().GetMetaModel().AddChangedClass(classInfo);
         }
 
         // This will be done by the mainStoreObject method

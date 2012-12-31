@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Text;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Query.Execution;
@@ -67,16 +66,10 @@ namespace NDatabase.Odb.Core.Query.Criteria
             if (_details != null)
                 return _details;
 
-            var buffer = new StringBuilder();
-            if (_classInfoIndex == null)
-            {
-                buffer.Append("No index used, Execution time=").Append(GetDuration()).Append("ms");
-                return buffer.ToString();
-            }
-
-            return
-                buffer.Append("Following indexes have been used : ").Append(_classInfoIndex.Name).Append(
-                    ", Execution time=").Append(GetDuration()).Append("ms").ToString();
+            return _classInfoIndex == null
+                       ? string.Format("No index used, Execution time={0}ms", GetDuration())
+                       : string.Format("Following indexes have been used : {0}, Execution time={1}ms",
+                                       _classInfoIndex.Name, GetDuration());
         }
 
         public void End()

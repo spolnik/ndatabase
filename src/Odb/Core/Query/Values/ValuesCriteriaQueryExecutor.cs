@@ -38,7 +38,7 @@ namespace NDatabase.Odb.Core.Query.Values
 
             // Gets a map with the values with the fields involved in the query
             _values = ObjectReader.ReadObjectInfoValuesFromOID(ClassInfo, CurrentOid, true, _involvedFields,
-                                                               _involvedFields, 0, _sodaQuery.GetOrderByFieldNames());
+                                                               _involvedFields, 0);
 
             var objectMatches = true;
             if (!_sodaQuery.IsForSingleOid())
@@ -53,7 +53,7 @@ namespace NDatabase.Odb.Core.Query.Values
             return objectMatches;
         }
 
-        protected override IComparable ComputeIndexKey(ClassInfo ci, ClassInfoIndex index)
+        protected override IComparable ComputeIndexKey(ClassInfoIndex index)
         {
             return IndexTool.ComputeKey(ClassInfo, index, Query);
         }

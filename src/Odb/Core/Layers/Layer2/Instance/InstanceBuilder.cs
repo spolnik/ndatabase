@@ -31,7 +31,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
 
         public object BuildOneInstance(NonNativeObjectInfo objectInfo)
         {
-            return BuildOneInstance(objectInfo, _engine.GetSession(true).GetCache());
+            return BuildOneInstance(objectInfo, _engine.GetSession().GetCache());
         }
 
         public object BuildOneInstance(NonNativeObjectInfo objectInfo, IOdbCache cache)
@@ -187,7 +187,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
 
         public string GetSessionId()
         {
-            return _engine.GetSession(true).GetId();
+            return _engine.GetSession().GetId();
         }
 
         #endregion

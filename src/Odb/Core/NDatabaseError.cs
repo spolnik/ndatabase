@@ -129,7 +129,7 @@ namespace NDatabase.Odb.Core
 
         internal static readonly NDatabaseError CacheNullOid = new NDatabaseError(260, "Null OID");
 
-        internal static readonly NDatabaseError NegativePosition = new NDatabaseError(261, "Negative position : @1");
+        internal static readonly NDatabaseError NegativePosition = new NDatabaseError(261, "Error during seek operation, position. Negative position : @1");
 
         internal static readonly NDatabaseError UnexpectedSituation = new NDatabaseError(262, "Unexpected situation: @1");
 

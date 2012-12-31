@@ -31,7 +31,7 @@ namespace NDatabase.Odb.Core.Query.List.Values
 
         protected override IBTree BuildTree(int degree)
         {
-            return new InMemoryBTreeMultipleValuesPerKey("default", degree);
+            return new InMemoryBTreeMultipleValuesPerKey(degree);
         }
     }
 }

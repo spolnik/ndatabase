@@ -168,7 +168,6 @@ namespace NDatabase.Odb.Core.BTree
         public void Close()
         {
             Persist();
-            _engine.Commit();
             _engine.Close();
         }
 

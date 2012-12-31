@@ -346,7 +346,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     if (cai.GetAttributeType().SubType.IsNonNative())
                     {
                         FileSystemInterface.WriteLong(
-                            storageEngine.GetSession(true).GetMetaModel().GetClassInfo(
+                            storageEngine.GetSession().GetMetaModel().GetClassInfo(
                                 cai.GetAttributeType().SubType.Name, true).ClassInfoId.ObjectId,
                             writeInTransaction, "class info id of array subtype");
                     }
@@ -355,14 +355,14 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 if (cai.GetAttributeType().IsEnum())
                 {
                     FileSystemInterface.WriteLong(
-                        storageEngine.GetSession(true).GetMetaModel().GetClassInfo(cai.GetFullClassname(), true).ClassInfoId
+                        storageEngine.GetSession().GetMetaModel().GetClassInfo(cai.GetFullClassname(), true).ClassInfoId
                             .ObjectId, writeInTransaction, "class info id");
                 }
             }
             else
             {
                 FileSystemInterface.WriteLong(
-                    storageEngine.GetSession(true).GetMetaModel().GetClassInfo(cai.GetFullClassname(), true).ClassInfoId.
+                    storageEngine.GetSession().GetMetaModel().GetClassInfo(cai.GetFullClassname(), true).ClassInfoId.
                         ObjectId, writeInTransaction, "class info id");
             }
             FileSystemInterface.WriteString(cai.GetName(), writeInTransaction);

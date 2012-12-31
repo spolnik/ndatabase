@@ -327,7 +327,7 @@ namespace Test.NDatabase.Odb.Test.Update
 
             var fullClassName = OdbClassUtil.GetFullName(typeof (VO.Login.Function));
 
-            var ci = engine.GetSession(true).GetMetaModel().GetClassInfo(fullClassName, true);
+            var ci = engine.GetSession().GetMetaModel().GetClassInfo(fullClassName, true);
             Println(ci);
             AssertEquals(null, ci.CommitedZoneInfo.First);
             AssertEquals(null, ci.CommitedZoneInfo.Last);

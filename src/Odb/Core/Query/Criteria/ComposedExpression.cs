@@ -13,7 +13,7 @@ namespace NDatabase.Odb.Core.Query.Criteria
             Constraints = new OdbList<IConstraint>(5);
         }
 
-        public virtual ComposedExpression Add(IConstraint constraint)
+        public ComposedExpression Add(IConstraint constraint)
         {
             Constraints.Add(constraint);
             return this;

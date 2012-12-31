@@ -4,15 +4,14 @@ using NDatabase.Odb.Core;
 
 namespace NDatabase.Btree.Impl.Singlevalue
 {
-    
-    public abstract class BTreeSingleValuePerKey : AbstractBTree, IBTreeSingleValuePerKey
+    internal abstract class BTreeSingleValuePerKey : AbstractBTree, IBTreeSingleValuePerKey
     {
         protected BTreeSingleValuePerKey()
         {
         }
 
-        protected BTreeSingleValuePerKey(string name, int degree, IBTreePersister persister) 
-            : base(name, degree, persister)
+        protected BTreeSingleValuePerKey(int degree, IBTreePersister persister) 
+            : base(degree, persister)
         {
         }
 

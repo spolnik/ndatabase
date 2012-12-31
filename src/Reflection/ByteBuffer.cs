@@ -27,9 +27,7 @@ namespace NDatabase.Reflection
         private void CheckCanRead(int count)
         {
             if ((_position + count) > _buffer.Length)
-            {
                 throw new ArgumentOutOfRangeException();
-            }
         }
 
         public byte ReadByte()

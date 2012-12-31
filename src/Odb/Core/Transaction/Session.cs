@@ -27,7 +27,7 @@ namespace NDatabase.Odb.Core.Transaction
         /// </summary>
         private readonly IReadObjectsCache _readObjectsCache;
 
-        private string _baseIdentification;
+        private readonly string _baseIdentification;
 
         private readonly string _id;
 
@@ -180,11 +180,6 @@ namespace NDatabase.Odb.Core.Transaction
                 return false;
             var session = (ISession) obj;
             return GetId().Equals(session.GetId());
-        }
-
-        public virtual void SetBaseIdentification(string baseIdentification)
-        {
-            _baseIdentification = baseIdentification;
         }
     }
 }

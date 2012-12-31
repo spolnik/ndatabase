@@ -78,7 +78,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         ///   Mark a block as deleted
         /// </summary>
         /// <returns> The block size </returns>
-        void MarkAsDeleted(long currentPosition, OID oid, bool writeInTransaction);
+        void MarkAsDeleted(long currentPosition, bool writeInTransaction);
 
         ClassInfo AddClass(ClassInfo newClassInfo, bool addDependentClasses);
 

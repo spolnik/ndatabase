@@ -77,7 +77,7 @@ namespace NDatabase.Odb.Core.Query.Execution
             Query = (SodaQuery) query;
             StorageEngine = engine;
             ObjectReader = StorageEngine.GetObjectReader();
-            Session = StorageEngine.GetSession(true);
+            Session = StorageEngine.GetSession();
             _executeStartAndEndOfQueryAction = true;
         }
 
@@ -147,7 +147,7 @@ namespace NDatabase.Odb.Core.Query.Execution
 
         protected abstract void PrepareQuery();
 
-        protected abstract IComparable ComputeIndexKey(ClassInfo ci, ClassInfoIndex index);
+        protected abstract IComparable ComputeIndexKey(ClassInfoIndex index);
 
         /// <summary>
         ///   This can be a NonNAtiveObjectInf or AttributeValuesMap
@@ -315,7 +315,7 @@ namespace NDatabase.Odb.Core.Query.Execution
             // the two values should be equal
             if (nbObjects != btreeSize)
             {
-                var classInfo = StorageEngine.GetSession(true).GetMetaModel().GetClassInfoFromId(index.ClassInfoId);
+                var classInfo = StorageEngine.GetSession().GetMetaModel().GetClassInfoFromId(index.ClassInfoId);
 
                 throw new OdbRuntimeException(
                     NDatabaseError.IndexIsCorrupted.AddParameter(index.Name).AddParameter(classInfo.FullClassName).
@@ -337,7 +337,7 @@ namespace NDatabase.Odb.Core.Query.Execution
 
             // Iterator iterator = new BTreeIterator(tree,
             // OrderByConstants.ORDER_BY_ASC);
-            var key = ComputeIndexKey(ClassInfo, index);
+            var key = ComputeIndexKey(index);
             IList list = null;
 
             // If index is unique, get the object

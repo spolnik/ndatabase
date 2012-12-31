@@ -7,12 +7,9 @@ using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 
 namespace NDatabase.Btree.Impl
 {
-    
-    public abstract class AbstractBTree : IBTree
+    internal abstract class AbstractBTree : IBTree
     {
         private readonly int _degree;
-        private readonly string _name;
-        protected int ControlNumber;
 
         private int _height;
 
@@ -31,9 +28,8 @@ namespace NDatabase.Btree.Impl
             _root = null;
         }
 
-        protected AbstractBTree(string name, int degree, IBTreePersister persister)
+        protected AbstractBTree(int degree, IBTreePersister persister)
         {
-            _name = name;
             _degree = degree;
             _size = 0;
             _height = 1;
@@ -247,7 +243,7 @@ namespace NDatabase.Btree.Impl
         /// <param name="keyAndValue"> </param>
         /// <returns> </returns>
         /// <exception cref="System.Exception">System.Exception</exception>
-        protected virtual object InternalDelete(IBTreeNode node, IKeyAndValue keyAndValue)
+        private object InternalDelete(IBTreeNode node, IKeyAndValue keyAndValue)
         {
             var positionOfKey = node.GetPositionOfKey(keyAndValue.GetKey());
             var keyIsHere = positionOfKey > 0;
@@ -576,11 +572,6 @@ namespace NDatabase.Btree.Impl
             }
 
             InsertNonFull(nodeToDescend, key, value);
-        }
-
-        public virtual string GetName()
-        {
-            return _name;
         }
     }
 }

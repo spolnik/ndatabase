@@ -121,7 +121,7 @@ namespace NDatabase.UnitTests.Layer3
         public void It_should_allow_on_inserting_object_in_longer_way_to_resolve_circular_references()
         {
             SubjectUnderTest.RemoveObject(_object);
-            SubjectUnderTest.StartInsertingObjectWithOid(_object, _oid, _objectInfo);
+            SubjectUnderTest.StartInsertingObjectWithOid(_object, _oid);
 
             Assert.That(SubjectUnderTest.IdOfInsertingObject(_object), Is.EqualTo(_oid));
 

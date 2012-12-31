@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
@@ -201,30 +200,27 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         ///   Gets all the persistent classes that are subclasses or equal to the parameter class
         /// </summary>
         /// <returns> The list of class info of persistent classes that are subclasses or equal to the class </returns>
-        public IOdbList<ClassInfo> GetPersistentSubclassesOf(Type type)
+        public IList<ClassInfo> GetPersistentSubclassesOf(Type type)
         {
-            IOdbList<ClassInfo> result = new OdbList<ClassInfo>();
-            var classNames = _rapidAccessForUserClassesByName.Keys.GetEnumerator();
+            var result = new List<ClassInfo>();
 
             var fullClassName = OdbClassUtil.GetFullName(type);
             var theClass = type;
-            while (classNames.MoveNext())
-            {
-                var oneClassName = classNames.Current;
-                Debug.Assert(oneClassName != null);
 
-                if (oneClassName.Equals(fullClassName))
+            foreach (var userClass in _rapidAccessForUserClassesByName.Keys)
+            {
+                if (userClass.Equals(fullClassName))
                 {
-                    result.Add(GetClassInfo(oneClassName, true));
+                    result.Add(GetClassInfo(userClass, true));
                 }
                 else
                 {
-                    var oneClass = OdbClassPool.GetClass(oneClassName);
+                    var oneClass = OdbClassPool.GetClass(userClass);
                     if (theClass.IsAssignableFrom(oneClass))
-                        result.Add(GetClassInfo(oneClassName, true));
+                        result.Add(GetClassInfo(userClass, true));
                 }
             }
-
+           
             return result;
         }
     }

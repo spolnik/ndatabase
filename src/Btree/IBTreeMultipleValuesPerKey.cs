@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace NDatabase.Btree
 {
-    public interface IBTreeMultipleValuesPerKey : IBTree
+    internal interface IBTreeMultipleValuesPerKey : IBTree
     {
         IList Search(IComparable key);
     }

@@ -42,7 +42,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
             var baseName = GetBaseName();
             DeleteBase(baseName);
             var persister = GetPersister(baseName);
-            IBTree tree = new OdbBtreeMultiple("test1", 2, persister);
+            IBTree tree = new OdbBtreeMultiple(2, persister);
             var start = OdbTime.GetCurrentTimeInMs();
             for (var i = 0; i < Size; i++)
                 tree.Insert(i + 1, "value " + (i + 1));
@@ -72,7 +72,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
         {
             var baseName = GetBaseName();
             var persister = GetPersister(baseName);
-            IBTree tree = new OdbBtreeMultiple("test1", 2, persister);
+            IBTree tree = new OdbBtreeMultiple(2, persister);
             var start = OdbTime.GetCurrentTimeInMs();
             for (var i = 0; i < Size; i++)
                 tree.Insert(i + 1, "value " + (i + 1));
@@ -105,7 +105,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
             var baseName = GetBaseName();
 
             var persister = GetPersister(baseName);
-            IBTree tree = new OdbBtreeMultiple("test1a", 2, persister);
+            IBTree tree = new OdbBtreeMultiple(2, persister);
             for (var i = 0; i < Size; i++)
                 tree.Insert(i + 1, "value " + (i + 1));
             // println(new BTreeDisplay().build(tree,true).toString());
@@ -133,7 +133,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
         {
             var baseName = GetBaseName();
             var persister = GetPersister(baseName);
-            IBTree tree = new OdbBtreeMultiple("test2", 2, persister);
+            IBTree tree = new OdbBtreeMultiple(2, persister);
             for (var i = 0; i < Size; i++)
                 tree.Insert(i + 1, "value " + (i + 1));
             AssertEquals(Size, tree.GetSize());
@@ -159,7 +159,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
             // LogUtil.allOn(true);
             DeleteBase(baseName);
             var persister = GetPersister(baseName);
-            IBTreeMultipleValuesPerKey tree = new OdbBtreeMultiple("test2a", 20, persister);
+            IBTreeMultipleValuesPerKey tree = new OdbBtreeMultiple(20, persister);
             var start0 = OdbTime.GetCurrentTimeInMs();
             for (var i = 0; i < Size; i++)
                 tree.Insert(i + 1, "value " + (i + 1));
@@ -208,7 +208,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
         {
             var baseName = GetBaseName();
             var persister = GetPersister(baseName);
-            IBTree tree = new OdbBtreeMultiple("test1", 2, persister);
+            IBTree tree = new OdbBtreeMultiple(2, persister);
             var start = OdbTime.GetCurrentTimeInMs();
             for (var i = 0; i < Size; i++)
                 tree.Insert(i + 1, "value " + (i + 1));

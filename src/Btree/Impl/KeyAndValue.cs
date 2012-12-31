@@ -3,11 +3,10 @@ using System.Text;
 
 namespace NDatabase.Btree.Impl
 {
-    
-    public sealed class KeyAndValue : IKeyAndValue
+    internal sealed class KeyAndValue : IKeyAndValue
     {
-        private IComparable _key;
-        private object _value;
+        private readonly IComparable _key;
+        private readonly object _value;
 
         public KeyAndValue(IComparable key, object value)
         {
@@ -27,19 +26,9 @@ namespace NDatabase.Btree.Impl
             return _key;
         }
 
-        public void SetKey(IComparable key)
-        {
-            _key = key;
-        }
-
         public object GetValue()
         {
             return _value;
-        }
-
-        public void SetValue(object value)
-        {
-            _value = value;
         }
 
         #endregion

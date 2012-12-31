@@ -193,10 +193,9 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         public static bool IsNative(Type clazz)
         {
             OdbType odbType;
+            var success = TypesByName.TryGetValue(OdbClassUtil.GetFullName(clazz), out odbType);
 
-            TypesByName.TryGetValue(OdbClassUtil.GetFullName(clazz), out odbType);
-
-            return odbType != null || clazz.IsArray;
+            return success || clazz.IsArray;
         }
 
         public static bool Exist(string name)

@@ -43,7 +43,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
 
         private void GoToPosition(long position)
         {
-            _fileWriter.Seek(position);
+            _fileWriter.SetPosition(position);
         }
 
         public void WriteByte(byte b)

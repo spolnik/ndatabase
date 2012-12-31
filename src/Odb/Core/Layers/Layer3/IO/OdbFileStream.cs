@@ -8,6 +8,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         private const int DefaultBufferSize = 4096*2;
 
         private FileStream _fileAccess;
+        private long _position;
 
         internal OdbFileStream(string wholeFileName)
         {
@@ -15,7 +16,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             {
                 _fileAccess = new FileStream(wholeFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read,
                                              DefaultBufferSize, FileOptions.RandomAccess);
-                //TODO: _fileAccess.SetLength(1024 * 20);
             }
             catch (IOException e)
             {
@@ -41,7 +41,15 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         ///  Sets the current position of this stream to the given value
         /// </summary>
         /// <param name="position">offset</param>
-        public void Seek(long position)
+        public void SetPosition(long position)
+        {
+            if (position < 0)
+                throw new OdbRuntimeException(NDatabaseError.NegativePosition.AddParameter(position));
+
+            _position = position;
+        }
+
+        private void Seek(long position)
         {
             try
             {
@@ -74,7 +82,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         {
             try
             {
+                Seek(_position);
                 _fileAccess.WriteByte(b);
+                _position = _fileAccess.Position;
             }
             catch (IOException e)
             {
@@ -86,7 +96,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         {
             try
             {
+                Seek(_position);
                 _fileAccess.Write(buffer, 0, size);
+                _position = _fileAccess.Position;
             }
             catch (IOException e)
             {
@@ -98,9 +110,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         {
             try
             {
+                Seek(_position);
                 var data = _fileAccess.ReadByte();
                 if (data == -1)
                     throw new IOException("End of file");
+
+                _position = _fileAccess.Position;
 
                 return (byte)data;
             }
@@ -115,7 +130,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             // FIXME raf.read only returns int not long
             try
             {
-                return _fileAccess.Read(buffer, 0, size);
+                Seek(_position);
+                var read = _fileAccess.Read(buffer, 0, size);
+                _position = _fileAccess.Position;
+                return read;
             }
             catch (IOException e)
             {

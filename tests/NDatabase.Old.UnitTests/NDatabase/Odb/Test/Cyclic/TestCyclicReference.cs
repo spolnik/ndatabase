@@ -64,7 +64,7 @@ namespace Test.NDatabase.Odb.Test.Cyclic
                 ca.SetClassb(cb);
                 ca.SetName("a");
                 odb.Store(ca);
-                var ci = ((OdbAdapter)odb).GetStorageEngine().GetSession(true).GetMetaModel().GetClassInfo(typeof(ClassA), true);
+                var ci = ((OdbAdapter)odb).GetStorageEngine().GetSession().GetMetaModel().GetClassInfo(typeof(ClassA), true);
                 AssertTrue(ci.HasCyclicReference());
             }
             finally
@@ -81,7 +81,7 @@ namespace Test.NDatabase.Odb.Test.Cyclic
             try
             {
                 odb = Open("cyclic.neodatis");
-                var ci = ((OdbAdapter)odb).GetStorageEngine().GetSession(true).GetMetaModel().GetClassInfo(typeof(User), true);
+                var ci = ((OdbAdapter)odb).GetStorageEngine().GetSession().GetMetaModel().GetClassInfo(typeof(User), true);
                 AssertFalse(ci.HasCyclicReference());
             }
             finally

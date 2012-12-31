@@ -23,7 +23,7 @@ namespace Test.NDatabase.Odb.Test.Update
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
             // retrieve the class info to check connected and unconnected zone
             var fullClassName = OdbClassUtil.GetFullName(typeof (VO.Login.Function));
-            var classInfo = storageEngine.GetSession(true).GetMetaModel().GetClassInfo(fullClassName, true);
+            var classInfo = storageEngine.GetSession().GetMetaModel().GetClassInfo(fullClassName, true);
             odb.Close();
             AssertEquals(1, classInfo.CommitedZoneInfo.GetNumberbOfObjects());
             AssertNotNull(classInfo.CommitedZoneInfo.First);

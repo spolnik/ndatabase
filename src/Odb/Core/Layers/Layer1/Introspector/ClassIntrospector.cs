@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -20,12 +21,12 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
     ///   The ClassIntrospector is used to introspect classes. 
     ///   It uses Reflection to extract class information. 
     ///   It transforms a native Class into a ClassInfo (a meta representation of the class) 
-    ///    that contains all informations about the class.
+    ///   that contains all informations about the class.
     /// </remarks>
     internal static class ClassIntrospector
     {
-        private static readonly IDictionary<Type, IList<FieldInfo>> Fields =
-            new Dictionary<Type, IList<FieldInfo>>();
+        private static readonly ConcurrentDictionary<Type, IList<FieldInfo>> Fields =
+            new ConcurrentDictionary<Type, IList<FieldInfo>>();
 
         private static readonly IDictionary<string, Type> SystemClasses = new Dictionary<string, Type>();
 
@@ -59,15 +60,15 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             if (type == null)
                 throw new ArgumentNullException("type", "Type cannot be null.");
 
-            IList<FieldInfo> result;
-            Fields.TryGetValue(type, out result);
+            return Fields.GetOrAdd(type, GetFieldInfo);
+        }
 
-            if (result != null)
-                return result;
-
+        private static IList<FieldInfo> GetFieldInfo(Type type)
+        {
             const int capacity = 50;
+
             var attributesNames = new List<string>(capacity);
-            result = new List<FieldInfo>(capacity);
+            var result = new List<FieldInfo>(capacity);
 
             var classes = GetAllClasses(type);
 
@@ -88,9 +89,6 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             }
 
             result = FilterFields(result).OrderBy(field => field.Name).ToList();
-
-            Fields[type] = result;
-
             return result;
         }
 
@@ -117,7 +115,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             return classInfoSet;
         }
 
-        public static ClassInfoList Introspect(String fullClassName, bool recursive)
+        public static ClassInfoList Introspect(String fullClassName)
         {
             return Introspect(OdbClassPool.GetClass(fullClassName), true);
         }
@@ -188,11 +186,11 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                     fieldsToRemove.Add(fieldInfo);
                 else if (fieldInfo.FieldType == typeof (IntPtr))
                     fieldsToRemove.Add(fieldInfo);
-                else if (fieldInfo.FieldType == typeof(UIntPtr))
+                else if (fieldInfo.FieldType == typeof (UIntPtr))
                     fieldsToRemove.Add(fieldInfo);
                 else if (fieldInfo.FieldType == typeof (void*))
                     fieldsToRemove.Add(fieldInfo);
-                else if (fieldInfo.FieldType == typeof(Pointer))
+                else if (fieldInfo.FieldType == typeof (Pointer))
                     fieldsToRemove.Add(fieldInfo);
                 else if (fieldInfo.FieldType.FullName.StartsWith("System.Reflection.CerHashtable"))
                     fieldsToRemove.Add(fieldInfo);
@@ -210,7 +208,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 
             foreach (var item in fieldsToRemove)
                 fields.Remove(item);
-            
+
             return fields;
         }
 

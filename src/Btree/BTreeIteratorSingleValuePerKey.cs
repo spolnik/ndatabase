@@ -8,7 +8,7 @@ namespace NDatabase.Btree
     /// <remarks>
     ///   An iterator to iterate over NDatabase BTree.
     /// </remarks>
-    public class BTreeIteratorSingleValuePerKey<T> : AbstractBTreeIterator<T>
+    internal class BTreeIteratorSingleValuePerKey<T> : AbstractBTreeIterator<T>
     {
         public BTreeIteratorSingleValuePerKey(IBTree tree, OrderByConstants orderByType) : base(tree, orderByType)
         {

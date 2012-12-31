@@ -33,7 +33,7 @@ namespace NDatabase.Odb.Core.Query.Execution
                 catch (Exception)
                 {
                     throw new OdbRuntimeException(
-                        NDatabaseError.IndexKeysMustImplementComparable.AddParameter(fieldIds[i]).AddParameter(
+                        NDatabaseError.IndexKeysMustImplementComparable.AddParameter(indexName).AddParameter(fieldIds[i]).AddParameter(
                             oi.GetAttributeValueFromId(fieldIds[i]).GetType().FullName));
                 }
             }

@@ -87,7 +87,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
             _objectInfoHeadersCacheFromOid[objectInfoHeader.GetOid()] = objectInfoHeader;
         }
 
-        public void StartInsertingObjectWithOid<T>(T plainObject, OID oid, NonNativeObjectInfo nnoi) where T : class
+        public void StartInsertingObjectWithOid<T>(T plainObject, OID oid) where T : class
         {
             // In this case oid can be -1,because object is beeing inserted and do
             // not have yet a defined oid.

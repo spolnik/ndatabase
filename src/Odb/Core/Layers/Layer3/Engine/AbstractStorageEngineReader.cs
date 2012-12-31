@@ -86,22 +86,21 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 j++;
             }
 
-            newStorageEngine.Commit();
             newStorageEngine.Close();
 
             var time = OdbTime.GetCurrentTimeInMs() - start;
 
-            if (OdbConfiguration.IsLoggingEnabled())
-            {
-                var nbObjectsAsString = totalNbObjects.ToString();
-                var timeAsString = time.ToString();
+            if (!OdbConfiguration.IsLoggingEnabled()) 
+                return;
 
-                DLogger.Info(string.Format("New storage {0} created with {1} objects in {2} ms.", newFileName,
-                                           nbObjectsAsString, timeAsString));
-            }
+            var nbObjectsAsString = totalNbObjects.ToString();
+            var timeAsString = time.ToString();
+
+            DLogger.Info(string.Format("New storage {0} created with {1} objects in {2} ms.", newFileName,
+                                       nbObjectsAsString, timeAsString));
         }
 
-        public abstract ISession GetSession(bool throwExceptionIfDoesNotExist);
+        public abstract ISession GetSession();
 
         public void DeleteIndex(string className, string indexName)
         {
@@ -153,14 +152,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var classInfoIndex = classInfo.AddIndexOn(indexName, indexFields, acceptMultipleValuesForSameKey);
             IBTree btree;
 
+            var lazyOdbBtreePersister = new LazyOdbBtreePersister(this);
+
             if (acceptMultipleValuesForSameKey)
-            {
-                btree = new OdbBtreeMultiple(className, OdbConfiguration.GetDefaultIndexBTreeDegree(),
-                                             new LazyOdbBtreePersister(this));
-            }
+                btree = new OdbBtreeMultiple(OdbConfiguration.GetDefaultIndexBTreeDegree(), lazyOdbBtreePersister);
             else
-                btree = new OdbBtreeSingle(className, OdbConfiguration.GetDefaultIndexBTreeDegree(),
-                                           new LazyOdbBtreePersister(this));
+                btree = new OdbBtreeSingle(OdbConfiguration.GetDefaultIndexBTreeDegree(), lazyOdbBtreePersister);
 
             classInfoIndex.BTree = btree;
             Store(classInfoIndex);
@@ -301,9 +298,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         #endregion
 
-        protected virtual MetaModel GetMetaModel()
+        protected MetaModel GetMetaModel()
         {
-            return GetSession(true).GetMetaModel();
+            return GetSession().GetMetaModel();
         }
     }
 }

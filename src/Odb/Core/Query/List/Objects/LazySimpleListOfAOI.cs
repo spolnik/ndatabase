@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Text;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
 
 namespace NDatabase.Odb.Core.Query.List.Objects
@@ -18,6 +16,11 @@ namespace NDatabase.Odb.Core.Query.List.Objects
     internal sealed class LazySimpleListOfAoi<T> : OdbList<T>, IObjectSet<T>
     {
         /// <summary>
+        ///   The odb engine to lazily get objects
+        /// </summary>
+        [NonPersistent] private readonly IInstanceBuilder _instanceBuilder;
+
+        /// <summary>
         ///   indicate if objects must be returned as instance (true) or as non native objects (false)
         /// </summary>
         private readonly bool _returnInstance;
@@ -27,14 +30,6 @@ namespace NDatabase.Odb.Core.Query.List.Objects
         /// </summary>
         private int _currentPosition;
 
-        /// <summary>
-        ///   The odb engine to lazily get objects
-        /// </summary>
-        [NonPersistent]
-        private readonly IInstanceBuilder _instanceBuilder;
-
-        /// <param name="builder"> </param>
-        /// <param name="returnInstance"> </param>
         public LazySimpleListOfAoi(IInstanceBuilder builder, bool returnInstance) : base(10)
         {
             if (builder == null)
@@ -45,17 +40,7 @@ namespace NDatabase.Odb.Core.Query.List.Objects
             _returnInstance = returnInstance;
         }
 
-        #region IObjects<T> Members
-
-        public bool AddWithKey(IOdbComparable key, T @object)
-        {
-            throw new OdbRuntimeException(NDatabaseError.OperationNotImplemented);
-        }
-
-        public bool AddWithKey(int key, T @object)
-        {
-            throw new OdbRuntimeException(NDatabaseError.OperationNotImplemented);
-        }
+        #region IObjectSet<T> Members
 
         public T GetFirst()
         {
@@ -74,11 +59,6 @@ namespace NDatabase.Odb.Core.Query.List.Objects
             return _currentPosition < Count;
         }
 
-        public IEnumerator<T> Iterator(OrderByConstants orderByType)
-        {
-            throw new OdbRuntimeException(NDatabaseError.OperationNotImplemented);
-        }
-
         public T Next()
         {
             try
@@ -89,11 +69,6 @@ namespace NDatabase.Odb.Core.Query.List.Objects
             {
                 throw new OdbRuntimeException(NDatabaseError.ErrorWhileGettingObjectFromListAtIndex.AddParameter(0), e);
             }
-        }
-
-        public void AddOid(OID oid)
-        {
-            throw new OdbRuntimeException(NDatabaseError.InternalError.AddParameter("Add Oid not implemented "));
         }
 
         public void Reset()

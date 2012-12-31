@@ -6,7 +6,7 @@ namespace NDatabase.Btree
     /// <summary>
     ///   The interface for btree nodes that accept One Value Per Key
     /// </summary>
-    public interface IBTreeNodeMultipleValuesPerKey : IBTreeNode
+    internal interface IBTreeNodeMultipleValuesPerKey : IBTreeNode
     {
         IList GetValueAt(int index);
 

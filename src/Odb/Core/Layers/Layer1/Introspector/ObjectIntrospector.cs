@@ -42,7 +42,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             if (_storageEngine != null)
             {
                 // for unit test purpose
-                var cache = _storageEngine.GetSession(true).GetCache();
+                var cache = _storageEngine.GetSession().GetCache();
 
                 // Check if object is in the cache, if so sets its oid
                 var oid = cache.GetOid(o);
@@ -254,7 +254,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             if (odbType.IsNative() && !odbType.IsEnum())
                 return null;
 
-            var session = _storageEngine.GetSession(true);
+            var session = _storageEngine.GetSession();
             var metaModel = session.GetMetaModel();
             if (metaModel.ExistClass(type))
                 return metaModel.GetClassInfo(type, true);

@@ -5,8 +5,7 @@ namespace NDatabase.Btree
     /// <summary>
     ///   Interface used to persist and load btree and btree node from a persistent layer
     /// </summary>
-    /// <author>osmadja</author>
-    public interface IBTreePersister
+    internal interface IBTreePersister
     {
         IBTreeNode LoadNodeById(object id);
 
@@ -15,7 +14,6 @@ namespace NDatabase.Btree
         OID SaveBTree(IBTree tree);
 
         IBTree LoadBTree(object id);
-
         
         void Close();
 

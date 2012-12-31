@@ -5,8 +5,7 @@ using NDatabase.Btree.Tool;
 
 namespace NDatabase.Btree.Impl.Multiplevalue
 {
-    
-    public abstract class BTreeNodeMultipleValuesPerKey : AbstractBTreeNode, IBTreeNodeMultipleValuesPerKey
+    internal abstract class BTreeNodeMultipleValuesPerKey : AbstractBTreeNode, IBTreeNodeMultipleValuesPerKey
     {
         protected BTreeNodeMultipleValuesPerKey()
         {

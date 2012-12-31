@@ -9,7 +9,7 @@ namespace NDatabase.Btree
     /// <remarks>
     ///   An iterator to iterate over NDatabase BTree that accept more than one value per key. This is used for non unique index and collection that return ordered by results
     /// </remarks>
-    public class BTreeIteratorMultipleValuesPerKey<T> : AbstractBTreeIterator<T>
+    internal class BTreeIteratorMultipleValuesPerKey<T> : AbstractBTreeIterator<T>
     {
         /// <summary>
         ///   The index in the list of the current value, Here values of a key are lists!
