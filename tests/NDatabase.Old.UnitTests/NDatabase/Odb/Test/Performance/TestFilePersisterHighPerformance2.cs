@@ -95,17 +95,17 @@ namespace Test.NDatabase.Odb.Test.Performance
                 if (i % 20000 == 0)
                 {
                     Console.Out.Write(".");
-                    Println("After insert=" + ((OdbAdapter)odb).GetStorageEngine().GetSession(true).GetCache().ToString());
+                    Println("After insert=" + ((OdbAdapter)odb).GetStorageEngine().GetSession().GetCache().ToString());
                 }
             }
             //
             var engine = ((OdbAdapter)odb).GetStorageEngine();
 
             // println("NB WA="+WriteAction.count);
-            Println("NB WAs=" + engine.GetSession(true).GetTransaction().GetNumberOfWriteActions());
+            Println("NB WAs=" + engine.GetSession().GetTransaction().GetNumberOfWriteActions());
             t2 = OdbTime.GetCurrentTimeInTicks();
             odb.Commit();
-            Println("after commit : NB WAs=" + engine.GetSession(true).GetTransaction().GetNumberOfWriteActions());
+            Println("after commit : NB WAs=" + engine.GetSession().GetTransaction().GetNumberOfWriteActions());
             // if(true)return;
             // println("After commit="+Dummy.getEngine(odb).getSession().getCache().toString());
             // println("NB WA="+WriteAction.count);
@@ -118,7 +118,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             // println("After getObjects ="+Dummy.getEngine(odb).getSession().getCache().toString());
             // println("NB WA="+WriteAction.count);
 
-            Println("after select : NB WAs=" + engine.GetSession(true).GetTransaction().GetNumberOfWriteActions());
+            Println("after select : NB WAs=" + engine.GetSession().GetTransaction().GetNumberOfWriteActions());
             var nbObjects = l.Count;
             Println(nbObjects + " objects ");
             var k = 0;
@@ -144,12 +144,12 @@ namespace Test.NDatabase.Odb.Test.Performance
                 {
                     Println("update " + k);
                     Println("after update : NB WAs=" +
-                            engine.GetSession(true).GetTransaction().GetNumberOfWriteActions());
-                    Println("After update=" + ((OdbAdapter)odb).GetStorageEngine().GetSession(true).GetCache().ToString());
+                            engine.GetSession().GetTransaction().GetNumberOfWriteActions());
+                    Println("After update=" + ((OdbAdapter)odb).GetStorageEngine().GetSession().GetCache().ToString());
                 }
                 k++;
             }
-            Println("after update : NB WAs=" + engine.GetSession(true).GetTransaction().GetNumberOfWriteActions());
+            Println("after update : NB WAs=" + engine.GetSession().GetTransaction().GetNumberOfWriteActions());
             t6 = OdbTime.GetCurrentTimeInTicks();
             odb.Close();
             t7 = OdbTime.GetCurrentTimeInTicks();
@@ -202,7 +202,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             // assertEquals(TEST_SIZE,
             // odb.getSession().getCache().getNumberOfObjects ());
             var engine = ((OdbAdapter)odb).GetStorageEngine();
-            Println("NB WAs=" + engine.GetSession(true).GetTransaction().GetNumberOfWriteActions());
+            Println("NB WAs=" + engine.GetSession().GetTransaction().GetNumberOfWriteActions());
             odb.Commit();
             t3 = OdbTime.GetCurrentTimeInTicks();
             Println("end of insert");

@@ -261,7 +261,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             if (useCache)
             {
-                var objectInfoHeader = _storageEngine.GetSession(true).GetCache().GetObjectInfoHeaderByOid(oid, false);
+                var objectInfoHeader = _storageEngine.GetSession().GetCache().GetObjectInfoHeaderByOid(oid, false);
                 if (objectInfoHeader != null)
                     return objectInfoHeader;
             }
@@ -296,7 +296,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public NonNativeObjectInfo ReadNonNativeObjectInfoFromPosition(ClassInfo classInfo, OID oid, long position,
                                                                        bool useCache, bool returnInstance)
         {
-            var lsession = _storageEngine.GetSession(true);
+            var lsession = _storageEngine.GetSession();
             // Get a temporary cache just to cache NonNativeObjectInfo being read to
             // avoid duplicated reads
             var cache = lsession.GetCache();
@@ -311,12 +311,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var objectInfoHeader = GetObjectInfoHeader(oid, position, useCache, cache);
             if (classInfo == null)
                 classInfo =
-                    _storageEngine.GetSession(true).GetMetaModel().GetClassInfoFromId(objectInfoHeader.GetClassInfoId());
+                    _storageEngine.GetSession().GetMetaModel().GetClassInfoFromId(objectInfoHeader.GetClassInfoId());
             oid = objectInfoHeader.GetOid();
             // if class info do not match, reload class info
             if (!classInfo.ClassInfoId.Equals(objectInfoHeader.GetClassInfoId()))
                 classInfo =
-                    _storageEngine.GetSession(true).GetMetaModel().GetClassInfoFromId(objectInfoHeader.GetClassInfoId());
+                    _storageEngine.GetSession().GetMetaModel().GetClassInfoFromId(objectInfoHeader.GetClassInfoId());
             
             if (OdbConfiguration.IsLoggingEnabled())
             {
@@ -586,7 +586,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var position = GetObjectPositionFromItsOid(oid, useCache, true);
             var o = ReadNonNativeObjectAtPosition(position, useCache, returnInstance);
             // Clear the tmp cache. This cache is use to resolve cyclic references
-            _storageEngine.GetSession(true).GetTmpCache().ClearObjectInfos();
+            _storageEngine.GetSession().GetTmpCache().ClearObjectInfos();
             return o;
         }
 
@@ -606,7 +606,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (useCache)
             {
                 // This return -1 if not in the cache
-                position = _storageEngine.GetSession(true).GetCache().GetObjectPositionByOid(oid);
+                position = _storageEngine.GetSession().GetCache().GetObjectPositionByOid(oid);
             }
             // FIXME Check if we need this. Removing it causes the TestDelete.test6 to fail 
             if (position == StorageEngineConstant.DeletedObjectPosition)
@@ -810,7 +810,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public object BuildOneInstance(NonNativeObjectInfo objectInfo)
         {
-            return _instanceBuilder.BuildOneInstance(objectInfo, _storageEngine.GetSession(true).GetCache());
+            return _instanceBuilder.BuildOneInstance(objectInfo, _storageEngine.GetSession().GetCache());
         }
 
         public IInternalObjectSet<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex)
@@ -1058,7 +1058,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     if (subType.IsNonNative())
                     {
                         var fullClassName =
-                            _storageEngine.GetSession(true).GetMetaModel().GetClassInfoFromId(
+                            _storageEngine.GetSession().GetMetaModel().GetClassInfoFromId(
                                 OIDFactory.BuildClassOID(_fsi.ReadLong())).FullClassName;
 
                         subType = subType.Copy(fullClassName);
@@ -1070,7 +1070,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 if (type.IsEnum())
                 {
                     var classInfoId = _fsi.ReadLong();
-                    var metaModel = _storageEngine.GetSession(true).GetMetaModel();
+                    var metaModel = _storageEngine.GetSession().GetMetaModel();
                     cai.SetFullClassName(
                         metaModel.GetClassInfoFromId(OIDFactory.BuildClassOID(classInfoId)).FullClassName);
                     // For enum, we need to create a new type just to set the real enum class name
@@ -1084,7 +1084,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             {
                 // This is a non native, gets the id of the type and gets it from
                 // meta-model
-                var metaModel = _storageEngine.GetSession(true).GetMetaModel();
+                var metaModel = _storageEngine.GetSession().GetMetaModel();
                 var typeId = _fsi.ReadLong();
                 cai.SetFullClassName(metaModel.GetClassInfoFromId(OIDFactory.BuildClassOID(typeId)).FullClassName);
                 cai.SetClassInfo(metaModel.GetClassInfo(cai.GetFullClassname(), true));
@@ -1113,7 +1113,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (!returnInstance)
                 return nnoi;
             // Then converts it to the real object
-            var o = _instanceBuilder.BuildOneInstance(nnoi, _storageEngine.GetSession(true).GetCache());
+            var o = _instanceBuilder.BuildOneInstance(nnoi, _storageEngine.GetSession().GetCache());
             return o;
         }
 
@@ -1199,7 +1199,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 if (useCache)
                 {
                     // the object info does not exist in the cache
-                    _storageEngine.GetSession(true).GetCache().AddObjectInfoOfNonCommitedObject(oip);
+                    _storageEngine.GetSession().GetCache().AddObjectInfoOfNonCommitedObject(oip);
                 }
                 return oip;
             }
@@ -1314,7 +1314,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 throw new OdbRuntimeException(
                     NDatabaseError.InstancePositionOutOfFile.AddParameter(position).AddParameter(_fsi.GetLength()));
             }
-            var cache = _storageEngine.GetSession(true).GetCache();
+            var cache = _storageEngine.GetSession().GetCache();
             // If object is already being read, simply return its cache - to avoid
             // stackOverflow for cyclic references
             // FIXME check this : should we use cache?
@@ -1342,7 +1342,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 // If class info is not defined, define it
                 if (classInfo == null)
                     classInfo =
-                        _storageEngine.GetSession(true).GetMetaModel().GetClassInfoFromId(
+                        _storageEngine.GetSession().GetMetaModel().GetClassInfoFromId(
                             objectInfoHeader.GetClassInfoId());
                 if (recursionLevel == 0)
                     map.SetObjectInfoHeader(objectInfoHeader);
@@ -1593,7 +1593,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var enumClassInfoId = _fsi.ReadLong("EnumClassInfoId");
             var enumValue = _fsi.ReadString();
             var enumCi =
-                _storageEngine.GetSession(true).GetMetaModel().GetClassInfoFromId(
+                _storageEngine.GetSession().GetMetaModel().GetClassInfoFromId(
                     OIDFactory.BuildClassOID(enumClassInfoId));
 
             return new EnumNativeObjectInfo(enumCi, enumValue);
@@ -1674,12 +1674,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             {
                 var classIdForNullObject = OIDFactory.BuildClassOID(_fsi.ReadLong("class id of object"));
                 return "null " +
-                       _storageEngine.GetSession(true).GetMetaModel().GetClassInfoFromId(classIdForNullObject).FullClassName;
+                       _storageEngine.GetSession().GetMetaModel().GetClassInfoFromId(classIdForNullObject).FullClassName;
             }
             var classIdPosition = objectPosition + StorageEngineConstant.ObjectOffsetClassInfoId;
             _fsi.SetReadPosition(classIdPosition);
             var classId = OIDFactory.BuildClassOID(_fsi.ReadLong("class id of object"));
-            return _storageEngine.GetSession(true).GetMetaModel().GetClassInfoFromId(classId).FullClassName;
+            return _storageEngine.GetSession().GetMetaModel().GetClassInfoFromId(classId).FullClassName;
         }
 
         /// <param name="blockNumberToFind"> </param>

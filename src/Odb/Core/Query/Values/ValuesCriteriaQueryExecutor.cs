@@ -53,7 +53,7 @@ namespace NDatabase.Odb.Core.Query.Values
             return objectMatches;
         }
 
-        protected override IComparable ComputeIndexKey(ClassInfo ci, ClassInfoIndex index)
+        protected override IComparable ComputeIndexKey(ClassInfoIndex index)
         {
             return IndexTool.ComputeKey(ClassInfo, index, Query);
         }

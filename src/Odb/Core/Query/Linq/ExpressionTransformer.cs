@@ -56,7 +56,7 @@ namespace NDatabase.Odb.Core.Query.Linq
                 case ExpressionType.Constant:
                     return VisitConstant((ConstantExpression) exp);
                 case ExpressionType.Parameter:
-                    return VisitParameter((ParameterExpression) exp);
+                    return VisitParameter(exp);
                 case ExpressionType.MemberAccess:
                     return VisitMemberAccess((MemberExpression) exp);
                 case ExpressionType.Call:
@@ -154,7 +154,7 @@ namespace NDatabase.Odb.Core.Query.Linq
             return c;
         }
 
-        private static Expression VisitParameter(ParameterExpression p)
+        private static Expression VisitParameter(Expression p)
         {
             return p;
         }

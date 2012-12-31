@@ -60,7 +60,7 @@ namespace Test.NDatabase.Odb.Test.School
             try
             {
                 odb = Open("t-school.neodatis");
-                var ci = ((OdbAdapter)odb).GetStorageEngine().GetSession(true).GetMetaModel().GetClassInfo(typeof(Student), true);
+                var ci = ((OdbAdapter)odb).GetStorageEngine().GetSession().GetMetaModel().GetClassInfo(typeof(Student), true);
 
                 AssertFalse(ci.HasCyclicReference());
             }

@@ -389,9 +389,9 @@ namespace Test.NDatabase.Odb.Test.Resistance
             objects = query2.Execute<User>();
             var engine = ((OdbAdapter)odb).GetStorageEngine();
             var uncommited =
-                engine.GetSession(true).GetMetaModel().GetClassInfo(typeof (User).FullName, true).UncommittedZoneInfo;
+                engine.GetSession().GetMetaModel().GetClassInfo(typeof (User).FullName, true).UncommittedZoneInfo;
             CIZoneInfo commited =
-                engine.GetSession(true).GetMetaModel().GetClassInfo(typeof (User).FullName, true).CommitedZoneInfo;
+                engine.GetSession().GetMetaModel().GetClassInfo(typeof (User).FullName, true).CommitedZoneInfo;
             Println("Before commit : uncommited=" + uncommited);
             Println("Before commit : commited=" + commited);
             a = 0;

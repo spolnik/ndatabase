@@ -70,7 +70,7 @@ namespace NDatabase.Odb.Main
 
         public IMetaModel GetSchema()
         {
-            return _storageEngine.GetSession(true).GetMetaModel();
+            return _storageEngine.GetSession().GetMetaModel();
         }
 
         #endregion

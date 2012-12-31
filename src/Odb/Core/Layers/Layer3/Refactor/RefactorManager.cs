@@ -11,7 +11,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Refactor
 
         internal RefactorManager(IStorageEngine storageEngine)
         {
-            _metaModel = storageEngine.GetSession(true).GetMetaModel();
+            _metaModel = storageEngine.GetSession().GetMetaModel();
             _objectWriter = storageEngine.GetObjectWriter();
         }
 

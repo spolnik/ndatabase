@@ -83,7 +83,7 @@ namespace NDatabase.Odb.Core.Query.Criteria
             }
         }
 
-        protected override IComparable ComputeIndexKey(ClassInfo ci, ClassInfoIndex index)
+        protected override IComparable ComputeIndexKey(ClassInfoIndex index)
         {
             var constraint = Query.GetCriteria();
             var values = ((IInternalConstraint)constraint).GetValues();

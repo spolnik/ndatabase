@@ -102,6 +102,13 @@ namespace NDatabase.Odb
         bool IsClosed();
 
         /// <summary>
+        /// Shortcut for <code>Query&lt;T&gt;().Execute&lt;T&gt;()</code>
+        /// </summary>
+        /// <typeparam name="T">Type of queried objects</typeparam>
+        /// <returns>Object set of all stored instances of T class</returns>
+        IObjectSet<T> QueryAndExecute<T>();
+            
+        /// <summary>
         /// factory method to create a new <code>Query</code> object to query this ObjectContainer.
         /// </summary>
         /// <returns>A new Query object</returns>

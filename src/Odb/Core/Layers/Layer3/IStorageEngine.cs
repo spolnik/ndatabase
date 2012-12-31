@@ -42,7 +42,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         IInternalTriggerManager GetTriggerManager();
 
-        ISession GetSession(bool throwExceptionIfDoesNotExist);
+        ISession GetSession();
 
         ISession BuildDefaultSession();
 

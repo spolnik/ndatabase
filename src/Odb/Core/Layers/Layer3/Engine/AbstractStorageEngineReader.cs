@@ -90,17 +90,17 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             var time = OdbTime.GetCurrentTimeInMs() - start;
 
-            if (OdbConfiguration.IsLoggingEnabled())
-            {
-                var nbObjectsAsString = totalNbObjects.ToString();
-                var timeAsString = time.ToString();
+            if (!OdbConfiguration.IsLoggingEnabled()) 
+                return;
 
-                DLogger.Info(string.Format("New storage {0} created with {1} objects in {2} ms.", newFileName,
-                                           nbObjectsAsString, timeAsString));
-            }
+            var nbObjectsAsString = totalNbObjects.ToString();
+            var timeAsString = time.ToString();
+
+            DLogger.Info(string.Format("New storage {0} created with {1} objects in {2} ms.", newFileName,
+                                       nbObjectsAsString, timeAsString));
         }
 
-        public abstract ISession GetSession(bool throwExceptionIfDoesNotExist);
+        public abstract ISession GetSession();
 
         public void DeleteIndex(string className, string indexName)
         {
@@ -302,7 +302,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         protected MetaModel GetMetaModel()
         {
-            return GetSession(true).GetMetaModel();
+            return GetSession().GetMetaModel();
         }
     }
 }

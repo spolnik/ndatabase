@@ -22,7 +22,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public NonNativeObjectWriter(IObjectWriter objectWriter, IStorageEngine storageEngine, IObjectInfoComparator comparator)
         {
             _objectWriter = objectWriter;
-            _session = storageEngine.GetSession(true);
+            _session = storageEngine.GetSession();
             _objectReader = storageEngine.GetObjectReader();
             _storageEngine = storageEngine;
             _comparator = comparator;
@@ -50,7 +50,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             // Mark this object as being inserted. To manage cyclic relations
             // The oid may be equal to -1
             // Later in the process the cache will be updated with the right oid
-            _session.GetCache().StartInsertingObjectWithOid(@object, oid, nnoi);
+            _session.GetCache().StartInsertingObjectWithOid(@object, oid);
             // false : do not write data in transaction. Data are always written
             // directly to disk. Pointers are written in transaction
             var newOid = WriteNonNativeObjectInfo(oid, nnoi, -1, false, isNewObject);
@@ -152,7 +152,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 if (objectInfo.GetClassInfo() != null)
                 {
                     var clinfo =
-                        _storageEngine.GetSession(true).GetMetaModel().GetClassInfo(
+                        _storageEngine.GetSession().GetMetaModel().GetClassInfo(
                             objectInfo.GetClassInfo().FullClassName, true);
                     objectInfo.SetClassInfo(clinfo);
                 }
@@ -525,7 +525,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 nnoi.SetNextObjectOID(nextObjectOid);
                 
                 // Mark the block of current object as deleted
-                _objectWriter.MarkAsDeleted(currentPosition, oid, objectIsInConnectedZone);
+                _objectWriter.MarkAsDeleted(currentPosition, objectIsInConnectedZone);
                 
                 // Creates the new object
                 oid = InsertNonNativeObject(oid, nnoi, false);

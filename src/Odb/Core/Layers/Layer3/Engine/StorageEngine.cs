@@ -184,7 +184,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
 
             var newOid = InternalStore(null, plainObject);
-            GetSession(true).GetCache().ClearInsertingObjects();
+            GetSession().GetCache().ClearInsertingObjects();
 
             return newOid;
         }
@@ -198,7 +198,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
 
             var newOid = InternalStore(oid, plainObject);
-            GetSession(true).GetCache().ClearInsertingObjects();
+            GetSession().GetCache().ClearInsertingObjects();
 
             return newOid;
         }
@@ -208,8 +208,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// </summary>
         public override void DeleteObjectWithOid(OID oid)
         {
-            var lsession = GetSession(true);
-            var cache = lsession.GetCache();
+            var cache = GetSession().GetCache();
             // Check if oih is in the cache
             var objectInfoHeader = cache.GetObjectInfoHeaderByOid(oid, false) ??
                                    ObjectReader.ReadObjectInfoHeaderFromOid(oid, true);
@@ -224,7 +223,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// </summary>
         public override OID Delete<T>(T plainObject)
         {
-            var lsession = GetSession(true);
+            var lsession = GetSession();
             if (lsession.IsRollbacked())
             {
                 throw new OdbRuntimeException(
@@ -269,7 +268,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             Commit();
 
-            var lsession = GetSession(true);
+            var lsession = GetSession();
             _objectWriter.FileSystemProcessor.WriteLastOdbCloseStatus(true, false);
 
             _objectWriter.FileSystemProcessor.Flush();
@@ -312,20 +311,20 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
             }
 
-            GetSession(true).Commit();
+            GetSession().Commit();
             _objectWriter.FileSystemProcessor.Flush();
         }
 
         public override void Rollback()
         {
-            GetSession(true).Rollback();
+            GetSession().Rollback();
         }
 
         public override OID GetObjectId<T>(T plainObject, bool throwExceptionIfDoesNotExist)
         {
             if (plainObject != null)
             {
-                var oid = GetSession(true).GetCache().GetOid(plainObject);
+                var oid = GetSession().GetCache().GetOid(plainObject);
                 
                 if (oid == null && throwExceptionIfDoesNotExist)
                     throw new OdbRuntimeException(NDatabaseError.UnknownObjectToGetOid.AddParameter(plainObject.ToString()));
@@ -348,10 +347,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             var objectFromOid = nnoi.GetObject() ??
                                 GetObjectReader().GetInstanceBuilder().BuildOneInstance(nnoi,
-                                                                                        GetSession(true).
-                                                                                            GetCache());
+                                                                                        GetSession().GetCache());
 
-            var lsession = GetSession(true);
+            var lsession = GetSession();
             // Here oid can be different from nnoi.getOid(). This is the case when
             // the oid is an external oid. That`s why we use
             // nnoi.getOid() to put in the cache
@@ -364,7 +362,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public override NonNativeObjectInfo GetMetaObjectFromOid(OID oid)
         {
             var nnoi = GetObjectReader().ReadNonNativeObjectInfoFromOid(null, oid, true, false);
-            GetSession(true).GetTmpCache().ClearObjectInfos();
+            GetSession().GetTmpCache().ClearObjectInfos();
             return nnoi;
         }
 
@@ -467,7 +465,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public override void Disconnect<T>(T plainObject)
         {
-            GetSession(true).RemoveObjectFromCache(plainObject);
+            GetSession().RemoveObjectFromCache(plainObject);
         }
 
         public override IInternalTriggerManager GetTriggerManager()
@@ -506,7 +504,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return _session;
         }
 
-        public override ISession GetSession(bool throwExceptionIfDoesNotExist)
+        public override ISession GetSession()
         {
             return _session;
         }
@@ -552,7 +550,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <param name="plainObject"> </param>
         private OID InternalStore<T>(OID oid, T plainObject) where T : class
         {
-            if (GetSession(true).IsRollbacked())
+            if (GetSession().IsRollbacked())
             {
                 throw new OdbRuntimeException(
                     NDatabaseError.OdbHasBeenRollbacked.AddParameter(GetBaseIdentification().ToString()));
@@ -589,7 +587,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             // first detects if we must perform an insert or an update
             // If object is in the cache, we must perform an update, else an insert
-            var cache = GetSession(true).GetCache();
+            var cache = GetSession().GetCache();
 
             var cacheOid = cache.IdOfInsertingObject(plainObject);
             if (cacheOid != null)

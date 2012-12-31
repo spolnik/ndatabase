@@ -39,7 +39,7 @@ namespace NDatabase.Odb.Core.Query.Execution
                         _executor.GetStorageEngine().GetBaseIdentification().Id));
             }
 
-            if (_executor.GetStorageEngine().GetSession(true).IsRollbacked())
+            if (_executor.GetStorageEngine().GetSession().IsRollbacked())
                 throw new OdbRuntimeException(NDatabaseError.OdbHasBeenRollbacked);
 
             // Get the main class
@@ -48,7 +48,7 @@ namespace NDatabase.Odb.Core.Query.Execution
             // this is done once.
             queryResultAction.Start();
             var allClassInfos =
-                _executor.GetStorageEngine().GetSession(true).GetMetaModel().GetPersistentSubclassesOf(underlyingType);
+                _executor.GetStorageEngine().GetSession().GetMetaModel().GetPersistentSubclassesOf(underlyingType);
 
             var nbClasses = allClassInfos.Count;
             for (var i = 0; i < nbClasses; i++)
