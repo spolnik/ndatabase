@@ -1,15 +1,15 @@
 using System;
-using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace NDatabase.Tool.Wrappers
 {
     internal static class OdbClassUtil
     {
-        private static readonly ConcurrentDictionary<string, string> CacheByFullClassName =
-            new ConcurrentDictionary<string, string>();
+        private static readonly Dictionary<string, string> CacheByFullClassName =
+            new Dictionary<string, string>();
 
-        private static readonly ConcurrentDictionary<Type, string> CacheByType =
-            new ConcurrentDictionary<Type, string>();
+        private static readonly Dictionary<Type, string> CacheByType =
+            new Dictionary<Type, string>();
 
         public static string GetClassName(string fullClassName)
         {

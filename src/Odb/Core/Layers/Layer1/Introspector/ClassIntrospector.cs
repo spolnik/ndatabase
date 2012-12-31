@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -9,6 +8,7 @@ using NDatabase.Odb.Core.BTree;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Oid;
+using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
 
@@ -25,8 +25,8 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
     /// </remarks>
     internal static class ClassIntrospector
     {
-        private static readonly ConcurrentDictionary<Type, IList<FieldInfo>> Fields =
-            new ConcurrentDictionary<Type, IList<FieldInfo>>();
+        private static readonly Dictionary<Type, IList<FieldInfo>> Fields =
+            new Dictionary<Type, IList<FieldInfo>>();
 
         private static readonly IDictionary<string, Type> SystemClasses = new Dictionary<string, Type>();
 
