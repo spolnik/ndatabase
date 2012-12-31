@@ -1,10 +1,6 @@
 namespace NDatabase.Odb.Core.Layers.Layer3.Oid
 {
-    /// <summary>
-    ///   Status of ID.
-    /// </summary>
-    /// <author>osmadja</author>
-    public static class IDStatus
+    internal static class IDStatus
     {
         public const byte Unknown = 0;
 

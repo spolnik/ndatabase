@@ -3,8 +3,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
     /// <summary>
     ///   ID types are used for classes(class id) and objects(Object Id) to specify the type of the id in the ID blocks
     /// </summary>
-    /// <author>osmadja</author>
-    public static class IdTypes
+    internal static class IdTypes
     {
         public const byte Unknown = 0;
 

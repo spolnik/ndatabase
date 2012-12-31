@@ -10,7 +10,6 @@ namespace NDatabase.Odb.Core
     /// <remarks>
     ///   All NDatabase ODB Errors. Errors can be user errors or Internal errors. All @1 in error description will be replaced by parameters
     /// </remarks>
-    /// <author>olivier s</author>
     internal sealed class NDatabaseError : IError
     {
         internal static readonly NDatabaseError NullNextObjectOid = new NDatabaseError(100,

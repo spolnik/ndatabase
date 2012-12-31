@@ -39,6 +39,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\NDatabase3.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -297,6 +298,7 @@
     <Compile Include="Odb\Core\Layers\Layer3\ReadObjectsCache.cs" />
     <Compile Include="Odb\Core\Trigger\InternalTriggerManager.cs" />
     <Compile Include="Odb\IInternalObjectSet.cs" />
+    <Compile Include="Odb\IInternalValues.cs" />
     <Compile Include="Odb\ITriggerManager.cs" />
     <Compile Include="Odb\Main\IndexManager.cs" />
     <Compile Include="Odb\Main\Odb.cs" />
