@@ -42,7 +42,7 @@ namespace NDatabase.Odb.Core.Transaction
             _size += bytes.Length;
         }
 
-        internal void PersistMeTo(IFileSystemInterface fsi, int index)
+        internal void PersistMeTo(IFileSystemInterface fsi)
         {
             var sizeOfLong = OdbType.Long.Size;
             var sizeOfInt = OdbType.Integer.Size;

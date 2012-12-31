@@ -286,7 +286,7 @@ namespace NDatabase.Odb.Core.Transaction
                 Persist();
 
             if (persistWriteAcion)
-                writeAction.PersistMeTo(_fsi, _numberOfWriteActions + 1);
+                writeAction.PersistMeTo(_fsi);
 
             // Only adds the writeaction to the list if the transaction keeps all in
             // memory

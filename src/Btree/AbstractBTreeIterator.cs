@@ -77,7 +77,7 @@ namespace NDatabase.Btree
             return Current;
         }
 
-        protected T NextAsc()
+        private T NextAsc()
         {
             // Try to go down till a leaf
             while (!CurrentNode.IsLeaf())
@@ -110,7 +110,7 @@ namespace NDatabase.Btree
             return (T) value;
         }
 
-        protected T NextDesc()
+        private T NextDesc()
         {
             // Try to go down till a leaf
             while (!CurrentNode.IsLeaf())

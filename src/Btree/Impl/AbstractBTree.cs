@@ -247,7 +247,7 @@ namespace NDatabase.Btree.Impl
         /// <param name="keyAndValue"> </param>
         /// <returns> </returns>
         /// <exception cref="System.Exception">System.Exception</exception>
-        protected object InternalDelete(IBTreeNode node, IKeyAndValue keyAndValue)
+        private object InternalDelete(IBTreeNode node, IKeyAndValue keyAndValue)
         {
             var positionOfKey = node.GetPositionOfKey(keyAndValue.GetKey());
             var keyIsHere = positionOfKey > 0;

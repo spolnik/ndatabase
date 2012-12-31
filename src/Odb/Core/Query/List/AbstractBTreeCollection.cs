@@ -143,53 +143,6 @@ namespace NDatabase.Odb.Core.Query.List
 
         protected abstract IBTree BuildTree(int degree);
 
-        public bool AddAll(IEnumerable<TItem> collection)
-        {
-            var iterator = collection.GetEnumerator();
-            while (iterator.MoveNext())
-                Add(iterator.Current);
-            return true;
-        }
-
-        public bool ContainsAll(ICollection collection)
-        {
-            throw new OdbRuntimeException(NDatabaseError.OperationNotImplemented.AddParameter("containsAll"));
-        }
-
-        public bool IsEmpty()
-        {
-            return _size == 0;
-        }
-
-        public bool RemoveAll(ICollection collection)
-        {
-            throw new OdbRuntimeException(NDatabaseError.OperationNotImplemented.AddParameter("removeAll"));
-        }
-
-        public bool RetainAll(ICollection collection)
-        {
-            throw new OdbRuntimeException(NDatabaseError.OperationNotImplemented.AddParameter("retainAll"));
-        }
-
-        protected object[] ToArray()
-        {
-            return ToArray(new object[_size]);
-        }
-
-        protected object[] ToArray(object[] objects)
-        {
-            IEnumerator iterator = GetEnumerator();
-            var i = 0;
-            while (iterator.MoveNext())
-                objects[i++] = iterator.Current;
-            return objects;
-        }
-
-        protected OrderByConstants GetOrderByType()
-        {
-            return _orderByType;
-        }
-
         protected IBTree GetTree()
         {
             return _tree;

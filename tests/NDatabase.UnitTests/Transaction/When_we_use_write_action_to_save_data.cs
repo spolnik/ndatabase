@@ -10,7 +10,6 @@ namespace NDatabase.UnitTests.Transaction
 {
     internal class When_we_use_write_action_to_save_data : InstanceSpecification<WriteAction>
     {
-        private const int StartIndex = 0;
         private byte[] _data;
         private IFileSystemInterface _fsi;
         private long _position;
@@ -37,7 +36,7 @@ namespace NDatabase.UnitTests.Transaction
         [Test]
         public void It_should_push_single_data_set_to_persisted_instance()
         {
-            SubjectUnderTest.PersistMeTo(_fsi, StartIndex);
+            SubjectUnderTest.PersistMeTo(_fsi);
 
             var savedBytes = ((FileSystemInterfaceFake) _fsi).Bytes;
             var savedWriteInTransaction = ((FileSystemInterfaceFake) _fsi).WriteInTransaction;
@@ -46,7 +45,7 @@ namespace NDatabase.UnitTests.Transaction
             Assert.That(savedLabel, Is.EqualTo("Transaction"));
             Assert.That(savedWriteInTransaction, Is.False);
 
-            var position = ByteArrayConverter.ByteArrayToLong(savedBytes, 0);
+            var position = ByteArrayConverter.ByteArrayToLong(savedBytes);
             Assert.That(position, Is.EqualTo(_position));
 
             var size = ByteArrayConverter.ByteArrayToInt(savedBytes, 8);
@@ -66,11 +65,11 @@ namespace NDatabase.UnitTests.Transaction
 
             Assert.That(SubjectUnderTest.ToString(), Is.EqualTo("position=3 | bytes=[1 2 3 4 5 6 ] & size=6"));
 
-            SubjectUnderTest.PersistMeTo(_fsi, StartIndex);
+            SubjectUnderTest.PersistMeTo(_fsi);
 
             var savedBytes = ((FileSystemInterfaceFake)_fsi).Bytes;
 
-            var position = ByteArrayConverter.ByteArrayToLong(savedBytes, 0);
+            var position = ByteArrayConverter.ByteArrayToLong(savedBytes);
             Assert.That(position, Is.EqualTo(_position));
 
             var size = ByteArrayConverter.ByteArrayToInt(savedBytes, 8);
@@ -123,7 +122,7 @@ namespace NDatabase.UnitTests.Transaction
 
             writeAction.AddBytes(_data);
 
-            writeAction.PersistMeTo(_fsi, StartIndex);
+            writeAction.PersistMeTo(_fsi);
 
             var savedBytes = ((FileSystemInterfaceFake)_fsi).Bytes;
             var savedWriteInTransaction = ((FileSystemInterfaceFake)_fsi).WriteInTransaction;
@@ -132,7 +131,7 @@ namespace NDatabase.UnitTests.Transaction
             Assert.That(savedLabel, Is.EqualTo("Transaction"));
             Assert.That(savedWriteInTransaction, Is.False);
 
-            var position = ByteArrayConverter.ByteArrayToLong(savedBytes, 0);
+            var position = ByteArrayConverter.ByteArrayToLong(savedBytes);
             Assert.That(position, Is.EqualTo(_position));
 
             var size = ByteArrayConverter.ByteArrayToInt(savedBytes, 8);
