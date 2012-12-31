@@ -15,8 +15,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         internal const long ObjectIsNotInCache = -1;
 
-        internal const long PositionNotInitialized = -1;
-
         internal const long ObjectDoesNotExist = -2;
 
         /// <summary>
@@ -40,10 +38,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         private const long BlockIdRepetitionIdType = 0;
 
         private const long NativeObjectOffsetBlockSize = 0;
-        internal const byte NoEncryption = 0;
-
-        internal const byte WithEncryption = 1;
-
+        
         /// <summary>
         ///   Used to make an attribute reference a null object - setting its id to zero
         /// </summary>
@@ -130,8 +125,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         internal static readonly long ClassOffsetClassNbObjects = ClassOffsetNextClassPosition + OdbType.Long.Size;
 
-        internal static readonly long ClassOffsetFullClassNameSize = ClassOffsetNextClassPosition + OdbType.Long.Size;
-
         internal static readonly long ObjectOffsetBlockType = ObjectOffsetBlockSize + OdbType.Integer.Size;
 
         private static readonly long ObjectOffsetObjectId = ObjectOffsetBlockType + OdbType.Byte.Size;
@@ -182,8 +175,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         private static readonly long BlockIdRepetitionId = BlockIdRepetitionIdType + OdbType.Byte.Size;
 
         internal static readonly long BlockIdRepetitionIdStatus = BlockIdRepetitionId + OdbType.Long.Size;
-
-        internal static readonly long BlockIdRepetitionObjectPosition = BlockIdRepetitionIdStatus + OdbType.Byte.Size;
 
         internal static readonly long NativeObjectOffsetBlockType = NativeObjectOffsetBlockSize +
                                                                   OdbType.Integer.Size;

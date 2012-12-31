@@ -27,10 +27,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         [NonPersistent]
         private object _theObject;
 
-        public NonNativeObjectInfo() : base(null)
-        {
-        }
-
         public NonNativeObjectInfo(ObjectInfoHeader oip, ClassInfo classInfo) : base(null)
         {
             _classInfo = classInfo;
@@ -287,11 +283,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return false;
         }
 
-        public void Clear()
-        {
-            _attributeValues = null;
-        }
-
         /// <summary>
         ///   Create a copy oh this meta object
         /// </summary>
@@ -352,24 +343,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         public int GetMaxNbattributes()
         {
             return _maxNbattributes;
-        }
-
-        /// <summary>
-        ///   The performance of this method is bad.
-        /// </summary>
-        /// <remarks>
-        ///   The performance of this method is bad. But it is not used by the engine, only in the ODBExplorer
-        /// </remarks>
-        /// <param name="aoi"> </param>
-        /// <returns> </returns>
-        public int GetAttributeId(AbstractObjectInfo aoi)
-        {
-            for (var i = 0; i < _attributeValues.Length; i++)
-            {
-                if (aoi == _attributeValues[i])
-                    return i + 1;
-            }
-            return -1;
         }
 
         /// <summary>

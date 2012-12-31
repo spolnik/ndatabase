@@ -25,7 +25,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
 
         private readonly IList<NewNonNativeObjectAction> _newObjectMetaRepresentations;
         private readonly IList<object> _newObjects;
-        private IList<IChangedAttribute> _changedAttributeActions;
+        private readonly IList<IChangedAttribute> _changedAttributeActions;
         private int _maxObjectRecursionLevel;
 
         private int _nbChanges;
@@ -53,21 +53,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
         public AbstractObjectInfo GetChangedObjectMetaRepresentation(int i)
         {
             return _changedObjectMetaRepresentations[i];
-        }
-
-        public IList<ChangedObjectInfo> GetChanges()
-        {
-            return _changes;
-        }
-
-        public IList<NewNonNativeObjectAction> GetNewObjectMetaRepresentations()
-        {
-            return _newObjectMetaRepresentations;
-        }
-
-        public NewNonNativeObjectAction GetNewObjectMetaRepresentation(int i)
-        {
-            return _newObjectMetaRepresentations[i];
         }
 
         public IList<object> GetNewObjects()
@@ -180,16 +165,13 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
                 if (value2.IsNull())
                 {
                     hasChanged = true;
-                    StoreActionSetAttributetoNull(nnoi1, id);
+                    StoreActionSetAttributetoNull();
                     continue;
                 }
                 if (value1.IsNull() && value2.IsNonNativeObject())
                 {
                     hasChanged = true;
-                    var oi2 = (NonNativeObjectInfo)value2;
-                    var positionToUpdateReference = nnoi1.GetAttributeDefinitionPosition(id);
-                    StoreNewObjectReference(positionToUpdateReference, oi2, objectRecursionLevel,
-                                            nnoi1.GetClassInfo().GetAttributeInfoFromId(id).GetName());
+                    StoreNewObjectReference();
                     continue;
                 }
                 if (!ClassAreCompatible(value1, value2))
@@ -198,14 +180,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
                     if (nativeObjectInfo != null)
                     {
                         StoreChangedObject(nnoi1, nnoi2, id, objectRecursionLevel);
-                        StoreChangedAttributeAction(new ChangedNativeAttributeAction(nnoi1, nnoi2,
-                                                                                     nnoi1.GetHeader().
-                                                                                         GetAttributeIdentificationFromId
-                                                                                         (id), nativeObjectInfo,
-                                                                                     objectRecursionLevel,
-                                                                                     nnoi1.GetClassInfo().
-                                                                                         GetAttributeInfoFromId(id).
-                                                                                         GetName()));
+                        StoreChangedAttributeAction(new ChangedNativeAttributeAction());
                     }
                     var objectReference = value2 as ObjectReference;
                     if (objectReference != null)
@@ -215,14 +190,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
                         if (!nnoi.GetOid().Equals(oref.GetOid()))
                         {
                             StoreChangedObject(nnoi1, nnoi2, id, objectRecursionLevel);
-                            var attributeIdThatHasChanged = id;
-                            // this is the exact position where the object reference
-                            // definition is stored
-                            var attributeDefinitionPosition =
-                                nnoi2.GetAttributeDefinitionPosition(attributeIdThatHasChanged);
-                            StoreChangedAttributeAction(
-                                new ChangedObjectReferenceAttributeAction(attributeDefinitionPosition,
-                                                                          objectReference, objectRecursionLevel));
+                            StoreChangedAttributeAction(new ChangedObjectReferenceAttributeAction());
                         }
                         else
                             continue;
@@ -234,14 +202,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
                 {
                     if (!value1.Equals(value2))
                     {
-                        StoreChangedAttributeAction(new ChangedNativeAttributeAction(nnoi1, nnoi2,
-                                                                                     nnoi1.GetHeader().
-                                                                                         GetAttributeIdentificationFromId
-                                                                                         (id), (NativeObjectInfo) value2,
-                                                                                     objectRecursionLevel,
-                                                                                     nnoi1.GetClassInfo().
-                                                                                         GetAttributeInfoFromId(id).
-                                                                                         GetName()));
+                        StoreChangedAttributeAction(new ChangedNativeAttributeAction());
                         hasChanged = true;
                     }
                     continue;
@@ -274,11 +235,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
                     {
                         // This means that an object reference has changed.
                         hasChanged = true;
-                        // keep track of the position where the reference must be
-                        // updated
-                        var positionToUpdateReference = nnoi1.GetAttributeDefinitionPosition(id);
-                        StoreNewObjectReference(positionToUpdateReference, oi2, objectRecursionLevel,
-                                                nnoi1.GetClassInfo().GetAttributeInfoFromId(id).GetName());
+                        StoreNewObjectReference();
                         objectRecursionLevel++;
                     }
                 }
@@ -298,26 +255,23 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
             return hasChanged;
         }
 
-        private void StoreNewObjectReference(long positionToUpdateReference, NonNativeObjectInfo oi2,
-                                             int objectRecursionLevel, string attributeName)
+        private void StoreNewObjectReference()
         {
-            var nnnoa = new NewNonNativeObjectAction(positionToUpdateReference, oi2, objectRecursionLevel, attributeName);
-            _newObjectMetaRepresentations.Add(nnnoa);
+            _newObjectMetaRepresentations.Add(new NewNonNativeObjectAction());
             _nbChanges++;
         }
 
-        private void StoreActionSetAttributetoNull(NonNativeObjectInfo nnoi, int id)
+        private void StoreActionSetAttributetoNull()
         {
             _nbChanges++;
-            var action = new SetAttributeToNullAction(nnoi, id);
+            var action = new SetAttributeToNullAction();
             _attributeToSetToNull.Add(action);
         }
 
-        private void StoreArrayChange(NonNativeObjectInfo nnoi, int arrayAttributeId, int arrayIndex,
-                                      AbstractObjectInfo value)
+        private void StoreArrayChange()
         {
             _nbChanges++;
-            var ame = new ArrayModifyElement(nnoi, arrayAttributeId, arrayIndex, value);
+            var ame = new ArrayModifyElement();
             _arrayChanges.Add(ame);
         }
 
@@ -348,11 +302,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
                 else
                 {
                     _newObjects.Add(aoi2.GetObject());
-                    var fieldName = aoi1.GetClassInfo().GetAttributeInfoFromId(fieldId).GetName();
-                    // keep track of the position where the reference must be
-                    // updated - use aoi1 to get position, because aoi2 do not have position defined yet
-                    var positionToUpdateReference = aoi1.GetAttributeDefinitionPosition(fieldId);
-                    StoreNewObjectReference(positionToUpdateReference, aoi2, objectRecursionLevel, fieldName);
+                    StoreNewObjectReference();
                 }
             }
             else
@@ -411,7 +361,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
                 if (!localHasChanged) 
                     continue;
 
-                StoreArrayChange(nnoi1, fieldId, i, value2);
+                StoreArrayChange();
                 return true;
             }
             return false;
@@ -421,11 +371,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
         {
             _nbChanges++;
             _changedAttributeActions.Add(caa);
-        }
-
-        public void SetChangedAttributeActions(IList<IChangedAttribute> changedAttributeActions)
-        {
-            _changedAttributeActions = changedAttributeActions;
         }
 
         public override string ToString()

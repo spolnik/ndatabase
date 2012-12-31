@@ -359,13 +359,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return objectFromOid;
         }
 
-        public override NonNativeObjectInfo GetMetaObjectFromOid(OID oid)
-        {
-            var nnoi = GetObjectReader().ReadNonNativeObjectInfoFromOid(null, oid, true, false);
-            GetSession().GetTmpCache().ClearObjectInfos();
-            return nnoi;
-        }
-
         public override ObjectInfoHeader GetObjectInfoHeaderFromOid(OID oid)
         {
             return GetObjectReader().ReadObjectInfoHeaderFromOid(oid, true);
@@ -374,11 +367,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public override IList<long> GetAllObjectIds()
         {
             return ObjectReader.GetAllIds(IdTypes.Object);
-        }
-
-        public override IList<FullIDInfo> GetAllObjectIdInfos(string objectType, bool displayObjects)
-        {
-            return ObjectReader.GetAllIdInfos(objectType, IdTypes.Object, displayObjects);
         }
 
         public override void SetDatabaseId(IDatabaseId databaseId)
@@ -409,17 +397,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public override IFileIdentification GetBaseIdentification()
         {
             return FileIdentification;
-        }
-
-        public override OID WriteObjectInfo(OID oid, NonNativeObjectInfo aoi, long position, bool updatePointers)
-        {
-            // TODO check if it must be written in transaction
-            return _objectWriter.WriteNonNativeObjectInfo(oid, aoi, position, updatePointers, true);
-        }
-
-        public override OID UpdateObject(NonNativeObjectInfo nnoi, bool forceUpdate)
-        {
-            return _objectWriter.UpdateNonNativeObjectInfo(nnoi, forceUpdate);
         }
 
         public override IValues GetValues(IValuesQuery query, int startIndex, int endIndex)

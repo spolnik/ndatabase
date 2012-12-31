@@ -15,11 +15,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             _results = new OdbList<ClassInfoCompareResult>();
         }
 
-        public bool IsModelHasBeenUpdated()
-        {
-            return _modelHasBeenUpdated;
-        }
-
         public void SetModelHasBeenUpdated(bool modelHasBeenUpdated)
         {
             _modelHasBeenUpdated = modelHasBeenUpdated;
@@ -28,11 +23,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public IOdbList<ClassInfoCompareResult> GetResults()
         {
             return _results;
-        }
-
-        public void SetResults(IOdbList<ClassInfoCompareResult> results)
-        {
-            _results = results;
         }
 
         public void Add(ClassInfoCompareResult result)

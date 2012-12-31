@@ -134,9 +134,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
             AssertEquals(1, comparator.GetNbChanges());
             AssertEquals(1, comparator.GetChangedAttributeActions().Count);
-            var cnaa = (ChangedNativeAttributeAction) comparator.GetChangedAttributeActions()[0];
-            AssertEquals("Olivier Smadja", cnaa.GetNoiWithNewValue().GetObject());
-
+            
             odb.Close();
         }
 
@@ -191,11 +189,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
             AssertEquals(2, comparator.GetNbChanges());
             AssertEquals(2, comparator.GetChangedAttributeActions().Count);
-            var cnaa = (ChangedNativeAttributeAction) comparator.GetChangedAttributeActions()[1];
-            AssertEquals("Olivier Smadja", cnaa.GetNoiWithNewValue().GetObject());
-            cnaa = (ChangedNativeAttributeAction) comparator.GetChangedAttributeActions()[0];
-            AssertEquals("olivier@neodatis.org", cnaa.GetNoiWithNewValue().GetObject());
-
+            
             odb.Close();
         }
 
@@ -254,9 +248,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
             AssertEquals(1, comparator.GetNbChanges());
             AssertEquals(1, comparator.GetAttributeToSetToNull().Count);
-            var cnaa = comparator.GetAttributeToSetToNull()[0];
-            AssertEquals(2, cnaa.GetAttributeId());
-
+            
             odb.Close();
         }
 
@@ -315,9 +307,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             AssertEquals(2, comparator.GetNbChanges());
             AssertEquals(1, comparator.GetAttributeToSetToNull().Count);
             AssertEquals(1, comparator.GetArrayChanges().Count);
-            var cnaa = comparator.GetAttributeToSetToNull()[0];
-            AssertEquals(function.GetName(), ((VO.Login.Function) cnaa.GetNnoi().GetObject()).GetName());
-
+            
             odb.Close();
         }
 
@@ -426,10 +416,8 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
             AssertEquals(1, comparator.GetNbChanges());
-            var cnaa = (ChangedNativeAttributeAction) comparator.GetChangedAttributeActions()[0];
             AssertEquals(1, comparator.GetChangedAttributeActions().Count);
-            AssertEquals(profile.GetName(), cnaa.GetNoiWithNewValue().GetObject());
-
+            
             odb.Close();
         }
 
@@ -523,9 +511,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
             AssertEquals(1, comparator.GetNbChanges());
             AssertEquals(1, comparator.GetAttributeToSetToNull().Count);
-            var o = comparator.GetAttributeToSetToNull()[0];
             AssertEquals(0, comparator.GetChangedAttributeActions().Count);
-            AssertEquals(3, o.GetAttributeId());
 
             odb.Close();
         }
@@ -579,10 +565,8 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
             AssertEquals(1, comparator.GetNbChanges());
-            var cnaa = (ChangedNativeAttributeAction) comparator.GetChangedAttributeActions()[0];
             AssertEquals(1, comparator.GetChangedAttributeActions().Count);
-            AssertEquals(user.GetName(), cnaa.GetNoiWithNewValue().GetObject());
-
+            
             odb.Close();
         }
 
@@ -639,11 +623,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
             AssertEquals(3, comparator.GetNbChanges());
             AssertEquals(2, comparator.GetChangedAttributeActions().Count);
-            var cnaa = (ChangedNativeAttributeAction) comparator.GetChangedAttributeActions()[1];
-            AssertEquals("Olivier Smadja", cnaa.GetNoiWithNewValue().GetObject());
-            cnaa = (ChangedNativeAttributeAction) comparator.GetChangedAttributeActions()[0];
-            AssertEquals("olivier@neodatis.org", cnaa.GetNoiWithNewValue().GetObject());
-
+            
             odb.Close();
         }
 
@@ -692,8 +672,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
             AssertEquals(1, comparator.GetNbChanges());
             AssertEquals(0, comparator.GetChangedAttributeActions().Count);
-            AssertEquals(1, comparator.GetNewObjectMetaRepresentations().Count);
-
+            
             odb.Close();
         }
 

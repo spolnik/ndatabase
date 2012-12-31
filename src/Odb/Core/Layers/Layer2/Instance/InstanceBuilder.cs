@@ -185,11 +185,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Instance
             return o;
         }
 
-        public string GetSessionId()
-        {
-            return _engine.GetSession().GetId();
-        }
-
         #endregion
 
         private object BuildOneInstance(AbstractObjectInfo objectInfo)

@@ -53,10 +53,5 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         {
             return _enumClassInfo;
         }
-
-        public void SetEnumClassInfo(ClassInfo enumClassInfo)
-        {
-            _enumClassInfo = enumClassInfo;
-        }
     }
 }

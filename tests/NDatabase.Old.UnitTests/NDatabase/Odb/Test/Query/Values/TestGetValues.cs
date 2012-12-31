@@ -1,6 +1,5 @@
 using System;
 using NDatabase.Odb;
-using NDatabase.Odb.Core.Query.Values;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Attribute;
 using Test.NDatabase.Odb.Test.VO.Login;
@@ -31,44 +30,6 @@ namespace Test.NDatabase.Odb.Test.Query.Values
             AssertEquals("f1", ov.GetByIndex(0));
         }
 
-        /// <summary>
-        ///   Custom
-        /// </summary>
-        /// <exception cref="System.IO.IOException"></exception>
-        /// <exception cref="System.Exception"></exception>
-        [Test]
-        public virtual void Test10()
-        {
-            DeleteBase("valuesA2");
-            var odb = Open("valuesA2");
-            var t = new StopWatch();
-            t.Start();
-            var size = 100;
-            long sum = 0;
-            for (var i = 0; i < size; i++)
-            {
-                var tc1 = new TestClass();
-                tc1.SetInt1(i);
-                odb.Store(tc1);
-                sum += i;
-            }
-            odb.Close();
-            t.End();
-            Println(" time for insert = " + t.GetDurationInMiliseconds());
-            odb = Open("valuesA2");
-            t.Start();
-            ICustomQueryFieldAction custom = new TestCustomQueryFieldAction();
-            var valuesQuery = odb.ValuesQuery<TestClass>().Custom("int1", "custom of int1", custom);
-            var values =
-                odb.GetValues(valuesQuery);
-            t.End();
-            var ov = values.NextValues();
-            var c = (Decimal) ov.GetByAlias("custom of int1");
-            Println(c);
-            Println(" time for count = " + t.GetDurationInMiliseconds());
-            odb.Close();
-        }
-
         // assertEquals(bsum.divide(new
         // Decimal(size),2,Decimal.ROUND_HALF_DOWN), avg);
         /// <exception cref="System.IO.IOException"></exception>
@@ -77,7 +38,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
         public virtual void Test16()
         {
             DeleteBase("valuesA3");
-            IOdb odb = null;
+            IOdb odb;
             var t = new StopWatch();
             var size = 100;
             for (var j = 0; j < 10; j++)

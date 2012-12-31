@@ -359,7 +359,7 @@ namespace NDatabase.Odb.Core.Query.Execution
                 foreach (OID oid in list)
                 {
                     // FIXME Why calling this method
-                    var position = ObjectReader.GetObjectPositionFromItsOid(oid, true, true);
+                    ObjectReader.GetObjectPositionFromItsOid(oid, true, true);
                     _orderByKey = null;
 
                     var objectMatches = MatchObjectWithOid(oid, returnObjects, inMemory);

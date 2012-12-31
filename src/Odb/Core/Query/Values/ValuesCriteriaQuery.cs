@@ -284,19 +284,6 @@ namespace NDatabase.Odb.Core.Query.Values
             return this;
         }
 
-        public IValuesQuery Custom(string attributeName, ICustomQueryFieldAction action)
-        {
-            return Custom(attributeName, attributeName, action);
-        }
-
-        public IValuesQuery Custom(string attributeName, string alias, ICustomQueryFieldAction action)
-        {
-            action.SetAttributeName(attributeName);
-            action.SetAlias(alias);
-            _objectActions.Add(action);
-            return this;
-        }
-
         #endregion
 
         private void Init()

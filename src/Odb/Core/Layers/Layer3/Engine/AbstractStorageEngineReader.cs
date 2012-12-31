@@ -243,8 +243,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public abstract void Disconnect<T>(T plainObject) where T : class;
 
-        public abstract IList<FullIDInfo> GetAllObjectIdInfos(string arg1, bool arg2);
-
         public abstract IList<long> GetAllObjectIds();
 
         public abstract IFileIdentification GetBaseIdentification();
@@ -254,8 +252,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public abstract ITransactionId GetCurrentTransactionId();
 
         public abstract IDatabaseId GetDatabaseId();
-
-        public abstract NonNativeObjectInfo GetMetaObjectFromOid(OID arg1);
 
         public abstract object GetObjectFromOid(OID arg1);
 
@@ -288,10 +284,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public abstract OID Store<T>(OID oid, T plainObject) where T : class;
 
         public abstract OID Store<T>(T plainObject) where T : class;
-
-        public abstract OID UpdateObject(NonNativeObjectInfo arg1, bool arg2);
-
-        public abstract OID WriteObjectInfo(OID arg1, NonNativeObjectInfo arg2, long arg3, bool arg4);
 
         public abstract CurrentIdBlockInfo GetCurrentIdBlockInfo();
         public abstract IIdManager GetIdManager();

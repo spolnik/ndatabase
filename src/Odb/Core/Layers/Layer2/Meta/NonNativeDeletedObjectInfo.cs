@@ -15,11 +15,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return "deleted";
         }
 
-        public bool HasChanged(AbstractObjectInfo aoi)
-        {
-            return aoi.GetType() != typeof (NonNativeDeletedObjectInfo);
-        }
-
         public override object GetObject()
         {
             return null;

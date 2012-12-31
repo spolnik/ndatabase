@@ -5,8 +5,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
     /// </summary>
     internal static class IdTypes
     {
-        public const byte Unknown = 0;
-
         public const byte Object = 1;
 
         public const byte Class = 2;

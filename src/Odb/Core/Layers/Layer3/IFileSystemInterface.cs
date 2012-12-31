@@ -134,7 +134,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         IMultiBufferedFileIO GetIo();
 
-        void SetIo(IMultiBufferedFileIO io);
         void WriteUShort(ushort s, bool writeInTransaction);
         byte[] ReadUShortBytes();
         ushort ReadUShort();

@@ -1,5 +1,3 @@
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
-
 namespace NDatabase.Odb.Core.Query.Execution
 {
     /// <summary>
@@ -17,8 +15,6 @@ namespace NDatabase.Odb.Core.Query.Execution
         void Start();
 
         void End();
-
-        void Execute(OID oid, AttributeValuesMap values);
 
         object GetValue();
 

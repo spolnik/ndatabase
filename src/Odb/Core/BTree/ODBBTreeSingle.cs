@@ -13,11 +13,6 @@ namespace NDatabase.Odb.Core.BTree
     {
         private OID _oid;
 
-        public OdbBtreeSingle()
-        {
-            //only for deserialization purposes
-        }
-
         public OdbBtreeSingle(int degree, IBTreePersister persister) : base(degree, persister)
         {
         }

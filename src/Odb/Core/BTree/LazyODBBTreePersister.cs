@@ -286,12 +286,6 @@ namespace NDatabase.Odb.Core.BTree
 
         #endregion
 
-        /// <exception cref="System.IO.IOException"></exception>
-        public OID GetNextNodeId()
-        {
-            return _engine.GetObjectWriter().GetIdManager().GetNextObjectId(-1);
-        }
-
         private void Persist()
         {
             _nbPersist++;

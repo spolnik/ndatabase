@@ -24,10 +24,6 @@ namespace NDatabase.Odb.Core.BTree
 
         private OID _parentOid;
 
-        public OdbBtreeNodeSingle()
-        {
-        }
-
         public OdbBtreeNodeSingle(IBTree btree) : base(btree)
         {
         }

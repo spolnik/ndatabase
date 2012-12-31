@@ -24,10 +24,6 @@ namespace NDatabase.Odb.Core.BTree
 
         private OID _parentOid;
 
-        public OdbBtreeNodeMultiple()
-        {
-        }
-
         public OdbBtreeNodeMultiple(IBTree btree) : base(btree)
         {
         }

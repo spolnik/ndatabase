@@ -374,8 +374,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             NonNativeObjectInfo oldMetaRepresentation = null;
             // Used to check consistency, at the end, the number of
             // nbConnectedObjects must and nbUnconnected must remain unchanged
-            var nbConnectedObjects = nnoi.GetClassInfo().CommitedZoneInfo.GetNumberbOfObjects();
-            var nbNonConnectedObjects = nnoi.GetClassInfo().UncommittedZoneInfo.GetNumberbOfObjects();
+            //TODO: why we are not using / checking that? (below is continuity)
+            nnoi.GetClassInfo().CommitedZoneInfo.GetNumberbOfObjects();
+            nnoi.GetClassInfo().UncommittedZoneInfo.GetNumberbOfObjects();
+
             var objectHasChanged = false;
             try
             {
@@ -539,8 +541,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 }
 
                 _objectWriter.FileSystemProcessor.FileSystemInterface.SetWritePosition(positionAfterWrite, true);
-                var nbConnectedObjectsAfter = nnoi.GetClassInfo().CommitedZoneInfo.GetNumberbOfObjects();
-                var nbNonConnectedObjectsAfter = nnoi.GetClassInfo().UncommittedZoneInfo.GetNumberbOfObjects();
+                //TODO: why we are not using / checking that? (below is continuity)
+                nnoi.GetClassInfo().CommitedZoneInfo.GetNumberbOfObjects();
+                nnoi.GetClassInfo().UncommittedZoneInfo.GetNumberbOfObjects();
                 
                 return oid;
             }

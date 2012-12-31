@@ -10,9 +10,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// </summary>
     internal sealed class ClassInfoIndex
     {
-        public const byte Enabled = 1;
-        public const byte Disabled = 2;
-
         public OID ClassInfoId { get; set; }
 
         public int[] AttributeIds { get; set; }
@@ -33,7 +30,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// <summary>
         ///   Check if a list of attribute can use the index
         /// </summary>
-        /// <param name="attributeIdsToMatch"> </param>
         /// <returns> true if the list of attribute can use this index </returns>
         public bool MatchAttributeIds(int[] attributeIdsToMatch)
         {

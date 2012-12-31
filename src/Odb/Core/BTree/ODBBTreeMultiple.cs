@@ -13,10 +13,6 @@ namespace NDatabase.Odb.Core.BTree
     {
         private OID _oid;
 
-        public OdbBtreeMultiple()
-        {
-        }
-
         public OdbBtreeMultiple(int degree, IBTreePersister persister) : base(degree, persister)
         {
         }

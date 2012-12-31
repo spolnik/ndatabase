@@ -4,7 +4,7 @@ using NDatabase.Odb.Core.Query.Execution;
 
 namespace NDatabase.Odb.Core.Query.Values
 {
-    public abstract class AbstractQueryFieldAction : IQueryFieldAction
+    internal abstract class AbstractQueryFieldAction : IQueryFieldAction
     {
         protected string Alias;
         protected string AttributeName;

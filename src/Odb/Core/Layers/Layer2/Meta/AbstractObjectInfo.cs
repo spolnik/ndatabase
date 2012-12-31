@@ -54,11 +54,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return OdbTypeId;
         }
 
-        public void SetOdbTypeId(int odbTypeId)
-        {
-            OdbTypeId = odbTypeId;
-        }
-
         public virtual long GetPosition()
         {
             return Position;
@@ -72,11 +67,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         public OdbType GetOdbType()
         {
             return OdbType ?? (OdbType = OdbType.GetFromId(OdbTypeId));
-        }
-
-        public void SetOdbType(OdbType odbType)
-        {
-            OdbType = odbType;
         }
 
         public virtual bool IsNonNativeObject()

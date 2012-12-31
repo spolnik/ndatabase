@@ -387,7 +387,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         }
 
         private long WriteAtomicNativeObject(AtomicNativeObjectInfo anoi, bool writeInTransaction,
-                                                    int totalSpaceIfString)
+                                                    int totalSpaceIfString = -1)
         {
             var startPosition = FileSystemProcessor.FileSystemInterface.GetPosition();
             var odbTypeId = anoi.GetOdbTypeId();
@@ -967,17 +967,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return InsertNativeObject(noi);
         }
 
-        public OID UpdateObject(AbstractObjectInfo aoi, bool forceUpdate)
-        {
-            if (aoi.IsNonNativeObject())
-                return UpdateNonNativeObjectInfo((NonNativeObjectInfo) aoi, forceUpdate);
-            if (aoi.IsNative())
-                return UpdateObject(aoi, forceUpdate);
-            // TODO : here should use if then else
-            throw new OdbRuntimeException(
-                NDatabaseError.AbstractObjectInfoTypeNotSupported.AddParameter(aoi.GetType().FullName));
-        }
-
         private void UpdateNextObjectPreviousPointersInCache(OID nextObjectOID, OID previousObjectOID, IOdbCache cache)
         {
             var oip = cache.GetObjectInfoHeaderByOid(nextObjectOID, false);
@@ -1151,31 +1140,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             FileSystemProcessor.FileSystemInterface.WriteBytes(bytes, writeDataInTransaction, "NativeObjectHeader");
         }
 
-        public long SafeOverWriteAtomicNativeObject(long position, AtomicNativeObjectInfo newAnoi,
-                                                            bool writeInTransaction)
-        {
-            // If the attribute an a non fix ize, check if this write is safe
-            if (OdbType.HasFixSize(newAnoi.GetOdbTypeId()))
-            {
-                FileSystemProcessor.FileSystemInterface.SetWritePosition(position, writeInTransaction);
-                return WriteAtomicNativeObject(newAnoi, writeInTransaction);
-            }
-            if (OdbType.IsStringOrBigDecimal(newAnoi.GetOdbTypeId()))
-            {
-                FileSystemProcessor.FileSystemInterface.SetReadPosition(position + StorageEngineConstant.NativeObjectOffsetDataArea);
-                var totalSize = FileSystemProcessor.FileSystemInterface.ReadInt("String total size");
-                var stringNumberOfBytes = ByteArrayConverter.GetNumberOfBytesOfAString(newAnoi.GetObject().ToString());
-                // Checks if there is enough space to store this new string in place
-                var canUpdate = totalSize >= stringNumberOfBytes;
-                if (canUpdate)
-                {
-                    FileSystemProcessor.FileSystemInterface.SetWritePosition(position, writeInTransaction);
-                    return WriteAtomicNativeObject(newAnoi, writeInTransaction, totalSize);
-                }
-            }
-            return -1;
-        }
-
         private long WriteEnumNativeObject(EnumNativeObjectInfo anoi, bool writeInTransaction)
         {
             var startPosition = FileSystemProcessor.FileSystemInterface.GetPosition();
@@ -1186,17 +1150,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             // Write the Enum String value
             FileSystemProcessor.FileSystemInterface.WriteString(anoi.GetObject().ToString(), writeInTransaction);
             return startPosition;
-        }
-
-        /// <summary>
-        ///   Writes a natibve attribute
-        /// </summary>
-        /// <param name="anoi"> </param>
-        /// <param name="writeInTransaction"> To specify if data must be written in the transaction or directly to database file </param>
-        /// <returns> The object position </returns>
-        private long WriteAtomicNativeObject(AtomicNativeObjectInfo anoi, bool writeInTransaction)
-        {
-            return WriteAtomicNativeObject(anoi, writeInTransaction, -1);
         }
 
         private static void StoreFreeSpace(long currentPosition, int blockSize)

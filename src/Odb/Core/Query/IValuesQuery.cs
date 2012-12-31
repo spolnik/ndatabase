@@ -67,8 +67,6 @@ namespace NDatabase.Odb.Core.Query
         Type UnderlyingType { get; }
         IValuesQuery Min(string attributeName);
         IValuesQuery Min(string attributeName, string alias);
-        IValuesQuery Custom(string attributeName, ICustomQueryFieldAction action);
-        IValuesQuery Custom(string attributeName, string alias, ICustomQueryFieldAction action);
 
         /// <summary>
         ///   Returns true if the query has an order by clause

@@ -23,8 +23,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         /// <returns> The modified metamodel </returns>
         void LoadMetaModel(MetaModel metaModel, bool full);
 
-        IOdbList<ClassInfoIndex> ReadClassInfoIndexesAt(long position, ClassInfo classInfo);
-
         NonNativeObjectInfo ReadNonNativeObjectInfoFromOid(ClassInfo classInfo, OID oid, bool useCache,
                                                            bool returnObjects);
 
@@ -54,16 +52,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         long ReadOidPosition(OID oid);
 
         object GetObjectFromOid(OID oid, bool returnInstance, bool useCache);
-
-        IList<FullIDInfo> GetAllIdInfos(string objectTypeToDisplay, byte idType, bool displayObject);
-
-        /// <summary>
-        ///   Returns the id of an object by reading the object header
-        /// </summary>
-        /// <param name="position"> </param>
-        /// <param name="includeDeleted"> </param>
-        /// <returns> The oid of the object at the specific position </returns>
-        OID GetIdOfObjectAt(long position, bool includeDeleted);
 
         void Close();
 
@@ -104,8 +92,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         IObjectSet<TResult> GetObjectInfos<TResult>(IQuery query, bool inMemory, int startIndex, int endIndex,
                                                     bool returnObjects,
                                                     IMatchingObjectAction queryResultAction);
-
-        string GetBaseIdentification();
 
         IInstanceBuilder GetInstanceBuilder();
 

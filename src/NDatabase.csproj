@@ -178,7 +178,6 @@
     <Compile Include="Odb\Core\Layers\Layer3\IO\IOdbFileStream.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IObjectReader.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IObjectWriter.cs" />
-    <Compile Include="Odb\Core\Layers\Layer3\IObjectWriterCallback.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\FileIdentification.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IO\IMultiBuffer.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IRefactorManager.cs" />
@@ -209,7 +208,6 @@
     <Compile Include="Odb\Core\Query\QueryManager.cs" />
     <Compile Include="Odb\Core\Query\SimpleCompareKey.cs" />
     <Compile Include="Odb\Core\Query\Values\AbstractQueryFieldAction.cs" />
-    <Compile Include="Odb\Core\Query\Values\ICustomQueryFieldAction.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IOdbCache.cs" />
     <Compile Include="Odb\Core\Transaction\ISession.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IReadObjectsCache.cs" />
@@ -252,7 +250,6 @@
     <Compile Include="Odb\Core\Layers\Layer3\Engine\PendingReading.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\StorageEngineConstant.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Oid\IdManager.cs" />
-    <Compile Include="Odb\Core\Layers\Layer3\Oid\FullIDInfo.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Oid\IDStatus.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Refactor\RefactorManager.cs" />
     <Compile Include="Odb\Core\Oid\DatabaseIdImpl.cs" />
@@ -276,7 +273,6 @@
     <Compile Include="Odb\Core\Query\List\Values\SimpleListForValues.cs" />
     <Compile Include="Odb\Core\Query\Values\AverageValueAction.cs" />
     <Compile Include="Odb\Core\Query\Values\CountAction.cs" />
-    <Compile Include="Odb\Core\Query\Values\CustomQueryFieldAction.cs" />
     <Compile Include="Odb\Core\Query\Values\FieldValueAction.cs" />
     <Compile Include="Odb\Core\Query\Values\GroupByValuesQueryResultAction.cs" />
     <Compile Include="Odb\Core\Query\Values\MaxValueAction.cs" />

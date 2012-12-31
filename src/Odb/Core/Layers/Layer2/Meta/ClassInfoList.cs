@@ -22,10 +22,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         private readonly ClassInfo _mainClassInfo;
 
-        public ClassInfoList()
-        {
-        }
-
         public ClassInfoList(ClassInfo mainClassInfo)
         {
             _classInfos = new OdbHashMap<string, ClassInfo>();
@@ -48,12 +44,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return _classInfos.Values;
         }
 
-        public bool HasClassInfos()
-        {
-            return _classInfos.Count != 0;
-        }
-
-        /// <param name="name"> </param>
         /// <returns> null if it does not exist </returns>
         public ClassInfo GetClassInfoBy(string name)
         {

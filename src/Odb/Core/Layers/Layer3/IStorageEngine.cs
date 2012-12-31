@@ -54,15 +54,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         object GetObjectFromOid(OID oid);
 
-        NonNativeObjectInfo GetMetaObjectFromOid(OID oid);
-
         ObjectInfoHeader GetObjectInfoHeaderFromOid(OID oid);
 
         void DefragmentTo(string newFileName);
 
         IList<long> GetAllObjectIds();
-
-        IList<FullIDInfo> GetAllObjectIdInfos(string objectType, bool displayObjects);
 
         bool IsClosed();
 
@@ -79,24 +75,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         void SetCurrentIdBlockInfos(CurrentIdBlockInfo currentIdBlockInfo);
 
         IFileIdentification GetBaseIdentification();
-
-        /// <summary>
-        ///   Write an object already transformed into meta representation!
-        /// </summary>
-        /// <param name="oid"> </param>
-        /// <param name="nnoi"> </param>
-        /// <param name="position"> </param>
-        /// <param name="updatePointers"> </param>
-        /// <returns> te object position(or id (if &lt;0, it is id)) @ </returns>
-        OID WriteObjectInfo(OID oid, NonNativeObjectInfo nnoi, long position, bool updatePointers);
-
-        /// <summary>
-        ///   Updates an object already transformed into meta representation!
-        /// </summary>
-        /// <param name="nnoi"> The Object Meta representation </param>
-        /// <param name="forceUpdate"> </param>
-        /// <returns> The OID of the update object @ </returns>
-        OID UpdateObject(NonNativeObjectInfo nnoi, bool forceUpdate);
 
         void AddSession(ISession session, bool readMetamodel);
 

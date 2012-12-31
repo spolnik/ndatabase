@@ -17,10 +17,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         {
         }
 
-        public NullNativeObjectInfo(OdbType type) : base(null, type)
-        {
-        }
-
         public override string ToString()
         {
             return "null";

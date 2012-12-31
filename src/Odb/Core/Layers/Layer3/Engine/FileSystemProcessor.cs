@@ -379,38 +379,5 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             FileSystemInterface.Flush();
         }
-
-        /// <summary>
-        ///   <pre>Class User{
-        ///     private String name;
-        ///     private Function function;
-        ///     }
-        ///     When an object of type User is stored, it stores a reference to its function object.
-        /// </pre>
-        /// </summary>
-        /// <remarks>
-        ///   <pre>Class User{
-        ///     private String name;
-        ///     private Function function;
-        ///     }
-        ///     When an object of type User is stored, it stores a reference to its function object.
-        ///     If the function is set to another, the pointer to the function object must be changed.
-        ///     for example, it was pointing to a function at the position 1407, the 1407 value is stored while
-        ///     writing the USer object, let's say at the position 528. To make the user point to another function object (which exist at the position 1890)
-        ///     The position 528 must be updated to 1890.</pre>
-        /// </remarks>
-        public void UpdateObjectReference(long positionWhereTheReferenceIsStored, OID newOid,
-                                                  bool writeInTransaction)
-        {
-            var position = positionWhereTheReferenceIsStored;
-            if (position < 0)
-                throw new OdbRuntimeException(NDatabaseError.NegativePosition.AddParameter(position));
-            FileSystemInterface.SetWritePosition(position, writeInTransaction);
-            // Ids are always stored as negative value to differ from a position!
-            var oid = StorageEngineConstant.NullObjectIdId;
-            if (newOid != null)
-                oid = -newOid.ObjectId;
-            FileSystemInterface.WriteLong(oid, writeInTransaction, "object reference");
-        }
     }
 }

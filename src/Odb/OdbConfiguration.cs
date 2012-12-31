@@ -1,3 +1,4 @@
+using NDatabase.Btree.Tool;
 using NDatabase.Tool;
 
 namespace NDatabase.Odb
@@ -69,6 +70,16 @@ namespace NDatabase.Odb
         public static void SetThrowExceptionWhenInconsistencyFound(bool throwExceptionWhenInconsistencyFound)
         {
             _throwExceptionWhenInconsistencyFound = throwExceptionWhenInconsistencyFound;
+        }
+
+        public static void TurnOnBTreeValidation()
+        {
+            BTreeValidator.SetOn(true);
+        }
+
+        public static void TurnOffBTreeValidation()
+        {
+            BTreeValidator.SetOn(false);
         }
 
         public static int GetIdBlockSize()
