@@ -13,7 +13,7 @@ namespace NDatabase.Btree.Impl.Multiplevalue
 
         #region IBTreeNodeMultipleValuesPerKey Members
 
-        public virtual IList GetValueAt(int index)
+        protected IList GetValueAt(int index)
         {
             return (IList) Values[index];
         }

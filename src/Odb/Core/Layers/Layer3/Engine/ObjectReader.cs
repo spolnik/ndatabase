@@ -15,6 +15,7 @@ using NDatabase.Odb.Core.Query.Values;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers.List;
 using NDatabase.Tool.Wrappers.Map;
+using System.Linq;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
@@ -141,7 +142,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (!full)
                 return;
 
-            var allClasses = metaModel.GetAllClasses();
+            var allClasses = metaModel.GetAllClasses().ToList();
 
             // Read class info bodies
             foreach (var currentClassInfo in allClasses)

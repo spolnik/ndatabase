@@ -32,8 +32,6 @@ namespace NDatabase.Odb.Core.Query.Values
             return Alias;
         }
 
-        public abstract void Execute(OID oid, AttributeValuesMap values);
-
         public virtual bool IsMultiRow()
         {
             return _isMultiRow;
@@ -42,21 +40,6 @@ namespace NDatabase.Odb.Core.Query.Values
         public virtual void SetMultiRow(bool isMultiRow)
         {
             _isMultiRow = isMultiRow;
-        }
-
-        internal IInstanceBuilder GetInstanceBuilder()
-        {
-            return _instanceBuilder;
-        }
-
-        internal void SetInstanceBuilder(IInstanceBuilder instanceBuilder)
-        {
-            _instanceBuilder = instanceBuilder;
-        }
-
-        public virtual bool ReturnInstance()
-        {
-            return _returnInstance;
         }
 
         public virtual void SetReturnInstance(bool returnInstance)
@@ -73,5 +56,22 @@ namespace NDatabase.Odb.Core.Query.Values
         public abstract void Start();
 
         #endregion
+
+        public abstract void Execute(OID oid, AttributeValuesMap values);
+
+        internal IInstanceBuilder GetInstanceBuilder()
+        {
+            return _instanceBuilder;
+        }
+
+        internal void SetInstanceBuilder(IInstanceBuilder instanceBuilder)
+        {
+            _instanceBuilder = instanceBuilder;
+        }
+
+        protected bool ReturnInstance()
+        {
+            return _returnInstance;
+        }
     }
 }

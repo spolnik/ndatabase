@@ -8,8 +8,6 @@ namespace NDatabase.Btree
     /// </summary>
     internal interface IBTreeNodeMultipleValuesPerKey : IBTreeNode
     {
-        IList GetValueAt(int index);
-
         IList Search(IComparable key);
     }
 }

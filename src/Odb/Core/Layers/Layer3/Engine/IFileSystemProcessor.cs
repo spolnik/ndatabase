@@ -18,21 +18,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         void WriteLastOdbCloseStatus(bool ok, bool writeInTransaction);
 
         /// <summary>
-        ///   Write the version in the database file
-        /// </summary>
-        void WriteVersion(bool writeInTransaction);
-
-        IDatabaseId WriteDatabaseId(IStorageEngine storageEngine, long creationDate, bool writeInTransaction);
-
-        /// <summary>
         ///   Write the number of classes in meta-model
         /// </summary>
         void WriteNumberOfClasses(long number, bool writeInTransaction);
-
-        /// <summary>
-        ///   Write the database characterEncoding
-        /// </summary>
-        void WriteDatabaseCharacterEncoding(bool writeInTransaction);
 
         void WriteOid(OID oid, bool writeInTransaction, string label);
 

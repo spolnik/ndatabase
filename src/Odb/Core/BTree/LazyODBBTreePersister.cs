@@ -56,7 +56,7 @@ namespace NDatabase.Odb.Core.BTree
         /// </summary>
         private IBTree _tree;
 
-        public LazyOdbBtreePersister(IOdb odb) : this(((OdbAdapter)odb).GetStorageEngine())
+        public LazyOdbBtreePersister(IOdb odb) : this(((OdbAdapter) odb).GetStorageEngine())
         {
         }
 
@@ -221,7 +221,7 @@ namespace NDatabase.Odb.Core.BTree
 
                     if (_tree == null)
                         _tree = treeToSave;
-                    
+
                     _oids.Add(oid, treeToSave);
                 }
                 else
@@ -256,13 +256,6 @@ namespace NDatabase.Odb.Core.BTree
             _tree = tree;
         }
 
-        public void Clear()
-        {
-            _oids.Clear();
-            _modifiedObjectOids.Clear();
-            _modifiedObjectOidList.Clear();
-        }
-
         public void Flush()
         {
             Persist();
@@ -285,6 +278,13 @@ namespace NDatabase.Odb.Core.BTree
         }
 
         #endregion
+
+        private void Clear()
+        {
+            _oids.Clear();
+            _modifiedObjectOids.Clear();
+            _modifiedObjectOidList.Clear();
+        }
 
         private void Persist()
         {
@@ -373,7 +373,7 @@ namespace NDatabase.Odb.Core.BTree
                 // Object is already in the list
                 return;
             }
-            
+
             _modifiedObjectOidList.Add(oid);
             // Keep the position of the oid in the list as the value of the map.
             // Used for the delete.

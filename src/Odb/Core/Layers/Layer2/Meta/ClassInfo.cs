@@ -207,7 +207,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         private static string ExtractAssemblyName(string fullClassName)
         {
-            var indexOfComma = fullClassName.IndexOf(",");
+            var indexOfComma = fullClassName.IndexOf(",", StringComparison.InvariantCulture);
             return fullClassName.Substring(indexOfComma + 1);
         }
 

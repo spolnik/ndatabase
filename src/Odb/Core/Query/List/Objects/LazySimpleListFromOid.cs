@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
@@ -91,7 +90,7 @@ namespace NDatabase.Odb.Core.Query.List.Objects
 
         #endregion
 
-        public T Get(int index)
+        private T Get(int index)
         {
             var oid = _oids[index];
             try
