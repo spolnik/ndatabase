@@ -43,7 +43,7 @@ namespace NDatabase.Btree.Impl
 
         public abstract bool HasParent();
 
-        public abstract void MoveChildFromTo(int sourceIndex, int destinationIndex, bool throwExceptionIfDoesNotExist);
+        protected abstract void MoveChildFromTo(int sourceIndex, int destinationIndex, bool throwExceptionIfDoesNotExist);
 
         /// <summary>
         ///   Creates a new node with the right part of this node.

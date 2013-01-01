@@ -23,7 +23,7 @@ namespace NDatabase.Odb.Core.Query.List
         protected AbstractBTreeCollection(OrderByConstants orderByType)
         {
             // TODO compute degree best value for the size value
-            _tree = BuildTree(OdbConfiguration.GetDefaultIndexBTreeDegree());
+            _tree = BuildTree(OdbConfiguration.GetIndexBTreeDegree());
             _orderByType = orderByType;
         }
 

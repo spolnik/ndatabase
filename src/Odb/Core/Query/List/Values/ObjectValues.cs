@@ -3,8 +3,7 @@ using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb.Core.Query.List.Values
 {
-    
-    public sealed class ObjectValues : IObjectValues
+    internal sealed class ObjectValues : IObjectValues
     {
         /// <summary>
         ///   key=alias,value=value

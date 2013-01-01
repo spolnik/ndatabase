@@ -16,6 +16,6 @@ namespace NDatabase.Btree
 
         #endregion
 
-        public abstract object GetCurrent();
+        protected abstract object GetCurrent();
     }
 }

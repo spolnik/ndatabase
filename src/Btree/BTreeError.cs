@@ -24,7 +24,7 @@ namespace NDatabase.Btree
 
         private IList<string> _parameters;
 
-        public BTreeError(int code, string description)
+        private BTreeError(int code, string description)
         {
             _code = code;
             _description = description;

@@ -282,26 +282,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return odbTypeId == NullId;
         }
 
-        public bool HasFixSize()
-        {
-            return HasFixSize(_id);
-        }
-
-        public static bool HasFixSize(int odbId)
-        {
-            return odbId > 0 && odbId <= NativeFixSizeMaxId;
-        }
-
-        public bool IsStringOrBigDecimal()
-        {
-            return IsStringOrBigDecimal(_id);
-        }
-
-        public static bool IsStringOrBigDecimal(int odbTypeId)
-        {
-            return odbTypeId == StringId || odbTypeId == DecimalId;
-        }
-
         public static bool IsAtomicNative(int odbTypeId)
         {
             return (odbTypeId > 0 && odbTypeId <= NativeMaxId);

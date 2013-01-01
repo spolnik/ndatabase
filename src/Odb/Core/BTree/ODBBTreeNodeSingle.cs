@@ -125,7 +125,7 @@ namespace NDatabase.Odb.Core.BTree
             NbChildren--;
         }
 
-        public override void MoveChildFromTo(int sourceIndex, int destinationIndex, bool throwExceptionIfDoesNotExist)
+        protected override void MoveChildFromTo(int sourceIndex, int destinationIndex, bool throwExceptionIfDoesNotExist)
         {
             if (throwExceptionIfDoesNotExist && _childrenOids[sourceIndex] == null)
             {

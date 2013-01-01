@@ -7,7 +7,7 @@ namespace NDatabase.Odb.Core.Query.Linq
 {
     internal abstract class ExpressionQueryBuilder : ExpressionVisitor
     {
-        protected QueryBuilderRecorder Recorder { get; set; }
+        protected QueryBuilderRecorder Recorder { get; private set; }
 
         public virtual IQueryBuilderRecord Process(LambdaExpression expression)
         {
@@ -113,7 +113,7 @@ namespace NDatabase.Odb.Core.Query.Linq
             CannotConvertToSoda(m);
         }
 
-        internal static Type ResolveDescendingEnumType(Expression expression)
+        private static Type ResolveDescendingEnumType(Expression expression)
         {
             return !expression.Type.IsEnum ? null : expression.Type;
         }

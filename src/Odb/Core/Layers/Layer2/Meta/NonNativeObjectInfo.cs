@@ -38,7 +38,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             }
         }
 
-        public NonNativeObjectInfo(ClassInfo classInfo) : base(null)
+        protected NonNativeObjectInfo(ClassInfo classInfo) : base(null)
         {
             _classInfo = classInfo;
             _objectHeader = new ObjectInfoHeader(-1, null, null, (classInfo != null

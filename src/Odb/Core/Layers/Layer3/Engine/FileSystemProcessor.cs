@@ -230,10 +230,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             FileSystemInterface.WriteLong(oid.ObjectId, writeInTransaction, "id block max id update");
 
-            var l1 = (oid.ObjectId - 1) % OdbConfiguration.GetNbIdsPerBlock();
+            var l1 = (oid.ObjectId - 1) % StorageEngineConstant.NbIdsPerBlock;
 
             var idPosition = currentBlockIdPosition + StorageEngineConstant.BlockIdOffsetForStartOfRepetition +
-                             (l1) * OdbConfiguration.GetIdBlockRepetitionSize();
+                             (l1) * StorageEngineConstant.IdBlockRepetitionSize;
 
             // go to the next id position
             FileSystemInterface.SetWritePosition(idPosition, writeInTransaction);

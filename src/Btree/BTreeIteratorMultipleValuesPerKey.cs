@@ -58,7 +58,7 @@ namespace NDatabase.Btree
             }
         }
 
-        public override object GetValueAt(IBTreeNode node, int currentIndex)
+        protected override object GetValueAt(IBTreeNode node, int currentIndex)
         {
             if (_currentValue == null)
                 _currentValue = (IList) node.GetValueAsObjectAt(currentIndex);

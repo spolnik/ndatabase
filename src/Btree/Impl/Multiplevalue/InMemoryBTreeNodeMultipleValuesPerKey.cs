@@ -82,7 +82,7 @@ namespace NDatabase.Btree.Impl.Multiplevalue
             NbChildren--;
         }
 
-        public override void MoveChildFromTo(int sourceIndex, int destinationIndex, bool
+        protected override void MoveChildFromTo(int sourceIndex, int destinationIndex, bool
                                                                                         throwExceptionIfDoesNotExist)
         {
             if (_children[sourceIndex] == null && throwExceptionIfDoesNotExist)

@@ -25,7 +25,7 @@ namespace NDatabase.Reflection
             return Buffer[Position++];
         }
 
-        public byte[] ReadBytes(int length)
+        private byte[] ReadBytes(int length)
         {
             CheckCanRead(length);
             var dst = new byte[length];

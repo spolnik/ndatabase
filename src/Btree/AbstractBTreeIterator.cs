@@ -70,9 +70,9 @@ namespace NDatabase.Btree
 
         #endregion
 
-        public abstract object GetValueAt(IBTreeNode node, int currentIndex);
+        protected abstract object GetValueAt(IBTreeNode node, int currentIndex);
 
-        public override object GetCurrent()
+        protected override object GetCurrent()
         {
             return Current;
         }

@@ -13,9 +13,9 @@ namespace NDatabase.Reflection
             return context.Instruction == null ? null : context.Instruction.Previous;
         }
 
-        public abstract void Match(MatchContext context);
+        internal abstract void Match(MatchContext context);
 
-        public static MatchContext Match(MethodBase method, ILPattern pattern)
+        internal static MatchContext Match(MethodBase method, ILPattern pattern)
         {
             if (method == null)
                 throw new ArgumentNullException("method");
@@ -32,32 +32,32 @@ namespace NDatabase.Reflection
             return context;
         }
 
-        public static ILPattern OpCode(OpCode opcode)
+        internal static ILPattern OpCode(OpCode opcode)
         {
             return new OpCodePattern(opcode);
         }
 
-        public static ILPattern Optional(ILPattern pattern)
+        private static ILPattern Optional(ILPattern pattern)
         {
             return new OptionalPattern(pattern);
         }
 
-        public static ILPattern Optional(params OpCode[] opcodes)
+        internal static ILPattern Optional(params OpCode[] opcodes)
         {
             return Optional(Sequence((from opcode in opcodes select OpCode(opcode)).ToArray<ILPattern>()));
         }
 
-        public static ILPattern Optional(OpCode opcode)
+        protected static ILPattern Optional(OpCode opcode)
         {
             return Optional(OpCode(opcode));
         }
 
-        public static ILPattern Sequence(params ILPattern[] patterns)
+        internal static ILPattern Sequence(params ILPattern[] patterns)
         {
             return new SequencePattern(patterns);
         }
 
-        public void TryMatch(MatchContext context)
+        private void TryMatch(MatchContext context)
         {
             var instruction = context.Instruction;
             Match(context);
@@ -72,12 +72,12 @@ namespace NDatabase.Reflection
         {
             private readonly OpCode _opcode;
 
-            public OpCodePattern(OpCode opcode)
+            internal OpCodePattern(OpCode opcode)
             {
                 _opcode = opcode;
             }
 
-            public override void Match(MatchContext context)
+            internal override void Match(MatchContext context)
             {
                 if (context.Instruction == null)
                 {
@@ -99,12 +99,12 @@ namespace NDatabase.Reflection
         {
             private readonly ILPattern _pattern;
 
-            public OptionalPattern(ILPattern optional)
+            internal OptionalPattern(ILPattern optional)
             {
                 _pattern = optional;
             }
 
-            public override void Match(MatchContext context)
+            internal override void Match(MatchContext context)
             {
                 _pattern.TryMatch(context);
             }
@@ -118,12 +118,12 @@ namespace NDatabase.Reflection
         {
             private readonly ILPattern[] _patterns;
 
-            public SequencePattern(ILPattern[] patterns)
+            internal SequencePattern(ILPattern[] patterns)
             {
                 _patterns = patterns;
             }
 
-            public override void Match(MatchContext context)
+            internal override void Match(MatchContext context)
             {
                 foreach (var pattern in _patterns)
                 {

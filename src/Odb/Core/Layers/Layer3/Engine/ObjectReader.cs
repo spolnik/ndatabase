@@ -533,8 +533,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
 
             var position = blockPosition + StorageEngineConstant.BlockIdOffsetForStartOfRepetition +
-                           ((oid.ObjectId - 1) % OdbConfiguration.GetNbIdsPerBlock()) *
-                           OdbConfiguration.GetIdBlockRepetitionSize();
+                           ((oid.ObjectId - 1) % StorageEngineConstant.NbIdsPerBlock) *
+                           StorageEngineConstant.IdBlockRepetitionSize;
 
             if (OdbConfiguration.IsLoggingEnabled())
             {
@@ -630,7 +630,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 long currentId;
                 do
                 {
-                    var nextRepetitionPosition = _fsi.GetPosition() + OdbConfiguration.GetIdBlockRepetitionSize();
+                    var nextRepetitionPosition = _fsi.GetPosition() + StorageEngineConstant.IdBlockRepetitionSize;
                     var idTypeRead = _fsi.ReadByte();
                     currentId = _fsi.ReadLong();
                     var idStatus = _fsi.ReadByte();
@@ -669,7 +669,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             IMatchingObjectAction queryResultAction;
             if (valuesQuery.HasGroupBy())
-                queryResultAction = new GroupByValuesQueryResultAction((ValuesCriteriaQuery) valuesQuery, _instanceBuilder);
+                queryResultAction = new GroupByValuesQueryResultAction(valuesQuery, _instanceBuilder);
             else
                 queryResultAction = new ValuesQueryResultAction(valuesQuery, _storageEngine, _instanceBuilder);
             var objects = GetObjectInfos<IObjectValues>(valuesQuery, true, startIndex, endIndex, false,
@@ -1534,10 +1534,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             long number;
             var objectId = oid.ObjectId;
-            if (objectId % OdbConfiguration.GetNbIdsPerBlock() == 0)
-                number = objectId / OdbConfiguration.GetNbIdsPerBlock();
+            if (objectId % StorageEngineConstant.NbIdsPerBlock == 0)
+                number = objectId / StorageEngineConstant.NbIdsPerBlock;
             else
-                number = objectId / OdbConfiguration.GetNbIdsPerBlock() + 1;
+                number = objectId / StorageEngineConstant.NbIdsPerBlock + 1;
             return number;
         }
     }

@@ -154,9 +154,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var lazyOdbBtreePersister = new LazyOdbBtreePersister(this);
 
             if (acceptMultipleValuesForSameKey)
-                btree = new OdbBtreeMultiple(OdbConfiguration.GetDefaultIndexBTreeDegree(), lazyOdbBtreePersister);
+                btree = new OdbBtreeMultiple(OdbConfiguration.GetIndexBTreeDegree(), lazyOdbBtreePersister);
             else
-                btree = new OdbBtreeSingle(OdbConfiguration.GetDefaultIndexBTreeDegree(), lazyOdbBtreePersister);
+                btree = new OdbBtreeSingle(OdbConfiguration.GetIndexBTreeDegree(), lazyOdbBtreePersister);
 
             classInfoIndex.BTree = btree;
             Store(classInfoIndex);

@@ -24,10 +24,11 @@ namespace NDatabase.Odb.Core.Query.Linq
                                                                  OpCode(OpCodes.Ldarg_0),
                                                                  OpCode(OpCodes.Ldfld));
 
-            public override void Match(MatchContext context)
+            internal override void Match(MatchContext context)
             {
                 Pattern.Match(context);
-                if (!context.IsMatch) return;
+                if (!context.IsMatch) 
+                    return;
 
                 var match = GetLastMatchingInstruction(context);
                 var field = (FieldInfo)match.Operand;

@@ -7,9 +7,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
     /// </summary>
     internal static class StorageEngineConstant
     {
-        private const int NbIdsPerBlock = 1000;
+        internal const int NbIdsPerBlock = 1000;
 
-        private const int IdBlockRepetitionSize = 18;
+        internal const int IdBlockRepetitionSize = 18;
 
         /// <summary>
         ///   header(34) + 1000 * 18

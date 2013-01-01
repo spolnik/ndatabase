@@ -399,7 +399,7 @@ namespace NDatabase.Odb.Core.Query.Execution
             return queryResultAction.GetObjects<T>();
         }
 
-        protected IOdbComparable BuildOrderByKey(object @object)
+        private IOdbComparable BuildOrderByKey(object @object)
         {
             var attributeValuesMap = @object as AttributeValuesMap;
 
@@ -408,13 +408,13 @@ namespace NDatabase.Odb.Core.Query.Execution
                        : BuildOrderByKey((NonNativeObjectInfo) @object);
         }
 
-        protected IOdbComparable BuildOrderByKey(NonNativeObjectInfo nnoi)
+        private IOdbComparable BuildOrderByKey(NonNativeObjectInfo nnoi)
         {
             // TODO cache the attributes ids to compute them only once
             return IndexTool.BuildIndexKey("OrderBy", nnoi, QueryManager.GetOrderByAttributeIds(ClassInfo, Query));
         }
 
-        protected IOdbComparable BuildOrderByKey(AttributeValuesMap values)
+        private IOdbComparable BuildOrderByKey(AttributeValuesMap values)
         {
             return IndexTool.BuildIndexKey("OrderBy", values, Query.GetOrderByFieldNames());
         }

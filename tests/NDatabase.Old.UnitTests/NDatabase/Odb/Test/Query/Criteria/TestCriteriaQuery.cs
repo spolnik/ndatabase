@@ -82,10 +82,10 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
         {
             var baseName = GetBaseName();
             SetUp(baseName);
-            var d = OdbConfiguration.GetDefaultIndexBTreeDegree();
+            var d = OdbConfiguration.GetIndexBTreeDegree();
             try
             {
-                OdbConfiguration.SetDefaultIndexBTreeDegree(40);
+                OdbConfiguration.SetIndexBTreeDegree(40);
                 var odb = Open(baseName);
                 var aq =
                     odb.Query<VO.Login.Function>();
@@ -104,7 +104,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
             }
             finally
             {
-                OdbConfiguration.SetDefaultIndexBTreeDegree(d);
+                OdbConfiguration.SetIndexBTreeDegree(d);
             }
         }
 
