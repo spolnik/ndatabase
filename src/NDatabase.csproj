@@ -220,8 +220,8 @@
     <Compile Include="Odb\Core\Trigger\Trigger.cs" />
     <Compile Include="Odb\Core\Trigger\UpdateTrigger.cs" />
     <Compile Include="Odb\CorruptedDatabaseException.cs" />
-    <Compile Include="Odb\DatabaseId.cs" />
-    <Compile Include="Odb\ExternalOID.cs" />
+    <Compile Include="Odb\IDatabaseId.cs" />
+    <Compile Include="Odb\IExternalOID.cs" />
     <Compile Include="Odb\Core\BTree\LazyODBBTreeIteratorMultiple.cs" />
     <Compile Include="Odb\Core\BTree\LazyODBBTreePersister.cs" />
     <Compile Include="Odb\Core\BTree\ODBBTreeMultiple.cs" />
@@ -257,7 +257,7 @@
     <Compile Include="Odb\Core\Oid\ExternalObjectOID.cs" />
     <Compile Include="Odb\Core\Oid\ClassOID.cs" />
     <Compile Include="Odb\Core\Oid\ObjectOID.cs" />
-    <Compile Include="Odb\Core\Oid\TransactionIdImpl.cs" />
+    <Compile Include="Odb\Core\Oid\TransactionId.cs" />
     <Compile Include="Odb\Core\Query\Criteria\QueryResultAction.cs" />
     <Compile Include="Odb\Core\Query\Criteria\SodaQuery.cs" />
     <Compile Include="Odb\Core\Query\Criteria\CriteriaQueryExecutionPlan.cs" />
@@ -302,9 +302,9 @@
     <Compile Include="Odb\Main\OdbExt.cs" />
     <Compile Include="Odb\Main\ODBForTrigger.cs" />
     <Compile Include="Odb\Tool\UniqueIdGenerator.cs" />
-    <Compile Include="Odb\ObjectRepresentation.cs" />
-    <Compile Include="Odb\Objects.cs" />
-    <Compile Include="Odb\ObjectValues.cs" />
+    <Compile Include="Odb\IObjectRepresentation.cs" />
+    <Compile Include="Odb\IObjectSet.cs" />
+    <Compile Include="Odb\IObjectValues.cs" />
     <Compile Include="Odb\IOdb.cs" />
     <Compile Include="Odb\BaseOID.cs" />
     <Compile Include="Odb\OdbConfiguration.cs" />
@@ -312,9 +312,9 @@
     <Compile Include="Odb\OdbFactory.cs" />
     <Compile Include="Odb\ODBRuntimeException.cs" />
     <Compile Include="Odb\OID.cs" />
-    <Compile Include="Odb\TransactionId.cs" />
+    <Compile Include="Odb\ITransactionId.cs" />
     <Compile Include="Odb\TriggerManager.cs" />
-    <Compile Include="Odb\Values.cs" />
+    <Compile Include="Odb\IValues.cs" />
     <Compile Include="Reflection\ByteBuffer.cs" />
     <Compile Include="Reflection\ILPattern.cs" />
     <Compile Include="Reflection\Instruction.cs" />

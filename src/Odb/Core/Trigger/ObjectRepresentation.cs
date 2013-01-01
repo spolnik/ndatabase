@@ -27,7 +27,7 @@ namespace NDatabase.Odb.Core.Trigger
 
         public void SetValueOf(string attributeName, object value)
         {
-            //fixme : storage engine is null?
+            //TODO: storage engine is null?
             var introspector = (IObjectIntrospector) new ObjectIntrospector(null);
             var aoi = introspector.GetMetaRepresentation(value, null, true, null, new DefaultInstrumentationCallback());
             _nnoi.SetValueOf(attributeName, aoi);

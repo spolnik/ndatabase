@@ -183,7 +183,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var databaseId = WriteDatabaseId(storageEngine, creationDate);
 
             // Create the first Transaction Id
-            ITransactionId tid = new TransactionIdImpl(databaseId, 0, 1);
+            ITransactionId tid = new TransactionId(databaseId, 0, 1);
 
             storageEngine.SetCurrentTransactionId(tid);
 

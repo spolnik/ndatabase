@@ -1,11 +1,12 @@
 using System;
+using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Query
 {
     /// <summary>
     ///   A simple compare key : an object that contains various values used for indexing query result <p></p>
     /// </summary>
-    internal sealed class SimpleCompareKey : CompareKey
+    internal sealed class SimpleCompareKey : IOdbComparable
     {
         private readonly IComparable _key;
 
@@ -14,7 +15,7 @@ namespace NDatabase.Odb.Core.Query
             _key = key;
         }
 
-        public override int CompareTo(object o)
+        public int CompareTo(object o)
         {
             if (o == null || o.GetType() != typeof (SimpleCompareKey))
                 return -1;

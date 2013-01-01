@@ -7,7 +7,7 @@ namespace NDatabase.Odb.Core.Query
     ///   A composed key : an object that contains various values used for indexing query result 
     ///   <p>This is an implementation that allows compare keys to contain more than one single value to be compared</p>
     /// </summary>
-    internal sealed class ComposedCompareKey : CompareKey
+    internal sealed class ComposedCompareKey : IOdbComparable
     {
         private readonly IOdbComparable[] _keys;
 
@@ -16,7 +16,7 @@ namespace NDatabase.Odb.Core.Query
             _keys = keys;
         }
 
-        public override int CompareTo(object o)
+        public int CompareTo(object o)
         {
             if (o == null || o.GetType() != typeof (ComposedCompareKey))
                 return -1;

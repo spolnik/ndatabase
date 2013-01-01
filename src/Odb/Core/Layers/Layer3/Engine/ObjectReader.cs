@@ -726,7 +726,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var id = new long[2];
             id[0] = _fsi.ReadLong();
             id[1] = _fsi.ReadLong();
-            return new TransactionIdImpl(databaseId, id[0], id[1]);
+            return new TransactionId(databaseId, id[0], id[1]);
         }
 
         /// <summary>

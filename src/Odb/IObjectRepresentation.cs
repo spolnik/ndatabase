@@ -4,7 +4,8 @@ namespace NDatabase.Odb
     ///   used to give the user an instance of an object representation, level2.
     /// </summary>
     /// <remarks>
-    ///   used to give the user an instance of an object representation, level2. The Object Representation encapsulates the NonNativeObjectInfo which is the internal object representation.
+    ///   used to give the user an instance of an object representation, level2. 
+    ///   The Object Representation encapsulates the NonNativeObjectInfo which is the internal object representation.
     /// </remarks>
     public interface IObjectRepresentation
     {
