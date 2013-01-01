@@ -13,12 +13,22 @@ namespace NDatabase.Odb
     {
         private static bool _loggingEnabled;
 
-        private static int _maxNumberOfWriteObjectPerTransaction = 10000;
+        /// <summary>
+        /// Default max number of write object actions per transaction - 10 000
+        /// </summary>
+        public static readonly int DefaultMaxNumberOfWriteObjectPerTransaction = 10000;
+
+        private static int _maxNumberOfWriteObjectPerTransaction = DefaultMaxNumberOfWriteObjectPerTransaction;
+
+        /// <summary>
+        /// Default index BTree degree - 20
+        /// </summary>
+        public static readonly int DefaultIndexBTreeDegree = 20;
 
         /// <summary>
         ///   The default btree size for index btrees
         /// </summary>
-        private static int _indexBTreeDegree = 20;
+        private static int _indexBTreeDegree = DefaultIndexBTreeDegree;
 
         /// <summary>
         /// Get max number of write object actions per transaction
@@ -41,15 +51,24 @@ namespace NDatabase.Odb
         /// <summary>
         /// Turn on BTree validation (more safely, but hit on performance)
         /// </summary>
-        public static void TurnOnBTreeValidation()
+        public static void EnableBTreeValidation()
         {
             BTreeValidator.SetOn(true);
         }
 
         /// <summary>
+        /// Check if BTree validation is turned on
+        /// </summary>
+        /// <returns>True if BTree validation is enabled, in other case false</returns>
+        public static bool IsBTreeValidationEnabled()
+        {
+            return BTreeValidator.IsOn();
+        }
+
+        /// <summary>
         /// Turn off BTree validation (less safely, but better performance)
         /// </summary>
-        public static void TurnOffBTreeValidation()
+        public static void DisableBTreeValidation()
         {
             BTreeValidator.SetOn(false);
         }
