@@ -187,7 +187,6 @@
     <Compile Include="Odb\Core\Oid\OIDFactory.cs" />
     <Compile Include="Odb\Core\OrderByConstants.cs" />
     <Compile Include="Odb\Core\Query\AbstractQuery.cs" />
-    <Compile Include="Odb\Core\Query\CompareKey.cs" />
     <Compile Include="Odb\Core\Query\ComposedCompareKey.cs" />
     <Compile Include="Odb\Core\Query\Criteria\AbstractExpression.cs" />
     <Compile Include="Odb\Core\Query\Criteria\And.cs" />
