@@ -16,14 +16,14 @@ namespace NDatabase.Odb
         /// <summary>
         /// Default max number of write object actions per transaction - 10 000
         /// </summary>
-        public static readonly int DefaultMaxNumberOfWriteObjectPerTransaction = 10000;
+        public const int DefaultMaxNumberOfWriteObjectPerTransaction = 10000;
 
         private static int _maxNumberOfWriteObjectPerTransaction = DefaultMaxNumberOfWriteObjectPerTransaction;
 
         /// <summary>
         /// Default index BTree degree - 20
         /// </summary>
-        public static readonly int DefaultIndexBTreeDegree = 20;
+        public const int DefaultIndexBTreeDegree = 20;
 
         /// <summary>
         ///   The default btree size for index btrees
