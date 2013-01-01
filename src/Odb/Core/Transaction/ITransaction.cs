@@ -9,8 +9,6 @@ namespace NDatabase.Odb.Core.Transaction
         /// </summary>
         void Clear();
 
-        string GetName();
-
         void Rollback();
 
         /// <summary>

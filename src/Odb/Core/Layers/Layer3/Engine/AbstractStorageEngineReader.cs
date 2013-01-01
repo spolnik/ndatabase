@@ -47,7 +47,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return triggerManager;
         }
 
-        public void RemoveLocalTriggerManager()
+        protected void RemoveLocalTriggerManager()
         {
             TriggerManagers.Remove(this);
         }
@@ -222,16 +222,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public abstract void AddUpdateTriggerFor(Type type, UpdateTrigger arg2);
 
-        public abstract void AddSession(ISession arg1, bool arg2);
-
-        public abstract ISession BuildDefaultSession();
-
-        public abstract IObjectIntrospector BuildObjectIntrospector();
-
-        public abstract IInternalTriggerManager BuildTriggerManager();
-
-        public abstract void CheckMetaModelCompatibility(IDictionary<string, ClassInfo> arg1);
-
         public abstract void Close();
 
         public abstract void Commit();
@@ -247,8 +237,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public abstract IFileIdentification GetBaseIdentification();
 
         public abstract IOdbList<ICommitListener> GetCommitListeners();
-
-        public abstract ITransactionId GetCurrentTransactionId();
 
         public abstract IDatabaseId GetDatabaseId();
 
@@ -284,7 +272,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public abstract OID Store<T>(T plainObject) where T : class;
 
-        public abstract CurrentIdBlockInfo GetCurrentIdBlockInfo();
         public abstract IIdManager GetIdManager();
 
         #endregion

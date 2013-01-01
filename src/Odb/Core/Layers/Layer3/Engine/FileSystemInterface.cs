@@ -241,7 +241,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             WriteValue(c, writeInTransaction, ByteArrayConverter.CharToByteArray, OdbType.Character);
         }
 
-        public byte[] ReadCharBytes()
+        private byte[] ReadCharBytes()
         {
             return _io.ReadBytes(OdbType.Character.Size);
         }
@@ -275,7 +275,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             WriteValue(s, writeInTransaction, ByteArrayConverter.ShortToByteArray, OdbType.Short);
         }
 
-        public byte[] ReadShortBytes()
+        private byte[] ReadShortBytes()
         {
             return _io.ReadBytes(OdbType.Short.Size);
         }
@@ -308,7 +308,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             WriteValue(s, writeInTransaction, ByteArrayConverter.UShortToByteArray, OdbType.UShort);
         }
 
-        public byte[] ReadUShortBytes()
+        private byte[] ReadUShortBytes()
         {
             return _io.ReadBytes(OdbType.UShort.Size);
         }
@@ -340,7 +340,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             WriteValue(i, writeInTransaction, ByteArrayConverter.IntToByteArray, OdbType.Integer);
         }
 
-        public byte[] ReadIntBytes()
+        private byte[] ReadIntBytes()
         {
             return _io.ReadBytes(OdbType.Integer.Size);
         }
@@ -381,7 +381,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             WriteValue(i, writeInTransaction, ByteArrayConverter.UIntToByteArray, OdbType.UInteger);
         }
 
-        public byte[] ReadUIntBytes()
+        private byte[] ReadUIntBytes()
         {
             return _io.ReadBytes(OdbType.UInteger.Size);
         }
@@ -417,7 +417,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             WriteValue(i, writeInTransaction, ByteArrayConverter.LongToByteArray, OdbType.Long);
         }
 
-        public byte[] ReadLongBytes()
+        private byte[] ReadLongBytes()
         {
             return _io.ReadBytes(OdbType.Long.Size);
         }
@@ -457,7 +457,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             WriteValue(i, writeInTransaction, ByteArrayConverter.ULongToByteArray, OdbType.ULong);
         }
 
-        public byte[] ReadULongBytes()
+        private byte[] ReadULongBytes()
         {
             return _io.ReadBytes(OdbType.ULong.Size);
         }
@@ -485,7 +485,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             WriteValue(f, writeInTransaction, ByteArrayConverter.FloatToByteArray, OdbType.Float);
         }
 
-        public byte[] ReadFloatBytes()
+        private byte[] ReadFloatBytes()
         {
             return _io.ReadBytes(OdbType.Float.Size);
         }
@@ -520,7 +520,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             WriteValue(d, writeInTransaction, ByteArrayConverter.DoubleToByteArray, OdbType.Double);
         }
 
-        public byte[] ReadDoubleBytes()
+        private byte[] ReadDoubleBytes()
         {
             return _io.ReadBytes(OdbType.Double.Size);
         }
@@ -561,7 +561,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
         }
 
-        public byte[] ReadBigDecimalBytes()
+        private byte[] ReadBigDecimalBytes()
         {
             return _io.ReadBytes(OdbType.Decimal.Size);
         }
@@ -600,7 +600,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             WriteValue(d, writeInTransaction, ByteArrayConverter.DateToByteArray, OdbType.Date);
         }
 
-        public byte[] ReadDateBytes()
+        private byte[] ReadDateBytes()
         {
             return _io.ReadBytes(OdbType.Date.Size);
         }
@@ -651,7 +651,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
         }
 
-        public byte[] ReadStringBytes()
+        private byte[] ReadStringBytes()
         {
             var sizeBytes = _io.ReadBytes(IntSizeX2);
             var totalSize = ByteArrayConverter.ByteArrayToInt(sizeBytes);
@@ -713,7 +713,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             WriteValue(b, writeInTransaction, ByteArrayConverter.BooleanToByteArray, OdbType.Boolean);
         }
 
-        public byte[] ReadBooleanBytes()
+        private byte[] ReadBooleanBytes()
         {
             return _io.ReadBytes(OdbType.Boolean.Size);
         }

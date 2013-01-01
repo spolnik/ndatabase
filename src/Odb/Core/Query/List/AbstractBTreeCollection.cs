@@ -38,7 +38,7 @@ namespace NDatabase.Odb.Core.Query.List
             _size++;
         }
 
-        public virtual IEnumerator<TItem> Iterator(OrderByConstants newOrderByType)
+        protected virtual IEnumerator<TItem> Iterator(OrderByConstants newOrderByType)
         {
             return (IEnumerator<TItem>) _tree.Iterator<TItem>(newOrderByType);
         }

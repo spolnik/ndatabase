@@ -1,4 +1,5 @@
 using System.Text;
+using NDatabase.Tool;
 using NDatabase.Tool.Wrappers.List;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta
@@ -23,7 +24,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             _compatibleChanges = new OdbList<string>(5);
         }
 
-        /// <returns> the isCompatible </returns>
         public bool IsCompatible()
         {
             return _incompatibleChanges.IsEmpty();
@@ -55,7 +55,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return !_compatibleChanges.IsEmpty();
         }
 
-        /// <returns> the fullClassName </returns>
         public string GetFullClassName()
         {
             return _fullClassName;

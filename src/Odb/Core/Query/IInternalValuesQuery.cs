@@ -17,12 +17,6 @@ namespace NDatabase.Odb.Core.Query
 
         int ObjectActionsCount { get; }
 
-        /// <summary>
-        ///   used with isForSingleOid == true, to indicate we are working on a single object with a specific oid
-        /// </summary>
-        /// <returns> </returns>
-        OID GetOidOfObjectToQuery();
-
         bool ReturnInstance();
 
         /// <summary>

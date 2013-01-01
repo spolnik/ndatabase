@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Core.Query.Execution;
+using NDatabase.Tool;
 using NDatabase.Tool.Wrappers.List;
 using NDatabase.Tool.Wrappers.Map;
 
@@ -149,7 +150,7 @@ namespace NDatabase.Odb.Core.Query.Values
             IDictionary<string, string> map = new OdbHashMap<string, string>();
             list.AddAll(base.GetAllInvolvedFields());
 
-            if (!list.IsEmpty())
+            if (list.IsNotEmpty())
             {
                 foreach (var value in list)
                     map.Add(value, value);

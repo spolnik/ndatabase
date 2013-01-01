@@ -414,8 +414,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// </summary>
         public const int EnumId = 211;
 
-        private const int NativeFixSizeMaxId = ClassOidId;
-
         private const int NativeMaxId = StringId;
 
         public const int ArrayId = 260;

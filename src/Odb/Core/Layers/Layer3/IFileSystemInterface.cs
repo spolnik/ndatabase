@@ -43,15 +43,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         void WriteChar(char c, bool writeInTransaction);
 
-        byte[] ReadCharBytes();
-
         char ReadChar();
 
         char ReadChar(string label);
 
         void WriteShort(short s, bool writeInTransaction);
-
-        byte[] ReadShortBytes();
 
         short ReadShort();
 
@@ -59,15 +55,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         void WriteInt(int i, bool writeInTransaction, string label);
 
-        byte[] ReadIntBytes();
-
         int ReadInt();
 
         int ReadInt(string label);
 
         void WriteLong(long i, bool writeInTransaction, string label);
-
-        byte[] ReadLongBytes();
 
         long ReadLong();
 
@@ -75,21 +67,15 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         void WriteFloat(float f, bool writeInTransaction);
 
-        byte[] ReadFloatBytes();
-
         float ReadFloat();
 
         float ReadFloat(string label);
 
         void WriteDouble(double d, bool writeInTransaction);
 
-        byte[] ReadDoubleBytes();
-
         double ReadDouble(string label);
 
         void WriteBigDecimal(Decimal d, bool writeInTransaction);
-
-        byte[] ReadBigDecimalBytes();
 
         Decimal ReadBigDecimal();
 
@@ -97,15 +83,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         void WriteDate(DateTime d, bool writeInTransaction);
 
-        byte[] ReadDateBytes();
-
         DateTime ReadDate(string label);
 
         void WriteString(string s, bool writeInTransaction);
 
         void WriteString(string s, bool writeInTransaction, int totalSpace);
-
-        byte[] ReadStringBytes();
 
         string ReadString();
 
@@ -114,8 +96,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         void WriteBoolean(bool b, bool writeInTransaction);
 
         void WriteBoolean(bool b, bool writeInTransaction, string label);
-
-        byte[] ReadBooleanBytes();
 
         bool ReadBoolean();
 
@@ -129,18 +109,19 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         IMultiBufferedFileIO GetIo();
 
         void WriteUShort(ushort s, bool writeInTransaction);
-        byte[] ReadUShortBytes();
         
         ushort ReadUShort(string label);
+        
         void WriteUInt(uint i, bool writeInTransaction, string label);
-        byte[] ReadUIntBytes();
         
         uint ReadUInt(string label);
+        
         void WriteULong(ulong i, bool writeInTransaction, string label);
-        byte[] ReadULongBytes();
         
         ulong ReadULong(string label);
+        
         void WriteSByte(sbyte i, bool writeInTransaction);
+        
         void WriteSByte(sbyte i, bool writeInTransaction, string label);
         
         sbyte ReadSByte(string label);

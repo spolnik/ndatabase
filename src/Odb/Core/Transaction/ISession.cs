@@ -14,11 +14,7 @@ namespace NDatabase.Odb.Core.Transaction
 
         void Close();
 
-        void ClearCache();
-
         bool IsRollbacked();
-
-        void Clear();
 
         IStorageEngine GetStorageEngine();
 

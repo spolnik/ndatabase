@@ -38,14 +38,6 @@ namespace NDatabase.Odb.Core.Query.List.Objects
             return _currentPosition < Count;
         }
 
-        /// <summary>
-        ///   The orderByType in not supported by this kind of list
-        /// </summary>
-        public virtual IEnumerator<TItem> Iterator(OrderByConstants orderByType)
-        {
-            return GetEnumerator();
-        }
-
         public virtual TItem Next()
         {
             return this[_currentPosition++];

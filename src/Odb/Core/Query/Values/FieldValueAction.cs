@@ -33,7 +33,7 @@ namespace NDatabase.Odb.Core.Query.Values
             // For collection,we encapsulate it in an lazy load list that will create objects on demand
             var c = ((IEnumerable) _value).Cast<object>().ToList();
             var l = new LazySimpleListOfAoi<object>(GetInstanceBuilder(), ReturnInstance());
-            l.AddAll(c);
+            l.AddRange(c);
             _value = l;
         }
 

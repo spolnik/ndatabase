@@ -6,7 +6,5 @@ namespace NDatabase.Tool.Wrappers.List
     {
         void AddAll(IEnumerable<TItem> collection);
         void RemoveAll(IEnumerable<TItem> collection);
-
-        bool IsEmpty();
     }
 }

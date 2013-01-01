@@ -43,8 +43,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         ISession GetSession();
 
-        ISession BuildDefaultSession();
-
         void Commit();
 
         void Rollback();
@@ -75,8 +73,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         IFileIdentification GetBaseIdentification();
 
-        void AddSession(ISession session, bool readMetamodel);
-
         /// <param name="className"> The class name on which the index must be created </param>
         /// <param name="name"> The name of the index </param>
         /// <param name="indexFields"> The list of fields of the index </param>
@@ -98,8 +94,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         IDatabaseId GetDatabaseId();
 
-        ITransactionId GetCurrentTransactionId();
-
         void SetCurrentTransactionId(ITransactionId transactionId);
 
         /// <summary>
@@ -114,21 +108,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         void DeleteIndex(string className, string indexName);
 
-        /// <summary>
-        ///   Receive the current class info (loaded from current java classes present on classpath and check against the persisted meta model
-        /// </summary>
-        /// <param name="currentCIs"> </param>
-        void CheckMetaModelCompatibility(IDictionary<string, ClassInfo> currentCIs);
-
-        IObjectIntrospector BuildObjectIntrospector();
-
-        IInternalTriggerManager BuildTriggerManager();
-
-        CurrentIdBlockInfo GetCurrentIdBlockInfo();
-
         IIdManager GetIdManager();
 
         IInternalTriggerManager GetLocalTriggerManager();
-        void RemoveLocalTriggerManager();
     }
 }

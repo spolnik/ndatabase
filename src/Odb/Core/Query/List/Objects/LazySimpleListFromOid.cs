@@ -62,11 +62,6 @@ namespace NDatabase.Odb.Core.Query.List.Objects
             return _currentPosition < _oids.Count;
         }
 
-        public IEnumerator<T> Iterator(OrderByConstants orderByType)
-        {
-            throw new OdbRuntimeException(NDatabaseError.OperationNotImplemented);
-        }
-
         public new int Count
         {
             get { return _oids.Count; }
@@ -96,7 +91,7 @@ namespace NDatabase.Odb.Core.Query.List.Objects
 
         #endregion
 
-        public override T Get(int index)
+        public T Get(int index)
         {
             var oid = _oids[index];
             try

@@ -372,7 +372,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                                                     relationAttributeNames, recursionLevel);
         }
 
-        public object ReadAtomicNativeObjectInfoAsObject(int odbTypeId)
+        private object ReadAtomicNativeObjectInfoAsObject(int odbTypeId)
         {
             object o = null;
             switch (odbTypeId)
@@ -499,7 +499,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <summary>
         ///   Reads an atomic object
         /// </summary>
-        public AtomicNativeObjectInfo ReadAtomicNativeObjectInfo(int odbTypeId)
+        private AtomicNativeObjectInfo ReadAtomicNativeObjectInfo(int odbTypeId)
         {
             var @object = ReadAtomicNativeObjectInfoAsObject(odbTypeId);
             return new AtomicNativeObjectInfo(@object, odbTypeId);

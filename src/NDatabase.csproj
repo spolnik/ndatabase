@@ -286,7 +286,7 @@
     <Compile Include="Odb\Core\Query\Values\ValuesUtil.cs" />
     <Compile Include="Odb\Core\Trigger\ObjectRepresentation.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\OdbCache.cs" />
-    <Compile Include="Odb\Core\Transaction\Transaction.cs" />
+    <Compile Include="Odb\Core\Transaction\OdbTransaction.cs" />
     <Compile Include="Odb\Core\Transaction\WriteAction.cs" />
     <Compile Include="Odb\Core\Transaction\IdInfo.cs" />
     <Compile Include="Odb\Core\Transaction\LocalSession.cs" />
@@ -308,7 +308,7 @@
     <Compile Include="Odb\IOdb.cs" />
     <Compile Include="Odb\BaseOID.cs" />
     <Compile Include="Odb\OdbConfiguration.cs" />
-    <Compile Include="Odb\ODBExt.cs" />
+    <Compile Include="Odb\IOdbExt.cs" />
     <Compile Include="Odb\OdbFactory.cs" />
     <Compile Include="Odb\ODBRuntimeException.cs" />
     <Compile Include="Odb\OID.cs" />
@@ -328,6 +328,7 @@
     <Compile Include="Odb\Core\Layers\Layer3\IO\MultiBuffer.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IO\OdbDirectory.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IO\OdbFileStream.cs" />
+    <Compile Include="Tool\ListExtensions.cs" />
     <Compile Include="Tool\Wrappers\List\IOdbList.cs" />
     <Compile Include="Tool\Wrappers\List\OdbList.cs" />
     <Compile Include="Tool\Wrappers\Map\OdbHashMap2.cs" />

@@ -44,10 +44,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
                                                        IOdbList<string> attributeNames,
                                                        IOdbList<string> relationAttributeNames, int recursionLevel);
 
-        object ReadAtomicNativeObjectInfoAsObject(int odbTypeId);
-
-        AtomicNativeObjectInfo ReadAtomicNativeObjectInfo(int odbTypeId);
-
         long ReadOidPosition(OID oid);
 
         object GetObjectFromOid(OID oid, bool returnInstance, bool useCache);

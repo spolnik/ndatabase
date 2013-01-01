@@ -110,17 +110,6 @@ namespace NDatabase.Odb.Core.Transaction
             _fsi = null;
         }
 
-        public string GetName()
-        {
-            var parameters = _fsiToApplyWriteActions.GetFileIdentification();
-
-            var buffer =
-                new StringBuilder(parameters.Id).Append("-").Append(_creationDateTime).Append("-").Append(
-                    _session.GetId()).Append(".transaction");
-
-            return buffer.ToString();
-        }
-
         public void Rollback()
         {
             _wasRollbacked = true;
@@ -255,6 +244,13 @@ namespace NDatabase.Odb.Core.Transaction
 
         #endregion
 
+        private string GetName()
+        {
+            var parameters = _fsiToApplyWriteActions.GetFileIdentification();
+
+            return string.Format("{0}-{1}-{2}.transaction", parameters.Id, _creationDateTime, _session.GetId());
+        }
+
         private void Init(ISession session)
         {
             _session = session;
@@ -322,7 +318,7 @@ namespace NDatabase.Odb.Core.Transaction
         {
             var parameters = _fsiToApplyWriteActions.GetFileIdentification();
 
-            var filename = 
+            var filename =
                 string.Format("{0}-{1}-{2}.transaction", parameters.Id, _creationDateTime, _session.GetId());
             var filePath = Path.Combine(parameters.Directory, filename);
 
@@ -524,7 +520,8 @@ namespace NDatabase.Odb.Core.Transaction
                     DLogger.Debug(
                         string.Format("\t-connect last commited object with oid {0} to first uncommited object {1}",
                                       lastCommittedObjectOid, newClassInfo.UncommittedZoneInfo.First));
-                    DLogger.Debug(string.Concat("\t-Commiting new Number of objects = ", newClassInfo.NumberOfObjects.ToString()));
+                    DLogger.Debug(string.Concat("\t-Commiting new Number of objects = ",
+                                                newClassInfo.NumberOfObjects.ToString()));
                 }
             }
 
@@ -586,7 +583,7 @@ namespace NDatabase.Odb.Core.Transaction
             if (apply)
                 _fsiToApplyWriteActions.Flush();
         }
-        
+
         public override string ToString()
         {
             var buffer = new StringBuilder();

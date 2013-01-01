@@ -10,8 +10,6 @@ namespace NDatabase.Odb.Core.Query.Execution
 
         string GetDetails();
 
-        long GetDuration();
-
         void Start();
 
         void End();

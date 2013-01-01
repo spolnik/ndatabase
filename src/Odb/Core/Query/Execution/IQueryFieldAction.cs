@@ -29,14 +29,8 @@ namespace NDatabase.Odb.Core.Query.Execution
 
         void SetMultiRow(bool isMultiRow);
 
-        /// <summary>
-        ///   used to create a copy!
-        /// </summary>
         IQueryFieldAction Copy();
 
-        /// <param name="returnInstance"> </param>
         void SetReturnInstance(bool returnInstance);
-
-        bool ReturnInstance();
     }
 }

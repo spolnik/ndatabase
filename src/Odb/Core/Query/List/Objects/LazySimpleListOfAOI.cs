@@ -78,7 +78,7 @@ namespace NDatabase.Odb.Core.Query.List.Objects
 
         #endregion
 
-        public override T Get(int index)
+        public T Get(int index)
         {
             object o = base[index];
             var aoi = (AbstractObjectInfo) o;

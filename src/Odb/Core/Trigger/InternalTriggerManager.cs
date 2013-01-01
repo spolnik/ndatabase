@@ -308,9 +308,11 @@ namespace NDatabase.Odb.Core.Trigger
                 var listOfTriggersToReturn = new OdbList<Trigger>(size);
 
                 if (listOfTriggersBuClassName != null)
-                    listOfTriggersToReturn.AddAll(listOfTriggersBuClassName);
+                {
+                    listOfTriggersToReturn.AddRange(listOfTriggersBuClassName);
+                }
 
-                listOfTriggersToReturn.AddAll(listOfTriggersByAllClassTrigger);
+                listOfTriggersToReturn.AddRange(listOfTriggersByAllClassTrigger);
                 return listOfTriggersToReturn;
             }
 

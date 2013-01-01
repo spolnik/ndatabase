@@ -9,21 +9,14 @@ namespace NDatabase.Odb.Core.Query
     internal interface IInternalQuery : IQuery
     {
         IQueryExecutionPlan GetExecutionPlan();
+
         void SetExecutionPlan(IQueryExecutionPlan plan);
 
         IStorageEngine GetStorageEngine();
+
         void SetStorageEngine(IStorageEngine storageEngine);
 
         void Add(IConstraint criterion);
-
-        /// <summary>
-        ///   To indicate if a query must be executed on a single object with the specific OID.
-        /// </summary>
-        /// <remarks>
-        ///   To indicate if a query must be executed on a single object with the specific OID. Used for ValuesQeuries
-        /// </remarks>
-        /// <returns> </returns>
-        bool IsForSingleOid();
 
         /// <summary>
         ///   Returns true if the query has an order by clause
@@ -37,14 +30,8 @@ namespace NDatabase.Odb.Core.Query
         /// <returns> The array of fields of the order by </returns>
         IList<string> GetOrderByFieldNames();
 
-        /// <returns> the type of the order by - ORDER_BY_NONE,ORDER_BY_DESC,ORDER_BY_ASC </returns>
+        /// <returns> the type of the order by - NONE, DESC, ASC </returns>
         OrderByConstants GetOrderByType();
-
-        /// <summary>
-        ///   used with isForSingleOid == true, to indicate we are working on a single object with a specific oid
-        /// </summary>
-        /// <returns> </returns>
-        OID GetOidOfObjectToQuery();
 
         Type UnderlyingType { get; }
     }
