@@ -64,6 +64,7 @@ packages/
 *.testsettings
 
 #own
+doc/output*/
 UnitTests/*.pdb
 UnitTests/*.dll
 UnitTests/*.exe
