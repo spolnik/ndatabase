@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using NDatabase.Odb;
@@ -9,7 +9,7 @@ namespace NDatabase.Tool.Wrappers
 {
     internal static class OdbString
     {
-        private static readonly ConcurrentDictionary<string, Regex> Cache = new ConcurrentDictionary<string, Regex>();
+        private static readonly Dictionary<string, Regex> Cache = new Dictionary<string, Regex>();
 
         /// <summary>
         ///   Replace a string within a string

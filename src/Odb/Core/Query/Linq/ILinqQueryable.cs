@@ -7,7 +7,7 @@ namespace NDatabase.Odb.Core.Query.Linq
     /// <summary>
     /// IOrderedQueryable&lt;T&gt; derived interface, Linq
     /// </summary>
-    public interface ILinqQueryable<out TElement> : IOrderedQueryable<TElement>, ILinqQueryable
+    public interface ILinqQueryable<TElement> : IOrderedQueryable<TElement>, ILinqQueryable
     {
     }
 
@@ -26,7 +26,7 @@ namespace NDatabase.Odb.Core.Query.Linq
     /// <summary>
     /// NDatabase Linq Query generic interface
     /// </summary>
-    public interface ILinqQuery<out T> : ILinqQuery, IEnumerable<T>
+    public interface ILinqQuery<T> : ILinqQuery, IEnumerable<T>
     {
     }
 

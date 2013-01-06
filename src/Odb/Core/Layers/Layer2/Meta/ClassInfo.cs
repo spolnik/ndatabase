@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,7 +24,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// </summary>
         public const byte CategoryUserClass = 2;
 
-        private static readonly ConcurrentDictionary<string, Type> TypeCache = new ConcurrentDictionary<string, Type>();
+        private static readonly Dictionary<string, Type> TypeCache = new Dictionary<string, Type>();
         private readonly AttributesCache _attributesCache;
 
         /// <summary>
