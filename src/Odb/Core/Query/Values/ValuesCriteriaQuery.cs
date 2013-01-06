@@ -274,14 +274,14 @@ namespace NDatabase.Odb.Core.Query.Values
 
         public int ObjectActionsCount { get { return _objectActions.Count; } }
 
-        public IValuesQuery Min(string attributeName)
+        public IValuesQuery Min(string fieldName)
         {
-            return Min(attributeName, attributeName);
+            return Min(fieldName, fieldName);
         }
 
-        public IValuesQuery Min(string attributeName, string alias)
+        public IValuesQuery Min(string fieldName, string alias)
         {
-            _objectActions.Add(new MinValueAction(attributeName, alias));
+            _objectActions.Add(new MinValueAction(fieldName, alias));
             return this;
         }
 

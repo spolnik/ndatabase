@@ -12,6 +12,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         internal const int IdBlockRepetitionSize = 18;
 
         /// <summary>
+        /// Default max number of write object actions per transaction - 10 000
+        /// </summary>
+        internal const int MaxNumberOfWriteObjectPerTransaction = 10000;
+
+        /// <summary>
         ///   header(34) + 1000 * 18
         /// </summary>
         internal const int IdBlockSize = 34 + NbIdsPerBlock * IdBlockRepetitionSize;

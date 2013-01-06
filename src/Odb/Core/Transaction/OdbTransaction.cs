@@ -292,7 +292,7 @@ namespace NDatabase.Odb.Core.Transaction
             _numberOfWriteActions++;
 
             if (_hasAllWriteActionsInMemory &&
-                _numberOfWriteActions > OdbConfiguration.GetMaxNumberOfWriteObjectPerTransaction())
+                _numberOfWriteActions > StorageEngineConstant.MaxNumberOfWriteObjectPerTransaction)
             {
                 _hasAllWriteActionsInMemory = false;
 
@@ -305,7 +305,7 @@ namespace NDatabase.Odb.Core.Transaction
                 {
                     var numberOfWriteActions = _numberOfWriteActions.ToString();
                     var maxNumberOfWriteObjectPerTransactionAsString =
-                        OdbConfiguration.GetMaxNumberOfWriteObjectPerTransaction().ToString();
+                        StorageEngineConstant.MaxNumberOfWriteObjectPerTransaction.ToString();
 
                     DLogger.Info("Number of objects has exceeded the max number " + numberOfWriteActions + "/" +
                                  maxNumberOfWriteObjectPerTransactionAsString +

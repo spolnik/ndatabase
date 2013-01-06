@@ -7,18 +7,11 @@ namespace NDatabase.Odb
     ///   The main NDatabase ODB Configuration class.
     /// </summary>
     /// <remarks>
-    ///   The main NDatabase ODB Configuration class. All engine configuration is done via this class.
+    ///   All engine configuration is done via this class.
     /// </remarks>
     public static class OdbConfiguration
     {
         private static bool _loggingEnabled;
-
-        /// <summary>
-        /// Default max number of write object actions per transaction - 10 000
-        /// </summary>
-        public const int DefaultMaxNumberOfWriteObjectPerTransaction = 10000;
-
-        private static int _maxNumberOfWriteObjectPerTransaction = DefaultMaxNumberOfWriteObjectPerTransaction;
 
         /// <summary>
         /// Default index BTree degree - 20
@@ -31,42 +24,30 @@ namespace NDatabase.Odb
         private static int _indexBTreeDegree = DefaultIndexBTreeDegree;
 
         /// <summary>
-        /// Get max number of write object actions per transaction
+        /// Enables the B tree validation.
         /// </summary>
-        /// <returns>Max number of write object actions per transaction</returns>
-        public static int GetMaxNumberOfWriteObjectPerTransaction()
-        {
-            return _maxNumberOfWriteObjectPerTransaction;
-        }
-
-        /// <summary>
-        /// Set max number of write object actions per transaction
-        /// </summary>
-        /// <param name="maxNumberOfWriteObjectPerTransaction">New value - max number of write object actions per transaction</param>
-        public static void SetMaxNumberOfWriteObjectPerTransaction(int maxNumberOfWriteObjectPerTransaction)
-        {
-            _maxNumberOfWriteObjectPerTransaction = maxNumberOfWriteObjectPerTransaction;
-        }
-
-        /// <summary>
-        /// Turn on BTree validation (more safely, but hit on performance)
-        /// </summary>
+        /// <remarks>
+        /// It is more safe to run with that (finding issues), but that hits performance.
+        /// </remarks>
         public static void EnableBTreeValidation()
         {
             BTreeValidator.SetOn(true);
         }
 
+
         /// <summary>
-        /// Check if BTree validation is turned on
+        /// Determines whether [is B tree validation enabled].
         /// </summary>
-        /// <returns>True if BTree validation is enabled, in other case false</returns>
+        /// <returns>
+        ///   <c>true</c> if [is B tree validation enabled]; otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsBTreeValidationEnabled()
         {
             return BTreeValidator.IsOn();
         }
 
         /// <summary>
-        /// Turn off BTree validation (less safely, but better performance)
+        /// Disables the B tree validation.
         /// </summary>
         public static void DisableBTreeValidation()
         {
@@ -76,6 +57,9 @@ namespace NDatabase.Odb
         /// <summary>
         /// Get index BTree degree (on start it is equals to 20)
         /// </summary>
+        /// <remarks>
+        /// It is less safe to run without that (finding issues), but that improves performance.
+        /// </remarks>
         /// <returns>Degree of index BTree</returns>
         public static int GetIndexBTreeDegree()
         {
@@ -83,25 +67,30 @@ namespace NDatabase.Odb
         }
 
         /// <summary>
-        /// Set index BTree degree (on start it is equals to 20)
+        /// Sets the index B tree degree.
         /// </summary>
-        /// <param name="indexBTreeSize">Degree of index BTree</param>
+        /// <remarks>
+        /// Default value is equal to 20.
+        /// </remarks>
+        /// <param name="indexBTreeSize">Size of the index B tree.</param>
         public static void SetIndexBTreeDegree(int indexBTreeSize)
         {
             _indexBTreeDegree = indexBTreeSize;
         }
 
         /// <summary>
-        /// Check if logging is turned on
+        /// Determines whether [is logging enabled].
         /// </summary>
-        /// <returns>True if logging is enabled, false in other case</returns>
+        /// <returns>
+        ///   <c>true</c> if [is logging enabled]; otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsLoggingEnabled()
         {
             return _loggingEnabled;
         }
 
         /// <summary>
-        /// Turn on logging in NDatabase
+        /// Enables the logging.
         /// </summary>
         public static void EnableLogging()
         {
@@ -109,7 +98,7 @@ namespace NDatabase.Odb
         }
 
         /// <summary>
-        /// Turn off logging in NDatabase
+        /// Disables the logging.
         /// </summary>
         public static void DisableLogging()
         {
@@ -117,8 +106,11 @@ namespace NDatabase.Odb
         }
 
         /// <summary>
-        /// Enable console logger, automatically turning on the logging in NDatabase
+        /// Enables the console logger.
         /// </summary>
+        /// <remarks>
+        /// Automatically enables the logging.
+        /// </remarks>
         public static void EnableConsoleLogger()
         {
             if (!IsLoggingEnabled())
@@ -128,9 +120,12 @@ namespace NDatabase.Odb
         }
 
         /// <summary>
-        /// Register custom logger, e.g. log4net implementation
+        /// Registers the logger.
         /// </summary>
-        /// <param name="logger">Custom loger to register</param>
+        /// <remarks>
+        /// Automatically enables the logging.
+        /// </remarks>
+        /// <param name="logger">The logger.</param>
         public static void RegisterLogger(ILogger logger)
         {
             if (!IsLoggingEnabled())

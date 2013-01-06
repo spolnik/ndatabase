@@ -1,4 +1,5 @@
 ﻿using NDatabase.Odb;
+using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NUnit.Framework;
 
 namespace NDatabase.Client.UnitTests.Misc
@@ -42,18 +43,6 @@ namespace NDatabase.Client.UnitTests.Misc
             OdbConfiguration.DisableBTreeValidation();
 
             Assert.That(OdbConfiguration.IsBTreeValidationEnabled(), Is.False);
-        }
-
-        [Test]
-        public void Check_changing_max_number_of_write_actions_per_transaction()
-        {
-            Assert.That(OdbConfiguration.GetMaxNumberOfWriteObjectPerTransaction(),
-                        Is.EqualTo(OdbConfiguration.DefaultMaxNumberOfWriteObjectPerTransaction));
-
-            const int newValue = 30000;
-            OdbConfiguration.SetMaxNumberOfWriteObjectPerTransaction(newValue);
-
-            Assert.That(OdbConfiguration.GetMaxNumberOfWriteObjectPerTransaction(), Is.EqualTo(newValue));
         }
     }
 }
