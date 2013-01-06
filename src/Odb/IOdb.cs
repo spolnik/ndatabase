@@ -6,11 +6,12 @@ using NDatabase.Odb.Core.Query.Linq;
 namespace NDatabase.Odb
 {
     /// <summary>
-    /// database engine interface.
-    /// 
-    /// The <code>ObjectContainer</code> interface provides all methods
-    /// to store, retrieve and delete objects and to change object state.
+    /// Database engine interface. 
     /// </summary>
+    /// <remarks>
+    /// The interface provides all methods
+    /// to store, retrieve and delete objects and to change object state.
+    /// </remarks>
     public interface IOdb : IDisposable
     {
         /// <summary>
