@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
@@ -45,11 +44,6 @@ namespace NDatabase.Odb.Core.Query.List.Objects
             throw new OdbRuntimeException(NDatabaseError.OperationNotImplemented);
         }
 
-        public bool AddWithKey(int key, T @object)
-        {
-            throw new OdbRuntimeException(NDatabaseError.OperationNotImplemented);
-        }
-
         public T GetFirst()
         {
             try
@@ -65,11 +59,6 @@ namespace NDatabase.Odb.Core.Query.List.Objects
         public bool HasNext()
         {
             return _currentPosition < _oids.Count;
-        }
-
-        public IEnumerator<T> Iterator(OrderByConstants orderByType)
-        {
-            throw new OdbRuntimeException(NDatabaseError.OperationNotImplemented);
         }
 
         public new int Count
@@ -101,7 +90,7 @@ namespace NDatabase.Odb.Core.Query.List.Objects
 
         #endregion
 
-        public override T Get(int index)
+        private T Get(int index)
         {
             var oid = _oids[index];
             try

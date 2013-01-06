@@ -15,9 +15,9 @@ namespace NDatabase.Odb.Core.Query.Values
         private readonly IInternalQuery _query;
         private long _size;
 
-        public SizeAction(IInternalQuery _query, string attributeName, string alias) : base(attributeName, alias, true)
+        public SizeAction(IInternalQuery query, string attributeName, string alias) : base(attributeName, alias, true)
         {
-            this._query = _query;
+            _query = query;
         }
 
         public override void Execute(OID oid, AttributeValuesMap values)

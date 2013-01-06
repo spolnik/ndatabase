@@ -4,7 +4,7 @@ using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.Refactor
 {
-    public sealed class RefactorManager : IRefactorManager
+    internal sealed class RefactorManager : IRefactorManager
     {
         private readonly MetaModel _metaModel;
         private readonly IObjectWriter _objectWriter;

@@ -115,7 +115,7 @@ namespace NDatabase.Odb.Core.Query
             valuesCriteriaQuery.Add(Constraint);
 
             var valuesQuery = valuesCriteriaQuery.Count("count");
-            var values = ((IInternalQuery)this).GetStorageEngine().GetValues(valuesQuery, -1, -1);
+            var values = ((IInternalQuery) this).GetStorageEngine().GetValues((IInternalValuesQuery) valuesQuery, -1, -1);
 
             var count = (Decimal)values.NextValues().GetByIndex(0);
 

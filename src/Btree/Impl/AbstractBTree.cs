@@ -19,15 +19,6 @@ namespace NDatabase.Btree.Impl
         private IBTreeNode _root;
         private long _size;
 
-        protected AbstractBTree()
-        {
-            _degree = 0;
-            _size = 0;
-            _height = 1;
-            _persister = null;
-            _root = null;
-        }
-
         protected AbstractBTree(int degree, IBTreePersister persister)
         {
             _degree = degree;

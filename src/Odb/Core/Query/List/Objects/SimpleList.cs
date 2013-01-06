@@ -28,12 +28,6 @@ namespace NDatabase.Odb.Core.Query.List.Objects
             Add(o);
         }
 
-        public virtual bool AddWithKey(int key, TItem o)
-        {
-            Add(o);
-            return true;
-        }
-
         public virtual TItem GetFirst()
         {
             return Count == 0 ? default(TItem) : this[0];
@@ -42,14 +36,6 @@ namespace NDatabase.Odb.Core.Query.List.Objects
         public virtual bool HasNext()
         {
             return _currentPosition < Count;
-        }
-
-        /// <summary>
-        ///   The orderByType in not supported by this kind of list
-        /// </summary>
-        public virtual IEnumerator<TItem> Iterator(OrderByConstants orderByType)
-        {
-            return GetEnumerator();
         }
 
         public virtual TItem Next()

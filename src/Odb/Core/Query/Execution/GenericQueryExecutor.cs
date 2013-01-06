@@ -25,19 +25,6 @@ namespace NDatabase.Odb.Core.Query.Execution
     internal abstract class GenericQueryExecutor : IMultiClassQueryExecutor
     {
         /// <summary>
-        ///   The class of the object being fetched
-        /// </summary>
-        protected ClassInfo ClassInfo;
-
-        protected NonNativeObjectInfo CurrentNnoi;
-        protected OID CurrentOid;
-
-        /// <summary>
-        ///   The next object position
-        /// </summary>
-        protected OID NextOID;
-
-        /// <summary>
         ///   The object used to read object data from database
         /// </summary>
         protected readonly IObjectReader ObjectReader;
@@ -56,6 +43,19 @@ namespace NDatabase.Odb.Core.Query.Execution
         ///   The storage engine
         /// </summary>
         protected readonly IStorageEngine StorageEngine;
+
+        /// <summary>
+        ///   The class of the object being fetched
+        /// </summary>
+        protected ClassInfo ClassInfo;
+
+        protected NonNativeObjectInfo CurrentNnoi;
+        protected OID CurrentOid;
+
+        /// <summary>
+        ///   The next object position
+        /// </summary>
+        protected OID NextOID;
 
         /// <summary>
         ///   Used for multi class executor to indicate not to execute start and end method of query result action
@@ -84,7 +84,7 @@ namespace NDatabase.Odb.Core.Query.Execution
         #region IMultiClassQueryExecutor Members
 
         public virtual IInternalObjectSet<T> Execute<T>(bool inMemory, int startIndex, int endIndex, bool returnObjects,
-                                              IMatchingObjectAction queryResultAction)
+                                                        IMatchingObjectAction queryResultAction)
         {
             if (StorageEngine.IsClosed())
             {
@@ -101,7 +101,7 @@ namespace NDatabase.Odb.Core.Query.Execution
 
             try
             {
-                if (executionPlan.UseIndex() && OdbConfiguration.UseIndex())
+                if (executionPlan.UseIndex())
                     return ExecuteUsingIndex<T>(executionPlan.GetIndex(), inMemory, returnObjects,
                                                 queryResultAction);
 
@@ -114,11 +114,6 @@ namespace NDatabase.Odb.Core.Query.Execution
             {
                 executionPlan.End();
             }
-        }
-
-        public bool ExecuteStartAndEndOfQueryAction()
-        {
-            return _executeStartAndEndOfQueryAction;
         }
 
         public void SetExecuteStartAndEndOfQueryAction(bool yes)
@@ -142,6 +137,18 @@ namespace NDatabase.Odb.Core.Query.Execution
         }
 
         #endregion
+
+        /// <summary>
+        ///   Used to indicate if the execute method must call start and end method of the queryResultAction.
+        /// </summary>
+        /// <remarks>
+        ///   Used to indicate if the execute method must call start and end method of the queryResultAction. The default is yes. For MultiClass Query executor, it is set to false to avoid to reset the result
+        /// </remarks>
+        /// <returns> true or false to indicate if start and end method of queryResultAction must be executed </returns>
+        private bool ExecuteStartAndEndOfQueryAction()
+        {
+            return _executeStartAndEndOfQueryAction;
+        }
 
         protected abstract IQueryExecutionPlan GetExecutionPlan();
 
@@ -190,7 +197,7 @@ namespace NDatabase.Odb.Core.Query.Execution
         /// <param name="returnObjects"> </param>
         /// <param name="queryResultAction"> </param>
         private IInternalObjectSet<T> ExecuteFullScan<T>(bool inMemory, int startIndex, int endIndex, bool returnObjects,
-                                               IMatchingObjectAction queryResultAction)
+                                                         IMatchingObjectAction queryResultAction)
         {
             if (StorageEngine.IsClosed())
             {
@@ -234,14 +241,9 @@ namespace NDatabase.Odb.Core.Query.Execution
                 // This is an error
                 if (currentOID == null)
                 {
-                    if (OdbConfiguration.ThrowExceptionWhenInconsistencyFound())
-                    {
-                        throw new OdbRuntimeException(
-                            NDatabaseError.NullNextObjectOid.AddParameter(ClassInfo.FullClassName).AddParameter(i).
-                                AddParameter(nbObjects).AddParameter(prevOID));
-                    }
-
-                    break;
+                    throw new OdbRuntimeException(
+                        NDatabaseError.NullNextObjectOid.AddParameter(ClassInfo.FullClassName).AddParameter(i).
+                            AddParameter(nbObjects).AddParameter(prevOID));
                 }
 
                 // If there is an endIndex condition
@@ -303,7 +305,7 @@ namespace NDatabase.Odb.Core.Query.Execution
         /// <param name="returnObjects"> </param>
         /// <param name="queryResultAction"> </param>
         private IInternalObjectSet<T> ExecuteUsingIndex<T>(ClassInfoIndex index, bool inMemory,
-                                                 bool returnObjects, IMatchingObjectAction queryResultAction)
+                                                           bool returnObjects, IMatchingObjectAction queryResultAction)
         {
             // Index that have not been used yet do not have persister!
             if (index.BTree.GetPersister() == null)
@@ -359,7 +361,7 @@ namespace NDatabase.Odb.Core.Query.Execution
                 foreach (OID oid in list)
                 {
                     // FIXME Why calling this method
-                    var position = ObjectReader.GetObjectPositionFromItsOid(oid, true, true);
+                    ObjectReader.GetObjectPositionFromItsOid(oid, true, true);
                     _orderByKey = null;
 
                     var objectMatches = MatchObjectWithOid(oid, returnObjects, inMemory);
@@ -384,7 +386,7 @@ namespace NDatabase.Odb.Core.Query.Execution
         /// <param name="returnObjects"> </param>
         /// <param name="queryResultAction"> </param>
         private IInternalObjectSet<T> ExecuteForOneOid<T>(bool inMemory, bool returnObjects,
-                                                IMatchingObjectAction queryResultAction)
+                                                          IMatchingObjectAction queryResultAction)
         {
             if (OdbConfiguration.IsLoggingEnabled())
                 DLogger.Debug(string.Format("loading Object with oid {0} - class {1}", Query.GetOidOfObjectToQuery(),
@@ -404,7 +406,7 @@ namespace NDatabase.Odb.Core.Query.Execution
             return queryResultAction.GetObjects<T>();
         }
 
-        protected IOdbComparable BuildOrderByKey(object @object)
+        private IOdbComparable BuildOrderByKey(object @object)
         {
             var attributeValuesMap = @object as AttributeValuesMap;
 
@@ -413,13 +415,13 @@ namespace NDatabase.Odb.Core.Query.Execution
                        : BuildOrderByKey((NonNativeObjectInfo) @object);
         }
 
-        protected IOdbComparable BuildOrderByKey(NonNativeObjectInfo nnoi)
+        private IOdbComparable BuildOrderByKey(NonNativeObjectInfo nnoi)
         {
             // TODO cache the attributes ids to compute them only once
             return IndexTool.BuildIndexKey("OrderBy", nnoi, QueryManager.GetOrderByAttributeIds(ClassInfo, Query));
         }
 
-        protected IOdbComparable BuildOrderByKey(AttributeValuesMap values)
+        private IOdbComparable BuildOrderByKey(AttributeValuesMap values)
         {
             return IndexTool.BuildIndexKey("OrderBy", values, Query.GetOrderByFieldNames());
         }

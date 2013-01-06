@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Layer3
 {
-    public class When_we_use_file_identification_as_db_identification : InstanceSpecification<IFileIdentification>
+    internal class When_we_use_file_identification_as_db_identification : InstanceSpecification<IFileIdentification>
     {
         private bool _isNew;
         private FileIdentification _fileIdentificationForNonExistingFile;

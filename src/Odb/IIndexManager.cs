@@ -1,7 +1,7 @@
 namespace NDatabase.Odb
 {
     /// <summary>
-    ///   A class abstraction to give access to class level configuration like adding an index, checking if index exists, rebuilding an index,...
+    /// Index Manager - allows to give access to class level configuration like adding an index, checking if index exists, rebuilding an index,...
     /// </summary>
     public interface IIndexManager
     {
@@ -16,10 +16,19 @@ namespace NDatabase.Odb
         /// <summary>
         ///   To check if an index exist
         /// </summary>
+        /// <param name="indexName">Existing index name</param>
         bool ExistIndex(string indexName);
 
+        /// <summary>
+        /// Rebuild existing index
+        /// </summary>
+        /// <param name="indexName">Existing index name</param>
         void RebuildIndex(string indexName);
 
+        /// <summary>
+        /// Delete existing index
+        /// </summary>
+        /// <param name="indexName">Existing index name</param>
         void DeleteIndex(string indexName);
     }
 }

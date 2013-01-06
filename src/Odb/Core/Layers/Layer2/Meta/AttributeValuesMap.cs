@@ -12,7 +12,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     ///   while reading an instance data, tries to retrieve only 
     ///   values of attributes involved in the query instead of reading the entire object.
     /// </remarks>
-    public sealed class AttributeValuesMap : Hashtable
+    internal sealed class AttributeValuesMap : Hashtable
     {
         /// <summary>
         ///   The Object Info Header of the object being represented

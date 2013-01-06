@@ -74,11 +74,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return GetArray().Length;
         }
 
-        public int GetComponentTypeId()
-        {
-            return _componentTypeId;
-        }
-
         public void SetComponentTypeId(int componentTypeId)
         {
             _componentTypeId = componentTypeId;

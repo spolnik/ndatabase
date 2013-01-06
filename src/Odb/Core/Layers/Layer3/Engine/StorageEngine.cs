@@ -30,16 +30,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
     internal sealed class StorageEngine : AbstractStorageEngineReader
     {
         private readonly IOdbList<ICommitListener> _commitListeners;
-        private ISession _session;
-
-        private CurrentIdBlockInfo _currentIdBlockInfo;
-
-        /// <summary>
-        ///   To keep track of current transaction Id
-        /// </summary>
-        private ITransactionId _currentTransactionId;
-
-        private IDatabaseId _databaseId;
 
         /// <summary>
         ///   This is a visitor used to execute some specific action(like calling 'Before Insert Trigger') when introspecting an object
@@ -51,9 +41,18 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// </summary>
         private readonly IIntrospectionCallback _introspectionCallbackForUpdate;
 
-        private IObjectIntrospector _objectIntrospector;
         private readonly IObjectWriter _objectWriter;
         private readonly IInternalTriggerManager _triggerManager;
+        private CurrentIdBlockInfo _currentIdBlockInfo;
+
+        /// <summary>
+        ///   To keep track of current transaction Id
+        /// </summary>
+        private ITransactionId _currentTransactionId;
+
+        private IDatabaseId _databaseId;
+        private IObjectIntrospector _objectIntrospector;
+        private ISession _session;
 
         /// <summary>
         ///   The database file name
@@ -63,7 +62,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             _currentIdBlockInfo = new CurrentIdBlockInfo();
 
             FileIdentification = parameters;
-            
+
             IsDbClosed = false;
 
             // The check if it is a new Database must be executed before object
@@ -91,8 +90,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 GetObjectReader().ReadDatabaseHeader();
             }
             _objectWriter.AfterInit();
-            _objectIntrospector = BuildObjectIntrospector();
-            _triggerManager = BuildTriggerManager();
+            _objectIntrospector = new ObjectIntrospector(this);
+            _triggerManager = GetLocalTriggerManager();
             // This forces the initialization of the meta model
             var metaModel = GetMetaModel();
 
@@ -101,13 +100,13 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             // logically locks access to the file (only for this machine)
             FileMutex.GetInstance().OpenFile(GetStorageDeviceName());
             // Updates the Transaction Id in the file
-            _objectWriter.FileSystemProcessor.WriteLastTransactionId(GetCurrentTransactionId());
+            _objectWriter.FileSystemProcessor.WriteLastTransactionId(_currentTransactionId);
             _objectWriter.SetTriggerManager(_triggerManager);
             _introspectionCallbackForInsert = new InstrumentationCallbackForStore(_triggerManager, false);
             _introspectionCallbackForUpdate = new InstrumentationCallbackForStore(_triggerManager, true);
         }
 
-        public override void AddSession(ISession session, bool readMetamodel)
+        internal void AddSession(ISession session, bool readMetamodel)
         {
             // Associate current session to the fsi -> all transaction writes
             // will be applied to this FileSystemInterface
@@ -123,19 +122,19 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             ObjectReader.LoadMetaModel(metaModel, true);
 
             // Updates the Transaction Id in the file
-            _objectWriter.FileSystemProcessor.WriteLastTransactionId(GetCurrentTransactionId());
+            _objectWriter.FileSystemProcessor.WriteLastTransactionId(_currentTransactionId);
         }
 
         /// <summary>
         ///   Receive the current class info (loaded from current classes present on runtime and check against the persisted meta model
         /// </summary>
         /// <param name="currentCIs"> </param>
-        public override void CheckMetaModelCompatibility(IDictionary<string, ClassInfo> currentCIs)
+        private void CheckMetaModelCompatibility(IDictionary<string, ClassInfo> currentCIs)
         {
             ClassInfo currentCI;
             ClassInfoCompareResult result;
             var checkMetaModelResult = new CheckMetaModelResult();
-            
+
             // User classes
             foreach (var persistedCI in GetMetaModel().GetUserClasses())
             {
@@ -148,7 +147,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 if (result.HasCompatibleChanges())
                     checkMetaModelResult.Add(result);
             }
-           
+
             foreach (var persistedCI in GetMetaModel().GetSystemClasses())
             {
                 currentCI = currentCIs[persistedCI.FullClassName];
@@ -168,11 +167,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 DLogger.Info(result.ToString());
             }
 
-            if (checkMetaModelResult.GetResults().IsEmpty()) 
+            if (checkMetaModelResult.GetResults().Count == 0)
                 return;
 
             UpdateMetaModel();
-            checkMetaModelResult.SetModelHasBeenUpdated(true);
         }
 
         public override OID Store<T>(T plainObject)
@@ -239,7 +237,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (header == null)
             {
                 var cachedOid = cache.GetOid(plainObject);
-                
+
                 if (cachedOid == null)
                 {
                     throw new OdbRuntimeException(
@@ -261,7 +259,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public override IIdManager GetIdManager()
         {
-            return new IdManager(GetObjectWriter(), GetObjectReader(), GetCurrentIdBlockInfo());
+            return new IdManager(GetObjectWriter(), GetObjectReader(), _currentIdBlockInfo);
         }
 
         public override void Close()
@@ -325,9 +323,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (plainObject != null)
             {
                 var oid = GetSession().GetCache().GetOid(plainObject);
-                
+
                 if (oid == null && throwExceptionIfDoesNotExist)
-                    throw new OdbRuntimeException(NDatabaseError.UnknownObjectToGetOid.AddParameter(plainObject.ToString()));
+                    throw new OdbRuntimeException(
+                        NDatabaseError.UnknownObjectToGetOid.AddParameter(plainObject.ToString()));
 
                 return oid;
             }
@@ -359,13 +358,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return objectFromOid;
         }
 
-        public override NonNativeObjectInfo GetMetaObjectFromOid(OID oid)
-        {
-            var nnoi = GetObjectReader().ReadNonNativeObjectInfoFromOid(null, oid, true, false);
-            GetSession().GetTmpCache().ClearObjectInfos();
-            return nnoi;
-        }
-
         public override ObjectInfoHeader GetObjectInfoHeaderFromOid(OID oid)
         {
             return GetObjectReader().ReadObjectInfoHeaderFromOid(oid, true);
@@ -374,11 +366,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public override IList<long> GetAllObjectIds()
         {
             return ObjectReader.GetAllIds(IdTypes.Object);
-        }
-
-        public override IList<FullIDInfo> GetAllObjectIdInfos(string objectType, bool displayObjects)
-        {
-            return ObjectReader.GetAllIdInfos(objectType, IdTypes.Object, displayObjects);
         }
 
         public override void SetDatabaseId(IDatabaseId databaseId)
@@ -396,11 +383,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return _databaseId;
         }
 
-        public override CurrentIdBlockInfo GetCurrentIdBlockInfo()
-        {
-            return _currentIdBlockInfo;
-        }
-
         public override bool IsClosed()
         {
             return IsDbClosed;
@@ -411,18 +393,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return FileIdentification;
         }
 
-        public override OID WriteObjectInfo(OID oid, NonNativeObjectInfo aoi, long position, bool updatePointers)
-        {
-            // TODO check if it must be written in transaction
-            return _objectWriter.WriteNonNativeObjectInfo(oid, aoi, position, updatePointers, true);
-        }
-
-        public override OID UpdateObject(NonNativeObjectInfo nnoi, bool forceUpdate)
-        {
-            return _objectWriter.UpdateNonNativeObjectInfo(nnoi, forceUpdate);
-        }
-
-        public override IValues GetValues(IValuesQuery query, int startIndex, int endIndex)
+        public override IValues GetValues(IInternalValuesQuery query, int startIndex, int endIndex)
         {
             if (IsDbClosed)
             {
@@ -451,11 +422,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public override void ResetCommitListeners()
         {
             _commitListeners.Clear();
-        }
-
-        public override ITransactionId GetCurrentTransactionId()
-        {
-            return _currentTransactionId;
         }
 
         public override void SetCurrentTransactionId(ITransactionId transactionId)
@@ -498,7 +464,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             GetObjectWriter().AddClasses(classInfoList);
         }
 
-        public override ISession BuildDefaultSession()
+        private ISession BuildDefaultSession()
         {
             _session = new LocalSession(this);
             return _session;
@@ -509,21 +475,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return _session;
         }
 
-        public override IObjectIntrospector BuildObjectIntrospector()
-        {
-            return new ObjectIntrospector(this);
-        }
-
-        public override IInternalTriggerManager BuildTriggerManager()
-        {
-            return GetLocalTriggerManager();
-        }
-
         private void UpdateMetaModel()
         {
             if (OdbConfiguration.IsLoggingEnabled())
                 DLogger.Info("Automatic refactoring : updating meta model");
-            
+
             var metaModel = GetMetaModel();
 
             foreach (var userClass in metaModel.GetUserClasses())
@@ -559,7 +515,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (plainObject == null)
                 throw new OdbRuntimeException(NDatabaseError.OdbCanNotStoreNullObject);
 
-            var type = typeof(T);
+            var type = typeof (T);
             if (OdbType.IsNative(type))
             {
                 throw new OdbRuntimeException(

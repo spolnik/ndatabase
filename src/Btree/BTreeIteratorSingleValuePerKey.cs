@@ -14,7 +14,7 @@ namespace NDatabase.Btree
         {
         }
 
-        public override object GetValueAt(IBTreeNode node, int currentIndex)
+        protected override object GetValueAt(IBTreeNode node, int currentIndex)
         {
             var n = (IBTreeNodeOneValuePerKey) node;
             return n.GetValueAt(currentIndex);

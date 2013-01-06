@@ -18,16 +18,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return "null non native object ";
         }
 
-        public bool HasChanged(AbstractObjectInfo aoi)
-        {
-            return aoi.GetType() != typeof (NonNativeNullObjectInfo);
-        }
-
-        public bool IsNonNativeNullObject()
-        {
-            return true;
-        }
-
         public override bool IsNull()
         {
             return true;

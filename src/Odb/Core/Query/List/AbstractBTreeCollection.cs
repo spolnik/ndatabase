@@ -23,12 +23,8 @@ namespace NDatabase.Odb.Core.Query.List
         protected AbstractBTreeCollection(OrderByConstants orderByType)
         {
             // TODO compute degree best value for the size value
-            _tree = BuildTree(OdbConfiguration.GetDefaultIndexBTreeDegree());
+            _tree = BuildTree(OdbConfiguration.GetIndexBTreeDegree());
             _orderByType = orderByType;
-        }
-
-        protected AbstractBTreeCollection() : this(OrderByConstants.OrderByNone)
-        {
         }
 
         #region IInternalObjectSet<TItem> Members
@@ -42,20 +38,7 @@ namespace NDatabase.Odb.Core.Query.List
             _size++;
         }
 
-        /// <summary>
-        ///   Adds the object in the btree with the specific key
-        /// </summary>
-        /// <param name="key"> </param>
-        /// <param name="o"> </param>
-        /// <returns> </returns>
-        public virtual bool AddWithKey(int key, TItem o)
-        {
-            _tree.Insert(key, o);
-            _size++;
-            return true;
-        }
-
-        public virtual IEnumerator<TItem> Iterator(OrderByConstants newOrderByType)
+        protected virtual IEnumerator<TItem> Iterator(OrderByConstants newOrderByType)
         {
             return (IEnumerator<TItem>) _tree.Iterator<TItem>(newOrderByType);
         }

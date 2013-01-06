@@ -7,6 +7,20 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
     /// </summary>
     internal static class StorageEngineConstant
     {
+        internal const int NbIdsPerBlock = 1000;
+
+        internal const int IdBlockRepetitionSize = 18;
+
+        /// <summary>
+        /// Default max number of write object actions per transaction - 10 000
+        /// </summary>
+        internal const int MaxNumberOfWriteObjectPerTransaction = 10000;
+
+        /// <summary>
+        ///   header(34) + 1000 * 18
+        /// </summary>
+        internal const int IdBlockSize = 34 + NbIdsPerBlock * IdBlockRepetitionSize;
+
         internal const long NullObjectIdId = 0;
 
         internal const long DeletedObjectPosition = 0;
@@ -14,8 +28,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         internal const long NullObjectPosition = 0;
 
         internal const long ObjectIsNotInCache = -1;
-
-        internal const long PositionNotInitialized = -1;
 
         internal const long ObjectDoesNotExist = -2;
 
@@ -40,10 +52,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         private const long BlockIdRepetitionIdType = 0;
 
         private const long NativeObjectOffsetBlockSize = 0;
-        internal const byte NoEncryption = 0;
-
-        internal const byte WithEncryption = 1;
-
+        
         /// <summary>
         ///   Used to make an attribute reference a null object - setting its id to zero
         /// </summary>
@@ -130,31 +139,16 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         internal static readonly long ClassOffsetClassNbObjects = ClassOffsetNextClassPosition + OdbType.Long.Size;
 
-        internal static readonly long ClassOffsetFullClassNameSize = ClassOffsetNextClassPosition + OdbType.Long.Size;
-
-        internal static readonly long ObjectOffsetBlockType = ObjectOffsetBlockSize + OdbType.Integer.Size;
+        private static readonly long ObjectOffsetBlockType = ObjectOffsetBlockSize + OdbType.Integer.Size;
 
         private static readonly long ObjectOffsetObjectId = ObjectOffsetBlockType + OdbType.Byte.Size;
 
-        internal static readonly long ObjectOffsetClassInfoId = ObjectOffsetObjectId + OdbType.Long.Size;
+        private static readonly long ObjectOffsetClassInfoId = ObjectOffsetObjectId + OdbType.Long.Size;
 
         internal static readonly long ObjectOffsetPreviousObjectOid = ObjectOffsetClassInfoId + OdbType.Long.Size;
 
         internal static readonly long ObjectOffsetNextObjectOid = ObjectOffsetPreviousObjectOid + OdbType.Long.Size;
 
-        private static readonly long ObjectOffsetCreationDate = ObjectOffsetNextObjectOid + OdbType.Long.Size;
-
-        private static readonly long ObjectOffsetUpdateDate = ObjectOffsetCreationDate + OdbType.Long.Size;
-
-        private static readonly long ObjectOffsetVersion = ObjectOffsetUpdateDate + OdbType.Long.Size;
-
-        private static readonly long ObjectOffsetReferencePointer = ObjectOffsetVersion + OdbType.Integer.Size;
-
-        private static readonly long ObjectOffsetIsExternallySynchronized = ObjectOffsetReferencePointer +
-                                                                           OdbType.Long.Size;
-
-        internal static readonly long ObjectOffsetNbAttributes = ObjectOffsetIsExternallySynchronized +
-                                                               OdbType.Boolean.Size;
 
         /// <summary>
         ///   <pre>ID Block Header :
@@ -183,18 +177,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         internal static readonly long BlockIdRepetitionIdStatus = BlockIdRepetitionId + OdbType.Long.Size;
 
-        internal static readonly long BlockIdRepetitionObjectPosition = BlockIdRepetitionIdStatus + OdbType.Byte.Size;
-
         internal static readonly long NativeObjectOffsetBlockType = NativeObjectOffsetBlockSize +
                                                                   OdbType.Integer.Size;
-
-        private static readonly long NativeObjectOffsetOdbTypeId = NativeObjectOffsetBlockType + OdbType.Byte.Size;
-
-        private static readonly long NativeObjectOffsetObjectIsNull = NativeObjectOffsetOdbTypeId +
-                                                                     OdbType.Integer.Size;
-
-        internal static readonly long NativeObjectOffsetDataArea = NativeObjectOffsetObjectIsNull +
-                                                                 OdbType.Boolean.Size;
 
         // ********************************************************
         // DATABASE HEADER

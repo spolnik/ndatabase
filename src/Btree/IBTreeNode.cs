@@ -43,10 +43,6 @@ namespace NDatabase.Btree
 
         void SetChildAt(IBTreeNode child, int index);
 
-        void SetNullChildAt(int childIndex);
-
-        void MoveChildFromTo(int sourceIndex, int destinationIndex, bool throwExceptionIfDoesNotExist);
-
         void IncrementNbChildren();
 
         /// <summary>
@@ -76,8 +72,6 @@ namespace NDatabase.Btree
         int GetDegree();
 
         int GetNbChildren();
-
-        int GetMaxNbChildren();
 
         void SetParent(IBTreeNode node);
 

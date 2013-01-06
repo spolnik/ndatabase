@@ -41,6 +41,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\NDatabase3.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -104,6 +105,7 @@
     <Compile Include="Odb\Core\Query\Criteria\Evaluations\StartsWithEvaluation.cs" />
     <Compile Include="Odb\Core\Query\Criteria\IInternalConstraint.cs" />
     <Compile Include="Odb\Core\Query\Criteria\QueryConstraint.cs" />
+    <Compile Include="Odb\Core\Query\IInternalValuesQuery.cs" />
     <Compile Include="Odb\Core\Query\Linq\ExpressionQueryBuilder.cs" />
     <Compile Include="Odb\Core\Query\Linq\ExpressionTransformer.cs" />
     <Compile Include="Odb\Core\Query\Linq\ExpressionTreeNormalizer.cs" />
@@ -179,7 +181,6 @@
     <Compile Include="Odb\Core\Layers\Layer3\IO\IOdbFileStream.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IObjectReader.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IObjectWriter.cs" />
-    <Compile Include="Odb\Core\Layers\Layer3\IObjectWriterCallback.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\FileIdentification.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IO\IMultiBuffer.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IRefactorManager.cs" />
@@ -188,7 +189,6 @@
     <Compile Include="Odb\Core\Oid\OIDFactory.cs" />
     <Compile Include="Odb\Core\OrderByConstants.cs" />
     <Compile Include="Odb\Core\Query\AbstractQuery.cs" />
-    <Compile Include="Odb\Core\Query\CompareKey.cs" />
     <Compile Include="Odb\Core\Query\ComposedCompareKey.cs" />
     <Compile Include="Odb\Core\Query\Criteria\AbstractExpression.cs" />
     <Compile Include="Odb\Core\Query\Criteria\And.cs" />
@@ -210,7 +210,6 @@
     <Compile Include="Odb\Core\Query\QueryManager.cs" />
     <Compile Include="Odb\Core\Query\SimpleCompareKey.cs" />
     <Compile Include="Odb\Core\Query\Values\AbstractQueryFieldAction.cs" />
-    <Compile Include="Odb\Core\Query\Values\ICustomQueryFieldAction.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IOdbCache.cs" />
     <Compile Include="Odb\Core\Transaction\ISession.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IReadObjectsCache.cs" />
@@ -222,8 +221,8 @@
     <Compile Include="Odb\Core\Trigger\Trigger.cs" />
     <Compile Include="Odb\Core\Trigger\UpdateTrigger.cs" />
     <Compile Include="Odb\CorruptedDatabaseException.cs" />
-    <Compile Include="Odb\DatabaseId.cs" />
-    <Compile Include="Odb\ExternalOID.cs" />
+    <Compile Include="Odb\IDatabaseId.cs" />
+    <Compile Include="Odb\IExternalOID.cs" />
     <Compile Include="Odb\Core\BTree\LazyODBBTreeIteratorMultiple.cs" />
     <Compile Include="Odb\Core\BTree\LazyODBBTreePersister.cs" />
     <Compile Include="Odb\Core\BTree\ODBBTreeMultiple.cs" />
@@ -253,15 +252,13 @@
     <Compile Include="Odb\Core\Layers\Layer3\Engine\PendingReading.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\StorageEngineConstant.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Oid\IdManager.cs" />
-    <Compile Include="Odb\Core\Layers\Layer3\Oid\FullIDInfo.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Oid\IDStatus.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Refactor\RefactorManager.cs" />
-    <Compile Include="Odb\Core\Oid\DatabaseIdImpl.cs" />
-    <Compile Include="Odb\Core\Oid\ExternalClassOID.cs" />
+    <Compile Include="Odb\Core\Oid\DatabaseId.cs" />
     <Compile Include="Odb\Core\Oid\ExternalObjectOID.cs" />
     <Compile Include="Odb\Core\Oid\ClassOID.cs" />
     <Compile Include="Odb\Core\Oid\ObjectOID.cs" />
-    <Compile Include="Odb\Core\Oid\TransactionIdImpl.cs" />
+    <Compile Include="Odb\Core\Oid\TransactionId.cs" />
     <Compile Include="Odb\Core\Query\Criteria\QueryResultAction.cs" />
     <Compile Include="Odb\Core\Query\Criteria\SodaQuery.cs" />
     <Compile Include="Odb\Core\Query\Criteria\CriteriaQueryExecutionPlan.cs" />
@@ -277,7 +274,6 @@
     <Compile Include="Odb\Core\Query\List\Values\SimpleListForValues.cs" />
     <Compile Include="Odb\Core\Query\Values\AverageValueAction.cs" />
     <Compile Include="Odb\Core\Query\Values\CountAction.cs" />
-    <Compile Include="Odb\Core\Query\Values\CustomQueryFieldAction.cs" />
     <Compile Include="Odb\Core\Query\Values\FieldValueAction.cs" />
     <Compile Include="Odb\Core\Query\Values\GroupByValuesQueryResultAction.cs" />
     <Compile Include="Odb\Core\Query\Values\MaxValueAction.cs" />
@@ -291,7 +287,7 @@
     <Compile Include="Odb\Core\Query\Values\ValuesUtil.cs" />
     <Compile Include="Odb\Core\Trigger\ObjectRepresentation.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\OdbCache.cs" />
-    <Compile Include="Odb\Core\Transaction\Transaction.cs" />
+    <Compile Include="Odb\Core\Transaction\OdbTransaction.cs" />
     <Compile Include="Odb\Core\Transaction\WriteAction.cs" />
     <Compile Include="Odb\Core\Transaction\IdInfo.cs" />
     <Compile Include="Odb\Core\Transaction\LocalSession.cs" />
@@ -299,6 +295,7 @@
     <Compile Include="Odb\Core\Layers\Layer3\ReadObjectsCache.cs" />
     <Compile Include="Odb\Core\Trigger\InternalTriggerManager.cs" />
     <Compile Include="Odb\IInternalObjectSet.cs" />
+    <Compile Include="Odb\IInternalValues.cs" />
     <Compile Include="Odb\ITriggerManager.cs" />
     <Compile Include="Odb\Main\IndexManager.cs" />
     <Compile Include="Odb\Main\Odb.cs" />
@@ -306,19 +303,19 @@
     <Compile Include="Odb\Main\OdbExt.cs" />
     <Compile Include="Odb\Main\ODBForTrigger.cs" />
     <Compile Include="Odb\Tool\UniqueIdGenerator.cs" />
-    <Compile Include="Odb\ObjectRepresentation.cs" />
-    <Compile Include="Odb\Objects.cs" />
-    <Compile Include="Odb\ObjectValues.cs" />
+    <Compile Include="Odb\IObjectRepresentation.cs" />
+    <Compile Include="Odb\IObjectSet.cs" />
+    <Compile Include="Odb\IObjectValues.cs" />
     <Compile Include="Odb\IOdb.cs" />
     <Compile Include="Odb\BaseOID.cs" />
     <Compile Include="Odb\OdbConfiguration.cs" />
-    <Compile Include="Odb\ODBExt.cs" />
+    <Compile Include="Odb\IOdbExt.cs" />
     <Compile Include="Odb\OdbFactory.cs" />
     <Compile Include="Odb\ODBRuntimeException.cs" />
     <Compile Include="Odb\OID.cs" />
-    <Compile Include="Odb\TransactionId.cs" />
+    <Compile Include="Odb\ITransactionId.cs" />
     <Compile Include="Odb\TriggerManager.cs" />
-    <Compile Include="Odb\Values.cs" />
+    <Compile Include="Odb\IValues.cs" />
     <Compile Include="Reflection\ByteBuffer.cs" />
     <Compile Include="Reflection\ILPattern.cs" />
     <Compile Include="Reflection\Instruction.cs" />
@@ -333,6 +330,7 @@
     <Compile Include="Odb\Core\Layers\Layer3\IO\MultiBuffer.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IO\OdbDirectory.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IO\OdbFileStream.cs" />
+    <Compile Include="Tool\ListExtensions.cs" />
     <Compile Include="Tool\Wrappers\List\IOdbList.cs" />
     <Compile Include="Tool\Wrappers\List\OdbList.cs" />
     <Compile Include="Tool\Wrappers\Map\OdbHashMap2.cs" />

@@ -22,11 +22,11 @@ namespace NDatabase.Odb.Core.Query.Values
         private readonly int _returnArraySize;
         private IInternalValues _result;
 
-        public ValuesQueryResultAction(IValuesQuery query, IStorageEngine storageEngine,
+        public ValuesQueryResultAction(IInternalValuesQuery query, IStorageEngine storageEngine,
                                        IInstanceBuilder instanceBuilder)
         {
             _engine = storageEngine;
-            _query = (IInternalValuesQuery) query;
+            _query = query;
             _queryHasOrderBy = query.HasOrderBy();
             _returnArraySize = query.ObjectActionsCount;
             _queryFieldActions = new IQueryFieldAction[_returnArraySize];
@@ -104,7 +104,7 @@ namespace NDatabase.Odb.Core.Query.Values
         private void Compute(AttributeValuesMap values)
         {
             for (var i = 0; i < _returnArraySize; i++)
-                _queryFieldActions[i].Execute(values.GetObjectInfoHeader().GetOid(), values);
+                ((AbstractQueryFieldAction)_queryFieldActions[i]).Execute(values.GetObjectInfoHeader().GetOid(), values);
         }
 
         private IObjectValues ConvertObject(AttributeValuesMap values)
@@ -113,7 +113,7 @@ namespace NDatabase.Odb.Core.Query.Values
             for (var i = 0; i < _returnArraySize; i++)
             {
                 var queryFieldAction = _queryFieldActions[i];
-                queryFieldAction.Execute(values.GetObjectInfoHeader().GetOid(), values);
+                ((AbstractQueryFieldAction)queryFieldAction).Execute(values.GetObjectInfoHeader().GetOid(), values);
 
                 SetValue(i, dov, queryFieldAction);
             }

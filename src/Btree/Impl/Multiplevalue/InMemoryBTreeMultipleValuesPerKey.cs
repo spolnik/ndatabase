@@ -10,15 +10,6 @@ namespace NDatabase.Btree.Impl.Multiplevalue
 
         private int _id;
 
-        public InMemoryBTreeMultipleValuesPerKey()
-        {
-        }
-
-        public InMemoryBTreeMultipleValuesPerKey(int degree, IBTreePersister persister) 
-            : base(degree, persister)
-        {
-        }
-
         public InMemoryBTreeMultipleValuesPerKey(int degree) 
             : base(degree, new InMemoryPersister())
         {

@@ -1,24 +1,19 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
 using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {
-    public interface IClassInfo
-    {
-        Type UnderlyingType { get; }
-        string[] GetAttributeNames();
-        string[] GetAttributeTypes();
-    }
-
     /// <summary>
     ///   A meta representation of a class
     /// </summary>
-    internal sealed class ClassInfo : IClassInfo
+    internal sealed class ClassInfo
     {
         /// <summary>
         ///   Constant used for the classCategory variable to indicate a system class
@@ -30,7 +25,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// </summary>
         public const byte CategoryUserClass = 2;
 
-        private static readonly Dictionary<string, Type> TypeCache = new Dictionary<string, Type>();
+        private static readonly ConcurrentDictionary<string, Type> TypeCache = new ConcurrentDictionary<string, Type>();
         private readonly AttributesCache _attributesCache;
 
         /// <summary>
@@ -80,8 +75,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
             _fullClassName = OdbClassUtil.GetFullName(underlyingType);
 
-            if (!TypeCache.ContainsKey(_fullClassName))
-                TypeCache.Add(_fullClassName, UnderlyingType);
+            TypeCache.GetOrAdd(_fullClassName, UnderlyingType);
         }
 
         public ClassInfo(string fullClassName) : this()
@@ -188,18 +182,16 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         private static Type CheckIfTypeIsInstantiable(string fullClassName)
         {
-            Type type;
-            var success = TypeCache.TryGetValue(fullClassName, out type);
+            return TypeCache.GetOrAdd(fullClassName, GetType);
+        }
 
-            if (success)
-                return type;
-
-            type = Type.GetType(fullClassName);
+        private static Type GetType(string fullClassName)
+        {
+            var type = Type.GetType(fullClassName);
 
             if (type == null)
                 CannotInstantiateType(fullClassName);
 
-            TypeCache.Add(fullClassName, type);
             return type;
         }
 
@@ -215,7 +207,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         private static string ExtractAssemblyName(string fullClassName)
         {
-            var indexOfComma = fullClassName.IndexOf(",");
+            var indexOfComma = fullClassName.IndexOf(",", StringComparison.InvariantCulture);
             return fullClassName.Substring(indexOfComma + 1);
         }
 
@@ -492,30 +484,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return _indexes == null
                        ? null
                        : _indexes.FirstOrDefault(classInfoIndex => classInfoIndex.MatchAttributeIds(attributeIds));
-        }
-
-        public string[] GetAttributeNames()
-        {
-            var names = new string[Attributes.Count];
-
-            for (var i = 0; i < Attributes.Count; i++)
-                names[i] = Attributes[i].GetName();
-
-            return names.Select(name => name.StartsWith("<")
-                                            ? name.Substring(1, name.IndexOf('>') - 1)
-                                            : name).ToArray();
-        }
-
-        public string[] GetAttributeTypes()
-        {
-            var names = new string[Attributes.Count];
-
-            for (var i = 0; i < Attributes.Count; i++)
-                names[i] = Attributes[i].GetFullClassname();
-
-            return names.Select(name => name.StartsWith("<")
-                                            ? name.Substring(1, name.IndexOf('>') - 1)
-                                            : name).ToArray();
         }
 
         public string[] GetAttributeNames(int[] attributeIds)

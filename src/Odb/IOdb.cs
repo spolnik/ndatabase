@@ -6,20 +6,21 @@ using NDatabase.Odb.Core.Query.Linq;
 namespace NDatabase.Odb
 {
     /// <summary>
-    /// database engine interface.
-    /// 
-    /// The <code>ObjectContainer</code> interface provides all methods
-    /// to store, retrieve and delete objects and to change object state.
+    /// Database engine interface. 
     /// </summary>
+    /// <remarks>
+    /// The interface provides all methods
+    /// to store, retrieve and delete objects and to change object state.
+    /// </remarks>
     public interface IOdb : IDisposable
     {
         /// <summary>
-        ///   Commit all the change of the database @
+        /// Commits all changes of the database.
         /// </summary>
         void Commit();
 
         /// <summary>
-        ///   Undo all uncommitted changes
+        /// Rollbacks all uncommited changes of the database.
         /// </summary>
         void Rollback();
 
@@ -27,108 +28,146 @@ namespace NDatabase.Odb
         ///   Closes the database.
         /// </summary>
         /// <remarks>
-        ///   Closes the database. Automatically commit uncommitted changes
+        ///   Automatically commit uncommitted changes of the database.
         /// </remarks>
         void Close();
 
         /// <summary>
-        ///   Store a plain Object in the ODB Database
+        /// Stores the specified plain object.
         /// </summary>
-        /// <param name="plainObject"> A plain Object </param>
+        /// <typeparam name="T">Plain object type.</typeparam>
+        /// <param name="plainObject">The plain object.</param>
+        /// <returns>Object ID of stored plain object.</returns>
         OID Store<T>(T plainObject) where T : class;
 
         /// <summary>
-        ///   Search for objects that matches the query.
+        /// Gets the values that matches the values query.
         /// </summary>
-        /// <returns> The list of values </returns>
+        /// <param name="query">The values query.</param>
+        /// <returns>The list of values that matches the values query.</returns>
         IValues GetValues(IValuesQuery query);
 
         /// <summary>
-        ///   Delete an object from database
+        /// Deletes the specified plain object.
         /// </summary>
+        /// <typeparam name="T">Plain object type.</typeparam>
+        /// <param name="plainObject">The plain object.</param>
+        /// <returns>Object ID of deleted plain object.</returns>
         OID Delete<T>(T plainObject) where T : class;
 
         /// <summary>
-        ///   Delete an object from the database with the id
+        /// Deletes the object with Object ID.
         /// </summary>
-        /// <param name="oid"> The object id to be deleted </param>
+        /// <param name="oid">The oid of the object to be deleted.</param>
         void DeleteObjectWithId(OID oid);
 
         /// <summary>
-        ///   Get the id of an ODB-aware object
+        /// Gets the object id of an database-aware object.
         /// </summary>
-        /// <param name="plainObject"> </param>
-        /// <returns> The ODB internal object id </returns>
+        /// <typeparam name="T">Plain object type.</typeparam>
+        /// <param name="plainObject">The plain object.</param>
+        /// <returns>The database internal Object ID.</returns>
         OID GetObjectId<T>(T plainObject) where T : class;
 
         /// <summary>
-        ///   Get the object with a specific id
+        /// Gets the object from Object ID.
         /// </summary>
-        /// <param name="id">Object ID</param>
-        /// <returns> The object with the specific id @ </returns>
+        /// <param name="id">The Object ID.</param>
+        /// <returns>The object with the specified Object ID.</returns>
         object GetObjectFromId(OID id);
 
         /// <summary>
-        ///   Defragment ODB Database
+        /// Defragments database to specified location.
         /// </summary>
+        /// <param name="newFileName">New name of the file.</param>
         void DefragmentTo(string newFileName);
 
         /// <summary>
-        ///   Get an abstract representation of a class
+        /// Get the indexes manager for specified object type.
         /// </summary>
-        /// <returns> a public meta-representation of a class </returns>
+        /// <typeparam name="T">Plain object type.</typeparam>
+        /// <returns>Index manager.</returns>
         IIndexManager IndexManagerFor<T>() where T : class;
 
+        /// <summary>
+        /// Get the triggers manager for specified object type.
+        /// </summary>
+        /// <typeparam name="T">Plain object type.</typeparam>
+        /// <returns>Trigger manager.</returns>
         ITriggerManager TriggerManagerFor<T>() where T : class;
 
         /// <summary>
-        ///   Returns the object used to refactor the database
+        /// Gets the refactor manager.
         /// </summary>
+        /// <remarks>
+        /// Refactor manager allows on updating database schema, when classes definition were changed.
+        /// </remarks>
+        /// <returns>Refactor manager.</returns>
         IRefactorManager GetRefactorManager();
 
         /// <summary>
-        ///   Get the extension of ODB to get access to advanced functions
+        /// Get the extension of database interface to get the access to advanced functions
         /// </summary>
+        /// <returns>Extended interface to database.</returns>
         IOdbExt Ext();
 
         /// <summary>
-        ///   Used to disconnect the object from the current session.
+        /// Disconnects the specified plain object from the current session.
         /// </summary>
         /// <remarks>
-        ///   Used to disconnect the object from the current session. The object is removed from the cache
+        /// The object is removed from the cache.
         /// </remarks>
+        /// <typeparam name="T">Plain object type.</typeparam>
+        /// <param name="plainObject">The plain object.</param>
         void Disconnect<T>(T plainObject) where T : class;
 
+        /// <summary>
+        /// Determines whether the database is closed.
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if the database is closed; otherwise, <c>false</c>.
+        /// </returns>
         bool IsClosed();
 
         /// <summary>
+        /// Queries the database for instances of specified type and execute the query.
+        /// </summary>
+        /// <remarks>
         /// Shortcut for <code>Query&lt;T&gt;().Execute&lt;T&gt;()</code>
-        /// </summary>
-        /// <typeparam name="T">Type of queried objects</typeparam>
-        /// <returns>Object set of all stored instances of T class</returns>
+        /// </remarks>
+        /// <typeparam name="T">Plain object type.</typeparam>
+        /// <returns>List of stored objects that matches the query.</returns>
         IObjectSet<T> QueryAndExecute<T>();
-            
+
         /// <summary>
-        /// factory method to create a new <code>Query</code> object to query this ObjectContainer.
+        /// Factory method to create a new instance of the query.
         /// </summary>
-        /// <returns>A new Query object</returns>
+        /// <typeparam name="T">Plain object type.</typeparam>
+        /// <returns>New instance of query for the specified object type.</returns>
         IQuery Query<T>();
 
         /// <summary>
-        /// factory method to create a new <code>ValuesQuery</code> object to query this ObjectContainer.
+        /// Factory method to create a new instance of the values query.
         /// </summary>
-        /// <returns>A new Query object</returns>
+        /// <typeparam name="T">Plain object type.</typeparam>
+        /// <returns>New instance of values query for the specified object type.</returns>
         IValuesQuery ValuesQuery<T>() where T : class;
 
         /// <summary>
-        /// factory method to create a new <code>ValuesQuery</code> object to query this ObjectContainer.
+        /// Factory method to create a new instance of the values query for specified oid.
         /// </summary>
-        /// <returns>A new Query object</returns>
+        /// <typeparam name="T">Plain object type.</typeparam>
+        /// <param name="oid">The oid of the stored plain object.</param>
+        /// <returns>New instance of values query for the specified object with a given oid.</returns>
         IValuesQuery ValuesQuery<T>(OID oid) where T : class;
 
         /// <summary>
-        /// Linq to NDatabase
+        /// As the queryable.
         /// </summary>
+        /// <remarks>
+        /// Interface for LINQ to NDatabase
+        /// </remarks>
+        /// <typeparam name="T">Plain object type.</typeparam>
         /// <returns>Queryable collection</returns>
         ILinqQueryable<T> AsQueryable<T>();
     }

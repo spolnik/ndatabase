@@ -38,11 +38,6 @@ namespace NDatabase.Odb.Core.Query.Criteria
             }
         }
 
-        public bool IsEmpty()
-        {
-            return Constraints.IsEmpty();
-        }
-
         public override AttributeValuesMap GetValues()
         {
             var map = new AttributeValuesMap();

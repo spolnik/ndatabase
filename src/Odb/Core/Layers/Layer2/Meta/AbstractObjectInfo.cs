@@ -10,12 +10,12 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// <summary>
         ///   The Type of the object
         /// </summary>
-        protected OdbType OdbType;
+        private readonly OdbType _odbType;
 
         /// <summary>
         ///   The Type Id of the object
         /// </summary>
-        protected int OdbTypeId;
+        protected readonly int OdbTypeId;
 
         /// <summary>
         ///   The position of the object
@@ -25,6 +25,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         protected AbstractObjectInfo(int typeId)
         {
             OdbTypeId = typeId;
+            _odbType = OdbType.GetFromId(OdbTypeId);
         }
 
         protected AbstractObjectInfo(OdbType type)
@@ -32,7 +33,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             if (type != null)
                 OdbTypeId = type.Id;
 
-            OdbType = type;
+            _odbType = type;
         }
 
         public virtual bool IsNative()
@@ -54,11 +55,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return OdbTypeId;
         }
 
-        public void SetOdbTypeId(int odbTypeId)
-        {
-            OdbTypeId = odbTypeId;
-        }
-
         public virtual long GetPosition()
         {
             return Position;
@@ -71,12 +67,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public OdbType GetOdbType()
         {
-            return OdbType ?? (OdbType = OdbType.GetFromId(OdbTypeId));
-        }
-
-        public void SetOdbType(OdbType odbType)
-        {
-            OdbType = odbType;
+            return _odbType;
         }
 
         public virtual bool IsNonNativeObject()

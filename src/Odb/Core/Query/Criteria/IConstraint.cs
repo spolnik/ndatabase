@@ -97,13 +97,46 @@ namespace NDatabase.Odb.Core.Query.Criteria
         /// <returns>this IConstraint to allow the chaining of method calls.</returns>
         IConstraint Not();
 
+        /// <summary>
+        /// Sets the evaluation mode to "like" comparison. (Invariant mode)
+        /// </summary>
+        /// <returns>this IConstraint to allow the chaining of method calls.</returns>
         IConstraint InvariantLike();
 
+        /// <summary>
+        /// Check if size of the collection is less or equal
+        /// </summary>
+        /// <returns>this IConstraint to allow the chaining of method calls.</returns>
         IConstraint SizeLe();
+
+        /// <summary>
+        /// Check if size of the collection is equal
+        /// </summary>
+        /// <returns>this IConstraint to allow the chaining of method calls.</returns>
         IConstraint SizeEq();
+
+        /// <summary>
+        /// Check if size of the collection is not equal
+        /// </summary>
+        /// <returns>this IConstraint to allow the chaining of method calls.</returns>
         IConstraint SizeNe();
+
+        /// <summary>
+        /// Check if size of the collection is greater than
+        /// </summary>
+        /// <returns>this IConstraint to allow the chaining of method calls.</returns>
         IConstraint SizeGt();
+
+        /// <summary>
+        /// Check if size of the collection is greater or equal
+        /// </summary>
+        /// <returns>this IConstraint to allow the chaining of method calls.</returns>
         IConstraint SizeGe();
+
+        /// <summary>
+        /// Check if size of the collection is less than
+        /// </summary>
+        /// <returns>this IConstraint to allow the chaining of method calls.</returns>
         IConstraint SizeLt();
 
 
@@ -114,7 +147,18 @@ namespace NDatabase.Odb.Core.Query.Criteria
         /// <returns>The constraining object.</returns>
         object GetObject();
 
+        /// <summary>
+        /// Sets evaluation to string ends with
+        /// </summary>
+        /// <param name="isCaseSensitive">Is case sensitive comparison</param>
+        /// <returns>this IConstraint to allow the chaining of method calls.</returns>
         IConstraint EndsWith(bool isCaseSensitive);
+
+        /// <summary>
+        /// Sets evaluation to string starts with
+        /// </summary>
+        /// <param name="isCaseSensitive">Is case sensitive comparison</param>
+        /// <returns>this IConstraint to allow the chaining of method calls.</returns>
         IConstraint StartsWith(bool isCaseSensitive);
     }
 }

@@ -11,11 +11,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         private readonly NonNativeObjectInfo _nnoi;
 
-        public ObjectReference(OID id) : base(OdbType.NonNativeId)
-        {
-            _id = id;
-        }
-
         public ObjectReference(NonNativeObjectInfo nnoi) : base(OdbType.NonNativeId)
         {
             _id = null;

@@ -5,30 +5,20 @@ namespace NDatabase.Reflection
     internal sealed class MatchContext
     {
         private readonly Dictionary<object, object> _data = new Dictionary<object, object>();
-        private Instruction _instruction;
-        private bool _success;
 
         internal MatchContext(Instruction instruction)
         {
             Reset(instruction);
         }
 
-        public bool IsMatch
-        {
-            get { return _success; }
-            set { _success = true; }
-        }
+        public bool IsMatch { get; private set; }
 
-        public Instruction Instruction
-        {
-            get { return _instruction; }
-            set { _instruction = value; }
-        }
+        public Instruction Instruction { get; private set; }
 
         public bool Success
         {
-            get { return _success; }
-            set { _success = value; }
+            get { return IsMatch; }
+            set { IsMatch = value; }
         }
 
         public void AddData(object key, object value)
@@ -38,13 +28,13 @@ namespace NDatabase.Reflection
 
         internal void Advance()
         {
-            _instruction = _instruction.Next;
+            Instruction = Instruction.Next;
         }
 
         internal void Reset(Instruction instruction)
         {
-            _instruction = instruction;
-            _success = true;
+            Instruction = instruction;
+            IsMatch = true;
         }
 
         public bool TryGetData(object key, out object value)

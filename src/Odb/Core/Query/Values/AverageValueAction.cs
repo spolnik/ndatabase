@@ -14,12 +14,14 @@ namespace NDatabase.Odb.Core.Query.Values
         private int _nbValues;
         private Decimal _totalValue;
 
+        private const int ScaleForAverageDivision = 2;
+
         public AverageValueAction(string attributeName, string alias) : base(attributeName, alias, false)
         {
             _totalValue = new Decimal(0);
             _nbValues = 0;
             AttributeName = attributeName;
-            _scale = OdbConfiguration.GetScaleForAverageDivision();
+            _scale = ScaleForAverageDivision;
         }
 
         public override void Execute(OID oid, AttributeValuesMap values)

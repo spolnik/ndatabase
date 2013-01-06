@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Query.Execution;
+using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Query.Criteria
@@ -11,14 +12,11 @@ namespace NDatabase.Odb.Core.Query.Criteria
     /// </summary>
     internal sealed class CriteriaQueryExecutionPlan : IQueryExecutionPlan
     {
-        [NonPersistent]
-        private readonly ClassInfo _classInfo;
+        [NonPersistent] private readonly ClassInfo _classInfo;
 
-        [NonPersistent]
-        private readonly SodaQuery _query;
+        [NonPersistent] private readonly SodaQuery _query;
 
-        [NonPersistent]
-        private ClassInfoIndex _classInfoIndex;
+        [NonPersistent] private ClassInfoIndex _classInfoIndex;
 
         /// <summary>
         ///   To keep the execution detail
@@ -37,15 +35,11 @@ namespace NDatabase.Odb.Core.Query.Criteria
 
         private bool _useIndex;
 
-        public CriteriaQueryExecutionPlan()
-        {
-        }
-
         public CriteriaQueryExecutionPlan(ClassInfo classInfo, SodaQuery query)
         {
             _classInfo = classInfo;
             _query = query;
-            ((IInternalQuery)_query).SetExecutionPlan(this);
+            ((IInternalQuery) _query).SetExecutionPlan(this);
             Init();
         }
 
@@ -77,11 +71,6 @@ namespace NDatabase.Odb.Core.Query.Criteria
             _end = OdbTime.GetCurrentTimeInMs();
         }
 
-        public long GetDuration()
-        {
-            return (_end - _start);
-        }
-
         public void Start()
         {
             _start = OdbTime.GetCurrentTimeInMs();
@@ -89,13 +78,19 @@ namespace NDatabase.Odb.Core.Query.Criteria
 
         #endregion
 
+        private long GetDuration()
+        {
+            return (_end - _start);
+        }
+
         private void Init()
         {
             _start = 0;
             _end = 0;
 
             // for instance, only manage index for one field query using 'equal'
-            if (_classInfo.HasIndex() && _query.HasCriteria() && ((IInternalConstraint)_query.GetCriteria()).CanUseIndex())
+            if (_classInfo.HasIndex() && _query.HasCriteria() &&
+                ((IInternalConstraint) _query.GetCriteria()).CanUseIndex())
             {
                 var fields = _query.GetAllInvolvedFields();
                 if (fields.IsEmpty())

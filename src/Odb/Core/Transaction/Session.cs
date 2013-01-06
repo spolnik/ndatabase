@@ -13,23 +13,15 @@ namespace NDatabase.Odb.Core.Transaction
     /// </remarks>
     internal abstract class Session : ISession
     {
-        public override int GetHashCode()
-        {
-            return (_id != null
-                        ? _id.GetHashCode()
-                        : 0);
-        }
-
+        private readonly string _baseIdentification;
         private readonly IOdbCache _cache;
+
+        private readonly string _id;
 
         /// <summary>
         ///   A temporary cache used for object info read
         /// </summary>
         private readonly IReadObjectsCache _readObjectsCache;
-
-        private readonly string _baseIdentification;
-
-        private readonly string _id;
 
         private MetaModel _metaModel;
         private bool _rollbacked;
@@ -42,9 +34,9 @@ namespace NDatabase.Odb.Core.Transaction
             _baseIdentification = baseIdentification;
         }
 
-        #region IComparable Members
+        #region ISession Members
 
-        public virtual int CompareTo(object o)
+        public int CompareTo(object o)
         {
             if (o == null || !(o is Session))
                 return -100;
@@ -53,16 +45,12 @@ namespace NDatabase.Odb.Core.Transaction
             return String.Compare(GetId(), session.GetId(), StringComparison.Ordinal);
         }
 
-        #endregion
-
-        #region ISession Members
-
-        public virtual IOdbCache GetCache()
+        public IOdbCache GetCache()
         {
             return _cache;
         }
 
-        public virtual IReadObjectsCache GetTmpCache()
+        public IReadObjectsCache GetTmpCache()
         {
             return _readObjectsCache;
         }
@@ -73,29 +61,17 @@ namespace NDatabase.Odb.Core.Transaction
             _rollbacked = true;
         }
 
-        public virtual void Close()
+        public void Close()
         {
             Clear();
         }
 
-        public virtual void ClearCache()
-        {
-            _cache.Clear(false);
-        }
-
-        public virtual bool IsRollbacked()
+        public bool IsRollbacked()
         {
             return _rollbacked;
         }
 
-        public virtual void Clear()
-        {
-            _cache.Clear(true);
-            if (_metaModel != null)
-                _metaModel.Clear();
-        }
-
-        public virtual string GetId()
+        public string GetId()
         {
             return _id;
         }
@@ -109,11 +85,6 @@ namespace NDatabase.Odb.Core.Transaction
         public abstract ITransaction GetTransaction();
 
         public abstract void SetFileSystemInterfaceToApplyTransaction(IFileSystemInterface fsi);
-
-        public virtual string GetBaseIdentification()
-        {
-            return _baseIdentification;
-        }
 
         public MetaModel GetMetaModel()
         {
@@ -138,31 +109,36 @@ namespace NDatabase.Odb.Core.Transaction
             return _metaModel;
         }
 
-        public virtual void SetMetaModel(MetaModel metaModel2)
+        public void SetMetaModel(MetaModel metaModel2)
         {
             _metaModel = metaModel2;
         }
 
-        public virtual void RemoveObjectFromCache(object @object)
+        public void RemoveObjectFromCache(object @object)
         {
             _cache.RemoveObject(@object);
         }
 
-        public virtual void AddObjectToCache(OID oid, object @object, ObjectInfoHeader oih)
+        #endregion
+
+        private void ClearCache()
         {
-            if (@object == null)
-                throw new OdbRuntimeException(NDatabaseError.CacheNullObject.AddParameter("@object"));
-
-            if (oid == null)
-                throw new OdbRuntimeException(NDatabaseError.CacheNullOid.AddParameter("oid"));
-
-            if (oih == null)
-                throw new OdbRuntimeException(NDatabaseError.CacheNullObject.AddParameter("oih"));
-
-            _cache.AddObject(oid, @object, oih);
+            _cache.Clear(false);
         }
 
-        #endregion
+        public override int GetHashCode()
+        {
+            return (_id != null
+                        ? _id.GetHashCode()
+                        : 0);
+        }
+
+        protected virtual void Clear()
+        {
+            _cache.Clear(true);
+            if (_metaModel != null)
+                _metaModel.Clear();
+        }
 
         public override string ToString()
         {

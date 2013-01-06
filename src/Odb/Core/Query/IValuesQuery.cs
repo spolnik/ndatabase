@@ -1,94 +1,175 @@
-using System;
 using System.Collections.Generic;
-using NDatabase.Odb.Core.Query.Execution;
-using NDatabase.Odb.Core.Query.Values;
-using NDatabase.Tool.Wrappers.List;
 
 namespace NDatabase.Odb.Core.Query
 {
-    internal interface IInternalValuesQuery : IValuesQuery
-    {
-        IOdbList<string> GetAllInvolvedFields();
-        IEnumerable<IQueryFieldAction> GetObjectActions();
-    }
-
+    /// <summary>
+    /// Extending query with additional query metrics.
+    /// </summary>
     public interface IValuesQuery : IQuery
     {
+        /// <summary>
+        /// Counts the objects that matches the specified values query.
+        /// </summary>
+        /// <param name="alias">The alias for query value.</param>
+        /// <returns>Values query with alias item set to count value.</returns>
         IValuesQuery Count(string alias);
 
+        /// <summary>
+        /// Sums the specified field name.
+        /// </summary>
+        /// <param name="fieldName">Name of the field.</param>
+        /// <returns>Values query with sum value.</returns>
         IValuesQuery Sum(string fieldName);
 
+        /// <summary>
+        /// Sums the specified field name.
+        /// </summary>
+        /// <param name="fieldName">Name of the field.</param>
+        /// <param name="alias">The alias for query value.</param>
+        /// <returns>Values query with alias item set to sum value.</returns>
         IValuesQuery Sum(string fieldName, string alias);
 
+        /// <summary>
+        /// Averages the specified field name.
+        /// </summary>
+        /// <param name="fieldName">Name of the field.</param>
+        /// <param name="alias">The alias for query value.</param>
+        /// <returns>Values query with alias item set to avg value.</returns>
         IValuesQuery Avg(string fieldName, string alias);
 
+        /// <summary>
+        /// Avgs the specified field name.
+        /// </summary>
+        /// <param name="fieldName">Name of the field.</param>
+        /// <returns>Values query with avg value.</returns>
         IValuesQuery Avg(string fieldName);
 
+        /// <summary>
+        /// Max for the specified field name.
+        /// </summary>
+        /// <param name="fieldName">Name of the field.</param>
+        /// <param name="alias">The alias for query value.</param>
+        /// <returns>Values query with alias item set to max value.</returns>
         IValuesQuery Max(string fieldName, string alias);
 
+        /// <summary>
+        /// Max for the specified field name.
+        /// </summary>
+        /// <param name="fieldName">Name of the field.</param>
+        /// <returns>Values query max value.</returns>
         IValuesQuery Max(string fieldName);
 
+        /// <summary>
+        /// Field value for the specified field name.
+        /// </summary>
+        /// <param name="fieldName">Name of the field.</param>
+        /// <returns>Values query with field value.</returns>
         IValuesQuery Field(string fieldName);
 
+        /// <summary>
+        /// Field value for the specified field name.
+        /// </summary>
+        /// <param name="fieldName">Name of the field.</param>
+        /// <param name="alias">The alias for query value.</param>
+        /// <returns>Values query with alias item set to field value.</returns>
         IValuesQuery Field(string fieldName, string alias);
 
+        /// <summary>
+        /// Sublists the specified attribute name (collection or string).
+        /// </summary>
+        /// <param name="attributeName">Name of the attribute (collection or string).</param>
+        /// <param name="alias">The alias for query value.</param>
+        /// <param name="fromIndex">Start index.</param>
+        /// <param name="size">The size.</param>
+        /// <param name="throwException">if set to <c>true</c> [throws exception].</param>
+        /// <returns>Values query with alias item set to sublist value.</returns>
         IValuesQuery Sublist(string attributeName, string alias, int fromIndex, int size, bool throwException);
 
+        /// <summary>
+        /// Sublists the specified attribute name (collection or string).
+        /// </summary>
+        /// <param name="attributeName">Name of the attribute (collection or string).</param>
+        /// <param name="fromIndex">Start index.</param>
+        /// <param name="size">The size.</param>
+        /// <param name="throwException">if set to <c>true</c> [throws exception].</param>
+        /// <returns>Values query with sublist value.</returns>
         IValuesQuery Sublist(string attributeName, int fromIndex, int size, bool throwException);
 
+        /// <summary>
+        /// Sublists the specified attribute name (collection or string).
+        /// </summary>
+        /// <param name="attributeName">Name of the attribute (collection or string).</param>
+        /// <param name="alias">The alias for query value.</param>
+        /// <param name="fromIndex">Start index.</param>
+        /// <param name="toIndex">End index.</param>
+        /// <returns>Values query with alias item set to sublist value.</returns>
         IValuesQuery Sublist(string attributeName, string alias, int fromIndex, int toIndex);
 
+        /// <summary>
+        /// Sublists the specified attribute name (collection or string).
+        /// </summary>
+        /// <param name="attributeName">Name of the attribute (collection or string).</param>
+        /// <param name="fromIndex">Start index.</param>
+        /// <param name="toIndex">End index.</param>
+        /// <returns>Values query with sublist value.</returns>
         IValuesQuery Sublist(string attributeName, int fromIndex, int toIndex);
 
+        /// <summary>
+        /// Size of the specified attribute name (collection).
+        /// </summary>
+        /// <param name="attributeName">Name of the attribute (collection).</param>
+        /// <returns>Values query with size value.</returns>
         IValuesQuery Size(string attributeName);
 
+        /// <summary>
+        /// Size of the specified attribute name (collection).
+        /// </summary>
+        /// <param name="attributeName">Name of the attribute (collection).</param>
+        /// <param name="alias">The alias for query value.</param>
+        /// <returns>Values query with alias item set to size value.</returns>
         IValuesQuery Size(string attributeName, string alias);
 
+        /// <summary>
+        /// Groups by the specified field list.
+        /// </summary>
+        /// <param name="fieldList">The fields list.</param>
+        /// <returns>Values query with specified group by.</returns>
         IValuesQuery GroupBy(string fieldList);
 
-        string[] GetGroupByFieldList();
-
-        bool HasGroupBy();
-
         /// <summary>
-        ///   To indicate if a query will return one row (for example, sum, average, max and min, or will return more than one row
+        /// Enables or disables the return instance option.
         /// </summary>
-        bool IsMultiRow();
-
-        /// <returns> </returns>
-        bool ReturnInstance();
-
-        /// <summary>
-        ///   To indicate if query execution must build instances or return object representation, Default value is true(return instance)
-        /// </summary>
+        /// <remarks>
+        /// To indicate if query execution must build instances or return object representation, Default value is true(return instance)
+        /// </remarks>
+        /// <param name="returnInstance">if set to <c>true</c> [return instance].</param>
         void SetReturnInstance(bool returnInstance);
 
-        int ObjectActionsCount { get; }
-        Type UnderlyingType { get; }
-        IValuesQuery Min(string attributeName);
-        IValuesQuery Min(string attributeName, string alias);
-        IValuesQuery Custom(string attributeName, ICustomQueryFieldAction action);
-        IValuesQuery Custom(string attributeName, string alias, ICustomQueryFieldAction action);
+        /// <summary>
+        /// Min for the specified field name.
+        /// </summary>
+        /// <param name="fieldName">Name of the field.</param>
+        /// <returns>Values query with min value.</returns>
+        IValuesQuery Min(string fieldName);
 
         /// <summary>
-        ///   Returns true if the query has an order by clause
+        /// Min for the specified field name.
         /// </summary>
-        /// <returns> true if has an order by flag </returns>
-        bool HasOrderBy();
+        /// <param name="fieldName">Name of the field.</param>
+        /// <param name="alias">The alias for query value.</param>
+        /// <returns>Values query with alias item set to min value.</returns>
+        IValuesQuery Min(string fieldName, string alias);
 
         /// <summary>
-        ///   Returns the field names of the order by
+        /// Gets the order by field names.
         /// </summary>
-        /// <returns> The array of fields of the order by </returns>
+        /// <returns>The list of fields of the order by.</returns>
         IList<string> GetOrderByFieldNames();
 
-        /// <returns> the type of the order by - ORDER_BY_NONE,ORDER_BY_DESC,ORDER_BY_ASC </returns>
-        OrderByConstants GetOrderByType();
-
         /// <summary>
-        ///   used with isForSingleOid == true, to indicate we are working on a single object with a specific oid
+        /// Gets the type of the order by.
         /// </summary>
-        /// <returns> </returns>
-        OID GetOidOfObjectToQuery();
+        /// <returns>The type of the order by - NONE, DESC or ASC</returns>
+        OrderByConstants GetOrderByType();
     }
 }

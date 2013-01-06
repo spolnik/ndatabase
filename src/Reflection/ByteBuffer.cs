@@ -4,44 +4,33 @@ namespace NDatabase.Reflection
 {
     internal class ByteBuffer
     {
-        private byte[] _buffer;
-        private int _position;
-
         public ByteBuffer(byte[] buffer)
         {
-            _buffer = buffer;
+            Buffer = buffer;
         }
 
-        public byte[] Buffer
-        {
-            get { return _buffer; }
-            set { _buffer = value; }
-        }
+        public byte[] Buffer { get; private set; }
 
-        public int Position
-        {
-            get { return _position; }
-            set { _position = value; }
-        }
+        public int Position { get; private set; }
 
         private void CheckCanRead(int count)
         {
-            if ((_position + count) > _buffer.Length)
+            if ((Position + count) > Buffer.Length)
                 throw new ArgumentOutOfRangeException();
         }
 
         public byte ReadByte()
         {
             CheckCanRead(1);
-            return _buffer[_position++];
+            return Buffer[Position++];
         }
 
-        public byte[] ReadBytes(int length)
+        private byte[] ReadBytes(int length)
         {
             CheckCanRead(length);
             var dst = new byte[length];
-            System.Buffer.BlockCopy(_buffer, _position, dst, 0, length);
-            _position += length;
+            System.Buffer.BlockCopy(Buffer, Position, dst, 0, length);
+            Position += length;
             return dst;
         }
 
@@ -54,25 +43,25 @@ namespace NDatabase.Reflection
                 return BitConverter.ToDouble(array, 0);
             }
             CheckCanRead(8);
-            var num = BitConverter.ToDouble(_buffer, _position);
-            _position += 8;
+            var num = BitConverter.ToDouble(Buffer, Position);
+            Position += 8;
             return num;
         }
 
         public short ReadInt16()
         {
             CheckCanRead(2);
-            var num = (short) (_buffer[_position] | (_buffer[_position + 1] << 8));
-            _position += 2;
+            var num = (short) (Buffer[Position] | (Buffer[Position + 1] << 8));
+            Position += 2;
             return num;
         }
 
         public int ReadInt32()
         {
             CheckCanRead(4);
-            var num = ((_buffer[_position] | (_buffer[_position + 1] << 8)) | (_buffer[_position + 2] << 0x10)) |
-                      (_buffer[_position + 3] << 0x18);
-            _position += 4;
+            var num = ((Buffer[Position] | (Buffer[Position + 1] << 8)) | (Buffer[Position + 2] << 0x10)) |
+                      (Buffer[Position + 3] << 0x18);
+            Position += 4;
             return num;
         }
 
@@ -81,14 +70,14 @@ namespace NDatabase.Reflection
             CheckCanRead(8);
             var num =
                 (uint)
-                (((_buffer[_position] | (_buffer[_position + 1] << 8)) | (_buffer[_position + 2] << 0x10)) |
-                 (_buffer[_position + 3] << 0x18));
+                (((Buffer[Position] | (Buffer[Position + 1] << 8)) | (Buffer[Position + 2] << 0x10)) |
+                 (Buffer[Position + 3] << 0x18));
             var num2 =
                 (uint)
-                (((_buffer[_position + 4] | (_buffer[_position + 5] << 8)) | (_buffer[_position + 6] << 0x10)) |
-                 (_buffer[_position + 7] << 0x18));
+                (((Buffer[Position + 4] | (Buffer[Position + 5] << 8)) | (Buffer[Position + 6] << 0x10)) |
+                 (Buffer[Position + 7] << 0x18));
             long num3 = (num2 << 0x20) | num;
-            _position += 8;
+            Position += 8;
             return num3;
         }
 
@@ -101,8 +90,8 @@ namespace NDatabase.Reflection
                 return BitConverter.ToSingle(array, 0);
             }
             CheckCanRead(4);
-            var num = BitConverter.ToSingle(_buffer, _position);
-            _position += 4;
+            var num = BitConverter.ToSingle(Buffer, Position);
+            Position += 4;
             return num;
         }
     }

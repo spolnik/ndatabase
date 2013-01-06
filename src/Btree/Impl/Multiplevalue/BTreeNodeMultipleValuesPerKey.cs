@@ -7,17 +7,13 @@ namespace NDatabase.Btree.Impl.Multiplevalue
 {
     internal abstract class BTreeNodeMultipleValuesPerKey : AbstractBTreeNode, IBTreeNodeMultipleValuesPerKey
     {
-        protected BTreeNodeMultipleValuesPerKey()
-        {
-        }
-
         protected BTreeNodeMultipleValuesPerKey(IBTree btree) : base(btree)
         {
         }
 
         #region IBTreeNodeMultipleValuesPerKey Members
 
-        public virtual IList GetValueAt(int index)
+        protected IList GetValueAt(int index)
         {
             return (IList) Values[index];
         }
@@ -132,7 +128,7 @@ namespace NDatabase.Btree.Impl.Multiplevalue
 
         public abstract override void SetId(object arg1);
 
-        public abstract override void SetNullChildAt(int arg1);
+        protected abstract override void SetNullChildAt(int arg1);
 
         #endregion
 

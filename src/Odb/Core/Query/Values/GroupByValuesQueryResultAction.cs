@@ -22,14 +22,14 @@ namespace NDatabase.Odb.Core.Query.Values
         /// </summary>
         private readonly IInstanceBuilder _instanceBuilder;
 
-        private readonly IValuesQuery _query;
+        private readonly IInternalValuesQuery _query;
 
         private readonly bool _queryHasOrderBy;
 
         private readonly int _returnArraySize;
         private IInternalValues _result;
 
-        public GroupByValuesQueryResultAction(IValuesQuery query, IInstanceBuilder instanceBuilder)
+        public GroupByValuesQueryResultAction(IInternalValuesQuery query, IInstanceBuilder instanceBuilder)
         {
             _query = query;
             _queryHasOrderBy = query.HasOrderBy();

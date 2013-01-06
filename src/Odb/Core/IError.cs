@@ -1,6 +1,6 @@
 namespace NDatabase.Odb.Core
 {
-    public interface IError
+    internal interface IError
     {
         IError AddParameter<T>(T o) where T : class;
 

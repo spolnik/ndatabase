@@ -26,16 +26,6 @@ namespace NDatabase.Tool.Wrappers.List
                 Remove(item);
         }
 
-        public virtual TItem Get(int index)
-        {
-            return base[index];
-        }
-
-        public bool IsEmpty()
-        {
-            return Count == 0;
-        }
-
         #endregion
 
         public override string ToString()

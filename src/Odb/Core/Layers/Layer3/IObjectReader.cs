@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer3.Oid;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.Execution;
 using NDatabase.Tool.Wrappers.List;
@@ -22,8 +21,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         /// <param name="full"> To indicate if a full read must be done </param>
         /// <returns> The modified metamodel </returns>
         void LoadMetaModel(MetaModel metaModel, bool full);
-
-        IOdbList<ClassInfoIndex> ReadClassInfoIndexesAt(long position, ClassInfo classInfo);
 
         NonNativeObjectInfo ReadNonNativeObjectInfoFromOid(ClassInfo classInfo, OID oid, bool useCache,
                                                            bool returnObjects);
@@ -47,23 +44,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3
                                                        IOdbList<string> attributeNames,
                                                        IOdbList<string> relationAttributeNames, int recursionLevel);
 
-        object ReadAtomicNativeObjectInfoAsObject(int odbTypeId);
-
-        AtomicNativeObjectInfo ReadAtomicNativeObjectInfo(int odbTypeId);
-
         long ReadOidPosition(OID oid);
 
         object GetObjectFromOid(OID oid, bool returnInstance, bool useCache);
-
-        IList<FullIDInfo> GetAllIdInfos(string objectTypeToDisplay, byte idType, bool displayObject);
-
-        /// <summary>
-        ///   Returns the id of an object by reading the object header
-        /// </summary>
-        /// <param name="position"> </param>
-        /// <param name="includeDeleted"> </param>
-        /// <returns> The oid of the object at the specific position </returns>
-        OID GetIdOfObjectAt(long position, bool includeDeleted);
 
         void Close();
 
@@ -86,7 +69,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         /// <param name="startIndex"> </param>
         /// <param name="endIndex"> </param>
         /// <returns> The list of values </returns>
-        IValues GetValues(IValuesQuery query, int startIndex, int endIndex);
+        IValues GetValues(IInternalValuesQuery query, int startIndex, int endIndex);
 
         /// <summary>
         ///   Return Objects.
@@ -104,8 +87,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         IObjectSet<TResult> GetObjectInfos<TResult>(IQuery query, bool inMemory, int startIndex, int endIndex,
                                                     bool returnObjects,
                                                     IMatchingObjectAction queryResultAction);
-
-        string GetBaseIdentification();
 
         IInstanceBuilder GetInstanceBuilder();
 

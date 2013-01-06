@@ -43,10 +43,6 @@ namespace NDatabase.Btree.Impl
         {
         }
 
-        public void Clear()
-        {
-        }
-
         public void Flush()
         {
         }

@@ -1,6 +1,6 @@
 namespace NDatabase.Odb.Core.Layers.Layer3
 {
-    public interface ICommitListener
+    internal interface ICommitListener
     {
         void BeforeCommit();
 

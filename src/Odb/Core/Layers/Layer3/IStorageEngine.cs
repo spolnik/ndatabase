@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
-using NDatabase.Odb.Core.Layers.Layer3.Oid;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Odb.Core.Trigger;
@@ -32,7 +30,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         void Close();
 
-        IValues GetValues(IValuesQuery query, int startIndex, int endIndex);
+        IValues GetValues(IInternalValuesQuery query, int startIndex, int endIndex);
 
         IInternalObjectSet<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex);
 
@@ -44,8 +42,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         ISession GetSession();
 
-        ISession BuildDefaultSession();
-
         void Commit();
 
         void Rollback();
@@ -54,15 +50,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         object GetObjectFromOid(OID oid);
 
-        NonNativeObjectInfo GetMetaObjectFromOid(OID oid);
-
         ObjectInfoHeader GetObjectInfoHeaderFromOid(OID oid);
 
         void DefragmentTo(string newFileName);
 
         IList<long> GetAllObjectIds();
-
-        IList<FullIDInfo> GetAllObjectIdInfos(string objectType, bool displayObjects);
 
         bool IsClosed();
 
@@ -79,26 +71,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         void SetCurrentIdBlockInfos(CurrentIdBlockInfo currentIdBlockInfo);
 
         IFileIdentification GetBaseIdentification();
-
-        /// <summary>
-        ///   Write an object already transformed into meta representation!
-        /// </summary>
-        /// <param name="oid"> </param>
-        /// <param name="nnoi"> </param>
-        /// <param name="position"> </param>
-        /// <param name="updatePointers"> </param>
-        /// <returns> te object position(or id (if &lt;0, it is id)) @ </returns>
-        OID WriteObjectInfo(OID oid, NonNativeObjectInfo nnoi, long position, bool updatePointers);
-
-        /// <summary>
-        ///   Updates an object already transformed into meta representation!
-        /// </summary>
-        /// <param name="nnoi"> The Object Meta representation </param>
-        /// <param name="forceUpdate"> </param>
-        /// <returns> The OID of the update object @ </returns>
-        OID UpdateObject(NonNativeObjectInfo nnoi, bool forceUpdate);
-
-        void AddSession(ISession session, bool readMetamodel);
 
         /// <param name="className"> The class name on which the index must be created </param>
         /// <param name="name"> The name of the index </param>
@@ -121,8 +93,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         IDatabaseId GetDatabaseId();
 
-        ITransactionId GetCurrentTransactionId();
-
         void SetCurrentTransactionId(ITransactionId transactionId);
 
         /// <summary>
@@ -137,21 +107,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         void DeleteIndex(string className, string indexName);
 
-        /// <summary>
-        ///   Receive the current class info (loaded from current java classes present on classpath and check against the persisted meta model
-        /// </summary>
-        /// <param name="currentCIs"> </param>
-        void CheckMetaModelCompatibility(IDictionary<string, ClassInfo> currentCIs);
-
-        IObjectIntrospector BuildObjectIntrospector();
-
-        IInternalTriggerManager BuildTriggerManager();
-
-        CurrentIdBlockInfo GetCurrentIdBlockInfo();
-
         IIdManager GetIdManager();
 
         IInternalTriggerManager GetLocalTriggerManager();
-        void RemoveLocalTriggerManager();
     }
 }

@@ -20,11 +20,6 @@ namespace NDatabase.Odb.Main
             return new ExternalObjectOID(oid, _storageEngine.GetDatabaseId());
         }
 
-        public ITransactionId GetCurrentTransactionId()
-        {
-            return _storageEngine.GetCurrentTransactionId();
-        }
-
         public IDatabaseId GetDatabaseId()
         {
             return _storageEngine.GetDatabaseId();

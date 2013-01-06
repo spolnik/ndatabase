@@ -32,11 +32,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         #region IFileSystemInterface Members
 
-        public void SetIo(IMultiBufferedFileIO io)
-        {
-            _io = io;
-        }
-
         public void UseBuffer(bool useBuffer)
         {
             _io.SetUseBuffer(useBuffer);
@@ -181,11 +176,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
         }
 
-        public sbyte ReadSByte()
-        {
-            return ReadSByte(null);
-        }
-
         public sbyte ReadSByte(string label)
         {
             var currentPosition = _io.CurrentPosition;
@@ -251,7 +241,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             WriteValue(c, writeInTransaction, ByteArrayConverter.CharToByteArray, OdbType.Character);
         }
 
-        public byte[] ReadCharBytes()
+        private byte[] ReadCharBytes()
         {
             return _io.ReadBytes(OdbType.Character.Size);
         }
@@ -285,7 +275,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             WriteValue(s, writeInTransaction, ByteArrayConverter.ShortToByteArray, OdbType.Short);
         }
 
-        public byte[] ReadShortBytes()
+        private byte[] ReadShortBytes()
         {
             return _io.ReadBytes(OdbType.Short.Size);
         }
@@ -318,14 +308,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             WriteValue(s, writeInTransaction, ByteArrayConverter.UShortToByteArray, OdbType.UShort);
         }
 
-        public byte[] ReadUShortBytes()
+        private byte[] ReadUShortBytes()
         {
             return _io.ReadBytes(OdbType.UShort.Size);
-        }
-
-        public ushort ReadUShort()
-        {
-            return ReadUShort(null);
         }
 
         public ushort ReadUShort(string label)
@@ -355,7 +340,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             WriteValue(i, writeInTransaction, ByteArrayConverter.IntToByteArray, OdbType.Integer);
         }
 
-        public byte[] ReadIntBytes()
+        private byte[] ReadIntBytes()
         {
             return _io.ReadBytes(OdbType.Integer.Size);
         }
@@ -396,14 +381,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             WriteValue(i, writeInTransaction, ByteArrayConverter.UIntToByteArray, OdbType.UInteger);
         }
 
-        public byte[] ReadUIntBytes()
+        private byte[] ReadUIntBytes()
         {
             return _io.ReadBytes(OdbType.UInteger.Size);
-        }
-
-        public uint ReadUInt()
-        {
-            return ReadUInt(null);
         }
 
         public uint ReadUInt(string label)
@@ -437,7 +417,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             WriteValue(i, writeInTransaction, ByteArrayConverter.LongToByteArray, OdbType.Long);
         }
 
-        public byte[] ReadLongBytes()
+        private byte[] ReadLongBytes()
         {
             return _io.ReadBytes(OdbType.Long.Size);
         }
@@ -477,14 +457,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             WriteValue(i, writeInTransaction, ByteArrayConverter.ULongToByteArray, OdbType.ULong);
         }
 
-        public byte[] ReadULongBytes()
+        private byte[] ReadULongBytes()
         {
             return _io.ReadBytes(OdbType.ULong.Size);
-        }
-
-        public ulong ReadULong()
-        {
-            return ReadULong(null);
         }
 
         public ulong ReadULong(string label)
@@ -510,7 +485,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             WriteValue(f, writeInTransaction, ByteArrayConverter.FloatToByteArray, OdbType.Float);
         }
 
-        public byte[] ReadFloatBytes()
+        private byte[] ReadFloatBytes()
         {
             return _io.ReadBytes(OdbType.Float.Size);
         }
@@ -545,14 +520,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             WriteValue(d, writeInTransaction, ByteArrayConverter.DoubleToByteArray, OdbType.Double);
         }
 
-        public byte[] ReadDoubleBytes()
+        private byte[] ReadDoubleBytes()
         {
             return _io.ReadBytes(OdbType.Double.Size);
-        }
-
-        public double ReadDouble()
-        {
-            return ReadDouble(null);
         }
 
         public double ReadDouble(string label)
@@ -591,7 +561,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
         }
 
-        public byte[] ReadBigDecimalBytes()
+        private byte[] ReadBigDecimalBytes()
         {
             return _io.ReadBytes(OdbType.Decimal.Size);
         }
@@ -630,14 +600,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             WriteValue(d, writeInTransaction, ByteArrayConverter.DateToByteArray, OdbType.Date);
         }
 
-        public byte[] ReadDateBytes()
+        private byte[] ReadDateBytes()
         {
             return _io.ReadBytes(OdbType.Date.Size);
-        }
-
-        public DateTime ReadDate()
-        {
-            return ReadDate(null);
         }
 
         public DateTime ReadDate(string label)
@@ -686,7 +651,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
         }
 
-        public byte[] ReadStringBytes()
+        private byte[] ReadStringBytes()
         {
             var sizeBytes = _io.ReadBytes(IntSizeX2);
             var totalSize = ByteArrayConverter.ByteArrayToInt(sizeBytes);
@@ -748,7 +713,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             WriteValue(b, writeInTransaction, ByteArrayConverter.BooleanToByteArray, OdbType.Boolean);
         }
 
-        public byte[] ReadBooleanBytes()
+        private byte[] ReadBooleanBytes()
         {
             return _io.ReadBytes(OdbType.Boolean.Size);
         }
@@ -761,7 +726,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public bool ReadBoolean(string label)
         {
             var currentPosition = _io.CurrentPosition;
-            var toBoolean = ByteArrayConverter.ByteArrayToBoolean(ReadBooleanBytes(), 0);
+            var toBoolean = ByteArrayConverter.ByteArrayToBoolean(ReadBooleanBytes());
 
             if (OdbConfiguration.IsLoggingEnabled() && label != null)
             {
@@ -771,91 +736,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
 
             return toBoolean;
-        }
-
-        public byte[] ReadNativeAttributeBytes(int attributeType)
-        {
-            switch (attributeType)
-            {
-                case OdbType.ByteId:
-                case OdbType.SByteId:
-                {
-                    var bytes = new byte[1];
-                    bytes[0] = ReadByte();
-                    return bytes;
-                }
-
-                case OdbType.LongId:
-                {
-                    return ReadLongBytes();
-                }
-
-                case OdbType.ULongId:
-                {
-                    return ReadULongBytes();
-                }
-
-                case OdbType.ShortId:
-                {
-                    return ReadShortBytes();
-                }
-
-                case OdbType.UShortId:
-                {
-                    return ReadUShortBytes();
-                }
-
-                case OdbType.DecimalId:
-                {
-                    return ReadBigDecimalBytes();
-                }
-
-                case OdbType.BooleanId:
-                {
-                    return ReadBooleanBytes();
-                }
-
-                case OdbType.CharacterId:
-                {
-                    return ReadCharBytes();
-                }
-
-                case OdbType.DateId:
-                {
-                    return ReadDateBytes();
-                }
-
-                case OdbType.FloatId:
-                {
-                    return ReadFloatBytes();
-                }
-
-                case OdbType.DoubleId:
-                {
-                    return ReadDoubleBytes();
-                }
-
-                case OdbType.IntegerId:
-                {
-                    return ReadIntBytes();
-                }
-
-                case OdbType.UIntegerId:
-                {
-                    return ReadUIntBytes();
-                }
-
-                case OdbType.StringId:
-                {
-                    return ReadStringBytes();
-                }
-
-                default:
-                {
-                    throw new OdbRuntimeException(
-                        NDatabaseError.NativeTypeNotSupported.AddParameter(attributeType).AddParameter(string.Empty));
-                }
-            }
         }
 
         public void Close()

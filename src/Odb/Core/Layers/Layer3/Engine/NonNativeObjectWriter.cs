@@ -60,7 +60,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return newOid;
         }
 
-        public OID WriteNonNativeObjectInfo(OID existingOid, NonNativeObjectInfo objectInfo, long position,
+        private OID WriteNonNativeObjectInfo(OID existingOid, NonNativeObjectInfo objectInfo, long position,
                                                     bool writeDataInTransaction, bool isNewObject)
         {
             var lsession = _session;
@@ -374,8 +374,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             NonNativeObjectInfo oldMetaRepresentation = null;
             // Used to check consistency, at the end, the number of
             // nbConnectedObjects must and nbUnconnected must remain unchanged
-            var nbConnectedObjects = nnoi.GetClassInfo().CommitedZoneInfo.GetNumberbOfObjects();
-            var nbNonConnectedObjects = nnoi.GetClassInfo().UncommittedZoneInfo.GetNumberbOfObjects();
+            //TODO: why we are not using / checking that? (below is continuity)
+            nnoi.GetClassInfo().CommitedZoneInfo.GetNumberbOfObjects();
+            nnoi.GetClassInfo().UncommittedZoneInfo.GetNumberbOfObjects();
+
             var objectHasChanged = false;
             try
             {
@@ -539,8 +541,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 }
 
                 _objectWriter.FileSystemProcessor.FileSystemInterface.SetWritePosition(positionAfterWrite, true);
-                var nbConnectedObjectsAfter = nnoi.GetClassInfo().CommitedZoneInfo.GetNumberbOfObjects();
-                var nbNonConnectedObjectsAfter = nnoi.GetClassInfo().UncommittedZoneInfo.GetNumberbOfObjects();
+                //TODO: why we are not using / checking that? (below is continuity)
+                nnoi.GetClassInfo().CommitedZoneInfo.GetNumberbOfObjects();
+                nnoi.GetClassInfo().UncommittedZoneInfo.GetNumberbOfObjects();
                 
                 return oid;
             }
@@ -593,7 +596,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 {
                     var btree = index.BTree;
                     // TODO manage collision!
-                    var old = btree.Delete(oldKey, oid);
+                    // Unused old value - result from delete
+                    btree.Delete(oldKey, oid);
                     // TODO check if old is equal to oldKey
                     btree.Insert(newKey, oid);
                     // Check consistency : index should have size equal to the class

@@ -1,3 +1,4 @@
+using NDatabase.Btree.Tool;
 using NDatabase.Tool;
 
 namespace NDatabase.Odb
@@ -6,176 +7,110 @@ namespace NDatabase.Odb
     ///   The main NDatabase ODB Configuration class.
     /// </summary>
     /// <remarks>
-    ///   The main NDatabase ODB Configuration class. All engine configuration is done via this class.
+    ///   All engine configuration is done via this class.
     /// </remarks>
     public static class OdbConfiguration
     {
-        private const int NbIdsPerBlock = 1000;
-
-        private const int IdBlockRepetitionSize = 18;
-        
         private static bool _loggingEnabled;
 
-        private static int _maxNumberOfWriteObjectPerTransaction = 10000;
-
-        private static bool _useMultiBuffer = true;
-
-        private static bool _automaticCloseFileOnExit;
-
-        private static bool _throwExceptionWhenInconsistencyFound = true;
-
         /// <summary>
-        ///   header(34) + 1000 * 18
+        /// Default index BTree degree - 20
         /// </summary>
-        private static int _idBlockSize = 34 + NbIdsPerBlock * IdBlockRepetitionSize;
-
-        private static bool _useCache = true;
+        public const int DefaultIndexBTreeDegree = 20;
 
         /// <summary>
         ///   The default btree size for index btrees
         /// </summary>
-        private static int _defaultIndexBTreeDegree = 20;
+        private static int _indexBTreeDegree = DefaultIndexBTreeDegree;
 
         /// <summary>
-        ///   Scale used for average action *
+        /// Enables the B tree validation.
         /// </summary>
-        private static int _scaleForAverageDivision = 2;
+        /// <remarks>
+        /// It is more safe to run with that (finding issues), but that hits performance.
+        /// </remarks>
+        public static void EnableBTreeValidation()
+        {
+            BTreeValidator.SetOn(true);
+        }
+
 
         /// <summary>
-        ///   Round Type used for the average division
+        /// Determines whether [is B tree validation enabled].
         /// </summary>
-        private static int _roundTypeForAverageDivision;
+        /// <returns>
+        ///   <c>true</c> if [is B tree validation enabled]; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsBTreeValidationEnabled()
+        {
+            return BTreeValidator.IsOn();
+        }
 
         /// <summary>
-        ///   To activate or desactivate the use of index
+        /// Disables the B tree validation.
         /// </summary>
-        private static bool _useIndex = true;
-
-        public static int GetMaxNumberOfWriteObjectPerTransaction()
+        public static void DisableBTreeValidation()
         {
-            return _maxNumberOfWriteObjectPerTransaction;
+            BTreeValidator.SetOn(false);
         }
 
-        public static void SetMaxNumberOfWriteObjectPerTransaction(int maxNumberOfWriteObjectPerTransaction)
+        /// <summary>
+        /// Get index BTree degree (on start it is equals to 20)
+        /// </summary>
+        /// <remarks>
+        /// It is less safe to run without that (finding issues), but that improves performance.
+        /// </remarks>
+        /// <returns>Degree of index BTree</returns>
+        public static int GetIndexBTreeDegree()
         {
-            _maxNumberOfWriteObjectPerTransaction = maxNumberOfWriteObjectPerTransaction;
+            return _indexBTreeDegree;
         }
 
-        public static bool ThrowExceptionWhenInconsistencyFound()
+        /// <summary>
+        /// Sets the index B tree degree.
+        /// </summary>
+        /// <remarks>
+        /// Default value is equal to 20.
+        /// </remarks>
+        /// <param name="indexBTreeSize">Size of the index B tree.</param>
+        public static void SetIndexBTreeDegree(int indexBTreeSize)
         {
-            return _throwExceptionWhenInconsistencyFound;
+            _indexBTreeDegree = indexBTreeSize;
         }
 
-        public static void SetThrowExceptionWhenInconsistencyFound(bool throwExceptionWhenInconsistencyFound)
-        {
-            _throwExceptionWhenInconsistencyFound = throwExceptionWhenInconsistencyFound;
-        }
-
-        public static int GetIdBlockSize()
-        {
-            return _idBlockSize;
-        }
-
-        public static void SetIdBlockSize(int idBlockSize)
-        {
-            _idBlockSize = idBlockSize;
-        }
-
-        public static int GetNbIdsPerBlock()
-        {
-            return NbIdsPerBlock;
-        }
-
-        public static int GetIdBlockRepetitionSize()
-        {
-            return IdBlockRepetitionSize;
-        }
-
-        public static bool UseMultiBuffer()
-        {
-            return _useMultiBuffer;
-        }
-
-        public static void SetUseMultiBuffer(bool useMultiBuffer)
-        {
-            _useMultiBuffer = useMultiBuffer;
-        }
-
-        public static bool AutomaticCloseFileOnExit()
-        {
-            return _automaticCloseFileOnExit;
-        }
-
-        public static void SetAutomaticCloseFileOnExit(bool automaticFileClose)
-        {
-            _automaticCloseFileOnExit = automaticFileClose;
-        }
-
-        public static int GetDefaultIndexBTreeDegree()
-        {
-            return _defaultIndexBTreeDegree;
-        }
-
-        public static void SetDefaultIndexBTreeDegree(int defaultIndexBTreeSize)
-        {
-            _defaultIndexBTreeDegree = defaultIndexBTreeSize;
-        }
-
-        public static bool IsUseCache()
-        {
-            return _useCache;
-        }
-
-        public static void SetUseCache(bool useCache)
-        {
-            _useCache = useCache;
-        }
-
-        public static int GetScaleForAverageDivision()
-        {
-            return _scaleForAverageDivision;
-        }
-
-        public static void SetScaleForAverageDivision(int scaleForAverageDivision)
-        {
-            _scaleForAverageDivision = scaleForAverageDivision;
-        }
-
-        public static int GetRoundTypeForAverageDivision()
-        {
-            return _roundTypeForAverageDivision;
-        }
-
-        public static void SetRoundTypeForAverageDivision(int roundTypeForAverageDivision)
-        {
-            _roundTypeForAverageDivision = roundTypeForAverageDivision;
-        }
-
-        public static bool UseIndex()
-        {
-            return _useIndex;
-        }
-
-        public static void SetUseIndex(bool useIndex)
-        {
-            _useIndex = useIndex;
-        }
-
+        /// <summary>
+        /// Determines whether [is logging enabled].
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if [is logging enabled]; otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsLoggingEnabled()
         {
             return _loggingEnabled;
         }
 
+        /// <summary>
+        /// Enables the logging.
+        /// </summary>
         public static void EnableLogging()
         {
             _loggingEnabled = true;
         }
 
+        /// <summary>
+        /// Disables the logging.
+        /// </summary>
         public static void DisableLogging()
         {
             _loggingEnabled = false;
         }
 
+        /// <summary>
+        /// Enables the console logger.
+        /// </summary>
+        /// <remarks>
+        /// Automatically enables the logging.
+        /// </remarks>
         public static void EnableConsoleLogger()
         {
             if (!IsLoggingEnabled())
@@ -184,6 +119,13 @@ namespace NDatabase.Odb
             DLogger.Register(new ConsoleLogger());
         }
 
+        /// <summary>
+        /// Registers the logger.
+        /// </summary>
+        /// <remarks>
+        /// Automatically enables the logging.
+        /// </remarks>
+        /// <param name="logger">The logger.</param>
         public static void RegisterLogger(ILogger logger)
         {
             if (!IsLoggingEnabled())

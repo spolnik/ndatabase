@@ -1,4 +1,3 @@
-using System;
 using NDatabase.Btree.Exception;
 
 namespace NDatabase.Btree.Tool
@@ -118,20 +117,6 @@ namespace NDatabase.Btree.Tool
                     throw new BTreeNodeValidationException("Left child with values bigger than pivot " + key + " : " +
                                                            node);
             }
-        }
-
-        public static bool SearchKey(IComparable key, IBTreeNodeOneValuePerKey node)
-        {
-            if (!_on)
-                return false;
-
-            for (var i = 0; i < node.GetNbKeys(); i++)
-            {
-                if (node.GetKeyAndValueAt(i).GetKey().CompareTo(key) == 0)
-                    return true;
-            }
-
-            return false;
         }
     }
 }

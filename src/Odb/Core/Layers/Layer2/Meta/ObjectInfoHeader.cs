@@ -7,7 +7,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// <summary>
     ///   Some basic info about an object info like position, its class info,...
     /// </summary>
-    public sealed class ObjectInfoHeader
+    internal sealed class ObjectInfoHeader
     {
         private int[] _attributeIds;
 
@@ -45,11 +45,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             _oid = null;
             _objectVersion = 1;
             _creationDate = OdbTime.GetCurrentTimeInTicks();
-        }
-
-        public int GetNbAttributes()
-        {
-            return _attributesIdentification.Length;
         }
 
         public OID GetNextObjectOID()
@@ -168,11 +163,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return StorageEngineConstant.NullObjectIdId;
         }
 
-        public long GetAttributeId(int attributeIndex)
-        {
-            return _attributeIds[attributeIndex];
-        }
-
         public void SetAttributesIds(int[] ids)
         {
             _attributeIds = ids;
@@ -229,26 +219,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         {
             _objectVersion++;
             _updateDate = OdbTime.GetCurrentTimeInTicks();
-        }
-
-        public ObjectInfoHeader Duplicate()
-        {
-            var objectInfoHeader = new ObjectInfoHeader();
-
-            objectInfoHeader.SetAttributesIdentification(_attributesIdentification);
-            objectInfoHeader.SetAttributesIds(_attributeIds);
-            objectInfoHeader.SetClassInfoId(_classInfoId);
-            objectInfoHeader.SetCreationDate(_creationDate);
-            objectInfoHeader.SetNextObjectOID(_nextObjectOID);
-            objectInfoHeader.SetObjectVersion(_objectVersion);
-            objectInfoHeader.SetOid(_oid);
-            objectInfoHeader.SetPosition(_position);
-            objectInfoHeader.SetPreviousObjectOID(_previousObjectOID);
-            objectInfoHeader.SetUpdateDate(_updateDate);
-            objectInfoHeader.IsRoot = IsRoot;
-            objectInfoHeader.RefCounter = 0;
-
-            return objectInfoHeader;
         }
     }
 }

@@ -198,11 +198,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return success || clazz.IsArray;
         }
 
-        public static bool Exist(string name)
-        {
-            return TypesByName.ContainsKey(name);
-        }
-
         public bool IsArray()
         {
             return _id == ArrayId;
@@ -211,11 +206,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         public static bool IsArray(int odbTypeId)
         {
             return odbTypeId == ArrayId;
-        }
-
-        public static bool IsNative(int odbtypeId)
-        {
-            return odbtypeId != NonNativeId;
         }
 
         public bool IsNative()
@@ -282,11 +272,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return _id == NonNativeId;
         }
 
-        public static bool IsNonNative(int odbtypeId)
-        {
-            return odbtypeId == NonNativeId;
-        }
-
         public bool IsNull()
         {
             return _id == NullId;
@@ -295,26 +280,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         public static bool IsNull(int odbTypeId)
         {
             return odbTypeId == NullId;
-        }
-
-        public bool HasFixSize()
-        {
-            return HasFixSize(_id);
-        }
-
-        public static bool HasFixSize(int odbId)
-        {
-            return odbId > 0 && odbId <= NativeFixSizeMaxId;
-        }
-
-        public bool IsStringOrBigDecimal()
-        {
-            return IsStringOrBigDecimal(_id);
-        }
-
-        public static bool IsStringOrBigDecimal(int odbTypeId)
-        {
-            return odbTypeId == StringId || odbTypeId == DecimalId;
         }
 
         public static bool IsAtomicNative(int odbTypeId)
@@ -335,11 +300,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         public bool IsEnum()
         {
             return IsEnum(_id);
-        }
-
-        public static bool IsPrimitive(int odbTypeId)
-        {
-            return GetFromId(odbTypeId)._isPrimitive;
         }
 
         public static bool TypesAreCompatible(OdbType type1, OdbType type2)
@@ -454,8 +414,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// </summary>
         public const int EnumId = 211;
 
-        private const int NativeFixSizeMaxId = ClassOidId;
-
         private const int NativeMaxId = StringId;
 
         public const int ArrayId = 260;
@@ -567,8 +525,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         public static readonly int SizeOfInt = Integer.Size;
 
         public static readonly int SizeOfLong = Long.Size;
-
-        public static readonly int SizeOfBool = Boolean.Size;
 
         public static readonly int SizeOfByte = Byte.Size;
 

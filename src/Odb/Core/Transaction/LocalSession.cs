@@ -12,17 +12,17 @@ namespace NDatabase.Odb.Core.Transaction
         private IStorageEngine _storageEngine;
         private ITransaction _transaction;
 
+        public LocalSession(IStorageEngine engine)
+            : base(GetSessionId(), engine.GetBaseIdentification().Id)
+        {
+            _storageEngine = engine;
+        }
+
         private static string GetSessionId()
         {
             return
                 string.Concat("local ", OdbTime.GetCurrentTimeInTicks().ToString(),
                               OdbRandom.GetRandomInteger().ToString());
-        }
-
-        public LocalSession(IStorageEngine engine)
-            : base(GetSessionId(), engine.GetBaseIdentification().Id)
-        {
-            _storageEngine = engine;
         }
 
         public override void SetFileSystemInterfaceToApplyTransaction(IFileSystemInterface fsi)
@@ -46,20 +46,20 @@ namespace NDatabase.Odb.Core.Transaction
 
         private void ResetTranstion()
         {
-            if (_transaction != null)
-            {
-                _transaction.Clear();
-                _transaction = null;
-            }
+            if (_transaction == null) 
+                return;
+
+            _transaction.Clear();
+            _transaction = null;
         }
 
         public override void Commit()
         {
-            if (_transaction != null)
-            {
-                _transaction.Commit();
-                _transaction.Reset();
-            }
+            if (_transaction == null) 
+                return;
+
+            _transaction.Commit();
+            _transaction.Reset();
         }
 
         public override void Rollback()
@@ -77,7 +77,7 @@ namespace NDatabase.Odb.Core.Transaction
             return _storageEngine;
         }
 
-        public override void Clear()
+        protected override void Clear()
         {
             base.Clear();
             if (_transaction != null)

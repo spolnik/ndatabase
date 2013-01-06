@@ -320,7 +320,7 @@ namespace Test.NDatabase.Odb.Test.Index
         public void TestInsertAndDeleteWithIndexWith40Elements()
         {
             var baseName = GetBaseName();
-            OdbConfiguration.SetDefaultIndexBTreeDegree(3);
+            OdbConfiguration.SetIndexBTreeDegree(3);
             DeleteBase(baseName);
             var odb = Open(baseName);
             // base.store(new IndexedObject());
@@ -403,7 +403,7 @@ namespace Test.NDatabase.Odb.Test.Index
                 AssertTrue(maxTime < 250);
                 AssertTrue(minTime <= 1);
             }
-            OdbConfiguration.SetDefaultIndexBTreeDegree(20);
+            OdbConfiguration.SetIndexBTreeDegree(20);
         }
 
         [Test]

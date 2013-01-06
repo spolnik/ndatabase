@@ -1,4 +1,5 @@
 using System.Text;
+using NDatabase.Tool;
 using NDatabase.Tool.Wrappers.List;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta
@@ -13,8 +14,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     {
         private readonly string _fullClassName;
 
-        private IOdbList<string> _compatibleChanges;
-        private IOdbList<string> _incompatibleChanges;
+        private readonly IOdbList<string> _compatibleChanges;
+        private readonly IOdbList<string> _incompatibleChanges;
 
         public ClassInfoCompareResult(string fullClassName)
         {
@@ -23,31 +24,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             _compatibleChanges = new OdbList<string>(5);
         }
 
-        /// <returns> the compatibleChanges </returns>
-        public IOdbList<string> GetCompatibleChanges()
-        {
-            return _compatibleChanges;
-        }
-
-        /// <param name="compatibleChanges"> the compatibleChanges to set </param>
-        public void SetCompatibleChanges(IOdbList<string> compatibleChanges)
-        {
-            _compatibleChanges = compatibleChanges;
-        }
-
-        /// <returns> the incompatibleChanges </returns>
-        public IOdbList<string> GetIncompatibleChanges()
-        {
-            return _incompatibleChanges;
-        }
-
-        /// <param name="incompatibleChanges"> the incompatibleChanges to set </param>
-        public void SetIncompatibleChanges(IOdbList<string> incompatibleChanges)
-        {
-            _incompatibleChanges = incompatibleChanges;
-        }
-
-        /// <returns> the isCompatible </returns>
         public bool IsCompatible()
         {
             return _incompatibleChanges.IsEmpty();
@@ -79,7 +55,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return !_compatibleChanges.IsEmpty();
         }
 
-        /// <returns> the fullClassName </returns>
         public string GetFullClassName()
         {
             return _fullClassName;

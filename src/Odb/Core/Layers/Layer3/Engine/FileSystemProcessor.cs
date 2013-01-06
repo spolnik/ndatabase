@@ -43,21 +43,21 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <summary>
         ///   Write the version in the database file
         /// </summary>
-        public void WriteVersion(bool writeInTransaction)
+        private void WriteVersion()
         {
-            FileSystemInterface.SetWritePosition(StorageEngineConstant.DatabaseHeaderVersionPosition, writeInTransaction);
-            FileSystemInterface.WriteInt(StorageEngineConstant.CurrentFileFormatVersion, writeInTransaction,
-                          "database file format version");
+            FileSystemInterface.SetWritePosition(StorageEngineConstant.DatabaseHeaderVersionPosition, false);
+            FileSystemInterface.WriteInt(StorageEngineConstant.CurrentFileFormatVersion, false,
+                                         "database file format version");
         }
 
-        public IDatabaseId WriteDatabaseId(IStorageEngine storageEngine, long creationDate, bool writeInTransaction)
+        private IDatabaseId WriteDatabaseId(IStorageEngine storageEngine, long creationDate)
         {
             var databaseId = UniqueIdGenerator.GetDatabaseId(creationDate);
 
-            FileSystemInterface.WriteLong(databaseId.GetIds()[0], writeInTransaction, "database id 1/4");
-            FileSystemInterface.WriteLong(databaseId.GetIds()[1], writeInTransaction, "database id 2/4");
-            FileSystemInterface.WriteLong(databaseId.GetIds()[2], writeInTransaction, "database id 3/4");
-            FileSystemInterface.WriteLong(databaseId.GetIds()[3], writeInTransaction, "database id 4/4");
+            FileSystemInterface.WriteLong(databaseId.GetIds()[0], false, "database id 1/4");
+            FileSystemInterface.WriteLong(databaseId.GetIds()[1], false, "database id 2/4");
+            FileSystemInterface.WriteLong(databaseId.GetIds()[2], false, "database id 3/4");
+            FileSystemInterface.WriteLong(databaseId.GetIds()[3], false, "database id 4/4");
 
             storageEngine.SetDatabaseId(databaseId);
 
@@ -76,12 +76,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <summary>
         ///   Write the database characterEncoding
         /// </summary>
-        public void WriteDatabaseCharacterEncoding(bool writeInTransaction)
+        private void WriteDatabaseCharacterEncoding()
         {
             FileSystemInterface.SetWritePosition(StorageEngineConstant.DatabaseHeaderDatabaseCharacterEncodingPosition,
-                                  writeInTransaction);
+                                  false);
 
-            FileSystemInterface.WriteString("UTF-8", writeInTransaction, 50);
+            FileSystemInterface.WriteString("UTF-8", false, 50);
         }
 
         // fsi.writeLong(oid.getObjectId(), writeInTransaction, label,
@@ -147,7 +147,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             FileSystemInterface.WriteLong(-1, writeInTransaction, "next block pos");
             FileSystemInterface.WriteInt(blockNumber, writeInTransaction, "id block number");
             FileSystemInterface.WriteLong(0, writeInTransaction, "id block max id");
-            FileSystemInterface.SetWritePosition(position + OdbConfiguration.GetIdBlockSize() - 1, writeInTransaction);
+            FileSystemInterface.SetWritePosition(position + StorageEngineConstant.IdBlockSize - 1, writeInTransaction);
             FileSystemInterface.WriteByte(0, writeInTransaction);
 
             if (OdbConfiguration.IsLoggingEnabled())
@@ -179,11 +179,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <param name="creationDate"> The creation date </param>
         public void CreateEmptyDatabaseHeader(IStorageEngine storageEngine, long creationDate)
         {
-            WriteVersion(false);
-            var databaseId = WriteDatabaseId(storageEngine, creationDate, false);
+            WriteVersion();
+            var databaseId = WriteDatabaseId(storageEngine, creationDate);
 
             // Create the first Transaction Id
-            ITransactionId tid = new TransactionIdImpl(databaseId, 0, 1);
+            ITransactionId tid = new TransactionId(databaseId, 0, 1);
 
             storageEngine.SetCurrentTransactionId(tid);
 
@@ -191,14 +191,14 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             WriteNumberOfClasses(0, false);
             WriteFirstClassInfoOID(StorageEngineConstant.NullObjectId, false);
             WriteLastOdbCloseStatus(false, false);
-            WriteDatabaseCharacterEncoding(false);
+            WriteDatabaseCharacterEncoding();
 
             // This is the position of the first block id. But it will always
             // contain the position of the current id block
             FileSystemInterface.WriteLong(StorageEngineConstant.DatabaseHeaderFirstIdBlockPosition, false, "current id block position");
 
             // Write an empty id block
-            WriteIdBlock(-1, OdbConfiguration.GetIdBlockSize(), BlockStatus.BlockNotFull, 1, -1, false);
+            WriteIdBlock(-1, StorageEngineConstant.IdBlockSize, BlockStatus.BlockNotFull, 1, -1, false);
             Flush();
 
             var currentBlockInfo = new CurrentIdBlockInfo
@@ -230,10 +230,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             FileSystemInterface.WriteLong(oid.ObjectId, writeInTransaction, "id block max id update");
 
-            var l1 = (oid.ObjectId - 1) % OdbConfiguration.GetNbIdsPerBlock();
+            var l1 = (oid.ObjectId - 1) % StorageEngineConstant.NbIdsPerBlock;
 
             var idPosition = currentBlockIdPosition + StorageEngineConstant.BlockIdOffsetForStartOfRepetition +
-                             (l1) * OdbConfiguration.GetIdBlockRepetitionSize();
+                             (l1) * StorageEngineConstant.IdBlockRepetitionSize;
 
             // go to the next id position
             FileSystemInterface.SetWritePosition(idPosition, writeInTransaction);
@@ -378,39 +378,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public void Flush()
         {
             FileSystemInterface.Flush();
-        }
-
-        /// <summary>
-        ///   <pre>Class User{
-        ///     private String name;
-        ///     private Function function;
-        ///     }
-        ///     When an object of type User is stored, it stores a reference to its function object.
-        /// </pre>
-        /// </summary>
-        /// <remarks>
-        ///   <pre>Class User{
-        ///     private String name;
-        ///     private Function function;
-        ///     }
-        ///     When an object of type User is stored, it stores a reference to its function object.
-        ///     If the function is set to another, the pointer to the function object must be changed.
-        ///     for example, it was pointing to a function at the position 1407, the 1407 value is stored while
-        ///     writing the USer object, let's say at the position 528. To make the user point to another function object (which exist at the position 1890)
-        ///     The position 528 must be updated to 1890.</pre>
-        /// </remarks>
-        public void UpdateObjectReference(long positionWhereTheReferenceIsStored, OID newOid,
-                                                  bool writeInTransaction)
-        {
-            var position = positionWhereTheReferenceIsStored;
-            if (position < 0)
-                throw new OdbRuntimeException(NDatabaseError.NegativePosition.AddParameter(position));
-            FileSystemInterface.SetWritePosition(position, writeInTransaction);
-            // Ids are always stored as negative value to differ from a position!
-            var oid = StorageEngineConstant.NullObjectIdId;
-            if (newOid != null)
-                oid = -newOid.ObjectId;
-            FileSystemInterface.WriteLong(oid, writeInTransaction, "object reference");
         }
     }
 }

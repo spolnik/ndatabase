@@ -5,11 +5,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// </summary>
     internal abstract class NativeObjectInfo : AbstractObjectInfo
     {
-        protected bool Equals(NativeObjectInfo other)
-        {
-            return Equals(TheObject, other.TheObject);
-        }
-
         public override int GetHashCode()
         {
             return (TheObject != null

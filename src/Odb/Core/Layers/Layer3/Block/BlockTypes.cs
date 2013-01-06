@@ -21,15 +21,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Block
 
         public const byte BlockTypeNativeNullObject = 77;
 
-        public const byte BlockTypeCollectionObject = 8;
-
         public const byte BlockTypeArrayObject = 9;
 
-        public const byte BlockTypeMapObject = 10;
-
         public const byte BlockTypeIds = 20;
-
-        public const byte BlockTypeIndex = 21;
 
         public static bool IsClassHeader(int blockType)
         {
@@ -63,8 +57,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Block
 
         public static bool IsNative(int blockType)
         {
-            return blockType == BlockTypeArrayObject || blockType == BlockTypeCollectionObject
-                   || blockType == BlockTypeMapObject || blockType == BlockTypeNativeObject;
+            return blockType == BlockTypeArrayObject || blockType == BlockTypeNativeObject;
         }
 
         public static bool IsNonNative(int blockType)
@@ -75,11 +68,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Block
         public static bool IsNull(byte blockType)
         {
             return blockType == BlockTypeNativeNullObject || blockType == BlockTypeNonNativeNullObject;
-        }
-
-        public static bool IsIndex(byte blockType)
-        {
-            return blockType == BlockTypeIndex;
         }
     }
 }

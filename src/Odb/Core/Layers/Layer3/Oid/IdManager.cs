@@ -37,7 +37,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Oid
             _objectReader = objectReader;
             _currentBlockIdPosition = currentIdBlock.CurrentIdBlockPosition;
             _currentBlockIdNumber = currentIdBlock.CurrentIdBlockNumber;
-            _maxId = new ObjectOID((long)currentIdBlock.CurrentIdBlockNumber * OdbConfiguration.GetNbIdsPerBlock());
+            _maxId = new ObjectOID((long)currentIdBlock.CurrentIdBlockNumber * StorageEngineConstant.NbIdsPerBlock);
             _nextId = new ObjectOID(currentIdBlock.CurrentIdBlockMaxOid.ObjectId + 1);
 
             _lastIds = new OID[IdBufferSize];
@@ -216,7 +216,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Oid
 
             _currentBlockIdNumber++;
             _currentBlockIdPosition = newBlockPosition;
-            _maxId = new ObjectOID((long) _currentBlockIdNumber * OdbConfiguration.GetNbIdsPerBlock());
+            _maxId = new ObjectOID((long) _currentBlockIdNumber * StorageEngineConstant.NbIdsPerBlock);
         }
 
         private void MarkBlockAsFull(long currentBlockIdPosition, long nextBlockPosition)
@@ -226,7 +226,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Oid
 
         private long CreateNewBlock()
         {
-            var position = _objectWriter.FileSystemProcessor.WriteIdBlock(-1, OdbConfiguration.GetIdBlockSize(),
+            var position = _objectWriter.FileSystemProcessor.WriteIdBlock(-1, StorageEngineConstant.IdBlockSize,
                                                                           BlockStatus.BlockNotFull,
                                                                           _currentBlockIdNumber + 1,
                                                                           _currentBlockIdPosition, false);

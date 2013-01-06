@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Text;
 using System.Text.RegularExpressions;
 using NDatabase.Odb;
@@ -9,9 +9,8 @@ namespace NDatabase.Tool.Wrappers
 {
     internal static class OdbString
     {
-        private static readonly IDictionary<string, Regex> Cache = new Dictionary<string, Regex>();
+        private static readonly ConcurrentDictionary<string, Regex> Cache = new ConcurrentDictionary<string, Regex>();
 
-        //TODO: there is no standard way to do that?
         /// <summary>
         ///   Replace a string within a string
         /// </summary>
@@ -31,7 +30,6 @@ namespace NDatabase.Tool.Wrappers
             var nOldTokenLength = inTokenToReplace.Length;
             var nTimes = 0;
 
-            //TODO: NDatabase error
             // To prevent from replace the token with a token containg Token to replace
             if (inNbTimes == -1 && inNewToken.IndexOf(inTokenToReplace, StringComparison.Ordinal) != -1)
             {
@@ -71,14 +69,7 @@ namespace NDatabase.Tool.Wrappers
 
         internal static bool Matches(string regExp, string valueToCheck)
         {
-            Regex value;
-            var success = Cache.TryGetValue(regExp, out value);
-            if (success)
-                return Cache[regExp].IsMatch(valueToCheck);
-
-            var regex = new Regex(regExp);
-
-            Cache.Add(regExp, regex);
+            var regex = Cache.GetOrAdd(regExp, pattern => new Regex(pattern));
 
             return regex.IsMatch(valueToCheck);
         }

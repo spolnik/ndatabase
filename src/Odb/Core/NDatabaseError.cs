@@ -10,7 +10,6 @@ namespace NDatabase.Odb.Core
     /// <remarks>
     ///   All NDatabase ODB Errors. Errors can be user errors or Internal errors. All @1 in error description will be replaced by parameters
     /// </remarks>
-    /// <author>olivier s</author>
     internal sealed class NDatabaseError : IError
     {
         internal static readonly NDatabaseError NullNextObjectOid = new NDatabaseError(100,
@@ -51,27 +50,13 @@ namespace NDatabase.Odb.Core
 
         internal static readonly NDatabaseError UnknownBlockType = new NDatabaseError(211, "Unknown block type @1 at @2");
 
-        internal static readonly NDatabaseError ObjectDoesNotExistInCache = new NDatabaseError(213,
-                                                                                           "Object does not exist in cache");
-
         internal static readonly NDatabaseError ObjectWithOidDoesNotExistInCache = new NDatabaseError(213,
                                                                                                   "Object with oid @1 does not exist in cache");
-
-        internal static readonly NDatabaseError ObjectInfoNotInTempCache = new NDatabaseError(214,
-                                                                                          "ObjectInfo does not exist in temporary cache oid=@1 and position=@2");
-
-        internal static readonly NDatabaseError CanNotDeleteFile = new NDatabaseError(215, "Can not delete file @1");
 
         internal static readonly NDatabaseError GoToPosition = new NDatabaseError(216,
                                                                               "Error while going to position @1, length = @2");
 
-        internal static readonly NDatabaseError ErrorInCoreProviderInitialization = new NDatabaseError(217,
-                                                                                                   "Error while initializing CoreProvider @1");
-
         internal static readonly NDatabaseError UndefinedClassInfo = new NDatabaseError(218, "Undefined class info for @1");
-
-        internal static readonly NDatabaseError AbstractObjectInfoTypeNotSupported = new NDatabaseError(219,
-                                                                                                    "Abstract Object Info type not supported : @1");
 
         internal static readonly NDatabaseError NegativeBlockSize = new NDatabaseError(220,
                                                                                    "Negative block size at @1 : size = @2, object=@3");
@@ -108,12 +93,6 @@ namespace NDatabase.Odb.Core
 
         internal static readonly NDatabaseError QueryTypeNotImplemented = new NDatabaseError(242,
                                                                                          "Query type @1 not implemented");
-
-        internal static readonly NDatabaseError SerializationFromString = new NDatabaseError(247,
-                                                                                         "Error while deserializing: expecting classId @1 and received @2");
-
-        internal static readonly NDatabaseError SerializationCollection = new NDatabaseError(248,
-                                                                                         "Error while deserializing collection: sizes are not consistent : expected @1, found @2");
 
         internal static readonly NDatabaseError MetamodelReadingLastObject = new NDatabaseError(249,
                                                                                             "Error while reading last object of type @1 at with OID @2");
@@ -155,28 +134,15 @@ namespace NDatabase.Odb.Core
         internal static readonly IError EndOfFileReached = new NDatabaseError(276,
                                                                            "End Of File reached - position = @1 : Length = @2");
 
-        internal static readonly IError MapInstanciationError = new NDatabaseError(277,
-                                                                                "Error while creating instance of MAP of class @1");
-
-        internal static readonly IError CollectionInstanciationError = new NDatabaseError(278,
-                                                                                       "Error while creating instance of Collection of class @1");
-
         internal static readonly IError InstanciationError = new NDatabaseError(279,
                                                                              "Error while creating instance of type @1");
 
         internal static readonly NDatabaseError CacheNullObject = new NDatabaseError(286, "Null Object : @1");
 
-        internal static readonly NDatabaseError LookupKeyNotFound = new NDatabaseError(287, "Lookup key not found : @1");
-
         internal static readonly NDatabaseError FileNotFoundOrItIsAlreadyUsed = new NDatabaseError(291, "File not found or it already used: @1");
-
-        internal static readonly NDatabaseError ParentNotFound = new NDatabaseError(283, "Parent directory doesn't exist: @1");
 
         internal static readonly NDatabaseError IndexIsCorrupted = new NDatabaseError(292,
                                                                                   "Index '@1' of class '@2' is corrupted: class has @3 objects, index has @4 entries");
-
-        internal static readonly NDatabaseError CrossSessionCacheNullOidForObject = new NDatabaseError(297,
-                                                                                                   "Cross session cache does not know the object @1");
 
         internal static readonly NDatabaseError CriteriaQueryUnknownAttribute = new NDatabaseError(1000,
                                                                                                "Attribute @1 used in criteria queria does not exist on class @2");
@@ -239,12 +205,6 @@ namespace NDatabase.Odb.Core
         internal static readonly NDatabaseError IndexKeysMustImplementComparable = new NDatabaseError(1027,
                                                                                                   "Unable to build index key for attribute that does not implement 'Comparable/IComparable' : Index=@1, attribute = @2 , type = @3");
 
-        internal static readonly NDatabaseError QueryNqMatchMethodNotImplemented = new NDatabaseError(1029,
-                                                                                                  "ISimpleNativeQuery implementing classes must implement method: boolean match(?Object obj), class @1 does not");
-
-        internal static readonly NDatabaseError QueryNqExceptionRaisedByNativeQueryExecution = new NDatabaseError(1030,
-                                                                                                              "Exception raised by the native query @1 match method");
-
         internal static readonly NDatabaseError AttributeReferencesADeletedObject = new NDatabaseError(1033,
                                                                                                    "Object of type @1 with oid @2 has the attribute '@3' that references a deleted object");
 
@@ -275,28 +235,17 @@ namespace NDatabase.Odb.Core
         internal static readonly NDatabaseError IndexDoesNotExist = new NDatabaseError(1042,
                                                                                    "Index @1 does not exist on class @2");
 
-        internal static readonly NDatabaseError QueryAttributeTypeNotSupportedInIequalExpression = new NDatabaseError(1043,
-                                                                                                                  "EqualCriteria with case insensitive expression only work with String, and you passed a @1 instead");
-
         internal static readonly NDatabaseError ValuesQueryAliasDoesNotExist = new NDatabaseError(1044,
                                                                                               "Alias @1 does not exist in query result. Existing alias are @2");
 
         internal static readonly NDatabaseError ValuesQueryNotConsistent = new NDatabaseError(1045,
                                                                                           "Single row actions (like sum,count,min,max) are declared together with multi row actions : @1");
 
-        internal static readonly NDatabaseError ValuesQueryErrorWhileCloningCustumQfa = new NDatabaseError(1046,
-                                                                                                       "Error while cloning Query Field Action @1");
-
         internal static readonly NDatabaseError ExecutionPlanIsNullQueryHasNotBeenExecuted = new NDatabaseError(1047,
                                                                                                             "The query has not been executed yet so there is no execution plan available");
 
         internal static readonly NDatabaseError ObjectWithOidDoesNotExist = new NDatabaseError(1048,
                                                                                            "Object with OID @1 does not exist in the database");
-
-        internal static readonly IError UnsupportedEncoding = new NDatabaseError(1052, "Unsupported encoding @1");
-
-        internal static readonly IError ReconnectCanReconnectNullObject = new NDatabaseError(1055,
-                                                                                          "Can not reconnect null object");
 
         internal static readonly IError CanNotGetObjectFromNullOid = new NDatabaseError(1056,
                                                                                      "Can not get object from null OID");

@@ -10,18 +10,6 @@ namespace NDatabase.Btree.Tool
         private StringBuilder[] _lines;
         private StringBuilder _result;
 
-        public StringBuilder Build(IBTree btree, bool withIds)
-        {
-            _lines = new StringBuilder[btree.GetHeight()];
-            for (var i = 0; i < btree.GetHeight(); i++)
-                _lines[i] = new StringBuilder();
-
-            BuildDisplay(btree.GetRoot(), 0, "0", withIds);
-            BuildRepresentation();
-
-            return _result;
-        }
-
         public StringBuilder Build(IBTreeNode node, int height, bool withIds)
         {
             _lines = new StringBuilder[height];
@@ -41,11 +29,6 @@ namespace NDatabase.Btree.Tool
 
             for (var i = 0; i < _lines.Length; i++)
                 _result.Append(Format(_lines[i], i, maxLineSize)).Append("\n");
-        }
-
-        public StringBuilder GetResult()
-        {
-            return _result;
         }
 
         private static StringBuilder Format(StringBuilder line, int height, int maxLineSize)

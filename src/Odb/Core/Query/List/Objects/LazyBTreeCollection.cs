@@ -23,16 +23,12 @@ namespace NDatabase.Odb.Core.Query.List.Objects
             _returnObjects = returnObjects;
         }
 
-        public LazyBTreeCollection(OrderByConstants orderByType) : base(orderByType)
-        {
-        }
-
         protected override IBTree BuildTree(int degree)
         {
             return new InMemoryBTreeMultipleValuesPerKey(degree);
         }
 
-        public override IEnumerator<T> Iterator(OrderByConstants orderByType)
+        protected override IEnumerator<T> Iterator(OrderByConstants orderByType)
         {
             return new LazyOdbBtreeIteratorMultiple<T>(GetTree(), orderByType, _storageEngine, _returnObjects);
         }

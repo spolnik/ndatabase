@@ -14,11 +14,7 @@ namespace NDatabase.Odb.Core.Transaction
 
         void Close();
 
-        void ClearCache();
-
         bool IsRollbacked();
-
-        void Clear();
 
         IStorageEngine GetStorageEngine();
 
@@ -30,8 +26,6 @@ namespace NDatabase.Odb.Core.Transaction
 
         void SetFileSystemInterfaceToApplyTransaction(IFileSystemInterface fsi);
 
-        string GetBaseIdentification();
-
         MetaModel GetMetaModel();
 
         void SetMetaModel(MetaModel metaModel2);
@@ -39,13 +33,5 @@ namespace NDatabase.Odb.Core.Transaction
         string GetId();
 
         void RemoveObjectFromCache(object @object);
-
-        /// <summary>
-        ///   Add these information on a session cache.
-        /// </summary>
-        /// <remarks>
-        ///   Add these information on a session cache.
-        /// </remarks>
-        void AddObjectToCache(OID oid, object @object, ObjectInfoHeader oih);
     }
 }

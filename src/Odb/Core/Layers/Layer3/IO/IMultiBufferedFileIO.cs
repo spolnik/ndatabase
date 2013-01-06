@@ -5,7 +5,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
     /// <summary>
     ///   The interface for buffered IO
     /// </summary>
-    public interface IMultiBufferedFileIO : IDisposable
+    internal interface IMultiBufferedFileIO : IDisposable
     {
         long Length { get; }
         

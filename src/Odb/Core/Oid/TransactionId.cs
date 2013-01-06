@@ -3,14 +3,13 @@ using System.Text;
 
 namespace NDatabase.Odb.Core.Oid
 {
-    
-    public sealed class TransactionIdImpl : ITransactionId
+    internal sealed class TransactionId : ITransactionId
     {
         private readonly IDatabaseId _databaseId;
         private readonly long _id1;
         private readonly long _id2;
 
-        public TransactionIdImpl(IDatabaseId databaseId, long id1, long id2)
+        public TransactionId(IDatabaseId databaseId, long id1, long id2)
         {
             _databaseId = databaseId;
             _id1 = id1;
@@ -24,11 +23,6 @@ namespace NDatabase.Odb.Core.Oid
             return _id1;
         }
 
-        public IDatabaseId GetDatabaseId()
-        {
-            return _databaseId;
-        }
-
         public long GetId2()
         {
             return _id2;
@@ -36,12 +30,12 @@ namespace NDatabase.Odb.Core.Oid
 
         public ITransactionId Next()
         {
-            return new TransactionIdImpl(_databaseId, _id1, _id2 + 1);
+            return new TransactionId(_databaseId, _id1, _id2 + 1);
         }
 
         #endregion
 
-        private bool Equals(TransactionIdImpl other)
+        private bool Equals(TransactionId other)
         {
             return _databaseId.Equals(other._databaseId) && _id1 == other._id1 && _id2 == other._id2;
         }
@@ -52,7 +46,7 @@ namespace NDatabase.Odb.Core.Oid
                 return false;
             if (ReferenceEquals(this, obj))
                 return true;
-            return obj is TransactionIdImpl && Equals((TransactionIdImpl) obj);
+            return obj is TransactionId && Equals((TransactionId) obj);
         }
 
         public override int GetHashCode()

@@ -21,8 +21,6 @@ namespace NDatabase.Btree
 
         void SetBTree(IBTree tree);
 
-        void Clear();
-
         void Flush();
     }
 }

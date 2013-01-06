@@ -220,8 +220,6 @@
     <Compile Include="NDatabase\Odb\Test\Query\Criteria\TestRelation.cs" />
     <Compile Include="NDatabase\Odb\Test\Query\Values\Handler.cs" />
     <Compile Include="NDatabase\Odb\Test\Query\Values\Parameter.cs" />
-    <Compile Include="NDatabase\Odb\Test\Query\Values\TestCustomQueryFieldAction.cs" />
-    <Compile Include="NDatabase\Odb\Test\Query\Values\TestCustomQueryFieldAction2.cs" />
     <Compile Include="NDatabase\Odb\Test\Query\Values\TestGetValues.cs" />
     <Compile Include="NDatabase\Odb\Test\Query\Values\TestGetValuesGroupBy.cs" />
     <Compile Include="NDatabase\Odb\Test\Query\Values\TestGetValuesHandlerParameter.cs" />

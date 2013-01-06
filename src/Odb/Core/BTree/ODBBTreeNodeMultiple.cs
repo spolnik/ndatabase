@@ -24,10 +24,6 @@ namespace NDatabase.Odb.Core.BTree
 
         private OID _parentOid;
 
-        public OdbBtreeNodeMultiple()
-        {
-        }
-
         public OdbBtreeNodeMultiple(IBTree btree) : base(btree)
         {
         }
@@ -128,7 +124,7 @@ namespace NDatabase.Odb.Core.BTree
             NbChildren--;
         }
 
-        public override void MoveChildFromTo(int sourceIndex, int destinationIndex, bool throwExceptionIfDoesNotExist)
+        protected override void MoveChildFromTo(int sourceIndex, int destinationIndex, bool throwExceptionIfDoesNotExist)
         {
             if (throwExceptionIfDoesNotExist && _childrenOids[sourceIndex] == null)
             {
@@ -154,7 +150,7 @@ namespace NDatabase.Odb.Core.BTree
             Btree.GetPersister().SaveNode(child);
         }
 
-        public override void SetNullChildAt(int childIndex)
+        protected override void SetNullChildAt(int childIndex)
         {
             _childrenOids[childIndex] = null;
         }

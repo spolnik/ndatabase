@@ -27,11 +27,6 @@ namespace NDatabase.Odb.Core.Query.List.Values
             throw new OdbRuntimeException(NDatabaseError.OperationNotImplemented.AddParameter("addWithKey"));
         }
 
-        public override bool AddWithKey(int key, IObjectValues @object)
-        {
-            throw new OdbRuntimeException(NDatabaseError.OperationNotImplemented.AddParameter("addWithKey"));
-        }
-
         public new void AddOid(OID oid)
         {
             throw new OdbRuntimeException(NDatabaseError.InternalError.AddParameter("Add Oid not implemented "));

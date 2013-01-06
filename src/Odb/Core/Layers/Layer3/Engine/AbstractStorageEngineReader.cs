@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using NDatabase.Btree;
 using NDatabase.Odb.Core.BTree;
-using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer3.Oid;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Core.Transaction;
@@ -48,7 +46,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return triggerManager;
         }
 
-        public void RemoveLocalTriggerManager()
+        protected void RemoveLocalTriggerManager()
         {
             TriggerManagers.Remove(this);
         }
@@ -155,9 +153,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var lazyOdbBtreePersister = new LazyOdbBtreePersister(this);
 
             if (acceptMultipleValuesForSameKey)
-                btree = new OdbBtreeMultiple(OdbConfiguration.GetDefaultIndexBTreeDegree(), lazyOdbBtreePersister);
+                btree = new OdbBtreeMultiple(OdbConfiguration.GetIndexBTreeDegree(), lazyOdbBtreePersister);
             else
-                btree = new OdbBtreeSingle(OdbConfiguration.GetDefaultIndexBTreeDegree(), lazyOdbBtreePersister);
+                btree = new OdbBtreeSingle(OdbConfiguration.GetIndexBTreeDegree(), lazyOdbBtreePersister);
 
             classInfoIndex.BTree = btree;
             Store(classInfoIndex);
@@ -223,16 +221,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public abstract void AddUpdateTriggerFor(Type type, UpdateTrigger arg2);
 
-        public abstract void AddSession(ISession arg1, bool arg2);
-
-        public abstract ISession BuildDefaultSession();
-
-        public abstract IObjectIntrospector BuildObjectIntrospector();
-
-        public abstract IInternalTriggerManager BuildTriggerManager();
-
-        public abstract void CheckMetaModelCompatibility(IDictionary<string, ClassInfo> arg1);
-
         public abstract void Close();
 
         public abstract void Commit();
@@ -243,19 +231,13 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public abstract void Disconnect<T>(T plainObject) where T : class;
 
-        public abstract IList<FullIDInfo> GetAllObjectIdInfos(string arg1, bool arg2);
-
         public abstract IList<long> GetAllObjectIds();
 
         public abstract IFileIdentification GetBaseIdentification();
 
         public abstract IOdbList<ICommitListener> GetCommitListeners();
 
-        public abstract ITransactionId GetCurrentTransactionId();
-
         public abstract IDatabaseId GetDatabaseId();
-
-        public abstract NonNativeObjectInfo GetMetaObjectFromOid(OID arg1);
 
         public abstract object GetObjectFromOid(OID arg1);
 
@@ -271,7 +253,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public abstract IInternalTriggerManager GetTriggerManager();
 
-        public abstract IValues GetValues(IValuesQuery arg1, int arg2, int arg3);
+        public abstract IValues GetValues(IInternalValuesQuery query, int arg2, int arg3);
 
         public abstract bool IsClosed();
 
@@ -289,11 +271,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public abstract OID Store<T>(T plainObject) where T : class;
 
-        public abstract OID UpdateObject(NonNativeObjectInfo arg1, bool arg2);
-
-        public abstract OID WriteObjectInfo(OID arg1, NonNativeObjectInfo arg2, long arg3, bool arg4);
-
-        public abstract CurrentIdBlockInfo GetCurrentIdBlockInfo();
         public abstract IIdManager GetIdManager();
 
         #endregion
