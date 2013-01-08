@@ -1,6 +1,6 @@
 using System;
 
-namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
+namespace NDatabase.Odb.Core
 {
     /// <summary>
     /// Use when you don't want to serialize the field. 

@@ -158,7 +158,7 @@
     <Compile Include="Odb\Core\Layers\Layer3\IObjectWriter.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\FileIdentification.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IO\IMultiBuffer.cs" />
-    <Compile Include="Odb\Core\Layers\Layer3\IRefactorManager.cs" />
+    <Compile Include="Odb\Core\IRefactorManager.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IStorageEngine.cs" />
     <Compile Include="Odb\Core\NDatabaseError.cs" />
     <Compile Include="Odb\Core\Oid\OIDFactory.cs" />
@@ -168,7 +168,7 @@
     <Compile Include="Odb\Core\Query\Criteria\AbstractExpression.cs" />
     <Compile Include="Odb\Core\Query\Criteria\And.cs" />
     <Compile Include="Odb\Core\Query\Criteria\ComposedExpression.cs" />
-    <Compile Include="Odb\Core\Query\Criteria\IConstraint.cs" />
+    <Compile Include="Odb\Core\Query\IConstraint.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Not.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Or.cs" />
     <Compile Include="Odb\Core\Query\Execution\GenericQueryExecutor.cs" />
@@ -208,7 +208,7 @@
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\DefaultInstrumentationCallback.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\InstrumentationCallbackForStore.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\ObjectIntrospector.cs" />
-    <Compile Include="Odb\Core\Layers\Layer1\Introspector\NonPersistentAttribute.cs" />
+    <Compile Include="Odb\Core\NonPersistentAttribute.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Instance\InstanceBuilder.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Instance\ODBClassPool.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\AttributeValueComparator.cs" />
