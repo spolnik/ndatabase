@@ -8,21 +8,28 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         private readonly string _wholeFileName;
 
         private bool _enableAutomaticDelete;
-        private IOdbFileStream _fileWriter;
+        private IOdbStream _odbWriter;
 
         internal NonBufferedFileIO(string fileName)
         {
             CurrentPositionForDirectWrite = -1;
 
             _wholeFileName = fileName;
-            _fileWriter = new OdbFileStream(_wholeFileName);
+            _odbWriter = new OdbFileStream(_wholeFileName);
+        }
+
+        internal NonBufferedFileIO()
+        {
+            CurrentPositionForDirectWrite = -1;
+
+            _odbWriter = new OdbMemoryStream();
         }
 
         #region INonBufferedFileIO Members
 
         public long Length
         {
-            get { return _fileWriter.Length; }
+            get { return _odbWriter.Length; }
         }
 
         /// <summary>
@@ -43,13 +50,13 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
 
         private void GoToPosition(long position)
         {
-            _fileWriter.SetPosition(position);
+            _odbWriter.SetPosition(position);
         }
 
         public void WriteByte(byte b)
         {
             GoToPosition(CurrentPositionForDirectWrite);
-            _fileWriter.Write(b);
+            _odbWriter.Write(b);
             CurrentPositionForDirectWrite++;
         }
 
@@ -58,7 +65,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             GoToPosition(CurrentPositionForDirectWrite);
 
             var bytes = new byte[size];
-            var realSize = _fileWriter.Read(bytes, size);
+            var realSize = _odbWriter.Read(bytes, size);
 
             CurrentPositionForDirectWrite += realSize;
             return bytes;
@@ -68,7 +75,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         {
             GoToPosition(CurrentPositionForDirectWrite);
 
-            var b = (byte) _fileWriter.Read();
+            var b = (byte) _odbWriter.Read();
             CurrentPositionForDirectWrite++;
 
             return b;
@@ -82,14 +89,14 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         public void WriteBytes(byte[] bytes, int length)
         {
             GoToPosition(CurrentPositionForDirectWrite);
-            _fileWriter.Write(bytes, length);
+            _odbWriter.Write(bytes, length);
             CurrentPositionForDirectWrite += length;
         }
 
         public long Read(long position, byte[] buffer, int size)
         {
             GoToPosition(position);
-            return _fileWriter.Read(buffer, size);
+            return _odbWriter.Read(buffer, size);
         }
 
         #endregion
@@ -100,18 +107,18 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             {
                 if (OdbConfiguration.IsLoggingEnabled())
                 {
-                    var length = _fileWriter.Length.ToString();
+                    var length = _odbWriter.Length.ToString();
                     DLogger.Debug("Closing file with size " + length);
                 }
 
-                _fileWriter.Dispose();
+                _odbWriter.Dispose();
             }
             catch (IOException e)
             {
                 DLogger.Error(e.ToString());
             }
 
-            _fileWriter = null;
+            _odbWriter = null;
             AutoDelete();
         }
 

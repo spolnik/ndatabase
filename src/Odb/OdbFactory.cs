@@ -31,6 +31,11 @@ namespace NDatabase.Odb
             return Main.Odb.GetInstance(_last);
         }
 
+        public static IOdb OpenInMemory()
+        {
+            return Main.Odb.GetInMemoryInstance();
+        }
+
         /// <summary>
         ///  Remove existing ODB database with a given name
         /// </summary>

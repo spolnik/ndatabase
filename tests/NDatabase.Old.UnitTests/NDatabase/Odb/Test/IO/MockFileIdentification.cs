@@ -1,8 +1,9 @@
 using NDatabase.Odb.Core.Layers.Layer3;
+using NDatabase.Odb.Core.Layers.Layer3.IO;
 
 namespace Test.NDatabase.Odb.Test.IO
 {
-    public class MockFileIdentification : IFileIdentification
+    internal class MockFileIdentification : IDbIdentification
     {
         #region IFileIdentification Members
 
@@ -19,6 +20,21 @@ namespace Test.NDatabase.Odb.Test.IO
         public bool IsNew()
         {
             return false;
+        }
+
+        public void EnsureDirectories()
+        {
+            // mock
+        }
+
+        public IMultiBufferedFileIO GetIO(int bufferSize)
+        {
+            return new MultiBufferedFileIO(bufferSize);
+        }
+
+        public IDbIdentification GetTransactionIdentification(long creationDateTime, string sessionId)
+        {
+            return new InMemoryIdentification();
         }
 
         public string Directory

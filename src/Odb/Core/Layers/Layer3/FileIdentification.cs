@@ -1,11 +1,13 @@
 using System.IO;
+using NDatabase.Odb.Core.Layers.Layer3.IO;
+using NDatabase.Odb.Core.Transaction;
 
 namespace NDatabase.Odb.Core.Layers.Layer3
 {
     /// <summary>
     ///   Database Parameters for local database access
     /// </summary>
-    internal sealed class FileIdentification : IFileIdentification
+    internal sealed class FileIdentification : IDbIdentification
     {
         private readonly string _fileName;
 
@@ -33,6 +35,25 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         public bool IsNew()
         {
             return !File.Exists(_fileName);
+        }
+
+        public void EnsureDirectories()
+        {
+            OdbDirectory.Mkdirs(FileName);
+        }
+
+        public IMultiBufferedFileIO GetIO(int bufferSize)
+        {
+            return new MultiBufferedFileIO(FileName, bufferSize);
+        }
+
+        public IDbIdentification GetTransactionIdentification(long creationDateTime, string sessionId)
+        {
+            var filename =
+                string.Format("{0}-{1}-{2}.transaction", Id, creationDateTime, sessionId);
+            var filePath = Path.Combine(Directory, filename);
+
+            return new FileIdentification(filePath);
         }
 
         public string FileName

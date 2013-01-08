@@ -104,7 +104,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         void Close();
 
         /// <returns> Returns the parameters. </returns>
-        IFileIdentification GetFileIdentification();
+        IDbIdentification GetFileIdentification();
 
         IMultiBufferedFileIO GetIo();
 

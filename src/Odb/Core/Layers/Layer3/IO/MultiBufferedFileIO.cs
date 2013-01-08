@@ -63,6 +63,34 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             }
         }
 
+        public MultiBufferedFileIO(int bufferSize)
+        {
+            _isUsingBuffer = false;
+
+            _buffer = new MultiBuffer(bufferSize);
+            _currentPositionWhenUsingBuffer = -1;
+
+            _overlappingBuffers = new int[MultiBuffer.NumberOfBuffers];
+
+            NumberOfFlush = 0;
+
+            _nextBufferIndex = 0;
+
+            _nonBufferedFileIO = new NonBufferedFileIO();
+
+            try
+            {
+                if (OdbConfiguration.IsLoggingEnabled())
+                    DLogger.Info("Creating in memory datatbase ");
+
+                _ioDeviceLength = _nonBufferedFileIO.Length;
+            }
+            catch (Exception e)
+            {
+                throw new OdbRuntimeException(NDatabaseError.InternalError, e);
+            }
+        }
+
         /// <summary>
         ///   Internal counter of flush
         /// </summary>

@@ -70,7 +70,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         void SetCurrentIdBlockInfos(CurrentIdBlockInfo currentIdBlockInfo);
 
-        IFileIdentification GetBaseIdentification();
+        IDbIdentification GetBaseIdentification();
 
         /// <param name="className"> The class name on which the index must be created </param>
         /// <param name="name"> The name of the index </param>

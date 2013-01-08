@@ -456,7 +456,7 @@ namespace NDatabase.UnitTests.Transaction
                 throw new NotImplementedException();
             }
 
-            public IFileIdentification GetFileIdentification()
+            public IDbIdentification GetFileIdentification()
             {
                 throw new NotImplementedException();
             }

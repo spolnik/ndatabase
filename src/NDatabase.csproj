@@ -89,6 +89,8 @@
     <Compile Include="Btree\Impl\Singlevalue\BTreeSingleValuePerKey.cs" />
     <Compile Include="Btree\Tool\BTreeDisplay.cs" />
     <Compile Include="Btree\Tool\BTreeValidator.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\InMemoryIdentification.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IO\OdbMemoryStream.cs" />
     <Compile Include="Odb\Core\Query\Criteria\ComparisonConstraint.cs" />
     <Compile Include="Odb\Core\Query\Criteria\EmptyConstraint.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Evaluations\AEvaluation.cs" />
@@ -171,12 +173,12 @@
     <Compile Include="Odb\Core\Layers\Layer3\Engine\CheckMetaModelResult.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\FileSystemInterface.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IFileSystemInterface.cs" />
-    <Compile Include="Odb\Core\Layers\Layer3\IFileIdentification.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IDbIdentification.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IO\IMultiBufferedFileIO.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\ICommitListener.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IDTypes.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IIdManager.cs" />
-    <Compile Include="Odb\Core\Layers\Layer3\IO\IOdbFileStream.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IO\IOdbStream.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IObjectReader.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IObjectWriter.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\FileIdentification.cs" />

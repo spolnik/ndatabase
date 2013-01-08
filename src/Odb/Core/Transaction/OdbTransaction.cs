@@ -314,30 +314,38 @@ namespace NDatabase.Odb.Core.Transaction
             }
         }
 
-        private IFileIdentification GetParameters()
+        private IDbIdentification GetParameters()
         {
             var parameters = _fsiToApplyWriteActions.GetFileIdentification();
 
-            var filename =
-                string.Format("{0}-{1}-{2}.transaction", parameters.Id, _creationDateTime, _session.GetId());
-            var filePath = Path.Combine(parameters.Directory, filename);
-
-            return new FileIdentification(filePath);
+            return parameters.GetTransactionIdentification(_creationDateTime, _session.GetId());
         }
 
         private void CheckFileAccess(string fileName)
         {
             lock (this)
             {
-                if (_fsi == null)
+                if (_fsi != null) 
+                    return;
+
+                IDbIdentification parameters;
+                if (fileName == null)
+                {
+                    parameters = GetParameters();
+                }
+                else
                 {
                     // to unable direct junit test of FileSystemInterface
-                    var parameters = _fsiToApplyWriteActions == null
-                                         ? new FileIdentification(fileName)
-                                         : GetParameters();
+                    parameters = _fsiToApplyWriteActions == null
+                                     ? new FileIdentification(fileName)
+                                     : GetParameters();    
+                }
 
-                    _fsi = new FileSystemInterface(parameters, MultiBuffer.DefaultBufferSizeForTransaction, _session);
-                    _fsi.GetIo().EnableAutomaticDelete(true);
+                _fsi = new FileSystemInterface(parameters, MultiBuffer.DefaultBufferSizeForTransaction, _session);
+
+                if (fileName != null)
+                {
+                    _fsi.GetIo().EnableAutomaticDelete(true);    
                 }
             }
         }

@@ -57,7 +57,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <summary>
         ///   The database file name
         /// </summary>
-        public StorageEngine(IFileIdentification parameters)
+        public StorageEngine(IDbIdentification parameters)
         {
             _currentIdBlockInfo = new CurrentIdBlockInfo();
 
@@ -388,7 +388,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return IsDbClosed;
         }
 
-        public override IFileIdentification GetBaseIdentification()
+        public override IDbIdentification GetBaseIdentification()
         {
             return FileIdentification;
         }

@@ -3,38 +3,29 @@ using System.IO;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.IO
 {
-    internal sealed class OdbFileStream : IOdbStream
+    internal sealed class OdbMemoryStream : IOdbStream
     {
-        private const int DefaultBufferSize = 4096*2;
-
-        private FileStream _fileAccess;
+        private MemoryStream _memoryStream;
         private long _position;
 
-        internal OdbFileStream(string wholeFileName)
+        internal OdbMemoryStream()
         {
             try
             {
-                _fileAccess = new FileStream(wholeFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read,
-                                             DefaultBufferSize, FileOptions.RandomAccess);
-            }
-            catch (IOException e)
-            {
-                throw new OdbRuntimeException(NDatabaseError.FileNotFoundOrItIsAlreadyUsed.AddParameter(wholeFileName), e);
+                _memoryStream = new MemoryStream();
             }
             catch(Exception ex)
             {
-                throw new OdbRuntimeException(NDatabaseError.InternalError.AddParameter("Error during opening FileStream"), ex);
+                throw new OdbRuntimeException(NDatabaseError.InternalError.AddParameter("Error during opening MemoryStream"), ex);
             }
         }
-
-        #region IO Members
 
         /// <summary>
         /// Gets the length in bytes of the stream
         /// </summary>
         public long Length
         {
-            get { return _fileAccess.Length; }
+            get { return _memoryStream.Length; }
         }
 
         /// <summary>
@@ -56,14 +47,14 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
                 if (position < 0)
                     throw new OdbRuntimeException(NDatabaseError.NegativePosition.AddParameter(position));
 
-                _fileAccess.Seek(position, SeekOrigin.Begin);
+                _memoryStream.Seek(position, SeekOrigin.Begin);
             }
             catch (IOException e)
             {
                 long l = -1;
                 try
                 {
-                    l = _fileAccess.Length;
+                    l = _memoryStream.Length;
                 }
                 catch (IOException)
                 {
@@ -83,8 +74,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             try
             {
                 Seek(_position);
-                _fileAccess.WriteByte(b);
-                _position = _fileAccess.Position;
+                _memoryStream.WriteByte(b);
+                _position = _memoryStream.Position;
             }
             catch (IOException e)
             {
@@ -97,8 +88,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             try
             {
                 Seek(_position);
-                _fileAccess.Write(buffer, 0, size);
-                _position = _fileAccess.Position;
+                _memoryStream.Write(buffer, 0, size);
+                _position = _memoryStream.Position;
             }
             catch (IOException e)
             {
@@ -111,11 +102,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             try
             {
                 Seek(_position);
-                var data = _fileAccess.ReadByte();
+                var data = _memoryStream.ReadByte();
                 if (data == -1)
                     throw new IOException("End of file");
 
-                _position = _fileAccess.Position;
+                _position = _memoryStream.Position;
 
                 return (byte)data;
             }
@@ -131,8 +122,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             try
             {
                 Seek(_position);
-                var read = _fileAccess.Read(buffer, 0, size);
-                _position = _fileAccess.Position;
+                var read = _memoryStream.Read(buffer, 0, size);
+                _position = _memoryStream.Position;
                 return read;
             }
             catch (IOException e)
@@ -141,12 +132,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             }
         }
 
-        #endregion
-
         public void Dispose()
         {
-            _fileAccess.Close();
-            _fileAccess = null;
+            _memoryStream.Close();
+            _memoryStream = null;
         }
     }
 }

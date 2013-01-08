@@ -16,9 +16,19 @@ namespace NDatabase.Odb.Main
         {
         }
 
+        private Odb()
+            : base(new StorageEngine(new InMemoryIdentification()))
+        {
+        }
+
         internal static Odb GetInstance(string fileName)
         {
             return new Odb(fileName);
+        }
+
+        internal static Odb GetInMemoryInstance()
+        {
+            return new Odb();
         }
     }
 }
