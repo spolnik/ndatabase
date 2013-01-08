@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using NDatabase.Exceptions;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.IO
 {

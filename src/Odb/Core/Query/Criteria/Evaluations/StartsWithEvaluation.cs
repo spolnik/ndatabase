@@ -1,4 +1,5 @@
 using System;
+using NDatabase.Exceptions;
 
 namespace NDatabase.Odb.Core.Query.Criteria.Evaluations
 {

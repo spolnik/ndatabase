@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Tool.Wrappers.List;

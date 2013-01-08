@@ -1,4 +1,5 @@
-﻿using NDatabase.Odb.Core.Layers.Layer2.Meta;
+﻿using NDatabase.Exceptions;
+using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3.Block;
 using NDatabase.Odb.Core.Layers.Layer3.IO;
 using NDatabase.Odb.Core.Layers.Layer3.Oid;

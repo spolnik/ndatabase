@@ -1,6 +1,6 @@
 using System;
 using NDatabase.Btree;
-using NDatabase.Btree.Exception;
+using NDatabase.Exceptions;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.BTree;
 using NUnit.Framework;

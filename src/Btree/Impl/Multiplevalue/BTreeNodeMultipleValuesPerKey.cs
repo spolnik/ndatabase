@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
-using NDatabase.Btree.Exception;
 using NDatabase.Btree.Tool;
+using NDatabase.Exceptions;
 
 namespace NDatabase.Btree.Impl.Multiplevalue
 {

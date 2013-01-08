@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using NDatabase.Exceptions;
 using NDatabase.Odb;
 using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Trigger;

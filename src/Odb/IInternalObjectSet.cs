@@ -1,3 +1,4 @@
+using NDatabase.Odb.Core;
 using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb

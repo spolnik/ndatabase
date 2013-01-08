@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using NDatabase.Exceptions;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Instance
 {

@@ -37,14 +37,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Btree\AbstractBTreeIterator.cs" />
-    <Compile Include="Btree\BTreeError.cs" />
+    <Compile Include="Exceptions\BTreeError.cs" />
     <Compile Include="Btree\BTreeIteratorMultipleValuesPerKey.cs" />
     <Compile Include="Btree\BTreeIteratorSingleValuePerKey.cs" />
     <Compile Include="Btree\Impl\InMemoryPersister.cs" />
     <Compile Include="Btree\IterarorAdapter.cs" />
-    <Compile Include="Btree\Exception\BTreeException.cs" />
-    <Compile Include="Btree\Exception\BTreeNodeValidationException.cs" />
-    <Compile Include="Btree\Exception\DuplicatedKeyException.cs" />
+    <Compile Include="Exceptions\BTreeException.cs" />
+    <Compile Include="Exceptions\BTreeNodeValidationException.cs" />
+    <Compile Include="Exceptions\DuplicatedKeyException.cs" />
     <Compile Include="Btree\IBTree.cs" />
     <Compile Include="Btree\IBTreeMultipleValuesPerKey.cs" />
     <Compile Include="Btree\IBTreeNode.cs" />
@@ -99,12 +99,12 @@
     <Compile Include="Odb\Core\Query\Linq\PlaceHolderQuery.cs" />
     <Compile Include="Odb\Core\Query\Linq\QueryBuilderContext.cs" />
     <Compile Include="Odb\Core\Query\Linq\QueryBuilderRecorder.cs" />
-    <Compile Include="Odb\Core\Query\Linq\LinqQueryException.cs" />
+    <Compile Include="Exceptions\LinqQueryException.cs" />
     <Compile Include="Odb\Core\Query\Linq\SubtreeEvaluator.cs" />
     <Compile Include="Odb\Core\Query\Linq\UnoptimizedQuery.cs" />
     <Compile Include="Odb\Core\Query\Linq\WhereClauseVisitor.cs" />
     <Compile Include="Odb\IIndexManager.cs" />
-    <Compile Include="Odb\Core\IError.cs" />
+    <Compile Include="Exceptions\IError.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\IIntrospectionCallback.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\IObjectIntrospector.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Instance\IInstanceBuilder.cs" />
@@ -160,8 +160,8 @@
     <Compile Include="Odb\Core\Layers\Layer3\IO\IMultiBuffer.cs" />
     <Compile Include="Odb\Core\IRefactorManager.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IStorageEngine.cs" />
-    <Compile Include="Odb\Core\NDatabaseError.cs" />
-    <Compile Include="Odb\Core\Oid\OIDFactory.cs" />
+    <Compile Include="Exceptions\NDatabaseError.cs" />
+    <Compile Include="Odb\Core\OIDFactory.cs" />
     <Compile Include="Odb\Core\OrderByConstants.cs" />
     <Compile Include="Odb\Core\Query\AbstractQuery.cs" />
     <Compile Include="Odb\Core\Query\ComposedCompareKey.cs" />
@@ -195,7 +195,7 @@
     <Compile Include="Odb\Core\Trigger\SelectTrigger.cs" />
     <Compile Include="Odb\Core\Trigger\Trigger.cs" />
     <Compile Include="Odb\Core\Trigger\UpdateTrigger.cs" />
-    <Compile Include="Odb\CorruptedDatabaseException.cs" />
+    <Compile Include="Exceptions\CorruptedDatabaseException.cs" />
     <Compile Include="Odb\IDatabaseId.cs" />
     <Compile Include="Odb\IExternalOID.cs" />
     <Compile Include="Odb\Core\BTree\LazyODBBTreeIteratorMultiple.cs" />
@@ -286,7 +286,7 @@
     <Compile Include="Odb\OdbConfiguration.cs" />
     <Compile Include="Odb\IOdbExt.cs" />
     <Compile Include="Odb\OdbFactory.cs" />
-    <Compile Include="Odb\ODBRuntimeException.cs" />
+    <Compile Include="Exceptions\ODBRuntimeException.cs" />
     <Compile Include="Odb\OID.cs" />
     <Compile Include="Odb\ITransactionId.cs" />
     <Compile Include="Odb\TriggerManager.cs" />
@@ -309,7 +309,7 @@
     <Compile Include="Tool\Wrappers\List\OdbList.cs" />
     <Compile Include="Tool\Wrappers\Map\OdbHashMap2.cs" />
     <Compile Include="Tool\Wrappers\OdbClassUtil.cs" />
-    <Compile Include="Tool\Wrappers\OdbComparable.cs" />
+    <Compile Include="Odb\Core\IOdbComparable.cs" />
     <Compile Include="Tool\Wrappers\OdbRandom.cs" />
     <Compile Include="Tool\Wrappers\OdbString.cs" />
     <Compile Include="Tool\Wrappers\OdbTime.cs" />

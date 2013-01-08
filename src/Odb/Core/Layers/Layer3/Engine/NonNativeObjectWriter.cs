@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer2.Meta.Compare;
 using NDatabase.Odb.Core.Layers.Layer3.Block;

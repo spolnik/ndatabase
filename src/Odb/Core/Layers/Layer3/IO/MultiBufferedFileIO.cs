@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Text;
+using NDatabase.Exceptions;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
 

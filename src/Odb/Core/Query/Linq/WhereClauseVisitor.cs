@@ -2,7 +2,6 @@
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.Linq.Expressions;
-using NDatabase.Odb.Core.Query.Criteria;
 
 namespace NDatabase.Odb.Core.Query.Linq
 {

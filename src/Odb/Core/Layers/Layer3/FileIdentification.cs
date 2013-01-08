@@ -1,6 +1,5 @@
 using System.IO;
 using NDatabase.Odb.Core.Layers.Layer3.IO;
-using NDatabase.Odb.Core.Transaction;
 
 namespace NDatabase.Odb.Core.Layers.Layer3
 {

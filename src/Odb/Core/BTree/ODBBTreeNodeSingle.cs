@@ -1,6 +1,6 @@
 using NDatabase.Btree;
-using NDatabase.Btree.Exception;
 using NDatabase.Btree.Impl.Singlevalue;
+using NDatabase.Exceptions;
 
 namespace NDatabase.Odb.Core.BTree
 {

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using NDatabase.Odb;
+using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Oid;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;

@@ -1,4 +1,6 @@
-namespace NDatabase.Odb.Core.Oid
+using NDatabase.Odb.Core.Oid;
+
+namespace NDatabase.Odb.Core
 {
     /// <summary>
     /// Factory class to create OIDs

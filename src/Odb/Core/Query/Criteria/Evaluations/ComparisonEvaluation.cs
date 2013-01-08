@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer2.Meta.Compare;
 
 namespace NDatabase.Odb.Core.Query.Criteria.Evaluations

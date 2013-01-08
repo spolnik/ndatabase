@@ -1,4 +1,5 @@
 using System.Text;
+using NDatabase.Exceptions;
 using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb.Core.Query.List.Values

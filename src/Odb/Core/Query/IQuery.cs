@@ -1,5 +1,3 @@
-using NDatabase.Odb.Core.Query.Criteria;
-
 namespace NDatabase.Odb.Core.Query
 {
     /// <summary>
@@ -13,7 +11,7 @@ namespace NDatabase.Odb.Core.Query
     /// (see constrain()) and upon calls to  descend()
     /// that request nodes that do not yet exist.
     /// 
-    /// References to joined nodes in the query graph kann be obtained
+    /// References to joined nodes in the query graph can be obtained
     /// by "walking" along the nodes of the graph with the method 
     /// descend().
     /// 
@@ -70,7 +68,7 @@ namespace NDatabase.Odb.Core.Query
         /// returns a reference to a descendant node in the query graph.
         /// If the node does not exist, it will be created.
         /// 
-        /// Quert defined class represented in the query node is tested, whether
+        /// Query defined class represented in the query node is tested, whether
         /// it contains a field with the specified field name. The
         /// descendant Query node will be created from all possible candidates.
         /// </summary>

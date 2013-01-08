@@ -1,6 +1,6 @@
 using System;
 
-namespace NDatabase.Odb.Core.Query.Linq
+namespace NDatabase.Exceptions
 {
     /// <summary>
     /// NDatabase exception raised during processing linq query

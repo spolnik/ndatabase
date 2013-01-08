@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Reflection;
 using System.Reflection.Emit;
+using NDatabase.Exceptions;
 using NDatabase.Reflection;
 
 namespace NDatabase.Odb.Core.Query.Linq

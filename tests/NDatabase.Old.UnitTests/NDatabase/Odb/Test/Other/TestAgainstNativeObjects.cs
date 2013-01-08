@@ -1,3 +1,4 @@
+using NDatabase.Exceptions;
 using NDatabase.Odb;
 using NUnit.Framework;
 
