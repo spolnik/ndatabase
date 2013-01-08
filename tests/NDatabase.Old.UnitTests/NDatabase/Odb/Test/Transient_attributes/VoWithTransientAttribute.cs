@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using NDatabase.Odb.Core.Layers.Layer1.Introspector;
+using NDatabase.Odb.Core;
 
 namespace Test.NDatabase.Odb.Test.Transient_attributes
 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web;
 using NDatabase.Odb;
+using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Oid;
 
 namespace TutorialWebSite

@@ -1,4 +1,4 @@
-namespace NDatabase.Odb.Core
+namespace NDatabase.Exceptions
 {
     internal interface IError
     {

@@ -1,11 +1,12 @@
 ﻿using System.Text;
+using NDatabase.Exceptions;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer3.IO;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Layer3
 {
-    internal class When_we_use_odb_file_stream : InstanceSpecification<IOdbFileStream>
+    internal class When_we_use_odb_file_stream : InstanceSpecification<IOdbStream>
     {
         private byte _testByte;
         private const string ExistingDbName = "odbfilestream.ndb";
@@ -17,7 +18,7 @@ namespace NDatabase.UnitTests.Layer3
             _testByte = 3;
         }
 
-        protected override IOdbFileStream Create_subject_under_test()
+        protected override IOdbStream Create_subject_under_test()
         {
             return new OdbFileStream(ExistingDbName);
         }

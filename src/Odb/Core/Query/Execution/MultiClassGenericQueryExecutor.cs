@@ -1,3 +1,5 @@
+using NDatabase.Exceptions;
+
 namespace NDatabase.Odb.Core.Query.Execution
 {
     /// <summary>

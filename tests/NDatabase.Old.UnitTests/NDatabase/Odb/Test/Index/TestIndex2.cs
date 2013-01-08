@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using NDatabase.Btree.Exception;
+using NDatabase.Exceptions;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.Criteria;

@@ -11,25 +11,6 @@
     <RootNamespace>NDatabase</RootNamespace>
     <AssemblyName>NDatabase3</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <UpgradeBackupLocation />
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -41,7 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\NDatabase3.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\NDatabase3.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -51,12 +32,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>True</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\NDatabase.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml.Linq" />
@@ -64,14 +39,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Btree\AbstractBTreeIterator.cs" />
-    <Compile Include="Btree\BTreeError.cs" />
+    <Compile Include="Exceptions\BTreeError.cs" />
     <Compile Include="Btree\BTreeIteratorMultipleValuesPerKey.cs" />
     <Compile Include="Btree\BTreeIteratorSingleValuePerKey.cs" />
     <Compile Include="Btree\Impl\InMemoryPersister.cs" />
     <Compile Include="Btree\IterarorAdapter.cs" />
-    <Compile Include="Btree\Exception\BTreeException.cs" />
-    <Compile Include="Btree\Exception\BTreeNodeValidationException.cs" />
-    <Compile Include="Btree\Exception\DuplicatedKeyException.cs" />
+    <Compile Include="Exceptions\BTreeException.cs" />
+    <Compile Include="Exceptions\BTreeNodeValidationException.cs" />
+    <Compile Include="Exceptions\DuplicatedKeyException.cs" />
     <Compile Include="Btree\IBTree.cs" />
     <Compile Include="Btree\IBTreeMultipleValuesPerKey.cs" />
     <Compile Include="Btree\IBTreeNode.cs" />
@@ -91,6 +66,8 @@
     <Compile Include="Btree\Impl\Singlevalue\BTreeSingleValuePerKey.cs" />
     <Compile Include="Btree\Tool\BTreeDisplay.cs" />
     <Compile Include="Btree\Tool\BTreeValidator.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\InMemoryIdentification.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IO\OdbMemoryStream.cs" />
     <Compile Include="Odb\Core\Query\Criteria\ComparisonConstraint.cs" />
     <Compile Include="Odb\Core\Query\Criteria\EmptyConstraint.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Evaluations\AEvaluation.cs" />
@@ -124,12 +101,12 @@
     <Compile Include="Odb\Core\Query\Linq\PlaceHolderQuery.cs" />
     <Compile Include="Odb\Core\Query\Linq\QueryBuilderContext.cs" />
     <Compile Include="Odb\Core\Query\Linq\QueryBuilderRecorder.cs" />
-    <Compile Include="Odb\Core\Query\Linq\LinqQueryException.cs" />
+    <Compile Include="Exceptions\LinqQueryException.cs" />
     <Compile Include="Odb\Core\Query\Linq\SubtreeEvaluator.cs" />
     <Compile Include="Odb\Core\Query\Linq\UnoptimizedQuery.cs" />
     <Compile Include="Odb\Core\Query\Linq\WhereClauseVisitor.cs" />
     <Compile Include="Odb\IIndexManager.cs" />
-    <Compile Include="Odb\Core\IError.cs" />
+    <Compile Include="Exceptions\IError.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\IIntrospectionCallback.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\IObjectIntrospector.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Instance\IInstanceBuilder.cs" />
@@ -173,27 +150,27 @@
     <Compile Include="Odb\Core\Layers\Layer3\Engine\CheckMetaModelResult.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\FileSystemInterface.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IFileSystemInterface.cs" />
-    <Compile Include="Odb\Core\Layers\Layer3\IFileIdentification.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IDbIdentification.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IO\IMultiBufferedFileIO.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\ICommitListener.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IDTypes.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IIdManager.cs" />
-    <Compile Include="Odb\Core\Layers\Layer3\IO\IOdbFileStream.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IO\IOdbStream.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IObjectReader.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IObjectWriter.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\FileIdentification.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IO\IMultiBuffer.cs" />
-    <Compile Include="Odb\Core\Layers\Layer3\IRefactorManager.cs" />
+    <Compile Include="Odb\Core\IRefactorManager.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IStorageEngine.cs" />
-    <Compile Include="Odb\Core\NDatabaseError.cs" />
-    <Compile Include="Odb\Core\Oid\OIDFactory.cs" />
+    <Compile Include="Exceptions\NDatabaseError.cs" />
+    <Compile Include="Odb\Core\OIDFactory.cs" />
     <Compile Include="Odb\Core\OrderByConstants.cs" />
     <Compile Include="Odb\Core\Query\AbstractQuery.cs" />
     <Compile Include="Odb\Core\Query\ComposedCompareKey.cs" />
     <Compile Include="Odb\Core\Query\Criteria\AbstractExpression.cs" />
     <Compile Include="Odb\Core\Query\Criteria\And.cs" />
     <Compile Include="Odb\Core\Query\Criteria\ComposedExpression.cs" />
-    <Compile Include="Odb\Core\Query\Criteria\IConstraint.cs" />
+    <Compile Include="Odb\Core\Query\IConstraint.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Not.cs" />
     <Compile Include="Odb\Core\Query\Criteria\Or.cs" />
     <Compile Include="Odb\Core\Query\Execution\GenericQueryExecutor.cs" />
@@ -220,7 +197,7 @@
     <Compile Include="Odb\Core\Trigger\SelectTrigger.cs" />
     <Compile Include="Odb\Core\Trigger\Trigger.cs" />
     <Compile Include="Odb\Core\Trigger\UpdateTrigger.cs" />
-    <Compile Include="Odb\CorruptedDatabaseException.cs" />
+    <Compile Include="Exceptions\CorruptedDatabaseException.cs" />
     <Compile Include="Odb\IDatabaseId.cs" />
     <Compile Include="Odb\IExternalOID.cs" />
     <Compile Include="Odb\Core\BTree\LazyODBBTreeIteratorMultiple.cs" />
@@ -233,7 +210,7 @@
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\DefaultInstrumentationCallback.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\InstrumentationCallbackForStore.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\ObjectIntrospector.cs" />
-    <Compile Include="Odb\Core\Layers\Layer1\Introspector\NonPersistentAttribute.cs" />
+    <Compile Include="Odb\Core\NonPersistentAttribute.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Instance\InstanceBuilder.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Instance\ODBClassPool.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\AttributeValueComparator.cs" />
@@ -311,7 +288,7 @@
     <Compile Include="Odb\OdbConfiguration.cs" />
     <Compile Include="Odb\IOdbExt.cs" />
     <Compile Include="Odb\OdbFactory.cs" />
-    <Compile Include="Odb\ODBRuntimeException.cs" />
+    <Compile Include="Exceptions\ODBRuntimeException.cs" />
     <Compile Include="Odb\OID.cs" />
     <Compile Include="Odb\ITransactionId.cs" />
     <Compile Include="Odb\TriggerManager.cs" />
@@ -335,7 +312,7 @@
     <Compile Include="Tool\Wrappers\List\OdbList.cs" />
     <Compile Include="Tool\Wrappers\Map\OdbHashMap2.cs" />
     <Compile Include="Tool\Wrappers\OdbClassUtil.cs" />
-    <Compile Include="Tool\Wrappers\OdbComparable.cs" />
+    <Compile Include="Odb\Core\IOdbComparable.cs" />
     <Compile Include="Tool\Wrappers\OdbRandom.cs" />
     <Compile Include="Tool\Wrappers\OdbString.cs" />
     <Compile Include="Tool\Wrappers\OdbTime.cs" />
@@ -359,11 +336,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <None Include="..\NDatabase.snk">
-      <Link>NDatabase.snk</Link>
-    </None>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>echo POSTBUILDSTEP for $(ProjectName)

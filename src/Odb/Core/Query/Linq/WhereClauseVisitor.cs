@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using NDatabase.Odb.Core.Query.Criteria;
 
 namespace NDatabase.Odb.Core.Query.Linq
 {
@@ -55,6 +54,7 @@ namespace NDatabase.Odb.Core.Query.Linq
                     return;
 
                 case "Equals":
+                    RecordConstraintApplication(c => c.Equal());
                     return;
             }
 
@@ -225,6 +225,7 @@ namespace NDatabase.Odb.Core.Query.Linq
             switch (b.NodeType)
             {
                 case ExpressionType.Equal:
+                    RecordConstraintApplication(c => c.Equal());
                     break;
                 case ExpressionType.NotEqual:
                     RecordConstraintApplication(c => c.Equal().Not());

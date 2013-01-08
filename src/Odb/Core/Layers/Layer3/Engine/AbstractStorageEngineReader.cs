@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using NDatabase.Btree;
+using NDatabase.Exceptions;
 using NDatabase.Odb.Core.BTree;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Query;
@@ -22,7 +23,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <summary>
         ///   The file parameters - if we are accessing a file, it will be a IOFileParameters that contains the file name
         /// </summary>
-        protected IFileIdentification FileIdentification;
+        protected IDbIdentification FileIdentification;
 
         /// <summary>
         ///   To check if database has already been closed
@@ -233,7 +234,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public abstract IList<long> GetAllObjectIds();
 
-        public abstract IFileIdentification GetBaseIdentification();
+        public abstract IDbIdentification GetBaseIdentification();
 
         public abstract IOdbList<ICommitListener> GetCommitListeners();
 

@@ -1,7 +1,4 @@
-using NDatabase.Odb;
-using NDatabase.Odb.Core;
-
-namespace NDatabase.Btree.Exception
+namespace NDatabase.Exceptions
 {
     /// <summary>
     /// Exception raised when error in BTrees will appear

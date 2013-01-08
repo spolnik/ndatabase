@@ -1,11 +1,14 @@
 using System;
 using System.IO;
+using NDatabase.Exceptions;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.IO
 {
-    internal sealed class OdbFileStream : IOdbFileStream
+    internal sealed class OdbFileStream : IOdbStream
     {
         private const int DefaultBufferSize = 4096*2;
+        private readonly object _lockObject = new object();
+        private bool _disposed;
 
         private FileStream _fileAccess;
         private long _position;
@@ -16,21 +19,24 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             {
                 _fileAccess = new FileStream(wholeFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read,
                                              DefaultBufferSize, FileOptions.RandomAccess);
+                _disposed = false;
             }
             catch (IOException e)
             {
-                throw new OdbRuntimeException(NDatabaseError.FileNotFoundOrItIsAlreadyUsed.AddParameter(wholeFileName), e);
+                throw new OdbRuntimeException(NDatabaseError.FileNotFoundOrItIsAlreadyUsed.AddParameter(wholeFileName),
+                                              e);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                throw new OdbRuntimeException(NDatabaseError.InternalError.AddParameter("Error during opening FileStream"), ex);
+                throw new OdbRuntimeException(
+                    NDatabaseError.InternalError.AddParameter("Error during opening FileStream"), ex);
             }
         }
 
         #region IO Members
 
         /// <summary>
-        /// Gets the length in bytes of the stream
+        ///     Gets the length in bytes of the stream
         /// </summary>
         public long Length
         {
@@ -38,7 +44,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         }
 
         /// <summary>
-        ///  Sets the current position of this stream to the given value
+        ///     Sets the current position of this stream to the given value
         /// </summary>
         /// <param name="position">offset</param>
         public void SetPosition(long position)
@@ -47,35 +53,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
                 throw new OdbRuntimeException(NDatabaseError.NegativePosition.AddParameter(position));
 
             _position = position;
-        }
-
-        private void Seek(long position)
-        {
-            try
-            {
-                if (position < 0)
-                    throw new OdbRuntimeException(NDatabaseError.NegativePosition.AddParameter(position));
-
-                _fileAccess.Seek(position, SeekOrigin.Begin);
-            }
-            catch (IOException e)
-            {
-                long l = -1;
-                try
-                {
-                    l = _fileAccess.Length;
-                }
-                catch (IOException)
-                {
-                }
-
-                throw new OdbRuntimeException(NDatabaseError.GoToPosition.AddParameter(position).AddParameter(l), e);
-            }
-            catch (Exception ex)
-            {
-                var parameter = string.Concat("Error during seek operation, position: ", position.ToString());
-                throw new OdbRuntimeException(NDatabaseError.InternalError.AddParameter(parameter), ex);
-            }
         }
 
         public void Write(byte b)
@@ -117,7 +94,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
 
                 _position = _fileAccess.Position;
 
-                return (byte)data;
+                return (byte) data;
             }
             catch (IOException e)
             {
@@ -141,12 +118,61 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             }
         }
 
+        private void Seek(long position)
+        {
+            try
+            {
+                if (position < 0)
+                    throw new OdbRuntimeException(NDatabaseError.NegativePosition.AddParameter(position));
+
+                _fileAccess.Seek(position, SeekOrigin.Begin);
+            }
+            catch (IOException e)
+            {
+                long l = -1;
+                try
+                {
+                    l = _fileAccess.Length;
+                }
+                catch (IOException)
+                {
+                }
+
+                throw new OdbRuntimeException(NDatabaseError.GoToPosition.AddParameter(position).AddParameter(l), e);
+            }
+            catch (Exception ex)
+            {
+                var parameter = string.Concat("Error during seek operation, position: ", position.ToString());
+                throw new OdbRuntimeException(NDatabaseError.InternalError.AddParameter(parameter), ex);
+            }
+        }
+
         #endregion
 
         public void Dispose()
         {
-            _fileAccess.Close();
-            _fileAccess = null;
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            lock (_lockObject)
+            {
+                if (_disposed)
+                    return;
+
+                if (disposing && _fileAccess != null)
+                    _fileAccess.Dispose();
+
+                _fileAccess = null;
+                _disposed = true;
+            }
+        }
+
+        ~OdbFileStream()
+        {
+            Dispose(false);
         }
     }
 }

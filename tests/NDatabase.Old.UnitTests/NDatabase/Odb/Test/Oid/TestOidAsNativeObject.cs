@@ -1,3 +1,4 @@
+using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Oid;
 using NUnit.Framework;
 

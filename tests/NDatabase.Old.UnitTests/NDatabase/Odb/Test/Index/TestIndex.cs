@@ -1,5 +1,5 @@
 using System;
-using NDatabase.Btree.Exception;
+using NDatabase.Exceptions;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.BTree;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;

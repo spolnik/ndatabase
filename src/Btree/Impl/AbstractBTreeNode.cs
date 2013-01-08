@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
 using System.Text;
-using NDatabase.Btree.Exception;
 using NDatabase.Btree.Tool;
-using NDatabase.Odb.Core.Layers.Layer1.Introspector;
+using NDatabase.Exceptions;
+using NDatabase.Odb.Core;
 
 namespace NDatabase.Btree.Impl
 {

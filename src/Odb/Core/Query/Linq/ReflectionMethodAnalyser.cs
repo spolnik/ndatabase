@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using NDatabase.Exceptions;
 using NDatabase.Reflection;
 using NDatabase.Tool;
 

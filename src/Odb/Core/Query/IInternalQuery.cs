@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Core.Query.Execution;
 
 namespace NDatabase.Odb.Core.Query

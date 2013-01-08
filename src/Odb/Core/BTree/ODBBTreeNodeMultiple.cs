@@ -1,7 +1,6 @@
 using NDatabase.Btree;
-using NDatabase.Btree.Exception;
 using NDatabase.Btree.Impl.Multiplevalue;
-using NDatabase.Odb.Core.Layers.Layer1.Introspector;
+using NDatabase.Exceptions;
 
 namespace NDatabase.Odb.Core.BTree
 {

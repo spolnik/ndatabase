@@ -1,3 +1,4 @@
+using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Query.List.Objects;
 using NDatabase.Tool.Wrappers;
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using NDatabase.Tool;
+using NDatabase.Exceptions;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Instance
 {

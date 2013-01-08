@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq.Expressions;
+using NDatabase.Exceptions;
 
 namespace NDatabase.Odb.Core.Query.Linq
 {

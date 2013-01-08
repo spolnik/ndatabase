@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Oid;
 using NDatabase.Tool;

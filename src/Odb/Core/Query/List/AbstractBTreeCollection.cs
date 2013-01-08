@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using NDatabase.Btree;
-using NDatabase.Odb.Core.Layers.Layer1.Introspector;
+using NDatabase.Exceptions;
 using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Query.List

@@ -1,4 +1,4 @@
-namespace NDatabase.Odb.Core.Query.Criteria
+namespace NDatabase.Odb.Core.Query
 {
     /// <summary>
     /// constraint to limit the objects returned upon

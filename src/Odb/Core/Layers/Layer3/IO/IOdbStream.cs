@@ -5,7 +5,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
     /// <summary>
     ///   The basic IO interface for basic IO operation like reading and writing bytes
     /// </summary>
-    internal interface IOdbFileStream : IDisposable
+    internal interface IOdbStream : IDisposable
     {
         /// <summary>
         ///  Sets the current position of this stream to the given value

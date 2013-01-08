@@ -1,4 +1,5 @@
 using System;
+using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3.IO;
 using NDatabase.Odb.Core.Transaction;
@@ -15,17 +16,17 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         private static readonly int IntSizeX2 = OdbType.Integer.Size * 2;
 
-        private readonly IFileIdentification _fileIdentification;
+        private readonly IDbIdentification _fileIdentification;
         private readonly ISession _session;
 
         private IMultiBufferedFileIO _io;
 
-        public FileSystemInterface(IFileIdentification fileIdentification, int bufferSize, ISession session)
+        public FileSystemInterface(IDbIdentification fileIdentification, int bufferSize, ISession session)
         {
-            OdbDirectory.Mkdirs(fileIdentification.FileName);
-
+            fileIdentification.EnsureDirectories();
+            
             _fileIdentification = fileIdentification;
-            _io = new MultiBufferedFileIO(fileIdentification.FileName, bufferSize);
+            _io = fileIdentification.GetIO(bufferSize);
 
             _session = session;
         }
@@ -744,7 +745,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             _io = null;
         }
 
-        public IFileIdentification GetFileIdentification()
+        public IDbIdentification GetFileIdentification()
         {
             return _fileIdentification;
         }

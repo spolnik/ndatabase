@@ -1,4 +1,4 @@
-using NDatabase.Btree.Exception;
+using NDatabase.Exceptions;
 
 namespace NDatabase.Btree.Impl.Multiplevalue
 {

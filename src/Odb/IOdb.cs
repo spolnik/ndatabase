@@ -1,5 +1,5 @@
 using System;
-using NDatabase.Odb.Core.Layers.Layer3;
+using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.Linq;
 
@@ -9,8 +9,7 @@ namespace NDatabase.Odb
     /// Database engine interface. 
     /// </summary>
     /// <remarks>
-    /// The interface provides all methods
-    /// to store, retrieve and delete objects and to change object state.
+    /// The interface provides all methods to store, retrieve and delete objects and to change object state.
     /// </remarks>
     public interface IOdb : IDisposable
     {
@@ -20,7 +19,7 @@ namespace NDatabase.Odb
         void Commit();
 
         /// <summary>
-        /// Rollbacks all uncommited changes of the database.
+        /// Rollbacks all uncommitted changes of the database.
         /// </summary>
         void Rollback();
 

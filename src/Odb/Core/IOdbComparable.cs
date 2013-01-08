@@ -1,9 +1,9 @@
 using System;
 
-namespace NDatabase.Tool.Wrappers
+namespace NDatabase.Odb.Core
 {
     /// <summary>
-    ///   NDatabase wrapper to the native Comparable interface
+    /// NDatabase wrapper to the native Comparable interface
     /// </summary>
     public interface IOdbComparable : IComparable
     {

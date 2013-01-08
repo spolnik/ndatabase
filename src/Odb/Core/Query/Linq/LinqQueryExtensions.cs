@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using NDatabase.Exceptions;
 
 namespace NDatabase.Odb.Core.Query.Linq
 {
-    public static class LinqQueryExtensions
+    internal static class LinqQueryExtensions
     {
         public static ILinqQuery<TSource> Where<TSource>(this ILinqQuery<TSource> self,
                                                          Expression<Func<TSource, bool>> expression)

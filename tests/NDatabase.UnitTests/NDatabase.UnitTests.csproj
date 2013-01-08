@@ -30,12 +30,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\..\NDatabase.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\..\External-Lib\nunit.framework.dll</HintPath>
@@ -54,6 +48,7 @@
     <Compile Include="Bugs\When_storing_class_which_has_reference_to_itself.cs" />
     <Compile Include="Bugs\When_storing_null_references.cs" />
     <Compile Include="Bugs\When_storing_unsigned_int_long_short_or_signed_byte.cs" />
+    <Compile Include="Bugs\When_we_are_using_indexes_in_linq_query.cs" />
     <Compile Include="Bugs\When_we_want_to_store_generic_types.cs" />
     <Compile Include="Class_names.cs" />
     <Compile Include="CodeSnippets\Data\Game.cs" />
@@ -102,11 +97,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Queries\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\NDatabase.snk">
-      <Link>NDatabase.snk</Link>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

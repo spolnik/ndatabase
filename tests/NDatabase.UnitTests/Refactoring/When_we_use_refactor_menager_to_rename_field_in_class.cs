@@ -33,7 +33,7 @@ namespace NDatabase.UnitTests.Refactoring
         {
             using (var odb = OdbFactory.Open(RefactoringDbName))
             {
-                var refactorManager = new RefactorManager(((OdbAdapter)odb).GetStorageEngine());
+                var refactorManager = odb.GetRefactorManager();
                 refactorManager.RenameField(typeof(User), "age", "_age");
                 refactorManager.RenameField(typeof(User), "name", "_name");
             }
@@ -94,7 +94,7 @@ namespace NDatabase.UnitTests.Refactoring
             get { return _age; }
             set { _age = value; }
         }
-    }
+    }                            
 #endif
 
 }

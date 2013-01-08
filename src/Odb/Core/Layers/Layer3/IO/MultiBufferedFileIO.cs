@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Text;
+using NDatabase.Exceptions;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
 
@@ -54,6 +55,34 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             {
                 if (OdbConfiguration.IsLoggingEnabled())
                     DLogger.Info(string.Format("Opening datatbase file : {0}", Path.GetFullPath(fileName)));
+
+                _ioDeviceLength = _nonBufferedFileIO.Length;
+            }
+            catch (Exception e)
+            {
+                throw new OdbRuntimeException(NDatabaseError.InternalError, e);
+            }
+        }
+
+        public MultiBufferedFileIO(int bufferSize)
+        {
+            _isUsingBuffer = false;
+
+            _buffer = new MultiBuffer(bufferSize);
+            _currentPositionWhenUsingBuffer = -1;
+
+            _overlappingBuffers = new int[MultiBuffer.NumberOfBuffers];
+
+            NumberOfFlush = 0;
+
+            _nextBufferIndex = 0;
+
+            _nonBufferedFileIO = new NonBufferedFileIO();
+
+            try
+            {
+                if (OdbConfiguration.IsLoggingEnabled())
+                    DLogger.Info("Creating in memory datatbase ");
 
                 _ioDeviceLength = _nonBufferedFileIO.Length;
             }
