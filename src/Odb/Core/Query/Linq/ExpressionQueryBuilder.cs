@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using NDatabase.Exceptions;
+using NDatabase.Tool;
 
 namespace NDatabase.Odb.Core.Query.Linq
 {
