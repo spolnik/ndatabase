@@ -168,5 +168,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
                 _disposed = true;
             }
         }
+
+        ~OdbFileStream()
+        {
+            Dispose(false);
+        }
     }
 }
