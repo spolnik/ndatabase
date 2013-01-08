@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using NDatabase.Northwind.Domain;
 using NDatabase.Odb;
 
-namespace NDatabase.Northwind.Domain
+namespace NDatabase.Northwind.TypedDataContext
 {
     public class NDatabaseNorthwindDataContext
     {

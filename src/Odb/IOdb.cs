@@ -9,8 +9,7 @@ namespace NDatabase.Odb
     /// Database engine interface. 
     /// </summary>
     /// <remarks>
-    /// The interface provides all methods
-    /// to store, retrieve and delete objects and to change object state.
+    /// The interface provides all methods to store, retrieve and delete objects and to change object state.
     /// </remarks>
     public interface IOdb : IDisposable
     {

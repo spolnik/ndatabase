@@ -17,21 +17,17 @@ namespace NDatabase.Client.UnitTests.InMemory
         {
             using (var inMemory = OdbFactory.OpenInMemory())
             {
-//                inMemory.IndexManagerFor<InMemoryTestClass>().AddIndexOn("Index_test", "Name");
+                inMemory.IndexManagerFor<InMemoryTestClass>().AddIndexOn("Index_test", "Name");
 
                 var inMemoryTestClass = new
                     InMemoryTestClass {Name = "Test", Size = 1};
 
                 inMemory.Store(inMemoryTestClass);
 
-//                var query = inMemory.Query<InMemoryTestClass>();
-//                query.Descend("Name").Constrain("Test").Equal();
-//
-//                var items = query.Execute<InMemoryTestClass>();
+                var query = inMemory.Query<InMemoryTestClass>();
+                query.Descend("Name").Constrain("Test").Equal();
 
-                var items = (from item in inMemory.AsQueryable<InMemoryTestClass>()
-                            where item.Name.Equals("Test")
-                            select item).ToList();
+                var items = query.Execute<InMemoryTestClass>();
 
                 var memoryTestClass = items.FirstOrDefault();
                 Assert.That(memoryTestClass, Is.Not.Null);

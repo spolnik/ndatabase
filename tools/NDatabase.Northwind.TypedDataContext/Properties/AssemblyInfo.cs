@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("NDatabase.LinqPad.Driver")]
-[assembly: AssemblyDescription("C# Lightweight Object Database - LinqPad driver")]
+[assembly: AssemblyTitle("NDatabase.Northwind.TypedDataContext")]
+[assembly: AssemblyDescription("NDatabase.Northwind.TypedDataContext")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("NDatabase")]
-[assembly: AssemblyProduct("NDatabase.LinqPad.Driver")]
+[assembly: AssemblyProduct("NDatabase.Northwind.TypedDataContext")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("NDatabase")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("36582d3a-af47-4403-b899-b2b3fb2de776")]
+[assembly: Guid("f2c6f104-0f82-4105-b701-f0b886436cf7")]
 
 // Version information for an assembly consists of the following four values:
 //

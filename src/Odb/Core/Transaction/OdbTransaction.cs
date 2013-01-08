@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3;
@@ -11,15 +10,15 @@ using NDatabase.Tool.Wrappers;
 namespace NDatabase.Odb.Core.Transaction
 {
     /// <summary>
-    ///   <pre>The transaction class is used to guarantee ACID behavior.</pre>
+    /// The transaction class is used to guarantee ACID behavior.
     /// </summary>
     /// <remarks>
-    ///   <pre>The transaction class is used to guarantee ACID behavior. It keep tracks of all session
-    ///     operations. It uses the WriteAction class to store all changes that can not be written to the file
-    ///     before the commit.
-    ///     The transaction is held by The Session class and manage commits and rollbacks.
-    ///     All WriteActions are written in a transaction file to be sure to be able to commit and in case
-    ///     of very big transaction where all WriteActions can not be stored in memory.</pre>
+    /// The transaction class is used to guarantee ACID behavior. It keep tracks of all session
+    /// operations. It uses the WriteAction class to store all changes that can not be written to the file
+    /// before the commit.
+    /// The transaction is held by The Session class and manage commits and rollbacks.
+    /// All WriteActions are written in a transaction file to be sure to be able to commit and in case
+    /// of very big transaction where all WriteActions can not be stored in memory.
     /// </remarks>
     internal sealed class OdbTransaction : ITransaction
     {
@@ -268,8 +267,8 @@ namespace NDatabase.Odb.Core.Transaction
         ///   Adds a write action to the transaction
         /// </summary>
         /// <param name="writeAction"> The write action to be added </param>
-        /// <param name="persistWriteAcion"> To indicate if write action must be persisted </param>
-        private void AddWriteAction(WriteAction writeAction, bool persistWriteAcion)
+        /// <param name="persistWriteAction"> To indicate if write action must be persisted </param>
+        private void AddWriteAction(WriteAction writeAction, bool persistWriteAction)
         {
             if (OdbConfiguration.IsLoggingEnabled())
                 DLogger.Info(string.Format("Adding WA in Transaction of session {0}", _session.GetId()));
@@ -278,13 +277,13 @@ namespace NDatabase.Odb.Core.Transaction
                 return;
 
             CheckRollback();
-            if (!_hasBeenPersisted && persistWriteAcion)
+            if (!_hasBeenPersisted && persistWriteAction)
                 Persist();
 
-            if (persistWriteAcion)
+            if (persistWriteAction)
                 writeAction.PersistMeTo(_fsi);
 
-            // Only adds the writeaction to the list if the transaction keeps all in
+            // Only adds the write action to the list if the transaction keeps all in
             // memory
             if (_hasAllWriteActionsInMemory)
                 _writeActions.Add(writeAction);
@@ -325,28 +324,24 @@ namespace NDatabase.Odb.Core.Transaction
         {
             lock (this)
             {
-                if (_fsi != null) 
+                if (_fsi != null)
                     return;
 
                 IDbIdentification parameters;
-                if (fileName == null)
+                if (_fsiToApplyWriteActions.GetFileIdentification() is InMemoryIdentification)
                 {
                     parameters = GetParameters();
                 }
                 else
                 {
-                    // to unable direct junit test of FileSystemInterface
                     parameters = _fsiToApplyWriteActions == null
                                      ? new FileIdentification(fileName)
-                                     : GetParameters();    
+                                     : GetParameters();
                 }
 
                 _fsi = new FileSystemInterface(parameters, MultiBuffer.DefaultBufferSizeForTransaction, _session);
 
-                if (fileName != null)
-                {
-                    _fsi.GetIo().EnableAutomaticDelete(true);    
-                }
+                _fsi.GetIo().EnableAutomaticDelete(true);
             }
         }
 
