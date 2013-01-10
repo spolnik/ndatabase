@@ -60,14 +60,14 @@ namespace NDatabase.UnitTests.Utils
         public void It_should_return_proper_full_name_for_custom_class()
         {
             var fullName = OdbClassUtil.GetFullName(typeof (Person));
-            Assert.That(fullName, Is.StringStarting("NDatabase.UnitTests.Utils.Person,NDatabase.UnitTests"));
+            Assert.That(fullName, Is.StringStarting("NDatabase.UnitTests.Utils.Person"));
         }
 
         [Test]
         public void It_should_return_proper_full_name_for_basic_type()
         {
             var fullName = OdbClassUtil.GetFullName(typeof(int));
-            Assert.That(fullName, Is.StringStarting("System.Int32,mscorlib, Version="));
+            Assert.That(fullName, Is.StringStarting("System.Int32"));
         }
     }
 }

@@ -11,6 +11,7 @@ using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Oid;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
+using NDatabase.TypeResolution;
 
 namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 {
@@ -117,7 +118,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 
         public static ClassInfoList Introspect(String fullClassName)
         {
-            return Introspect(OdbClassPool.GetClass(fullClassName), true);
+            return Introspect(TypeResolutionUtils.ResolveType(fullClassName), true);
         }
 
         /// <summary>
@@ -131,7 +132,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
         {
             var classInfo = new ClassInfo(fullClassName) {ClassCategory = GetClassCategory(fullClassName)};
 
-            var type = OdbClassPool.GetClass(fullClassName);
+            var type = TypeResolutionUtils.ResolveType(fullClassName);
             var fields = GetAllFieldsFrom(type);
             IOdbList<ClassAttributeInfo> attributes = new OdbList<ClassAttributeInfo>(fields.Count);
 

@@ -37,7 +37,7 @@ namespace NDatabase.UnitTests.Layer2
 
             Assert.That(odbType.BaseClass, Is.Null);
             Assert.That(odbType.Id, Is.EqualTo(OdbType.BooleanId));
-            Assert.That(odbType.Name, Is.StringStarting("System.Boolean,mscorlib"));
+            Assert.That(odbType.Name, Is.StringStarting("System.Boolean"));
             Assert.That(odbType.Size, Is.EqualTo(1));
             Assert.That(odbType.SubType, Is.Null);
             Assert.That(odbType.GetNativeClass(), Is.EqualTo(typeof(bool)));
@@ -59,7 +59,7 @@ namespace NDatabase.UnitTests.Layer2
 
             Assert.That(odbType.BaseClass, Is.Null);
             Assert.That(odbType.Id, Is.EqualTo(OdbType.ByteId));
-            Assert.That(odbType.Name, Is.StringStarting("System.Byte,mscorlib"));
+            Assert.That(odbType.Name, Is.StringStarting("System.Byte"));
             Assert.That(odbType.Size, Is.EqualTo(1));
             Assert.That(odbType.SubType, Is.Null);
             Assert.That(odbType.GetNativeClass(), Is.EqualTo(typeof(byte)));
@@ -81,7 +81,7 @@ namespace NDatabase.UnitTests.Layer2
 
             Assert.That(odbType.BaseClass, Is.Null);
             Assert.That(odbType.Id, Is.EqualTo(OdbType.ShortId));
-            Assert.That(odbType.Name, Is.StringStarting("System.Int16,mscorlib"));
+            Assert.That(odbType.Name, Is.StringStarting("System.Int16"));
             Assert.That(odbType.Size, Is.EqualTo(2));
             Assert.That(odbType.SubType, Is.Null);
             Assert.That(odbType.GetNativeClass(), Is.EqualTo(typeof(short)));
@@ -103,7 +103,7 @@ namespace NDatabase.UnitTests.Layer2
 
             Assert.That(odbType.BaseClass, Is.Null);
             Assert.That(odbType.Id, Is.EqualTo(OdbType.IntegerId));
-            Assert.That(odbType.Name, Is.StringStarting("System.Int32,mscorlib"));
+            Assert.That(odbType.Name, Is.StringStarting("System.Int32"));
             Assert.That(odbType.Size, Is.EqualTo(4));
             Assert.That(odbType.SubType, Is.Null);
             Assert.That(odbType.GetNativeClass(), Is.EqualTo(typeof(int)));
@@ -125,7 +125,7 @@ namespace NDatabase.UnitTests.Layer2
 
             Assert.That(odbType.BaseClass, Is.Null);
             Assert.That(odbType.Id, Is.EqualTo(OdbType.LongId));
-            Assert.That(odbType.Name, Is.StringStarting("System.Int64,mscorlib"));
+            Assert.That(odbType.Name, Is.StringStarting("System.Int64"));
             Assert.That(odbType.Size, Is.EqualTo(8));
             Assert.That(odbType.SubType, Is.Null);
             Assert.That(odbType.GetNativeClass(), Is.EqualTo(typeof(long)));
@@ -147,7 +147,7 @@ namespace NDatabase.UnitTests.Layer2
 
             Assert.That(odbType.BaseClass, Is.Null);
             Assert.That(odbType.Id, Is.EqualTo(OdbType.CharacterId));
-            Assert.That(odbType.Name, Is.StringStarting("System.Char,mscorlib"));
+            Assert.That(odbType.Name, Is.StringStarting("System.Char"));
             Assert.That(odbType.Size, Is.EqualTo(2));
             Assert.That(odbType.SubType, Is.Null);
             Assert.That(odbType.GetNativeClass(), Is.EqualTo(typeof(char)));
@@ -169,7 +169,7 @@ namespace NDatabase.UnitTests.Layer2
 
             Assert.That(odbType.BaseClass, Is.Null);
             Assert.That(odbType.Id, Is.EqualTo(OdbType.DecimalId));
-            Assert.That(odbType.Name, Is.StringStarting("System.Decimal,mscorlib"));
+            Assert.That(odbType.Name, Is.StringStarting("System.Decimal"));
             Assert.That(odbType.Size, Is.EqualTo(16));
             Assert.That(odbType.SubType, Is.Null);
             Assert.That(odbType.GetNativeClass(), Is.EqualTo(typeof(decimal)));
@@ -191,7 +191,7 @@ namespace NDatabase.UnitTests.Layer2
 
             Assert.That(odbType.BaseClass, Is.Null);
             Assert.That(odbType.Id, Is.EqualTo(OdbType.FloatId));
-            Assert.That(odbType.Name, Is.StringStarting("System.Single,mscorlib"));
+            Assert.That(odbType.Name, Is.StringStarting("System.Single"));
             Assert.That(odbType.Size, Is.EqualTo(4));
             Assert.That(odbType.SubType, Is.Null);
             Assert.That(odbType.GetNativeClass(), Is.EqualTo(typeof(float)));
@@ -213,7 +213,7 @@ namespace NDatabase.UnitTests.Layer2
 
             Assert.That(odbType.BaseClass, Is.Null);
             Assert.That(odbType.Id, Is.EqualTo(OdbType.DoubleId));
-            Assert.That(odbType.Name, Is.StringStarting("System.Double,mscorlib"));
+            Assert.That(odbType.Name, Is.StringStarting("System.Double"));
             Assert.That(odbType.Size, Is.EqualTo(8));
             Assert.That(odbType.SubType, Is.Null);
             Assert.That(odbType.GetNativeClass(), Is.EqualTo(typeof(double)));
@@ -235,7 +235,7 @@ namespace NDatabase.UnitTests.Layer2
 
             Assert.That(odbType.BaseClass, Is.Null);
             Assert.That(odbType.Id, Is.EqualTo(OdbType.DateId));
-            Assert.That(odbType.Name, Is.StringStarting("System.DateTime,mscorlib"));
+            Assert.That(odbType.Name, Is.StringStarting("System.DateTime"));
             Assert.That(odbType.Size, Is.EqualTo(8));
             Assert.That(odbType.SubType, Is.Null);
             Assert.That(odbType.GetNativeClass(), Is.EqualTo(typeof(DateTime)));
@@ -257,7 +257,7 @@ namespace NDatabase.UnitTests.Layer2
 
             Assert.That(odbType.BaseClass, Is.Null);
             Assert.That(odbType.Id, Is.EqualTo(OdbType.EnumId));
-            Assert.That(odbType.Name, Is.StringStarting("System.Enum,mscorlib"));
+            Assert.That(odbType.Name, Is.StringStarting("System.Enum"));
             Assert.That(odbType.Size, Is.EqualTo(1));
             Assert.That(odbType.SubType, Is.Null);
             Assert.That(odbType.GetNativeClass(), Is.EqualTo(typeof(Enum)));
@@ -279,7 +279,7 @@ namespace NDatabase.UnitTests.Layer2
 
             Assert.That(odbType.BaseClass, Is.EqualTo(typeof(OID)));
             Assert.That(odbType.Id, Is.EqualTo(OdbType.OidId));
-            Assert.That(odbType.Name, Is.StringStarting("NDatabase.Odb.OID,NDatabase"));
+            Assert.That(odbType.Name, Is.StringStarting("NDatabase.Odb.OID"));
             Assert.That(odbType.Size, Is.EqualTo(0));
             Assert.That(odbType.SubType, Is.Null);
             Assert.That(odbType.GetNativeClass(), Is.EqualTo(typeof(OID)));
@@ -301,7 +301,7 @@ namespace NDatabase.UnitTests.Layer2
 
             Assert.That(odbType.BaseClass, Is.EqualTo(typeof(ObjectOID)));
             Assert.That(odbType.Id, Is.EqualTo(OdbType.ObjectOidId));
-            Assert.That(odbType.Name, Is.StringStarting("NDatabase.Odb.Core.Oid.ObjectOID,NDatabase"));
+            Assert.That(odbType.Name, Is.StringStarting("NDatabase.Odb.Core.Oid.ObjectOID"));
             Assert.That(odbType.Size, Is.EqualTo(0));
             Assert.That(odbType.SubType, Is.Null);
             Assert.That(odbType.GetNativeClass(), Is.EqualTo(typeof(ObjectOID)));
@@ -323,7 +323,7 @@ namespace NDatabase.UnitTests.Layer2
 
             Assert.That(odbType.BaseClass, Is.EqualTo(typeof(ClassOID)));
             Assert.That(odbType.Id, Is.EqualTo(OdbType.ClassOidId));
-            Assert.That(odbType.Name, Is.StringStarting("NDatabase.Odb.Core.Oid.ClassOID,NDatabase"));
+            Assert.That(odbType.Name, Is.StringStarting("NDatabase.Odb.Core.Oid.ClassOID"));
             Assert.That(odbType.Size, Is.EqualTo(0));
             Assert.That(odbType.SubType, Is.Null);
             Assert.That(odbType.GetNativeClass(), Is.EqualTo(typeof(ClassOID)));
@@ -345,7 +345,7 @@ namespace NDatabase.UnitTests.Layer2
 
             Assert.That(odbType.BaseClass, Is.Null);
             Assert.That(odbType.Id, Is.EqualTo(OdbType.StringId));
-            Assert.That(odbType.Name, Is.StringStarting("System.String,mscorlib"));
+            Assert.That(odbType.Name, Is.StringStarting("System.String"));
             Assert.That(odbType.Size, Is.EqualTo(1));
             Assert.That(odbType.SubType, Is.Null);
             Assert.That(odbType.GetNativeClass(), Is.EqualTo(typeof(String)));

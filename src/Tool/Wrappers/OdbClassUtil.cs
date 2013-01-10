@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using NDatabase.Odb;
 
 namespace NDatabase.Tool.Wrappers
 {
@@ -42,7 +43,9 @@ namespace NDatabase.Tool.Wrappers
 
         public static String GetFullName(Type type)
         {
-            return CacheByType.GetOrAdd(type, ProduceFullName);
+            return !OdbConfiguration.HasAssemblyQualifiedTypes()
+                       ? type.FullName
+                       : CacheByType.GetOrAdd(type, ProduceFullName);
         }
 
         private static string ProduceFullName(Type type)

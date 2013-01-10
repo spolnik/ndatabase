@@ -23,6 +23,8 @@ namespace NDatabase.Odb
         /// </summary>
         private static int _indexBTreeDegree = DefaultIndexBTreeDegree;
 
+        private static bool _isAssemblyQualified = true;
+
         /// <summary>
         /// Enables the B tree validation.
         /// </summary>
@@ -132,6 +134,31 @@ namespace NDatabase.Odb
                 EnableLogging();
 
             DLogger.Register(logger);
+        }
+
+        /// <summary>
+        /// Determines whether database [has assembly qualified types].
+        /// </summary>
+        /// <returns><c>true</c> if database [has assembly qualified types]; otherwise, <c>false</c>.</returns>
+        public static bool HasAssemblyQualifiedTypes()
+        {
+            return _isAssemblyQualified;
+        }
+
+        /// <summary>
+        /// Enables the assembly qualified types.
+        /// </summary>
+        public static void EnableAssemblyQualifiedTypes()
+        {
+            _isAssemblyQualified = true;
+        }
+
+        /// <summary>
+        /// Disables the assembly qualified types.
+        /// </summary>
+        public static void DisableAssemblyQualifiedTypes()
+        {
+            _isAssemblyQualified = false;
         }
     }
 }

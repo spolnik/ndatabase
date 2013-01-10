@@ -6,6 +6,7 @@ using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
 using NDatabase.Tool.Wrappers.Map;
+using NDatabase.TypeResolution;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {
@@ -216,7 +217,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                 }
                 else
                 {
-                    var oneClass = OdbClassPool.GetClass(userClass);
+                    var oneClass = TypeResolutionUtils.ResolveType(userClass);
                     if (theClass.IsAssignableFrom(oneClass))
                         result.Add(GetClassInfo(userClass, true));
                 }

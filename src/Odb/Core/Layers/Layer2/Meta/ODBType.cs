@@ -5,6 +5,7 @@ using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Oid;
 using NDatabase.Tool.Wrappers;
+using NDatabase.TypeResolution;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {
@@ -265,7 +266,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                     return typeof (OID);
             }
 
-            return OdbClassPool.GetClass(Name);
+            return TypeResolutionUtils.ResolveType(Name);
         }
 
         public bool IsNonNative()

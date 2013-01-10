@@ -86,6 +86,7 @@
     <Compile Include="TestData\Person.cs" />
     <Compile Include="Base\When_we_want_store_simple_object.cs" />
     <Compile Include="Transaction\When_we_use_write_action_to_save_data.cs" />
+    <Compile Include="TypeResolution\TypeResolution_UseCase.cs" />
     <Compile Include="Utils\When_working_with_class_utils.cs" />
     <Compile Include="Utils\When_working_with_string_utils.cs" />
   </ItemGroup>
@@ -93,6 +94,10 @@
     <ProjectReference Include="..\..\src\NDatabase.csproj">
       <Project>{4B6993D5-995D-4AAA-BBCE-423D1B5451F6}</Project>
       <Name>NDatabase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\tools\NDatabase.Northwind.Domain\NDatabase.Northwind.Domain.csproj">
+      <Project>{E58257BE-7CF9-4471-9E5E-99510FF70637}</Project>
+      <Name>NDatabase.Northwind.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
