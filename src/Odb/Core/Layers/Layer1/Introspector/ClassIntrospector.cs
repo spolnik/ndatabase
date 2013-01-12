@@ -3,11 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using NDatabase.Btree;
-using NDatabase.Btree.Impl;
-using NDatabase.Odb.Core.BTree;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Oid;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
 using NDatabase.TypeResolution;
@@ -28,28 +24,10 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
         private static readonly ConcurrentDictionary<Type, IList<FieldInfo>> Fields =
             new ConcurrentDictionary<Type, IList<FieldInfo>>();
 
-        private static readonly IDictionary<string, Type> SystemClasses = new Dictionary<string, Type>();
-
-        static ClassIntrospector()
-        {
-            SystemClasses.Add(OdbClassUtil.GetFullName(typeof (ClassInfoIndex)), typeof (ClassInfoIndex));
-            SystemClasses.Add(OdbClassUtil.GetFullName(typeof (OID)), typeof (OID));
-            SystemClasses.Add(OdbClassUtil.GetFullName(typeof (ObjectOID)), typeof (ObjectOID));
-            SystemClasses.Add(OdbClassUtil.GetFullName(typeof (ClassOID)), typeof (ClassOID));
-            SystemClasses.Add(OdbClassUtil.GetFullName(typeof (OdbBtreeNodeSingle)), typeof (OdbBtreeNodeSingle));
-            SystemClasses.Add(OdbClassUtil.GetFullName(typeof (OdbBtreeNodeMultiple)), typeof (OdbBtreeNodeMultiple));
-            SystemClasses.Add(OdbClassUtil.GetFullName(typeof (OdbBtreeSingle)), typeof (OdbBtreeSingle));
-            SystemClasses.Add(OdbClassUtil.GetFullName(typeof (IBTree)), typeof (IBTree));
-            SystemClasses.Add(OdbClassUtil.GetFullName(typeof (IBTreeNodeOneValuePerKey)), typeof (IBTreeNodeOneValuePerKey));
-            SystemClasses.Add(OdbClassUtil.GetFullName(typeof (IBTreeNode)), typeof(IBTreeNode));
-            SystemClasses.Add(OdbClassUtil.GetFullName(typeof (IKeyAndValue)), typeof (IKeyAndValue));
-            SystemClasses.Add(OdbClassUtil.GetFullName(typeof (KeyAndValue)), typeof (KeyAndValue));
-        }
-
         /// <summary>
         /// </summary>
-        /// <param name="clazz"> The class to instrospect </param>
-        /// <param name="recursive"> If true, goes does the hierarchy to try to analyse all classes </param>
+        /// <param name="clazz"> The class to introspect </param>
+        /// <param name="recursive"> If true, goes does the hierarchy to try to analyze all classes </param>
         /// <returns> </returns>
         public static ClassInfoList Introspect(Type clazz, bool recursive)
         {
@@ -98,7 +76,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
         /// </summary>
         /// <remarks>
         ///   introspect a list of classes This method return the current meta model based on the classes that currently exist in the execution classpath. 
-        ///   The result will be used to check meta model compatiblity between the meta model that is currently persisted in the database and the meta 
+        ///   The result will be used to check meta model compatibility between the meta model that is currently persisted in the database and the meta 
         ///   model currently executing in JVM. This is used b the automatic meta model refactoring
         /// </remarks>
         /// <returns> A map where the key is the class name and the key is the ClassInfo: the class meta representation </returns>
@@ -130,7 +108,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
         /// <returns> A ClassInfo - a meta representation of the class </returns>
         private static ClassInfo GetClassInfo(String fullClassName, ClassInfo existingClassInfo)
         {
-            var classInfo = new ClassInfo(fullClassName) {ClassCategory = GetClassCategory(fullClassName)};
+            var classInfo = new ClassInfo(fullClassName);
 
             var type = TypeResolutionUtils.ResolveType(fullClassName);
             var fields = GetAllFieldsFrom(type);
@@ -144,7 +122,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                 if (attributeId == - 1)
                 {
                     maxAttributeId++;
-                    // The attibute with field.getName() does not exist in existing class info
+                    // The attribute with field.getName() does not exist in existing class info
                     //  create a new id
                     attributeId = maxAttributeId;
                 }
@@ -213,21 +191,9 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             return fields;
         }
 
-        private static byte GetClassCategory(Type type)
-        {
-            return GetClassCategory(OdbClassUtil.GetFullName(type));
-        }
-
-        private static byte GetClassCategory(string fullClassName)
-        {
-            return SystemClasses.ContainsKey(fullClassName)
-                       ? ClassInfo.CategorySystemClass
-                       : ClassInfo.CategoryUserClass;
-        }
-
-        /// <param name="type"> The class to instrospect </param>
-        /// <param name="recursive"> If true, goes does the hierarchy to try to analyse all classes </param>
-        /// <param name="classInfoList"> map with classname that are being introspected, to avoid recursive calls </param>
+        /// <param name="type"> The class to introspect </param>
+        /// <param name="recursive"> If true, goes does the hierarchy to try to analyze all classes </param>
+        /// <param name="classInfoList"> map with class name that are being introspected, to avoid recursive calls </param>
         private static ClassInfoList InternalIntrospect(Type type, bool recursive, ClassInfoList classInfoList)
         {
             if (classInfoList != null)
@@ -239,7 +205,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                     return classInfoList;
             }
 
-            var classInfo = new ClassInfo(type) {ClassCategory = GetClassCategory(type)};
+            var classInfo = new ClassInfo(type);
 
             if (classInfoList == null)
                 classInfoList = new ClassInfoList(classInfo);

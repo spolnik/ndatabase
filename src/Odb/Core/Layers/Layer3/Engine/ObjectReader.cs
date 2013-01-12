@@ -800,7 +800,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             var classInfo = new ClassInfo(fullClassName)
                 {
-                    ClassCategory = classInfoCategory,
                     Position = classInfoPosition,
                     ClassInfoId = classInfoId,
                     PreviousClassOID = previousClassOID,

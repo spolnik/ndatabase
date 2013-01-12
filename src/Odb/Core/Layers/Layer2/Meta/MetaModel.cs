@@ -34,17 +34,14 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// </summary>
         private bool _hasChanged;
 
-        private IDictionary<string, ClassInfo> _rapidAccessForSystemClassesByName;
-
         /// <summary>
-        ///   A hash map to speed up the access of classinfo by full class name
+        ///   A hash map to speed up the access of class info by full class name
         /// </summary>
-        private IDictionary<string, ClassInfo> _rapidAccessForUserClassesByName;
+        private IDictionary<string, ClassInfo> _rapidAccessForClassesByName;
 
         public MetaModel()
         {
-            _rapidAccessForUserClassesByName = new OdbHashMap<string, ClassInfo>(10);
-            _rapidAccessForSystemClassesByName = new OdbHashMap<string, ClassInfo>(10);
+            _rapidAccessForClassesByName = new OdbHashMap<string, ClassInfo>(10);
             _rapidAccessForClassesByOid = new OdbHashMap<OID, ClassInfo>(10);
             _allClassInfos = new List<ClassInfo>();
             _changedClasses = new OdbHashMap<ClassInfo, ClassInfo>();
@@ -54,10 +51,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         {
             var fullClassName = classInfo.FullClassName;
 
-            if (classInfo.IsSystemClass())
-                _rapidAccessForSystemClassesByName.Add(fullClassName, classInfo);
-            else
-                _rapidAccessForUserClassesByName.Add(fullClassName, classInfo);
+            _rapidAccessForClassesByName.Add(fullClassName, classInfo);
 
             _rapidAccessForClassesByOid.Add(classInfo.ClassInfoId, classInfo);
             _allClassInfos.Add(classInfo);
@@ -73,33 +67,17 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         {
             var fullName = OdbClassUtil.GetFullName(type);
 
-            // Check if it is a system class
-            var exist = _rapidAccessForSystemClassesByName.ContainsKey(fullName);
-            if (exist)
-                return true;
-            // Check if it is user class
-            exist = _rapidAccessForUserClassesByName.ContainsKey(fullName);
-            return exist;
+            return _rapidAccessForClassesByName.ContainsKey(fullName);
         }
 
         public override string ToString()
         {
-            return string.Format("{0}/{1}", _rapidAccessForUserClassesByName.Values, _rapidAccessForSystemClassesByName.Values);
+            return string.Format("{0}", _rapidAccessForClassesByName.Values);
         }
 
         public IEnumerable<ClassInfo> GetAllClasses()
         {
             return _allClassInfos;
-        }
-
-        public IEnumerable<ClassInfo> GetUserClasses()
-        {
-            return _rapidAccessForUserClassesByName.Values;
-        }
-
-        public IEnumerable<ClassInfo> GetSystemClasses()
-        {
-            return _rapidAccessForSystemClassesByName.Values;
         }
 
         public int GetNumberOfClasses()
@@ -128,15 +106,9 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public ClassInfo GetClassInfo(string fullClassName, bool throwExceptionIfDoesNotExist)
         {
-            // Check if it is a system class
             ClassInfo classInfo;
-            _rapidAccessForSystemClassesByName.TryGetValue(fullClassName, out classInfo);
-
-            if (classInfo != null)
-                return classInfo;
-
-            // Check if it is user class
-            _rapidAccessForUserClassesByName.TryGetValue(fullClassName, out classInfo);
+            
+            _rapidAccessForClassesByName.TryGetValue(fullClassName, out classInfo);
             if (classInfo != null)
                 return classInfo;
 
@@ -162,10 +134,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public void Clear()
         {
-            _rapidAccessForSystemClassesByName.Clear();
-            _rapidAccessForUserClassesByName.Clear();
-            _rapidAccessForSystemClassesByName = null;
-            _rapidAccessForUserClassesByName = null;
+            _rapidAccessForClassesByName.Clear();
+            _rapidAccessForClassesByName = null;
             _allClassInfos.Clear();
         }
 
@@ -208,8 +178,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             var fullClassName = OdbClassUtil.GetFullName(type);
             var theClass = type;
 
-            CheckList(fullClassName, result, theClass, _rapidAccessForSystemClassesByName);
-            CheckList(fullClassName, result, theClass, _rapidAccessForUserClassesByName);
+            CheckList(fullClassName, result, theClass, _rapidAccessForClassesByName);
 
             return result;
         }

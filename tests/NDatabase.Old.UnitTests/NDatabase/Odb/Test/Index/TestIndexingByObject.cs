@@ -18,6 +18,8 @@ namespace Test.NDatabase.Odb.Test.Index
         [Test]
         public virtual void Test1()
         {
+            OdbConfiguration.DisableAssemblyQualifiedTypes();
+
             Println("************START OF TEST1***************");
             
             DeleteBase("index-object");

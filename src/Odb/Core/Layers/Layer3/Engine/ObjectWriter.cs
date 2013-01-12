@@ -228,7 +228,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             // Real value of block size is only known at the end of the writing
             FileSystemProcessor.FileSystemInterface.WriteInt(0, writeInTransaction, "block size");
             FileSystemProcessor.FileSystemInterface.WriteByte(BlockTypes.BlockTypeClassHeader, writeInTransaction, "class header block type");
-            FileSystemProcessor.FileSystemInterface.WriteByte(classInfo.ClassCategory, writeInTransaction, "Class info category");
+            FileSystemProcessor.FileSystemInterface.WriteByte(2, writeInTransaction, "Class info category");
             FileSystemProcessor.FileSystemInterface.WriteLong(classId.ObjectId, writeInTransaction, "class id");
 
             FileSystemProcessor.WriteOid(classInfo.PreviousClassOID, writeInTransaction, "prev class oid");

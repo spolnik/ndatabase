@@ -132,26 +132,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <param name="currentCIs"> </param>
         private void CheckMetaModelCompatibility(IDictionary<string, ClassInfo> currentCIs)
         {
-            ClassInfo currentCI;
             ClassInfoCompareResult result;
             var checkMetaModelResult = new CheckMetaModelResult();
 
-            // User classes
-            foreach (var persistedCI in GetMetaModel().GetUserClasses())
+            foreach (var persistedCI in GetMetaModel().GetAllClasses())
             {
-                currentCI = currentCIs[persistedCI.FullClassName];
-                result = persistedCI.ExtractDifferences(currentCI, true);
-
-                if (!result.IsCompatible())
-                    throw new OdbRuntimeException(NDatabaseError.IncompatibleMetamodel.AddParameter(result.ToString()));
-
-                if (result.HasCompatibleChanges())
-                    checkMetaModelResult.Add(result);
-            }
-
-            foreach (var persistedCI in GetMetaModel().GetSystemClasses())
-            {
-                currentCI = currentCIs[persistedCI.FullClassName];
+                var currentCI = currentCIs[persistedCI.FullClassName];
                 result = persistedCI.ExtractDifferences(currentCI, true);
 
                 if (!result.IsCompatible())
@@ -483,11 +469,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             var metaModel = GetMetaModel();
 
-            foreach (var userClass in metaModel.GetUserClasses())
+            foreach (var userClass in metaModel.GetAllClasses())
                 _objectWriter.UpdateClassInfo(userClass, true);
-
-            foreach (var systemClass in metaModel.GetSystemClasses())
-                _objectWriter.UpdateClassInfo(systemClass, true);
         }
 
         private string GetStorageDeviceName()

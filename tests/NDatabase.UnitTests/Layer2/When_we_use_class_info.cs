@@ -32,8 +32,6 @@ namespace NDatabase.UnitTests.Layer2
         {
             var classInfo = new ClassInfo(typeof (Country));
             
-            Assert.That(classInfo.ClassCategory, Is.EqualTo(ClassInfo.CategoryUserClass));
-
             Assert.That(classInfo.UnderlyingType, Is.EqualTo(typeof(Country)));
             Assert.That(classInfo.FullClassName, Is.EqualTo(OdbClassUtil.GetFullName(typeof(Country))));
 
