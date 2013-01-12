@@ -12,7 +12,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// <summary>
     ///   The database meta-model
     /// </summary>
-    internal sealed class MetaModel
+    internal sealed class MetaModel : IMetaModel
     {
         /// <summary>
         ///   A simple list to hold all class infos.

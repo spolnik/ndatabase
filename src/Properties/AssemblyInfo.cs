@@ -43,3 +43,4 @@ using System.Runtime.InteropServices;
 
 [assembly: InternalsVisibleTo("NDatabase.UnitTests")]
 [assembly: InternalsVisibleTo("NDatabase.Old.UnitTests")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]

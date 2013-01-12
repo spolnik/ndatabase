@@ -403,7 +403,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public override IRefactorManager GetRefactorManager()
         {
-            return new RefactorManager(this);
+            return new RefactorManager(GetSession().GetMetaModel(), GetObjectWriter());
         }
 
         public override void ResetCommitListeners()
