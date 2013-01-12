@@ -41,7 +41,7 @@ namespace NDatabase.Tool.Wrappers
                        : fullClassName.Substring(0, index);
         }
 
-        public static String GetFullName(Type type)
+        public static string GetFullName(Type type)
         {
             return !OdbConfiguration.HasAssemblyQualifiedTypes()
                        ? type.FullName

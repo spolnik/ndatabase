@@ -6,7 +6,6 @@ using System.Reflection;
 using NDatabase.Btree;
 using NDatabase.Btree.Impl;
 using NDatabase.Odb.Core.BTree;
-using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Oid;
 using NDatabase.Tool.Wrappers;
@@ -16,10 +15,10 @@ using NDatabase.TypeResolution;
 namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 {
     /// <summary>
-    ///   The ClassIntrospector is used to introspect classes.
+    ///   The Class Introspector is used to introspect classes.
     /// </summary>
     /// <remarks>
-    ///   The ClassIntrospector is used to introspect classes. 
+    ///   The Class Introspector is used to introspect classes. 
     ///   It uses Reflection to extract class information. 
     ///   It transforms a native Class into a ClassInfo (a meta representation of the class) 
     ///   that contains all informations about the class.
@@ -33,17 +32,18 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 
         static ClassIntrospector()
         {
-            SystemClasses.Add(typeof (ClassInfoIndex).FullName, typeof (ClassInfoIndex));
-            SystemClasses.Add(typeof (OID).FullName, typeof (OID));
-            SystemClasses.Add(typeof (ObjectOID).FullName, typeof (ObjectOID));
-            SystemClasses.Add(typeof (ClassOID).FullName, typeof (ClassOID));
-            SystemClasses.Add(typeof (OdbBtreeNodeSingle).FullName, typeof (OdbBtreeNodeSingle));
-            SystemClasses.Add(typeof (OdbBtreeNodeMultiple).FullName, typeof (OdbBtreeNodeMultiple));
-            SystemClasses.Add(typeof (OdbBtreeSingle).FullName, typeof (OdbBtreeSingle));
-            SystemClasses.Add(typeof (IBTree).FullName, typeof (IBTree));
-            SystemClasses.Add(typeof (IBTreeNodeOneValuePerKey).FullName, typeof (IBTreeNodeOneValuePerKey));
-            SystemClasses.Add(typeof (IKeyAndValue).FullName, typeof (IKeyAndValue));
-            SystemClasses.Add(typeof (KeyAndValue).FullName, typeof (KeyAndValue));
+            SystemClasses.Add(OdbClassUtil.GetFullName(typeof (ClassInfoIndex)), typeof (ClassInfoIndex));
+            SystemClasses.Add(OdbClassUtil.GetFullName(typeof (OID)), typeof (OID));
+            SystemClasses.Add(OdbClassUtil.GetFullName(typeof (ObjectOID)), typeof (ObjectOID));
+            SystemClasses.Add(OdbClassUtil.GetFullName(typeof (ClassOID)), typeof (ClassOID));
+            SystemClasses.Add(OdbClassUtil.GetFullName(typeof (OdbBtreeNodeSingle)), typeof (OdbBtreeNodeSingle));
+            SystemClasses.Add(OdbClassUtil.GetFullName(typeof (OdbBtreeNodeMultiple)), typeof (OdbBtreeNodeMultiple));
+            SystemClasses.Add(OdbClassUtil.GetFullName(typeof (OdbBtreeSingle)), typeof (OdbBtreeSingle));
+            SystemClasses.Add(OdbClassUtil.GetFullName(typeof (IBTree)), typeof (IBTree));
+            SystemClasses.Add(OdbClassUtil.GetFullName(typeof (IBTreeNodeOneValuePerKey)), typeof (IBTreeNodeOneValuePerKey));
+            SystemClasses.Add(OdbClassUtil.GetFullName(typeof (IBTreeNode)), typeof(IBTreeNode));
+            SystemClasses.Add(OdbClassUtil.GetFullName(typeof (IKeyAndValue)), typeof (IKeyAndValue));
+            SystemClasses.Add(OdbClassUtil.GetFullName(typeof (KeyAndValue)), typeof (KeyAndValue));
         }
 
         /// <summary>

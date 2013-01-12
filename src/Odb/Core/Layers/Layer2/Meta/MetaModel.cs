@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using NDatabase.Exceptions;
-using NDatabase.Odb.Core.Layers.Layer2.Instance;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
 using NDatabase.Tool.Wrappers.Map;
@@ -209,7 +208,15 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             var fullClassName = OdbClassUtil.GetFullName(type);
             var theClass = type;
 
-            foreach (var userClass in _rapidAccessForUserClassesByName.Keys)
+            CheckList(fullClassName, result, theClass, _rapidAccessForSystemClassesByName);
+            CheckList(fullClassName, result, theClass, _rapidAccessForUserClassesByName);
+
+            return result;
+        }
+
+        private void CheckList(string fullClassName, ICollection<ClassInfo> result, Type theClass, IDictionary<string, ClassInfo> listToCheck)
+        {
+            foreach (var userClass in listToCheck.Keys)
             {
                 if (userClass.Equals(fullClassName))
                 {
@@ -222,8 +229,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                         result.Add(GetClassInfo(userClass, true));
                 }
             }
-           
-            return result;
         }
     }
 }
