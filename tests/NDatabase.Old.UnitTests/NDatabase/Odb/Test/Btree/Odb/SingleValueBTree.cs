@@ -13,7 +13,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
         [Test]
         public virtual void Test2SameKeySingleBTree()
         {
-            const string singlevaluebtreeTest1DbName = "singlevaluebtree.test1.db";
+            const string singlevaluebtreeTest1DbName = "singlevaluebtree.test1.ndb";
             DeleteBase(singlevaluebtreeTest1DbName);
 
             using (var odb = OdbFactory.Open(singlevaluebtreeTest1DbName))

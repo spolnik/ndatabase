@@ -34,7 +34,7 @@ namespace NDatabase.UnitTests.CodeSnippets
         [SetUp]
         public void SetUp()
         {
-            OdbFactory.Delete("inserting_trigger.db");
+            OdbFactory.Delete("inserting_trigger.ndb");
         }
 
         [Test] 

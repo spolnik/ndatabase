@@ -30,7 +30,7 @@ namespace Test.NDatabase.Odb.Test.IO
         {
             var size1 = 10000;
             var size2 = 1000;
-            var baseName = "big-file.neodatis";
+            var baseName = "big-file.ndb";
             IOdb odb = null;
             odb = Open(baseName);
             odb.Close();
@@ -52,7 +52,7 @@ namespace Test.NDatabase.Odb.Test.IO
         [Ignore("Test big file, long test")]
         public virtual void T2estBigFileWithOdbSelect()
         {
-            var baseName = "big-file.neodatis";
+            var baseName = "big-file.ndb";
             IOdb odb = null;
 
             try

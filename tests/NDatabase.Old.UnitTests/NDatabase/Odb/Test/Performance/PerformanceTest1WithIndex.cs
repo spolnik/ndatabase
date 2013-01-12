@@ -10,7 +10,7 @@ namespace Test.NDatabase.Odb.Test.Performance
     {
         public static int TestSize = 110;
 
-        public static string OdbFileName = "perf.neodatis";
+        public static string OdbFileName = "perf.ndb";
 
         [Test]
         public virtual void Test2()
@@ -20,7 +20,7 @@ namespace Test.NDatabase.Odb.Test.Performance
 
         public virtual void T1estInsertSimpleObjectODB(int size)
         {
-            OdbFileName = "perf-" + size + ".neodatis";
+            OdbFileName = "perf-" + size + ".ndb";
             TestSize = size;
             var doUpdate = true;
             var doDelete = true;

@@ -10,7 +10,7 @@ namespace Test.NDatabase.Odb.Test.List.Update
         [Test]
         public virtual void Test1()
         {
-            var file = "testeul.neodatis";
+            var file = "testeul.ndb";
             DeleteBase(file);
             var dadosUsuario = new DadosUsuario();
             dadosUsuario.SetNome("Olivier");
@@ -66,7 +66,7 @@ namespace Test.NDatabase.Odb.Test.List.Update
         [Test]
         public virtual void Test2()
         {
-            var file = "testeul.neodatis";
+            var file = "testeul.ndb";
             DeleteBase(file);
             var dadosUsuario = new DadosUsuario();
             dadosUsuario.SetNome("Olivier");

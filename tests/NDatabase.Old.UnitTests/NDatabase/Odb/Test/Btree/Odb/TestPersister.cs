@@ -13,8 +13,8 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
         [Test]
         public virtual void Test1()
         {
-            DeleteBase("btree45.neodatis");
-            var odb = Open("btree45.neodatis");
+            DeleteBase("btree45.ndb");
+            var odb = Open("btree45.ndb");
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
             var persister = new LazyOdbBtreePersister(storageEngine);
             IBTreeMultipleValuesPerKey tree = new OdbBtreeMultiple(3, persister);
@@ -37,7 +37,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
             var valuesAsObjectAt = tree.GetRoot().GetValueAsObjectAt(0) as ArrayList;
             AssertEquals("Value 21", valuesAsObjectAt[0].ToString());
             persister.Close();
-            odb = Open("btree45.neodatis");
+            odb = Open("btree45.ndb");
             storageEngine = ((OdbAdapter)odb).GetStorageEngine();
             persister = new LazyOdbBtreePersister(storageEngine);
             tree = (IBTreeMultipleValuesPerKey) persister.LoadBTree(tree.GetId());
@@ -50,14 +50,14 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
             o = (MyObject) tree.Search(45)[0];
             AssertEquals("Value 45", o.GetName());
             odb.Close();
-            DeleteBase("btree45.neodatis");
+            DeleteBase("btree45.ndb");
         }
 
         [Test]
         public virtual void TestDirectSave()
         {
-            DeleteBase("btree46.neodatis");
-            var odb = Open("btree46.neodatis");
+            DeleteBase("btree46.ndb");
+            var odb = Open("btree46.ndb");
             IBTree tree = new OdbBtreeMultiple(3, new InMemoryPersister());
             IBTreeNodeMultipleValuesPerKey node = new OdbBtreeNodeMultiple(tree);
             odb.Store(node);
@@ -67,7 +67,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
                 odb.Store(node);
             }
             odb.Close();
-            DeleteBase("btree46.neodatis");
+            DeleteBase("btree46.ndb");
         }
     }
 

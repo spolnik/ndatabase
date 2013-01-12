@@ -20,7 +20,7 @@ namespace Test.NDatabase.Odb.Test.Delete
 
         public override void TearDown()
         {
-            // deleteBase("t-delete12.neodatis");
+            // deleteBase("t-delete12.ndb");
             DeleteBase("t-delete1.ndb");
         }
 
@@ -801,7 +801,7 @@ namespace Test.NDatabase.Odb.Test.Delete
             catch (OdbRuntimeException)
             {
                 odb.Close();
-                DeleteBase("t-delete1.neodatis");
+                DeleteBase("t-delete1.ndb");
             }
         }
 

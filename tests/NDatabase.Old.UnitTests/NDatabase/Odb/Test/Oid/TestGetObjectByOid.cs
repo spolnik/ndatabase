@@ -31,16 +31,16 @@ namespace Test.NDatabase.Odb.Test.Oid
         [Test]
         public virtual void Test1()
         {
-            DeleteBase("getid.neodatis");
+            DeleteBase("getid.ndb");
             var function1 = new VO.Login.Function("f1");
             var function2 = new VO.Login.Function("f2");
-            var odb = Open("getid.neodatis");
+            var odb = Open("getid.ndb");
             odb.Store(function1);
             odb.Store(function2);
             var id1 = odb.GetObjectId(function1);
             var id2 = odb.GetObjectId(function2);
             odb.Close();
-            odb = Open("getid.neodatis");
+            odb = Open("getid.ndb");
             var function1bis = (VO.Login.Function) odb.GetObjectFromId(id1);
             AssertEquals(function1.GetName(), function1bis.GetName());
             var function2bis = (VO.Login.Function) odb.GetObjectFromId(id2);
@@ -48,11 +48,11 @@ namespace Test.NDatabase.Odb.Test.Oid
             odb.Store(function2bis);
             var id2bis = odb.GetObjectId(function2bis);
             odb.Close();
-            odb = Open("getid.neodatis");
+            odb = Open("getid.ndb");
             var function2ter = (VO.Login.Function) odb.GetObjectFromId(id2);
             AssertEquals("function 2", function2ter.GetName());
             odb.Close();
-            DeleteBase("getid.neodatis");
+            DeleteBase("getid.ndb");
         }
 
         /// <summary>
@@ -62,10 +62,10 @@ namespace Test.NDatabase.Odb.Test.Oid
         [Test]
         public virtual void Test2()
         {
-            DeleteBase("getid.neodatis");
+            DeleteBase("getid.ndb");
             var function1 = new VO.Login.Function("f1");
             var function2 = new VO.Login.Function("f2");
-            var odb = Open("getid.neodatis");
+            var odb = Open("getid.ndb");
             odb.Store(function1);
             odb.Store(function2);
             var id1 = odb.GetObjectId(function1);
@@ -73,7 +73,7 @@ namespace Test.NDatabase.Odb.Test.Oid
             var function1bis = (VO.Login.Function) odb.GetObjectFromId(id1);
             odb.Close();
             AssertEquals(function1.GetName(), function1bis.GetName());
-            DeleteBase("getid.neodatis");
+            DeleteBase("getid.ndb");
         }
 
         /// <summary>
@@ -84,10 +84,10 @@ namespace Test.NDatabase.Odb.Test.Oid
         [Test]
         public virtual void Test3()
         {
-            DeleteBase("getid.neodatis");
+            DeleteBase("getid.ndb");
             var function1 = new VO.Login.Function("f1");
             var function2 = new VO.Login.Function("f2");
-            var odb = Open("getid.neodatis");
+            var odb = Open("getid.ndb");
             odb.Store(function1);
             odb.Store(function2);
             function1.SetName("f2");
@@ -97,7 +97,7 @@ namespace Test.NDatabase.Odb.Test.Oid
             var function1bis = (VO.Login.Function) odb.GetObjectFromId(id1);
             odb.Close();
             AssertEquals(function1.GetName(), function1bis.GetName());
-            DeleteBase("getid.neodatis");
+            DeleteBase("getid.ndb");
         }
 
         /// <summary>
@@ -108,10 +108,10 @@ namespace Test.NDatabase.Odb.Test.Oid
         [Test]
         public virtual void Test4()
         {
-            DeleteBase("getid.neodatis");
+            DeleteBase("getid.ndb");
             var function1 = new VO.Login.Function("f1");
             var function2 = new VO.Login.Function("f2");
-            var odb = Open("getid.neodatis");
+            var odb = Open("getid.ndb");
             odb.Store(function1);
             odb.Store(function2);
             function1.SetName("function login and logout");
@@ -121,7 +121,7 @@ namespace Test.NDatabase.Odb.Test.Oid
             var function1bis = (VO.Login.Function) odb.GetObjectFromId(id1);
             odb.Close();
             AssertEquals(function1.GetName(), function1bis.GetName());
-            DeleteBase("getid.neodatis");
+            DeleteBase("getid.ndb");
         }
 
         /// <summary>
@@ -131,22 +131,22 @@ namespace Test.NDatabase.Odb.Test.Oid
         [Test]
         public virtual void Test5()
         {
-            DeleteBase("getid.neodatis");
+            DeleteBase("getid.ndb");
             var function1 = new VO.Login.Function("f1");
             var function2 = new VO.Login.Function("f2");
-            var odb = Open("getid.neodatis");
+            var odb = Open("getid.ndb");
             odb.Store(function1);
             odb.Store(function2);
             var id1 = odb.GetObjectId(function1);
             var id2 = odb.GetObjectId(function2);
             odb.Close();
-            odb = Open("getid.neodatis");
+            odb = Open("getid.ndb");
             var t1 = OdbTime.GetCurrentTimeInMs();
             var function1bis = (VO.Login.Function) odb.GetObjectFromId(id1);
             var function2bis = (VO.Login.Function) odb.GetObjectFromId(id2);
             var t2 = OdbTime.GetCurrentTimeInMs();
             odb.Close();
-            DeleteBase("getid.neodatis");
+            DeleteBase("getid.ndb");
             AssertEquals(function1.GetName(), function1bis.GetName());
             AssertEquals(function2.GetName(), function2bis.GetName());
             var time = t2 - t1;
@@ -166,14 +166,14 @@ namespace Test.NDatabase.Odb.Test.Oid
         [Test]
         public virtual void Test6()
         {
-            DeleteBase("getid.neodatis");
+            DeleteBase("getid.ndb");
             var size = 20001;
-            var odb = Open("getid.neodatis");
+            var odb = Open("getid.ndb");
             var oids = new OID[size];
             for (var i = 0; i < size; i++)
                 oids[i] = odb.Store(new VO.Login.Function("function " + i));
             odb.Close();
-            odb = Open("getid.neodatis");
+            odb = Open("getid.ndb");
             var t1 = OdbTime.GetCurrentTimeInMs();
             for (var i = 0; i < size; i++)
             {
@@ -184,7 +184,7 @@ namespace Test.NDatabase.Odb.Test.Oid
             }
             var t2 = OdbTime.GetCurrentTimeInMs();
             odb.Close();
-            DeleteBase("getid.neodatis");
+            DeleteBase("getid.ndb");
             var time = t2 - t1;
             var timeForEachGet = time / (double) size;
             var acceptableTime = 0.022;
@@ -205,14 +205,14 @@ namespace Test.NDatabase.Odb.Test.Oid
         [Test]
         public virtual void Test7()
         {
-            DeleteBase("getid.neodatis");
+            DeleteBase("getid.ndb");
             var size = 1001;
-            var odb = Open("getid.neodatis");
+            var odb = Open("getid.ndb");
             var oids = new OID[size];
             for (var i = 0; i < size; i++)
                 oids[i] = odb.Store(GetInstance(i));
             odb.Close();
-            odb = Open("getid.neodatis");
+            odb = Open("getid.ndb");
             var t1 = OdbTime.GetCurrentTimeInMs();
             for (var i = 0; i < size; i++)
             {
@@ -221,7 +221,7 @@ namespace Test.NDatabase.Odb.Test.Oid
             }
             var t2 = OdbTime.GetCurrentTimeInMs();
             odb.Close();
-            DeleteBase("getid.neodatis");
+            DeleteBase("getid.ndb");
             var time = t2 - t1;
             var timeForEachGet = time / (double) size;
             var acceptableTime = 0.086;
@@ -243,9 +243,9 @@ namespace Test.NDatabase.Odb.Test.Oid
         [Test]
         public virtual void TestGetOIDThatDoesNotExist()
         {
-            DeleteBase("getid.neodatis");
+            DeleteBase("getid.ndb");
             var function2 = new VO.Login.Function("f2");
-            var odb = Open("getid.neodatis");
+            var odb = Open("getid.ndb");
             var oid = OIDFactory.BuildObjectOID(49);
             try
             {

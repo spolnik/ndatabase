@@ -10,7 +10,7 @@ namespace Test.NDatabase.Odb.Test.Other
         [Test]
         public virtual void Test1()
         {
-            var baseName = "name.neodatis";
+            var baseName = "name.ndb";
             DeleteBase(baseName);
 
             IStorageEngine engine;
@@ -27,7 +27,7 @@ namespace Test.NDatabase.Odb.Test.Other
         [Test]
         public virtual void Test2()
         {
-            var baseName = "name.neodatis";
+            var baseName = "name.ndb";
             DeleteBase(baseName);
 
             string s;

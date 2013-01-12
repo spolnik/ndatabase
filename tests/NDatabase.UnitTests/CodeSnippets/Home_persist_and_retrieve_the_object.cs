@@ -7,6 +7,8 @@ namespace NDatabase.UnitTests.CodeSnippets
 {
     public class Home_persist_and_retrieve_the_object
     {
+        private const string DbName = "test.ndb";
+
         [Test]
         public void TheSnippet()
         {
@@ -16,7 +18,7 @@ namespace NDatabase.UnitTests.CodeSnippets
             var sport = new Sport("volley-ball");
 
             // Open the database
-            using (var odb = OdbFactory.Open("test.db"))
+            using (var odb = OdbFactory.Open(DbName))
             {
                 // Store the object
                 odb.Store(sport);
@@ -25,7 +27,7 @@ namespace NDatabase.UnitTests.CodeSnippets
             //=================================
 
             // Open the database
-            using (var odb1 = OdbFactory.Open("test.db"))
+            using (var odb1 = OdbFactory.Open(DbName))
             {
                 var query = odb1.Query<Sport>();
                 var sports = query.Execute<Sport>();
@@ -39,7 +41,7 @@ namespace NDatabase.UnitTests.CodeSnippets
         [SetUp]
         public void SetUp()
         {
-            const string testDb = "test.db";
+            const string testDb = DbName;
 
             if (File.Exists(testDb))
                 File.Delete(testDb);

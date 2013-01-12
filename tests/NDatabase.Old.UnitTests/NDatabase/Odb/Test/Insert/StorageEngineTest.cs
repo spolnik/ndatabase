@@ -13,8 +13,8 @@ namespace Test.NDatabase.Odb.Test.Insert
         [Test]
         public virtual void TestComplexInstance()
         {
-            DeleteBase("t-complex-instance.neodatis");
-            var odb = Open("t-complex-instance.neodatis");
+            DeleteBase("t-complex-instance.ndb");
+            var odb = Open("t-complex-instance.ndb");
             var login = new VO.Login.Function("login");
             var logout = new VO.Login.Function("logout");
             var functions = new List<VO.Login.Function>();
@@ -26,7 +26,7 @@ namespace Test.NDatabase.Odb.Test.Insert
             odb.Store(user);
             odb.Store(user22);
             odb.Close();
-            odb = Open("t-complex-instance.neodatis");
+            odb = Open("t-complex-instance.ndb");
             var query = odb.Query<User>();
             var l = query.Execute<User>(true);
             var user2 = l.GetFirst();
@@ -36,7 +36,7 @@ namespace Test.NDatabase.Odb.Test.Insert
             AssertEquals(user.GetProfile().GetName(), user2.GetProfile().GetName());
             AssertEquals(user.GetProfile().GetFunctions()[0].ToString(), user2.GetProfile().GetFunctions()[0].ToString());
             odb.Close();
-            DeleteBase("t-complex-instance.neodatis");
+            DeleteBase("t-complex-instance.ndb");
         }
 
         [Test]
@@ -52,8 +52,8 @@ namespace Test.NDatabase.Odb.Test.Insert
         [Test]
         public virtual void TestSimpleInstance()
         {
-            DeleteBase("t-simple-instance.neodatis");
-            var odb = Open("t-simple-instance.neodatis");
+            DeleteBase("t-simple-instance.ndb");
+            var odb = Open("t-simple-instance.ndb");
             var tc1 = new TestClass();
             tc1.SetBigDecimal1(new Decimal(1.123456));
             tc1.SetBoolean1(true);
@@ -75,7 +75,7 @@ namespace Test.NDatabase.Odb.Test.Insert
             odb.Store(tc1);
             odb.Store(tc2);
             odb.Close();
-            odb = Open("t-simple-instance.neodatis");
+            odb = Open("t-simple-instance.ndb");
             var query = odb.Query<TestClass>();
             var l = query.Execute<TestClass>(true);
             var tc12 = l.GetFirst();

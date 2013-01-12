@@ -6,7 +6,7 @@ namespace Test.NDatabase.Odb.Test.Oid
 {
     public class AllIDs : ODBTest
     {
-        public static string FileName = "ids.neodatis";
+        public static string FileName = "ids.ndb";
 
         [Test]
         public virtual void Test1()

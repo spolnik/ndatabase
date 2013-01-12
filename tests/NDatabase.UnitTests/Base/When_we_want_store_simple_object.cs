@@ -14,7 +14,7 @@ namespace NDatabase.UnitTests.Base
         protected override void Establish_context()
         {
             _person = new Person("Julia", 3);
-            _dbFileName = "simple.db";
+            _dbFileName = "simple.ndb";
 
             if (File.Exists(_dbFileName))
                 File.Delete(_dbFileName);

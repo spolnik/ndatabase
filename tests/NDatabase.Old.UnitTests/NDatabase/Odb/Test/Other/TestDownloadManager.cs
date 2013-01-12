@@ -14,13 +14,13 @@ namespace Test.NDatabase.Odb.Test.Other
         public override void SetUp()
         {
             base.SetUp();
-            DeleteBase("download.neodatis");
+            DeleteBase("download.ndb");
         }
 
         [TearDown]
         public override void TearDown()
         {
-            DeleteBase("download.neodatis");
+            DeleteBase("download.ndb");
         }
 
         #endregion
@@ -31,7 +31,7 @@ namespace Test.NDatabase.Odb.Test.Other
             User user = null;
             try
             {
-                odb = Open("download.neodatis");
+                odb = Open("download.ndb");
                 var query = odb.Query<User>();
                 query.Descend("email").Constrain((object) email).Equal();
                 var users = query.Execute<User>();
@@ -84,7 +84,7 @@ namespace Test.NDatabase.Odb.Test.Other
             var tdm = new TestDownloadManager();
             tdm.NewDownload("olivier", "olivier@neodatis.com", "knowledger", "knowledger1.1");
             tdm.NewDownload("olivier", "olivier@neodatis.com", "knowledger", "knowledger1.1");
-            var odb = Open("download.neodatis");
+            var odb = Open("download.ndb");
             AssertEquals(2, odb.Query<Download>().Count());
             AssertEquals(1, odb.Query<User>().Count());
             odb.Close();
@@ -100,7 +100,7 @@ namespace Test.NDatabase.Odb.Test.Other
                 tdm.NewDownload("olivier", "olivier@neodatis.com", "knowledger", "knowledger1.1");
                 tdm.NewDownload("olivier", "olivier@neodatis.com", "knowledger", "knowledger1.1");
             }
-            var odb = Open("download.neodatis");
+            var odb = Open("download.ndb");
             AssertEquals(size * 2, odb.Query<Download>().Count());
             AssertEquals(1, odb.Query<User>().Count());
             odb.Close();

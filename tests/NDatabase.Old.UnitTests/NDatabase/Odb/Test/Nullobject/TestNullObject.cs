@@ -10,8 +10,8 @@ namespace Test.NDatabase.Odb.Test.Nullobject
         [Test]
         public virtual void Test1()
         {
-            DeleteBase("null.neodatis");
-            var odb = Open("null.neodatis");
+            DeleteBase("null.ndb");
+            var odb = Open("null.ndb");
             var user1 = new User("oli", "oli@sdsadf", null);
             var user2 = new User("karine", "karine@sdsadf", null);
             var user3 = new User(null, null, null);
@@ -19,7 +19,7 @@ namespace Test.NDatabase.Odb.Test.Nullobject
             odb.Store(user2);
             odb.Store(user3);
             odb.Close();
-            odb = Open("null.neodatis");
+            odb = Open("null.ndb");
             var query = odb.Query<User>();
             var l = query.Execute<User>(true);
             AssertEquals(3, l.Count);
@@ -36,7 +36,7 @@ namespace Test.NDatabase.Odb.Test.Nullobject
             AssertEquals(null, user3.GetEmail());
             AssertEquals(null, user3.GetProfile());
             odb.Close();
-            DeleteBase("null.neodatis");
+            DeleteBase("null.ndb");
         }
 
         /// <summary>

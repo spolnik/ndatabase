@@ -67,7 +67,7 @@ namespace Test.NDatabase.Odb.Test.Query.Criteria
 
         private DateTime correctDate;
 
-        public static readonly string BaseName = "soda-native-object.neodatis";
+        public static readonly string BaseName = "soda-native-object.ndb";
 
         [Test]
         public virtual void TestIsNotNull()

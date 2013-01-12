@@ -17,8 +17,8 @@ namespace Test.NDatabase.Odb.Test.Update
         [Test]
         public virtual void Test1()
         {
-            DeleteBase("t1u.neodatis");
-            var odb = Open("t1u.neodatis");
+            DeleteBase("t1u.ndb");
+            var odb = Open("t1u.ndb");
             var login = new VO.Login.Function("login");
             var logout = new VO.Login.Function("logout");
             odb.Store(login);
@@ -27,27 +27,27 @@ namespace Test.NDatabase.Odb.Test.Update
             odb.Store(logout);
             // odb.commit();
             odb.Close();
-            odb = Open("t1u.neodatis");
+            odb = Open("t1u.ndb");
             var query = odb.Query<VO.Login.Function>();
             var l = query.Execute<VO.Login.Function>(true);
             var f2 = l.GetFirst();
             f2.SetName("login function");
             odb.Store(f2);
             odb.Close();
-            var odb2 = Open("t1u.neodatis");
+            var odb2 = Open("t1u.ndb");
             var query1 = odb2.Query<VO.Login.Function>();
             var f = query1.Execute<VO.Login.Function>().GetFirst();
             AssertEquals("login function", f.GetName());
             odb2.Close();
-            DeleteBase("t1u.neodatis");
+            DeleteBase("t1u.ndb");
         }
 
         /// <exception cref="System.Exception"></exception>
         [Test]
         public virtual void Test2()
         {
-            DeleteBase("t2.neodatis");
-            var odb = Open("t2.neodatis");
+            DeleteBase("t2.ndb");
+            var odb = Open("t2.ndb");
             var query8 = odb.Query<User>();
             var nbUsers = query8.Execute<User>().Count;
             var query = odb.Query<Profile>();
@@ -75,7 +75,7 @@ namespace Test.NDatabase.Odb.Test.Update
             // println("Users:"+users);
             Println("Profiles:" + profiles);
             Println("Functions:" + functions);
-            odb = Open("t2.neodatis");
+            odb = Open("t2.ndb");
             var query5 = odb.Query<User>();
             var l = query5.Execute<User>(true);
             odb.Close();
@@ -84,14 +84,14 @@ namespace Test.NDatabase.Odb.Test.Update
             AssertEquals(olivier.ToString(), user2.ToString());
             AssertEquals(nbProfiles + 1, profiles.Count);
             AssertEquals(nbFunctions + 2, functions.Count);
-            var odb2 = Open("t2.neodatis");
+            var odb2 = Open("t2.ndb");
             var query6 = odb2.Query<VO.Login.Function>();
             var l2 = query6.Execute<VO.Login.Function>(true);
             var function = l2.GetFirst();
             function.SetName("login function");
             odb2.Store(function);
             odb2.Close();
-            var odb3 = Open("t2.neodatis");
+            var odb3 = Open("t2.ndb");
             var query7 = odb3.Query<User>();
             var l3 = query7.Execute<User>(true);
             var i = 0;
@@ -102,19 +102,19 @@ namespace Test.NDatabase.Odb.Test.Update
                 i++;
             }
             odb3.Close();
-            DeleteBase("t2.neodatis");
+            DeleteBase("t2.ndb");
         }
 
         /// <exception cref="System.Exception"></exception>
         [Test]
         public virtual void Test3()
         {
-            DeleteBase("t1u2.neodatis");
-            var odb = Open("t1u2.neodatis");
+            DeleteBase("t1u2.ndb");
+            var odb = Open("t1u2.ndb");
             var login = new VO.Login.Function(null);
             odb.Store(login);
             odb.Close();
-            odb = Open("t1u2.neodatis");
+            odb = Open("t1u2.ndb");
             var query = odb.Query<VO.Login.Function>();
             query.Descend("name").Constrain(null).Equal();
             login = query.Execute<VO.Login.Function>().GetFirst();
@@ -122,20 +122,20 @@ namespace Test.NDatabase.Odb.Test.Update
             login.SetName("login");
             odb.Store(login);
             odb.Close();
-            odb = Open("t1u2.neodatis");
+            odb = Open("t1u2.ndb");
             var query1 = odb.Query<VO.Login.Function>();
             login = query1.Execute<VO.Login.Function>().GetFirst();
             AssertTrue(login.GetName().Equals("login"));
             odb.Close();
-            DeleteBase("t1u2.neodatis");
+            DeleteBase("t1u2.ndb");
         }
 
         /// <exception cref="System.Exception"></exception>
         [Test]
         public virtual void Test5()
         {
-            DeleteBase("t5.neodatis");
-            var odb = Open("t5.neodatis");
+            DeleteBase("t5.ndb");
+            var odb = Open("t5.ndb");
             var nbFunctions = odb.Query<VO.Login.Function>().Count();
             var nbProfiles = odb.Query<Profile>().Count();
             var nbUsers = odb.Query<User>().Count();
@@ -151,7 +151,7 @@ namespace Test.NDatabase.Odb.Test.Update
             odb.Store(profile);
             odb.Commit();
             odb.Close();
-            odb = Open("t5.neodatis");
+            odb = Open("t5.ndb");
             var query = odb.Query<User>();
             var users = query.Execute<User>(true);
             var query1 = odb.Query<Profile>();
@@ -169,8 +169,8 @@ namespace Test.NDatabase.Odb.Test.Update
         public virtual void Test6()
         {
             // LogUtil.objectWriterOn(true);
-            DeleteBase("t6.neodatis");
-            var odb = Open("t6.neodatis");
+            DeleteBase("t6.ndb");
+            var odb = Open("t6.ndb");
             var login = new VO.Login.Function("login");
             var logout = new VO.Login.Function("logout");
             var list = new List<VO.Login.Function>();
@@ -181,14 +181,14 @@ namespace Test.NDatabase.Odb.Test.Update
             odb.Store(olivier);
             odb.Close();
             Println("----------");
-            odb = Open("t6.neodatis");
+            odb = Open("t6.ndb");
             var query = odb.Query<User>();
             var users = query.Execute<User>(true);
             var u1 = users.GetFirst();
             u1.GetProfile().SetName("operator 234567891011121314");
             odb.Store(u1);
             odb.Close();
-            odb = Open("t6.neodatis");
+            odb = Open("t6.ndb");
             var query1 = odb.Query<Profile>();
             var profiles = query1.Execute<Profile>(true);
             AssertEquals(1, profiles.Count);

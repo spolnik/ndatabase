@@ -12,11 +12,11 @@ namespace Test.NDatabase.Odb.Test.Trigger
         public virtual void Test1()
         {
             IOdb odb = null;
-            DeleteBase("trigger.neodatis");
+            DeleteBase("trigger.ndb");
             var myTrigger = new MyTrigger();
             try
             {
-                odb = Open("trigger.neodatis");
+                odb = Open("trigger.ndb");
                 odb.TriggerManagerFor<VO.Login.Function>().AddInsertTrigger(myTrigger);
                 var f1 = new VO.Login.Function("function1");
                 var f2 = new VO.Login.Function("function2");
@@ -29,9 +29,9 @@ namespace Test.NDatabase.Odb.Test.Trigger
                 if (odb != null)
                     odb.Close();
             }
-            odb = Open("trigger.neodatis");
+            odb = Open("trigger.ndb");
             odb.Close();
-            DeleteBase("trigger.neodatis");
+            DeleteBase("trigger.ndb");
             AssertEquals(1, myTrigger.nbInsertsBefore);
             AssertEquals(1, myTrigger.nbInsertsAfter);
         }
@@ -42,11 +42,11 @@ namespace Test.NDatabase.Odb.Test.Trigger
         public virtual void Test2()
         {
             IOdb odb = null;
-            DeleteBase("trigger.neodatis");
+            DeleteBase("trigger.ndb");
             var myTrigger = new MyTrigger();
             try
             {
-                odb = Open("trigger.neodatis");
+                odb = Open("trigger.ndb");
                 odb.TriggerManagerFor<VO.Login.Function>().AddInsertTrigger(myTrigger);
                 var f1 = new VO.Login.Function("function1");
                 var f2 = new VO.Login.Function("function2");
@@ -60,9 +60,9 @@ namespace Test.NDatabase.Odb.Test.Trigger
                 if (odb != null)
                     odb.Close();
             }
-            odb = Open("trigger.neodatis");
+            odb = Open("trigger.ndb");
             odb.Close();
-            DeleteBase("trigger.neodatis");
+            DeleteBase("trigger.ndb");
             AssertEquals(2, myTrigger.nbInsertsBefore);
             AssertEquals(2, myTrigger.nbInsertsAfter);
         }
@@ -73,11 +73,11 @@ namespace Test.NDatabase.Odb.Test.Trigger
         public virtual void TestSelectTrigger()
         {
             IOdb odb = null;
-            DeleteBase("trigger.neodatis");
+            DeleteBase("trigger.ndb");
             var myTrigger = new MySelectTrigger();
             try
             {
-                odb = Open("trigger.neodatis");
+                odb = Open("trigger.ndb");
                 var f1 = new VO.Login.Function("function1");
                 var f2 = new VO.Login.Function("function2");
                 var profile = new Profile("profile1", f1);
@@ -90,12 +90,12 @@ namespace Test.NDatabase.Odb.Test.Trigger
                 if (odb != null)
                     odb.Close();
             }
-            odb = Open("trigger.neodatis");
+            odb = Open("trigger.ndb");
             odb.TriggerManagerFor<VO.Login.Function>().AddSelectTrigger(myTrigger);
             var query = odb.Query<VO.Login.Function>();
             var functions = query.Execute<VO.Login.Function>();
             odb.Close();
-            DeleteBase("trigger.neodatis");
+            DeleteBase("trigger.ndb");
             AssertEquals(2, functions.Count);
             AssertEquals(2, myTrigger.nbCalls);
         }

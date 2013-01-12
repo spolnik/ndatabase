@@ -15,7 +15,7 @@ namespace Test.NDatabase.Odb.Test
         public string GetBaseName()
         {
             var guid = Guid.NewGuid();
-            return string.Format("{0}{1}.neodatis", GetName(), guid.ToString());
+            return string.Format("{0}{1}.ndb", GetName(), guid.ToString());
         }
 
         public virtual IOdb Open(String fileName, String user, String password)

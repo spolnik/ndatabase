@@ -16,14 +16,14 @@ namespace Test.NDatabase.Odb.Test.IO
         [Test]
         public virtual void TestSize()
         {
-            DeleteBase("writing.neodatis");
+            DeleteBase("writing.ndb");
             DeleteBase("writing");
-            DeleteBase("reserving.neodatis");
+            DeleteBase("reserving.ndb");
             DeleteBase("reserving");
             var engine1 =
-                (IStorageEngine) new StorageEngine(new FileIdentification("writing.neodatis"));
+                (IStorageEngine) new StorageEngine(new FileIdentification("writing.ndb"));
             var engine2 =
-                (IStorageEngine) new StorageEngine(new FileIdentification("reserving.neodatis"));
+                (IStorageEngine) new StorageEngine(new FileIdentification("reserving.ndb"));
             var writingFsi = engine1.GetObjectWriter().FileSystemProcessor.FileSystemInterface;
             var reservingFsi = engine2.GetObjectWriter().FileSystemProcessor.FileSystemInterface;
             AssertEquals(writingFsi.GetLength(), reservingFsi.GetLength());
@@ -34,8 +34,8 @@ namespace Test.NDatabase.Odb.Test.IO
             engine1.Close();
             engine2.Commit();
             engine2.Close();
-            DeleteBase("writing.neodatis");
-            DeleteBase("reserving.neodatis");
+            DeleteBase("writing.ndb");
+            DeleteBase("reserving.ndb");
         }
     }
 }

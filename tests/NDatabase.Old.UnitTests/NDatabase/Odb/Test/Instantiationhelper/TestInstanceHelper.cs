@@ -30,7 +30,7 @@ namespace Test.NDatabase.Odb.Test.Instantiationhelper
 
         private IOdb odb;
 
-        private static readonly string Testdbname = "instanceHelper.neodatis";
+        private static readonly string Testdbname = "instanceHelper.ndb";
 
         private void CheckCarRetrieval()
         {

@@ -5,7 +5,7 @@ namespace Test.NDatabase.Odb.Test.Inheritance
     [TestFixture]
     public class TestInheritance : ODBTest
     {
-        private static readonly string Name = "inheritance.neodatis";
+        private static readonly string Name = "inheritance.ndb";
 
         /// <summary>
         ///   Test persistence of attributes declared by an interface

@@ -13,9 +13,9 @@ namespace Test.NDatabase.Odb.Test.Performance
             IOdb odb = null;
             try
             {
-                DeleteBase("mydb.neodatis");
+                DeleteBase("mydb.ndb");
                 // Open the database
-                odb = Open("mydb.neodatis");
+                odb = Open("mydb.ndb");
                 var t0 = OdbTime.GetCurrentTimeInTicks();
                 var nRecords = 10000;
                 for (var i = 0; i < nRecords; i++)
@@ -25,7 +25,7 @@ namespace Test.NDatabase.Odb.Test.Performance
                 }
                 odb.Close();
                 var t1 = OdbTime.GetCurrentTimeInTicks();
-                odb = Open("mydb.neodatis");
+                odb = Open("mydb.ndb");
                 var query = odb.Query<Class1>();
                 var ssss = query.Execute<Class1>();
                 var t2 = OdbTime.GetCurrentTimeInTicks();

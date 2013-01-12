@@ -14,11 +14,11 @@ namespace Test.NDatabase.Odb.Test.Performance
     {
         public static int TestSize = 1000;
 
-        public static readonly string OdbFileName = "perf.neodatis";
+        public static readonly string OdbFileName = "perf.ndb";
 
         public static readonly string Db4oFileName = "perf.yap";
 
-        // public static final String ODB_FILE_NAME = "k:/tmp/perf.neodatis";
+        // public static final String ODB_FILE_NAME = "k:/tmp/perf.ndb";
 
         private void DisplayResult(string @string, long t1, long t2, long t3, long t4, long t5, long t6, long t7,
                                    long t77, long t8)
