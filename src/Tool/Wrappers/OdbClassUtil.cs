@@ -43,13 +43,14 @@ namespace NDatabase.Tool.Wrappers
 
         public static string GetFullName(Type type)
         {
-            return !OdbConfiguration.HasAssemblyQualifiedTypes()
-                       ? type.FullName
-                       : CacheByType.GetOrAdd(type, ProduceFullName);
+            return CacheByType.GetOrAdd(type, ProduceFullName);
         }
 
         private static string ProduceFullName(Type type)
         {
+            if (!OdbConfiguration.HasAssemblyQualifiedTypes())
+                return type.FullName;
+
             var name = type.Assembly.GetName();
             var publicKey = name.GetPublicKey();
             var isSignedAsm = publicKey.Length > 0;

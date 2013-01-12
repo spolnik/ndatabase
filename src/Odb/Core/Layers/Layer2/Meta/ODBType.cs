@@ -22,7 +22,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// <remarks>
         ///   This cache is used to cache non default types. 
         ///   Instead or always testing if a class is an array 
-        ///   or a collection or any other, we put the odbtype in this cache
+        ///   or a collection or any other, we put the odb type in this cache
         /// </remarks>
         private static readonly ConcurrentDictionary<string, OdbType> CacheOfTypesByName =
             new ConcurrentDictionary<string, OdbType>();

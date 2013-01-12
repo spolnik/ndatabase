@@ -61,6 +61,8 @@ namespace Test.NDatabase.Odb.Test.Index
 
             DeleteBase("index-object");
             Println("************END OF TEST1***************");
+
+            OdbConfiguration.EnableAssemblyQualifiedTypes();
         }
 
         [Test]
