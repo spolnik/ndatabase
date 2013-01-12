@@ -1,6 +1,5 @@
 using System;
 using System.Reflection;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
 namespace NDatabase.TypeResolution
 {
@@ -81,9 +80,9 @@ namespace NDatabase.TypeResolution
             Type type = null;
 
 #if MONO_2_0
-            Assembly assembly = Assembly.Load(typeInfo.AssemblyName);
+            var assembly = Assembly.Load(typeInfo.AssemblyName);
 #else
-            Assembly assembly = Assembly.LoadWithPartialName(typeInfo.AssemblyName);
+            var assembly = Assembly.LoadWithPartialName(typeInfo.AssemblyName);
 #endif
 
             if (assembly != null)
@@ -106,14 +105,12 @@ namespace NDatabase.TypeResolution
         private static Type LoadTypeByIteratingOverAllLoadedAssemblies(TypeAssemblyHolder typeInfo)
         {
             Type type = null;
-            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            foreach (Assembly assembly in assemblies)
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (var assembly in assemblies)
             {
                 type = assembly.GetType(typeInfo.TypeName, false, false);
                 if (type != null)
-                {
                     break;
-                }
             }
             return type;
         }
