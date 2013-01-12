@@ -319,6 +319,7 @@
     <Compile Include="TypeResolution\GenericTypeResolver.cs" />
     <Compile Include="TypeResolution\ITypeResolver.cs" />
     <Compile Include="TypeResolution\TypeAssemblyHolder.cs" />
+    <Compile Include="TypeResolution\TypeRegistry.cs" />
     <Compile Include="TypeResolution\TypeResolutionUtils.cs" />
     <Compile Include="TypeResolution\TypeResolver.cs" />
   </ItemGroup>

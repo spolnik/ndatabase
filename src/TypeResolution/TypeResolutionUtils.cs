@@ -26,10 +26,7 @@ namespace NDatabase.TypeResolution
         /// </exception>
         public static Type ResolveType(string typeName)
         {
-            if (string.IsNullOrWhiteSpace(typeName))
-                throw new ArgumentException("Type name cannot be empty or null.", "typeName");
-
-            return InternalTypeResolver.Resolve(typeName);
+            return TypeRegistry.ResolveType(typeName) ?? InternalTypeResolver.Resolve(typeName);
         }
     }
 }
