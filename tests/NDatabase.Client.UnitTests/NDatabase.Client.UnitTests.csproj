@@ -44,8 +44,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Heroes\IHero.cs" />
+    <Compile Include="Data\Heroes\Warrior.cs" />
+    <Compile Include="Data\Items\Field.cs" />
+    <Compile Include="Data\Items\IArmor.cs" />
+    <Compile Include="Data\Items\IItem.cs" />
+    <Compile Include="Data\Items\IWeapon.cs" />
+    <Compile Include="Data\Items\NoItem.cs" />
+    <Compile Include="Data\Items\Sword.cs" />
     <Compile Include="InMemory\When_we_use_ndatabase_as_in_memory_db.cs" />
     <Compile Include="Misc\TestCase_OdbConfiguration.cs" />
+    <Compile Include="Queries\Soda\Building_soda_queries_doc.cs" />
     <Compile Include="Types\When_we_want_to_serialize_collections.cs" />
     <Compile Include="Types\When_we_want_to_store_dynamic_instance.cs" />
     <Compile Include="Data\Address.cs" />
