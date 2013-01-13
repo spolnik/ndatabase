@@ -7,6 +7,7 @@ using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
 using NDatabase.Tool.Wrappers.Map;
+using NDatabase.TypeResolution;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {
@@ -171,7 +172,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         private static Type GetType(string fullClassName)
         {
-            var type = Type.GetType(fullClassName);
+            var type = TypeResolutionUtils.ResolveType(fullClassName);
 
             if (type == null)
                 CannotInstantiateType(fullClassName);
@@ -181,23 +182,10 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         private static void CannotInstantiateType(string fullClassName)
         {
-            var message = ContainsAssemblyName(fullClassName)
-                              ? string.Format("{0} domain library is not loaded! Cannot proces db schema.", ExtractAssemblyName(fullClassName))
-                              : string.Format("Given full class name is not enough to create the Type from that: {0}",
-                                              fullClassName);
+            var message = string.Format("Given full class name is not enough to create the Type from that: {0}",
+                                        fullClassName);
 
             throw new ArgumentException(message);
-        }
-
-        private static string ExtractAssemblyName(string fullClassName)
-        {
-            var indexOfComma = fullClassName.IndexOf(",", StringComparison.InvariantCulture);
-            return fullClassName.Substring(indexOfComma + 1);
-        }
-
-        private static bool ContainsAssemblyName(string fullClassName)
-        {
-            return fullClassName.Contains(",");
         }
 
         private void FillAttributesMap()

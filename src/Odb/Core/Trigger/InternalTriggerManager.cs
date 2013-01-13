@@ -130,7 +130,8 @@ namespace NDatabase.Odb.Core.Trigger
 
                 try
                 {
-                    trigger.BeforeUpdate(new ObjectRepresentation(oldNnoi), newObject, oid);
+                    var storageEngine = ((OdbAdapter) trigger.Odb).GetStorageEngine();
+                    trigger.BeforeUpdate(new ObjectRepresentation(oldNnoi, storageEngine), newObject, oid);
                 }
                 catch (Exception e)
                 {
@@ -156,7 +157,8 @@ namespace NDatabase.Odb.Core.Trigger
 
                 try
                 {
-                    trigger.AfterUpdate(new ObjectRepresentation(oldNnoi), newObject, oid);
+                    var storageEngine = ((OdbAdapter)trigger.Odb).GetStorageEngine();
+                    trigger.AfterUpdate(new ObjectRepresentation(oldNnoi, storageEngine), newObject, oid);
                 }
                 catch (Exception e)
                 {

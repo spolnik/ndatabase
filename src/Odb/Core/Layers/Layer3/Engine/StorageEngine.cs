@@ -507,24 +507,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                         OdbType.GetFromClass(type).Name).AddParameter(type.FullName));
             }
 
-            // The object must be transformed into meta representation
-            ClassInfo classInfo;
-
-            // first checks if the class of this object already exist in the
-            // metamodel
-            if (GetMetaModel().ExistClass(type))
-            {
-                classInfo = GetMetaModel().GetClassInfo(type, true);
-            }
-            else
-            {
-                var classInfoList = ClassIntrospector.Introspect(plainObject.GetType(), true);
-
-                // All new classes found
-                _objectWriter.AddClasses(classInfoList);
-                classInfo = classInfoList.GetMainClassInfo();
-            }
-
             // first detects if we must perform an insert or an update
             // If object is in the cache, we must perform an update, else an insert
             var cache = GetSession().GetCache();
@@ -545,7 +527,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             // Transform the object into an ObjectInfo
             var nnoi =
                 (NonNativeObjectInfo)
-                _objectIntrospector.GetMetaRepresentation(plainObject, classInfo, true, null, callback);
+                _objectIntrospector.GetMetaRepresentation(plainObject, true, null, callback);
 
             // During the introspection process, if object is to be updated, then the oid has been set
             mustUpdate = nnoi.GetOid() != null;

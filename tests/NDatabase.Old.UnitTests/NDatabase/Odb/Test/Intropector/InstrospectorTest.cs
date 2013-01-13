@@ -1,11 +1,9 @@
-using System.Collections;
 using NDatabase.Odb;
 using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer2.Meta.Compare;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
-using NDatabase.Odb.Core.Oid;
 using NDatabase.Odb.Main;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.Map;
@@ -39,7 +37,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         [Test]
         public virtual void TestInstanceInfo()
         {
-            var dbName = "TestInstanceInfo.odb";
+            const string dbName = "TestInstanceInfo.odb";
             DeleteBase(dbName);
             var odb = OdbFactory.Open(dbName);
 
@@ -51,7 +49,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             AssertEquals(OdbClassUtil.GetFullName(user.GetType()), instanceInfo.GetClassInfo().FullClassName);
@@ -65,7 +63,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         [Test]
         public virtual void TestInstanceInfo2()
         {
-            var dbName = "TestInstanceInfo2.odb";
+            const string dbName = "TestInstanceInfo2.odb";
             DeleteBase(dbName);
             var odb = OdbFactory.Open(dbName);
 
@@ -77,7 +75,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             AssertEquals(instanceInfo.GetClassInfo().FullClassName, OdbClassUtil.GetFullName(user.GetType()));
@@ -89,20 +87,19 @@ namespace Test.NDatabase.Odb.Test.Intropector
         [Test]
         public virtual void TestCompareCollection1()
         {
-            var dbName = "introspectortest1.odb";
+            const string dbName = "introspectortest1.odb";
             DeleteBase(dbName);
             var odb = OdbFactory.Open(dbName);
 
             var user = new User("olivier smadja", "olivier@neodatis.com",
                                 new Profile("operator", new VO.Login.Function("login")));
             IObjectInfoComparator comparator = new ObjectInfoComparator();
-            var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
-
+            
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -122,7 +119,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             user.SetName("Olivier Smadja");
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
@@ -142,20 +139,19 @@ namespace Test.NDatabase.Odb.Test.Intropector
         [Test]
         public virtual void TestCompareCollection11()
         {
-            var dbName = "introspectortest2.odb";
+            const string dbName = "introspectortest2.odb";
             DeleteBase(dbName);
             var odb = OdbFactory.Open(dbName);
 
             var user = new User("olivier smadja", "olivier@neodatis.com",
                                 new Profile("operator", new VO.Login.Function("login")));
             IObjectInfoComparator comparator = new ObjectInfoComparator();
-            var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
-
+            
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -177,7 +173,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             user.SetEmail("olivier@neodatis.org");
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
@@ -197,7 +193,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         [Test]
         public virtual void TestCompareCollection2()
         {
-            var dbName = "introspectortest3.odb";
+            const string dbName = "introspectortest3.odb";
             DeleteBase(dbName);
             var odb = OdbFactory.Open(dbName);
 
@@ -205,13 +201,12 @@ namespace Test.NDatabase.Odb.Test.Intropector
                                 new Profile("operator", new VO.Login.Function("login")));
 
             IObjectInfoComparator comparator = new ObjectInfoComparator();
-            var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
-
+            
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             // Sets attributes offsets - this is normally done by reading them from
@@ -233,7 +228,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             instanceInfo3.GetHeader().SetAttributesIdentification(offsets);
@@ -256,20 +251,18 @@ namespace Test.NDatabase.Odb.Test.Intropector
         [Test]
         public virtual void TestCompareCollection4CollectionContentChange()
         {
-            var dbName = "introspectortest22.odb";
+            const string dbName = "introspectortest22.odb";
             DeleteBase(dbName);
             var odb = OdbFactory.Open(dbName);
 
             var function = new VO.Login.Function("login");
             var user = new User("olivier smadja", "olivier@neodatis.com", new Profile("operator", function));
 
-            var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
-
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -290,7 +283,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             instanceInfo3.GetHeader().SetAttributesIdentification(offsets);
@@ -315,7 +308,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         [Test]
         public virtual void TestCompareCollection5()
         {
-            var dbName = "introspectortest5.odb";
+            const string dbName = "introspectortest5.odb";
             DeleteBase(dbName);
             var odb = OdbFactory.Open(dbName);
 
@@ -323,13 +316,12 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var profile = new Profile("operator", function);
             var user = new User("olivier smadja", "olivier@neodatis.com", profile);
             IObjectInfoComparator comparator = new ObjectInfoComparator();
-            var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
-
+            
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -349,7 +341,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             profile.GetFunctions().Add(new VO.Login.Function("logout"));
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
@@ -368,7 +360,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         [Test]
         public virtual void TestCompareCollection6()
         {
-            var dbName = "introspectortest6.odb";
+            const string dbName = "introspectortest6.odb";
             DeleteBase(dbName);
             var odb = OdbFactory.Open(dbName);
 
@@ -382,7 +374,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -405,7 +397,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             profile.SetName("ope");
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
@@ -425,7 +417,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         [Test]
         public virtual void TestCompareCollection7()
         {
-            var dbName = "introspectortest7.odb";
+            const string dbName = "introspectortest7.odb";
             DeleteBase(dbName);
             var odb = OdbFactory.Open(dbName);
 
@@ -433,13 +425,12 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var profile = new Profile("operator", function);
             var user = new User("olivier smadja", "olivier@neodatis.com", profile);
             IObjectInfoComparator comparator = new ObjectInfoComparator();
-            var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
-
+            
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -460,7 +451,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             profile.SetName("operator");
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
@@ -479,7 +470,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         [Test]
         public virtual void TestCompareCollection8()
         {
-            var dbName = "introspectortest8.odb";
+            const string dbName = "introspectortest8.odb";
             DeleteBase(dbName);
             var odb = OdbFactory.Open(dbName);
 
@@ -487,13 +478,12 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var profile = new Profile("operator", function);
             var user = new User("olivier smadja", "olivier@neodatis.com", profile);
             IObjectInfoComparator comparator = new ObjectInfoComparator();
-            var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
-
+            
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -506,7 +496,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             user.SetProfile(null);
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
@@ -520,7 +510,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         [Test]
         public virtual void TestCompareCollection9()
         {
-            var dbName = "introspectortest9.odb";
+            const string dbName = "introspectortest9.odb";
             DeleteBase(dbName);
             var odb = OdbFactory.Open(dbName);
 
@@ -528,13 +518,12 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var profile = new Profile("operator", function);
             var user = new User("olivier smadja", "olivier@neodatis.com", profile);
             IObjectInfoComparator comparator = new ObjectInfoComparator();
-            var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
-
+            
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -554,7 +543,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             user.SetName("Kiko");
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
@@ -584,19 +573,18 @@ namespace Test.NDatabase.Odb.Test.Intropector
         [Test]
         public virtual void TestIntrospectWithNull()
         {
-            var dbName = "TestIntrospectWithNull.odb";
+            const string dbName = "TestIntrospectWithNull.odb";
             DeleteBase(dbName);
             var odb = OdbFactory.Open(dbName);
 
             var user = new User("olivier smadja", "olivier@neodatis.com", null);
             IObjectInfoComparator comparator = new ObjectInfoComparator();
-            var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
-
+            
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -615,7 +603,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             user.SetProfile(new Profile("pname"));
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
@@ -631,19 +619,18 @@ namespace Test.NDatabase.Odb.Test.Intropector
         [Test]
         public virtual void TestIntrospectWithNull2()
         {
-            var dbName = "TestIntrospectWithNull2.odb";
+            const string dbName = "TestIntrospectWithNull2.odb";
             DeleteBase(dbName);
             var odb = OdbFactory.Open(dbName);
 
             var user = new User("olivier smadja", "olivier@neodatis.com", null);
             IObjectInfoComparator comparator = new ObjectInfoComparator();
-            var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
-
+            
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -661,7 +648,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             instanceInfo3.GetHeader().SetAttributesIdentification(offsets);
@@ -680,20 +667,19 @@ namespace Test.NDatabase.Odb.Test.Intropector
         [Test]
         public virtual void TestCopy()
         {
-            var dbName = "introspectortest2.odb";
+            const string dbName = "introspectortest2.odb";
             DeleteBase(dbName);
             var odb = OdbFactory.Open(dbName);
 
             var function = new VO.Login.Function("login");
             var profile = new Profile("operator", function);
             var user = new User("olivier smadja", "olivier@neodatis.org", profile);
-            var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
-
+            
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, ci, true, null,
+                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             var copy = (NonNativeObjectInfo) instanceInfo.CreateCopy(new OdbHashMap<OID, AbstractObjectInfo>(), true);

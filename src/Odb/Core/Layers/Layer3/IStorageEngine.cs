@@ -110,5 +110,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         IIdManager GetIdManager();
 
         IInternalTriggerManager GetLocalTriggerManager();
+        
+        IMetaModel GetMetaModel();
+        IOdbCache GetCache();
     }
 }

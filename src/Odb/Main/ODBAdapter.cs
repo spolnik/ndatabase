@@ -161,7 +161,7 @@ namespace NDatabase.Odb.Main
 
         internal IStorageEngine GetStorageEngine()
         {
-            return _storageEngine.GetSession().GetStorageEngine();
+            return _storageEngine;
         }
     }
 }

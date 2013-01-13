@@ -21,12 +21,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             new OdbHashMap<IStorageEngine, IInternalTriggerManager>();
 
         /// <summary>
-        ///   The file parameters - if we are accessing a file, it will be a IOFileParameters that contains the file name
+        ///     The file parameters - if we are accessing a file, it will be a IOFileParameters that contains the file name
         /// </summary>
         protected IDbIdentification FileIdentification;
 
         /// <summary>
-        ///   To check if database has already been closed
+        ///     To check if database has already been closed
         /// </summary>
         protected bool IsDbClosed;
 
@@ -47,11 +47,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return triggerManager;
         }
 
-        protected void RemoveLocalTriggerManager()
-        {
-            TriggerManagers.Remove(this);
-        }
-
         public virtual IInternalObjectSet<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex)
         {
             if (IsDbClosed)
@@ -68,7 +63,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var newStorageEngine = new StorageEngine(new FileIdentification(newFileName));
             var j = 0;
 
-            var criteriaQuery = new SodaQuery(typeof(object));
+            var criteriaQuery = new SodaQuery(typeof (object));
             var defragObjects = GetObjects<object>(criteriaQuery, true, -1, -1);
 
             foreach (var defragObject in defragObjects)
@@ -78,7 +73,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
                 if (OdbConfiguration.IsLoggingEnabled())
                 {
-                    if (j % 10000 == 0)
+                    if (j%10000 == 0)
                         DLogger.Info(string.Concat("\n", totalNbObjects.ToString(), " objects saved."));
                 }
 
@@ -89,7 +84,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             var time = OdbTime.GetCurrentTimeInMs() - start;
 
-            if (!OdbConfiguration.IsLoggingEnabled()) 
+            if (!OdbConfiguration.IsLoggingEnabled())
                 return;
 
             var nbObjectsAsString = totalNbObjects.ToString();
@@ -122,7 +117,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         }
 
         /// <summary>
-        ///   Used to rebuild an index
+        ///     Used to rebuild an index
         /// </summary>
         public virtual void RebuildIndex(string className, string indexName)
         {
@@ -138,10 +133,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var classInfoIndex = classInfo.GetIndexWithName(indexName);
             DeleteIndex(className, indexName);
 
-            AddIndexOn(className, indexName, classInfo.GetAttributeNames(classInfoIndex.AttributeIds), !classInfoIndex.IsUnique);
+            AddIndexOn(className, indexName, classInfo.GetAttributeNames(classInfoIndex.AttributeIds),
+                       !classInfoIndex.IsUnique);
         }
 
-        public virtual void AddIndexOn(string className, string indexName, string[] indexFields, bool acceptMultipleValuesForSameKey)
+        public virtual void AddIndexOn(string className, string indexName, string[] indexFields,
+                                       bool acceptMultipleValuesForSameKey)
         {
             var classInfo = GetMetaModel().GetClassInfo(className, true);
             if (classInfo.HasIndex(indexName))
@@ -167,7 +164,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 // There are no objects. Nothing to do
                 return;
             }
-            
+
             if (OdbConfiguration.IsLoggingEnabled())
             {
                 var numberOfObjectsAsString = classInfo.NumberOfObjects.ToString();
@@ -191,23 +188,13 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             while (objects.HasNext())
             {
-                var nnoi = (NonNativeObjectInfo)objects.Next();
+                var nnoi = (NonNativeObjectInfo) objects.Next();
 
                 btree.Insert(classInfoIndex.ComputeKey(nnoi), nnoi.GetOid());
             }
 
             if (OdbConfiguration.IsLoggingEnabled())
                 DLogger.Info(string.Format("{0} created!", indexName));
-        }
-
-        private IObjectSet<object> GetObjectInfos(IQuery query)
-        {
-            // Returns the query result handler for normal query result (that return a collection of objects)
-            var queryResultAction = new QueryResultAction<object>(query, false, this, false,
-                                                                            GetObjectReader().GetInstanceBuilder());
-
-            return ObjectReader.GetObjectInfos<object>(query, false, -1, -1, false,
-                                                  queryResultAction);
         }
 
         public abstract void AddClasses(ClassInfoList arg1);
@@ -274,11 +261,31 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public abstract IIdManager GetIdManager();
 
+        protected void RemoveLocalTriggerManager()
+        {
+            TriggerManagers.Remove(this);
+        }
+
+        private IObjectSet<object> GetObjectInfos(IQuery query)
+        {
+            // Returns the query result handler for normal query result (that return a collection of objects)
+            var queryResultAction = new QueryResultAction<object>(query, false, this, false,
+                                                                  GetObjectReader().GetInstanceBuilder());
+
+            return ObjectReader.GetObjectInfos<object>(query, false, -1, -1, false,
+                                                       queryResultAction);
+        }
+
         #endregion
 
-        protected MetaModel GetMetaModel()
+        public IMetaModel GetMetaModel()
         {
             return GetSession().GetMetaModel();
+        }
+
+        public IOdbCache GetCache()
+        {
+            return GetSession().GetCache();
         }
     }
 }
