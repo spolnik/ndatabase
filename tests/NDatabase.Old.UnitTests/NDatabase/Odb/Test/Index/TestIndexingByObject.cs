@@ -18,7 +18,7 @@ namespace Test.NDatabase.Odb.Test.Index
         [Test]
         public virtual void Test1()
         {
-            OdbConfiguration.DisableAssemblyQualifiedTypes();
+            OdbConfiguration.EnableLessRestrictedTypeResolutionMode();
 
             Println("************START OF TEST1***************");
             
@@ -62,7 +62,7 @@ namespace Test.NDatabase.Odb.Test.Index
             DeleteBase("index-object");
             Println("************END OF TEST1***************");
 
-            OdbConfiguration.EnableAssemblyQualifiedTypes();
+            OdbConfiguration.EnableNormalTypeResolutionMode();
         }
 
         [Test]

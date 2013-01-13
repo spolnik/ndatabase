@@ -11,7 +11,7 @@ namespace Test.NDatabase.Odb.Test
         [Test]
         public virtual void Check_type_conversion_working_in_less_restricted_mode()
         {
-            OdbConfiguration.DisableAssemblyQualifiedTypes();
+            OdbConfiguration.EnableLessRestrictedTypeResolutionMode();
 
             AssertEquals(OdbType.Integer, OdbType.GetFromClass(typeof (int)));
             AssertEquals(OdbType.Boolean, OdbType.GetFromClass(typeof (bool)));
@@ -24,7 +24,7 @@ namespace Test.NDatabase.Odb.Test
             AssertEquals(OdbType.String, OdbType.GetFromClass(typeof (string)));
             AssertEquals(OdbType.Decimal, OdbType.GetFromClass(typeof (Decimal)));
             
-            OdbConfiguration.EnableAssemblyQualifiedTypes();
+            OdbConfiguration.EnableNormalTypeResolutionMode();
         }
 
         [Test]

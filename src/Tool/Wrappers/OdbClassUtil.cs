@@ -48,7 +48,7 @@ namespace NDatabase.Tool.Wrappers
 
         private static string ProduceFullName(Type type)
         {
-            if (!OdbConfiguration.HasAssemblyQualifiedTypes())
+            if (!OdbConfiguration.IsWorkingInNormalTypeResolutionMode())
                 return type.FullName;
 
             var name = type.Assembly.GetName();

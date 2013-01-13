@@ -14,7 +14,7 @@ namespace NDatabase.Northwind.Generator
 
         public NorthwindNDbGeneratorForm()
         {
-            OdbConfiguration.DisableAssemblyQualifiedTypes();
+            OdbConfiguration.EnableLessRestrictedTypeResolutionMode();
             InitializeComponent();
         }
 

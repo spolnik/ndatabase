@@ -136,27 +136,28 @@ namespace NDatabase.Odb
             DLogger.Register(logger);
         }
 
+
         /// <summary>
-        /// Determines whether database [has assembly qualified types].
+        /// Determines whether database [is working in normal type resolution mode].
         /// </summary>
-        /// <returns><c>true</c> if database [has assembly qualified types]; otherwise, <c>false</c>.</returns>
-        public static bool HasAssemblyQualifiedTypes()
+        /// <returns><c>true</c> if database [is working in normal type resolution mode]; otherwise, <c>false</c>.</returns>
+        public static bool IsWorkingInNormalTypeResolutionMode()
         {
             return _isAssemblyQualified;
         }
 
         /// <summary>
-        /// Enables the assembly qualified types.
+        /// Enables the normal type resolution mode.
         /// </summary>
-        public static void EnableAssemblyQualifiedTypes()
+        public static void EnableNormalTypeResolutionMode()
         {
             _isAssemblyQualified = true;
         }
 
         /// <summary>
-        /// Disables the assembly qualified types.
+        /// Enables the less restricted type resolution mode.
         /// </summary>
-        public static void DisableAssemblyQualifiedTypes()
+        public static void EnableLessRestrictedTypeResolutionMode()
         {
             _isAssemblyQualified = false;
         }
