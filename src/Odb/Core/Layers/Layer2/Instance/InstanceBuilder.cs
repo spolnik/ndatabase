@@ -5,7 +5,6 @@ using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Oid;
 using NDatabase.Odb.Core.Trigger;
 using NDatabase.Tool;
 

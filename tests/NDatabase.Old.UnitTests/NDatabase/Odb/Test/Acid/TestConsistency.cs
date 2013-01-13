@@ -9,7 +9,7 @@ namespace Test.NDatabase.Odb.Test.Acid
     [TestFixture]
     public class TestConsistency : ODBTest
     {
-        public static string OdbFileName = "consistency.neodatis";
+        public static string OdbFileName = "consistency.ndb";
 
         public virtual void CreateInconsistentFile()
         {

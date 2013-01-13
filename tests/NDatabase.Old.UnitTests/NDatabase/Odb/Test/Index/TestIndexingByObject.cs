@@ -1,8 +1,10 @@
 using System;
 using NDatabase.Odb;
+using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
+using System.Linq;
 
 namespace Test.NDatabase.Odb.Test.Index
 {
@@ -16,6 +18,8 @@ namespace Test.NDatabase.Odb.Test.Index
         [Test]
         public virtual void Test1()
         {
+            OdbConfiguration.EnableLessRestrictedTypeResolutionMode();
+
             Println("************START OF TEST1***************");
             
             DeleteBase("index-object");
@@ -26,10 +30,20 @@ namespace Test.NDatabase.Odb.Test.Index
                 odb.IndexManagerFor<IndexedObject2>().AddUniqueIndexOn("index1", fields);
                 o1 = new IndexedObject2("Object1", new IndexedObject("Inner Object 1", 10, new DateTime()));
                 odb.Store(o1);
+
+                Assert.That(odb.IndexManagerFor<IndexedObject2>().ExistIndex("index1"), Is.True);
+
+                var indexes = odb.QueryAndExecute<ClassInfoIndex>().ToList();
+                Assert.That(indexes.Count, Is.EqualTo(1));
             }
 
             using (var odb = Open("index-object"))
             {
+                var indexes = odb.QueryAndExecute<ClassInfoIndex>().ToList();
+                Assert.That(indexes.Count, Is.EqualTo(1));
+
+                Assert.That(odb.IndexManagerFor<IndexedObject2>().ExistIndex("index1"), Is.True);
+
                 var query = odb.Query<IndexedObject>();
                 var objects = query.Execute<IndexedObject>();
                 var io = objects.GetFirst();
@@ -47,6 +61,8 @@ namespace Test.NDatabase.Odb.Test.Index
 
             DeleteBase("index-object");
             Println("************END OF TEST1***************");
+
+            OdbConfiguration.EnableNormalTypeResolutionMode();
         }
 
         [Test]

@@ -9,8 +9,8 @@ namespace Test.NDatabase.Odb.Test.IO
         [Test]
         public virtual void Test()
         {
-            DeleteBase("t111A.neodatis");
-            var odb = Open("t111A.neodatis");
+            DeleteBase("t111A.ndb");
+            var odb = Open("t111A.ndb");
             odb.Close();
             try
             {
@@ -25,11 +25,11 @@ namespace Test.NDatabase.Odb.Test.IO
         [Test]
         public virtual void TestReOpenWithoutClose()
         {
-            DeleteBase("t111C.neodatis");
-            var odb = Open("t111C.neodatis");
+            DeleteBase("t111C.ndb");
+            var odb = Open("t111C.ndb");
             try
             {
-                odb = Open("t111C.neodatis");
+                odb = Open("t111C.ndb");
                 Assert.Fail();
             }
             catch (Exception e)
@@ -43,8 +43,8 @@ namespace Test.NDatabase.Odb.Test.IO
         [Test]
         public virtual void TestTwoCloses()
         {
-            DeleteBase("t111B.neodatis");
-            var odb = Open("t111B.neodatis");
+            DeleteBase("t111B.ndb");
+            var odb = Open("t111B.ndb");
             odb.Close();
             try
             {

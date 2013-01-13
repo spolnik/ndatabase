@@ -9,7 +9,7 @@ namespace NDatabase.UnitTests.CodeSnippets
 {
     public class Documentation_5_minutes_tutorial
     {
-        public const string TutorialDb5MinName = "tutorial.5min.db";
+        public const string TutorialDb5MinName = "tutorial.5min.ndb";
 
         [SetUp]
         public void SetUp()

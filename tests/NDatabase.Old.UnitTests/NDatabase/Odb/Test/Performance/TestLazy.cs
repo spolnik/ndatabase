@@ -10,7 +10,7 @@ namespace Test.NDatabase.Odb.Test.Performance
     {
         public const int Size = 4000;
 
-        public static readonly string Filename = "lazy.neodatis";
+        public static readonly string Filename = "lazy.ndb";
 
         private object GetInstance()
         {

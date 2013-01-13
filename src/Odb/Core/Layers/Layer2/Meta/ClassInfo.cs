@@ -6,6 +6,7 @@ using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
 using NDatabase.Tool.Wrappers.List;
 using NDatabase.Tool.Wrappers.Map;
+using NDatabase.TypeResolution;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {
@@ -14,16 +15,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// </summary>
     internal sealed class ClassInfo
     {
-        /// <summary>
-        ///   Constant used for the classCategory variable to indicate a system class
-        /// </summary>
-        public const byte CategorySystemClass = 1;
-
-        /// <summary>
-        ///   Constant used for the classCategory variable to indicate a user class
-        /// </summary>
-        public const byte CategoryUserClass = 2;
-
         private static readonly Dictionary<string, Type> TypeCache = new Dictionary<string, Type>();
         private readonly AttributesCache _attributesCache;
 
@@ -64,7 +55,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             _oidInfo = new OidInfo();
             Position = -1;
             MaxAttributeId = -1;
-            ClassCategory = CategoryUserClass;
             _attributesCache = new AttributesCache();
         }
 
@@ -146,11 +136,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         }
 
         /// <summary>
-        ///   To specify the type of the class : system class or user class
-        /// </summary>
-        public byte ClassCategory { get; set; }
-
-        /// <summary>
         ///   Infos about the last object of this class
         /// </summary>
         public ObjectInfoHeader LastObjectInfoHeader { get; set; }
@@ -186,7 +171,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         private static Type GetType(string fullClassName)
         {
-            var type = Type.GetType(fullClassName);
+            var type = TypeResolutionUtils.ResolveType(fullClassName);
 
             if (type == null)
                 CannotInstantiateType(fullClassName);
@@ -196,23 +181,10 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         private static void CannotInstantiateType(string fullClassName)
         {
-            var message = ContainsAssemblyName(fullClassName)
-                              ? string.Format("{0} domain library is not loaded! Cannot proces db schema.", ExtractAssemblyName(fullClassName))
-                              : string.Format("Given full class name is not enough to create the Type from that: {0}",
-                                              fullClassName);
+            var message = string.Format("Given full class name is not enough to create the Type from that: {0}",
+                                        fullClassName);
 
             throw new ArgumentException(message);
-        }
-
-        private static string ExtractAssemblyName(string fullClassName)
-        {
-            var indexOfComma = fullClassName.IndexOf(",", StringComparison.InvariantCulture);
-            return fullClassName.Substring(indexOfComma + 1);
-        }
-
-        private static bool ContainsAssemblyName(string fullClassName)
-        {
-            return fullClassName.Contains(",");
         }
 
         private void FillAttributesMap()
@@ -443,7 +415,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// <summary>
         ///   To detect if a class has cyclic reference
         /// </summary>
-        /// <param name="alreadyVisitedClasses"> A hashmap containg all the already visited classes </param>
+        /// <param name="alreadyVisitedClasses"> A dictionary containing all the already visited classes </param>
         /// <returns> true if this class info has cyclic references </returns>
         private bool HasCyclicReference(IDictionary<string, ClassInfo> alreadyVisitedClasses)
         {
@@ -464,11 +436,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                     return true;
             }
             return false;
-        }
-
-        public bool IsSystemClass()
-        {
-            return ClassCategory == CategorySystemClass;
         }
 
         public ClassInfoIndex GetIndexWithName(string name)

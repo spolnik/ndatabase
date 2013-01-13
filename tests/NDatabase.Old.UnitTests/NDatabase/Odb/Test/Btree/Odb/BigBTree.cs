@@ -14,7 +14,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
         [Test]
         public virtual void Test1()
         {
-            const string bigbtreeTest1DbName = "bigbtree.test1.db";
+            const string bigbtreeTest1DbName = "bigbtree.test1.ndb";
             DeleteBase(bigbtreeTest1DbName);
 
             using (var odb = OdbFactory.Open(bigbtreeTest1DbName))

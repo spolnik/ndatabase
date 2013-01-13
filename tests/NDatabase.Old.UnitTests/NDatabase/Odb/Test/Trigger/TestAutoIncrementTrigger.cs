@@ -6,7 +6,7 @@ namespace Test.NDatabase.Odb.Test.Trigger
     [TestFixture]
     public class TestAutoIncrementTrigger : ODBTest
     {
-        public static readonly string Base = "trigger-auto-increment.neodatis";
+        public static readonly string Base = "trigger-auto-increment.ndb";
 
         /// <exception cref="System.Exception"></exception>
         [Test]

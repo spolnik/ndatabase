@@ -21,8 +21,8 @@ namespace Test.NDatabase.Odb.Test.School
         public override void SetUp()
         {
             base.SetUp();
-            DeleteBase("t-school.neodatis");
-            var odb = Open("t-school.neodatis");
+            DeleteBase("t-school.ndb");
+            var odb = Open("t-school.ndb");
             var query = odb.Query<Student>();
             var students = query.Execute<Student>(true);
             var numStudents = students.Count;
@@ -38,7 +38,7 @@ namespace Test.NDatabase.Odb.Test.School
             odb.Store(std1);
             odb.Commit();
             odb.Close();
-            odb = Open("t-school.neodatis");
+            odb = Open("t-school.ndb");
             var query1 = odb.Query<Student>();
             students = query1.Execute<Student>(true);
             odb.Close();
@@ -50,7 +50,7 @@ namespace Test.NDatabase.Odb.Test.School
         /// <exception cref="System.Exception"></exception>
         public override void TearDown()
         {
-            DeleteBase("t-school.neodatis");
+            DeleteBase("t-school.ndb");
         }
 
         [Test]
@@ -59,7 +59,7 @@ namespace Test.NDatabase.Odb.Test.School
             IOdb odb = null;
             try
             {
-                odb = Open("t-school.neodatis");
+                odb = Open("t-school.ndb");
                 var ci = ((OdbAdapter)odb).GetStorageEngine().GetSession().GetMetaModel().GetClassInfo(typeof(Student), true);
 
                 AssertFalse(ci.HasCyclicReference());

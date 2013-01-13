@@ -50,7 +50,7 @@ namespace NDatabase.Odb.Core.Query.Execution
             var keys = new IOdbComparable[fields.Count];
             for (var i = 0; i < fields.Count; i++)
             {
-                // Todo : can we assume that the object is a Comparable
+                // TODO : can we assume that the object is a Comparable
                 try
                 {
                     var @object = (IComparable) values[fields[i]];

@@ -9,7 +9,7 @@ using NDatabase.Tool.Wrappers.Map;
 namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 {
     /// <summary>
-    ///   The local implementation of the Object Instrospector.
+    ///   The local implementation of the Object Introspector.
     /// </summary>
     internal sealed class ObjectIntrospector : IObjectIntrospector
     {
@@ -22,11 +22,29 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 
         #region IObjectIntrospector Members
 
-        public AbstractObjectInfo GetMetaRepresentation(object o, ClassInfo ci, bool recursive,
+        public AbstractObjectInfo GetMetaRepresentation(object plainObject, bool recursive,
                                                         IDictionary<object, NonNativeObjectInfo> alreadyReadObjects,
                                                         IIntrospectionCallback callback)
         {
-            return GetObjectInfo(o, ci, recursive, alreadyReadObjects, callback);
+            // The object must be transformed into meta representation
+            ClassInfo classInfo;
+            var type = plainObject.GetType();
+
+            // first checks if the class of this object already exist in the meta model
+            if (_storageEngine.GetMetaModel().ExistClass(type))
+            {
+                classInfo = _storageEngine.GetMetaModel().GetClassInfo(type, true);
+            }
+            else
+            {
+                var classInfoList = ClassIntrospector.Introspect(type, true);
+
+                // All new classes found
+                _storageEngine.GetObjectWriter().AddClasses(classInfoList);
+                classInfo = classInfoList.GetMainClassInfo();
+            }
+
+            return GetObjectInfo(plainObject, classInfo, recursive, alreadyReadObjects, callback);
         }
 
         public void Clear()
@@ -43,7 +61,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             if (_storageEngine != null)
             {
                 // for unit test purpose
-                var cache = _storageEngine.GetSession().GetCache();
+                var cache = _storageEngine.GetCache();
 
                 // Check if object is in the cache, if so sets its oid
                 var oid = cache.GetOid(o);

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using NDatabase.Odb;
 
 namespace NDatabase.Tool.Wrappers
 {
@@ -40,13 +41,16 @@ namespace NDatabase.Tool.Wrappers
                        : fullClassName.Substring(0, index);
         }
 
-        public static String GetFullName(Type type)
+        public static string GetFullName(Type type)
         {
             return CacheByType.GetOrAdd(type, ProduceFullName);
         }
 
         private static string ProduceFullName(Type type)
         {
+            if (!OdbConfiguration.IsWorkingInNormalTypeResolutionMode())
+                return type.FullName;
+
             var name = type.Assembly.GetName();
             var publicKey = name.GetPublicKey();
             var isSignedAsm = publicKey.Length > 0;

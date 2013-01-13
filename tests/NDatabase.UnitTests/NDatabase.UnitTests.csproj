@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>..\..\External-Lib\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\..\External-Lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -79,13 +82,20 @@
     <Compile Include="Layer3\When_we_use_read_objects_cache.cs" />
     <Compile Include="MemoryMonitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Refactoring\When_we_use_refactor_menager_to_rename_field_in_class.cs" />
+    <Compile Include="Refactor\TypeToRefactor.cs" />
+    <Compile Include="Refactor\When_we_are_using_refactor_manager_to_add_field.cs" />
+    <Compile Include="Refactor\When_we_are_using_refactor_manager_to_remove_field.cs" />
+    <Compile Include="Refactor\When_we_are_using_refactor_manager_to_rename_class.cs" />
+    <Compile Include="Refactor\When_we_are_using_refactor_manager_to_rename_field.cs" />
     <Compile Include="Serialization\Identification\When_we_are_using_database_id.cs" />
     <Compile Include="Serialization\Identification\When_we_are_using_db_class_oid.cs" />
     <Compile Include="Serialization\Identification\When_we_are_using_db_object_oid.cs" />
     <Compile Include="TestData\Person.cs" />
     <Compile Include="Base\When_we_want_store_simple_object.cs" />
     <Compile Include="Transaction\When_we_use_write_action_to_save_data.cs" />
+    <Compile Include="Triggers\When_we_use_object_representation_as_the_wrapper_for_nnoi.cs" />
+    <Compile Include="TypeResolution\TestGenericObject.cs" />
+    <Compile Include="TypeResolution\TypeResolution_TestCase.cs" />
     <Compile Include="Utils\When_working_with_class_utils.cs" />
     <Compile Include="Utils\When_working_with_string_utils.cs" />
   </ItemGroup>
@@ -94,10 +104,12 @@
       <Project>{4B6993D5-995D-4AAA-BBCE-423D1B5451F6}</Project>
       <Name>NDatabase</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\tools\NDatabase.Northwind.Domain\NDatabase.Northwind.Domain.csproj">
+      <Project>{E58257BE-7CF9-4471-9E5E-99510FF70637}</Project>
+      <Name>NDatabase.Northwind.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Queries\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>echo POSTBUILDSTEP for $(ProjectName)

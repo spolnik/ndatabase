@@ -10,9 +10,9 @@ namespace NDatabase.Odb.Core
         /// <summary>
         /// Rename stored class - refactoring
         /// </summary>
-        /// <param name="className">Old class name</param>
-        /// <param name="newClassName">New class name</param>
-        void RenameClass(string className, string newClassName);
+        /// <param name="fullClassName">Old class name</param>
+        /// <param name="newType">New type to apply</param>
+        void RenameClass(string fullClassName, Type newType);
 
         /// <summary>
         /// Rename field of stored class - refactoring

@@ -8,7 +8,7 @@ namespace Test.NDatabase.Odb.Test.Newbie
     /// </summary>
     public class InsertTest : ODBTest
     {
-        protected static readonly string NewbieOdb = "newbie.neodatis";
+        protected static readonly string NewbieOdb = "newbie.ndb";
 
         /// <summary>
         ///   Insert different objects on database

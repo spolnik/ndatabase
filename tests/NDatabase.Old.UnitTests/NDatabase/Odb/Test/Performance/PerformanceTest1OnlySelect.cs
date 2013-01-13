@@ -11,7 +11,7 @@ namespace Test.NDatabase.Odb.Test.Performance
     {
         public static int TestSize = 50000;
 
-        public static readonly string OdbFileName = "perf-select.neodatis";
+        public static readonly string OdbFileName = "perf-select.ndb";
 
         [SetUp]
         public virtual void BuildBase()

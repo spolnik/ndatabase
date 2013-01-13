@@ -9,8 +9,8 @@ namespace Test.NDatabase.Odb.Test.Interfaces
         [Test]
         public virtual void TestInsert()
         {
-            DeleteBase("tinterfaces.neodatis");
-            var odb = Open("tinterfaces.neodatis");
+            DeleteBase("tinterfaces.ndb");
+            var odb = Open("tinterfaces.ndb");
             var owi = new ObjectWithInterfaces("Ol√° chico");
             odb.Store(owi);
             odb.Commit();
@@ -20,12 +20,12 @@ namespace Test.NDatabase.Odb.Test.Interfaces
         [Test]
         public virtual void TestInsertAndSelect()
         {
-            DeleteBase("tinterfaces.neodatis");
-            var odb = Open("tinterfaces.neodatis");
+            DeleteBase("tinterfaces.ndb");
+            var odb = Open("tinterfaces.ndb");
             var owi = new ObjectWithInterfaces("Ol√° chico");
             odb.Store(owi);
             odb.Close();
-            odb = Open("tinterfaces.neodatis");
+            odb = Open("tinterfaces.ndb");
             var query = odb.Query<ObjectWithInterfaces>();
             var os = query.Execute<ObjectWithInterfaces>();
             AssertEquals(1, os.Count);

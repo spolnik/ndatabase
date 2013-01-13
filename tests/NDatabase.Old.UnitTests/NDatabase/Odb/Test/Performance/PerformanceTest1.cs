@@ -12,7 +12,7 @@ namespace Test.NDatabase.Odb.Test.Performance
 //        public static int TestSize = 50000;
         public static int TestSize = 5000;
 
-        public static readonly string OdbFileName = "perf.neodatis";
+        public static readonly string OdbFileName = "perf.ndb";
 
         [Test]
         public virtual void TestInsertSimpleObjectODB()

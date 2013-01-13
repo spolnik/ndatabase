@@ -1,7 +1,6 @@
 using System.Linq;
 using NDatabase.Btree;
 using NDatabase.Odb.Core.Query.Execution;
-using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {

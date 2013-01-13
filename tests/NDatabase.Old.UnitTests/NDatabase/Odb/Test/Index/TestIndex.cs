@@ -1064,7 +1064,7 @@ namespace Test.NDatabase.Odb.Test.Index
         [Test]
         public void TestInsertWithIndex3Part1()
         {
-            var baseName = "index.neodatis";
+            var baseName = "index.ndb";
             // LogUtil.logOn(LazyOdbBtreePersister.LOG_ID, true);
             DeleteBase(baseName);
             var @base = Open(baseName);
@@ -1104,7 +1104,7 @@ namespace Test.NDatabase.Odb.Test.Index
         [Test]
         public void TestInsertWithIndex3Part2()
         {
-            var baseName = "index.neodatis";
+            var baseName = "index.ndb";
             var size = 1300;
             var odb = Open(baseName);
             IQuery q = odb.Query<IndexedObject>();

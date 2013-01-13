@@ -11,7 +11,7 @@ namespace Test.NDatabase.Odb.Test.Newbie
     /// </author>
     public class CreateDataBaseTest : ODBTest
     {
-        private const string NewbieOdb = "newbie.neodatis";
+        private const string NewbieOdb = "newbie.ndb";
 
         /// <summary>
         ///   Test if a new database could be created

@@ -66,6 +66,7 @@
     <Compile Include="Btree\Impl\Singlevalue\BTreeSingleValuePerKey.cs" />
     <Compile Include="Btree\Tool\BTreeDisplay.cs" />
     <Compile Include="Btree\Tool\BTreeValidator.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\IMetaModel.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\InMemoryIdentification.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IO\OdbMemoryStream.cs" />
     <Compile Include="Odb\Core\Query\Criteria\ComparisonConstraint.cs" />
@@ -212,7 +213,6 @@
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\ObjectIntrospector.cs" />
     <Compile Include="Odb\Core\NonPersistentAttribute.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Instance\InstanceBuilder.cs" />
-    <Compile Include="Odb\Core\Layers\Layer2\Instance\ODBClassPool.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\AttributeValueComparator.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\ObjectInfoComparator.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Block\BlockStatus.cs" />
@@ -317,6 +317,14 @@
     <Compile Include="Tool\Wrappers\OdbString.cs" />
     <Compile Include="Tool\Wrappers\OdbTime.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TypeResolution\CachedTypeResolver.cs" />
+    <Compile Include="TypeResolution\GenericArgumentsHolder.cs" />
+    <Compile Include="TypeResolution\GenericTypeResolver.cs" />
+    <Compile Include="TypeResolution\ITypeResolver.cs" />
+    <Compile Include="TypeResolution\TypeAssemblyHolder.cs" />
+    <Compile Include="TypeResolution\TypeRegistry.cs" />
+    <Compile Include="TypeResolution\TypeResolutionUtils.cs" />
+    <Compile Include="TypeResolution\TypeResolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

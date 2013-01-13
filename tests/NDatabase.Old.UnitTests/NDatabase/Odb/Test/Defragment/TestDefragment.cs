@@ -10,9 +10,9 @@ namespace Test.NDatabase.Odb.Test.Defragment
         /// <summary>
         ///   The name of the database file
         /// </summary>
-        public static readonly string OdbFileName1 = "defrag3.neodatis";
+        public static readonly string OdbFileName1 = "defrag3.ndb";
 
-        public static readonly string OdbFileName2 = "defrag3-bis.neodatis";
+        public static readonly string OdbFileName2 = "defrag3-bis.ndb";
 
         [Test]
         public virtual void Test1()

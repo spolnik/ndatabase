@@ -10,8 +10,8 @@ namespace Test.NDatabase.Odb.Test.Other
         [Test]
         public virtual void Test1()
         {
-            DeleteBase("native.neodatis");
-            var @base = Open("native.neodatis");
+            DeleteBase("native.ndb");
+            var @base = Open("native.ndb");
             try
             {
                 @base.Store("olivier");
@@ -19,19 +19,19 @@ namespace Test.NDatabase.Odb.Test.Other
             catch (OdbRuntimeException)
             {
                 @base.Close();
-                DeleteBase("native.neodatis");
+                DeleteBase("native.ndb");
                 return;
             }
             @base.Close();
             Fail("Allow native object direct persistence");
-            DeleteBase("native.neodatis");
+            DeleteBase("native.ndb");
         }
 
         [Test]
         public virtual void Test2()
         {
-            DeleteBase("native.neodatis");
-            var @base = Open("native.neodatis");
+            DeleteBase("native.ndb");
+            var @base = Open("native.ndb");
             try
             {
                 var array = new[] {"olivier", "joao", "peter"};
@@ -40,12 +40,12 @@ namespace Test.NDatabase.Odb.Test.Other
             catch (OdbRuntimeException)
             {
                 @base.Close();
-                DeleteBase("native.neodatis");
+                DeleteBase("native.ndb");
                 return;
             }
             @base.Close();
             Fail("Allow native object direct persistence");
-            DeleteBase("native.neodatis");
+            DeleteBase("native.ndb");
         }
     }
 }

@@ -14,15 +14,15 @@ namespace Test.NDatabase.Odb.Test.Cyclic
         [TearDown]
         public override void TearDown()
         {
-            DeleteBase("cyclic.neodatis");
+            DeleteBase("cyclic.ndb");
         }
 
         [SetUp]
         public override void SetUp()
         {
             base.SetUp();
-            DeleteBase("cyclic.neodatis");
-            var odb = Open("cyclic.neodatis");
+            DeleteBase("cyclic.ndb");
+            var odb = Open("cyclic.ndb");
             for (var i = 0; i < 1; i++)
             {
                 var brasilia = new City("Brasilia" + i);
@@ -41,7 +41,7 @@ namespace Test.NDatabase.Odb.Test.Cyclic
         [Test]
         public virtual void Test1()
         {
-            var odb = Open("cyclic.neodatis");
+            var odb = Open("cyclic.ndb");
             var query = odb.Query<Country2>();
             var l = query.Execute<Country2>(true);
             var country = l.GetFirst();
@@ -80,7 +80,7 @@ namespace Test.NDatabase.Odb.Test.Cyclic
             IOdb odb = null;
             try
             {
-                odb = Open("cyclic.neodatis");
+                odb = Open("cyclic.ndb");
                 var ci = ((OdbAdapter)odb).GetStorageEngine().GetSession().GetMetaModel().GetClassInfo(typeof(User), true);
                 AssertFalse(ci.HasCyclicReference());
             }
@@ -97,7 +97,7 @@ namespace Test.NDatabase.Odb.Test.Cyclic
             Println("-------------------");
             // LogUtil.logOn(ObjectWriter.LOG_ID, true);
             // LogUtil.logOn(ObjectReader.LOG_ID, true);
-            var odb = Open("cyclic.neodatis");
+            var odb = Open("cyclic.ndb");
             var query1 = odb.Query<Country2>();
             var l = query1.Execute<Country2>(true);
             var country = l.GetFirst();
@@ -106,7 +106,7 @@ namespace Test.NDatabase.Odb.Test.Cyclic
             country.SetCapital(city);
             odb.Store(country);
             odb.Close();
-            odb = Open("cyclic.neodatis");
+            odb = Open("cyclic.ndb");
             var query2 = odb.Query<Country2>();
             l = query2.Execute<Country2>(true);
             country = l.GetFirst();
@@ -123,7 +123,7 @@ namespace Test.NDatabase.Odb.Test.Cyclic
         [Test]
         public virtual void Test2()
         {
-            var odb = Open("cyclic.neodatis");
+            var odb = Open("cyclic.ndb");
             var query1 = odb.Query<Country2>();
             var l = query1.Execute<Country2>(true);
             var country = l.GetFirst();
@@ -131,7 +131,7 @@ namespace Test.NDatabase.Odb.Test.Cyclic
             country.SetCapital(city);
             odb.Store(country);
             odb.Close();
-            odb = Open("cyclic.neodatis");
+            odb = Open("cyclic.ndb");
             var query2 = odb.Query<Country2>();
             l = query2.Execute<Country2>(true);
             country = l.GetFirst();
@@ -149,7 +149,7 @@ namespace Test.NDatabase.Odb.Test.Cyclic
         [Test]
         public virtual void TestUniqueInstance1()
         {
-            var odb = Open("cyclic.neodatis");
+            var odb = Open("cyclic.ndb");
             var query = odb.Query<City>();
             var cities = query.Execute<City>(true);
             var query1 = odb.Query<Country2>();
@@ -165,7 +165,7 @@ namespace Test.NDatabase.Odb.Test.Cyclic
         [Test]
         public virtual void TestUniqueInstance2()
         {
-            var odb = Open("cyclic.neodatis");
+            var odb = Open("cyclic.ndb");
             var query1 = odb.Query<Country2>();
             var countries = query1.Execute<Country2>(true);
             var query = odb.Query<City>();

@@ -43,7 +43,7 @@ namespace Test.NDatabase.Odb.Test.Update
 
         public static int NbObjects = 50;
 
-        public static string FileName = "update.neodatis";
+        public static string FileName = "update.ndb";
 
         [Test]
         public virtual void Test1()
@@ -314,8 +314,8 @@ namespace Test.NDatabase.Odb.Test.Update
         [Test]
         public virtual void TestDirectSave()
         {
-            DeleteBase("btree.neodatis");
-            var odb = Open("btree.neodatis");
+            DeleteBase("btree.ndb");
+            var odb = Open("btree.ndb");
             var function = new VO.Login.Function("f1");
             odb.Store(function);
             for (var i = 0; i < 2; i++)

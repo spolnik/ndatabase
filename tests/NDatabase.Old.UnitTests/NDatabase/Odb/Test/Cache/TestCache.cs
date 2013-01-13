@@ -14,8 +14,8 @@ namespace Test.NDatabase.Odb.Test.Cache
         {
             Thread.Sleep(100);
             // Configuration.setUseModifiedClass(true);
-            DeleteBase("cache.neodatis");
-            var odb = Open("cache.neodatis");
+            DeleteBase("cache.ndb");
+            var odb = Open("cache.ndb");
             for (var i = 0; i < NbObjects; i++)
             {
                 odb.Store(new VO.Login.Function("function " + (i + i)));
@@ -28,7 +28,7 @@ namespace Test.NDatabase.Odb.Test.Cache
         [TearDown]
         public override void TearDown()
         {
-            DeleteBase("cache.neodatis");
+            DeleteBase("cache.ndb");
         }
 
         #endregion
@@ -38,7 +38,7 @@ namespace Test.NDatabase.Odb.Test.Cache
         [Test]
         public virtual void Test1()
         {
-            var odb = Open("cache.neodatis");
+            var odb = Open("cache.ndb");
             var query = odb.Query<VO.Login.Function>();
             query.Descend("name").Constrain((object) "function 10").Equal();
             var l = query.Execute<VO.Login.Function>();
@@ -51,7 +51,7 @@ namespace Test.NDatabase.Odb.Test.Cache
         [Test]
         public virtual void Test2()
         {
-            var odb = Open("cache.neodatis");
+            var odb = Open("cache.ndb");
             var query = odb.Query<User>();
             query.Descend("name").Constrain((object) "olivier 10").Equal();
             var l = query.Execute<User>();

@@ -8,7 +8,7 @@ namespace Test.NDatabase.Odb.Test.Newbie
     /// </summary>
     public class UpdateTest : ODBTest
     {
-        protected static readonly string NewbieOdb = "newbie.neodatis";
+        protected static readonly string NewbieOdb = "newbie.ndb";
 
         [Test]
         public virtual void TestUpdate()

@@ -16,8 +16,8 @@ namespace Test.NDatabase.Odb.Test.Explorer
         [Test]
         public virtual void Test1()
         {
-            OdbFactory.Delete("base1.neodatis");
-            using (var odb = OdbFactory.Open("base1.neodatis"))
+            OdbFactory.Delete("base1.ndb");
+            using (var odb = OdbFactory.Open("base1.ndb"))
             {
                 var fields = new[] {"int1"};
                 odb.IndexManagerFor<TestClass>().AddUniqueIndexOn("index1", fields);

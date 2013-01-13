@@ -14,6 +14,7 @@ namespace NDatabase.Northwind.Generator
 
         public NorthwindNDbGeneratorForm()
         {
+            OdbConfiguration.EnableLessRestrictedTypeResolutionMode();
             InitializeComponent();
         }
 

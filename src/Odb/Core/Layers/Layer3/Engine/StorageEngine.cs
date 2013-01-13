@@ -132,26 +132,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <param name="currentCIs"> </param>
         private void CheckMetaModelCompatibility(IDictionary<string, ClassInfo> currentCIs)
         {
-            ClassInfo currentCI;
             ClassInfoCompareResult result;
             var checkMetaModelResult = new CheckMetaModelResult();
 
-            // User classes
-            foreach (var persistedCI in GetMetaModel().GetUserClasses())
+            foreach (var persistedCI in GetMetaModel().GetAllClasses())
             {
-                currentCI = currentCIs[persistedCI.FullClassName];
-                result = persistedCI.ExtractDifferences(currentCI, true);
-
-                if (!result.IsCompatible())
-                    throw new OdbRuntimeException(NDatabaseError.IncompatibleMetamodel.AddParameter(result.ToString()));
-
-                if (result.HasCompatibleChanges())
-                    checkMetaModelResult.Add(result);
-            }
-
-            foreach (var persistedCI in GetMetaModel().GetSystemClasses())
-            {
-                currentCI = currentCIs[persistedCI.FullClassName];
+                var currentCI = currentCIs[persistedCI.FullClassName];
                 result = persistedCI.ExtractDifferences(currentCI, true);
 
                 if (!result.IsCompatible())
@@ -417,7 +403,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public override IRefactorManager GetRefactorManager()
         {
-            return new RefactorManager(this);
+            return new RefactorManager(GetSession().GetMetaModel(), GetObjectWriter());
         }
 
         public override void ResetCommitListeners()
@@ -483,11 +469,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             var metaModel = GetMetaModel();
 
-            foreach (var userClass in metaModel.GetUserClasses())
+            foreach (var userClass in metaModel.GetAllClasses())
                 _objectWriter.UpdateClassInfo(userClass, true);
-
-            foreach (var systemClass in metaModel.GetSystemClasses())
-                _objectWriter.UpdateClassInfo(systemClass, true);
         }
 
         private string GetStorageDeviceName()
@@ -524,24 +507,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                         OdbType.GetFromClass(type).Name).AddParameter(type.FullName));
             }
 
-            // The object must be transformed into meta representation
-            ClassInfo classInfo;
-
-            // first checks if the class of this object already exist in the
-            // metamodel
-            if (GetMetaModel().ExistClass(type))
-            {
-                classInfo = GetMetaModel().GetClassInfo(type, true);
-            }
-            else
-            {
-                var classInfoList = ClassIntrospector.Introspect(plainObject.GetType(), true);
-
-                // All new classes found
-                _objectWriter.AddClasses(classInfoList);
-                classInfo = classInfoList.GetMainClassInfo();
-            }
-
             // first detects if we must perform an insert or an update
             // If object is in the cache, we must perform an update, else an insert
             var cache = GetSession().GetCache();
@@ -562,7 +527,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             // Transform the object into an ObjectInfo
             var nnoi =
                 (NonNativeObjectInfo)
-                _objectIntrospector.GetMetaRepresentation(plainObject, classInfo, true, null, callback);
+                _objectIntrospector.GetMetaRepresentation(plainObject, true, null, callback);
 
             // During the introspection process, if object is to be updated, then the oid has been set
             mustUpdate = nnoi.GetOid() != null;

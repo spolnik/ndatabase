@@ -101,10 +101,10 @@ namespace NDatabase.UnitTests.Layer1
 
             Assert.That(classInfoList.GetMainClassInfo().FullClassName,
                         Is.StringStarting(
-                            "NDatabase.UnitTests.Layer1.When_we_use_class_introspector+EuCountry,NDatabase.UnitTests"));
+                            "NDatabase.UnitTests.Layer1.When_we_use_class_introspector+EuCountry"));
             Assert.That(classInfoList.GetClassInfos().Skip(1).First().FullClassName,
                         Is.StringStarting(
-                            "NDatabase.UnitTests.Layer1.When_we_use_class_introspector+Country+CountryName,NDatabase.UnitTests"));
+                            "NDatabase.UnitTests.Layer1.When_we_use_class_introspector+Country+CountryName"));
         }
     }
 }

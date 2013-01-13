@@ -44,5 +44,19 @@ namespace NDatabase.Client.UnitTests.Misc
 
             Assert.That(OdbConfiguration.IsBTreeValidationEnabled(), Is.False);
         }
+
+        [Test]
+        public void Check_changing_types_resolution_mode()
+        {
+            Assert.That(OdbConfiguration.IsWorkingInNormalTypeResolutionMode(), Is.True);
+
+            OdbConfiguration.EnableLessRestrictedTypeResolutionMode();
+
+            Assert.That(OdbConfiguration.IsWorkingInNormalTypeResolutionMode(), Is.False);
+
+            OdbConfiguration.EnableNormalTypeResolutionMode();
+
+            Assert.That(OdbConfiguration.IsWorkingInNormalTypeResolutionMode(), Is.True);
+        }
     }
 }

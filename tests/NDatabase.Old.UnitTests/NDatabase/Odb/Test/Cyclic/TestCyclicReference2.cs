@@ -12,8 +12,8 @@ namespace Test.NDatabase.Odb.Test.Cyclic
         public override void SetUp()
         {
             base.SetUp();
-            DeleteBase("cyclic.neodatis");
-            var odb = Open("cyclic.neodatis");
+            DeleteBase("cyclic.ndb");
+            var odb = Open("cyclic.ndb");
             var brasil = new Country("Brasil");
             for (var i = 0; i < 10; i++)
             {
@@ -28,7 +28,7 @@ namespace Test.NDatabase.Odb.Test.Cyclic
         [TearDown]
         public override void TearDown()
         {
-            DeleteBase("cyclic.neodatis");
+            DeleteBase("cyclic.ndb");
         }
 
         #endregion
@@ -36,7 +36,7 @@ namespace Test.NDatabase.Odb.Test.Cyclic
         [Test]
         public virtual void Test1()
         {
-            var odb = Open("cyclic.neodatis");
+            var odb = Open("cyclic.ndb");
             var query = odb.Query<Country>();
             var l = query.Execute<Country>(true);
             var country = l.GetFirst();
@@ -50,7 +50,7 @@ namespace Test.NDatabase.Odb.Test.Cyclic
             Println("-------------------");
             // LogUtil.logOn(ObjectWriter.LOG_ID, true);
             // LogUtil.logOn(ObjectReader.LOG_ID, true);
-            var odb = Open("cyclic.neodatis");
+            var odb = Open("cyclic.ndb");
             var query = odb.Query<Country>();
             var l = query.Execute<Country>(true);
             var country = l.GetFirst();
