@@ -1,5 +1,4 @@
 ﻿using NDatabase.Odb;
-using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NUnit.Framework;
 
 namespace NDatabase.Client.UnitTests.Misc
@@ -43,20 +42,6 @@ namespace NDatabase.Client.UnitTests.Misc
             OdbConfiguration.DisableBTreeValidation();
 
             Assert.That(OdbConfiguration.IsBTreeValidationEnabled(), Is.False);
-        }
-
-        [Test]
-        public void Check_changing_types_resolution_mode()
-        {
-            Assert.That(OdbConfiguration.IsWorkingInNormalTypeResolutionMode(), Is.True);
-
-            OdbConfiguration.EnableLessRestrictedTypeResolutionMode();
-
-            Assert.That(OdbConfiguration.IsWorkingInNormalTypeResolutionMode(), Is.False);
-
-            OdbConfiguration.EnableNormalTypeResolutionMode();
-
-            Assert.That(OdbConfiguration.IsWorkingInNormalTypeResolutionMode(), Is.True);
         }
     }
 }
