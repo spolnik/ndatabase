@@ -141,7 +141,7 @@ namespace NDatabase.Odb
         /// Determines whether database [is working in normal type resolution mode].
         /// </summary>
         /// <returns><c>true</c> if database [is working in normal type resolution mode]; otherwise, <c>false</c>.</returns>
-        public static bool IsWorkingInNormalTypeResolutionMode()
+        internal static bool IsWorkingInNormalTypeResolutionMode()
         {
             return _isAssemblyQualified;
         }
@@ -149,7 +149,7 @@ namespace NDatabase.Odb
         /// <summary>
         /// Enables the normal type resolution mode.
         /// </summary>
-        public static void EnableNormalTypeResolutionMode()
+        internal static void EnableNormalTypeResolutionMode()
         {
             _isAssemblyQualified = true;
         }

@@ -132,34 +132,6 @@ namespace NDatabase.Client.UnitTests.Types
         }
 
         [Test]
-        [Ignore("Known issue - storing concurrent collections")]
-        public void It_should_be_possible_to_store_concurrent_stack_directly()
-        {
-            var values = new ConcurrentStack<string>();
-
-            values.Push("One");
-            values.Push("One");
-            values.Push("Two");
-            values.Push("Three");
-            values.Push("Three");
-            values.Push("Four");
-
-            using (var odb = OdbFactory.Open(DbName))
-            {
-                odb.Store(values);
-            }
-
-            ConcurrentStack<string> restoredItem;
-            using (var odb = OdbFactory.Open(DbName))
-            {
-                restoredItem = odb.QueryAndExecute<ConcurrentStack<string>>().FirstOrDefault();
-            }
-
-            Assert.That(restoredItem, Is.Not.Null);
-            CollectionAssert.AreEqual(restoredItem, values);
-        }
-
-        [Test]
         public void It_should_be_possible_to_store_generic_stack_directly()
         {
             var values = new Stack<string>();
@@ -207,34 +179,6 @@ namespace NDatabase.Client.UnitTests.Types
             using (var odb = OdbFactory.Open(DbName))
             {
                 restoredItem = odb.QueryAndExecute<Queue>().FirstOrDefault();
-            }
-
-            Assert.That(restoredItem, Is.Not.Null);
-            CollectionAssert.AreEqual(restoredItem, values);
-        }
-
-        [Test]
-        [Ignore("Known issue - storing concurrent collections")]
-        public void It_should_be_possible_to_store_concurrent_queue_directly()
-        {
-            var values = new ConcurrentQueue<string>();
-
-            values.Enqueue("One");
-            values.Enqueue("One");
-            values.Enqueue("Two");
-            values.Enqueue("Three");
-            values.Enqueue("Three");
-            values.Enqueue("Four");
-
-            using (var odb = OdbFactory.Open(DbName))
-            {
-                odb.Store(values);
-            }
-
-            ConcurrentQueue<string> restoredItem;
-            using (var odb = OdbFactory.Open(DbName))
-            {
-                restoredItem = odb.QueryAndExecute<ConcurrentQueue<string>>().FirstOrDefault();
             }
 
             Assert.That(restoredItem, Is.Not.Null);
@@ -457,36 +401,6 @@ namespace NDatabase.Client.UnitTests.Types
             {
                 restoredItem =
                     odb.QueryAndExecute<SortedDictionary<string, string>>().FirstOrDefault();
-            }
-
-            Assert.That(restoredItem, Is.Not.Null);
-            CollectionAssert.AreEqual(restoredItem.Keys, values.Keys);
-            CollectionAssert.AreEqual(restoredItem.Values, values.Values);
-        }
-
-        [Test]
-        [Ignore("Known issue - storing concurrent collections")]
-        public void It_should_be_possible_to_store_concurrent_dictionary_directly()
-        {
-            var values = new ConcurrentDictionary<string, string>();
-
-            values.GetOrAdd("Key1", "One");
-            values.GetOrAdd("Key2", "One");
-            values.GetOrAdd("Key3", "Two");
-            values.GetOrAdd("Key4", "Three");
-            values.GetOrAdd("Key5", "Three");
-            values.GetOrAdd("Key6", "Four");
-
-            using (var odb = OdbFactory.Open(DbName))
-            {
-                odb.Store(values);
-            }
-
-            ConcurrentDictionary<string, string> restoredItem;
-            using (var odb = OdbFactory.Open(DbName))
-            {
-                restoredItem =
-                    odb.QueryAndExecute<ConcurrentDictionary<string, string>>().FirstOrDefault();
             }
 
             Assert.That(restoredItem, Is.Not.Null);
