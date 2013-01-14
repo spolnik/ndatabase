@@ -165,12 +165,6 @@ namespace Test.NDatabase.Odb.Test.Performance
             var tupdate = t7 - t5;
             var tdelete = t8 - t7;
 
-            Println("Nb buffers ok = " + MultiBufferedFileIO.NbBufferOk + "   /   nb not ok = " +
-                    MultiBufferedFileIO.NbBufferNotOk);
-
-            Println("Nb flushs= " + MultiBufferedFileIO.NumberOfFlush + "   /   flush size = " +
-                    MultiBufferedFileIO.TotalFlushSize + " / NbFlushForOverlap=" + MultiBufferedFileIO.NbFlushForOverlap);
-
             Assert.That(tinsert, Is.LessThan(7500));
             Assert.That(tselect, Is.LessThan(4000));
             Assert.That(tupdate, Is.LessThan(9000));

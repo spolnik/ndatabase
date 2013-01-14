@@ -82,14 +82,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             var bytes2 = new byte[totalSize + IntSizeX2];
 
-            for (var i = 0; i < 4; i++)
-                bytes2[i] = totalSizeBytes[i];
-
-            for (var i = 4; i < 8; i++)
-                bytes2[i] = stringRealSize[i - 4];
-
-            for (var i = 0; i < stringBytes.Length; i++)
-                bytes2[i + 8] = stringBytes[i];
+            Array.Copy(totalSizeBytes, 0, bytes2, 0, 4);
+            Array.Copy(stringRealSize, 0, bytes2, 4, 4);
+            Array.Copy(stringBytes, 0, bytes2, 8, stringBytes.Length);
 
             return bytes2;
         }

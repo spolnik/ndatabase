@@ -44,8 +44,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
 
             _overlappingBuffers = new int[MultiBuffer.NumberOfBuffers];
 
-            NumberOfFlush = 0;
-
             _isUsingBuffer = true;
             _nextBufferIndex = 0;
 
@@ -73,8 +71,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
 
             _overlappingBuffers = new int[MultiBuffer.NumberOfBuffers];
 
-            NumberOfFlush = 0;
-
             _nextBufferIndex = 0;
 
             _nonBufferedFileIO = new NonBufferedFileIO();
@@ -91,19 +87,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
                 throw new OdbRuntimeException(NDatabaseError.InternalError, e);
             }
         }
-
-        /// <summary>
-        ///   Internal counter of flush
-        /// </summary>
-        public static long NumberOfFlush { get; private set; }
-
-        public static long TotalFlushSize { get; private set; }
-
-        public static int NbFlushForOverlap { get; private set; }
-
-        public static int NbBufferOk { get; private set; }
-
-        public static int NbBufferNotOk { get; private set; }
 
         #region IMultiBufferedFileIO Members
 
@@ -288,15 +271,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         {
             var bufferIndex = _buffer.GetBufferIndexForPosition(newPosition, size);
             if (bufferIndex != -1)
-            {
-                NbBufferOk++;
                 return bufferIndex;
-            }
 
-            NbBufferNotOk++;
             // checks if there is any overlapping buffer
             _overlappingBuffers = GetOverlappingBuffers(newPosition, _buffer.Size);
-            // Choose the first overlaping buffer
+            // Choose the first overlapping buffer
             bufferIndex = _overlappingBuffers[0];
             if (_overlappingBuffers[1] != -1 && bufferIndex == _currentBufferIndex)
                 bufferIndex = _overlappingBuffers[1];
@@ -373,19 +352,15 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
                 _nonBufferedFileIO.SetCurrentPosition(_buffer.BufferPositions[bufferIndex].Start);
                 _nonBufferedFileIO.WriteBytes(buffer, bufferSizeToFlush);
 
-                NumberOfFlush++;
-                TotalFlushSize += bufferSizeToFlush;
-
                 if (OdbConfiguration.IsLoggingEnabled())
                 {
                     var indexAsString = bufferIndex.ToString();
                     var start = _buffer.BufferPositions[bufferIndex].Start.ToString();
                     var end = _buffer.BufferPositions[bufferIndex].End.ToString();
                     var sizeToFlush = bufferSizeToFlush.ToString();
-                    var numberOfFlush = NumberOfFlush.ToString();
 
-                    DLogger.Debug(string.Format("Flushing buffer {0} : [{1}:{2}] - flush size={3}  flush number = {4}",
-                                                indexAsString, start, end, sizeToFlush, numberOfFlush));
+                    DLogger.Debug(string.Format("Flushing buffer {0} : [{1}:{2}] - flush size={3}",
+                                                indexAsString, start, end, sizeToFlush));
                 }
 
                 _buffer.ClearBuffer(bufferIndex);
@@ -439,7 +414,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
                     indexes[index++] = i;
                     // Flushes the buffer
                     Flush(i);
-                    NbFlushForOverlap++;
                 }
             }
 

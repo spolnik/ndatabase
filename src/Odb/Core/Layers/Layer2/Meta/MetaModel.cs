@@ -28,6 +28,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         private readonly OdbHashMap<ClassInfo, ClassInfo> _changedClasses;
 
         private readonly IDictionary<OID, ClassInfo> _rapidAccessForClassesByOid;
+        private readonly IList<Type> _existingClasses;
 
         /// <summary>
         ///   to identify if meta model has changed
@@ -43,6 +44,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         {
             _rapidAccessForClassesByName = new OdbHashMap<string, ClassInfo>(10);
             _rapidAccessForClassesByOid = new OdbHashMap<OID, ClassInfo>(10);
+            _existingClasses = new List<Type>(10);
             _allClassInfos = new List<ClassInfo>();
             _changedClasses = new OdbHashMap<ClassInfo, ClassInfo>();
         }
@@ -52,7 +54,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             var fullClassName = classInfo.FullClassName;
 
             _rapidAccessForClassesByName.Add(fullClassName, classInfo);
-
+            _existingClasses.Add(classInfo.UnderlyingType);
             _rapidAccessForClassesByOid.Add(classInfo.ClassInfoId, classInfo);
             _allClassInfos.Add(classInfo);
         }
@@ -65,9 +67,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public bool ExistClass(Type type)
         {
-            var fullName = OdbClassUtil.GetFullName(type);
-
-            return _rapidAccessForClassesByName.ContainsKey(fullName);
+            return _existingClasses.Contains(type);
         }
 
         public override string ToString()

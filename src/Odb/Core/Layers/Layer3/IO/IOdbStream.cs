@@ -17,7 +17,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
 
         void Write(byte[] buffer, int size);
 
-        long Read(byte[] buffer, int size);
+        int Read(byte[] buffer, int size);
 
         int Read();
 

@@ -62,8 +62,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         {
             var buffer = Buffers[bufferIndex];
             var maxPosition = MaxPositionInBuffer[bufferIndex];
-            for (var i = 0; i < maxPosition; i++)
-                buffer[i] = 0;
+
+            Array.Clear(buffer, 0, maxPosition);
 
             BufferPositions[bufferIndex] = new BufferPosition();
             MaxPositionInBuffer[bufferIndex] = 0;
