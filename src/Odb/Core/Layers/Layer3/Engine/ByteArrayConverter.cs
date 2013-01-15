@@ -59,11 +59,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return BitConverter.ToChar(bytes, 0);
         }
 
-        internal static int GetNumberOfBytesOfAString(String s)
-        {
-            return Encoding.UTF8.GetBytes(s).Length + IntSizeX2;
-        }
-
         /// <param name="s">Input</param>
         /// <param name="totalSpace"> The total space of the string (can be bigger that the real string size - to support later in place update) </param>
         /// <returns> The byte array that represent the string </returns>

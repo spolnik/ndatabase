@@ -13,8 +13,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public int[] AttributeIds { get; set; }
 
-        public long CreationDate { get; set; }
-
         public bool IsUnique { get; set; }
 
         public string Name { get; set; }

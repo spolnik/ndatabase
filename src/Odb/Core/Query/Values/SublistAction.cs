@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Query.Execution;
-using NDatabase.Odb.Core.Query.List.Objects;
-using NDatabase.Tool.Wrappers.List;
+using NDatabase.Odb.Core.Query.List;
+using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Query.Values
 {

@@ -4,19 +4,16 @@ using System.Text;
 using NDatabase.Btree;
 using NDatabase.Exceptions;
 using NDatabase.Odb.Core.BTree;
-using NDatabase.Odb.Core.Layers.Layer2.Instance;
+using NDatabase.Odb.Core.Layers.Layer2;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer3.Block;
-using NDatabase.Odb.Core.Layers.Layer3.Oid;
 using NDatabase.Odb.Core.Oid;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Core.Query.Execution;
 using NDatabase.Odb.Core.Query.Values;
 using NDatabase.Tool;
-using NDatabase.Tool.Wrappers.List;
-using NDatabase.Tool.Wrappers.Map;
 using System.Linq;
+using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {

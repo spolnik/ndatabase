@@ -6,7 +6,6 @@ using NDatabase.Odb.Core.Layers.Layer2.Meta.Compare;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Main;
 using NDatabase.Tool.Wrappers;
-using NDatabase.Tool.Wrappers.Map;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.IO;
 using Test.NDatabase.Odb.Test.VO.Inheritance;

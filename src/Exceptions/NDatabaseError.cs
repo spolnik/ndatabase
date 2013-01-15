@@ -1,6 +1,5 @@
 using System.Text;
 using NDatabase.Tool.Wrappers;
-using NDatabase.Tool.Wrappers.List;
 
 namespace NDatabase.Exceptions
 {

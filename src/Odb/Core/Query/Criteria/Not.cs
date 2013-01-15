@@ -1,6 +1,6 @@
 using System.Text;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Tool.Wrappers.List;
+using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Query.Criteria
 {

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer2.Meta.Compare;
-using NDatabase.Odb.Core.Layers.Layer3.Block;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Odb.Core.Trigger;
 using NDatabase.Tool;
@@ -511,7 +510,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     oldMetaRepresentation = _objectReader.ReadNonNativeObjectInfoFromPosition(null, oid, currentPosition,
                                                                                               false, false);
                 }
-                ObjectWriter.NbNormalUpdates++;
                 
                 var previousObjectOID = lastHeader.GetPreviousObjectOID();
                 var nextObjectOid = lastHeader.GetNextObjectOID();

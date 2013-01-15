@@ -1,10 +1,9 @@
 using System.Collections.Generic;
-using NDatabase.Odb.Core.Layers.Layer2.Instance;
+using NDatabase.Odb.Core.Layers.Layer2;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Query.Execution;
-using NDatabase.Odb.Core.Query.List.Values;
+using NDatabase.Odb.Core.Query.List;
 using NDatabase.Tool.Wrappers;
-using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb.Core.Query.Values
 {

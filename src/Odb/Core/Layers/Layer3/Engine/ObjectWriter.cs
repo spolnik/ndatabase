@@ -4,8 +4,6 @@ using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer2.Meta.Compare;
-using NDatabase.Odb.Core.Layers.Layer3.Block;
-using NDatabase.Odb.Core.Layers.Layer3.Oid;
 using NDatabase.Odb.Core.Oid;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Odb.Core.Trigger;
@@ -22,8 +20,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                                                             OdbType.Integer.Size + OdbType.Boolean.Size;
 
         private static byte[] _nativeHeaderBlockSizeByte;
-        internal static int NbNormalUpdates;
-
+        
         private readonly IObjectInfoComparator _comparator;
         private readonly ISession _session;
 
@@ -1150,16 +1147,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (OdbConfiguration.IsLoggingEnabled())
                 DLogger.Debug(string.Concat("Storing free space at position ", currentPosition.ToString(),
                                             " | block size = ", blockSize.ToString()));
-        }
-
-        public static int GetNbNormalUpdates()
-        {
-            return NbNormalUpdates;
-        }
-
-        public static void ResetNbUpdates()
-        {
-            NbNormalUpdates = 0;
         }
 
         public void Dispose()

@@ -90,15 +90,6 @@ namespace NDatabase.TypeResolution
         }
 
         /// <summary>
-        /// The (unresolved) generic method name portion 
-        /// of the original value when parsing a generic method.
-        /// </summary>
-        public string GenericMethodName
-        {
-            get { return _unresolvedGenericMethodName; }
-        }
-
-        /// <summary>
         /// Is the string value contains generic arguments ?
         /// </summary>
         /// <remarks>

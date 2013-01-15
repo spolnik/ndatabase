@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Query.Execution;
-using NDatabase.Odb.Core.Query.List.Objects;
+using NDatabase.Odb.Core.Query.List;
 
 namespace NDatabase.Odb.Core.Query.Values
 {

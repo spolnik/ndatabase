@@ -1,11 +1,8 @@
 ﻿using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer3.Block;
 using NDatabase.Odb.Core.Layers.Layer3.IO;
-using NDatabase.Odb.Core.Layers.Layer3.Oid;
 using NDatabase.Odb.Core.Oid;
 using NDatabase.Odb.Core.Transaction;
-using NDatabase.Odb.Tool;
 using NDatabase.Tool;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.Engine

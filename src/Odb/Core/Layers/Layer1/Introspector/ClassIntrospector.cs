@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Tool.Wrappers;
-using NDatabase.Tool.Wrappers.List;
 using NDatabase.TypeResolution;
 
 namespace NDatabase.Odb.Core.Layers.Layer1.Introspector

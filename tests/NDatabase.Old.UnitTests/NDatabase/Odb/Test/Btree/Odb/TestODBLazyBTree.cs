@@ -2,7 +2,7 @@ using System;
 using NDatabase.Btree;
 using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.BTree;
-using NDatabase.Odb.Core.Layers.Layer3.Engine;
+using NDatabase.Odb.Main;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 
@@ -16,7 +16,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
         private IBTreePersister GetPersister(string baseName)
         {
             var odb = Open(baseName);
-            return new LazyOdbBtreePersister(odb);
+            return new LazyOdbBtreePersister(((OdbAdapter)odb).GetStorageEngine());
         }
 
         public static void Main2(string[] args)
@@ -155,7 +155,6 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
         public virtual void Test2a()
         {
             var baseName = GetBaseName();
-            ObjectWriter.ResetNbUpdates();
             // LogUtil.allOn(true);
             DeleteBase(baseName);
             var persister = GetPersister(baseName);
@@ -169,8 +168,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
             // println("insert of "+SIZE+" elements in BTREE = " +
             // (end0-start0)+"ms");
             // println("end Commiting");
-            Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
-
+            
             persister = GetPersister(baseName);
             // println("reloading btree");
             tree = (IBTreeMultipleValuesPerKey) persister.LoadBTree(tree.GetId());

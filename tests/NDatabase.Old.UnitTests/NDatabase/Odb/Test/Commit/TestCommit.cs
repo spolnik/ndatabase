@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using NDatabase.Odb;
-using NDatabase.Tool.Wrappers.Map;
+using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;
 

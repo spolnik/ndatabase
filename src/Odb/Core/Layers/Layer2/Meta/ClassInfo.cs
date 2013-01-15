@@ -5,8 +5,6 @@ using System.Linq;
 using System.Text;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
-using NDatabase.Tool.Wrappers.List;
-using NDatabase.Tool.Wrappers.Map;
 using NDatabase.TypeResolution;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta
@@ -379,7 +377,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             var cii = new ClassInfoIndex
                 {
                     ClassInfoId = _oidInfo.ID,
-                    CreationDate = OdbTime.GetCurrentTimeInTicks(),
                     Name = name,
                     IsUnique = !acceptMultipleValuesForSameKey
                 };

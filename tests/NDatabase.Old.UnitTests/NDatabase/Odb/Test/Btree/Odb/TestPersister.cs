@@ -1,6 +1,5 @@
-using System.Collections;
+using System.Collections.Generic;
 using NDatabase.Btree;
-using NDatabase.Btree.Impl;
 using NDatabase.Odb.Core.BTree;
 using NDatabase.Odb.Main;
 using NUnit.Framework;
@@ -26,15 +25,15 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
             AssertEquals(5, tree.GetRoot().GetNbKeys());
             AssertEquals(0, tree.GetRoot().GetNbChildren());
             AssertEquals(21, tree.GetRoot().GetMedian().GetKey());
-            var values = tree.GetRoot().GetMedian().GetValue() as ArrayList;
+            var values = tree.GetRoot().GetMedian().GetValue() as List<object>;
             AssertEquals("Value 21", values[0].ToString());
             AssertEquals(0, tree.GetRoot().GetNbChildren());
-            // println(tree.getRoot());
+            
             tree.Insert(45, new MyObject("Value 45"));
             AssertEquals(2, tree.GetRoot().GetNbChildren());
             AssertEquals(1, tree.GetRoot().GetNbKeys());
             AssertEquals(21, tree.GetRoot().GetKeyAt(0));
-            var valuesAsObjectAt = tree.GetRoot().GetValueAsObjectAt(0) as ArrayList;
+            var valuesAsObjectAt = tree.GetRoot().GetValueAsObjectAt(0) as List<object>;
             AssertEquals("Value 21", valuesAsObjectAt[0].ToString());
             persister.Close();
             odb = Open("btree45.ndb");

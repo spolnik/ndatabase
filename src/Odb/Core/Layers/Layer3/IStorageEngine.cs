@@ -5,7 +5,7 @@ using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Odb.Core.Trigger;
-using NDatabase.Tool.Wrappers.List;
+using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Layers.Layer3
 {

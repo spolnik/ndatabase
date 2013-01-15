@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Text;
 using NDatabase.Tool;
-using NDatabase.Tool.Wrappers.Map;
+using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
 {

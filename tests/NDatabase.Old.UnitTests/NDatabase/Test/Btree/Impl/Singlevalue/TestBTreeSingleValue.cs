@@ -1,12 +1,12 @@
 using System;
 using NDatabase.Btree;
-using NDatabase.Btree.Tool;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.BTree;
 using NDatabase.Odb.Main;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test;
+using Test.NDatabase.Tool;
 
 namespace Test.NDatabase.Test.Btree.Impl.Singlevalue
 {
