@@ -108,9 +108,9 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
         /// <returns> A ClassInfo - a meta representation of the class </returns>
         private static ClassInfo GetClassInfo(String fullClassName, ClassInfo existingClassInfo)
         {
-            var classInfo = new ClassInfo(fullClassName);
-
             var type = TypeResolutionUtils.ResolveType(fullClassName);
+            var classInfo = new ClassInfo(type);
+
             var fields = GetAllFieldsFrom(type);
             IOdbList<ClassAttributeInfo> attributes = new OdbList<ClassAttributeInfo>(fields.Count);
 
@@ -198,8 +198,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
         {
             if (classInfoList != null)
             {
-                var fullClassName = OdbClassUtil.GetFullName(type);
-                var existingClassInfo = classInfoList.GetClassInfoBy(fullClassName);
+                var existingClassInfo = classInfoList.GetClassInfoBy(type);
 
                 if (existingClassInfo != null)
                     return classInfoList;
@@ -230,10 +229,10 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                     if (recursive)
                     {
                         classInfoList = InternalIntrospect(field.FieldType, true, classInfoList);
-                        classInfoByName = classInfoList.GetClassInfoBy(OdbClassUtil.GetFullName(field.FieldType));
+                        classInfoByName = classInfoList.GetClassInfoBy(field.FieldType);
                     }
                     else
-                        classInfoByName = new ClassInfo(OdbClassUtil.GetFullName(field.FieldType));
+                        classInfoByName = new ClassInfo(field.FieldType);
                 }
 
                 attributes.Add(new ClassAttributeInfo((i + 1), field.Name, field.FieldType,

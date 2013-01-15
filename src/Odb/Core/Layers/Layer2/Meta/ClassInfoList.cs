@@ -1,6 +1,6 @@
+using System;
 using System.Collections.Generic;
 using System.Text;
-using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {
@@ -15,17 +15,13 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// </remarks>
     internal sealed class ClassInfoList
     {
-        /// <summary>
-        ///   key=ClassInfoName,value=ClassInfo
-        /// </summary>
-        private readonly IDictionary<string, ClassInfo> _classInfos;
+        private readonly IDictionary<Type, ClassInfo> _classInfosByType;
 
         private readonly ClassInfo _mainClassInfo;
 
         public ClassInfoList(ClassInfo mainClassInfo)
         {
-            _classInfos = new OdbHashMap<string, ClassInfo>();
-            _classInfos[mainClassInfo.FullClassName] = mainClassInfo;
+            _classInfosByType = new Dictionary<Type, ClassInfo> {{mainClassInfo.UnderlyingType, mainClassInfo}};
             _mainClassInfo = mainClassInfo;
         }
 
@@ -36,26 +32,26 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public void AddClassInfo(ClassInfo classInfo)
         {
-            _classInfos[classInfo.FullClassName] = classInfo;
+            _classInfosByType.Add(classInfo.UnderlyingType, classInfo);
         }
 
         public ICollection<ClassInfo> GetClassInfos()
         {
-            return _classInfos.Values;
+            return _classInfosByType.Values;
         }
 
         /// <returns> null if it does not exist </returns>
-        public ClassInfo GetClassInfoBy(string name)
+        public ClassInfo GetClassInfoBy(Type type)
         {
             ClassInfo classInfo;
-            _classInfos.TryGetValue(name, out classInfo);
+            _classInfosByType.TryGetValue(type, out classInfo);
             return classInfo;
         }
 
         public override string ToString()
         {
             var buffer = new StringBuilder();
-            buffer.Append(_classInfos.Count).Append(" - ").Append(_classInfos.Keys);
+            buffer.Append(_classInfosByType.Count).Append(" - ").Append(_classInfosByType.Keys);
             return buffer.ToString();
         }
     }
