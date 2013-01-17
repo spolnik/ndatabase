@@ -112,7 +112,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             _storageEngine.SetCurrentTransactionId(lastTransactionId);
         }
 
-        public void LoadMetaModel(MetaModel metaModel, bool full)
+        public void LoadMetaModel(IMetaModel metaModel, bool full)
         {
             ClassInfo classInfo;
             var nbClasses = ReadNumberOfClasses();

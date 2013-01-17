@@ -51,6 +51,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         private IDatabaseId _databaseId;
         private IObjectIntrospector _objectIntrospector;
         private ISession _session;
+        private readonly SessionDataProvider _objectIntrospectionDataProvider;
 
         /// <summary>
         ///   The database file name
@@ -78,6 +79,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             ObjectReader = new ObjectReader(this);
             AddSession(session, false);
 
+            _objectIntrospectionDataProvider = new SessionDataProvider(GetSession());
+
             // If the file does not exist, then a default header must be created
             if (isNewDatabase)
             {
@@ -88,7 +91,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 GetObjectReader().ReadDatabaseHeader();
             }
             _objectWriter.AfterInit();
-            _objectIntrospector = new ObjectIntrospector(this);
+            _objectIntrospector = new ObjectIntrospector(ClassInfoProvider);
             _triggerManager = GetLocalTriggerManager();
             // This forces the initialization of the meta model
             var metaModel = GetMetaModel();
@@ -102,6 +105,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             _objectWriter.SetTriggerManager(_triggerManager);
             _introspectionCallbackForInsert = new InstrumentationCallbackForStore(_triggerManager, false);
             _introspectionCallbackForUpdate = new InstrumentationCallbackForStore(_triggerManager, true);
+        }
+
+        public override IObjectIntrospectionDataProvider ClassInfoProvider
+        {
+            get { return _objectIntrospectionDataProvider; }
         }
 
         internal void AddSession(ISession session, bool readMetamodel)
@@ -441,11 +449,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public override void AddUpdateTriggerFor(Type type, UpdateTrigger trigger)
         {
             _triggerManager.AddUpdateTriggerFor(type, trigger);
-        }
-
-        public override void AddClasses(ClassInfoList classInfoList)
-        {
-            GetObjectWriter().AddClasses(classInfoList);
         }
 
         private ISession BuildDefaultSession()

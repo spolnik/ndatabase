@@ -25,12 +25,12 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 
         /// <summary>
         /// </summary>
-        /// <param name="clazz"> The class to introspect </param>
+        /// <param name="type"> The class to introspect </param>
         /// <param name="recursive"> If true, goes does the hierarchy to try to analyze all classes </param>
         /// <returns> </returns>
-        public static ClassInfoList Introspect(Type clazz, bool recursive)
+        public static ClassInfoList Introspect(Type type, bool recursive)
         {
-            return InternalIntrospect(clazz, recursive, null);
+            return InternalIntrospect(type, recursive, null);
         }
 
         public static IList<FieldInfo> GetAllFieldsFrom(Type type)
@@ -111,7 +111,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             var classInfo = new ClassInfo(type);
 
             var fields = GetAllFieldsFrom(type);
-            IOdbList<ClassAttributeInfo> attributes = new OdbList<ClassAttributeInfo>(fields.Count);
+            var attributes = new OdbList<ClassAttributeInfo>(fields.Count);
 
             var maxAttributeId = existingClassInfo.MaxAttributeId;
             foreach (var fieldInfo in fields)

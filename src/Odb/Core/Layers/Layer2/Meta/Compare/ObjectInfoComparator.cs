@@ -215,7 +215,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
                     var enoi1 = (EnumNativeObjectInfo) value1;
                     var enoi2 = (EnumNativeObjectInfo) value2;
                     var enumHasChanged = !enoi1.GetEnumClassInfo().ClassInfoId.Equals(enoi2.GetEnumClassInfo().ClassInfoId) ||
-                                          !enoi1.GetEnumName().Equals(enoi2.GetEnumName());
+                                          !enoi1.GetEnumValue().Equals(enoi2.GetEnumValue());
                     hasChanged = hasChanged || enumHasChanged;
                     continue;
                 }

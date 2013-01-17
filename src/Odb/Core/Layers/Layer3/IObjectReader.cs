@@ -20,7 +20,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         /// <param name="metaModel"> An empty meta model </param>
         /// <param name="full"> To indicate if a full read must be done </param>
         /// <returns> The modified metamodel </returns>
-        void LoadMetaModel(MetaModel metaModel, bool full);
+        void LoadMetaModel(IMetaModel metaModel, bool full);
 
         NonNativeObjectInfo ReadNonNativeObjectInfoFromOid(ClassInfo classInfo, OID oid, bool useCache,
                                                            bool returnObjects);

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
@@ -12,11 +11,11 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
     /// </summary>
     internal sealed class ObjectIntrospector : IObjectIntrospector
     {
-        private IStorageEngine _storageEngine;
-
-        public ObjectIntrospector(IStorageEngine storageEngine)
+        private readonly IObjectIntrospectionDataProvider _classInfoProvider;
+        
+        public ObjectIntrospector(IObjectIntrospectionDataProvider classInfoProvider)
         {
-            _storageEngine = storageEngine;
+            _classInfoProvider = classInfoProvider;
         }
 
         #region IObjectIntrospector Members
@@ -26,29 +25,16 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                                                         IIntrospectionCallback callback)
         {
             // The object must be transformed into meta representation
-            ClassInfo classInfo;
             var type = plainObject.GetType();
 
-            // first checks if the class of this object already exist in the meta model
-            if (_storageEngine.GetMetaModel().ExistClass(type))
-            {
-                classInfo = _storageEngine.GetMetaModel().GetClassInfo(type, true);
-            }
-            else
-            {
-                var classInfoList = ClassIntrospector.Introspect(type, true);
-
-                // All new classes found
-                _storageEngine.GetObjectWriter().AddClasses(classInfoList);
-                classInfo = classInfoList.GetMainClassInfo();
-            }
+            ClassInfo classInfo = _classInfoProvider.GetClassInfo(type);
 
             return GetObjectInfo(plainObject, classInfo, recursive, alreadyReadObjects, callback);
         }
 
         public void Clear()
         {
-            _storageEngine = null;
+            _classInfoProvider.Clear();
         }
 
         #endregion
@@ -57,26 +43,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
         {
             var nnoi = new NonNativeObjectInfo(o, classInfo);
 
-            if (_storageEngine != null)
-            {
-                // for unit test purpose
-                var cache = _storageEngine.GetCache();
-
-                // Check if object is in the cache, if so sets its oid
-                var oid = cache.GetOid(o);
-                if (oid != null)
-                {
-                    nnoi.SetOid(oid);
-                    // Sets some values to the new header to keep track of the infos when
-                    // executing NDatabase without closing it, just committing.
-                    // Bug reported by Andy
-                    var objectInfoHeader = cache.GetObjectInfoHeaderByOid(oid, true);
-                    nnoi.GetHeader().SetObjectVersion(objectInfoHeader.GetObjectVersion());
-                    nnoi.GetHeader().SetUpdateDate(objectInfoHeader.GetUpdateDate());
-                    nnoi.GetHeader().SetCreationDate(objectInfoHeader.GetCreationDate());
-                }
-            }
-            return nnoi;
+            return _classInfoProvider.EnrichWithOid(nnoi, o);
         }
 
         /// <summary>
@@ -159,7 +126,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             if (type.IsNative())
                 return GetNativeObjectInfoInternal(type, o, recursive, alreadyReadObjects, callback);
 
-            // sometimes the clazz.getName() may not match the ci.getClassName()
+            // sometimes the type.getName() may not match the ci.getClassName()
             // It happens when the attribute is an interface or superclass of the
             // real attribute class
             // In this case, ci must be updated to the real class info
@@ -268,24 +235,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 
         private ClassInfo GetClassInfo(Type type)
         {
-            var odbType = OdbType.GetFromClass(type);
-            if (odbType.IsNative() && !odbType.IsEnum())
-                return null;
-
-            var session = _storageEngine.GetSession();
-            var metaModel = session.GetMetaModel();
-            if (metaModel.ExistClass(type))
-                return metaModel.GetClassInfo(type, true);
-
-            var classInfoList = ClassIntrospector.Introspect(type, true);
-
-            // to enable junit tests
-            if (_storageEngine != null)
-                _storageEngine.AddClasses(classInfoList);
-            else
-                metaModel.AddClasses(classInfoList);
-
-            return metaModel.GetClassInfo(type, true);
+            return _classInfoProvider.GetClassInfo(type);
         }
 
         private ArrayObjectInfo IntrospectArray(object array, bool introspect,

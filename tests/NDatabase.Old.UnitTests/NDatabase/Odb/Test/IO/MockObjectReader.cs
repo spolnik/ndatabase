@@ -19,7 +19,7 @@ namespace Test.NDatabase.Odb.Test.IO
             //empty
         }
 
-        public void LoadMetaModel(MetaModel metaModel, bool full)
+        public void LoadMetaModel(IMetaModel metaModel, bool full)
         {
             //empty
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NDatabase.Btree;
 using NDatabase.Exceptions;
 using NDatabase.Odb.Core.BTree;
+using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.Criteria;
@@ -29,6 +30,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         protected bool IsDbClosed;
 
         protected IObjectReader ObjectReader;
+        public abstract IObjectIntrospectionDataProvider ClassInfoProvider { get; }
 
         #region IStorageEngine Members
 
@@ -194,8 +196,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (OdbConfiguration.IsLoggingEnabled())
                 DLogger.Info(string.Format("{0} created!", indexName));
         }
-
-        public abstract void AddClasses(ClassInfoList arg1);
 
         public abstract void AddCommitListener(ICommitListener arg1);
 

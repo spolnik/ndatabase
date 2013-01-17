@@ -48,7 +48,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
+                new ObjectIntrospector(storageEngine.ClassInfoProvider).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             AssertEquals(OdbClassUtil.GetFullName(user.GetType()), instanceInfo.GetClassInfo().FullClassName);
@@ -74,7 +74,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
+                new ObjectIntrospector(storageEngine.ClassInfoProvider).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             AssertEquals(instanceInfo.GetClassInfo().FullClassName, OdbClassUtil.GetFullName(user.GetType()));
@@ -98,7 +98,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
+                new ObjectIntrospector(storageEngine.ClassInfoProvider).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -118,7 +118,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             user.SetName("Olivier Smadja");
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
+                new ObjectIntrospector(storageEngine.ClassInfoProvider).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
@@ -150,7 +150,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
+                new ObjectIntrospector(storageEngine.ClassInfoProvider).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -172,7 +172,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             user.SetEmail("olivier@neodatis.org");
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
+                new ObjectIntrospector(storageEngine.ClassInfoProvider).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
@@ -205,7 +205,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
+                new ObjectIntrospector(storageEngine.ClassInfoProvider).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             // Sets attributes offsets - this is normally done by reading them from
@@ -227,7 +227,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
+                new ObjectIntrospector(storageEngine.ClassInfoProvider).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             instanceInfo3.GetHeader().SetAttributesIdentification(offsets);
@@ -261,7 +261,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
+                new ObjectIntrospector(storageEngine.ClassInfoProvider).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -282,7 +282,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
+                new ObjectIntrospector(storageEngine.ClassInfoProvider).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             instanceInfo3.GetHeader().SetAttributesIdentification(offsets);
@@ -320,7 +320,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
+                new ObjectIntrospector(storageEngine.ClassInfoProvider).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -340,7 +340,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             profile.GetFunctions().Add(new VO.Login.Function("logout"));
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
+                new ObjectIntrospector(storageEngine.ClassInfoProvider).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
@@ -373,7 +373,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
+                new ObjectIntrospector(storageEngine.ClassInfoProvider).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -396,7 +396,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             profile.SetName("ope");
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
+                new ObjectIntrospector(storageEngine.ClassInfoProvider).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
@@ -429,7 +429,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
+                new ObjectIntrospector(storageEngine.ClassInfoProvider).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -450,7 +450,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             profile.SetName("operator");
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
+                new ObjectIntrospector(storageEngine.ClassInfoProvider).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
@@ -482,7 +482,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
+                new ObjectIntrospector(storageEngine.ClassInfoProvider).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -495,7 +495,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             user.SetProfile(null);
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
+                new ObjectIntrospector(storageEngine.ClassInfoProvider).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
@@ -522,7 +522,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
+                new ObjectIntrospector(storageEngine.ClassInfoProvider).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -542,7 +542,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             user.SetName("Kiko");
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
+                new ObjectIntrospector(storageEngine.ClassInfoProvider).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
@@ -583,7 +583,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
+                new ObjectIntrospector(storageEngine.ClassInfoProvider).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -602,7 +602,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             user.SetProfile(new Profile("pname"));
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
+                new ObjectIntrospector(storageEngine.ClassInfoProvider).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             instanceInfo3.GetHeader().SetOid(OIDFactory.BuildObjectOID(1));
@@ -629,7 +629,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
+                new ObjectIntrospector(storageEngine.ClassInfoProvider).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             // Sets attributes offsets - this is normally done by reading then from
@@ -647,7 +647,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var instanceInfo3 =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
+                new ObjectIntrospector(storageEngine.ClassInfoProvider).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             instanceInfo3.GetHeader().SetAttributesIdentification(offsets);
@@ -678,7 +678,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var instanceInfo =
                 (NonNativeObjectInfo)
-                new ObjectIntrospector(storageEngine).GetMetaRepresentation(user, true, null,
+                new ObjectIntrospector(storageEngine.ClassInfoProvider).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
             var copy = (NonNativeObjectInfo) instanceInfo.CreateCopy(new OdbHashMap<OID, AbstractObjectInfo>(), true);

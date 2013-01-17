@@ -44,7 +44,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                                                                : GetObject().ToString());
         }
 
-        public string GetEnumName()
+        public string GetEnumValue()
         {
             return GetObject().ToString();
         }

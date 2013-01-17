@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Query;
@@ -89,8 +90,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         void ResetCommitListeners();
 
-        void AddClasses(ClassInfoList classInfoList);
-
         IDatabaseId GetDatabaseId();
 
         void SetCurrentTransactionId(ITransactionId transactionId);
@@ -113,5 +112,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         
         IMetaModel GetMetaModel();
         IOdbCache GetCache();
+        IObjectIntrospectionDataProvider ClassInfoProvider { get; }
     }
 }

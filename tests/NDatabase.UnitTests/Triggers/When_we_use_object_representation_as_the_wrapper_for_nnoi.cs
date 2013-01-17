@@ -4,6 +4,7 @@ using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3;
+using NDatabase.Odb.Core.Transaction;
 using NDatabase.Odb.Core.Trigger;
 using NDatabase.Tool.Wrappers;
 using NDatabase.UnitTests.TestData;
@@ -21,10 +22,11 @@ namespace NDatabase.UnitTests.Triggers
         private string _objectClassName;
         private OID _oid;
 
-        private Mock<IStorageEngine> _storageEngineMock;
+        private Mock<ISession> _session;
         private Mock<IMetaModel> _metaModelMock;
         private Mock<IObjectWriter> _objectWriterMock;
         private Mock<IOdbCache> _cacheMock;
+        private IObjectIntrospectionDataProvider _classInfoProvider;
 
         protected override void Establish_context()
         {
@@ -42,18 +44,20 @@ namespace NDatabase.UnitTests.Triggers
             _cacheMock.Setup(x => x.GetOid(_person)).Returns(_sampleOid).Verifiable();
             _cacheMock.Setup(x => x.GetObjectInfoHeaderByOid(_sampleOid, true)).Returns(objectInfoHeader).Verifiable();
 
-            _storageEngineMock = new Mock<IStorageEngine>();
-            _storageEngineMock.Setup(x => x.GetMetaModel()).Returns(_metaModelMock.Object).Verifiable();
-            _storageEngineMock.Setup(x => x.GetObjectWriter()).Returns(_objectWriterMock.Object).Verifiable();
-            _storageEngineMock.Setup(x => x.GetCache()).Returns(_cacheMock.Object).Verifiable();
+            _session = new Mock<ISession>();
+            _session.Setup(x => x.GetMetaModel()).Returns(_metaModelMock.Object).Verifiable();
+            _session.Setup(x => x.GetObjectWriter()).Returns(_objectWriterMock.Object).Verifiable();
+            _session.Setup(x => x.GetCache()).Returns(_cacheMock.Object).Verifiable();
 
-            var introspector = (IObjectIntrospector)new ObjectIntrospector(_storageEngineMock.Object);
+            _classInfoProvider = new SessionDataProvider(_session.Object);
+
+            var introspector = (IObjectIntrospector)new ObjectIntrospector(_classInfoProvider);
             _nnoi = introspector.GetMetaRepresentation(_person, true, null, new DefaultInstrumentationCallback()) as NonNativeObjectInfo;
         }
 
         protected override IObjectRepresentation Create_subject_under_test()
         {
-            return new ObjectRepresentation(_nnoi, _storageEngineMock.Object);
+            return new ObjectRepresentation(_nnoi, _classInfoProvider);
         }
 
         protected override void Because()
@@ -74,7 +78,7 @@ namespace NDatabase.UnitTests.Triggers
         [Test]
         public void It_should_go_through_all_required_delegations()
         {
-            _storageEngineMock.Verify();
+            _session.Verify();
             _cacheMock.Verify();
             _metaModelMock.Verify();
             _objectWriterMock.Verify();

@@ -204,7 +204,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2
         /// </summary>
         private static object BuildEnumInstance(EnumNativeObjectInfo enoi, Type enumClass)
         {
-            return Enum.Parse(enumClass, enoi.GetEnumName(), false);
+            return Enum.Parse(enumClass, enoi.GetEnumValue(), false);
         }
 
         /// <summary>

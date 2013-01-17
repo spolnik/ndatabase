@@ -24,7 +24,7 @@ namespace NDatabase.Odb.Core.Transaction
         /// </summary>
         private readonly IReadObjectsCache _readObjectsCache;
 
-        private MetaModel _metaModel;
+        private IMetaModel _metaModel;
         private bool _rollbacked;
 
         protected Session(string id, string baseIdentification)
@@ -87,7 +87,7 @@ namespace NDatabase.Odb.Core.Transaction
 
         public abstract void SetFileSystemInterfaceToApplyTransaction(IFileSystemInterface fsi);
 
-        public MetaModel GetMetaModel()
+        public IMetaModel GetMetaModel()
         {
             if (_metaModel == null)
             {
@@ -110,7 +110,7 @@ namespace NDatabase.Odb.Core.Transaction
             return _metaModel;
         }
 
-        public void SetMetaModel(MetaModel metaModel2)
+        public void SetMetaModel(IMetaModel metaModel2)
         {
             _metaModel = metaModel2;
         }
@@ -118,6 +118,11 @@ namespace NDatabase.Odb.Core.Transaction
         public void RemoveObjectFromCache(object @object)
         {
             _cache.RemoveObject(@object);
+        }
+
+        public IObjectWriter GetObjectWriter()
+        {
+            return GetStorageEngine().GetObjectWriter();
         }
 
         #endregion

@@ -63,6 +63,8 @@
     <Compile Include="Btree\BTreeNodeSingleValuePerKey.cs" />
     <Compile Include="Btree\BTreeSingleValuePerKey.cs" />
     <Compile Include="Btree\BTreeValidator.cs" />
+    <Compile Include="Odb\Core\Layers\Layer1\Introspector\IObjectIntrospectionDataProvider.cs" />
+    <Compile Include="Odb\Core\Transaction\SessionDataProvider.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\IMetaModel.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\InMemoryIdentification.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IO\OdbMemoryStream.cs" />
