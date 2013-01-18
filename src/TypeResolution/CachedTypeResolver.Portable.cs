@@ -1,5 +1,6 @@
 using System;
-using System.Collections.Concurrent;
+using System.Collections.Generic;
+using NDatabase.Tool;
 
 namespace NDatabase.TypeResolution
 {
@@ -14,7 +15,7 @@ namespace NDatabase.TypeResolution
 		/// The cache, mapping type names (<see cref="System.String"/> instances) against
 		/// <see cref="System.Type"/> instances.
 		/// </summary>
-        private readonly ConcurrentDictionary<string, Type> _typeCache = new ConcurrentDictionary<string, Type>();
+        private readonly Dictionary<string, Type> _typeCache = new Dictionary<string, Type>();
 
 		private readonly ITypeResolver _typeResolver;
 

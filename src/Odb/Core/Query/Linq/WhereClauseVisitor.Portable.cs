@@ -1,12 +1,7 @@
 ﻿using System;
-<<<<<<< HEAD
 using System.Collections.Generic;
-=======
-using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
->>>>>>> master
 using System.Linq.Expressions;
-using NDatabase.Odb.Core.Query.Criteria;
 
 namespace NDatabase.Odb.Core.Query.Linq
 {
@@ -46,12 +41,14 @@ namespace NDatabase.Odb.Core.Query.Linq
             {
                 case "EndsWith":
                 {
-                    RecordConstraintApplication(c => c.EndsWith(true));
+                    var caseSensitive = IsCaseSensitive(call.Arguments);
+                    RecordConstraintApplication(c => c.EndsWith(caseSensitive));
                     return;
                 }
                 case "StartsWith":
                 {
-                    RecordConstraintApplication(c => c.StartsWith(true));
+                    var caseSensitive = IsCaseSensitive(call.Arguments);
+                    RecordConstraintApplication(c => c.StartsWith(caseSensitive));
                     return;
                 }
 
@@ -60,14 +57,13 @@ namespace NDatabase.Odb.Core.Query.Linq
                     return;
 
                 case "Equals":
+                    RecordConstraintApplication(c => c.Equal());
                     return;
             }
 
             CannotConvertToSoda(call);
         }
 
-<<<<<<< HEAD
-=======
         private static bool IsCaseSensitive(ReadOnlyCollection<Expression> arguments)
         {
             if (arguments.Count == 1)
@@ -96,7 +92,6 @@ namespace NDatabase.Odb.Core.Query.Linq
             return true;
         }
 
->>>>>>> master
         private void RecordConstraintApplication(Func<IConstraint, IConstraint> application)
         {
             Recorder.Add(ctx => ctx.ApplyConstraint(application));
@@ -261,6 +256,7 @@ namespace NDatabase.Odb.Core.Query.Linq
             switch (b.NodeType)
             {
                 case ExpressionType.Equal:
+                    RecordConstraintApplication(c => c.Equal());
                     break;
                 case ExpressionType.NotEqual:
                     RecordConstraintApplication(c => c.Equal().Not());

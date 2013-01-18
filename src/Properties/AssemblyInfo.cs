@@ -16,15 +16,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTrademark("NDatabase")]
 [assembly: AssemblyCulture("")]
 
-// Setting ComVisible to false makes the types in this assembly not visible 
-// to COM components.  If you need to access a type in this assembly from 
-// COM, set the ComVisible attribute to true on that type.
-
-[assembly: ComVisible(false)]
-
-// The following GUID is for the ID of the typelib if this project is exposed to COM
-
-[assembly: Guid("480da8c2-ad2e-4aac-aacd-36a8cfa5581f")]
 [assembly: CLSCompliant(true)]
 
 // Version information for an assembly consists of the following four values:

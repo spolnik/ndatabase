@@ -25,6 +25,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <TargetFrameworkProfile />
+    <SilverlightApplicationList>{E8FFF873-6F40-4A9D-A941-07BAAE95FCBF}|..\..\..\tests\NDatabase.Silverlight.Client.UnitTests\NDatabase.Silverlight.Client.UnitTests.csproj|ClientBin|False</SilverlightApplicationList>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -67,12 +68,16 @@
     <Content Include="bin\Domain.pdb" />
     <Content Include="bin\NDatabase.dll" />
     <Content Include="bin\NDatabase.pdb" />
+    <Content Include="ClientBin\NDatabase.Silverlight.Client.UnitTests.xap" />
     <Content Include="Default.aspx" />
     <Content Include="DeleteEmployee.aspx" />
     <Content Include="Employees.aspx" />
+    <Content Include="NDatabase.Silverlight.Client.UnitTestsTestPage.aspx" />
+    <Content Include="NDatabase.Silverlight.Client.UnitTestsTestPage.html" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.4.1.js" />
     <Content Include="Scripts\jquery-1.4.1.min.js" />
+    <Content Include="Silverlight.js" />
     <Content Include="Styles\Site.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
