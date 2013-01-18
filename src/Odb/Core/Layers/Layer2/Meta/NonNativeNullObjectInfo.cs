@@ -5,10 +5,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// </summary>
     internal sealed class NonNativeNullObjectInfo : NonNativeObjectInfo
     {
-        public NonNativeNullObjectInfo() : base(null)
-        {
-        }
-
         public NonNativeNullObjectInfo(ClassInfo classInfo) : base(classInfo)
         {
         }

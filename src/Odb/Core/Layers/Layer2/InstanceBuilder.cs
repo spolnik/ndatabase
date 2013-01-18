@@ -189,7 +189,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2
 
         private object BuildOneInstance(AbstractObjectInfo objectInfo)
         {
-            if (objectInfo is NonNativeNullObjectInfo)
+            if (objectInfo.IsNull())
                 return null;
 
             var instance = objectInfo.GetType() == typeof (NonNativeObjectInfo)

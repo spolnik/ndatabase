@@ -314,10 +314,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 if (attributeIdentification == StorageEngineConstant.NullObjectPosition ||
                     attributeIdentification == StorageEngineConstant.NullObjectIdId)
                 {
-                    if (cai.IsNative())
-                        aoi = NullNativeObjectInfo.GetInstance();
-                    else
-                        aoi = new NonNativeNullObjectInfo();
+                    aoi = NullNativeObjectInfo.GetInstance();
                     objectInfo.SetAttributeValue(id, aoi);
                 }
                 else
@@ -1476,14 +1473,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     }
                     else
                     {
-                        if (componentIsNative)
-                        {
-                            array.SetValue(NullNativeObjectInfo.GetInstance(), i);
-                        }
-                        else
-                        {
-                            array.SetValue(new NonNativeNullObjectInfo(), i);
-                        }
+                        array.SetValue(NullNativeObjectInfo.GetInstance(), i);
                     }
                 }
                 catch (Exception e)

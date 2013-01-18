@@ -24,6 +24,9 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                                                         IDictionary<object, NonNativeObjectInfo> alreadyReadObjects,
                                                         IIntrospectionCallback callback)
         {
+            if (plainObject == null)
+                return GetObjectInfo(null, null, recursive, alreadyReadObjects, callback);
+
             // The object must be transformed into meta representation
             var type = plainObject.GetType();
 
@@ -88,18 +91,14 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             else if (type.IsEnum())
             {
                 var enumObject = (Enum) o;
-                if (enumObject == null)
-                    aoi = new NullNativeObjectInfo(type.Size);
-                else
-                {
-                    // Here we must check if the enum is already in the meta model. Enum must be stored in the meta
-                    // model to optimize its storing as we need to keep track of the enum class
-                    // for each enum stored. So instead of storing the enum class name, we can store enum class id, a long
-                    // instead of the full enum class name string
-                    var classInfo = GetClassInfo(enumObject.GetType());
-                    var enumValue = enumObject.ToString();
-                    aoi = new EnumNativeObjectInfo(classInfo, enumValue);
-                }
+                
+                // Here we must check if the enum is already in the meta model. Enum must be stored in the meta
+                // model to optimize its storing as we need to keep track of the enum class
+                // for each enum stored. So instead of storing the enum class name, we can store enum class id, a long
+                // instead of the full enum class name string
+                var classInfo = GetClassInfo(enumObject.GetType());
+                var enumValue = enumObject.ToString();
+                aoi = new EnumNativeObjectInfo(classInfo, enumValue);
             }
 
             return aoi;
@@ -185,7 +184,6 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                     }
                     else
                     {
-                        //callback.objectFound(value);
                         // Non Native Objects
                         if (value == null)
                         {
@@ -258,7 +256,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                     arrayCopy[i] = abstractObjectInfo;
                 }
                 else
-                    arrayCopy[i] = new NonNativeNullObjectInfo();
+                    arrayCopy[i] = NullNativeObjectInfo.GetInstance();
             }
 
             return new ArrayObjectInfo(arrayCopy, odbType, type.Id);
