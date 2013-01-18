@@ -82,7 +82,8 @@
     <Compile Include="Layer3\When_we_use_odb_file_stream.cs" />
     <Compile Include="Layer3\When_we_use_read_objects_cache.cs" />
     <Compile Include="MemoryMonitor.cs" />
-    <Compile Include="Metadata\When_we_are_using_enum.cs" />
+    <Compile Include="Metadata\When_we_are_inspecting_array.cs" />
+    <Compile Include="Metadata\When_we_are_inspecting_enum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Refactor\TypeToRefactor.cs" />
     <Compile Include="Refactor\When_we_are_using_refactor_manager_to_add_field.cs" />
