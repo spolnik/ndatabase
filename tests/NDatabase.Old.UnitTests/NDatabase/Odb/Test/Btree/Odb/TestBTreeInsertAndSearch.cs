@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using NDatabase.Btree;
-using NDatabase.Btree.Impl.Multiplevalue;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 
@@ -23,7 +23,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
             AssertEquals(5, tree.GetRoot().GetNbKeys());
             AssertEquals(0, tree.GetRoot().GetNbChildren());
             AssertEquals(21, tree.GetRoot().GetMedian().GetKey());
-            var values = tree.GetRoot().GetMedian().GetValue() as ArrayList;
+            var values = tree.GetRoot().GetMedian().GetValue() as List<object>;
             Assert.That(values, Is.Not.Null);
             AssertEquals("Value 21", values[0].ToString());
             AssertEquals(0, tree.GetRoot().GetNbChildren());
@@ -32,7 +32,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
             AssertEquals(2, tree.GetRoot().GetNbChildren());
             AssertEquals(1, tree.GetRoot().GetNbKeys());
             AssertEquals(21, tree.GetRoot().GetKeyAt(0));
-            var valuesAsObjectAt = tree.GetRoot().GetValueAsObjectAt(0) as ArrayList;
+            var valuesAsObjectAt = tree.GetRoot().GetValueAsObjectAt(0) as List<object>;
             AssertEquals("Value 21", valuesAsObjectAt[0].ToString());
             // println(tree.getRoot());
             var o = tree.Search(20);
@@ -99,11 +99,6 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
             tree.Insert(26, "Z");
         }
 
-        // assertEquals(4, tree.getRoot().getNbKeys());
-        // assertEquals(0, tree.getRoot().getNbChildren());
-        // assertEquals(21, tree.getRoot().getMedianKey());
-        // assertEquals("Value 21", tree.getRoot().getMedianValue());
-        // assertEquals(0, tree.getRoot().getNbChildren());
         [Test]
         public virtual void Test4()
         {
@@ -143,41 +138,41 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
             // println("Test 4");
             tree6.Insert(2, "B");
 
-            var valuesAsObjectAt1 = tree6.GetRoot().GetChildAt(0, true).GetValueAsObjectAt(1) as ArrayList;
+            var valuesAsObjectAt1 = tree6.GetRoot().GetChildAt(0, true).GetValueAsObjectAt(1) as List<object>;
             AssertEquals("B", valuesAsObjectAt1[0].ToString());
             tree6.Insert(17, "Q");
 
             AssertEquals(5, tree6.GetRoot().GetNbKeys());
 
-            var valuesAsObjectAt2 = tree6.GetRoot().GetChildAt(3, true).GetValueAsObjectAt(0) as ArrayList;
+            var valuesAsObjectAt2 = tree6.GetRoot().GetChildAt(3, true).GetValueAsObjectAt(0) as List<object>;
             AssertEquals("Q", valuesAsObjectAt2[0].ToString());
-            var valuesAsObjectAt3 = tree6.GetRoot().GetChildAt(3, true).GetValueAsObjectAt(1) as ArrayList;
+            var valuesAsObjectAt3 = tree6.GetRoot().GetChildAt(3, true).GetValueAsObjectAt(1) as List<object>;
             AssertEquals("R", valuesAsObjectAt3[0].ToString());
-            var valuesAsObjectAt4 = tree6.GetRoot().GetChildAt(3, true).GetValueAsObjectAt(2) as ArrayList;
+            var valuesAsObjectAt4 = tree6.GetRoot().GetChildAt(3, true).GetValueAsObjectAt(2) as List<object>;
             AssertEquals("S", valuesAsObjectAt4[0].ToString());
 
-            var valuesAsObjectAt5 = tree6.GetRoot().GetChildAt(4, true).GetValueAsObjectAt(0) as ArrayList;
+            var valuesAsObjectAt5 = tree6.GetRoot().GetChildAt(4, true).GetValueAsObjectAt(0) as List<object>;
             AssertEquals("U", valuesAsObjectAt5[0].ToString());
-            var valuesAsObjectAt6 = tree6.GetRoot().GetChildAt(4, true).GetValueAsObjectAt(1) as ArrayList;
+            var valuesAsObjectAt6 = tree6.GetRoot().GetChildAt(4, true).GetValueAsObjectAt(1) as List<object>;
             AssertEquals("V", valuesAsObjectAt6[0].ToString());
             tree6.Insert(12, "L");
 
             AssertEquals(1, tree6.GetRoot().GetNbKeys());
             AssertEquals(2, tree6.GetRoot().GetChildAt(0, true).GetNbKeys());
 
-            var valuesAsObjectAt7 = tree6.GetRoot().GetChildAt(0, true).GetValueAsObjectAt(0) as ArrayList;
+            var valuesAsObjectAt7 = tree6.GetRoot().GetChildAt(0, true).GetValueAsObjectAt(0) as List<object>;
             AssertEquals("G", valuesAsObjectAt7[0].ToString());
-            var valuesAsObjectAt8 = tree6.GetRoot().GetChildAt(0, true).GetValueAsObjectAt(1) as ArrayList;
+            var valuesAsObjectAt8 = tree6.GetRoot().GetChildAt(0, true).GetValueAsObjectAt(1) as List<object>;
             AssertEquals("M", valuesAsObjectAt8[0].ToString());
 
             var valuesAsObjectAt9 =
-                tree6.GetRoot().GetChildAt(0, true).GetChildAt(1, true).GetValueAsObjectAt(0) as ArrayList;
+                tree6.GetRoot().GetChildAt(0, true).GetChildAt(1, true).GetValueAsObjectAt(0) as List<object>;
             AssertEquals("J", valuesAsObjectAt9[0].ToString());
             var valuesAsObjectAt10 =
-                tree6.GetRoot().GetChildAt(0, true).GetChildAt(1, true).GetValueAsObjectAt(1) as ArrayList;
+                tree6.GetRoot().GetChildAt(0, true).GetChildAt(1, true).GetValueAsObjectAt(1) as List<object>;
             AssertEquals("K", valuesAsObjectAt10[0].ToString());
             var valuesAsObjectAt11 =
-                tree6.GetRoot().GetChildAt(0, true).GetChildAt(1, true).GetValueAsObjectAt(2) as ArrayList;
+                tree6.GetRoot().GetChildAt(0, true).GetChildAt(1, true).GetValueAsObjectAt(2) as List<object>;
             AssertEquals("L", valuesAsObjectAt11[0].ToString());
             tree6.Insert(6, "F");
 
@@ -186,14 +181,14 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
             AssertEquals(2, tree6.GetRoot().GetChildAt(0, true).GetChildAt(0, true).GetNbKeys());
 
             var valuesAsObjectAt12 =
-                tree6.GetRoot().GetChildAt(0, true).GetChildAt(0, true).GetValueAsObjectAt(0) as ArrayList;
+                tree6.GetRoot().GetChildAt(0, true).GetChildAt(0, true).GetValueAsObjectAt(0) as List<object>;
             AssertEquals("A", valuesAsObjectAt12[0].ToString());
             var valuesAsObjectAt13 =
-                tree6.GetRoot().GetChildAt(0, true).GetChildAt(0, true).GetValueAsObjectAt(1) as ArrayList;
+                tree6.GetRoot().GetChildAt(0, true).GetChildAt(0, true).GetValueAsObjectAt(1) as List<object>;
             AssertEquals("B", valuesAsObjectAt13[0].ToString());
 
             var valuesAsObjectAt14 =
-                tree6.GetRoot().GetChildAt(1, true).GetChildAt(2, true).GetValueAsObjectAt(1) as ArrayList;
+                tree6.GetRoot().GetChildAt(1, true).GetChildAt(2, true).GetValueAsObjectAt(1) as List<object>;
             AssertEquals("Z", valuesAsObjectAt14[0].ToString());
         }
 

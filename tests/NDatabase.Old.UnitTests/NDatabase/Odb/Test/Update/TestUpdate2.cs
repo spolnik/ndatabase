@@ -1,4 +1,3 @@
-using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;
 
@@ -46,9 +45,6 @@ namespace Test.NDatabase.Odb.Test.Update
         [Test]
         public virtual void Test8()
         {
-            // reset counter to checks update type (normal or updates)
-            ObjectWriter.ResetNbUpdates();
-
             DeleteBase(Name);
             var odb = Open(Name);
             var user = new User("name", "email", new Profile("p1", new VO.Login.Function("function")));
@@ -92,8 +88,6 @@ namespace Test.NDatabase.Odb.Test.Update
         [Test]
         public virtual void Test9()
         {
-            // reset counter to checks update type (normal or updates)
-            ObjectWriter.ResetNbUpdates();
             DeleteBase(Name);
             var odb = Open(Name);
             var user = new User("name", "email", new Profile("p1", new VO.Login.Function("function")));

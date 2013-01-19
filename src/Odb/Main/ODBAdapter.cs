@@ -120,7 +120,7 @@ namespace NDatabase.Odb.Main
             if (classInfo == null)
             {
                 var classInfoList = ClassIntrospector.Introspect(clazz, true);
-                _storageEngine.AddClasses(classInfoList);
+                _storageEngine.GetObjectWriter().AddClasses(classInfoList);
                 classInfo = classInfoList.GetMainClassInfo();
             }
 

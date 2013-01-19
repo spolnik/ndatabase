@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using NDatabase.Odb;
-using NDatabase.Odb.Core.Layers.Layer3.IO;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 
@@ -60,8 +59,6 @@ namespace Test.NDatabase.Odb.Test.Performance
             var t5 = OdbTime.GetCurrentTimeInTicks();
             odb.Close();
             DisplayResult("ODB " + TestSize + " SimpleObject objects ", t3, t4, t5);
-            Console.Out.WriteLine("buffer Ok=" + MultiBufferedFileIO.NbBufferOk + " / buffer not ok =" +
-                                  MultiBufferedFileIO.NbBufferNotOk);
         }
 
         private SimpleObject GetSimpleObjectInstance(int i)

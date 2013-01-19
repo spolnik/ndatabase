@@ -1,5 +1,4 @@
 using NDatabase.Btree;
-using NDatabase.Btree.Impl.Multiplevalue;
 using NDatabase.Exceptions;
 
 namespace NDatabase.Odb.Core.BTree

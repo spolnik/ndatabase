@@ -55,6 +55,7 @@
     <Compile Include="InMemory\When_we_use_ndatabase_as_in_memory_db.cs" />
     <Compile Include="Misc\TestCase_OdbConfiguration.cs" />
     <Compile Include="Queries\Soda\Building_soda_queries_doc.cs" />
+    <Compile Include="Types\When_we_store_array.cs" />
     <Compile Include="Types\When_we_want_to_serialize_collections.cs" />
     <Compile Include="Types\When_we_want_to_store_dynamic_instance.cs" />
     <Compile Include="Data\Address.cs" />

@@ -184,7 +184,6 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             var size = 50;
             try
             {
-                ObjectWriter.ResetNbUpdates();
                 DeleteBase("array7.ndb");
                 odb = Open("array7.ndb");
                 var array = new Decimal[size];
@@ -206,8 +205,7 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
                 var o = l.GetFirst();
                 AssertEquals((object) owna2.GetNumber(0), (object) o.GetNumber(0));
                 AssertEquals((object) owna2.GetNumber(1), (object) o.GetNumber(1));
-                AssertEquals(1, ObjectWriter.GetNbNormalUpdates());
-
+                
                 odb.Close();
                 DeleteBase("array7.ndb");
             }
@@ -231,7 +229,6 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             var size = 2;
             try
             {
-                ObjectWriter.ResetNbUpdates();
                 DeleteBase("array8.ndb");
                 odb = Open("array8.ndb");
                 var array = new int[size];
@@ -283,7 +280,6 @@ namespace Test.NDatabase.Odb.Test.Arraycollectionmap
             var size = 50;
             try
             {
-                ObjectWriter.ResetNbUpdates();
                 DeleteBase("array9.ndb");
                 odb = Open("array9.ndb");
                 var array = new int[size];

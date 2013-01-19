@@ -4,19 +4,16 @@ using System.Text;
 using NDatabase.Btree;
 using NDatabase.Exceptions;
 using NDatabase.Odb.Core.BTree;
-using NDatabase.Odb.Core.Layers.Layer2.Instance;
+using NDatabase.Odb.Core.Layers.Layer2;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer3.Block;
-using NDatabase.Odb.Core.Layers.Layer3.Oid;
 using NDatabase.Odb.Core.Oid;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Core.Query.Execution;
 using NDatabase.Odb.Core.Query.Values;
 using NDatabase.Tool;
-using NDatabase.Tool.Wrappers.List;
-using NDatabase.Tool.Wrappers.Map;
 using System.Linq;
+using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
@@ -115,7 +112,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             _storageEngine.SetCurrentTransactionId(lastTransactionId);
         }
 
-        public void LoadMetaModel(MetaModel metaModel, bool full)
+        public void LoadMetaModel(IMetaModel metaModel, bool full)
         {
             ClassInfo classInfo;
             var nbClasses = ReadNumberOfClasses();
@@ -317,10 +314,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 if (attributeIdentification == StorageEngineConstant.NullObjectPosition ||
                     attributeIdentification == StorageEngineConstant.NullObjectIdId)
                 {
-                    if (cai.IsNative())
-                        aoi = NullNativeObjectInfo.GetInstance();
-                    else
-                        aoi = new NonNativeNullObjectInfo();
+                    aoi = NullNativeObjectInfo.GetInstance();
                     objectInfo.SetAttributeValue(id, aoi);
                 }
                 else
@@ -1479,14 +1473,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     }
                     else
                     {
-                        if (componentIsNative)
-                        {
-                            array.SetValue(NullNativeObjectInfo.GetInstance(), i);
-                        }
-                        else
-                        {
-                            array.SetValue(new NonNativeNullObjectInfo(), i);
-                        }
+                        array.SetValue(NullNativeObjectInfo.GetInstance(), i);
                     }
                 }
                 catch (Exception e)

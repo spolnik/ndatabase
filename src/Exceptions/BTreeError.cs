@@ -10,12 +10,12 @@ namespace NDatabase.Exceptions
     /// </summary>
     internal sealed class BTreeError : IError
     {
-        public static readonly BTreeError LazyLoadingNode = new BTreeError(501,
+        internal static readonly BTreeError LazyLoadingNode = new BTreeError(501,
                                                                            "Error while loading node lazily with oid @1");
 
-        public static readonly BTreeError InvalidIdForBtree = new BTreeError(504, "Invalid id for Btree : id=@1");
+        internal static readonly BTreeError InvalidIdForBtree = new BTreeError(504, "Invalid id for Btree : id=@1");
 
-        public static readonly BTreeError InternalError = new BTreeError(506, "Internal error: @1");
+        internal static readonly BTreeError InternalError = new BTreeError(506, "Internal error: @1");
 
         private readonly int _code;
 

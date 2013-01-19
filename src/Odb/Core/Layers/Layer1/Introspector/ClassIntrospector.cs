@@ -5,7 +5,6 @@ using System.Reflection;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
-using NDatabase.Tool.Wrappers.List;
 using NDatabase.TypeResolution;
 
 namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
@@ -26,12 +25,12 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 
         /// <summary>
         /// </summary>
-        /// <param name="clazz"> The class to introspect </param>
+        /// <param name="type"> The class to introspect </param>
         /// <param name="recursive"> If true, goes does the hierarchy to try to analyze all classes </param>
         /// <returns> </returns>
-        public static ClassInfoList Introspect(Type clazz, bool recursive)
+        public static ClassInfoList Introspect(Type type, bool recursive)
         {
-            return InternalIntrospect(clazz, recursive, null);
+            return InternalIntrospect(type, recursive, null);
         }
 
         public static IList<FieldInfo> GetAllFieldsFrom(Type type)
@@ -108,11 +107,11 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
         /// <returns> A ClassInfo - a meta representation of the class </returns>
         private static ClassInfo GetClassInfo(String fullClassName, ClassInfo existingClassInfo)
         {
-            var classInfo = new ClassInfo(fullClassName);
-
             var type = TypeResolutionUtils.ResolveType(fullClassName);
+            var classInfo = new ClassInfo(type);
+
             var fields = GetAllFieldsFrom(type);
-            IOdbList<ClassAttributeInfo> attributes = new OdbList<ClassAttributeInfo>(fields.Count);
+            var attributes = new OdbList<ClassAttributeInfo>(fields.Count);
 
             var maxAttributeId = existingClassInfo.MaxAttributeId;
             foreach (var fieldInfo in fields)
@@ -198,8 +197,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
         {
             if (classInfoList != null)
             {
-                var fullClassName = OdbClassUtil.GetFullName(type);
-                var existingClassInfo = classInfoList.GetClassInfoBy(fullClassName);
+                var existingClassInfo = classInfoList.GetClassInfoBy(type);
 
                 if (existingClassInfo != null)
                     return classInfoList;
@@ -230,10 +228,10 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                     if (recursive)
                     {
                         classInfoList = InternalIntrospect(field.FieldType, true, classInfoList);
-                        classInfoByName = classInfoList.GetClassInfoBy(OdbClassUtil.GetFullName(field.FieldType));
+                        classInfoByName = classInfoList.GetClassInfoBy(field.FieldType);
                     }
                     else
-                        classInfoByName = new ClassInfo(OdbClassUtil.GetFullName(field.FieldType));
+                        classInfoByName = new ClassInfo(field.FieldType);
                 }
 
                 attributes.Add(new ClassAttributeInfo((i + 1), field.Name, field.FieldType,

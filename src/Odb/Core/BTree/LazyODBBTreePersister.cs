@@ -1,16 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using NDatabase.Btree;
 using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
-using NDatabase.Odb.Main;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
-using NDatabase.Tool.Wrappers.List;
-using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb.Core.BTree
 {
@@ -19,14 +15,6 @@ namespace NDatabase.Odb.Core.BTree
     /// </summary>
     internal sealed class LazyOdbBtreePersister : IBTreePersister, ICommitListener
     {
-        private static IDictionary<OID, object> _smap;
-        private static IDictionary<object, int> _smodifiedObjects;
-        private static int _nbSaveNodes;
-        private static int _nbSaveTree;
-        private static int _nbLoadNodes;
-        private static int _nbLoadTree;
-        private static int _nbLoadNodesFromCache;
-
         /// <summary>
         ///   The odb interface
         /// </summary>
@@ -57,10 +45,6 @@ namespace NDatabase.Odb.Core.BTree
         /// </summary>
         private IBTree _tree;
 
-        public LazyOdbBtreePersister(IOdb odb) : this(((OdbAdapter) odb).GetStorageEngine())
-        {
-        }
-
         public LazyOdbBtreePersister(IStorageEngine engine)
         {
             _oids = new OdbHashMap<OID, object>();
@@ -68,8 +52,6 @@ namespace NDatabase.Odb.Core.BTree
             _modifiedObjectOidList = new OdbList<OID>(500);
             _engine = engine;
             _engine.AddCommitListener(this);
-            _smap = _oids;
-            _smodifiedObjects = _modifiedObjectOids;
         }
 
         #region IBTreePersister Members
@@ -90,11 +72,8 @@ namespace NDatabase.Odb.Core.BTree
 
             if (node != null)
             {
-                _nbLoadNodesFromCache++;
                 return node;
             }
-
-            _nbLoadNodes++;
 
             // else load from odb
             try
@@ -133,8 +112,6 @@ namespace NDatabase.Odb.Core.BTree
             {
                 try
                 {
-                    _nbSaveNodes++;
-
                     // first get the oid. : -2:it could be any value
                     oid = _engine.GetObjectWriter().GetIdManager().GetNextObjectId(-2);
                     node.SetId(oid);
@@ -174,7 +151,6 @@ namespace NDatabase.Odb.Core.BTree
 
         public IBTree LoadBTree(object id)
         {
-            _nbLoadTree++;
             var oid = (OID) id;
 
             try
@@ -203,8 +179,6 @@ namespace NDatabase.Odb.Core.BTree
 
         public OID SaveBTree(IBTree treeToSave)
         {
-            _nbSaveTree++;
-
             try
             {
                 var oid = (OID) treeToSave.GetId();
@@ -336,29 +310,6 @@ namespace NDatabase.Odb.Core.BTree
 
             if (OdbConfiguration.IsLoggingEnabled())
                 DLogger.Debug(string.Concat(nbCommited.ToString(), " commits / ", size.ToString()));
-        }
-
-        public static void ResetCounters()
-        {
-            _nbSaveNodes = 0;
-            _nbSaveTree = 0;
-            _nbLoadNodes = 0;
-            _nbLoadTree = 0;
-            _nbLoadNodesFromCache = 0;
-        }
-
-        public static StringBuilder Counters()
-        {
-            var buffer =
-                new StringBuilder("save nodes=").Append(_nbSaveNodes).Append(",").Append(_nbLoadNodesFromCache).Append(
-                    " | save tree=").Append(_nbSaveTree).Append(" | loadNodes=").Append(_nbLoadNodes).Append(",").Append
-                    (_nbLoadNodesFromCache).Append(" | load tree=").Append(_nbLoadTree);
-
-            if (_smap != null && _smodifiedObjects != null)
-                buffer.Append(" | map size=").Append(_smap.Count).Append(" | modObjects size=").Append(
-                    _smodifiedObjects.Count);
-
-            return buffer;
         }
 
         private void ClearModified()

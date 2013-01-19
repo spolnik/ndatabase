@@ -5,8 +5,7 @@ using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Main;
 using NDatabase.Tool;
-using NDatabase.Tool.Wrappers.List;
-using NDatabase.Tool.Wrappers.Map;
+using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Trigger
 {
@@ -131,7 +130,7 @@ namespace NDatabase.Odb.Core.Trigger
                 try
                 {
                     var storageEngine = ((OdbAdapter) trigger.Odb).GetStorageEngine();
-                    trigger.BeforeUpdate(new ObjectRepresentation(oldNnoi, storageEngine), newObject, oid);
+                    trigger.BeforeUpdate(new ObjectRepresentation(oldNnoi, storageEngine.ClassInfoProvider), newObject, oid);
                 }
                 catch (Exception e)
                 {
@@ -158,7 +157,7 @@ namespace NDatabase.Odb.Core.Trigger
                 try
                 {
                     var storageEngine = ((OdbAdapter)trigger.Odb).GetStorageEngine();
-                    trigger.AfterUpdate(new ObjectRepresentation(oldNnoi, storageEngine), newObject, oid);
+                    trigger.AfterUpdate(new ObjectRepresentation(oldNnoi, storageEngine.ClassInfoProvider), newObject, oid);
                 }
                 catch (Exception e)
                 {

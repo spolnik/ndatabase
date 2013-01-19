@@ -102,9 +102,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             }
         }
 
-        public long Read(byte[] buffer, int size)
+        public int Read(byte[] buffer, int size)
         {
-            // FIXME raf.read only returns int not long
             try
             {
                 Seek(_position);

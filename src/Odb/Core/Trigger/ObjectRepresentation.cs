@@ -1,19 +1,18 @@
 using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer3;
 
 namespace NDatabase.Odb.Core.Trigger
 {
     internal sealed class ObjectRepresentation : IObjectRepresentation
     {
         private readonly NonNativeObjectInfo _nnoi;
-        private readonly IStorageEngine _storageEngine;
+        private readonly IObjectIntrospectionDataProvider _classInfoProvider;
 
-        public ObjectRepresentation(NonNativeObjectInfo nnoi, IStorageEngine storageEngine)
+        public ObjectRepresentation(NonNativeObjectInfo nnoi, IObjectIntrospectionDataProvider classInfoProvider)
         {
             _nnoi = nnoi;
-            _storageEngine = storageEngine;
+            _classInfoProvider = classInfoProvider;
         }
 
         #region IObjectRepresentation Members
@@ -31,7 +30,7 @@ namespace NDatabase.Odb.Core.Trigger
 
         public void SetValueOf(string attributeName, object value)
         {
-            var introspector = (IObjectIntrospector) new ObjectIntrospector(_storageEngine);
+            var introspector = (IObjectIntrospector) new ObjectIntrospector(_classInfoProvider);
             var aoi = introspector.GetMetaRepresentation(value, true, null, new DefaultInstrumentationCallback());
             _nnoi.SetValueOf(attributeName, aoi);
         }

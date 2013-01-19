@@ -1,10 +1,7 @@
 using System;
 using NDatabase.Exceptions;
 using NDatabase.Odb;
-using NDatabase.Odb.Core.BTree;
-using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Query;
-using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Main;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
@@ -133,10 +130,10 @@ namespace Test.NDatabase.Odb.Test.Index
             odb.Close();
             var tt1 = OdbTime.GetCurrentTimeInMs();
             var end0 = OdbTime.GetCurrentTimeInMs();
-            Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
+            
             Println("inserting time with index=" + (end0 - start0));
             Println("commit time=" + (tt1 - tt0));
-            Println(LazyOdbBtreePersister.Counters());
+            
             odb = Open(baseName);
             long totalTime = 0;
             long maxTime = 0;
@@ -144,7 +141,7 @@ namespace Test.NDatabase.Odb.Test.Index
             for (var i = 0; i < size; i++)
             {
                 IQuery query = odb.Query<IndexedObject>();
-                query.Descend("name").Constrain((object) ("olivier" + (i + 1))).Equal();
+                query.Descend("name").Constrain("olivier" + (i + 1)).Equal();
                 var start = OdbTime.GetCurrentTimeInMs();
                 var objects = query.Execute<IndexedObject>(true);
                 var end = OdbTime.GetCurrentTimeInMs();
@@ -242,10 +239,10 @@ namespace Test.NDatabase.Odb.Test.Index
             odb.Close();
             var tt1 = OdbTime.GetCurrentTimeInMs();
             var end0 = OdbTime.GetCurrentTimeInMs();
-            Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
+            
             Println("inserting time with index=" + (end0 - start0));
             Println("commit time=" + (tt1 - tt0));
-            Println(LazyOdbBtreePersister.Counters());
+            
             odb = Open(baseName);
             long totalSelectTime = 0;
             long maxTime = 0;
@@ -283,8 +280,7 @@ namespace Test.NDatabase.Odb.Test.Index
                     t1 = OdbTime.GetCurrentTimeInMs();
                     Println(j + " - t= " + (t1 - t0) + " - delete=" + (totalTimeDelete / j) + " / select=" +
                             (totalTimeSelect / j));
-                    Println(LazyOdbBtreePersister.Counters());
-                    LazyOdbBtreePersister.ResetCounters();
+                    
                     t0 = t1;
                 }
             }
@@ -342,10 +338,10 @@ namespace Test.NDatabase.Odb.Test.Index
             odb.Close();
             var tt1 = OdbTime.GetCurrentTimeInMs();
             var end0 = OdbTime.GetCurrentTimeInMs();
-            Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
+            
             Println("inserting time with index=" + (end0 - start0));
             Println("commit time=" + (tt1 - tt0));
-            Println(LazyOdbBtreePersister.Counters());
+            
             odb = Open(baseName);
             long totalTime = 0;
             long maxTime = 0;
@@ -431,10 +427,10 @@ namespace Test.NDatabase.Odb.Test.Index
             odb.Close();
             var tt1 = OdbTime.GetCurrentTimeInMs();
             var end0 = OdbTime.GetCurrentTimeInMs();
-            Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
+            
             Println("inserting time with index=" + (end0 - start0));
             Println("commit time=" + (tt1 - tt0));
-            Println(LazyOdbBtreePersister.Counters());
+            
             odb = Open(baseName);
             long totalTime = 0;
             long maxTime = 0;
@@ -527,7 +523,7 @@ namespace Test.NDatabase.Odb.Test.Index
             }
             odb.Close();
             var end0 = OdbTime.GetCurrentTimeInMs();
-            Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
+            
             Println("inserting time with index=" + (end0 - start0));
             odb = Open(baseName);
             var start = OdbTime.GetCurrentTimeInMs();
@@ -594,7 +590,7 @@ namespace Test.NDatabase.Odb.Test.Index
             }
             odb.Close();
             var end0 = OdbTime.GetCurrentTimeInMs();
-            Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
+            
             // ObjectWriter.getNbNormalUpdates());
             // println("inserting time with index=" + (end0 - start0));
             odb = Open(baseName);
@@ -657,8 +653,6 @@ namespace Test.NDatabase.Odb.Test.Index
                     odb.Commit();
                     var t1 = OdbTime.GetCurrentTimeInMs();
                     Println(i + " : commit - ctime " + (t1 - t0) + " -ttime=");
-                    // println(LazyOdbBtreePersister.counters());
-                    LazyOdbBtreePersister.ResetCounters();
                 }
             }
             var theDate = new DateTime();
@@ -742,7 +736,7 @@ namespace Test.NDatabase.Odb.Test.Index
             }
             odb.Close();
             var end0 = OdbTime.GetCurrentTimeInMs();
-            Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
+            
             Println("inserting time with index=" + (end0 - start0));
             odb = Open(baseName);
             var start = OdbTime.GetCurrentTimeInMs();
@@ -794,7 +788,7 @@ namespace Test.NDatabase.Odb.Test.Index
             // println(i+" : commit / " + size);
             odb.Close();
             var end0 = OdbTime.GetCurrentTimeInMs();
-            Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
+            
             // ObjectWriter.getNbNormalUpdates());
             // println("inserting time with index=" + (end0 - start0));
             odb = Open(baseName);
@@ -875,10 +869,10 @@ namespace Test.NDatabase.Odb.Test.Index
             odb.Close();
             var tt1 = OdbTime.GetCurrentTimeInMs();
             var end0 = OdbTime.GetCurrentTimeInMs();
-            Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
+            
             Println("inserting time with index=" + (end0 - start0));
             Println("commit time=" + (tt1 - tt0));
-            Println(LazyOdbBtreePersister.Counters());
+            
             odb = Open(baseName);
             long totalTime = 0;
             long maxTime = 0;
@@ -939,10 +933,10 @@ namespace Test.NDatabase.Odb.Test.Index
             odb.Close();
             var tt1 = OdbTime.GetCurrentTimeInMs();
             var end0 = OdbTime.GetCurrentTimeInMs();
-            Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
+            
             Println("inserting time with index=" + (end0 - start0));
             Println("commit time=" + (tt1 - tt0));
-            Println(LazyOdbBtreePersister.Counters());
+            
             odb = Open(baseName);
             long totalTime = 0;
             long maxTime = 0;
@@ -973,7 +967,7 @@ namespace Test.NDatabase.Odb.Test.Index
                     t0 = t1;
                 }
             }
-            // /println(LazyOdbBtreePersister.counters());
+            // /
             odb.Close();
             DeleteBase(baseName);
             // println("total duration=" + totalTime + " / " + (double) totalTime /
@@ -1029,7 +1023,7 @@ namespace Test.NDatabase.Odb.Test.Index
             // true).getIndex(0).getBTree(), true));
             odb.Close();
             var end0 = OdbTime.GetCurrentTimeInMs();
-            Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
+            
             // ObjectWriter.getNbNormalUpdates());
             Console.WriteLine("inserting time with index=" + (end0 - start0));
             odb = Open(baseName);
@@ -1166,8 +1160,6 @@ namespace Test.NDatabase.Odb.Test.Index
                     odb.Commit();
                     var t1 = OdbTime.GetCurrentTimeInMs();
                     Println(i + " : commit - ctime " + (t1 - t0) + " -ttime=");
-                    // println(LazyOdbBtreePersister.counters());
-                    LazyOdbBtreePersister.ResetCounters();
                 }
             }
             var theDate = new DateTime();
@@ -1176,7 +1168,7 @@ namespace Test.NDatabase.Odb.Test.Index
             odb.Store(io1);
             odb.Close();
             var end0 = OdbTime.GetCurrentTimeInMs();
-            Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
+            
             Println("inserting time with index=" + (end0 - start0));
             odb = Open(baseName);
             
@@ -1231,7 +1223,7 @@ namespace Test.NDatabase.Odb.Test.Index
             // println(i+" : commit / " + size);
             odb.Close();
             var end0 = OdbTime.GetCurrentTimeInMs();
-            Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
+            
             Console.WriteLine("inserting time with index=" + (end0 - start0));
             odb = Open(baseName);
             var start = OdbTime.GetCurrentTimeInMs();
@@ -1280,7 +1272,7 @@ namespace Test.NDatabase.Odb.Test.Index
             // println(i+" : commit");
             odb.Close();
             var end0 = OdbTime.GetCurrentTimeInMs();
-            Println(string.Format("NU={0}", ObjectWriter.GetNbNormalUpdates()));
+            
             Println("inserting time with index=" + (end0 - start0));
             odb = Open(baseName);
             IQuery q = odb.Query<IndexedObject>();

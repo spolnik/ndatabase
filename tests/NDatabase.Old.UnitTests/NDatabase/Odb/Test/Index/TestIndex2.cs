@@ -4,7 +4,7 @@ using NDatabase.Exceptions;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Query.Criteria;
-using NDatabase.Tool.Wrappers.List;
+using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Index

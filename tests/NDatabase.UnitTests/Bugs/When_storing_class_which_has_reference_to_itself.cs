@@ -44,7 +44,7 @@ namespace NDatabase.UnitTests.Bugs
         {
             OdbFactory.Delete("recurence_ex.ndb");
 
-            var item = new OdbRuntimeException(NDatabaseError.InternalError, "Sample error");
+            var item = new OdbRuntimeException(NDatabaseError.InternalError);
 
             using (var ndb = OdbFactory.Open("recurence_ex.ndb"))
             {

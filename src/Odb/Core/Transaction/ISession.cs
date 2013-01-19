@@ -26,12 +26,14 @@ namespace NDatabase.Odb.Core.Transaction
 
         void SetFileSystemInterfaceToApplyTransaction(IFileSystemInterface fsi);
 
-        MetaModel GetMetaModel();
+        IMetaModel GetMetaModel();
 
-        void SetMetaModel(MetaModel metaModel2);
+        void SetMetaModel(IMetaModel metaModel2);
 
         string GetId();
 
         void RemoveObjectFromCache(object @object);
+
+        IObjectWriter GetObjectWriter();
     }
 }

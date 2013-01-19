@@ -29,8 +29,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public static readonly string DefaultArrayComponentClassName = OdbClassUtil.GetFullName(typeof (object));
 
-        private readonly Type _baseClass;
-
         private readonly int _id;
         private readonly bool _isPrimitive;
         private readonly string _name;
@@ -83,15 +81,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             _size = size;
         }
 
-        private OdbType(bool isPrimitive, int id, string name, int size, Type superclass)
-        {
-            _isPrimitive = isPrimitive;
-            _id = id;
-            _name = name;
-            _size = size;
-            _baseClass = superclass;
-        }
-
         public int Id
         {
             get { return _id; }
@@ -111,11 +100,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         {
             get { return _subType; }
             set { _subType = value; }
-        }
-
-        public Type BaseClass
-        {
-            get { return _baseClass; }
         }
 
         public override int GetHashCode()
@@ -273,11 +257,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return _id == NonNativeId;
         }
 
-        public bool IsNull()
-        {
-            return _id == NullId;
-        }
-
         public static bool IsNull(int odbTypeId)
         {
             return odbTypeId == NullId;
@@ -322,19 +301,9 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return false;
         }
 
-        public bool IsBoolean()
-        {
-            return _id == BooleanId;
-        }
-
         private bool IsEquivalent(OdbType type2)
         {
             return (_id == IntegerId && type2._id == IntegerId);
-        }
-
-        public bool IsDate()
-        {
-            return _id == DateId;
         }
 
         #region Odb Type Ids
@@ -506,16 +475,13 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public static readonly OdbType Array = new OdbType(false, ArrayId, "array", 0);
 
-        public static readonly OdbType Oid = new OdbType(false, OidId, OdbClassUtil.GetFullName(typeof (OID)), 0,
-                                                         typeof (OID));
+        public static readonly OdbType Oid = new OdbType(false, OidId, OdbClassUtil.GetFullName(typeof (OID)), 0);
 
         public static readonly OdbType ObjectOid = new OdbType(false, ObjectOidId,
-                                                               OdbClassUtil.GetFullName(typeof (ObjectOID)), 0,
-                                                               typeof (ObjectOID));
+                                                               OdbClassUtil.GetFullName(typeof (ObjectOID)), 0);
 
         public static readonly OdbType ClassOid = new OdbType(false, ClassOidId,
-                                                              OdbClassUtil.GetFullName(typeof (ClassOID)), 0,
-                                                              typeof (ClassOID));
+                                                              OdbClassUtil.GetFullName(typeof (ClassOID)), 0);
 
         public static readonly OdbType NonNative = new OdbType(false, NonNativeId, "non native", 0);
 

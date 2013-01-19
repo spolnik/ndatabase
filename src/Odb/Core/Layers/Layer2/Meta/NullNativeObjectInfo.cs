@@ -37,7 +37,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return GetInstance();
         }
 
-        /// <returns> </returns>
         public static NullNativeObjectInfo GetInstance()
         {
             return Instance;

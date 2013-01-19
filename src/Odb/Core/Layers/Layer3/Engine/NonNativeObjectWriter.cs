@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer2.Meta.Compare;
-using NDatabase.Odb.Core.Layers.Layer3.Block;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Odb.Core.Trigger;
 using NDatabase.Tool;
@@ -511,7 +510,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     oldMetaRepresentation = _objectReader.ReadNonNativeObjectInfoFromPosition(null, oid, currentPosition,
                                                                                               false, false);
                 }
-                ObjectWriter.NbNormalUpdates++;
                 
                 var previousObjectOID = lastHeader.GetPreviousObjectOID();
                 var nextObjectOid = lastHeader.GetNextObjectOID();
@@ -613,15 +611,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
         }
 
-        private static void EncodeOid(OID oid, IList<byte> bytes, int offset)
+        private static void EncodeOid(OID oid, byte[] bytes, int offset)
         {
             if (oid == null)
                 LongToByteArray(-1, bytes, offset);
             else
-            {
-                // fsi.writeLong(-1, writeInTransaction, label, writeAction);
                 LongToByteArray(oid.ObjectId, bytes, offset);
-            }
         }
 
         private void WriteBlockSizeAt(long writePosition, int blockSize, bool writeInTransaction, object @object)
@@ -649,21 +644,16 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                                             : byteForFalse;
         }
 
-        private static void LongToByteArray(long l, IList<byte> arrayWhereToWrite, int offset)
+        private static void LongToByteArray(long l, byte[] arrayWhereToWrite, int offset)
         {
-            int i;
             var bytes = BitConverter.GetBytes(l);
-            for (i = 0; i < 8; i++)
-                arrayWhereToWrite[offset + i] = bytes[i];
+            Array.Copy(bytes, 0, arrayWhereToWrite, offset, 8);
         }
 
-        private static void IntToByteArray(int l, IList<byte> arrayWhereToWrite, int offset)
+        private static void IntToByteArray(int l, byte[] arrayWhereToWrite, int offset)
         {
-            int i;
             var bytes = BitConverter.GetBytes(l);
-
-            for (i = 0; i < 4; i++)
-                arrayWhereToWrite[offset + i] = bytes[i];
+            Array.Copy(bytes, 0, arrayWhereToWrite, offset, 4);
         }
     }
 }

@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Tool.Wrappers;
-using NDatabase.Tool.Wrappers.Map;
 
 namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 {
@@ -13,11 +11,11 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
     /// </summary>
     internal sealed class ObjectIntrospector : IObjectIntrospector
     {
-        private IStorageEngine _storageEngine;
-
-        public ObjectIntrospector(IStorageEngine storageEngine)
+        private readonly IObjectIntrospectionDataProvider _classInfoProvider;
+        
+        public ObjectIntrospector(IObjectIntrospectionDataProvider classInfoProvider)
         {
-            _storageEngine = storageEngine;
+            _classInfoProvider = classInfoProvider;
         }
 
         #region IObjectIntrospector Members
@@ -26,30 +24,20 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                                                         IDictionary<object, NonNativeObjectInfo> alreadyReadObjects,
                                                         IIntrospectionCallback callback)
         {
+            if (plainObject == null)
+                return GetObjectInfo(null, null, recursive, alreadyReadObjects, callback);
+
             // The object must be transformed into meta representation
-            ClassInfo classInfo;
             var type = plainObject.GetType();
 
-            // first checks if the class of this object already exist in the meta model
-            if (_storageEngine.GetMetaModel().ExistClass(type))
-            {
-                classInfo = _storageEngine.GetMetaModel().GetClassInfo(type, true);
-            }
-            else
-            {
-                var classInfoList = ClassIntrospector.Introspect(type, true);
-
-                // All new classes found
-                _storageEngine.GetObjectWriter().AddClasses(classInfoList);
-                classInfo = classInfoList.GetMainClassInfo();
-            }
+            var classInfo = _classInfoProvider.GetClassInfo(type);
 
             return GetObjectInfo(plainObject, classInfo, recursive, alreadyReadObjects, callback);
         }
 
         public void Clear()
         {
-            _storageEngine = null;
+            _classInfoProvider.Clear();
         }
 
         #endregion
@@ -58,26 +46,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
         {
             var nnoi = new NonNativeObjectInfo(o, classInfo);
 
-            if (_storageEngine != null)
-            {
-                // for unit test purpose
-                var cache = _storageEngine.GetCache();
-
-                // Check if object is in the cache, if so sets its oid
-                var oid = cache.GetOid(o);
-                if (oid != null)
-                {
-                    nnoi.SetOid(oid);
-                    // Sets some values to the new header to keep track of the infos when
-                    // executing NDatabase without closing it, just committing.
-                    // Bug reported by Andy
-                    var objectInfoHeader = cache.GetObjectInfoHeaderByOid(oid, true);
-                    nnoi.GetHeader().SetObjectVersion(objectInfoHeader.GetObjectVersion());
-                    nnoi.GetHeader().SetUpdateDate(objectInfoHeader.GetUpdateDate());
-                    nnoi.GetHeader().SetCreationDate(objectInfoHeader.GetCreationDate());
-                }
-            }
-            return nnoi;
+            return _classInfoProvider.EnrichWithOid(nnoi, o);
         }
 
         /// <summary>
@@ -103,41 +72,35 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                 else
                     aoi = new AtomicNativeObjectInfo(o, type.Id);
             }
-            else
+            else if (type.IsArray())
             {
-                if (type.IsArray())
+                if (o == null)
+                    aoi = new ArrayObjectInfo(null);
+                else
                 {
-                    if (o == null)
-                        aoi = new ArrayObjectInfo(null);
-                    else
-                    {
-                        // Gets the type of the elements of the array
-                        var realArrayClassName = OdbClassUtil.GetFullName(o.GetType().GetElementType());
-                        var arrayObjectInfo = recursive
-                                                  ? IntrospectArray(o, true, alreadyReadObjects, type, callback)
-                                                  : new ArrayObjectInfo((object[]) o);
+                    // Gets the type of the elements of the array
+                    var realArrayClassName = OdbClassUtil.GetFullName(o.GetType().GetElementType());
+                    var arrayObjectInfo = recursive
+                                              ? IntrospectArray(o, alreadyReadObjects, type, callback)
+                                              : new ArrayObjectInfo((object[]) o);
 
-                        arrayObjectInfo.SetRealArrayComponentClassName(realArrayClassName);
-                        aoi = arrayObjectInfo;
-                    }
-                }
-                else if (type.IsEnum())
-                {
-                    var enumObject = (Enum) o;
-                    if (enumObject == null)
-                        aoi = new NullNativeObjectInfo(type.Size);
-                    else
-                    {
-                        // Here we must check if the enum is already in the meta model. Enum must be stored in the meta
-                        // model to optimize its storing as we need to keep track of the enum class
-                        // for each enum stored. So instead of storing the enum class name, we can store enum class id, a long
-                        // instead of the full enum class name string
-                        var classInfo = GetClassInfo(enumObject.GetType());
-                        var enumValue = enumObject.ToString();
-                        aoi = new EnumNativeObjectInfo(classInfo, enumValue);
-                    }
+                    arrayObjectInfo.SetRealArrayComponentClassName(realArrayClassName);
+                    aoi = arrayObjectInfo;
                 }
             }
+            else if (type.IsEnum())
+            {
+                var enumObject = (Enum) o;
+                
+                // Here we must check if the enum is already in the meta model. Enum must be stored in the meta
+                // model to optimize its storing as we need to keep track of the enum class
+                // for each enum stored. So instead of storing the enum class name, we can store enum class id, a long
+                // instead of the full enum class name string
+                var classInfo = GetClassInfo(enumObject.GetType());
+                var enumValue = enumObject.ToString();
+                aoi = new EnumNativeObjectInfo(classInfo, enumValue);
+            }
+
             return aoi;
         }
 
@@ -160,7 +123,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             if (type.IsNative())
                 return GetNativeObjectInfoInternal(type, o, recursive, alreadyReadObjects, callback);
 
-            // sometimes the clazz.getName() may not match the ci.getClassName()
+            // sometimes the type.getName() may not match the ci.getClassName()
             // It happens when the attribute is an interface or superclass of the
             // real attribute class
             // In this case, ci must be updated to the real class info
@@ -221,7 +184,6 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                     }
                     else
                     {
-                        //callback.objectFound(value);
                         // Non Native Objects
                         if (value == null)
                         {
@@ -269,29 +231,12 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 
         private ClassInfo GetClassInfo(Type type)
         {
-            var odbType = OdbType.GetFromClass(type);
-            if (odbType.IsNative() && !odbType.IsEnum())
-                return null;
-
-            var session = _storageEngine.GetSession();
-            var metaModel = session.GetMetaModel();
-            if (metaModel.ExistClass(type))
-                return metaModel.GetClassInfo(type, true);
-
-            var classInfoList = ClassIntrospector.Introspect(type, true);
-
-            // to enable junit tests
-            if (_storageEngine != null)
-                _storageEngine.AddClasses(classInfoList);
-            else
-                metaModel.AddClasses(classInfoList);
-
-            return metaModel.GetClassInfo(type, true);
+            return _classInfoProvider.GetClassInfo(type);
         }
 
-        private ArrayObjectInfo IntrospectArray(object array, bool introspect,
+        private ArrayObjectInfo IntrospectArray(object array,
                                                 IDictionary<object, NonNativeObjectInfo> alreadyReadObjects,
-                                                OdbType valueType, IIntrospectionCallback callback)
+                                                OdbType odbType, IIntrospectionCallback callback)
         {
             var length = ((Array) array).GetLength(0);
             var elementType = array.GetType().GetElementType();
@@ -299,9 +244,6 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
 
             if (type.IsAtomicNative())
                 return IntropectAtomicNativeArray(array, type);
-
-            if (!introspect)
-                return new ArrayObjectInfo((object[]) array);
 
             var arrayCopy = new object[length];
             for (var i = 0; i < length; i++)
@@ -314,10 +256,10 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                     arrayCopy[i] = abstractObjectInfo;
                 }
                 else
-                    arrayCopy[i] = new NonNativeNullObjectInfo();
+                    arrayCopy[i] = NullNativeObjectInfo.GetInstance();
             }
 
-            return new ArrayObjectInfo(arrayCopy, valueType, type.Id);
+            return new ArrayObjectInfo(arrayCopy, odbType, type.Id);
         }
 
         private static ArrayObjectInfo IntropectAtomicNativeArray(object array, OdbType type)

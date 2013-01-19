@@ -1,4 +1,4 @@
-using NDatabase.Btree.Tool;
+using NDatabase.Btree;
 using NDatabase.Tool;
 
 namespace NDatabase.Odb
@@ -16,7 +16,7 @@ namespace NDatabase.Odb
         /// <summary>
         /// Default index BTree degree - 20
         /// </summary>
-        public const int DefaultIndexBTreeDegree = 20;
+        public static readonly int DefaultIndexBTreeDegree = 20;
 
         /// <summary>
         ///   The default btree size for index btrees

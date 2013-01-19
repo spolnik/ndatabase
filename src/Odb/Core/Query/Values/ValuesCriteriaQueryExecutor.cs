@@ -3,7 +3,7 @@ using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Core.Query.Execution;
-using NDatabase.Tool.Wrappers.List;
+using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Query.Values
 {

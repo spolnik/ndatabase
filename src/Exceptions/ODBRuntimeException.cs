@@ -22,12 +22,6 @@ namespace NDatabase.Exceptions
         {
         }
 
-        internal OdbRuntimeException(IError error, string message)
-            : base(
-                string.Format("{0}\nError:{1}\nStackTrace:{2}", Message1, error, message))
-        {
-        }
-
         internal OdbRuntimeException(Exception e, string message)
             : base(
                 string.Format("{0}\nStackTrace:{1}", Message1, message), e)

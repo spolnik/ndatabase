@@ -3,6 +3,7 @@ using NDatabase.Btree;
 using NDatabase.Exceptions;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.BTree;
+using NDatabase.Odb.Main;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Btree.Odb
@@ -19,7 +20,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
             using (var odb = OdbFactory.Open(singlevaluebtreeTest1DbName))
             {
                 var size = 1000;
-                IBTree tree = new OdbBtreeSingle(50, new LazyOdbBtreePersister(odb));
+                IBTree tree = new OdbBtreeSingle(50, new LazyOdbBtreePersister(((OdbAdapter)odb).GetStorageEngine()));
                 for (var i = 0; i < size; i++)
                 {
                     if (i % 10000 == 0)

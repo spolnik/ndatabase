@@ -99,9 +99,6 @@ namespace NDatabase.UnitTests.Layer3
         {
             const string name = "Magdalena Płatek-Spólnik";
 
-            var numberOfBytesOfAString = ByteArrayConverter.GetNumberOfBytesOfAString(name);
-            Assert.That(numberOfBytesOfAString, Is.EqualTo(34));
-
             var byteArray = ByteArrayConverter.StringToByteArray(name, -1);
             var convertedValue = ByteArrayConverter.ByteArrayToString(byteArray);
 
@@ -113,9 +110,6 @@ namespace NDatabase.UnitTests.Layer3
         {
             const string name = "Magdalena Płatek-Spólnik";
 
-            var numberOfBytesOfAString = ByteArrayConverter.GetNumberOfBytesOfAString(name);
-            Assert.That(numberOfBytesOfAString, Is.EqualTo(34));
-
             var byteArray = ByteArrayConverter.StringToByteArray(name, 50);
             var convertedValue = ByteArrayConverter.ByteArrayToString(byteArray);
 
@@ -126,9 +120,6 @@ namespace NDatabase.UnitTests.Layer3
         public void It_should_convert_string_to_binary_and_from_binary_to_string_with_success_with_size_smaller_than_string_size()
         {
             const string name = "Magdalena Płatek-Spólnik";
-
-            var numberOfBytesOfAString = ByteArrayConverter.GetNumberOfBytesOfAString(name);
-            Assert.That(numberOfBytesOfAString, Is.EqualTo(34));
 
             var byteArray = ByteArrayConverter.StringToByteArray(name, 10);
             var convertedValue = ByteArrayConverter.ByteArrayToString(byteArray);
