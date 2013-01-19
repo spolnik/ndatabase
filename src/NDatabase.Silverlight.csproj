@@ -90,11 +90,37 @@
     <Compile Include="Exceptions\NDatabaseError.cs" />
     <Compile Include="Exceptions\ODBRuntimeException.cs" />
     <Compile Include="Odb\BaseOID.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\AttributeValuesMap.Portable.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IO\OdbFileStream.Silverlight.cs" />
+    <Compile Include="Odb\Core\Query\Linq\OrderByClauseVisitorBase.Portable.cs" />
+    <Compile Include="Odb\Core\Query\Linq\ExpressionQueryBuilder.Portable.cs" />
+    <Compile Include="Odb\Core\Query\Linq\ExpressionTransformer.cs" />
+    <Compile Include="Odb\Core\Query\Linq\ExpressionTreeNormalizer.cs" />
+    <Compile Include="Odb\Core\Query\Linq\ExpressionVisitor.cs" />
+    <Compile Include="Odb\Core\Query\Linq\ILinqQueryable.Portable.cs" />
+    <Compile Include="Odb\Core\Query\Linq\ILinqQueryInternal.Portable.cs" />
+    <Compile Include="Odb\Core\Query\Linq\IMethodAnalyser.cs" />
+    <Compile Include="Odb\Core\Query\Linq\LinqQuery.cs" />
+    <Compile Include="Odb\Core\Query\Linq\LinqQueryable.cs" />
+    <Compile Include="Odb\Core\Query\Linq\LinqQueryExtensions.cs" />
+    <Compile Include="Odb\Core\Query\Linq\LinqQueryTranslator.cs" />
+    <Compile Include="Odb\Core\Query\Linq\OptimizeableMethodConstrains.cs" />
+    <Compile Include="Odb\Core\Query\Linq\OrderByAscendingClauseVisitor.Portable.cs" />
+    <Compile Include="Odb\Core\Query\Linq\OrderByDescendingClauseVisitor.Portable.cs" />
+    <Compile Include="Odb\Core\Query\Linq\PlaceHolderQuery.cs" />
+    <Compile Include="Odb\Core\Query\Linq\QueryBuilderContext.cs" />
+    <Compile Include="Odb\Core\Query\Linq\QueryBuilderRecorder.cs" />
+    <Compile Include="Odb\Core\Query\Linq\SubtreeEvaluator.cs" />
+    <Compile Include="Odb\Core\Query\Linq\TypeSystem.cs" />
+    <Compile Include="Odb\Core\Query\Linq\UnoptimizedQuery.cs" />
+    <Compile Include="Odb\Core\Query\Linq\WhereClauseVisitor.Portable.cs" />
+    <Compile Include="Odb\IOdb.cs" />
+    <Compile Include="Odb\Main\ODBAdapter.cs" />
+    <Compile Include="Odb\OdbFactory.Portable.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\InstanceBuilder.Portable.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\FileIdentification.Portable.cs" />
     <Compile Include="Odb\Core\Query\Values\AverageValueAction.Portable.cs" />
     <Compile Include="Odb\OdbConfiguration.Portable.cs" />
-    <Compile Include="Odb\IOdb.Portable.cs" />
     <Compile Include="Odb\Core\BTree\LazyODBBTreeIteratorMultiple.cs" />
     <Compile Include="Odb\Core\BTree\LazyODBBTreePersister.cs" />
     <Compile Include="Odb\Core\BTree\ODBBTreeMultiple.cs" />
@@ -115,7 +141,6 @@
     <Compile Include="Odb\Core\Layers\Layer2\Meta\ArrayObjectInfo.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\AtomicNativeObjectInfo.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\AttributesCache.cs" />
-    <Compile Include="Odb\Core\Layers\Layer2\Meta\AttributeValuesMap.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\CIZoneInfo.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\ClassAttributeInfo.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\ClassInfo.Portable.cs" />
@@ -182,7 +207,6 @@
     <Compile Include="Odb\Core\Layers\Layer3\IO\MultiBufferedFileIO.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IO\NonBufferedFileIO.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IO\OdbDirectory.cs" />
-    <Compile Include="Odb\Core\Layers\Layer3\IO\OdbFileStream.Portable.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IO\OdbMemoryStream.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IReadObjectsCache.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IStorageEngine.cs" />
@@ -287,12 +311,10 @@
     <Compile Include="Odb\ITransactionId.cs" />
     <Compile Include="Odb\ITriggerManager.cs" />
     <Compile Include="Odb\IValues.cs" />
-    <Compile Include="Odb\Main\ODBAdapter.Portable.cs" />
     <Compile Include="Odb\Main\IndexManager.cs" />
     <Compile Include="Odb\Main\Odb.cs" />
     <Compile Include="Odb\Main\OdbExt.cs" />
     <Compile Include="Odb\Main\ODBForTrigger.cs" />
-    <Compile Include="Odb\OdbFactory.cs" />
     <Compile Include="Odb\OID.cs" />
     <Compile Include="Odb\TriggerManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -327,6 +349,24 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>echo POSTBUILDSTEP for $(ProjectName)
+ 
+xcopy "$(TargetPath)" "$(SolutionDir)Artifacts" /i /d /y
+if errorlevel 1 goto BuildEventFailed
+
+xcopy "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)Artifacts" /i /d /y
+if errorlevel 1 goto BuildEventFailed
+ 
+REM Exit properly because the build will not fail 
+REM unless the final step exits with an error code
+goto BuildEventOK
+:BuildEventFailed
+echo POSTBUILDSTEP for $(ProjectName) FAILED
+exit 1
+:BuildEventOK
+echo POSTBUILDSTEP for $(ProjectName) COMPLETED OK</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

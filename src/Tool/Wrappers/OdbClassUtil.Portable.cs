@@ -39,7 +39,7 @@ namespace NDatabase.Tool.Wrappers
 
         public static string GetFullName(Type type)
         {
-            return type.FullName;
+            return type.AssemblyQualifiedName;
         }
     }
 }

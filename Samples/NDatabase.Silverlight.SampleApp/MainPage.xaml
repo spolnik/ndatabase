@@ -1,0 +1,31 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk" x:Class="NDatabase.Silverlight.SampleApp.MainPage"
+    mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="400">
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="11*"/>
+            <RowDefinition Height="89*"/>
+        </Grid.RowDefinitions>
+        <Button Content="Recreate Db" HorizontalAlignment="Left" Height="31" Margin="280,10,0,0" VerticalAlignment="Top" Width="110" Grid.Row="1" Click="Button_Click_2"/>
+        <Button Content="Add Next Object" HorizontalAlignment="Left" Height="31" Margin="10,10,0,0" VerticalAlignment="Top" Width="120" Grid.Row="1" Click="Button_Click_1"/>
+
+        <sdk:Label HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Width="175" RenderTransformOrigin="0.917,5.393" Content="NDatabase Silverlight Sample"/>
+        <TextBox x:Name="NameTextBox" HorizontalAlignment="Left" Height="23" Margin="67,54,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Julia" VerticalAlignment="Top" Width="63"/>
+        <sdk:Label HorizontalAlignment="Left" Height="19" Margin="15,58,0,0" Grid.Row="1" VerticalAlignment="Top" Width="47" RenderTransformOrigin="0.483,0.429" Content="Name:"/>
+        <sdk:Label HorizontalAlignment="Left" Height="19" Margin="15,85,0,0" Grid.Row="1" VerticalAlignment="Top" Width="47" RenderTransformOrigin="0.483,0.429" Content="Age:"/>
+        <TextBox x:Name="AgeTextBox" HorizontalAlignment="Left" Height="23" Margin="67,82,0,0" Grid.Row="1" TextWrapping="Wrap" Text="3" VerticalAlignment="Top" Width="63"/>
+        <sdk:DataGrid x:Name="PersonGrid" AutoGenerateColumns="False" IsReadOnly="True" HorizontalAlignment="Left" Height="147" Margin="15,110,0,0" Grid.Row="1" VerticalAlignment="Top" Width="375"/>
+        <Button x:Name="AddCountButton" Content="Add Next x Count" HorizontalAlignment="Left" Height="31" Margin="145,10,0,0" VerticalAlignment="Top" Width="120" Grid.Row="1" Click="AddCountButtonClick"/>
+        <TextBox x:Name="CountTextBox" HorizontalAlignment="Left" Height="23" Margin="197,54,0,0" Grid.Row="1" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="63"/>
+        <sdk:Label HorizontalAlignment="Left" Height="19" Margin="145,58,0,0" Grid.Row="1" VerticalAlignment="Top" Width="47" RenderTransformOrigin="0.483,0.429" Content="Count:"/>
+        <Button x:Name="IncreaseQuotaButton" Content="Increase Quota" HorizontalAlignment="Left" Margin="280,54,0,0" Grid.Row="1" VerticalAlignment="Top" Width="110" Height="26" Click="IncreaseQuotaButtonClick"/>
+
+
+    </Grid>
+</UserControl>

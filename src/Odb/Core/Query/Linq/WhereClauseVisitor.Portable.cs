@@ -32,7 +32,7 @@ namespace NDatabase.Odb.Core.Query.Linq
                 return;
             }
 
-            AnalyseMethod(Recorder, m.Method);
+            CannotConvertToSoda(m);
         }
 
         private void ProcessStringMethod(MethodCallExpression call)

@@ -67,29 +67,6 @@ namespace NDatabase.Odb.Core.Query.Linq
             return m.Member.MemberType == MemberTypes.Field;
         }
 
-        private static bool IsPropertyAccessExpression(MemberExpression m)
-        {
-            return m.Member.MemberType == MemberTypes.Property;
-        }
-
-        protected static void AnalyseMethod(QueryBuilderRecorder recorder, MethodInfo method)
-        {
-            try
-            {
-                var analyser = new ReflectionMethodAnalyser(method);
-                analyser.Run(recorder);
-            }
-            catch (Exception e)
-            {
-                throw new LinqQueryException(e.Message, e);
-            }
-        }
-
-        private static MethodInfo GetGetMethod(MemberExpression m)
-        {
-            return ((PropertyInfo) m.Member).GetGetMethod();
-        }
-
         protected void ProcessMemberAccess(MemberExpression m)
         {
             Visit(m.Expression);
@@ -103,12 +80,6 @@ namespace NDatabase.Odb.Core.Query.Linq
                             ctx.PushDescendigFieldEnumType(descendingEnumType);
                         });
 
-                return;
-            }
-
-            if (IsPropertyAccessExpression(m))
-            {
-                AnalyseMethod(Recorder, GetGetMethod(m));
                 return;
             }
 

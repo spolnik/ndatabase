@@ -1,22 +1,12 @@
-﻿using System;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-using NDatabase.Odb;
+﻿using NDatabase.Odb;
 using NUnit.Framework;
 
-namespace NDatabase.Silverlight.UnitTests
+namespace NDatabase.Silverlight.Client.UnitTests
 {
     public class Person
     {
-        public string Name { get; set; }
-        public int Age { get; set; }
+        public string Name;
+        public int Age;
     }
 
     public class When_we_use_ndatabase_on_silverlight
@@ -26,6 +16,7 @@ namespace NDatabase.Silverlight.UnitTests
             var person = new Person {Name = "Julia", Age = 3};
 
             const string dbName = "silverlight.ndb";
+            OdbFactory.Delete(dbName);
 
             using (var odb = OdbFactory.Open(dbName))
             {

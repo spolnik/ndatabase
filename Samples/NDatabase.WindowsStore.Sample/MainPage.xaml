@@ -1,0 +1,23 @@
+﻿<Page
+    x:Class="NDatabase.WindowsStore.Sample.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
+        <Button Content="Recreate Db" HorizontalAlignment="Left" Height="47" Margin="197,85,0,0" VerticalAlignment="Top" Width="155" Click="Button_Click_2" />
+        <Button Content="Add Next Object" HorizontalAlignment="Left" Height="50" Margin="10,82,0,0" VerticalAlignment="Top" Width="165" Click="Button_Click_1" />
+
+        <TextBlock HorizontalAlignment="Left" Height="59" VerticalAlignment="Top" Width="559" RenderTransformOrigin="0.917,5.393" Text="NDatabase Windows Store Sample" FontSize="36"/>
+        <TextBox x:Name="NameTextBox" HorizontalAlignment="Left" Height="23" Margin="97,155,0,0" TextWrapping="Wrap" Text="Julia" VerticalAlignment="Top" Width="63" RenderTransformOrigin="0.516,1.438"/>
+        <TextBlock HorizontalAlignment="Left" Height="19" Margin="15,155,0,0" VerticalAlignment="Top" Width="77" RenderTransformOrigin="0.483,0.429" Text="Name:" FontSize="20"/>
+        <TextBlock HorizontalAlignment="Left" Height="29" Margin="197,155,0,0" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.483,0.429" Text="Age:" FontSize="20"/>
+        <TextBox x:Name="AgeTextBox" HorizontalAlignment="Left" Height="23" Margin="288,155,0,0" TextWrapping="Wrap" Text="3" VerticalAlignment="Top" Width="63" RenderTransformOrigin="0.562,0.842"/>
+        <GridView x:Name="PersonGrid" HorizontalAlignment="Left" Height="546" Margin="15,212,0,0" VerticalAlignment="Top" Width="528"/>
+        <Button x:Name="AddCountButton" Content="Add Next x Count" HorizontalAlignment="Left" Height="47" Margin="380,85,0,0" VerticalAlignment="Top" Width="163" Click="AddCountButton_Click" />
+        <TextBox x:Name="CountTextBox" HorizontalAlignment="Left" Height="23" Margin="479,155,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="63"/>
+        <TextBlock HorizontalAlignment="Left" Height="32" Margin="380,155,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.483,0.429" Text="Count:" FontSize="20"/>
+    </Grid>
+</Page>

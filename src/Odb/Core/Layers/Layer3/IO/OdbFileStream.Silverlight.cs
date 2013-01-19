@@ -1,14 +1,43 @@
 using System;
 using System.IO;
 using System.IO.IsolatedStorage;
+using System.Windows;
 using NDatabase.Exceptions;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.IO
 {
+    public static class OdbStore
+    {
+        public static readonly IsolatedStorageFile Instance = IsolatedStorageFile.GetUserStoreForApplication();
+
+        public static void IncreaseQuota(Action whenAccepted, Action whenDenied)
+        {
+            // Request 5MB more space in bytes.
+            const long spaceToAdd = 5242880;
+            var curAvail = Instance.AvailableFreeSpace;
+
+            // If available space is less than
+            // what is requested, try to increase.
+            if (curAvail >= spaceToAdd) return;
+            // Request more quota space.
+
+            if (!Instance.IncreaseQuotaTo(Instance.Quota + spaceToAdd))
+            {
+                // The user clicked NO to the
+                // host's prompt to approve the quota increase.
+                whenDenied();
+            }
+            else
+            {
+                // The user clicked YES to the
+                // host's prompt to approve the quota increase.
+                whenAccepted();
+            }
+        }
+    }
+
     internal sealed class OdbFileStream : IOdbStream
     {
-        internal static readonly IsolatedStorageFile Store = IsolatedStorageFile.GetUserStoreForApplication();
-
         private readonly object _lockObject = new object();
         private bool _disposed;
 
@@ -20,7 +49,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             try
             {
                 _fileAccess = new IsolatedStorageFileStream(wholeFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite,
-                                                            FileShare.Read, Store);
+                                                            FileShare.Read, OdbStore.Instance);
                 _disposed = false;
             }
             catch (IOException e)
@@ -65,6 +94,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
                 _fileAccess.WriteByte(b);
                 _position = _fileAccess.Position;
             }
+            catch (IsolatedStorageException exception)
+            {
+                MessageBox.Show("Error: " + exception.Message);
+                throw new OdbRuntimeException(exception, "Error while writing an array of byte");
+            }
             catch (IOException e)
             {
                 throw new OdbRuntimeException(e, "Error while writing a byte");
@@ -78,6 +112,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
                 Seek(_position);
                 _fileAccess.Write(buffer, 0, size);
                 _position = _fileAccess.Position;
+            }
+            catch (IsolatedStorageException exception)
+            {
+                MessageBox.Show("Error: " + exception.Message);
+                throw new OdbRuntimeException(exception, "Error while writing an array of byte");
             }
             catch (IOException e)
             {

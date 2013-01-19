@@ -29,7 +29,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         public bool IsNew()
         {
-            return !OdbFileStream.Store.FileExists(_fileName);
+            return !OdbStore.Instance.FileExists(_fileName);
         }
 
         public void EnsureDirectories()
