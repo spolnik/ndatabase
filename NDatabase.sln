@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{E76EB467-4E14-4C7B-AED8-FE2DF37A0AFA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDatabase", "src\NDatabase.csproj", "{4B6993D5-995D-4AAA-BBCE-423D1B5451F6}"
@@ -52,6 +52,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDatabase.Northwind.TypedDataContext", "tools\NDatabase.Northwind.TypedDataContext\NDatabase.Northwind.TypedDataContext.csproj", "{919C155D-0E1F-49BF-8659-659E391CEE9F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDatabase.Performance.Tester", "tools\NDatabase.Performance.Tester\NDatabase.Performance.Tester.csproj", "{54D2F3D5-A7FC-4E36-AEEB-E542C088FFBE}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NDatabase.FSharp.Test", "tests\NDatabase.FSharp.Test\NDatabase.FSharp.Test.fsproj", "{7D1B7932-2306-4843-9E72-AD275E79FB86}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -259,6 +261,16 @@ Global
 		{54D2F3D5-A7FC-4E36-AEEB-E542C088FFBE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{54D2F3D5-A7FC-4E36-AEEB-E542C088FFBE}.Release|x86.ActiveCfg = Release|x86
 		{54D2F3D5-A7FC-4E36-AEEB-E542C088FFBE}.Release|x86.Build.0 = Release|x86
+		{7D1B7932-2306-4843-9E72-AD275E79FB86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D1B7932-2306-4843-9E72-AD275E79FB86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D1B7932-2306-4843-9E72-AD275E79FB86}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7D1B7932-2306-4843-9E72-AD275E79FB86}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7D1B7932-2306-4843-9E72-AD275E79FB86}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7D1B7932-2306-4843-9E72-AD275E79FB86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D1B7932-2306-4843-9E72-AD275E79FB86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D1B7932-2306-4843-9E72-AD275E79FB86}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{7D1B7932-2306-4843-9E72-AD275E79FB86}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{7D1B7932-2306-4843-9E72-AD275E79FB86}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -268,6 +280,7 @@ Global
 		{8BCB6680-9336-43FE-BF73-A4BE7BFE3264} = {B03057A0-2DA7-419C-A1B7-DF75264F5186}
 		{3D8C4A93-468D-4CB6-9359-B5DEE09C4ABC} = {B03057A0-2DA7-419C-A1B7-DF75264F5186}
 		{5A12A273-4159-489D-8A77-3C5AB22860E4} = {B03057A0-2DA7-419C-A1B7-DF75264F5186}
+		{7D1B7932-2306-4843-9E72-AD275E79FB86} = {B03057A0-2DA7-419C-A1B7-DF75264F5186}
 		{857EB24D-9D32-4A95-A8F7-00D2E1458888} = {E69C9239-6AB1-45D8-A666-ECF1425552E2}
 		{38EBE4FF-5835-40C5-BDDC-1D0A261CA59A} = {E69C9239-6AB1-45D8-A666-ECF1425552E2}
 		{E58257BE-7CF9-4471-9E5E-99510FF70637} = {E69C9239-6AB1-45D8-A666-ECF1425552E2}
