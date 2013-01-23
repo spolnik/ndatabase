@@ -24,7 +24,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                        : BytesForFalse;
         }
 
-        internal static bool ByteArrayToBoolean(byte[] bytes, int offset = 0)
+        internal static bool ByteArrayToBoolean(byte[] bytes)
+        {
+            return ByteArrayToBoolean(bytes, 0);
+        }
+
+        internal static bool ByteArrayToBoolean(byte[] bytes, int offset)
         {
             return bytes[offset] != 0;
         }
@@ -144,7 +149,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return BitConverter.GetBytes(l);
         }
 
-        internal static int ByteArrayToInt(byte[] bytes, int offset = 0)
+        internal static int ByteArrayToInt(byte[] bytes)
+        {
+            return ByteArrayToInt(bytes, 0);
+        }
+
+        internal static int ByteArrayToInt(byte[] bytes, int offset)
         {
             return BitConverter.ToInt32(bytes, offset);
         }
@@ -205,7 +215,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return BitConverter.ToDouble(bytes, 0);
         }
 
-        internal static long ByteArrayToLong(byte[] bytes, int offset = 0)
+        internal static long ByteArrayToLong(byte[] bytes)
+        {
+            return ByteArrayToLong(bytes, 0);
+        }
+
+        internal static long ByteArrayToLong(byte[] bytes, int offset)
         {
             return BitConverter.ToInt64(bytes, offset);
         }
