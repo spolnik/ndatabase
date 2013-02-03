@@ -4,7 +4,6 @@ using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Main;
-using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Trigger
@@ -85,8 +84,7 @@ namespace NDatabase.Odb.Core.Trigger
                         NDatabaseError.BeforeInsertTriggerHasThrownException.AddParameter(trigger.GetType().FullName)
                             .AddParameter(e.ToString());
 
-                    if (OdbConfiguration.IsLoggingEnabled())
-                        DLogger.Warning(warning);
+                    throw new OdbRuntimeException(warning, e);
                 }
             }
         }
@@ -111,8 +109,7 @@ namespace NDatabase.Odb.Core.Trigger
                         NDatabaseError.AfterInsertTriggerHasThrownException.AddParameter(trigger.GetType().FullName).
                             AddParameter(e.ToString());
 
-                    if (OdbConfiguration.IsLoggingEnabled())
-                        DLogger.Warning(warning);
+                    throw new OdbRuntimeException(warning, e);
                 }
             }
         }
@@ -138,8 +135,7 @@ namespace NDatabase.Odb.Core.Trigger
                         NDatabaseError.BeforeUpdateTriggerHasThrownException.AddParameter(trigger.GetType().FullName)
                             .AddParameter(e.ToString());
 
-                    if (OdbConfiguration.IsLoggingEnabled())
-                        DLogger.Warning(warning);
+                    throw new OdbRuntimeException(warning, e);
                 }
             }
         }
@@ -165,8 +161,7 @@ namespace NDatabase.Odb.Core.Trigger
                         NDatabaseError.AfterUpdateTriggerHasThrownException.AddParameter(trigger.GetType().FullName).
                             AddParameter(e.ToString());
 
-                    if (OdbConfiguration.IsLoggingEnabled())
-                        DLogger.Warning(warning);
+                    throw new OdbRuntimeException(warning, e);
                 }
             }
         }
@@ -191,8 +186,7 @@ namespace NDatabase.Odb.Core.Trigger
                         NDatabaseError.BeforeDeleteTriggerHasThrownException.AddParameter(trigger.GetType().FullName)
                             .AddParameter(e.ToString());
 
-                    if (OdbConfiguration.IsLoggingEnabled())
-                        DLogger.Warning(warning);
+                    throw new OdbRuntimeException(warning, e);
                 }
             }
         }
@@ -217,8 +211,7 @@ namespace NDatabase.Odb.Core.Trigger
                         NDatabaseError.AfterDeleteTriggerHasThrownException.AddParameter(trigger.GetType().FullName).
                             AddParameter(e.ToString());
 
-                    if (OdbConfiguration.IsLoggingEnabled())
-                        DLogger.Warning(warning);
+                    throw new OdbRuntimeException(warning, e);
                 }
             }
         }
