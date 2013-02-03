@@ -39,9 +39,8 @@ namespace NDatabase.TypeResolution
             catch (Exception ex)
             {
                 if (ex is TypeLoadException)
-                {
                     throw;
-                }
+
                 throw BuildTypeLoadException(typeName, ex);
             }
             

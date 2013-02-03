@@ -75,7 +75,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2
             {
                 initialHashCode = o.GetHashCode();
             }
-            catch (Exception)
+            catch
             {
                 hashCodeIsOk = false;
             }
