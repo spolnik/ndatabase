@@ -431,7 +431,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             var start = (int) (_currentPositionWhenUsingBuffer - _buffer.BufferPositions[bufferIndex].Start);
             var buffer = _buffer.Buffers[bufferIndex];
 
-            Array.Copy(buffer, start, bytes, startIndex, size);
+            Buffer.BlockCopy(buffer, start, bytes, startIndex, size);
             _currentPositionWhenUsingBuffer += size;
 
             return bytes;

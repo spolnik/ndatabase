@@ -647,13 +647,13 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         private static void LongToByteArray(long l, byte[] arrayWhereToWrite, int offset)
         {
             var bytes = BitConverter.GetBytes(l);
-            Array.Copy(bytes, 0, arrayWhereToWrite, offset, 8);
+            Buffer.BlockCopy(bytes, 0, arrayWhereToWrite, offset, 8);
         }
 
         private static void IntToByteArray(int l, byte[] arrayWhereToWrite, int offset)
         {
             var bytes = BitConverter.GetBytes(l);
-            Array.Copy(bytes, 0, arrayWhereToWrite, offset, 4);
+            Buffer.BlockCopy(bytes, 0, arrayWhereToWrite, offset, 4);
         }
     }
 }

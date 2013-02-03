@@ -109,7 +109,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
 
         public void WriteBytes(int bufferIndex, byte[] bytes, int startIndex, int offsetWhereToCopy, int lengthToCopy)
         {
-            Array.Copy(bytes, startIndex, Buffers[bufferIndex], offsetWhereToCopy, lengthToCopy);
+            Buffer.BlockCopy(bytes, startIndex, Buffers[bufferIndex], offsetWhereToCopy, lengthToCopy);
 
             _bufferHasBeenUsedForWrite[bufferIndex] = true;
 
