@@ -19,7 +19,6 @@ namespace NDatabase.Tutorial.Logging.log4net
             const string dbName = "mydb.ndb";
             OdbFactory.Delete(dbName);
 
-            OdbConfiguration.EnableConsoleLogger();
             OdbConfiguration.RegisterLogger(new Log4NetLogger());
 
             using (var odb = OdbFactory.Open(dbName))

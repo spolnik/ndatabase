@@ -108,20 +108,6 @@ namespace NDatabase.Odb
         }
 
         /// <summary>
-        /// Enables the console logger.
-        /// </summary>
-        /// <remarks>
-        /// Automatically enables the logging.
-        /// </remarks>
-        public static void EnableConsoleLogger()
-        {
-            if (!IsLoggingEnabled())
-                EnableLogging();
-
-            DLogger.Register(new ConsoleLogger());
-        }
-
-        /// <summary>
         /// Registers the logger.
         /// </summary>
         /// <remarks>

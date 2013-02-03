@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 namespace NDatabase.Tool
 {
@@ -13,9 +12,6 @@ namespace NDatabase.Tool
 
         internal static void Register(ILogger logger)
         {
-            if (logger is ConsoleLogger && Loggers.OfType<ConsoleLogger>().Any())
-                return;
-
             Loggers.Add(logger);
         }
 

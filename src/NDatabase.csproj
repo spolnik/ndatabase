@@ -299,7 +299,6 @@
     <Compile Include="Reflection\MatchContext.cs" />
     <Compile Include="Reflection\MethodBodyReader.cs" />
     <Compile Include="Odb\Core\Query\Linq\ReflectionMethodAnalyser.cs" />
-    <Compile Include="Tool\ConsoleLogger.cs" />
     <Compile Include="Tool\DisplayUtility.cs" />
     <Compile Include="Tool\DLogger.cs" />
     <Compile Include="Tool\ILogger.cs" />
