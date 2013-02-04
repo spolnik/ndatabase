@@ -220,8 +220,7 @@ namespace NDatabase.Odb.Core.BTree
 
             var position = _modifiedObjectOids.Remove2(oid);
 
-            // Just replace the element by null, to not modify all the other
-            // positions
+            // Just replace the element by null, to not modify all the other positions
             _modifiedObjectOidList[position] = null;
             return o;
         }

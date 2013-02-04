@@ -1,6 +1,5 @@
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Core.Oid;
-using NDatabase.Tool;
 
 namespace NDatabase.Odb.Core.Layers.Layer3
 {
@@ -26,6 +25,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         private IObjectReader _objectReader;
         private IObjectWriter _objectWriter;
+
+        private readonly object _syncRoot = new object();
 
         /// <param name="objectWriter"> The object writer </param>
         /// <param name="objectReader"> The object reader </param>
@@ -55,7 +56,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         /// <returns> a boolean value to check if block of id is full </returns>
         public bool MustShift()
         {
-            lock (this)
+            lock (_syncRoot)
             {
                 return _nextId.CompareTo(_maxId) > 0;
             }
@@ -63,7 +64,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         public OID GetNextObjectId(long objectPosition)
         {
-            lock (this)
+            lock (_syncRoot)
             {
                 return GetNextId(objectPosition, IdTypes.Object, IDStatus.Active, "GetNextObjectId");
             }
@@ -71,7 +72,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         public OID GetNextClassId(long objectPosition)
         {
-            lock (this)
+            lock (_syncRoot)
             {
                 return GetNextId(objectPosition, IdTypes.Class, IDStatus.Active, "GetNextClassId");
             }
@@ -81,24 +82,13 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         {
             var idPosition = GetIdPosition(oid);
             _objectWriter.FileSystemProcessor.UpdateObjectPositionForObjectOIDWithPosition(idPosition, objectPosition, writeInTransaction);
-
-            if (OdbConfiguration.IsLoggingEnabled())
-            {
-                var positionAsString = objectPosition.ToString();
-                DLogger.Debug(string.Format("IDManager : Updating id {0} with position ", oid) + positionAsString);
-            }
         }
 
         public void UpdateClassPositionForId(OID classId, long objectPosition, bool writeInTransaction)
         {
             var idPosition = GetIdPosition(classId);
-            _objectWriter.FileSystemProcessor.UpdateClassPositionForClassOIDWithPosition(idPosition, objectPosition, writeInTransaction);
-
-            if (OdbConfiguration.IsLoggingEnabled())
-            {
-                var positionAsString = objectPosition.ToString();
-                DLogger.Debug(string.Format("Updating id {0} with position ", classId) + positionAsString);
-            }
+            _objectWriter.FileSystemProcessor.UpdateClassPositionForClassOIDWithPosition(idPosition, objectPosition,
+                                                                                         writeInTransaction);
         }
 
         public void UpdateIdStatus(OID id, byte newStatus)
@@ -132,14 +122,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         /// <returns> The id </returns>
         private OID GetNextId(long objectPosition, byte idType, byte idStatus, string label)
         {
-            lock (this)
+            lock (_syncRoot)
             {
-                if (OdbConfiguration.IsLoggingEnabled())
-                {
-                    var positionAsString = objectPosition.ToString();
-                    DLogger.Debug(string.Format("  Start of {0} for object with position ", label) + positionAsString);
-                }
-
                 if (MustShift())
                     ShiftBlock();
 
@@ -162,13 +146,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
                 // Store the id position
                 _lastIdPositions[currentIndex] = idPosition;
-
-                if (OdbConfiguration.IsLoggingEnabled())
-                {
-                    var positionAsString = idPosition.ToString();
-                    DLogger.Debug(string.Format("  End of {0} for object with position ", label) + positionAsString +
-                                  " : returning " + currentNextId);
-                }
 
                 // Update the id buffer index
                 _lastIdIndex = currentIndex;

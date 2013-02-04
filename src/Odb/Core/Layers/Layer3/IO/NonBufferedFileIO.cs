@@ -105,12 +105,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         {
             try
             {
-                if (OdbConfiguration.IsLoggingEnabled())
-                {
-                    var length = _odbWriter.Length.ToString();
-                    DLogger.Debug("Closing file with size " + length);
-                }
-
                 _odbWriter.Dispose();
             }
             catch (IOException e)

@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Text;
 using NDatabase.Exceptions;
 using NDatabase.Tool;
@@ -51,9 +50,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
 
             try
             {
-                if (OdbConfiguration.IsLoggingEnabled())
-                    DLogger.Info(string.Format("Opening datatbase file : {0}", Path.GetFullPath(fileName)));
-
                 _ioDeviceLength = _nonBufferedFileIO.Length;
             }
             catch (Exception e)
@@ -77,9 +73,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
 
             try
             {
-                if (OdbConfiguration.IsLoggingEnabled())
-                    DLogger.Info("Creating in memory datatbase ");
-
                 _ioDeviceLength = _nonBufferedFileIO.Length;
             }
             catch (Exception e)
@@ -162,14 +155,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
                 return ReadBytes(bytes, 0, size);
 
             // else the read have to use various buffers
-            if (OdbConfiguration.IsLoggingEnabled())
-            {
-                var length = bytes.Length.ToString();
-                var sizeAsString = _buffer.Size.ToString();
-                DLogger.Debug(string.Format("Data is larger than buffer size {0} > {1} : cutting the data", length,
-                                            sizeAsString));
-            }
-
             var nbBuffersNeeded = bytes.Length / _buffer.Size + 1;
             var currentStart = 0;
             var currentEnd = _buffer.Size;
@@ -206,10 +191,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         {
             if (bytes.Length > _buffer.Size)
             {
-                if (OdbConfiguration.IsLoggingEnabled())
-                    DLogger.Debug(string.Format("Data is larger than buffer size {0} > {1} : cutting the data",
-                                                bytes.Length, _buffer.Size));
-
                 var nbBuffersNeeded = bytes.Length / _buffer.Size + 1;
                 var currentStart = 0;
                 var currentEnd = _buffer.Size;
@@ -295,6 +276,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             _currentBufferIndex = bufferIndex;
 
             var length = Length;
+
             if (isReading && newPosition >= length)
             {
                 var message = string.Concat("End Of File reached - position = ", newPosition.ToString(), " : Length = ",
@@ -328,15 +310,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             _buffer.SetPositions(bufferIndex, newPosition, endPosition);
             _currentPositionWhenUsingBuffer = newPosition;
 
-            if (OdbConfiguration.IsLoggingEnabled())
-            {
-                var index = bufferIndex.ToString();
-                var start = _buffer.BufferPositions[bufferIndex].Start.ToString();
-                var end = _buffer.BufferPositions[bufferIndex].End.ToString();
-
-                DLogger.Debug(string.Format("Creating buffer {0} : [{1},{2}]", index, start, end));
-            }
-
             return bufferIndex;
         }
 
@@ -352,31 +325,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
                 _nonBufferedFileIO.SetCurrentPosition(_buffer.BufferPositions[bufferIndex].Start);
                 _nonBufferedFileIO.WriteBytes(buffer, bufferSizeToFlush);
 
-                if (OdbConfiguration.IsLoggingEnabled())
-                {
-                    var indexAsString = bufferIndex.ToString();
-                    var start = _buffer.BufferPositions[bufferIndex].Start.ToString();
-                    var end = _buffer.BufferPositions[bufferIndex].End.ToString();
-                    var sizeToFlush = bufferSizeToFlush.ToString();
-
-                    DLogger.Debug(string.Format("Flushing buffer {0} : [{1}:{2}] - flush size={3}",
-                                                indexAsString, start, end, sizeToFlush));
-                }
-
                 _buffer.ClearBuffer(bufferIndex);
             }
             else
             {
-                if (OdbConfiguration.IsLoggingEnabled())
-                {
-                    var start = _buffer.BufferPositions[bufferIndex].Start.ToString();
-                    var end = _buffer.BufferPositions[bufferIndex].End.ToString();
-                    var indexAsString = bufferIndex.ToString();
-
-                    DLogger.Debug(string.Format("Flushing buffer {0} : [{1}:{2}] - Nothing to flush!", indexAsString,
-                                                start, end));
-                }
-
                 _buffer.ClearBuffer(bufferIndex);
             }
         }
