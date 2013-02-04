@@ -11,7 +11,6 @@ namespace Test.NDatabase.Odb.Test.Trigger
         {
         }
 
-        // nothing
         public override bool BeforeInsert(object @object)
         {
             if (@object.GetType() != typeof (ObjectWithAutoIncrementId))
@@ -22,7 +21,7 @@ namespace Test.NDatabase.Odb.Test.Trigger
             {
                 var id = GetNextId("test");
                 o.SetId(id);
-                // System.out.println("setting new id "+ id);
+                
                 return true;
             }
         }

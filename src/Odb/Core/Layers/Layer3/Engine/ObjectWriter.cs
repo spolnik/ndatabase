@@ -20,8 +20,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                                                             OdbType.Integer.Size + OdbType.Boolean.Size;
 
         private static byte[] _nativeHeaderBlockSizeByte;
-        
-        private readonly IObjectInfoComparator _comparator;
+
         private readonly ISession _session;
 
         private IIdManager _idManager;
@@ -41,11 +40,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             _objectReader = _storageEngine.GetObjectReader();
 
             _nativeHeaderBlockSizeByte = ByteArrayConverter.IntToByteArray(NativeHeaderBlockSize);
-            _comparator = new ObjectInfoComparator();
-
             _session = engine.GetSession();
 
-            _nonNativeObjectWriter = new NonNativeObjectWriter(this, _storageEngine, _comparator);
+            _nonNativeObjectWriter = new NonNativeObjectWriter(this, _storageEngine);
 
             FileSystemProcessor = new FileSystemProcessor();
             FileSystemProcessor.BuildFileSystemInterface(engine, _session);

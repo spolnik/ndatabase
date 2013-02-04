@@ -27,7 +27,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             
             _fileIdentification = fileIdentification;
             _io = fileIdentification.GetIO(bufferSize);
-
             _session = session;
         }
 

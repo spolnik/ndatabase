@@ -15,17 +15,18 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         private readonly IObjectWriter _objectWriter;
         private readonly ISession _session;
         private readonly IStorageEngine _storageEngine;
-        private readonly IObjectInfoComparator _comparator;
+        
         private IInternalTriggerManager _triggerManager;
         private IObjectReader _objectReader;
 
-        public NonNativeObjectWriter(IObjectWriter objectWriter, IStorageEngine storageEngine, IObjectInfoComparator comparator)
+        private readonly IObjectInfoComparator _comparator = new ObjectInfoComparator();
+
+        public NonNativeObjectWriter(IObjectWriter objectWriter, IStorageEngine storageEngine)
         {
             _objectWriter = objectWriter;
             _session = storageEngine.GetSession();
             _objectReader = storageEngine.GetObjectReader();
             _storageEngine = storageEngine;
-            _comparator = comparator;
         }
 
         /// <param name="oid"> The Oid of the object to be inserted </param>

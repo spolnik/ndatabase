@@ -22,7 +22,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <summary>
         ///     The file parameters - if we are accessing a file, it will be a IOFileParameters that contains the file name
         /// </summary>
-        protected IDbIdentification FileIdentification;
+        protected IDbIdentification DbIdentification;
 
         /// <summary>
         ///     To check if database has already been closed
@@ -50,7 +50,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public virtual IInternalObjectSet<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex)
         {
             if (IsDbClosed)
-                throw new OdbRuntimeException(NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
+                throw new OdbRuntimeException(NDatabaseError.OdbIsClosed.AddParameter(DbIdentification.Id));
 
             return ObjectReader.GetObjects<T>(query, inMemory, startIndex, endIndex);
         }

@@ -15,22 +15,20 @@ namespace NDatabase.Odb.Core.Transaction
     internal abstract class Session : ISession
     {
         private readonly string _baseIdentification;
-        private readonly IOdbCache _cache;
+        private readonly IOdbCache _cache = new OdbCache();
 
         private readonly string _id;
 
         /// <summary>
         ///   A temporary cache used for object info read
         /// </summary>
-        private readonly IReadObjectsCache _readObjectsCache;
+        private readonly IReadObjectsCache _readObjectsCache  = new ReadObjectsCache();
 
         private IMetaModel _metaModel;
         private bool _rollbacked;
 
         protected Session(string id, string baseIdentification)
         {
-            _cache = new OdbCache();
-            _readObjectsCache = new ReadObjectsCache();
             _id = id;
             _baseIdentification = baseIdentification;
         }

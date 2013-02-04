@@ -27,7 +27,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
     /// </remarks>
     internal sealed class StorageEngine : AbstractStorageEngineReader
     {
-        private readonly IOdbList<ICommitListener> _commitListeners;
+        private readonly IOdbList<ICommitListener> _commitListeners = new OdbList<ICommitListener>();
 
         /// <summary>
         ///   This is a visitor used to execute some specific action(like calling 'Before Insert Trigger') when introspecting an object
@@ -41,7 +41,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         private readonly IObjectWriter _objectWriter;
         private readonly IInternalTriggerManager _triggerManager;
-        private CurrentIdBlockInfo _currentIdBlockInfo;
+        private CurrentIdBlockInfo _currentIdBlockInfo = new CurrentIdBlockInfo();
 
         /// <summary>
         ///   To keep track of current transaction Id
@@ -58,30 +58,24 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// </summary>
         public StorageEngine(IDbIdentification parameters)
         {
-            _currentIdBlockInfo = new CurrentIdBlockInfo();
-
-            FileIdentification = parameters;
-
+            DbIdentification = parameters;
             IsDbClosed = false;
 
-            // The check if it is a new Database must be executed before object
-            // writer initialization. Because Object Writer Init
-            // Creates the file so the check (which is based on the file existence
-            // would always return false*/
-            var isNewDatabase = IsNewDatabase();
-
-            _commitListeners = new OdbList<ICommitListener>();
+            var isNewDatabase = DbIdentification.IsNew();
+            
             var session = BuildDefaultSession();
 
             // Object Writer must be created before object Reader
             _objectWriter = new ObjectWriter(this);
 
             ObjectReader = new ObjectReader(this);
-            AddSession(session, false);
 
-            _objectIntrospectionDataProvider = new SessionDataProvider(GetSession());
+            // Associate current session to the fsi -> all transaction writes
+            // will be applied to this FileSystemInterface
+            session.SetFileSystemInterfaceToApplyTransaction(_objectWriter.FileSystemProcessor.FileSystemInterface);
 
-            // If the file does not exist, then a default header must be created
+            _objectIntrospectionDataProvider = new SessionDataProvider(session);
+
             if (isNewDatabase)
             {
                 _objectWriter.CreateEmptyDatabaseHeader(OdbTime.GetCurrentTimeInTicks());
@@ -110,25 +104,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public override IObjectIntrospectionDataProvider ClassInfoProvider
         {
             get { return _objectIntrospectionDataProvider; }
-        }
-
-        internal void AddSession(ISession session, bool readMetamodel)
-        {
-            // Associate current session to the fsi -> all transaction writes
-            // will be applied to this FileSystemInterface
-            session.SetFileSystemInterfaceToApplyTransaction(_objectWriter.FileSystemProcessor.FileSystemInterface);
-
-            if (!readMetamodel)
-                return;
-
-            ObjectReader.ReadDatabaseHeader();
-
-            var metaModel = new MetaModel();
-            session.SetMetaModel(metaModel);
-            ObjectReader.LoadMetaModel(metaModel, true);
-
-            // Updates the Transaction Id in the file
-            _objectWriter.FileSystemProcessor.WriteLastTransactionId(_currentTransactionId);
         }
 
         /// <summary>
@@ -170,7 +145,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (IsDbClosed)
             {
                 throw new OdbRuntimeException(
-                    NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
+                    NDatabaseError.OdbIsClosed.AddParameter(DbIdentification.Id));
             }
 
             var newOid = InternalStore(null, plainObject);
@@ -184,7 +159,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (IsDbClosed)
             {
                 throw new OdbRuntimeException(
-                    NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
+                    NDatabaseError.OdbIsClosed.AddParameter(DbIdentification.Id));
             }
 
             var newOid = InternalStore(oid, plainObject);
@@ -217,7 +192,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (lsession.IsRollbacked())
             {
                 throw new OdbRuntimeException(
-                    NDatabaseError.OdbHasBeenRollbacked.AddParameter(FileIdentification.ToString()));
+                    NDatabaseError.OdbHasBeenRollbacked.AddParameter(DbIdentification.ToString()));
             }
 
             var cache = lsession.GetCache();
@@ -298,7 +273,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (IsClosed())
             {
                 throw new OdbRuntimeException(
-                    NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
+                    NDatabaseError.OdbIsClosed.AddParameter(DbIdentification.Id));
             }
 
             GetSession().Commit();
@@ -382,7 +357,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public override IDbIdentification GetBaseIdentification()
         {
-            return FileIdentification;
+            return DbIdentification;
         }
 
         public override IValues GetValues(IInternalValuesQuery query, int startIndex, int endIndex)
@@ -390,7 +365,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (IsDbClosed)
             {
                 throw new OdbRuntimeException(
-                    NDatabaseError.OdbIsClosed.AddParameter(FileIdentification.Id));
+                    NDatabaseError.OdbIsClosed.AddParameter(DbIdentification.Id));
             }
 
             return ObjectReader.GetValues(query, startIndex, endIndex);
@@ -475,12 +450,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         private string GetStorageDeviceName()
         {
-            return FileIdentification.Id;
-        }
-
-        private bool IsNewDatabase()
-        {
-            return FileIdentification.IsNew();
+            return DbIdentification.Id;
         }
 
         /// <summary>
