@@ -235,7 +235,6 @@
     <Compile Include="Odb\Core\Oid\ExternalObjectOID.cs" />
     <Compile Include="Odb\Core\Oid\ClassOID.cs" />
     <Compile Include="Odb\Core\Oid\ObjectOID.cs" />
-    <Compile Include="Odb\Core\Oid\TransactionId.cs" />
     <Compile Include="Odb\Core\Query\Criteria\QueryResultAction.cs" />
     <Compile Include="Odb\Core\Query\Criteria\SodaQuery.cs" />
     <Compile Include="Odb\Core\Query\Criteria\CriteriaQueryExecutionPlan.cs" />
@@ -290,7 +289,6 @@
     <Compile Include="Odb\OdbFactory.cs" />
     <Compile Include="Exceptions\ODBRuntimeException.cs" />
     <Compile Include="Odb\OID.cs" />
-    <Compile Include="Odb\ITransactionId.cs" />
     <Compile Include="Odb\TriggerManager.cs" />
     <Compile Include="Odb\IValues.cs" />
     <Compile Include="Reflection\ByteBuffer.cs" />

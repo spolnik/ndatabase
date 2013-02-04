@@ -249,8 +249,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public abstract void SetCurrentIdBlockInfos(CurrentIdBlockInfo currentIdBlockInfo);
 
-        public abstract void SetCurrentTransactionId(ITransactionId arg1);
-
         public abstract void SetDatabaseId(IDatabaseId arg1);
 
         public abstract OID Store<T>(OID oid, T plainObject) where T : class;

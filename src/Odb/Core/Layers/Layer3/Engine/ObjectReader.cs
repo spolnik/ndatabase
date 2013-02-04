@@ -74,9 +74,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             databaseIdsArray[3] = _fsi.ReadLong();
             IDatabaseId databaseId = new DatabaseId(databaseIdsArray);
 
-            var lastTransactionId = ReadLastTransactionId(databaseId);
-            // Increment transaction id
-            lastTransactionId = lastTransactionId.Next();
             var nbClasses = ReadNumberOfClasses();
             var firstClassPosition = ReadFirstClassOid();
             if (nbClasses < 0)
@@ -102,7 +99,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 };
 
             _storageEngine.SetCurrentIdBlockInfos(currentBlockInfo);
-            _storageEngine.SetCurrentTransactionId(lastTransactionId);
         }
 
         private static void CheckDbVersionCompatibility(int version)
@@ -714,18 +710,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             _fsi.SetReadPosition(StorageEngineConstant.DatabaseHeaderVersionPosition);
             return _fsi.ReadInt();
-        }
-
-        /// <summary>
-        ///   Read the last transaction id
-        /// </summary>
-        private ITransactionId ReadLastTransactionId(IDatabaseId databaseId)
-        {
-            _fsi.SetReadPosition(StorageEngineConstant.DatabaseHeaderLastTransactionId);
-            var id = new long[2];
-            id[0] = _fsi.ReadLong();
-            id[1] = _fsi.ReadLong();
-            return new TransactionId(databaseId, id[0], id[1]);
         }
 
         /// <summary>

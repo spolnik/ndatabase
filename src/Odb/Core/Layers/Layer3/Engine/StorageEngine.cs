@@ -43,11 +43,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         private readonly IInternalTriggerManager _triggerManager;
         private CurrentIdBlockInfo _currentIdBlockInfo = new CurrentIdBlockInfo();
 
-        /// <summary>
-        ///   To keep track of current transaction Id
-        /// </summary>
-        private ITransactionId _currentTransactionId;
-
         private IDatabaseId _databaseId;
         private IObjectIntrospector _objectIntrospector;
         private ISession _session;
@@ -94,8 +89,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             // logically locks access to the file (only for this machine)
             FileMutex.GetInstance().OpenFile(GetStorageDeviceName());
-            // Updates the Transaction Id in the file
-            _objectWriter.FileSystemProcessor.WriteLastTransactionId(_currentTransactionId);
+            
             _objectWriter.SetTriggerManager(_triggerManager);
             _introspectionCallbackForInsert = new InstrumentationCallbackForStore(_triggerManager, false);
             _introspectionCallbackForUpdate = new InstrumentationCallbackForStore(_triggerManager, true);
@@ -389,11 +383,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public override void ResetCommitListeners()
         {
             _commitListeners.Clear();
-        }
-
-        public override void SetCurrentTransactionId(ITransactionId transactionId)
-        {
-            _currentTransactionId = transactionId;
         }
 
         public override void Disconnect<T>(T plainObject)
