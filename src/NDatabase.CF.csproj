@@ -43,6 +43,7 @@
     <FileAlignment>512</FileAlignment>
     <WarningLevel>4</WarningLevel>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <DocumentationFile>bin\Release\NDatabase.CF.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
@@ -193,7 +194,6 @@
     <Compile Include="Odb\Core\Oid\DatabaseId.cs" />
     <Compile Include="Odb\Core\Oid\ExternalObjectOID.cs" />
     <Compile Include="Odb\Core\Oid\ObjectOID.cs" />
-    <Compile Include="Odb\Core\Oid\TransactionId.cs" />
     <Compile Include="Odb\Core\OrderByConstants.cs" />
     <Compile Include="Odb\Core\Query\AbstractQuery.cs" />
     <Compile Include="Odb\Core\Query\ComposedCompareKey.cs" />
@@ -282,7 +282,6 @@
     <Compile Include="Odb\IObjectSet.cs" />
     <Compile Include="Odb\IObjectValues.cs" />
     <Compile Include="Odb\IOdbExt.cs" />
-    <Compile Include="Odb\ITransactionId.cs" />
     <Compile Include="Odb\ITriggerManager.cs" />
     <Compile Include="Odb\IValues.cs" />
     <Compile Include="Odb\Main\ODBAdapter.CF.cs" />
