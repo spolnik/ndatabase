@@ -13,32 +13,28 @@ namespace NDatabase.Odb.Core.Trigger
         /// <summary>
         ///   key is class Name, value is the collection of triggers for the class
         /// </summary>
-        private readonly IDictionary<Type, IOdbList<Trigger>> _listOfDeleteTriggers;
+        private readonly IDictionary<Type, IOdbList<Trigger>> _listOfDeleteTriggers = new OdbHashMap<Type, IOdbList<Trigger>>();
 
         /// <summary>
         ///   key is class Name, value is the collection of triggers for the class
         /// </summary>
-        private readonly IDictionary<Type, IOdbList<Trigger>> _listOfInsertTriggers;
+        private readonly IDictionary<Type, IOdbList<Trigger>> _listOfInsertTriggers = new OdbHashMap<Type, IOdbList<Trigger>>();
 
         /// <summary>
         ///   key is class Name, value is the collection of triggers for the class
         /// </summary>
-        private readonly IDictionary<Type, IOdbList<Trigger>> _listOfSelectTriggers;
+        private readonly IDictionary<Type, IOdbList<Trigger>> _listOfSelectTriggers = new OdbHashMap<Type, IOdbList<Trigger>>();
 
         /// <summary>
         ///   key is class Name, value is the collection of triggers for the class
         /// </summary>
-        private readonly IDictionary<Type, IOdbList<Trigger>> _listOfUpdateTriggers;
+        private readonly IDictionary<Type, IOdbList<Trigger>> _listOfUpdateTriggers = new OdbHashMap<Type, IOdbList<Trigger>>();
 
         private readonly IStorageEngine _storageEngine;
 
         public InternalTriggerManager(IStorageEngine engine)
         {
             _storageEngine = engine;
-            _listOfUpdateTriggers = new OdbHashMap<Type, IOdbList<Trigger>>();
-            _listOfDeleteTriggers = new OdbHashMap<Type, IOdbList<Trigger>>();
-            _listOfSelectTriggers = new OdbHashMap<Type, IOdbList<Trigger>>();
-            _listOfInsertTriggers = new OdbHashMap<Type, IOdbList<Trigger>>();
         }
 
         #region IInternalTriggerManager Members

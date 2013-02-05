@@ -36,7 +36,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public ObjectWriter(IStorageEngine engine)
         {
             _storageEngine = engine;
-            _objectReader = _storageEngine.GetObjectReader();
 
             _nativeHeaderBlockSizeByte = ByteArrayConverter.IntToByteArray(NativeHeaderBlockSize);
             _session = engine.GetSession();

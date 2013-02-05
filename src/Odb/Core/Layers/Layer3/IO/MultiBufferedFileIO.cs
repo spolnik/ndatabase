@@ -19,7 +19,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
 
         private int _currentBufferIndex;
 
-        private long _currentPositionWhenUsingBuffer;
+        private long _currentPositionWhenUsingBuffer = -1;
 
         /// <summary>
         ///   The length of the io device
@@ -31,21 +31,16 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         /// </summary>
         private bool _isUsingBuffer;
 
-        private int _nextBufferIndex;
+        private int _nextBufferIndex = 0;
 
         private INonBufferedFileIO _nonBufferedFileIO;
-        private int[] _overlappingBuffers;
+        private int[] _overlappingBuffers = new int[MultiBuffer.NumberOfBuffers];
 
         public MultiBufferedFileIO(string fileName, int bufferSize)
         {
-            _buffer = new MultiBuffer(bufferSize);
-            _currentPositionWhenUsingBuffer = -1;
-
-            _overlappingBuffers = new int[MultiBuffer.NumberOfBuffers];
-
             _isUsingBuffer = true;
-            _nextBufferIndex = 0;
-
+            _buffer = new MultiBuffer(bufferSize);
+            
             _nonBufferedFileIO = new NonBufferedFileIO(fileName);
 
             try
@@ -61,13 +56,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         public MultiBufferedFileIO(int bufferSize)
         {
             _isUsingBuffer = false;
-
             _buffer = new MultiBuffer(bufferSize);
-            _currentPositionWhenUsingBuffer = -1;
-
-            _overlappingBuffers = new int[MultiBuffer.NumberOfBuffers];
-
-            _nextBufferIndex = 0;
 
             _nonBufferedFileIO = new NonBufferedFileIO();
 
