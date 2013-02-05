@@ -15,17 +15,18 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         private readonly IObjectWriter _objectWriter;
         private readonly ISession _session;
         private readonly IStorageEngine _storageEngine;
-        private readonly IObjectInfoComparator _comparator;
+        
         private IInternalTriggerManager _triggerManager;
         private IObjectReader _objectReader;
 
-        public NonNativeObjectWriter(IObjectWriter objectWriter, IStorageEngine storageEngine, IObjectInfoComparator comparator)
+        private readonly IObjectInfoComparator _comparator = new ObjectInfoComparator();
+
+        public NonNativeObjectWriter(IObjectWriter objectWriter, IStorageEngine storageEngine)
         {
             _objectWriter = objectWriter;
             _session = storageEngine.GetSession();
             _objectReader = storageEngine.GetObjectReader();
             _storageEngine = storageEngine;
-            _comparator = comparator;
         }
 
         /// <param name="oid"> The Oid of the object to be inserted </param>
@@ -135,17 +136,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 cache.AddOIDToUnconnectedZone(oid);
 
             objectInfo.SetOid(oid);
-
-            #region Logging
-
-            if (OdbConfiguration.IsLoggingEnabled())
-            {
-                var positionAsString = position.ToString();
-                DLogger.Debug(string.Format("Start Writing non native object of type {0} at {1} , oid = {2} : {3}",
-                                            objectInfo.GetClassInfo().FullClassName, positionAsString, oid, objectInfo));
-            }
-
-            #endregion
 
             if (objectInfo.GetClassInfo() == null || objectInfo.GetClassInfo().ClassInfoId == null)
             {
@@ -306,28 +296,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             _objectWriter.FileSystemProcessor.FileSystemInterface.WriteBytes(abytes, writeDataInTransaction, "Filled Attributes");
             _objectWriter.FileSystemProcessor.FileSystemInterface.SetWritePosition(positionAfterWrite, writeDataInTransaction);
             var blockSize = (int)(positionAfterWrite - position);
-            try
-            {
-                WriteBlockSizeAt(position, blockSize, writeDataInTransaction, objectInfo);
-            }
-            catch (OdbRuntimeException)
-            {
-                DLogger.Debug(string.Concat("Error while writing block size. pos after write ", positionAfterWrite.ToString(),
-                              " / start pos = ", position.ToString()));
+            
+            WriteBlockSizeAt(position, blockSize, writeDataInTransaction, objectInfo);
 
-                throw;
-            }
-            if (OdbConfiguration.IsLoggingEnabled())
-            {
-                DLogger.Debug("  Attributes positions of object with oid " + oid + " are " +
-                              DisplayUtility.LongArrayToString(attributesIdentification));
-                var positionAsString = position.ToString();
-                DLogger.Debug("End Writing non native object at " + positionAsString + " with oid " + oid +
-                              " - prev oid=" + objectInfo.GetPreviousObjectOID() + " / next oid=" +
-                              objectInfo.GetNextObjectOID());
-                if (OdbConfiguration.IsLoggingEnabled())
-                    DLogger.Debug(" - current buffer : " + _objectWriter.FileSystemProcessor.FileSystemInterface.GetIo());
-            }
             // Only insert in index for new objects
             if (isNewObject)
             {
@@ -363,7 +334,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public OID UpdateNonNativeObjectInfo(NonNativeObjectInfo nnoi, bool forceUpdate)
         {
             var hasObject = true;
-            string message;
             var @object = nnoi.GetObject();
             var oid = nnoi.GetOid();
             if (@object == null)
@@ -405,13 +375,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                         NDatabaseError.InstancePositionIsNegative.AddParameter(currentPosition).AddParameter(oid).
                             AddParameter("In Object Info Header"));
                 }
-                if (OdbConfiguration.IsLoggingEnabled())
-                {
-                    var position = currentPosition.ToString();
-                    message = string.Format("start updating object at {0}, oid={1} : {2}",
-                                            position, oid, nnoi);
-                    DLogger.Debug(message);
-                }
+                
                 // triggers,FIXME passing null to old object representation
                 _storageEngine.GetTriggerManager().ManageUpdateTriggerBefore(nnoi.GetClassInfo().UnderlyingType,
                                                                             null, hasObject ? @object : nnoi, oid);
@@ -484,20 +448,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     // Reset the comparator
                     _comparator.Clear();
                     objectHasChanged = _comparator.HasChanged(oldMetaRepresentation, nnoi);
+                    
                     if (!objectHasChanged)
                     {
                         _objectWriter.FileSystemProcessor.FileSystemInterface.SetWritePosition(positionBeforeWrite, true);
-                        if (OdbConfiguration.IsLoggingEnabled())
-                            DLogger.Debug("updateObject : Object is unchanged - doing nothing");
+                        
                         return oid;
-                    }
-                    if (OdbConfiguration.IsLoggingEnabled())
-                    {
-                        DLogger.Debug(string.Concat("\tmax recursion level is ",
-                                                    _comparator.GetMaxObjectRecursionLevel().ToString()));
-                        DLogger.Debug("\tattribute actions are : " +
-                                      _comparator.GetChangedAttributeActions());
-                        DLogger.Debug("\tnew objects are : " + _comparator.GetNewObjects());
                     }
                 }
                 // If we reach this update, In Place Update was not possible. Do a
@@ -513,14 +469,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 
                 var previousObjectOID = lastHeader.GetPreviousObjectOID();
                 var nextObjectOid = lastHeader.GetNextObjectOID();
-                
-                if (OdbConfiguration.IsLoggingEnabled())
-                {
-                    DLogger.Debug("Updating object " + nnoi);
-                    var position = currentPosition.ToString();
-                    DLogger.Debug("position =  " + position + " | prev instance = " +
-                                  previousObjectOID + " | next instance = " + nextObjectOid);
-                }
                 
                 nnoi.SetPreviousInstanceOID(previousObjectOID);
                 nnoi.SetNextObjectOID(nextObjectOid);
@@ -548,8 +496,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
             catch (Exception e)
             {
-                message = string.Format("Error updating object {0} : {1}", nnoi, e);
-                DLogger.Error(message);
+                var message = string.Format("Error updating object {0} : {1}", nnoi, e);
                 throw new OdbRuntimeException(e, message);
             }
             finally
@@ -563,12 +510,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     // (oldMetaRepresentation may be null)
                     _storageEngine.GetTriggerManager().ManageUpdateTriggerAfter(
                         nnoi.GetClassInfo().UnderlyingType, oldMetaRepresentation, hasObject ? @object : nnoi, oid);
-                }
-                if (OdbConfiguration.IsLoggingEnabled())
-                {
-                    var position = nnoi.GetPosition().ToString();
-                    DLogger.Debug("end updating object with oid=" + oid + " at pos " +
-                                  position + " => " + nnoi);
                 }
             }
         }
@@ -647,13 +588,13 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         private static void LongToByteArray(long l, byte[] arrayWhereToWrite, int offset)
         {
             var bytes = BitConverter.GetBytes(l);
-            Array.Copy(bytes, 0, arrayWhereToWrite, offset, 8);
+            Buffer.BlockCopy(bytes, 0, arrayWhereToWrite, offset, 8);
         }
 
         private static void IntToByteArray(int l, byte[] arrayWhereToWrite, int offset)
         {
             var bytes = BitConverter.GetBytes(l);
-            Array.Copy(bytes, 0, arrayWhereToWrite, offset, 4);
+            Buffer.BlockCopy(bytes, 0, arrayWhereToWrite, offset, 4);
         }
     }
 }

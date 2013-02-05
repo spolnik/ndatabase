@@ -1,43 +1,28 @@
-using System;
-using System.Threading;
-using NDatabase.Exceptions;
 using NDatabase.Odb;
-using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Trigger;
 
 namespace Test.NDatabase.Odb.Test.Trigger
 {
     public class LocalAutoIncrementTrigger : InsertTrigger
     {
+        private readonly static object SyncObject = new object();
+
         public override void AfterInsert(object @object, OID oid)
         {
         }
 
-        // nothing
         public override bool BeforeInsert(object @object)
         {
             if (@object.GetType() != typeof (ObjectWithAutoIncrementId))
                 return false;
             var o = (ObjectWithAutoIncrementId) @object;
-            var mutex = new Mutex();
-            try
+            
+            lock (SyncObject)
             {
-                try
-                {
-                    mutex.GetAccessControl();
-                    var id = GetNextId("test");
-                    o.SetId(id);
-                    // System.out.println("setting new id "+ id);
-                    return true;
-                }
-                catch (Exception e)
-                {
-                    throw new OdbRuntimeException(NDatabaseError.InternalError, e);
-                }
-            }
-            finally
-            {
-                mutex.ReleaseMutex();
+                var id = GetNextId("test");
+                o.SetId(id);
+                
+                return true;
             }
         }
 

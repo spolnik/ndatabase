@@ -38,7 +38,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <remarks>
         ///   To hold block number. ODB compute the block number from the oid (as one block has 1000 oids), then it has to search the position of the block number! This cache is used to keep track of the positions of the block positions The key is the block number(Long) and the value the position (Long)
         /// </remarks>
-        private IDictionary<long, long> _blockPositions;
+        private IDictionary<long, long> _blockPositions = new OdbHashMap<long, long>();
 
         /// <summary>
         ///   A local variable to monitor object recursion
@@ -57,7 +57,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             _storageEngine = engine;
             _fsi = engine.GetObjectWriter().FileSystemProcessor.FileSystemInterface;
-            _blockPositions = new OdbHashMap<long, long>();
             _instanceBuilder = BuildInstanceBuilder();
         }
 
@@ -65,15 +64,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public void ReadDatabaseHeader()
         {
-            // Reads the version of the database file
-            var version = ReadVersion();
-            var versionIsCompatible = version == StorageEngineConstant.CurrentFileFormatVersion;
-            if (!versionIsCompatible)
-            {
-                throw new OdbRuntimeException(
-                    NDatabaseError.RuntimeIncompatibleVersion.AddParameter(version).AddParameter(
-                        StorageEngineConstant.CurrentFileFormatVersion));
-            }
+            var version = ReadDatabaseVersion();
+            CheckDbVersionCompatibility(version);
+
             var databaseIdsArray = new long[4];
             databaseIdsArray[0] = _fsi.ReadLong();
             databaseIdsArray[1] = _fsi.ReadLong();
@@ -81,9 +74,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             databaseIdsArray[3] = _fsi.ReadLong();
             IDatabaseId databaseId = new DatabaseId(databaseIdsArray);
 
-            var lastTransactionId = ReadLastTransactionId(databaseId);
-            // Increment transaction id
-            lastTransactionId = lastTransactionId.Next();
             var nbClasses = ReadNumberOfClasses();
             var firstClassPosition = ReadFirstClassOid();
             if (nbClasses < 0)
@@ -109,7 +99,17 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 };
 
             _storageEngine.SetCurrentIdBlockInfos(currentBlockInfo);
-            _storageEngine.SetCurrentTransactionId(lastTransactionId);
+        }
+
+        private static void CheckDbVersionCompatibility(int version)
+        {
+            var versionIsCompatible = version == StorageEngineConstant.CurrentFileFormatVersion;
+            if (!versionIsCompatible)
+            {
+                throw new OdbRuntimeException(
+                    NDatabaseError.RuntimeIncompatibleVersion.AddParameter(version).AddParameter(
+                        StorageEngineConstant.CurrentFileFormatVersion));
+            }
         }
 
         public void LoadMetaModel(IMetaModel metaModel, bool full)
@@ -706,22 +706,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// <summary>
         ///   Read the version of the database file
         /// </summary>
-        private int ReadVersion()
+        private int ReadDatabaseVersion()
         {
             _fsi.SetReadPosition(StorageEngineConstant.DatabaseHeaderVersionPosition);
             return _fsi.ReadInt();
-        }
-
-        /// <summary>
-        ///   Read the last transaction id
-        /// </summary>
-        private ITransactionId ReadLastTransactionId(IDatabaseId databaseId)
-        {
-            _fsi.SetReadPosition(StorageEngineConstant.DatabaseHeaderLastTransactionId);
-            var id = new long[2];
-            id[0] = _fsi.ReadLong();
-            id[1] = _fsi.ReadLong();
-            return new TransactionId(databaseId, id[0], id[1]);
         }
 
         /// <summary>

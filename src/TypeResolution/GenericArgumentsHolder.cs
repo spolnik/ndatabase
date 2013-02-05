@@ -268,7 +268,7 @@ namespace NDatabase.TypeResolution
             }
 
             if (quoteChars.Length % 2 != 0)
-                throw new Exception("the number of quote characters must be even");
+                throw new ArgumentException("the number of quote characters must be even", "quoteChars");
 
             var delimiterChars = delimiters.ToCharArray();
 

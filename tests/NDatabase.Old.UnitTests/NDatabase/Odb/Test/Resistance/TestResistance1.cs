@@ -19,7 +19,6 @@ namespace Test.NDatabase.Odb.Test.Resistance
         ///   4) check count : must be 5000 5) re-update 5000 * 10 times 6) delete the
         ///   other 5000 7) check count - must be zero
         /// </summary>
-        /// <exception cref="System.Exception">System.Exception</exception>
         [Test]
         [Ignore("Long running test")]
         public virtual void Test1WithCommit()

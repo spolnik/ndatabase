@@ -30,12 +30,5 @@ namespace NDatabase.Tool
         /// </summary>
         /// <param name="message">Mssage to log</param>
         void Error(string message);
-
-        /// <summary>
-        /// Log message with error level
-        /// </summary>
-        /// <param name="message">Mssage to log</param>
-        /// <param name="t">Exception to log</param>
-        void Error(string message, Exception t);
     }
 }

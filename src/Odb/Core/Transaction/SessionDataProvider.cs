@@ -10,9 +10,6 @@ namespace NDatabase.Odb.Core.Transaction
 
         public SessionDataProvider(ISession session)
         {
-            if (session == null)
-                throw new ArgumentNullException("session");
-
             _session = session;
         }
 
@@ -42,7 +39,6 @@ namespace NDatabase.Odb.Core.Transaction
         {
             var cache = _session.GetCache();
 
-            // Check if object is in the cache, if so sets its oid
             var oid = cache.GetOid(o);
             if (oid != null)
             {
