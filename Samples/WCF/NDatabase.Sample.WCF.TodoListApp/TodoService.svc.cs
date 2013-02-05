@@ -8,14 +8,12 @@ using System.ServiceModel;
 using NDatabase.Odb;
 using NDatabase.Sample.WCF.TodoListApp.Domain;
 using NDatabase.TodoList.Domain;
-using log4net;
 
 namespace NDatabase.Sample.WCF.TodoListApp
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public class TodoService : ITodoService
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof (TodoService));
         private readonly ConcurrentDictionary<string, string> _dbNamesCache = new ConcurrentDictionary<string, string>();
 
         private void LogIn(string user)
@@ -23,8 +21,6 @@ namespace NDatabase.Sample.WCF.TodoListApp
             Contract.Requires(!string.IsNullOrWhiteSpace(user));
             
             EnsureUniqueIndex(user);
-
-            Log.Info("User successfuly logged: " + user);
         }
 
         private void EnsureUniqueIndex(string user)
