@@ -92,8 +92,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         IDatabaseId GetDatabaseId();
 
-        void SetCurrentTransactionId(ITransactionId transactionId);
-
         /// <summary>
         ///   Used to disconnect the object from the current session.
         /// </summary>

@@ -3,11 +3,9 @@ using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer2.Meta.Compare;
-using NDatabase.Odb.Core.Layers.Layer3.Engine;
 using NDatabase.Odb.Main;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
-using Test.NDatabase.Odb.Test.IO;
 using Test.NDatabase.Odb.Test.VO.Inheritance;
 using Test.NDatabase.Odb.Test.VO.Login;
 
@@ -15,13 +13,6 @@ namespace Test.NDatabase.Odb.Test.Intropector
 {
     public class InstrospectorTest : ODBTest
     {
-        public override void SetUp()
-        {
-            base.SetUp();
-            new StorageEngine(new MockFileIdentification()).AddSession(
-                new MockSession("test"), false);
-        }
-
         [Test]
         public virtual void TestClassInfo()
         {

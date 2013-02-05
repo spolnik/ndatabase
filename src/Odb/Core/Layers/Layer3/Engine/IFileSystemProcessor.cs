@@ -5,11 +5,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
     internal interface IFileSystemProcessor
     {
-        /// <summary>
-        ///   Write the current transaction Id, out of transaction
-        /// </summary>
-        void WriteLastTransactionId(ITransactionId transactionId);
-
         void BuildFileSystemInterface(IStorageEngine storageEngine, ISession session);
 
         /// <summary>

@@ -65,7 +65,7 @@ namespace NDatabase.Odb.Core.Transaction
 
             foreach (var tmp in _listOfBytes)
             {
-                Array.Copy(tmp, 0, bytes, offset, tmp.Length);
+                Buffer.BlockCopy(tmp, 0, bytes, offset, tmp.Length);
                 offset += tmp.Length;
             }
 

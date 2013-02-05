@@ -3,7 +3,6 @@ using System.Collections;
 using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer2.Meta.Compare;
 using NDatabase.Odb.Core.Oid;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Odb.Core.Trigger;
@@ -20,8 +19,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                                                             OdbType.Integer.Size + OdbType.Boolean.Size;
 
         private static byte[] _nativeHeaderBlockSizeByte;
-        
-        private readonly IObjectInfoComparator _comparator;
+
         private readonly ISession _session;
 
         private IIdManager _idManager;
@@ -38,14 +36,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public ObjectWriter(IStorageEngine engine)
         {
             _storageEngine = engine;
-            _objectReader = _storageEngine.GetObjectReader();
 
             _nativeHeaderBlockSizeByte = ByteArrayConverter.IntToByteArray(NativeHeaderBlockSize);
-            _comparator = new ObjectInfoComparator();
-
             _session = engine.GetSession();
 
-            _nonNativeObjectWriter = new NonNativeObjectWriter(this, _storageEngine, _comparator);
+            _nonNativeObjectWriter = new NonNativeObjectWriter(this, _storageEngine);
 
             FileSystemProcessor = new FileSystemProcessor();
             FileSystemProcessor.BuildFileSystemInterface(engine, _session);
