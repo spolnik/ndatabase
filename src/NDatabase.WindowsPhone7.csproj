@@ -39,6 +39,7 @@
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>Bin\Release\NDatabase.WindowsPhone7.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Windows" />
@@ -184,7 +185,6 @@
     <Compile Include="Odb\Core\Oid\DatabaseId.cs" />
     <Compile Include="Odb\Core\Oid\ExternalObjectOID.cs" />
     <Compile Include="Odb\Core\Oid\ObjectOID.cs" />
-    <Compile Include="Odb\Core\Oid\TransactionId.cs" />
     <Compile Include="Odb\Core\OrderByConstants.cs" />
     <Compile Include="Odb\Core\Query\AbstractQuery.cs" />
     <Compile Include="Odb\Core\Query\ComposedCompareKey.cs" />
@@ -341,7 +341,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Odb\IOdbExt.cs" />
-    <Compile Include="Odb\ITransactionId.cs" />
     <Compile Include="Odb\ITriggerManager.cs" />
     <Compile Include="Odb\IValues.cs" />
     <Compile Include="Odb\Main\IndexManager.cs" />
