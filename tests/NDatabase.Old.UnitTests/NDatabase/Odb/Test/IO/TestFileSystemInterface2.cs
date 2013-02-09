@@ -24,21 +24,21 @@ namespace Test.NDatabase.Odb.Test.IO
                 if (i == 8000)
                 {
                     currentPosition = fsi.GetPosition();
-                    fsi.UseBuffer(false);
+                    
                     // Using the for transaction method to avoid protected area
                     // verification, check the setWritePosition method
                     fsi.SetWritePositionNoVerification(4, false);
                     AssertEquals(1, fsi.ReadInt());
-                    fsi.UseBuffer(true);
+                    
                     fsi.SetWritePositionNoVerification(currentPosition, false);
                 }
                 if (i == 9000)
                 {
                     currentPosition = fsi.GetPosition();
-                    fsi.UseBuffer(false);
+                    
                     fsi.SetWritePositionNoVerification(8, false);
                     fsi.WriteInt(12, false, "int");
-                    fsi.UseBuffer(true);
+                    
                     fsi.SetWritePositionNoVerification(currentPosition, false);
                 }
             }

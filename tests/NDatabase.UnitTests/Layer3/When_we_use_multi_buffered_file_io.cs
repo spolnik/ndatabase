@@ -79,19 +79,6 @@ namespace NDatabase.UnitTests.Layer3
         }
 
         [Test]
-        public void It_should_remove_file_after_closing_new_multi_buffered_file_io_with_auto_remove_option_set_to_true()
-        {
-            const string fileName = "autodelete.ndb";
-            using (var multiBufferedFileIo = new MultiBufferedFileIO(fileName, MultiBuffer.DefaultBufferSizeForData))
-            {
-                multiBufferedFileIo.EnableAutomaticDelete(true);
-                Assert.That(File.Exists(fileName), Is.True);
-            }
-
-            Assert.That(File.Exists(fileName), Is.False);
-        }
-
-        [Test]
         public void It_should_be_able_to_write_and_read_more_bytes_than_one_buffer_has()
         {
             var sizeBiggerThanOneBufferSize = MultiBuffer.DefaultBufferSizeForData + 100;
@@ -102,8 +89,6 @@ namespace NDatabase.UnitTests.Layer3
 
             using (var nonBufferedFileIO = new MultiBufferedFileIO("nonbufferedfileio.ndb", MultiBuffer.DefaultBufferSizeForData))
             {
-                nonBufferedFileIO.EnableAutomaticDelete(true);
-
                 nonBufferedFileIO.SetCurrentWritePosition(0L);
                 nonBufferedFileIO.WriteBytes(bytes);
 
@@ -125,8 +110,6 @@ namespace NDatabase.UnitTests.Layer3
 
             using (var nonBufferedFileIO = new MultiBufferedFileIO("nonbufferedfileio.ndb", MultiBuffer.DefaultBufferSizeForData))
             {
-                nonBufferedFileIO.EnableAutomaticDelete(true);
-
                 nonBufferedFileIO.SetCurrentWritePosition(0L);
                 nonBufferedFileIO.WriteBytes(bytes);
 

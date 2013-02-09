@@ -18,7 +18,6 @@ namespace Test.NDatabase.Test.Btree.Impl.Singlevalue
             var odb = OdbFactory.Open(GetBaseName());
 
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
-            storageEngine.GetObjectWriter().FileSystemProcessor.FileSystemInterface.GetIo().EnableAutomaticDelete(true);
             return new OdbBtreeSingle(degree, new LazyOdbBtreePersister(storageEngine));
         }
 
