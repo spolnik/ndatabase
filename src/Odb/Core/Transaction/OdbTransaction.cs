@@ -562,7 +562,7 @@ namespace NDatabase.Odb.Core.Transaction
                 DLogger.Debug(string.Format("Load write actions of {0}", filename));
 
             CheckFileAccess(filename);
-            _fsi.UseBuffer(true);
+            _fsi.UseBuffer(false);
             _fsi.SetReadPosition(0);
             _isCommited = _fsi.ReadByte() == 1;
             _creationDateTime = _fsi.ReadLong();
