@@ -203,7 +203,6 @@ namespace Test.NDatabase.Odb.Test.IO
             fsi.Close();
             fsi = new FileSystemInterface(new FileIdentification(baseName), MultiBuffer.DefaultBufferSizeForData,
                                           new MockSession("test"));
-            fsi.GetIo().EnableAutomaticDelete(true);
             fsi.SetReadPosition(0);
             var s2 = fsi.ReadString();
             fsi.Close();

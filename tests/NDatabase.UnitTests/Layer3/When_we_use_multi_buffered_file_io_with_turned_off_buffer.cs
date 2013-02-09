@@ -1,4 +1,3 @@
-using System.IO;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer3.IO;
 using NUnit.Framework;
@@ -20,12 +19,11 @@ namespace NDatabase.UnitTests.Layer3
 
         protected override IMultiBufferedFileIO Create_subject_under_test()
         {
-            return new MultiBufferedFileIO(_fileName, MultiBuffer.DefaultBufferSizeForData);
+            return new MultiBufferedFileIO(MultiBuffer.DefaultBufferSizeForData);
         }
 
         protected override void Because()
         {
-            SubjectUnderTest.SetUseBuffer(false);
             SubjectUnderTest.SetCurrentWritePosition(StartWritePosition);
             _bytes = new byte[] { 1, 2, 3, 4, 5 };
             SubjectUnderTest.WriteBytes(_bytes);
@@ -34,12 +32,6 @@ namespace NDatabase.UnitTests.Layer3
         protected override void Dispose_context()
         {
             SubjectUnderTest.Dispose();
-        }
-
-        [Test]
-        public void It_should_create_or_open_existing_file_with_the_given_name()
-        {
-            Assert.That(File.Exists(_fileName), Is.True);
         }
 
         [Test]
@@ -81,24 +73,10 @@ namespace NDatabase.UnitTests.Layer3
         }
 
         [Test]
-        public void It_should_remove_file_after_closing_new_multi_buffered_file_io_with_auto_remove_option_set_to_true()
-        {
-            const string fileName = "autodelete.ndb";
-            using (var multiBufferedFileIo = new MultiBufferedFileIO(fileName, MultiBuffer.DefaultBufferSizeForData))
-            {
-                multiBufferedFileIo.EnableAutomaticDelete(true);
-                Assert.That(File.Exists(fileName), Is.True);
-            }
-
-            Assert.That(File.Exists(fileName), Is.False);
-        }
-
-        [Test]
         public void It_should_be_able_to_read_from_given_position()
         {
             using (var nonBufferedFileIO = new NonBufferedFileIO("nonbufferedfileio.ndb"))
             {
-                nonBufferedFileIO.EnableAutomaticDelete(true);
                 nonBufferedFileIO.SetCurrentPosition(0L);
                 nonBufferedFileIO.WriteBytes(_bytes, _bytes.Length);
 
@@ -124,9 +102,6 @@ namespace NDatabase.UnitTests.Layer3
 
             using (var fileIO = new MultiBufferedFileIO("nonbufferedfileio.ndb", MultiBuffer.DefaultBufferSizeForData))
             {
-                fileIO.EnableAutomaticDelete(true);
-                fileIO.SetUseBuffer(false);
-                
                 fileIO.SetCurrentWritePosition(0L);
                 fileIO.WriteBytes(bytes);
 
@@ -148,9 +123,6 @@ namespace NDatabase.UnitTests.Layer3
 
             using (var fileIO = new MultiBufferedFileIO("nonbufferedfileio.ndb", MultiBuffer.DefaultBufferSizeForData))
             {
-                fileIO.EnableAutomaticDelete(true);
-                fileIO.SetUseBuffer(false);
-
                 fileIO.SetCurrentWritePosition(0L);
                 fileIO.WriteBytes(bytes);
 

@@ -341,8 +341,6 @@ namespace NDatabase.Odb.Core.Transaction
                 }
 
                 _fsi = new FileSystemInterface(parameters, MultiBuffer.DefaultBufferSizeForTransaction, _session);
-
-                _fsi.GetIo().EnableAutomaticDelete(true);
             }
         }
 
@@ -379,7 +377,6 @@ namespace NDatabase.Odb.Core.Transaction
             // Only set useBuffer = false when it is a local database to avoid
             // net io overhead
 
-            _fsi.UseBuffer(false);
             _fsi.SetWritePositionNoVerification(0, false);
             _fsi.WriteByte(1, false);
         }
@@ -562,7 +559,6 @@ namespace NDatabase.Odb.Core.Transaction
                 DLogger.Debug(string.Format("Load write actions of {0}", filename));
 
             CheckFileAccess(filename);
-            _fsi.UseBuffer(false);
             _fsi.SetReadPosition(0);
             _isCommited = _fsi.ReadByte() == 1;
             _creationDateTime = _fsi.ReadLong();

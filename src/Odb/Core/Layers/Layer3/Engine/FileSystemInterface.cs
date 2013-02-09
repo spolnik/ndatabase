@@ -31,11 +31,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         #region IFileSystemInterface Members
 
-        public void UseBuffer(bool useBuffer)
-        {
-            _io.SetUseBuffer(useBuffer);
-        }
-
         public void Flush()
         {
             _io.FlushAll();

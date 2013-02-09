@@ -7,7 +7,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
     {
         private readonly string _wholeFileName;
 
-        private bool _enableAutomaticDelete;
         private IOdbStream _odbWriter;
 
         internal NonBufferedFileIO(string fileName)
@@ -81,11 +80,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             return b;
         }
 
-        public void EnableAutomaticDelete(bool yesOrNo)
-        {
-            _enableAutomaticDelete = yesOrNo;
-        }
-
         public void WriteBytes(byte[] bytes, int length)
         {
             GoToPosition(CurrentPositionForDirectWrite);
@@ -113,15 +107,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             }
 
             _odbWriter = null;
-            AutoDelete();
-        }
-
-        private void AutoDelete()
-        {
-            if (!_enableAutomaticDelete)
-                return;
-
-            OdbFactory.Delete(_wholeFileName);
         }
     }
 }
