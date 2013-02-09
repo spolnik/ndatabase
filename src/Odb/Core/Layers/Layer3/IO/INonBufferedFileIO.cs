@@ -16,8 +16,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
 
         byte ReadByte();
 
-        void EnableAutomaticDelete(bool yesOrNo);
-
         void WriteBytes(byte[] bytes, int length);
 
         long Read(long position, byte[] buffer, int size);

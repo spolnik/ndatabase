@@ -50,9 +50,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         {
             var filename =
                 string.Format("{0}-{1}-{2}.transaction", Id, creationDateTime, sessionId);
-            var filePath = Path.Combine(Directory, filename);
 
-            return new FileIdentification(filePath);
+            return new InMemoryIdentification(filename);
         }
 
         public string FileName

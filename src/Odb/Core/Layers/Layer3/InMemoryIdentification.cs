@@ -4,8 +4,17 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 {
     internal sealed class InMemoryIdentification : IDbIdentification
     {
-        private string _inmemoryID = InMemoryName + ".ID";
-        private const string InMemoryName = "InMemory";
+        private readonly string _inmemoryID = InMemoryName + "ID";
+        private const string InMemoryName = "InMemory.";
+
+        public InMemoryIdentification()
+        {
+        }
+
+        public InMemoryIdentification(string id)
+        {
+            _inmemoryID = InMemoryName + id;
+        }
 
         public string Id
         {
@@ -45,7 +54,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
             var filename =
                 string.Format("{0}-{1}-{2}.transaction", Id, creationDateTime, sessionId);
 
-            return new InMemoryIdentification {_inmemoryID = filename};
+            return new InMemoryIdentification(filename);
         }
     }
 }

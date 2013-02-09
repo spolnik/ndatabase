@@ -15,8 +15,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
 
         void SetCurrentReadPosition(long currentPosition);
 
-        void SetUseBuffer(bool useBuffer);
-
         void WriteByte(byte b);
 
         byte ReadByte();
@@ -28,7 +26,5 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         void FlushAll();
 
         void Close();
-
-        void EnableAutomaticDelete(bool yesOrNo);
     }
 }
