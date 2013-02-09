@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Threading;
+using System.Threading.Tasks;
 using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.Engine
@@ -67,7 +67,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var nbRetry = 0;
             while (!CanOpenFile(fileName) && nbRetry < NumberOfRetryToOpenFile)
             {
-                Thread.Sleep(100);
+                Task.Delay(100);
 
                 nbRetry++;
             }

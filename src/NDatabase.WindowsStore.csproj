@@ -1,0 +1,394 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{838D25A3-52E8-40DA-9ED9-9AFA75E66FE3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NDatabase</RootNamespace>
+    <AssemblyName>NDatabase.WindowsStore</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Btree\AbstractBTree.cs" />
+    <Compile Include="Btree\AbstractBTreeIterator.cs" />
+    <Compile Include="Btree\AbstractBTreeNode.cs" />
+    <Compile Include="Btree\BTreeIteratorMultipleValuesPerKey.cs" />
+    <Compile Include="Btree\BTreeIteratorSingleValuePerKey.cs" />
+    <Compile Include="Btree\BTreeMultipleValuesPerKey.cs" />
+    <Compile Include="Btree\BTreeNodeMultipleValuesPerKey.cs" />
+    <Compile Include="Btree\BTreeNodeSingleValuePerKey.cs" />
+    <Compile Include="Btree\BTreeSingleValuePerKey.cs" />
+    <Compile Include="Btree\BTreeValidator.cs" />
+    <Compile Include="Btree\IBTree.cs" />
+    <Compile Include="Btree\IBTreeMultipleValuesPerKey.cs" />
+    <Compile Include="Btree\IBTreeNode.cs" />
+    <Compile Include="Btree\IBTreeNodeMultipleValuesPerKey.cs" />
+    <Compile Include="Btree\IBTreeNodeOneValuePerKey.cs" />
+    <Compile Include="Btree\IBTreePersister.cs" />
+    <Compile Include="Btree\IBTreeSingleValuePerKey.cs" />
+    <Compile Include="Btree\IKeyAndValue.cs" />
+    <Compile Include="Btree\InMemoryBTreeMultipleValuesPerKey.cs" />
+    <Compile Include="Btree\InMemoryBTreeNodeMultipleValuesPerKey.cs" />
+    <Compile Include="Btree\InMemoryPersister.cs" />
+    <Compile Include="Btree\IterarorAdapter.cs" />
+    <Compile Include="Btree\KeyAndValue.cs" />
+    <Compile Include="Exceptions\BTreeError.cs" />
+    <Compile Include="Exceptions\BTreeException.cs" />
+    <Compile Include="Exceptions\BTreeNodeValidationException.cs" />
+    <Compile Include="Exceptions\CorruptedDatabaseException.cs" />
+    <Compile Include="Exceptions\DuplicatedKeyException.cs" />
+    <Compile Include="Exceptions\IError.cs" />
+    <Compile Include="Exceptions\LinqQueryException.cs" />
+    <Compile Include="Exceptions\NDatabaseError.cs" />
+    <Compile Include="Exceptions\ODBRuntimeException.cs" />
+    <Compile Include="Odb\BaseOID.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\InstanceBuilder.WindowsStore.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\FileIdentification.WindowsStore.cs" />
+    <Compile Include="Odb\OdbFactory.WindowsStore.cs" />
+    <Compile Include="Odb\Core\BTree\LazyODBBTreeIteratorMultiple.cs" />
+    <Compile Include="Odb\Core\BTree\LazyODBBTreePersister.cs" />
+    <Compile Include="Odb\Core\BTree\ODBBTreeMultiple.cs" />
+    <Compile Include="Odb\Core\BTree\ODBBTreeNodeMultiple.cs" />
+    <Compile Include="Odb\Core\BTree\ODBBTreeNodeSingle.cs" />
+    <Compile Include="Odb\Core\BTree\ODBBTreeSingle.cs" />
+    <Compile Include="Odb\Core\IOdbComparable.cs" />
+    <Compile Include="Odb\Core\IRefactorManager.cs" />
+    <Compile Include="Odb\Core\Layers\Layer1\Introspector\ClassIntrospector.WindowsStore.cs" />
+    <Compile Include="Odb\Core\Layers\Layer1\Introspector\DefaultInstrumentationCallback.cs" />
+    <Compile Include="Odb\Core\Layers\Layer1\Introspector\IIntrospectionCallback.cs" />
+    <Compile Include="Odb\Core\Layers\Layer1\Introspector\InstrumentationCallbackForStore.cs" />
+    <Compile Include="Odb\Core\Layers\Layer1\Introspector\IObjectIntrospectionDataProvider.cs" />
+    <Compile Include="Odb\Core\Layers\Layer1\Introspector\IObjectIntrospector.cs" />
+    <Compile Include="Odb\Core\Layers\Layer1\Introspector\ObjectIntrospector.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\IInstanceBuilder.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\AbstractObjectInfo.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\ArrayObjectInfo.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\AtomicNativeObjectInfo.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\AttributesCache.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\AttributeValuesMap.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\CIZoneInfo.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\ClassAttributeInfo.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\ClassInfo.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\ClassInfoCompareResult.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\ClassInfoIndex.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\ClassInfoList.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\CommittedCIZoneInfo.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\ArrayModifyElement.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\AttributeValueComparator.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\ChangedAttribute.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\ChangedNativeAttributeAction.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\ChangedObjectInfo.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\ChangedObjectReferenceAttributeAction.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\IObjectInfoComparator.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\NewNonNativeObjectAction.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\ObjectInfoComparator.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\SetAttributeToNullAction.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\EnumNativeObjectInfo.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\IMetaModel.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\MetaModel.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\NativeAttributeHeader.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\NativeObjectInfo.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\NonNativeDeletedObjectInfo.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\NonNativeNullObjectInfo.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\NonNativeObjectInfo.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\NullNativeObjectInfo.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\ObjectInfoHeader.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\ObjectReference.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\ODBType.cs" />
+    <Compile Include="Odb\Core\Layers\Layer2\Meta\OidInfo.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\BlockStatus.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\BlockTypes.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\RefactorManager.WindowsStore.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\Engine\AbstractStorageEngineReader.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\Engine\ByteArrayConverter.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\Engine\CheckMetaModelResult.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\Engine\CurrentIdBlockInfo.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\Engine\FileMutex.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\Engine\FileSystemInterface.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\Engine\FileSystemProcessor.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\Engine\IFileSystemProcessor.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\Engine\INonNativeObjectWriter.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\Engine\NonNativeObjectWriter.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\Engine\ObjectReader.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\Engine\ObjectWriter.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\Engine\PendingReading.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\Engine\StorageEngine.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\Engine\StorageEngineConstant.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\ICommitListener.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IDbIdentification.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IdManager.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IDStatus.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IDTypes.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IFileSystemInterface.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IIdManager.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\InMemoryIdentification.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IObjectReader.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IObjectWriter.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IOdbCache.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IO\OdbFileStream.WindowsStore.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IO\IMultiBuffer.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IO\IMultiBufferedFileIO.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IO\INonBufferedFileIO.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IO\IOdbStream.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IO\MultiBuffer.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IO\MultiBufferedFileIO.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IO\NonBufferedFileIO.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IO\OdbMemoryStream.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IReadObjectsCache.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IStorageEngine.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\OdbCache.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\ReadObjectsCache.cs" />
+    <Compile Include="Odb\Core\NonPersistentAttribute.cs" />
+    <Compile Include="Odb\Core\OIDFactory.cs" />
+    <Compile Include="Odb\Core\Oid\ClassOID.cs" />
+    <Compile Include="Odb\Core\Oid\DatabaseId.cs" />
+    <Compile Include="Odb\Core\Oid\ExternalObjectOID.cs" />
+    <Compile Include="Odb\Core\Oid\ObjectOID.cs" />
+    <Compile Include="Odb\Core\OrderByConstants.cs" />
+    <Compile Include="Odb\Core\Query\AbstractQuery.cs" />
+    <Compile Include="Odb\Core\Query\ComposedCompareKey.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\AbstractExpression.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\And.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\ComparisonConstraint.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\ComposedExpression.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\SodaQuery.WindowsStore.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\CriteriaQueryExecutionPlan.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\CriteriaQueryExecutor.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\EmptyConstraint.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\Evaluations\AEvaluation.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\Evaluations\CollectionSizeEvaluation.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\Evaluations\ComparisonEvaluation.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\Evaluations\ContainsEvaluation.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\Evaluations\EndsWithEvaluation.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\Evaluations\EqualsEvaluation.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\Evaluations\IdentityEvaluation.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\Evaluations\IEvaluation.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\Evaluations\LikeEvaluation.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\Evaluations\StartsWithEvaluation.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\IInternalConstraint.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\Not.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\Or.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\QueryConstraint.cs" />
+    <Compile Include="Odb\Core\Query\Criteria\QueryResultAction.cs" />
+    <Compile Include="Odb\Core\Query\Execution\GenericQueryExecutor.cs" />
+    <Compile Include="Odb\Core\Query\Execution\IMatchingObjectAction.cs" />
+    <Compile Include="Odb\Core\Query\Execution\IMultiClassQueryExecutor.cs" />
+    <Compile Include="Odb\Core\Query\Execution\IndexTool.cs" />
+    <Compile Include="Odb\Core\Query\Execution\IQueryExecutionPlan.cs" />
+    <Compile Include="Odb\Core\Query\Execution\IQueryExecutor.cs" />
+    <Compile Include="Odb\Core\Query\Execution\IQueryFieldAction.cs" />
+    <Compile Include="Odb\Core\Query\Execution\MultiClassGenericQueryExecutor.cs" />
+    <Compile Include="Odb\Core\Query\IConstraint.cs" />
+    <Compile Include="Odb\Core\Query\IInternalQuery.cs" />
+    <Compile Include="Odb\Core\Query\IInternalValuesQuery.cs" />
+    <Compile Include="Odb\Core\Query\IQuery.cs" />
+    <Compile Include="Odb\Core\Query\IValuesQuery.cs" />
+    <Compile Include="Odb\Core\Query\Linq\WhereClauseVisitor.Portable.cs" />
+    <Compile Include="Odb\Core\Query\Linq\OrderByClauseVisitorBase.Portable.cs" />
+    <Compile Include="Odb\Core\Query\Linq\OrderByAscendingClauseVisitor.WindowsStore.cs" />
+    <Compile Include="Odb\Core\Query\Linq\OrderByDescendingClauseVisitor.WindowsStore.cs" />
+    <Compile Include="Odb\Core\Query\Linq\ExpressionQueryBuilder.WindowsStore.cs" />
+    <Compile Include="Odb\Core\Query\Linq\ExpressionTransformer.cs" />
+    <Compile Include="Odb\Core\Query\Linq\ExpressionTreeNormalizer.cs" />
+    <Compile Include="Odb\Core\Query\Linq\ExpressionVisitor.cs" />
+    <Compile Include="Odb\Core\Query\Linq\ILinqQueryable.cs" />
+    <Compile Include="Odb\Core\Query\Linq\ILinqQueryInternal.cs" />
+    <Compile Include="Odb\Core\Query\Linq\IMethodAnalyser.cs" />
+    <Compile Include="Odb\Core\Query\Linq\LinqQuery.cs" />
+    <Compile Include="Odb\Core\Query\Linq\LinqQueryable.cs" />
+    <Compile Include="Odb\Core\Query\Linq\LinqQueryExtensions.cs" />
+    <Compile Include="Odb\Core\Query\Linq\LinqQueryTranslator.cs" />
+    <Compile Include="Odb\Core\Query\Linq\OptimizeableMethodConstrains.cs" />
+    <Compile Include="Odb\Core\Query\Linq\PlaceHolderQuery.cs" />
+    <Compile Include="Odb\Core\Query\Linq\QueryBuilderContext.cs" />
+    <Compile Include="Odb\Core\Query\Linq\QueryBuilderRecorder.cs" />
+    <Compile Include="Odb\Core\Query\Linq\SubtreeEvaluator.cs" />
+    <Compile Include="Odb\Core\Query\Linq\TypeSystem.cs" />
+    <Compile Include="Odb\Core\Query\Linq\UnoptimizedQuery.cs" />
+    <Compile Include="Odb\Core\Query\List\AbstractBTreeCollection.cs" />
+    <Compile Include="Odb\Core\Query\List\InMemoryBTreeCollection.cs" />
+    <Compile Include="Odb\Core\Query\List\InMemoryBTreeCollectionForValues.cs" />
+    <Compile Include="Odb\Core\Query\List\LazyBTreeCollection.cs" />
+    <Compile Include="Odb\Core\Query\List\LazySimpleListFromOid.cs" />
+    <Compile Include="Odb\Core\Query\List\LazySimpleListOfAOI.cs" />
+    <Compile Include="Odb\Core\Query\List\ObjectValues.cs" />
+    <Compile Include="Odb\Core\Query\List\SimpleList.cs" />
+    <Compile Include="Odb\Core\Query\List\SimpleListForValues.cs" />
+    <Compile Include="Odb\Core\Query\QueryManager.cs" />
+    <Compile Include="Odb\Core\Query\SimpleCompareKey.cs" />
+    <Compile Include="Odb\Core\Query\Values\AbstractQueryFieldAction.cs" />
+    <Compile Include="Odb\Core\Query\Values\AverageValueAction.WindowsStore.cs" />
+    <Compile Include="Odb\Core\Query\Values\CountAction.cs" />
+    <Compile Include="Odb\Core\Query\Values\FieldValueAction.cs" />
+    <Compile Include="Odb\Core\Query\Values\GroupByValuesQueryResultAction.cs" />
+    <Compile Include="Odb\Core\Query\Values\MaxValueAction.cs" />
+    <Compile Include="Odb\Core\Query\Values\MinValueAction.cs" />
+    <Compile Include="Odb\Core\Query\Values\SizeAction.cs" />
+    <Compile Include="Odb\Core\Query\Values\SublistAction.cs" />
+    <Compile Include="Odb\Core\Query\Values\SumAction.cs" />
+    <Compile Include="Odb\Core\Query\Values\ValuesCriteriaQuery.cs" />
+    <Compile Include="Odb\Core\Query\Values\ValuesCriteriaQueryExecutor.cs" />
+    <Compile Include="Odb\Core\Query\Values\ValuesQueryResultAction.cs" />
+    <Compile Include="Odb\Core\Query\Values\ValuesUtil.cs" />
+    <Compile Include="Odb\Core\Transaction\IdInfo.cs" />
+    <Compile Include="Odb\Core\Transaction\ISession.cs" />
+    <Compile Include="Odb\Core\Transaction\ITransaction.cs" />
+    <Compile Include="Odb\Core\Transaction\LocalSession.cs" />
+    <Compile Include="Odb\Core\Transaction\OdbTransaction.cs" />
+    <Compile Include="Odb\Core\Transaction\Session.cs" />
+    <Compile Include="Odb\Core\Transaction\SessionDataProvider.cs" />
+    <Compile Include="Odb\Core\Transaction\WriteAction.cs" />
+    <Compile Include="Odb\Core\Trigger\DeleteTrigger.cs" />
+    <Compile Include="Odb\Core\Trigger\IInternalTriggerManager.cs" />
+    <Compile Include="Odb\Core\Trigger\InsertTrigger.cs" />
+    <Compile Include="Odb\Core\Trigger\InternalTriggerManager.cs" />
+    <Compile Include="Odb\Core\Trigger\ObjectRepresentation.cs" />
+    <Compile Include="Odb\Core\Trigger\SelectTrigger.cs" />
+    <Compile Include="Odb\Core\Trigger\Trigger.cs" />
+    <Compile Include="Odb\Core\Trigger\UpdateTrigger.cs" />
+    <Compile Include="Odb\IDatabaseId.cs" />
+    <Compile Include="Odb\IExternalOID.cs" />
+    <Compile Include="Odb\IIndexManager.cs" />
+    <Compile Include="Odb\IInternalObjectSet.cs" />
+    <Compile Include="Odb\IInternalValues.cs" />
+    <Compile Include="Odb\IObjectRepresentation.cs" />
+    <Compile Include="Odb\IObjectSet.cs" />
+    <Compile Include="Odb\IObjectValues.cs" />
+    <Compile Include="Odb\IOdb.cs" />
+    <Compile Include="Odb\IOdbExt.cs" />
+    <Compile Include="Odb\ITriggerManager.cs" />
+    <Compile Include="Odb\IValues.cs" />
+    <Compile Include="Odb\Main\IndexManager.cs" />
+    <Compile Include="Odb\Main\Odb.cs" />
+    <Compile Include="Odb\Main\ODBAdapter.cs" />
+    <Compile Include="Odb\Main\OdbExt.cs" />
+    <Compile Include="Odb\Main\ODBForTrigger.cs" />
+    <Compile Include="Odb\OdbConfiguration.cs" />
+    <Compile Include="Odb\OID.cs" />
+    <Compile Include="Odb\TriggerManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tool\DictionaryExtensions.cs" />
+    <Compile Include="Tool\DLogger.WindowsStore.cs" />
+    <Compile Include="Tool\DisplayUtility.cs" />
+    <Compile Include="Tool\Hashtable.cs" />
+    <Compile Include="Tool\ILogger.cs" />
+    <Compile Include="Tool\ListExtensions.cs" />
+    <Compile Include="Tool\UniqueIdGenerator.cs" />
+    <Compile Include="Tool\Wrappers\OdbClassUtil.WindowsStore.cs" />
+    <Compile Include="Tool\Wrappers\IOdbList.cs" />
+    <Compile Include="Tool\Wrappers\OdbHashMap2.cs" />
+    <Compile Include="Tool\Wrappers\OdbList.cs" />
+    <Compile Include="Tool\Wrappers\OdbRandom.cs" />
+    <Compile Include="Tool\Wrappers\OdbString.cs" />
+    <Compile Include="Tool\Wrappers\OdbTime.cs" />
+    <Compile Include="TypeResolution\CachedTypeResolver.cs" />
+    <Compile Include="TypeResolution\TypeResolver.WindowsStore.cs" />
+    <Compile Include="TypeResolution\GenericArgumentsHolder.WindowsStore.cs" />
+    <Compile Include="TypeResolution\GenericTypeResolver.cs" />
+    <Compile Include="TypeResolution\ITypeResolver.cs" />
+    <Compile Include="TypeResolution\TypeAssemblyHolder.cs" />
+    <Compile Include="TypeResolution\TypeRegistry.cs" />
+    <Compile Include="TypeResolution\TypeResolutionUtils.cs" />
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
+    <VisualStudioVersion>11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -5,12 +5,12 @@
     <h2>
         Remove Employee</h2>
     <p>
-        Name: <asp:TextBox ID="ID" runat="server" />
+        Name: <asp:TextBox ID="IDTextBox" runat="server" />
         <br />
         <br />
         <asp:Button Text="Remove Employee" ID="RemoveButton" runat="server" OnClick="RemoveButton_Click" />
         <br />
-        <asp:RangeValidator ID="RangeValidatorForAge" ControlToValidate="ID" MinimumValue="2"
+        <asp:RangeValidator ID="RangeValidatorForAge" ControlToValidate="IDTextBox" MinimumValue="2"
             MaximumValue="20000" Type="Integer" Text="The ID must be greater than 1 and less than 20000!"
             runat="server" />
         <br />

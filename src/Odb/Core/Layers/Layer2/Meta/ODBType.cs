@@ -5,6 +5,7 @@ using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Oid;
 using NDatabase.Tool.Wrappers;
 using NDatabase.TypeResolution;
+using System.Reflection;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {
@@ -147,7 +148,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public static OdbType GetFromClass(Type clazz)
         {
-            if (clazz.IsEnum)
+            if (clazz.GetTypeInfo().IsEnum)
                 return new OdbType(Enum._isPrimitive, EnumId, OdbClassUtil.GetFullName(clazz), 0);
 
             var className = OdbClassUtil.GetFullName(clazz);
@@ -296,7 +297,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             if (type1.IsNonNative() && type2.IsNonNative())
             {
                 return (type1.GetNativeClass() == type2.GetNativeClass()) ||
-                       (type1.GetNativeClass().IsAssignableFrom(type2.GetNativeClass()));
+                       (type1.GetNativeClass().GetTypeInfo().IsAssignableFrom(type2.GetNativeClass().GetTypeInfo()));
             }
             return false;
         }

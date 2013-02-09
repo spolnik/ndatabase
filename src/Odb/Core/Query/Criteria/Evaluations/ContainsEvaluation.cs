@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using System.Reflection;
 
 namespace NDatabase.Odb.Core.Query.Criteria.Evaluations
 {
@@ -88,8 +89,8 @@ namespace NDatabase.Odb.Core.Query.Criteria.Evaluations
         private bool CheckIfCollectionContainsValue(ICollection collection)
         {
             var typeDefinition = typeof(object);
-            if (collection.GetType().IsGenericType)
-                typeDefinition = collection.GetType().GetGenericArguments()[0];
+            if (collection.GetType().GetTypeInfo().IsGenericType)
+                typeDefinition = collection.GetType().GenericTypeArguments[0];
             else
             {
                 if (collection.Count > 0)

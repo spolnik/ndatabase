@@ -23,13 +23,13 @@ namespace NDatabase.Odb.Core.Query.Linq
             var declaringType = method.DeclaringType;
             
             return IsGenericInstanceOf(declaringType, typeof (ICollection<>))
-                   || typeof (IList).IsAssignableFrom(declaringType)
+                   || typeof (IList).GetTypeInfo().IsAssignableFrom(declaringType.GetTypeInfo())
                    || declaringType == typeof (Enumerable);
         }
 
         private static bool IsGenericInstanceOf(Type enumerable, Type type)
         {
-            return enumerable.IsGenericType && enumerable.GetGenericTypeDefinition() == type;
+            return enumerable.GetTypeInfo().IsGenericType && enumerable.GetGenericTypeDefinition() == type;
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 
 namespace NDatabase.TypeResolution
 {
@@ -45,7 +46,7 @@ namespace NDatabase.TypeResolution
                     if (genericInfo.IsArrayDeclaration)
                     {
                         typeName = string.Format("{0}{1},{2}", type.FullName, genericInfo.GetArrayDeclaration(),
-                                                 type.Assembly.FullName);
+                                                 type.GetTypeInfo().Assembly.FullName);
                         type = null;
                     }
                 }

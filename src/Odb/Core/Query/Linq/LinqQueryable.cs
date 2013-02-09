@@ -17,7 +17,7 @@ namespace NDatabase.Odb.Core.Query.Linq
             if (expression == null)
                 throw new ArgumentNullException("expression");
 
-            if (!typeof (IQueryable<TElement>).IsAssignableFrom(expression.Type))
+            if (!typeof (IQueryable<TElement>).GetTypeInfo().IsAssignableFrom(expression.Type.GetTypeInfo()))
                 throw new ArgumentOutOfRangeException("expression");
 
             _expression = expression;

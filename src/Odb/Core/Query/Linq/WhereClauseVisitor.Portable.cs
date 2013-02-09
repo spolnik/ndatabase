@@ -1,12 +1,8 @@
-﻿using System;
-<<<<<<< HEAD
+﻿﻿using System;
 using System.Collections.Generic;
-=======
-using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
->>>>>>> master
 using System.Linq.Expressions;
-using NDatabase.Odb.Core.Query.Criteria;
+using System.Reflection;
 
 namespace NDatabase.Odb.Core.Query.Linq
 {
@@ -37,7 +33,7 @@ namespace NDatabase.Odb.Core.Query.Linq
                 return;
             }
 
-            AnalyseMethod(Recorder, m.Method);
+            CannotConvertToSoda(m);
         }
 
         private void ProcessStringMethod(MethodCallExpression call)
@@ -45,29 +41,30 @@ namespace NDatabase.Odb.Core.Query.Linq
             switch (call.Method.Name)
             {
                 case "EndsWith":
-                {
-                    RecordConstraintApplication(c => c.EndsWith(true));
-                    return;
-                }
+                    {
+                        var caseSensitive = IsCaseSensitive(call.Arguments);
+                        RecordConstraintApplication(c => c.EndsWith(caseSensitive));
+                        return;
+                    }
                 case "StartsWith":
-                {
-                    RecordConstraintApplication(c => c.StartsWith(true));
-                    return;
-                }
+                    {
+                        var caseSensitive = IsCaseSensitive(call.Arguments);
+                        RecordConstraintApplication(c => c.StartsWith(caseSensitive));
+                        return;
+                    }
 
                 case "Contains":
                     RecordConstraintApplication(c => c.Contains());
                     return;
 
                 case "Equals":
+                    RecordConstraintApplication(c => c.Equal());
                     return;
             }
 
             CannotConvertToSoda(call);
         }
 
-<<<<<<< HEAD
-=======
         private static bool IsCaseSensitive(ReadOnlyCollection<Expression> arguments)
         {
             if (arguments.Count == 1)
@@ -75,13 +72,7 @@ namespace NDatabase.Odb.Core.Query.Linq
 
             var expression = arguments[1];
 
-            if (expression.NodeType == ExpressionType.IsFalse)
-                return true;
-
-            if (expression.NodeType == ExpressionType.IsTrue)
-                return false;
-
-            if (expression.Type.IsEnum)
+            if (expression.Type.GetTypeInfo().IsEnum)
             {
                 var constantExpression = expression as ConstantExpression;
                 if (constantExpression != null)
@@ -96,7 +87,6 @@ namespace NDatabase.Odb.Core.Query.Linq
             return true;
         }
 
->>>>>>> master
         private void RecordConstraintApplication(Func<IConstraint, IConstraint> application)
         {
             Recorder.Add(ctx => ctx.ApplyConstraint(application));
@@ -118,8 +108,8 @@ namespace NDatabase.Odb.Core.Query.Linq
 
         private static bool IsCallOnCollectionOfStrings(MethodCallExpression call)
         {
-            return call.Method.DeclaringType.IsGenericType &&
-                   call.Method.DeclaringType.GetGenericArguments()[0] == typeof (string);
+            return call.Method.DeclaringType.GetTypeInfo().IsGenericType &&
+                   call.Method.DeclaringType.GetTypeInfo().GenericTypeParameters[0] == typeof(string);
         }
 
         private static bool IsComparisonExpression(Expression expression)
@@ -232,7 +222,7 @@ namespace NDatabase.Odb.Core.Query.Linq
 
         protected override void VisitMemberAccess(MemberExpression m)
         {
-            if (!StartsWithParameterReference(m)) 
+            if (!StartsWithParameterReference(m))
                 CannotConvertToSoda(m);
 
             ProcessMemberAccess(m);
@@ -246,10 +236,10 @@ namespace NDatabase.Odb.Core.Query.Linq
 
         static bool ParameterReferenceOnLeftSide(BinaryExpression b)
         {
-            if (StartsWithParameterReference(b.Left)) 
+            if (StartsWithParameterReference(b.Left))
                 return true;
 
-            if (StartsWithParameterReference(b.Right)) 
+            if (StartsWithParameterReference(b.Right))
                 return false;
 
             CannotConvertToSoda(b);
@@ -261,6 +251,7 @@ namespace NDatabase.Odb.Core.Query.Linq
             switch (b.NodeType)
             {
                 case ExpressionType.Equal:
+                    RecordConstraintApplication(c => c.Equal());
                     break;
                 case ExpressionType.NotEqual:
                     RecordConstraintApplication(c => c.Equal().Not());

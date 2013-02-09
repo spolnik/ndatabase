@@ -21,7 +21,7 @@ namespace NDatabase.Odb.Core.Query.Execution
     ///     object list and call particular query matching to check if the object must be
     ///     included in the query result.</p> <p>If the query has index, An execution plan is calculated to optimize the
     ///                                         execution. The query execution plan is calculated by subclasses (using
-    ///                                         abstract method getExecutionPlan).</P>
+    ///                                         abstract method getExecutionPlan).</p>
     /// </remarks>
     internal abstract class GenericQueryExecutor : IMultiClassQueryExecutor
     {

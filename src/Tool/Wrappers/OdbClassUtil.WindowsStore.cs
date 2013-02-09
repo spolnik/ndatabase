@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Concurrent;
-using NDatabase.Odb;
-using System.Reflection;
 
 namespace NDatabase.Tool.Wrappers
 {
@@ -9,9 +7,6 @@ namespace NDatabase.Tool.Wrappers
     {
         private static readonly ConcurrentDictionary<string, string> CacheByFullClassName =
             new ConcurrentDictionary<string, string>();
-
-        private static readonly ConcurrentDictionary<Type, string> CacheByType =
-            new ConcurrentDictionary<Type, string>();
 
         public static string GetClassName(string fullClassName)
         {
@@ -44,24 +39,7 @@ namespace NDatabase.Tool.Wrappers
 
         public static string GetFullName(Type type)
         {
-            return CacheByType.GetOrAdd(type, ProduceFullName);
-        }
-
-        private static string ProduceFullName(Type type)
-        {
-            if (!OdbConfiguration.IsWorkingInNormalTypeResolutionMode())
-                return type.FullName;
-
-            var name = type.GetTypeInfo().Assembly.GetName();
-            var publicKey = name.GetPublicKey();
-            var isSignedAsm = publicKey.Length > 0;
-
-            var index = type.Assembly.FullName.IndexOf(',');
-
-            var fullName = string.Format("{0},{1}", type.FullName, isSignedAsm
-                                                                       ? type.Assembly.FullName
-                                                                       : type.Assembly.FullName.Substring(0, index));
-            return fullName;
+            return type.AssemblyQualifiedName;
         }
     }
 }

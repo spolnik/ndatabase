@@ -5,6 +5,7 @@ using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Core.Query.Execution;
 using NDatabase.Odb.Core.Query.Values;
+using System.Reflection;
 
 namespace NDatabase.Odb.Core.Query
 {
@@ -30,7 +31,7 @@ namespace NDatabase.Odb.Core.Query
             if (underlyingType == null)
                 throw new ArgumentNullException("underlyingType");
 
-            if (underlyingType.IsValueType)
+            if (underlyingType.GetTypeInfo().IsValueType)
                 throw new ArgumentException("Underlying type for query cannot to be value type.", "underlyingType");
 
             OrderByType = OrderByConstants.OrderByNone;

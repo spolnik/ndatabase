@@ -6,6 +6,7 @@ using System.Text;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Query.Execution;
 using NDatabase.Odb.Core.Query.List;
+using System.Reflection;
 
 namespace NDatabase.Odb.Core.Query.Values
 {
@@ -39,8 +40,8 @@ namespace NDatabase.Odb.Core.Query.Values
 
         private static bool IsGenericCollection(Type type)
         {
-            return type.GetInterfaces()
-                            .Any(x => x.IsGenericType &&
+            return type.GetTypeInfo().ImplementedInterfaces
+                            .Any(x => x.GetTypeInfo().IsGenericType &&
                             x.GetGenericTypeDefinition() == typeof(ICollection<>));
         }
 

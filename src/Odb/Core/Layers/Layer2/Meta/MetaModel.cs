@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using NDatabase.Exceptions;
 using NDatabase.Tool.Wrappers;
 using NDatabase.TypeResolution;
+using System.Reflection;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {
@@ -192,7 +193,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                 else
                 {
                     var oneClass = TypeResolutionUtils.ResolveType(userClass);
-                    if (theClass.IsAssignableFrom(oneClass))
+                    if (theClass.GetTypeInfo().IsAssignableFrom(oneClass.GetTypeInfo()))
                         result.Add(GetClassInfo(userClass, true));
                 }
             }

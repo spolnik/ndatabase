@@ -48,7 +48,7 @@ namespace NDatabase.Odb.Core.Query.Linq
         private static bool IsQueryableExtensionMethod(MethodInfo method)
         {
             return IsExtension(method)
-                   && typeof (IQueryable).IsAssignableFrom(method.GetParameters().First().ParameterType);
+                   && typeof (IQueryable).GetTypeInfo().IsAssignableFrom(method.GetParameters().First().ParameterType.GetTypeInfo());
         }
 
         private MethodCallExpression ReplaceQueryableMethodCall(MethodCallExpression call)
@@ -102,7 +102,7 @@ namespace NDatabase.Odb.Core.Query.Linq
 
         private static bool TryMatchMethod(Type target, MethodInfo method, out MethodInfo match)
         {
-            foreach (var candidate in target.GetMethods())
+            foreach (var candidate in target.GetTypeInfo().DeclaredMethods)
             {
                 if (TryMatchMethod(method, candidate, out match)) 
                     return true;
@@ -198,7 +198,7 @@ namespace NDatabase.Odb.Core.Query.Linq
             if (IsGenericInstanceOf(type, typeof (IQueryable<>)) ||
                 IsGenericInstanceOf(type, typeof (IOrderedQueryable<>)))
             {
-                type = typeof (ILinqQuery<>).MakeGenericType(type.GetGenericArguments());
+                type = typeof (ILinqQuery<>).MakeGenericType(type.GenericTypeArguments);
             }
 
             return type;
@@ -208,11 +208,11 @@ namespace NDatabase.Odb.Core.Query.Linq
         {
             if (IsGenericInstanceOf(type, typeof(IQueryable<>)))
             {
-                type = typeof(IEnumerable<>).MakeGenericType(type.GetGenericArguments());
+                type = typeof(IEnumerable<>).MakeGenericType(type.GenericTypeArguments);
             }
             else if (IsGenericInstanceOf(type, typeof(IOrderedQueryable<>)))
             {
-                type = typeof(IOrderedEnumerable<>).MakeGenericType(type.GetGenericArguments());
+                type = typeof(IOrderedEnumerable<>).MakeGenericType(type.GenericTypeArguments);
             }
             else if (IsGenericInstanceOf(type, typeof(Expression<>)))
             {
@@ -228,7 +228,7 @@ namespace NDatabase.Odb.Core.Query.Linq
 
         private static bool IsExtension(MethodInfo methodInfo)
         {
-            return methodInfo.GetCustomAttributes(typeof (ExtensionAttribute), false).Length > 0;
+            return methodInfo.GetCustomAttributes(typeof (ExtensionAttribute), false).Any();
         }
 
         private static Type[] GetParameterTypes(MethodBase self)
@@ -238,12 +238,12 @@ namespace NDatabase.Odb.Core.Query.Linq
 
         private static bool IsGenericInstanceOf(Type enumerable, Type type)
         {
-            return enumerable.IsGenericType && enumerable.GetGenericTypeDefinition() == type;
+            return enumerable.GetTypeInfo().IsGenericType && enumerable.GetGenericTypeDefinition() == type;
         }
 
         private static Type GetFirstGenericArgument(Type type)
         {
-            return type.GetGenericArguments()[0];
+            return type.GenericTypeArguments[0];
         }
     }
 }
