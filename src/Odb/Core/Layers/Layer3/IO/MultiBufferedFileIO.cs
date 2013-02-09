@@ -82,15 +82,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             }
         }
 
-        public void SetUseBuffer(bool useBuffer)
-        {
-            // If we are using buffer, and the new useBuffer indicator if false
-            // Then we need to flush all buffers
-            if (_isUsingBuffer && !useBuffer)
-                FlushAll();
-            _isUsingBuffer = useBuffer;
-        }
-
         public long CurrentPosition
         {
             get
@@ -210,11 +201,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             Clear();
             _nonBufferedFileIO.Dispose();
             _nonBufferedFileIO = null;
-        }
-
-        public void EnableAutomaticDelete(bool yesOrNo)
-        {
-            _nonBufferedFileIO.EnableAutomaticDelete(yesOrNo);
         }
 
         public void Dispose()

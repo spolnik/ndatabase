@@ -6,8 +6,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 {
     internal interface IFileSystemInterface : IDisposable
     {
-        void UseBuffer(bool useBuffer);
-
         void Flush();
 
         long GetPosition();
