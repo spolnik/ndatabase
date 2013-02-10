@@ -266,18 +266,14 @@ namespace NDatabase.Btree
             return value;
         }
 
-        public virtual object DeleteKeyAndValueAt(int keyIndex, bool shiftChildren)
+        public void DeleteKeyAndValueAt(int keyIndex, bool shiftChildren)
         {
-            var currentValue = Values[keyIndex];
             LeftShiftFrom(keyIndex, shiftChildren);
             NbKeys--;
 
             // only decrease child number if child are involved in shifting
             if (shiftChildren && NbChildren > keyIndex)
                 NbChildren--;
-
-            // BTreeValidator.validateNode(this);
-            return currentValue;
         }
 
         public virtual void SetBTree(IBTree btree)

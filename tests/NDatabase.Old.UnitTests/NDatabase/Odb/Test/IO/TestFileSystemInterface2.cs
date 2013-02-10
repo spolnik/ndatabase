@@ -19,7 +19,7 @@ namespace Test.NDatabase.Odb.Test.IO
             fsi.SetWritePosition(fsi.GetLength(), false);
             for (var i = 0; i < 10000; i++)
             {
-                fsi.WriteInt(i, false, "int");
+                fsi.WriteInt(i, false);
                 var currentPosition = fsi.GetPosition();
                 if (i == 8000)
                 {
@@ -37,7 +37,7 @@ namespace Test.NDatabase.Odb.Test.IO
                     currentPosition = fsi.GetPosition();
                     
                     fsi.SetWritePositionNoVerification(8, false);
-                    fsi.WriteInt(12, false, "int");
+                    fsi.WriteInt(12, false);
                     
                     fsi.SetWritePositionNoVerification(currentPosition, false);
                 }

@@ -1,5 +1,3 @@
-using System;
-
 namespace NDatabase.Tool
 {
     /// <summary>

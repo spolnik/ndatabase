@@ -43,7 +43,9 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public override int GetHashCode()
         {
-            return TheObject.GetHashCode();
+            return (TheObject != null
+                        ? TheObject.GetHashCode()
+                        : 0);
         }
 
         public override bool IsAtomicNativeObject()

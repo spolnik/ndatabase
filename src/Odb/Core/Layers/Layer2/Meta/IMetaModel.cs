@@ -6,10 +6,11 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     internal interface IMetaModel
     {
         void AddClass(ClassInfo classInfo);
-        void AddClasses(ClassInfoList ciList);
+        
         bool ExistClass(Type type);
-        string ToString();
+        
         IEnumerable<ClassInfo> GetAllClasses();
+
         int GetNumberOfClasses();
 
         /// <summary>

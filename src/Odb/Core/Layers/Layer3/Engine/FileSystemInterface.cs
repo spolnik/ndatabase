@@ -88,12 +88,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public void WriteByte(byte i, bool writeInTransaction)
         {
-            WriteByte(i, writeInTransaction, null);
-        }
-
-        public void WriteByte(byte i, bool writeInTransaction, string label)
-        {
-            var bytes = new[] {i};
+            var bytes = new[] { i };
 
             if (!writeInTransaction)
             {
@@ -108,22 +103,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public byte ReadByte()
         {
-            return ReadByte(null);
-        }
-
-        public byte ReadByte(string label)
-        {
             return _io.ReadByte();
         }
 
         public void WriteSByte(sbyte i, bool writeInTransaction)
         {
-            WriteSByte(i, writeInTransaction, null);
-        }
-
-        public void WriteSByte(sbyte i, bool writeInTransaction, string label)
-        {
-            var asByte = unchecked ((byte) i);
+            var asByte = unchecked((byte)i);
             var bytes = new[] { asByte };
 
             if (!writeInTransaction)
@@ -137,7 +122,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
         }
 
-        public sbyte ReadSByte(string label)
+        public sbyte ReadSByte()
         {
             var i = _io.ReadByte();
 
@@ -146,7 +131,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return asSByte;
         }
 
-        public void WriteBytes(byte[] bytes, bool writeInTransaction, string label)
+        public void WriteBytes(byte[] bytes, bool writeInTransaction)
         {
             if (!writeInTransaction)
             {
@@ -187,11 +172,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public char ReadChar()
         {
-            return ReadChar(null);
-        }
-
-        public char ReadChar(string label)
-        {
             return ByteArrayConverter.ByteArrayToChar(ReadCharBytes());
         }
 
@@ -207,11 +187,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public short ReadShort()
         {
-            return ReadShort(null);
-        }
-
-        public short ReadShort(string label)
-        {
             return ByteArrayConverter.ByteArrayToShort(ReadShortBytes());
         }
 
@@ -225,12 +200,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return _io.ReadBytes(OdbType.UShort.Size);
         }
 
-        public ushort ReadUShort(string label)
+        public ushort ReadUShort()
         {
             return ByteArrayConverter.ByteArrayToUShort(ReadUShortBytes());
         }
 
-        public void WriteInt(int i, bool writeInTransaction, string label)
+        public void WriteInt(int i, bool writeInTransaction)
         {
             WriteValue(i, writeInTransaction, ByteArrayConverter.IntToByteArray, OdbType.Integer);
         }
@@ -242,15 +217,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public int ReadInt()
         {
-            return ReadInt(null);
-        }
-
-        public int ReadInt(string label)
-        {
             return ByteArrayConverter.ByteArrayToInt(ReadIntBytes());
         }
 
-        public void WriteUInt(uint i, bool writeInTransaction, string label)
+        public void WriteUInt(uint i, bool writeInTransaction)
         {
             WriteValue(i, writeInTransaction, ByteArrayConverter.UIntToByteArray, OdbType.UInteger);
         }
@@ -260,12 +230,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return _io.ReadBytes(OdbType.UInteger.Size);
         }
 
-        public uint ReadUInt(string label)
+        public uint ReadUInt()
         {
             return ByteArrayConverter.ByteArrayToUInt(ReadUIntBytes());
         }
 
-        public void WriteLong(long i, bool writeInTransaction, string label)
+        public void WriteLong(long i, bool writeInTransaction)
         {
             WriteValue(i, writeInTransaction, ByteArrayConverter.LongToByteArray, OdbType.Long);
         }
@@ -277,15 +247,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public long ReadLong()
         {
-            return ReadLong(null);
-        }
-
-        public long ReadLong(string label)
-        {
             return ByteArrayConverter.ByteArrayToLong(ReadLongBytes());
         }
 
-        public void WriteULong(ulong i, bool writeInTransaction, string label)
+        public void WriteULong(ulong i, bool writeInTransaction)
         {
             WriteValue(i, writeInTransaction, ByteArrayConverter.ULongToByteArray, OdbType.ULong);
         }
@@ -295,7 +260,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return _io.ReadBytes(OdbType.ULong.Size);
         }
 
-        public ulong ReadULong(string label)
+        public ulong ReadULong()
         {
             return ByteArrayConverter.ByteArrayToULong(ReadULongBytes());
         }
@@ -312,11 +277,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public float ReadFloat()
         {
-            return ReadFloat(null);
-        }
-
-        public float ReadFloat(string label)
-        {
             return ByteArrayConverter.ByteArrayToFloat(ReadFloatBytes());
         }
 
@@ -330,7 +290,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return _io.ReadBytes(OdbType.Double.Size);
         }
 
-        public double ReadDouble(string label)
+        public double ReadDouble()
         {
             return ByteArrayConverter.ByteArrayToDouble(ReadDoubleBytes());
         }
@@ -357,11 +317,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public Decimal ReadBigDecimal()
         {
-            return ReadBigDecimal(null);
-        }
-
-        public Decimal ReadBigDecimal(string label)
-        {
             return ByteArrayConverter.ByteArrayToDecimal(ReadBigDecimalBytes());
         }
 
@@ -375,7 +330,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             return _io.ReadBytes(OdbType.Date.Size);
         }
 
-        public DateTime ReadDate(string label)
+        public DateTime ReadDate()
         {
             return ByteArrayConverter.ByteArrayToDate(ReadDateBytes());
         }
@@ -425,20 +380,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public string ReadString()
         {
-            return ReadString(null);
-        }
-
-        public string ReadString(string label)
-        {
             return ByteArrayConverter.ByteArrayToString(ReadStringBytes());
         }
 
         public void WriteBoolean(bool b, bool writeInTransaction)
-        {
-            WriteBoolean(b, writeInTransaction, null);
-        }
-
-        public void WriteBoolean(bool b, bool writeInTransaction, string label)
         {
             WriteValue(b, writeInTransaction, ByteArrayConverter.BooleanToByteArray, OdbType.Boolean);
         }
@@ -449,11 +394,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         }
 
         public bool ReadBoolean()
-        {
-            return ReadBoolean(null);
-        }
-
-        public bool ReadBoolean(string label)
         {
             return ByteArrayConverter.ByteArrayToBoolean(ReadBooleanBytes());
         }
@@ -467,11 +407,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public IDbIdentification GetFileIdentification()
         {
             return _fileIdentification;
-        }
-
-        public IMultiBufferedFileIO GetIo()
-        {
-            return _io;
         }
 
         #endregion

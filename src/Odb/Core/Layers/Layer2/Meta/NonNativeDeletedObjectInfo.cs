@@ -5,9 +5,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// </summary>
     internal sealed class NonNativeDeletedObjectInfo : NonNativeObjectInfo
     {
-        public NonNativeDeletedObjectInfo(long position) : base(null, null)
+        public NonNativeDeletedObjectInfo() : base(null, null)
         {
-            Position = position;
         }
 
         public override string ToString()

@@ -33,7 +33,7 @@ namespace NDatabase.TypeResolution
             {
                 if (genericInfo.ContainsGenericArguments)
                 {
-                    type = TypeResolutionUtils.ResolveType(genericInfo.GenericTypeName);
+                    type = TypeResolutionUtils.ResolveType(genericInfo.GetGenericTypeName());
                     if (!genericInfo.IsGenericDefinition)
                     {
                         var unresolvedGenericArgs = genericInfo.GetGenericArguments();

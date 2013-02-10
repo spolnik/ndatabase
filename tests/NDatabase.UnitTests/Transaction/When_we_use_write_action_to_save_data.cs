@@ -2,7 +2,6 @@
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
-using NDatabase.Odb.Core.Layers.Layer3.IO;
 using NDatabase.Odb.Core.Transaction;
 using NUnit.Framework;
 
@@ -40,9 +39,7 @@ namespace NDatabase.UnitTests.Transaction
 
             var savedBytes = ((FileSystemInterfaceFake) _fsi).Bytes;
             var savedWriteInTransaction = ((FileSystemInterfaceFake) _fsi).WriteInTransaction;
-            var savedLabel = ((FileSystemInterfaceFake) _fsi).Label;
-
-            Assert.That(savedLabel, Is.EqualTo("Transaction"));
+            
             Assert.That(savedWriteInTransaction, Is.False);
 
             var position = ByteArrayConverter.ByteArrayToLong(savedBytes);
@@ -90,11 +87,9 @@ namespace NDatabase.UnitTests.Transaction
 
             var savedBytes = ((FileSystemInterfaceFake)_fsi).Bytes;
             var savedWriteInTransaction = ((FileSystemInterfaceFake)_fsi).WriteInTransaction;
-            var savedLabel = ((FileSystemInterfaceFake)_fsi).Label;
             var savedPosition = ((FileSystemInterfaceFake)_fsi).Position;
 
             Assert.That(savedPosition, Is.EqualTo(_position));
-            Assert.That(savedLabel, Is.EqualTo("WriteAction"));
             Assert.That(savedWriteInTransaction, Is.False);
 
             Assert.That(savedBytes[0], Is.EqualTo(_data[0]));
@@ -126,9 +121,7 @@ namespace NDatabase.UnitTests.Transaction
 
             var savedBytes = ((FileSystemInterfaceFake)_fsi).Bytes;
             var savedWriteInTransaction = ((FileSystemInterfaceFake)_fsi).WriteInTransaction;
-            var savedLabel = ((FileSystemInterfaceFake)_fsi).Label;
-
-            Assert.That(savedLabel, Is.EqualTo("Transaction"));
+            
             Assert.That(savedWriteInTransaction, Is.False);
 
             var position = ByteArrayConverter.ByteArrayToLong(savedBytes);
@@ -146,18 +139,12 @@ namespace NDatabase.UnitTests.Transaction
 
         private class FileSystemInterfaceFake : IFileSystemInterface
         {
-            public string Label { get; private set; }
             public bool WriteInTransaction { get; private set; }
             public byte[] Bytes { get; private set; }
 
             #region IFileSystemInterface Members
 
             public void Dispose()
-            {
-                throw new NotImplementedException();
-            }
-
-            public void UseBuffer(bool useBuffer)
             {
                 throw new NotImplementedException();
             }
@@ -209,26 +196,15 @@ namespace NDatabase.UnitTests.Transaction
                 throw new NotImplementedException();
             }
 
-            public void WriteByte(byte i, bool writeInTransaction, string label)
-            {
-                throw new NotImplementedException();
-            }
-
             public byte ReadByte()
             {
                 throw new NotImplementedException();
             }
 
-            public byte ReadByte(string label)
-            {
-                throw new NotImplementedException();
-            }
-
-            public void WriteBytes(byte[] bytes, bool writeInTransaction, string label)
+            public void WriteBytes(byte[] bytes, bool writeInTransaction)
             {
                 Bytes = bytes;
                 WriteInTransaction = writeInTransaction;
-                Label = label;
             }
 
             public byte[] ReadBytes(int length)
@@ -241,17 +217,7 @@ namespace NDatabase.UnitTests.Transaction
                 throw new NotImplementedException();
             }
 
-            public byte[] ReadCharBytes()
-            {
-                throw new NotImplementedException();
-            }
-
             public char ReadChar()
-            {
-                throw new NotImplementedException();
-            }
-
-            public char ReadChar(string label)
             {
                 throw new NotImplementedException();
             }
@@ -261,27 +227,12 @@ namespace NDatabase.UnitTests.Transaction
                 throw new NotImplementedException();
             }
 
-            public byte[] ReadShortBytes()
-            {
-                throw new NotImplementedException();
-            }
-
             public short ReadShort()
             {
                 throw new NotImplementedException();
             }
 
-            public short ReadShort(string label)
-            {
-                throw new NotImplementedException();
-            }
-
-            public void WriteInt(int i, bool writeInTransaction, string label)
-            {
-                throw new NotImplementedException();
-            }
-
-            public byte[] ReadIntBytes()
+            public void WriteInt(int i, bool writeInTransaction)
             {
                 throw new NotImplementedException();
             }
@@ -291,17 +242,7 @@ namespace NDatabase.UnitTests.Transaction
                 throw new NotImplementedException();
             }
 
-            public int ReadInt(string label)
-            {
-                throw new NotImplementedException();
-            }
-
-            public void WriteLong(long i, bool writeInTransaction, string label)
-            {
-                throw new NotImplementedException();
-            }
-
-            public byte[] ReadLongBytes()
+            public void WriteLong(long i, bool writeInTransaction)
             {
                 throw new NotImplementedException();
             }
@@ -311,17 +252,7 @@ namespace NDatabase.UnitTests.Transaction
                 throw new NotImplementedException();
             }
 
-            public long ReadLong(string label)
-            {
-                throw new NotImplementedException();
-            }
-
             public void WriteFloat(float f, bool writeInTransaction)
-            {
-                throw new NotImplementedException();
-            }
-
-            public byte[] ReadFloatBytes()
             {
                 throw new NotImplementedException();
             }
@@ -331,17 +262,7 @@ namespace NDatabase.UnitTests.Transaction
                 throw new NotImplementedException();
             }
 
-            public float ReadFloat(string label)
-            {
-                throw new NotImplementedException();
-            }
-
             public void WriteDouble(double d, bool writeInTransaction)
-            {
-                throw new NotImplementedException();
-            }
-
-            public byte[] ReadDoubleBytes()
             {
                 throw new NotImplementedException();
             }
@@ -351,17 +272,7 @@ namespace NDatabase.UnitTests.Transaction
                 throw new NotImplementedException();
             }
 
-            public double ReadDouble(string label)
-            {
-                throw new NotImplementedException();
-            }
-
             public void WriteBigDecimal(decimal d, bool writeInTransaction)
-            {
-                throw new NotImplementedException();
-            }
-
-            public byte[] ReadBigDecimalBytes()
             {
                 throw new NotImplementedException();
             }
@@ -371,27 +282,12 @@ namespace NDatabase.UnitTests.Transaction
                 throw new NotImplementedException();
             }
 
-            public decimal ReadBigDecimal(string label)
-            {
-                throw new NotImplementedException();
-            }
-
             public void WriteDate(DateTime d, bool writeInTransaction)
             {
                 throw new NotImplementedException();
             }
 
-            public byte[] ReadDateBytes()
-            {
-                throw new NotImplementedException();
-            }
-
             public DateTime ReadDate()
-            {
-                throw new NotImplementedException();
-            }
-
-            public DateTime ReadDate(string label)
             {
                 throw new NotImplementedException();
             }
@@ -406,17 +302,7 @@ namespace NDatabase.UnitTests.Transaction
                 throw new NotImplementedException();
             }
 
-            public byte[] ReadStringBytes()
-            {
-                throw new NotImplementedException();
-            }
-
             public string ReadString()
-            {
-                throw new NotImplementedException();
-            }
-
-            public string ReadString(string label)
             {
                 throw new NotImplementedException();
             }
@@ -426,27 +312,7 @@ namespace NDatabase.UnitTests.Transaction
                 throw new NotImplementedException();
             }
 
-            public void WriteBoolean(bool b, bool writeInTransaction, string label)
-            {
-                throw new NotImplementedException();
-            }
-
-            public byte[] ReadBooleanBytes()
-            {
-                throw new NotImplementedException();
-            }
-
             public bool ReadBoolean()
-            {
-                throw new NotImplementedException();
-            }
-
-            public bool ReadBoolean(string label)
-            {
-                throw new NotImplementedException();
-            }
-
-            public byte[] ReadNativeAttributeBytes(int attributeType)
             {
                 throw new NotImplementedException();
             }
@@ -461,22 +327,7 @@ namespace NDatabase.UnitTests.Transaction
                 throw new NotImplementedException();
             }
 
-            public IMultiBufferedFileIO GetIo()
-            {
-                throw new NotImplementedException();
-            }
-
-            public void SetIo(IMultiBufferedFileIO io)
-            {
-                throw new NotImplementedException();
-            }
-
             public void WriteUShort(ushort s, bool writeInTransaction)
-            {
-                throw new NotImplementedException();
-            }
-
-            public byte[] ReadUShortBytes()
             {
                 throw new NotImplementedException();
             }
@@ -486,17 +337,7 @@ namespace NDatabase.UnitTests.Transaction
                 throw new NotImplementedException();
             }
 
-            public ushort ReadUShort(string label)
-            {
-                throw new NotImplementedException();
-            }
-
-            public void WriteUInt(uint i, bool writeInTransaction, string label)
-            {
-                throw new NotImplementedException();
-            }
-
-            public byte[] ReadUIntBytes()
+            public void WriteUInt(uint i, bool writeInTransaction)
             {
                 throw new NotImplementedException();
             }
@@ -506,17 +347,7 @@ namespace NDatabase.UnitTests.Transaction
                 throw new NotImplementedException();
             }
 
-            public uint ReadUInt(string label)
-            {
-                throw new NotImplementedException();
-            }
-
-            public void WriteULong(ulong i, bool writeInTransaction, string label)
-            {
-                throw new NotImplementedException();
-            }
-
-            public byte[] ReadULongBytes()
+            public void WriteULong(ulong i, bool writeInTransaction)
             {
                 throw new NotImplementedException();
             }
@@ -526,27 +357,12 @@ namespace NDatabase.UnitTests.Transaction
                 throw new NotImplementedException();
             }
 
-            public ulong ReadULong(string label)
-            {
-                throw new NotImplementedException();
-            }
-
             public void WriteSByte(sbyte i, bool writeInTransaction)
             {
                 throw new NotImplementedException();
             }
 
-            public void WriteSByte(sbyte i, bool writeInTransaction, string label)
-            {
-                throw new NotImplementedException();
-            }
-
             public sbyte ReadSByte()
-            {
-                throw new NotImplementedException();
-            }
-
-            public sbyte ReadSByte(string label)
             {
                 throw new NotImplementedException();
             }

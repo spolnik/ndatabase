@@ -1,5 +1,3 @@
-using NDatabase.Odb;
-
 namespace NDatabase.Btree
 {
     /// <summary>
@@ -9,15 +7,15 @@ namespace NDatabase.Btree
     {
         IBTreeNode LoadNodeById(object id);
 
-        object SaveNode(IBTreeNode node);
+        void SaveNode(IBTreeNode node);
 
-        OID SaveBTree(IBTree tree);
+        void SaveBTree(IBTree tree);
 
         IBTree LoadBTree(object id);
         
         void Close();
 
-        object DeleteNode(IBTreeNode parent);
+        void DeleteNode(IBTreeNode parent);
 
         void SetBTree(IBTree tree);
 

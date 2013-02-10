@@ -10,10 +10,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
 
         int GetNbChanges();
 
-        IList<object> GetNewObjects();
-
-        int GetMaxObjectRecursionLevel();
-
         IList<IChangedAttribute> GetChangedAttributeActions();
 
         IList<ArrayModifyElement> GetArrayChanges();

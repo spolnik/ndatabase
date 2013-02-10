@@ -45,12 +45,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                 NDatabaseError.MethodShouldNotBeCalled.AddParameter("getObject").AddParameter(GetType().FullName));
         }
 
-        public override void SetObject(object @object)
-        {
-            throw new OdbRuntimeException(
-                NDatabaseError.MethodShouldNotBeCalled.AddParameter("setObject").AddParameter(GetType().FullName));
-        }
-
         public NonNativeObjectInfo GetNnoi()
         {
             return _nnoi;

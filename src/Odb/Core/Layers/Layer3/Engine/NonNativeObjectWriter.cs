@@ -205,14 +205,14 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             IntToByteArray(nbAttributes, bytes, 66);
 
             // Then write the array of bytes
-            _objectWriter.FileSystemProcessor.FileSystemInterface.WriteBytes(bytes, writeDataInTransaction, "NonNativeObjectInfoHeader");
+            _objectWriter.FileSystemProcessor.FileSystemInterface.WriteBytes(bytes, writeDataInTransaction);
             // Store the position
             var attributePositionStart = _objectWriter.FileSystemProcessor.FileSystemInterface.GetPosition();
             var attributeSize = OdbType.SizeOfInt + OdbType.SizeOfLong;
             var abytes = new byte[nbAttributes * (attributeSize)];
             // here, just write an empty (0) array, as real values will be set at
             // the end
-            _objectWriter.FileSystemProcessor.FileSystemInterface.WriteBytes(abytes, writeDataInTransaction, "Empty Attributes");
+            _objectWriter.FileSystemProcessor.FileSystemInterface.WriteBytes(abytes, writeDataInTransaction);
             var attributesIdentification = new long[nbAttributes];
             var attributeIds = new int[nbAttributes];
             // Puts the object info in the cache
@@ -293,7 +293,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                             AddParameter(attributesIdentification[i]));
                 }
             }
-            _objectWriter.FileSystemProcessor.FileSystemInterface.WriteBytes(abytes, writeDataInTransaction, "Filled Attributes");
+            _objectWriter.FileSystemProcessor.FileSystemInterface.WriteBytes(abytes, writeDataInTransaction);
             _objectWriter.FileSystemProcessor.FileSystemInterface.SetWritePosition(positionAfterWrite, writeDataInTransaction);
             var blockSize = (int)(positionAfterWrite - position);
             
@@ -570,7 +570,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
             var currentPosition = _objectWriter.FileSystemProcessor.FileSystemInterface.GetPosition();
             _objectWriter.FileSystemProcessor.FileSystemInterface.SetWritePosition(writePosition, writeInTransaction);
-            _objectWriter.FileSystemProcessor.FileSystemInterface.WriteInt(blockSize, writeInTransaction, "block size");
+            _objectWriter.FileSystemProcessor.FileSystemInterface.WriteInt(blockSize, writeInTransaction);
             // goes back where we were
             _objectWriter.FileSystemProcessor.FileSystemInterface.SetWritePosition(currentPosition, writeInTransaction);
         }

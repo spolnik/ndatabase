@@ -179,12 +179,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             _objectHeader.SetPreviousObjectOID(previousObjectOID);
         }
 
-        public override long GetPosition()
-        {
-            return _objectHeader.GetPosition();
-        }
-
-        public override void SetPosition(long position)
+        public void SetPosition(long position)
         {
             _objectHeader.SetPosition(position);
         }
@@ -344,7 +339,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return _maxNbattributes;
         }
 
-        public override void SetObject(object @object)
+        public void SetObject(object @object)
         {
             _theObject = @object;
         }

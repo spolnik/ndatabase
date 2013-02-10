@@ -69,7 +69,7 @@ namespace NDatabase.Odb.Core.Transaction
                 offset += tmp.Length;
             }
 
-            fsi.WriteBytes(bytes, false, "Transaction");
+            fsi.WriteBytes(bytes, false);
         }
 
         internal void ApplyTo(IFileSystemInterface fsi)
@@ -77,7 +77,7 @@ namespace NDatabase.Odb.Core.Transaction
             fsi.SetWritePosition(_position, false);
             
             foreach (var bytes in _listOfBytes)
-                fsi.WriteBytes(bytes, false, "WriteAction");
+                fsi.WriteBytes(bytes, false);
         }
 
         internal bool IsEmpty()
@@ -101,13 +101,13 @@ namespace NDatabase.Odb.Core.Transaction
                 var writeAction = new WriteAction(position, bytes);
 
                 if (OdbConfiguration.IsLoggingEnabled())
-                    DLogger.Debug(string.Format("Loading Write Action at {0} => {1}", fsi.GetPosition(), writeAction));
+                    DLogger.Debug(string.Format("Transaction WriteAction: Loading Write Action at {0} => {1}", fsi.GetPosition(), writeAction));
 
                 return writeAction;
             }
             catch (OdbRuntimeException)
             {
-                DLogger.Error(string.Format("error reading write action at position {0}", fsi.GetPosition()));
+                DLogger.Error(string.Format("Transaction WriteAction: error reading write action at position {0}", fsi.GetPosition()));
                 throw;
             }
         }
@@ -121,12 +121,21 @@ namespace NDatabase.Odb.Core.Transaction
             if (_listOfBytes != null)
             {
                 foreach (var bytesToWrite in _listOfBytes)
-                    bytes.Append(DisplayUtility.ByteArrayToString(bytesToWrite));
+                    bytes.Append(ByteArrayToString(bytesToWrite));
 
                 buffer.Append(" | bytes=[").Append(bytes).Append("] & size=" + _size);
             }
             else
                 buffer.Append(" | bytes=null & size=").Append(_size);
+
+            return buffer.ToString();
+        }
+
+        private static string ByteArrayToString(IEnumerable<byte> bytes)
+        {
+            var buffer = new StringBuilder();
+            foreach (var value in bytes)
+                buffer.Append((int)value).Append(" ");
 
             return buffer.ToString();
         }
