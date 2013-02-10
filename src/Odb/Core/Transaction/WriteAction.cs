@@ -101,13 +101,13 @@ namespace NDatabase.Odb.Core.Transaction
                 var writeAction = new WriteAction(position, bytes);
 
                 if (OdbConfiguration.IsLoggingEnabled())
-                    DLogger.Debug(string.Format("Loading Write Action at {0} => {1}", fsi.GetPosition(), writeAction));
+                    DLogger.Debug(string.Format("Transaction WriteAction: Loading Write Action at {0} => {1}", fsi.GetPosition(), writeAction));
 
                 return writeAction;
             }
             catch (OdbRuntimeException)
             {
-                DLogger.Error(string.Format("error reading write action at position {0}", fsi.GetPosition()));
+                DLogger.Error(string.Format("Transaction WriteAction: error reading write action at position {0}", fsi.GetPosition()));
                 throw;
             }
         }

@@ -74,7 +74,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 if (OdbConfiguration.IsLoggingEnabled())
                 {
                     if (j%10000 == 0)
-                        DLogger.Info(string.Concat("\n", totalNbObjects.ToString(), " objects saved."));
+                        DLogger.Info(string.Concat("\nStorageEngine: ", totalNbObjects.ToString(), " objects saved."));
                 }
 
                 j++;
@@ -90,7 +90,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var nbObjectsAsString = totalNbObjects.ToString();
             var timeAsString = time.ToString();
 
-            DLogger.Info(string.Format("New storage {0} created with {1} objects in {2} ms.", newFileName,
+            DLogger.Info(string.Format("StorageEngine: New storage {0} created with {1} objects in {2} ms.", newFileName,
                                        nbObjectsAsString, timeAsString));
         }
 
@@ -107,13 +107,13 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var classInfoIndex = classInfo.GetIndexWithName(indexName);
 
             if (OdbConfiguration.IsLoggingEnabled())
-                DLogger.Info(string.Format("Deleting index {0} on class {1}", indexName, className));
+                DLogger.Info(string.Format("StorageEngine: Deleting index {0} on class {1}", indexName, className));
 
             Delete(classInfoIndex);
             classInfo.RemoveIndex(classInfoIndex);
 
             if (OdbConfiguration.IsLoggingEnabled())
-                DLogger.Info(string.Format("Index {0} deleted", indexName));
+                DLogger.Info(string.Format("StorageEngine: Index {0} deleted", indexName));
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public virtual void RebuildIndex(string className, string indexName)
         {
             if (OdbConfiguration.IsLoggingEnabled())
-                DLogger.Info(string.Format("Rebuilding index {0} on class {1}", indexName, className));
+                DLogger.Info(string.Format("StorageEngine: Rebuilding index {0} on class {1}", indexName, className));
 
             var classInfo = GetMetaModel().GetClassInfo(className, true);
 
@@ -169,10 +169,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             {
                 var numberOfObjectsAsString = classInfo.NumberOfObjects.ToString();
                 DLogger.Info(
-                    string.Format("Creating index {0} on class {1} - Class has already {2} Objects. Updating index",
+                    string.Format("StorageEngine: Creating index {0} on class {1} - Class has already {2} Objects. Updating index",
                                   indexName, className, numberOfObjectsAsString));
 
-                DLogger.Info(string.Format("{0} : loading {1} objects from database", indexName,
+                DLogger.Info(string.Format("StorageEngine: {0} : loading {1} objects from database", indexName,
                                            numberOfObjectsAsString));
             }
 
@@ -183,7 +183,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (OdbConfiguration.IsLoggingEnabled())
             {
                 var numberOfObjectsAsString = classInfo.NumberOfObjects.ToString();
-                DLogger.Info(string.Format("{0} : {1} objects loaded", indexName, numberOfObjectsAsString));
+                DLogger.Info(string.Format("StorageEngine: {0} : {1} objects loaded", indexName, numberOfObjectsAsString));
             }
 
             while (objects.HasNext())
@@ -194,7 +194,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
 
             if (OdbConfiguration.IsLoggingEnabled())
-                DLogger.Info(string.Format("{0} created!", indexName));
+                DLogger.Info(string.Format("StorageEngine: {0} created!", indexName));
         }
 
         public abstract void AddCommitListener(ICommitListener arg1);

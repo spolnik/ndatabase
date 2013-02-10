@@ -124,7 +124,7 @@ namespace NDatabase.Odb.Core.Transaction
                 var numberOfWriteActionsAsString = _numberOfWriteActions.ToString();
                 var hasAllWriteActionsInMemoryAsString = _hasAllWriteActionsInMemory.ToString();
 
-                DLogger.Info("Commiting " + numberOfWriteActionsAsString + " write actions - In Memory : " +
+                DLogger.Info("OdbTransaction: Commiting " + numberOfWriteActionsAsString + " write actions - In Memory : " +
                              hasAllWriteActionsInMemoryAsString + string.Format(" - sid={0}", _session.GetId()));
             }
 
@@ -272,7 +272,7 @@ namespace NDatabase.Odb.Core.Transaction
         private void AddWriteAction(WriteAction writeAction, bool persistWriteAction)
         {
             if (OdbConfiguration.IsLoggingEnabled())
-                DLogger.Info(string.Format("Adding WA in Transaction of session {0}", _session.GetId()));
+                DLogger.Info(string.Format("OdbTransaction: Adding WriteAction in Transaction of session {0}", _session.GetId()));
 
             if (writeAction.IsEmpty())
                 return;
@@ -307,7 +307,7 @@ namespace NDatabase.Odb.Core.Transaction
                     var maxNumberOfWriteObjectPerTransactionAsString =
                         StorageEngineConstant.MaxNumberOfWriteObjectPerTransaction.ToString();
 
-                    DLogger.Info("Number of objects has exceeded the max number " + numberOfWriteActions + "/" +
+                    DLogger.Info("OdbTransaction: Number of objects has exceeded the max number " + numberOfWriteActions + "/" +
                                  maxNumberOfWriteObjectPerTransactionAsString +
                                  ": switching to persistent transaction managment");
                 }
@@ -349,7 +349,7 @@ namespace NDatabase.Odb.Core.Transaction
             CheckFileAccess(null);
 
             if (OdbConfiguration.IsLoggingEnabled())
-                DLogger.Debug(string.Format("# Persisting transaction {0}", GetName()));
+                DLogger.Debug(string.Format("OdbTransaction: # Persisting transaction {0}", GetName()));
 
             _fsi.SetWritePosition(0, false);
             _fsi.WriteBoolean(_isCommited, false);
@@ -418,7 +418,7 @@ namespace NDatabase.Odb.Core.Transaction
                 return;
 
             if (OdbConfiguration.IsLoggingEnabled())
-                DLogger.Debug("Start commitMetaModel");
+                DLogger.Debug("OdbTransaction: Start commitMetaModel");
 
             // In local mode, we must not reload the meta model as there is no
             // concurrent access
@@ -516,7 +516,7 @@ namespace NDatabase.Odb.Core.Transaction
 
                 if (OdbConfiguration.IsLoggingEnabled())
                 {
-                    DLogger.Debug(string.Format("Analysing class {0}", newClassInfo.FullClassName));
+                    DLogger.Debug(string.Format("OdbTransaction: Analysing class {0}", newClassInfo.FullClassName));
                     DLogger.Debug(string.Format("\t-Commited CI   = {0}", newClassInfo));
                     DLogger.Debug(
                         string.Format("\t-connect last commited object with oid {0} to first uncommited object {1}",
@@ -556,7 +556,7 @@ namespace NDatabase.Odb.Core.Transaction
         private void LoadWriteActions(string filename, bool apply)
         {
             if (OdbConfiguration.IsLoggingEnabled())
-                DLogger.Debug(string.Format("Load write actions of {0}", filename));
+                DLogger.Debug(string.Format("OdbTransaction: Load write actions of {0}", filename));
 
             CheckFileAccess(filename);
             _fsi.SetReadPosition(0);
@@ -565,7 +565,7 @@ namespace NDatabase.Odb.Core.Transaction
             var totalNumberOfWriteActions = _fsi.ReadLong();
 
             if (OdbConfiguration.IsLoggingEnabled())
-                DLogger.Info(string.Concat(_writeActions.Count.ToString(), " write actions in file"));
+                DLogger.Info(string.Concat("OdbTransaction: ", _writeActions.Count.ToString(), " write actions in file"));
 
             for (var i = 0; i < totalNumberOfWriteActions; i++)
             {
@@ -598,7 +598,7 @@ namespace NDatabase.Odb.Core.Transaction
         {
             if (!_isCommited)
             {
-                DLogger.Info("can not execute a transaction that is not confirmed");
+                DLogger.Info("OdbTransaction: can not execute a transaction that is not confirmed");
                 return;
             }
 

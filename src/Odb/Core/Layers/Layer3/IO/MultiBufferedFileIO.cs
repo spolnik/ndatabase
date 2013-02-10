@@ -254,7 +254,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
 
             if (isReading && newPosition >= length)
             {
-                var message = string.Concat("End Of File reached - position = ", newPosition.ToString(), " : Length = ",
+                var message = string.Concat("MultiBufferedFileIO: End Of File reached - position = ", newPosition.ToString(), " : Length = ",
                                             length.ToString());
                 DLogger.Error(message);
                 throw new OdbRuntimeException(

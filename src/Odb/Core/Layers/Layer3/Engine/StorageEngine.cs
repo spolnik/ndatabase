@@ -124,8 +124,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             for (var i = 0; i < checkMetaModelResult.Size(); i++)
             {
                 result = checkMetaModelResult.GetResults()[i];
-                DLogger.Info(string.Format("Class {0} has changed :", result.GetFullClassName()));
-                DLogger.Info(result.ToString());
+                DLogger.Info(string.Format("StorageEngine: Class {0} has changed :", result.GetFullClassName()));
+                DLogger.Info("StorageEngine: " + result.ToString());
             }
 
             if (checkMetaModelResult.GetResults().Count == 0)
@@ -429,7 +429,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         private void UpdateMetaModel()
         {
             if (OdbConfiguration.IsLoggingEnabled())
-                DLogger.Info("Automatic refactoring : updating meta model");
+                DLogger.Info("StorageEngine: Automatic refactoring : updating meta model");
 
             var metaModel = GetMetaModel();
 

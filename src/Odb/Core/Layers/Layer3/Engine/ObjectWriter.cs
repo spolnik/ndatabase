@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
@@ -92,11 +93,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             {
                 var writePositionAsString = writePosition.ToString();
                 DLogger.Debug(
-                    string.Format("Persisting class into database : {0} with oid {1} at pos ",
+                    string.Format("ObjectWriter: Persisting class into database : {0} with oid {1} at pos ",
                                   newClassInfo.FullClassName, classInfoId) + writePositionAsString);
 
                 var numberOfAttributesAsString = newClassInfo.NumberOfAttributes.ToString();
-                DLogger.Debug("class " + newClassInfo.FullClassName + " has " + numberOfAttributesAsString + " attributes");
+                DLogger.Debug("ObjectWriter: class " + newClassInfo.FullClassName + " has " + numberOfAttributesAsString + " attributes");
             }
 
             #endregion
@@ -116,7 +117,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 {
                     var positionAsString = lastClassinfo.Position.ToString();
                     var classOffsetAsString = StorageEngineConstant.ClassOffsetNextClassPosition.ToString();
-                    DLogger.Debug("changing next class oid. of class info " + lastClassinfo.FullClassName + "@ " +
+                    DLogger.Debug("ObjectWriter: changing next class oid. of class info " + lastClassinfo.FullClassName + "@ " +
                                   positionAsString + " + offset " + classOffsetAsString +
                                   string.Format(" to {0}({1})", newClassInfo.ClassInfoId, newClassInfo.FullClassName));
                 }
@@ -148,31 +149,36 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             {
                 var dependingAttributes = newClassInfo.GetAllNonNativeAttributes();
 
-                foreach (var classAttributeInfo in dependingAttributes)
-                {
-                    try
-                    {
-                        var existingClassInfo = metaModel.GetClassInfo(classAttributeInfo.GetFullClassname(), false);
-                        if (existingClassInfo == null)
-                        {
-                            AddClasses(ClassIntrospector.Introspect(classAttributeInfo.GetFullClassname()));
-                        }
-                        else
-                        {
-                            // Even,if it exist,take the one from metamodel
-                            classAttributeInfo.SetClassInfo(existingClassInfo);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        throw new OdbRuntimeException(
-                            NDatabaseError.ClassIntrospectionError.AddParameter(classAttributeInfo.GetFullClassname()), e);
-                    }
-                }
+                UpdateClass(dependingAttributes, metaModel);
             }
 
             WriteClassInfoBody(newClassInfo, FileSystemProcessor.FileSystemInterface.GetAvailablePosition(), true);
             return newClassInfo;
+        }
+
+        private void UpdateClass(IEnumerable<ClassAttributeInfo> dependingAttributes, IMetaModel metaModel)
+        {
+            foreach (var classAttributeInfo in dependingAttributes)
+            {
+                try
+                {
+                    var existingClassInfo = metaModel.GetClassInfo(classAttributeInfo.GetFullClassname(), false);
+                    if (existingClassInfo == null)
+                    {
+                        AddClasses(ClassIntrospector.Introspect(classAttributeInfo.GetFullClassname()));
+                    }
+                    else
+                    {
+                        // Even,if it exist,take the one from metamodel
+                        classAttributeInfo.SetClassInfo(existingClassInfo);
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw new OdbRuntimeException(
+                        NDatabaseError.ClassIntrospectionError.AddParameter(classAttributeInfo.GetFullClassname()), e);
+                }
+            }
         }
 
         public ClassInfo AddClass(ClassInfo newClassInfo, bool addDependentClasses)
@@ -214,7 +220,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (OdbConfiguration.IsLoggingEnabled())
             {
                 var positionAsString = position.ToString();
-                DLogger.Debug("Writing new Class info header at " + positionAsString + " : " + classInfo);
+                DLogger.Debug("ObjectWriter: Writing new Class info header at " + positionAsString + " : " + classInfo);
             }
 
             // Real value of block size is only known at the end of the writing
@@ -257,27 +263,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var dependingAttributes = classInfo.GetAllNonNativeAttributes();
             var metaModel = _session.GetMetaModel();
 
-            foreach (var classAttributeInfo in dependingAttributes)
-            {
-                try
-                {
-                    var existingClassInfo = metaModel.GetClassInfo(classAttributeInfo.GetFullClassname(), false);
-                    if (existingClassInfo == null)
-                    {
-                        AddClasses(ClassIntrospector.Introspect(classAttributeInfo.GetFullClassname()));
-                    }
-                    else
-                    {
-                        // FIXME should we update class info?
-                        classAttributeInfo.SetClassInfo(existingClassInfo);
-                    }
-                }
-                catch (Exception e)
-                {
-                    throw new OdbRuntimeException(
-                        NDatabaseError.ClassIntrospectionError.AddParameter(classAttributeInfo.GetFullClassname()), e);
-                }
-            }
+            UpdateClass(dependingAttributes, metaModel);
+
             // To force the rewrite of class info body
             classInfo.AttributesDefinitionPosition = -1;
             var newCiPosition = FileSystemProcessor.FileSystemInterface.GetAvailablePosition();
@@ -598,11 +585,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             {
                 var isInConnectedZone = objectIsInConnectedZone.ToString();
                 var hasIndex = withIndex.ToString();
-                DLogger.Debug("Deleting object with id " + header.GetOid() + " - In connected zone =" +
+                DLogger.Debug("ObjectWriter: Deleting object with id " + header.GetOid() + " - In connected zone =" +
                               isInConnectedZone + " -  with index =" + hasIndex);
                 
                 var positionAsString = objectPosition.ToString();
-                DLogger.Debug("position =  " + positionAsString + " | prev oid = " + previousObjectOID + " | next oid = " +
+                DLogger.Debug("ObjectWriter: position =  " + positionAsString + " | prev oid = " + previousObjectOID + " | next oid = " +
                               nextObjectOID);
             }
             var isFirstObject = previousObjectOID == null;
@@ -770,7 +757,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (OdbConfiguration.IsLoggingEnabled())
             {
                 var positionAsString = position.ToString();
-                DLogger.Debug("Writing new Class info body at " + positionAsString + " : " + classInfo);
+                DLogger.Debug("ObjectWriter: Writing new Class info body at " + positionAsString + " : " + classInfo);
             }
             // updates class info
             classInfo.AttributesDefinitionPosition = position;
@@ -803,7 +790,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (OdbConfiguration.IsLoggingEnabled())
             {
                 var positionAsString = position.ToString();
-                DLogger.Debug(string.Concat("Writing native object at", positionAsString,
+                DLogger.Debug(string.Concat("ObjectWriter: Writing native object at", positionAsString,
                                             string.Format(" : Type={0} | Value={1}",
                                                           OdbType.GetNameFromId(noi.GetOdbTypeId()), noi)));
             }
@@ -1140,7 +1127,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         private static void StoreFreeSpace(long currentPosition, int blockSize)
         {
             if (OdbConfiguration.IsLoggingEnabled())
-                DLogger.Debug(string.Concat("Storing free space at position ", currentPosition.ToString(),
+                DLogger.Debug(string.Concat("ObjectWriter: Storing free space at position ", currentPosition.ToString(),
                                             " | block size = ", blockSize.ToString()));
         }
 
