@@ -9,7 +9,6 @@ using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Tool;
-using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Query.Execution
 {

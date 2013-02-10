@@ -75,9 +75,6 @@ namespace NDatabase.Exceptions
         internal static readonly NDatabaseError ObjectIntrospectorNoFieldWithName = new NDatabaseError(226,
                                                                                                    "Class/Interface @1 does not have attribute '@2'");
 
-        internal static readonly NDatabaseError ClassPoolCreateClass = new NDatabaseError(228,
-                                                                                      "Error while creating (reflection) class @1");
-
         internal static readonly NDatabaseError FileInterfaceReadError = new NDatabaseError(231,
                                                                                         "Error reading @1 bytes at @2 : read @3 bytes instead");
 

@@ -14,19 +14,16 @@ namespace NDatabase.Btree
             return null;
         }
 
-        public object SaveNode(IBTreeNode node)
+        public void SaveNode(IBTreeNode node)
         {
-            return null;
         }
-
         
         public void Close()
         {
         }
 
-        public object DeleteNode(IBTreeNode parent)
+        public void DeleteNode(IBTreeNode parent)
         {
-            return null;
         }
 
         public IBTree LoadBTree(object id)
@@ -34,9 +31,8 @@ namespace NDatabase.Btree
             return null;
         }
 
-        public OID SaveBTree(IBTree tree)
+        public void SaveBTree(IBTree tree)
         {
-            return null;
         }
 
         public void SetBTree(IBTree tree)

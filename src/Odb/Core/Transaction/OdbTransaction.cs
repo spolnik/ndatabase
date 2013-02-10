@@ -353,10 +353,10 @@ namespace NDatabase.Odb.Core.Transaction
 
             _fsi.SetWritePosition(0, false);
             _fsi.WriteBoolean(_isCommited, false);
-            _fsi.WriteLong(_creationDateTime, false, "creation date");
+            _fsi.WriteLong(_creationDateTime, false);
 
             // Size
-            _fsi.WriteLong(0, false, "size");
+            _fsi.WriteLong(0, false);
             _hasBeenPersisted = true;
         }
 
@@ -371,7 +371,7 @@ namespace NDatabase.Odb.Core.Transaction
             // TODO Check atomicity
             // Writes the number of write actions after the byte and date
             _fsi.SetWritePositionNoVerification(OdbType.Byte.Size + OdbType.Long.Size, false);
-            _fsi.WriteLong(_numberOfWriteActions, false, "nb write actions");
+            _fsi.WriteLong(_numberOfWriteActions, false);
             // FIXME The fsi.flush should not be called after the last write?
             _fsi.Flush();
             // Only set useBuffer = false when it is a local database to avoid

@@ -10,7 +10,7 @@ namespace Test.NDatabase.Odb.Test.IO
         /// <exception cref="System.IO.IOException"></exception>
         public virtual void Write(IFileSystemInterface fsi, bool writeInTransaction)
         {
-            fsi.WriteInt(1, writeInTransaction, "1");
+            fsi.WriteInt(1, writeInTransaction);
         }
 
         [Test]

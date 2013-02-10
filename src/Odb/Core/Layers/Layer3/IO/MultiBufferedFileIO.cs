@@ -29,9 +29,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         /// <summary>
         ///   A boolean value to check if read write are using buffer
         /// </summary>
-        private bool _isUsingBuffer;
+        private readonly bool _isUsingBuffer;
 
-        private int _nextBufferIndex = 0;
+        private int _nextBufferIndex;
 
         private INonBufferedFileIO _nonBufferedFileIO;
         private int[] _overlappingBuffers = new int[MultiBuffer.NumberOfBuffers];

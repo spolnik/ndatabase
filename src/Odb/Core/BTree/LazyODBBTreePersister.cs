@@ -103,7 +103,7 @@ namespace NDatabase.Odb.Core.BTree
         /// <summary>
         ///   saves the bree node Only puts the current node in an 'modified Node' map to be saved on commit
         /// </summary>
-        public object SaveNode(IBTreeNode node)
+        public void SaveNode(IBTreeNode node)
         {
             OID oid;
             // Here we only save the node if it does not have id,
@@ -127,7 +127,7 @@ namespace NDatabase.Odb.Core.BTree
                         node.SetBTree(_tree);
 
                     _oids.Add(oid, node);
-                    return oid;
+                    return;
                 }
                 catch (Exception e)
                 {
@@ -139,8 +139,6 @@ namespace NDatabase.Odb.Core.BTree
 
             _oids.Add(oid, node);
             AddModifiedOid(oid);
-
-            return oid;
         }
 
         public void Close()
@@ -177,7 +175,7 @@ namespace NDatabase.Odb.Core.BTree
             }
         }
 
-        public OID SaveBTree(IBTree treeToSave)
+        public void SaveBTree(IBTree treeToSave)
         {
             try
             {
@@ -204,8 +202,6 @@ namespace NDatabase.Odb.Core.BTree
                     _oids.Add(oid, treeToSave);
                     AddModifiedOid(oid);
                 }
-
-                return oid;
             }
             catch (Exception e)
             {
@@ -213,7 +209,7 @@ namespace NDatabase.Odb.Core.BTree
             }
         }
 
-        public object DeleteNode(IBTreeNode o)
+        public void DeleteNode(IBTreeNode o)
         {
             var oid = _engine.Delete(o);
             _oids.Remove(oid);
@@ -222,7 +218,6 @@ namespace NDatabase.Odb.Core.BTree
 
             // Just replace the element by null, to not modify all the other positions
             _modifiedObjectOidList[position] = null;
-            return o;
         }
 
         public void SetBTree(IBTree tree)

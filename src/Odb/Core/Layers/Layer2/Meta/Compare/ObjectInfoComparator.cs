@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Text;
-using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
@@ -48,16 +47,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
         public bool HasChanged(AbstractObjectInfo aoi1, AbstractObjectInfo aoi2)
         {
             return HasChanged(aoi1, aoi2, -1);
-        }
-
-        public IList<object> GetNewObjects()
-        {
-            return _newObjects;
-        }
-
-        public int GetMaxObjectRecursionLevel()
-        {
-            return _maxObjectRecursionLevel;
         }
 
         public IList<IChangedAttribute> GetChangedAttributeActions()

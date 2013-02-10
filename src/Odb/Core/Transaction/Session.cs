@@ -108,11 +108,6 @@ namespace NDatabase.Odb.Core.Transaction
             return _metaModel;
         }
 
-        public void SetMetaModel(IMetaModel metaModel2)
-        {
-            _metaModel = metaModel2;
-        }
-
         public void RemoveObjectFromCache(object @object)
         {
             _cache.RemoveObject(@object);

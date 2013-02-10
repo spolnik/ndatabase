@@ -127,7 +127,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 FileSystemProcessor.FileSystemInterface.SetWritePosition(lastClassinfo.Position + StorageEngineConstant.ClassOffsetNextClassPosition,
                                       true);
 
-                FileSystemProcessor.FileSystemInterface.WriteLong(newClassInfo.ClassInfoId.ObjectId, true, "next class oid");
+                FileSystemProcessor.FileSystemInterface.WriteLong(newClassInfo.ClassInfoId.ObjectId, true); // next class oid
 
                 newClassInfo.PreviousClassOID = lastClassinfo.ClassInfoId;
             }
@@ -224,16 +224,16 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
 
             // Real value of block size is only known at the end of the writing
-            FileSystemProcessor.FileSystemInterface.WriteInt(0, writeInTransaction, "block size");
-            FileSystemProcessor.FileSystemInterface.WriteByte(BlockTypes.BlockTypeClassHeader, writeInTransaction, "class header block type");
-            FileSystemProcessor.FileSystemInterface.WriteByte(2, writeInTransaction, "Class info category");
-            FileSystemProcessor.FileSystemInterface.WriteLong(classId.ObjectId, writeInTransaction, "class id");
+            FileSystemProcessor.FileSystemInterface.WriteInt(0, writeInTransaction);
+            FileSystemProcessor.FileSystemInterface.WriteByte(BlockTypes.BlockTypeClassHeader, writeInTransaction);
+            FileSystemProcessor.FileSystemInterface.WriteByte(2, writeInTransaction);
+            FileSystemProcessor.FileSystemInterface.WriteLong(classId.ObjectId, writeInTransaction); //class id
 
             FileSystemProcessor.WriteOid(classInfo.PreviousClassOID, writeInTransaction, "prev class oid");
 
             FileSystemProcessor.WriteOid(classInfo.NextClassOID, writeInTransaction, "next class oid");
 
-            FileSystemProcessor.FileSystemInterface.WriteLong(classInfo.CommitedZoneInfo.GetNumberbOfObjects(), writeInTransaction, "class nb objects");
+            FileSystemProcessor.FileSystemInterface.WriteLong(classInfo.CommitedZoneInfo.GetNumberbOfObjects(), writeInTransaction); //class nb objects
 
             FileSystemProcessor.WriteOid(classInfo.CommitedZoneInfo.First, writeInTransaction, "class first obj pos");
 
@@ -241,16 +241,16 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             // FIXME : append extra info if not empty (.net compatibility)
             FileSystemProcessor.FileSystemInterface.WriteString(classInfo.FullClassName, writeInTransaction);
-            FileSystemProcessor.FileSystemInterface.WriteInt(classInfo.MaxAttributeId, writeInTransaction, "Max attribute id");
+            FileSystemProcessor.FileSystemInterface.WriteInt(classInfo.MaxAttributeId, writeInTransaction);
 
             if (classInfo.AttributesDefinitionPosition != -1)
             {
-                FileSystemProcessor.FileSystemInterface.WriteLong(classInfo.AttributesDefinitionPosition, writeInTransaction, "class att def pos");
+                FileSystemProcessor.FileSystemInterface.WriteLong(classInfo.AttributesDefinitionPosition, writeInTransaction); //class att def pos
             }
             else
             {
                 // todo check this
-                FileSystemProcessor.FileSystemInterface.WriteLong(-1, writeInTransaction, "class att def pos");
+                FileSystemProcessor.FileSystemInterface.WriteLong(-1, writeInTransaction); //class att def pos
             }
 
             var blockSize = (int) (FileSystemProcessor.FileSystemInterface.GetPosition() - position);
@@ -412,25 +412,25 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
                 case OdbType.IntegerId:
                     {
-                        FileSystemProcessor.FileSystemInterface.WriteInt(((int) @object), writeInTransaction, "native attr");
+                        FileSystemProcessor.FileSystemInterface.WriteInt(((int) @object), writeInTransaction);
                         break;
                     }
 
                 case OdbType.UIntegerId:
                     {
-                        FileSystemProcessor.FileSystemInterface.WriteUInt(((uint)@object), writeInTransaction, "native attr");
+                        FileSystemProcessor.FileSystemInterface.WriteUInt(((uint)@object), writeInTransaction); // native attr
                         break;
                     }
 
                 case OdbType.LongId:
                     {
-                        FileSystemProcessor.FileSystemInterface.WriteLong(((long) @object), writeInTransaction, "native attr");
+                        FileSystemProcessor.FileSystemInterface.WriteLong(((long)@object), writeInTransaction); // native attr
                         break;
                     }
 
                 case OdbType.ULongId:
                     {
-                        FileSystemProcessor.FileSystemInterface.WriteULong(((ulong)@object), writeInTransaction, "native attr");
+                        FileSystemProcessor.FileSystemInterface.WriteULong(((ulong)@object), writeInTransaction); // native attr
                         break;
                     }
 
@@ -467,21 +467,21 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 case OdbType.OidId:
                     {
                         var oid = ((ObjectOID) @object).ObjectId;
-                        FileSystemProcessor.FileSystemInterface.WriteLong(oid, writeInTransaction, "ODB OID");
+                        FileSystemProcessor.FileSystemInterface.WriteLong(oid, writeInTransaction);
                         break;
                     }
 
                 case OdbType.ObjectOidId:
                     {
                         var ooid = ((ObjectOID) @object).ObjectId;
-                        FileSystemProcessor.FileSystemInterface.WriteLong(ooid, writeInTransaction, "ODB OID");
+                        FileSystemProcessor.FileSystemInterface.WriteLong(ooid, writeInTransaction);
                         break;
                     }
 
                 case OdbType.ClassOidId:
                     {
                         var coid = ((ClassOID) @object).ObjectId;
-                        FileSystemProcessor.FileSystemInterface.WriteLong(coid, writeInTransaction, "ODB OID");
+                        FileSystemProcessor.FileSystemInterface.WriteLong(coid, writeInTransaction);
                         break;
                     }
 
@@ -766,10 +766,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             WriteClassInfoHeader(classInfo, classInfo.Position, writeInTransaction);
             FileSystemProcessor.FileSystemInterface.SetWritePosition(position, writeInTransaction);
             // block definition
-            FileSystemProcessor.FileSystemInterface.WriteInt(0, writeInTransaction, "block size");
+            FileSystemProcessor.FileSystemInterface.WriteInt(0, writeInTransaction);
             FileSystemProcessor.FileSystemInterface.WriteByte(BlockTypes.BlockTypeClassBody, writeInTransaction);
-            // number of attributes
-            FileSystemProcessor.FileSystemInterface.WriteLong(classInfo.Attributes.Count, writeInTransaction, "class nb attributes");
+            // number of class attributes
+            FileSystemProcessor.FileSystemInterface.WriteLong(classInfo.Attributes.Count, writeInTransaction);
             
             foreach (var classAttributeInfo in classInfo.Attributes)
                 FileSystemProcessor.WriteClassAttributeInfo(_storageEngine, classAttributeInfo, writeInTransaction);
@@ -1021,7 +1021,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             // Writes the fact that it is an array
             FileSystemProcessor.FileSystemInterface.WriteString(aoi.GetRealArrayComponentClassName(), writeInTransaction);
             // write the size of the array
-            FileSystemProcessor.FileSystemInterface.WriteInt(arraySize, writeInTransaction, "array size");
+            FileSystemProcessor.FileSystemInterface.WriteInt(arraySize, writeInTransaction);
             // build a n array to store all element positions
             var attributeIdentifications = new long[arraySize];
             // Gets the current position, to know later where to put the
@@ -1030,7 +1030,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             // reserve space for object positions : write 'arraySize' long
             // with zero to store each object position
             for (var i = 0; i < arraySize; i++)
-                FileSystemProcessor.FileSystemInterface.WriteLong(0, writeInTransaction, "array element pos ");
+                FileSystemProcessor.FileSystemInterface.WriteLong(0, writeInTransaction); // array element pos
             for (var i = 0; i < arraySize; i++)
             {
                 var element = (AbstractObjectInfo) array[i];
@@ -1048,7 +1048,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             FileSystemProcessor.FileSystemInterface.SetWritePosition(firstObjectPosition, writeInTransaction);
             for (var i = 0; i < arraySize; i++)
             {
-                FileSystemProcessor.FileSystemInterface.WriteLong(attributeIdentifications[i], writeInTransaction, "array real element pos");
+                FileSystemProcessor.FileSystemInterface.WriteLong(attributeIdentifications[i], writeInTransaction); //array real element pos
             }
             // Gos back to the end of the array
             FileSystemProcessor.FileSystemInterface.SetWritePosition(positionAfterWrite, writeInTransaction);
@@ -1109,7 +1109,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             bytes[8] = bytesTypeId[3];
             bytes[9] = ByteArrayConverter.BooleanToByteArray(isNull)[0];
 
-            FileSystemProcessor.FileSystemInterface.WriteBytes(bytes, writeDataInTransaction, "NativeObjectHeader");
+            FileSystemProcessor.FileSystemInterface.WriteBytes(bytes, writeDataInTransaction);
         }
 
         private long WriteEnumNativeObject(EnumNativeObjectInfo anoi, bool writeInTransaction)
@@ -1118,7 +1118,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var odbTypeId = anoi.GetOdbTypeId();
             WriteNativeObjectHeader(odbTypeId, anoi.IsNull(), BlockTypes.BlockTypeNativeObject, writeInTransaction);
             // Writes the Enum ClassName
-            FileSystemProcessor.FileSystemInterface.WriteLong(anoi.GetEnumClassInfo().ClassInfoId.ObjectId, writeInTransaction, "enum class info id");
+            FileSystemProcessor.FileSystemInterface.WriteLong(anoi.GetEnumClassInfo().ClassInfoId.ObjectId, writeInTransaction); //enum class info id
             // Write the Enum String value
             FileSystemProcessor.FileSystemInterface.WriteString(anoi.GetObject().ToString(), writeInTransaction);
             return startPosition;

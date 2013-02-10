@@ -125,7 +125,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             {
                 result = checkMetaModelResult.GetResults()[i];
                 DLogger.Info(string.Format("StorageEngine: Class {0} has changed :", result.GetFullClassName()));
-                DLogger.Info("StorageEngine: " + result.ToString());
+                DLogger.Info("StorageEngine: " + result);
             }
 
             if (checkMetaModelResult.GetResults().Count == 0)
