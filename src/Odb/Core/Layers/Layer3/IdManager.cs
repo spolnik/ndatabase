@@ -66,7 +66,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         {
             lock (_syncRoot)
             {
-                return GetNextId(objectPosition, IdTypes.Object, IDStatus.Active, "GetNextObjectId");
+                return GetNextId(objectPosition, IdTypes.Object, IDStatus.Active);
             }
         }
 
@@ -74,7 +74,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         {
             lock (_syncRoot)
             {
-                return GetNextId(objectPosition, IdTypes.Class, IDStatus.Active, "GetNextClassId");
+                return GetNextId(objectPosition, IdTypes.Class, IDStatus.Active);
             }
         }
 
@@ -118,9 +118,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         /// <param name="objectPosition"> the object position (instance) </param>
         /// <param name="idType"> The type id : object,class, unknown </param>
         /// <param name="idStatus"> </param>
-        /// <param name="label"> A label for debug </param>
         /// <returns> The id </returns>
-        private OID GetNextId(long objectPosition, byte idType, byte idStatus, string label)
+        private OID GetNextId(long objectPosition, byte idType, byte idStatus)
         {
             lock (_syncRoot)
             {

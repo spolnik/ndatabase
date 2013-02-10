@@ -239,7 +239,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             // FIXME if useCache, why not directly search the cache?
             var position = GetObjectPositionFromItsOid(oid, useCache, false);
             if (position == StorageEngineConstant.DeletedObjectPosition)
-                return new NonNativeDeletedObjectInfo(position);
+                return new NonNativeDeletedObjectInfo();
             if (position == StorageEngineConstant.ObjectDoesNotExist)
                 throw new OdbRuntimeException(NDatabaseError.ObjectWithOidDoesNotExist.AddParameter(oid));
             var nnoi = ReadNonNativeObjectInfoFromPosition(classInfo, oid, position, useCache, returnObjects);
@@ -1066,7 +1066,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     objectPosition == StorageEngineConstant.NullObjectPosition)
                 {
                     // TODO Is this correct ?
-                    return new NonNativeDeletedObjectInfo(objectPosition);
+                    return new NonNativeDeletedObjectInfo();
                 }
                 
                 // Read block size and block type
@@ -1084,7 +1084,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                     return NullNativeObjectInfo.GetInstance();
                 // Deleted objects
                 if (BlockTypes.IsDeletedObject(objectBlockType))
-                    return new NonNativeDeletedObjectInfo(objectPosition);
+                    return new NonNativeDeletedObjectInfo();
                 // Checks if what we are reading is only a pointer to the real
                 // block, if
                 // it is the case, just recall this method with the right position
@@ -1437,7 +1437,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             var realArrayComponentClassName = _fsi.ReadString();
             var subTypeId = OdbType.GetFromName(realArrayComponentClassName);
-            var componentIsNative = subTypeId.IsNative();
+            
             // read the size of the array
             var arraySize = _fsi.ReadInt();
             if (OdbConfiguration.IsLoggingEnabled())

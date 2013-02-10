@@ -17,11 +17,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// </summary>
         protected readonly int OdbTypeId;
 
-        /// <summary>
-        ///   The position of the object
-        /// </summary>
-        protected long Position;
-
         protected AbstractObjectInfo(int typeId)
         {
             OdbTypeId = typeId;

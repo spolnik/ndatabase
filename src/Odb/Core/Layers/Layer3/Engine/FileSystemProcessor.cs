@@ -67,7 +67,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             FileSystemInterface.WriteString("UTF-8", false, 50);
         }
 
-        public void WriteOid(OID oid, bool writeInTransaction, string label)
+        public void WriteOid(OID oid, bool writeInTransaction)
         {
             if (oid == null)
                 FileSystemInterface.WriteLong(-1, writeInTransaction);
@@ -85,7 +85,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             long positionToWrite = StorageEngineConstant.DatabaseHeaderFirstClassOid;
             FileSystemInterface.SetWritePosition(positionToWrite, inTransaction);
-            WriteOid(classInfoId, inTransaction, "first class info oid");
+            WriteOid(classInfoId, inTransaction);
         }
 
         /// <summary>
@@ -264,8 +264,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             FileSystemInterface.SetWritePosition(position, writeInTransaction);
             var nbObjects = classInfo.NumberOfObjects;
             FileSystemInterface.WriteLong(nbObjects, writeInTransaction); //class info update nb objects
-            WriteOid(classInfo.CommitedZoneInfo.First, writeInTransaction, "class info update first obj oid");
-            WriteOid(classInfo.CommitedZoneInfo.Last, writeInTransaction, "class info update last obj oid");
+            WriteOid(classInfo.CommitedZoneInfo.First, writeInTransaction); // class info update first obj oid
+            WriteOid(classInfo.CommitedZoneInfo.Last, writeInTransaction); // class info update last obj oid
             
             FileSystemInterface.SetWritePosition(currentPosition, writeInTransaction);
         }

@@ -229,15 +229,15 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             FileSystemProcessor.FileSystemInterface.WriteByte(2, writeInTransaction);
             FileSystemProcessor.FileSystemInterface.WriteLong(classId.ObjectId, writeInTransaction); //class id
 
-            FileSystemProcessor.WriteOid(classInfo.PreviousClassOID, writeInTransaction, "prev class oid");
+            FileSystemProcessor.WriteOid(classInfo.PreviousClassOID, writeInTransaction);
 
-            FileSystemProcessor.WriteOid(classInfo.NextClassOID, writeInTransaction, "next class oid");
+            FileSystemProcessor.WriteOid(classInfo.NextClassOID, writeInTransaction);
 
             FileSystemProcessor.FileSystemInterface.WriteLong(classInfo.CommitedZoneInfo.GetNumberbOfObjects(), writeInTransaction); //class nb objects
 
-            FileSystemProcessor.WriteOid(classInfo.CommitedZoneInfo.First, writeInTransaction, "class first obj pos");
+            FileSystemProcessor.WriteOid(classInfo.CommitedZoneInfo.First, writeInTransaction);
 
-            FileSystemProcessor.WriteOid(classInfo.CommitedZoneInfo.Last, writeInTransaction, "class last obj pos");
+            FileSystemProcessor.WriteOid(classInfo.CommitedZoneInfo.Last, writeInTransaction);
 
             // FIXME : append extra info if not empty (.net compatibility)
             FileSystemProcessor.FileSystemInterface.WriteString(classInfo.FullClassName, writeInTransaction);
@@ -509,7 +509,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var objectPosition = _idManager.GetObjectPositionWithOid(objectOID, true);
             FileSystemProcessor.FileSystemInterface.SetWritePosition(objectPosition + StorageEngineConstant.ObjectOffsetPreviousObjectOid,
                                   writeInTransaction);
-            FileSystemProcessor.WriteOid(previousObjectOID, writeInTransaction, "prev object position");
+            FileSystemProcessor.WriteOid(previousObjectOID, writeInTransaction);
         }
 
         /// <summary>
@@ -518,8 +518,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public void UpdateNextObjectFieldOfObjectInfo(OID objectOID, OID nextObjectOID, bool writeInTransaction)
         {
             var objectPosition = _idManager.GetObjectPositionWithOid(objectOID, true);
-            FileSystemProcessor.FileSystemInterface.SetWritePosition(objectPosition + StorageEngineConstant.ObjectOffsetNextObjectOid, writeInTransaction);
-            FileSystemProcessor.WriteOid(nextObjectOID, writeInTransaction, "next object oid of object info");
+            FileSystemProcessor.FileSystemInterface.SetWritePosition(
+                objectPosition + StorageEngineConstant.ObjectOffsetNextObjectOid, writeInTransaction);
+            FileSystemProcessor.WriteOid(nextObjectOID, writeInTransaction); // next object oid of object info
         }
 
         /// <summary>
