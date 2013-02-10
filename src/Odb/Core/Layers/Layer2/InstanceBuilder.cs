@@ -94,7 +94,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2
                 // Gets the id of this field
                 var attributeId = classInfo.GetAttributeId(fieldInfo.Name);
                 if (OdbConfiguration.IsLoggingEnabled())
-                    DLogger.Debug(string.Concat("getting field with name ", fieldInfo.Name, ", attribute id is ",
+                    DLogger.Debug(string.Concat("InstanceBuilder: ", "getting field with name ", fieldInfo.Name, ", attribute id is ",
                                                 attributeId.ToString()));
 
                 var abstractObjectInfo = objectInfo.GetAttributeValueFromId(attributeId);
@@ -131,7 +131,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2
                                     NDatabaseError.AttributeReferencesADeletedObject.AddParameter(
                                         objectInfo.GetClassInfo().FullClassName).AddParameter(
                                             objectInfo.GetOid()).AddParameter(fieldInfo.Name);
-                                DLogger.Warning(warning.ToString());
+                                DLogger.Warning("InstanceBuilder: " + warning);
                             }
                             value = null;
                         }
@@ -144,7 +144,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2
 
                 if (OdbConfiguration.IsLoggingEnabled())
                 {
-                    DLogger.Debug(String.Format("Setting field {0}({1}) to {2} / {3}", fieldInfo.Name,
+                    DLogger.Debug(String.Format("InstanceBuilder: Setting field {0}({1}) to {2} / {3}", fieldInfo.Name,
                                                 fieldInfo.GetType().FullName, value, value.GetType().FullName));
                 }
                 try

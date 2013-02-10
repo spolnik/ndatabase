@@ -17,7 +17,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// </summary>
         void WriteNumberOfClasses(long number, bool writeInTransaction);
 
-        void WriteOid(OID oid, bool writeInTransaction, string label);
+        void WriteOid(OID oid, bool writeInTransaction);
 
         /// <summary>
         ///   Resets the position of the first class of the metamodel.

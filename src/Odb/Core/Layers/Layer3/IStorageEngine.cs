@@ -108,8 +108,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         IInternalTriggerManager GetLocalTriggerManager();
         
-        IMetaModel GetMetaModel();
-        IOdbCache GetCache();
         IObjectIntrospectionDataProvider ClassInfoProvider { get; }
     }
 }

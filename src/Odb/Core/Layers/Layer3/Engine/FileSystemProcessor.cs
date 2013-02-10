@@ -22,7 +22,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public void WriteLastOdbCloseStatus(bool ok, bool writeInTransaction)
         {
             FileSystemInterface.SetWritePosition(StorageEngineConstant.DatabaseHeaderLastCloseStatusPosition, writeInTransaction);
-            FileSystemInterface.WriteBoolean(ok, writeInTransaction, "odb last close status");
+            //odb last close status
+            FileSystemInterface.WriteBoolean(ok, writeInTransaction);
         }
 
         /// <summary>
@@ -31,18 +32,17 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         private void WriteVersion()
         {
             FileSystemInterface.SetWritePosition(StorageEngineConstant.DatabaseHeaderVersionPosition, false);
-            FileSystemInterface.WriteInt(StorageEngineConstant.CurrentFileFormatVersion, false,
-                                         "database file format version");
+            FileSystemInterface.WriteInt(StorageEngineConstant.CurrentFileFormatVersion, false);
         }
 
         private void WriteDatabaseId(IStorageEngine storageEngine, long creationDate)
         {
             var databaseId = UniqueIdGenerator.GetDatabaseId(creationDate);
 
-            FileSystemInterface.WriteLong(databaseId.GetIds()[0], false, "database id 1/4");
-            FileSystemInterface.WriteLong(databaseId.GetIds()[1], false, "database id 2/4");
-            FileSystemInterface.WriteLong(databaseId.GetIds()[2], false, "database id 3/4");
-            FileSystemInterface.WriteLong(databaseId.GetIds()[3], false, "database id 4/4");
+            FileSystemInterface.WriteLong(databaseId.GetIds()[0], false); //database id 1/4
+            FileSystemInterface.WriteLong(databaseId.GetIds()[1], false); //database id 2/4
+            FileSystemInterface.WriteLong(databaseId.GetIds()[2], false); //database id 3/4
+            FileSystemInterface.WriteLong(databaseId.GetIds()[3], false); //database id 4/4
 
             storageEngine.SetDatabaseId(databaseId);
         }
@@ -53,7 +53,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public void WriteNumberOfClasses(long number, bool writeInTransaction)
         {
             FileSystemInterface.SetWritePosition(StorageEngineConstant.DatabaseHeaderNumberOfClassesPosition, writeInTransaction);
-            FileSystemInterface.WriteLong(number, writeInTransaction, "nb classes");
+            FileSystemInterface.WriteLong(number, writeInTransaction); //nb classes
         }
 
         /// <summary>
@@ -67,12 +67,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             FileSystemInterface.WriteString("UTF-8", false, 50);
         }
 
-        public void WriteOid(OID oid, bool writeInTransaction, string label)
+        public void WriteOid(OID oid, bool writeInTransaction)
         {
             if (oid == null)
-                FileSystemInterface.WriteLong(-1, writeInTransaction, label);
+                FileSystemInterface.WriteLong(-1, writeInTransaction);
             else
-                FileSystemInterface.WriteLong(oid.ObjectId, writeInTransaction, label);
+                FileSystemInterface.WriteLong(oid.ObjectId, writeInTransaction);
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             long positionToWrite = StorageEngineConstant.DatabaseHeaderFirstClassOid;
             FileSystemInterface.SetWritePosition(positionToWrite, inTransaction);
-            WriteOid(classInfoId, inTransaction, "first class info oid");
+            WriteOid(classInfoId, inTransaction);
         }
 
         /// <summary>
@@ -106,20 +106,20 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             // Updates the database header with the current id block position
             FileSystemInterface.SetWritePosition(StorageEngineConstant.DatabaseHeaderCurrentIdBlockPosition, writeInTransaction);
-            FileSystemInterface.WriteLong(position, false, "current id block position");
+            FileSystemInterface.WriteLong(position, false); //current id block position
             FileSystemInterface.SetWritePosition(position, writeInTransaction);
-            FileSystemInterface.WriteInt(idBlockSize, writeInTransaction, "block size");
+            FileSystemInterface.WriteInt(idBlockSize, writeInTransaction);
 
             FileSystemInterface.WriteByte(BlockTypes.BlockTypeIds, writeInTransaction);
             FileSystemInterface.WriteByte(blockStatus, writeInTransaction);
 
-            // prev position
-            FileSystemInterface.WriteLong(previousBlockPosition, writeInTransaction, "prev block pos");
+            // prev block position
+            FileSystemInterface.WriteLong(previousBlockPosition, writeInTransaction);
 
-            // next position
-            FileSystemInterface.WriteLong(-1, writeInTransaction, "next block pos");
-            FileSystemInterface.WriteInt(blockNumber, writeInTransaction, "id block number");
-            FileSystemInterface.WriteLong(0, writeInTransaction, "id block max id");
+            // next block position
+            FileSystemInterface.WriteLong(-1, writeInTransaction);
+            FileSystemInterface.WriteInt(blockNumber, writeInTransaction);
+            FileSystemInterface.WriteLong(0, writeInTransaction); //id block max id
             FileSystemInterface.SetWritePosition(position + StorageEngineConstant.IdBlockSize - 1, writeInTransaction);
             FileSystemInterface.WriteByte(0, writeInTransaction);
 
@@ -139,7 +139,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             FileSystemInterface.WriteByte(BlockStatus.BlockFull, writeInTransaction);
             FileSystemInterface.SetWritePosition(blockPosition + StorageEngineConstant.BlockIdOffsetForNextBlock, writeInTransaction);
 
-            FileSystemInterface.WriteLong(nextBlockPosition, writeInTransaction, "next id block pos");
+            FileSystemInterface.WriteLong(nextBlockPosition, writeInTransaction); //next id block pos
         }
 
         /// <summary>
@@ -157,9 +157,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             WriteLastOdbCloseStatus(false, false);
             WriteDatabaseCharacterEncoding();
 
-            // This is the position of the first block id. But it will always
-            // contain the position of the current id block
-            FileSystemInterface.WriteLong(StorageEngineConstant.DatabaseHeaderFirstIdBlockPosition, false, "current id block position");
+            // This is the position of the first block id. But it will always contain the position of the current id block
+            FileSystemInterface.WriteLong(StorageEngineConstant.DatabaseHeaderFirstIdBlockPosition, false); // current id block position
 
             // Write an empty id block
             WriteIdBlock(-1, StorageEngineConstant.IdBlockSize, BlockStatus.BlockNotFull, 1, -1, false);
@@ -192,7 +191,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             FileSystemInterface.SetWritePosition(currentBlockIdPosition + StorageEngineConstant.BlockIdOffsetForMaxId,
                                   writeInTransaction);
 
-            FileSystemInterface.WriteLong(oid.ObjectId, writeInTransaction, "id block max id update");
+            FileSystemInterface.WriteLong(oid.ObjectId, writeInTransaction); // id block max id update
 
             var l1 = (oid.ObjectId - 1) % StorageEngineConstant.NbIdsPerBlock;
 
@@ -203,16 +202,16 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             FileSystemInterface.SetWritePosition(idPosition, writeInTransaction);
 
             // id type
-            FileSystemInterface.WriteByte(idType, writeInTransaction, "id type");
+            FileSystemInterface.WriteByte(idType, writeInTransaction);
 
             // id
-            FileSystemInterface.WriteLong(oid.ObjectId, writeInTransaction, "oid");
+            FileSystemInterface.WriteLong(oid.ObjectId, writeInTransaction);
 
             // id status
-            FileSystemInterface.WriteByte(idStatus, writeInTransaction, "id status");
+            FileSystemInterface.WriteByte(idStatus, writeInTransaction);
 
             // object position
-            FileSystemInterface.WriteLong(objectPosition, writeInTransaction, "obj pos");
+            FileSystemInterface.WriteLong(objectPosition, writeInTransaction);
 
             return idPosition;
         }
@@ -227,10 +226,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                                                                          bool writeInTransaction)
         {
            FileSystemInterface.SetWritePosition(idPosition, writeInTransaction);
-           FileSystemInterface.WriteByte(IdTypes.Object, writeInTransaction, "id type");
+           FileSystemInterface.WriteByte(IdTypes.Object, writeInTransaction);
            FileSystemInterface.SetWritePosition(idPosition + StorageEngineConstant.BlockIdRepetitionIdStatus, writeInTransaction);
            FileSystemInterface.WriteByte(IDStatus.Active, writeInTransaction);
-           FileSystemInterface.WriteLong(objectPosition, writeInTransaction, "Updating object position of id");
+           FileSystemInterface.WriteLong(objectPosition, writeInTransaction); //Updating object position of id
         }
 
         /// <summary>
@@ -240,16 +239,16 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                                                                        bool writeInTransaction)
         {
             FileSystemInterface.SetWritePosition(idPosition, writeInTransaction);
-            FileSystemInterface.WriteByte(IdTypes.Class, writeInTransaction, "id type");
+            FileSystemInterface.WriteByte(IdTypes.Class, writeInTransaction);
             FileSystemInterface.SetWritePosition(idPosition + StorageEngineConstant.BlockIdRepetitionIdStatus, writeInTransaction);
             FileSystemInterface.WriteByte(IDStatus.Active, writeInTransaction);
-            FileSystemInterface.WriteLong(objectPosition, writeInTransaction, "Updating class position of id");
+            FileSystemInterface.WriteLong(objectPosition, writeInTransaction); // Updating class position of id
         }
 
         public void UpdateStatusForIdWithPosition(long idPosition, byte newStatus, bool writeInTransaction)
         {
             FileSystemInterface.SetWritePosition(idPosition + StorageEngineConstant.BlockIdRepetitionIdStatus, writeInTransaction);
-            FileSystemInterface.WriteByte(newStatus, writeInTransaction, "Updating id status");
+            FileSystemInterface.WriteByte(newStatus, writeInTransaction);
         }
 
         /// <summary>
@@ -264,9 +263,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var position = classInfo.Position + StorageEngineConstant.ClassOffsetClassNbObjects;
             FileSystemInterface.SetWritePosition(position, writeInTransaction);
             var nbObjects = classInfo.NumberOfObjects;
-            FileSystemInterface.WriteLong(nbObjects, writeInTransaction, "class info update nb objects");
-            WriteOid(classInfo.CommitedZoneInfo.First, writeInTransaction, "class info update first obj oid");
-            WriteOid(classInfo.CommitedZoneInfo.Last, writeInTransaction, "class info update last obj oid");
+            FileSystemInterface.WriteLong(nbObjects, writeInTransaction); //class info update nb objects
+            WriteOid(classInfo.CommitedZoneInfo.First, writeInTransaction); // class info update first obj oid
+            WriteOid(classInfo.CommitedZoneInfo.Last, writeInTransaction); // class info update last obj oid
             
             FileSystemInterface.SetWritePosition(currentPosition, writeInTransaction);
         }
@@ -282,7 +281,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             var currentPosition = FileSystemInterface.GetPosition();
             FileSystemInterface.SetWritePosition(writePosition, writeInTransaction);
-            FileSystemInterface.WriteInt(blockSize, writeInTransaction, "block size");
+            FileSystemInterface.WriteInt(blockSize, writeInTransaction);
             // goes back where we were
             FileSystemInterface.SetWritePosition(currentPosition, writeInTransaction);
         }
@@ -292,22 +291,22 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// </summary>
         public void WriteClassAttributeInfo(IStorageEngine storageEngine, ClassAttributeInfo cai, bool writeInTransaction)
         {
-            FileSystemInterface.WriteInt(cai.GetId(), writeInTransaction, "attribute id");
+            FileSystemInterface.WriteInt(cai.GetId(), writeInTransaction);
             FileSystemInterface.WriteBoolean(cai.IsNative(), writeInTransaction);
 
             if (cai.IsNative())
             {
-                FileSystemInterface.WriteInt(cai.GetAttributeType().Id, writeInTransaction, "att odb type id");
+                FileSystemInterface.WriteInt(cai.GetAttributeType().Id, writeInTransaction);
                 if (cai.GetAttributeType().IsArray())
                 {
-                    FileSystemInterface.WriteInt(cai.GetAttributeType().SubType.Id, writeInTransaction, "att array sub type");
+                    FileSystemInterface.WriteInt(cai.GetAttributeType().SubType.Id, writeInTransaction);
                     // when the attribute is not native, then write its class info position
                     if (cai.GetAttributeType().SubType.IsNonNative())
                     {
                         FileSystemInterface.WriteLong(
                             storageEngine.GetSession().GetMetaModel().GetClassInfo(
                                 cai.GetAttributeType().SubType.Name, true).ClassInfoId.ObjectId,
-                            writeInTransaction, "class info id of array subtype");
+                            writeInTransaction); // class info id of array subtype
                     }
                 }
                 // For enum, we write the class info id of the enum class
@@ -315,14 +314,14 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 {
                     FileSystemInterface.WriteLong(
                         storageEngine.GetSession().GetMetaModel().GetClassInfo(cai.GetFullClassname(), true).ClassInfoId
-                            .ObjectId, writeInTransaction, "class info id");
+                            .ObjectId, writeInTransaction); // class info id
                 }
             }
             else
             {
                 FileSystemInterface.WriteLong(
                     storageEngine.GetSession().GetMetaModel().GetClassInfo(cai.GetFullClassname(), true).ClassInfoId.
-                        ObjectId, writeInTransaction, "class info id");
+                        ObjectId, writeInTransaction); // class info id
             }
 
             FileSystemInterface.WriteString(cai.GetName(), writeInTransaction);

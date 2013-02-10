@@ -142,7 +142,7 @@ namespace Test.NDatabase.Odb.Test.IO
                                                                MultiBuffer.DefaultBufferSizeForData,
                                                                new MockSession("test"));
             fsi.SetWritePosition(0, false);
-            fsi.WriteInt(i, false, "i");
+            fsi.WriteInt(i, false);
             fsi.Close();
             fsi = new FileSystemInterface(new FileIdentification("testInt.ndb"),
                                           MultiBuffer.DefaultBufferSizeForData, new MockSession("test"));
@@ -161,7 +161,7 @@ namespace Test.NDatabase.Odb.Test.IO
                                                                MultiBuffer.DefaultBufferSizeForData,
                                                                new MockSession("test"));
             fsi.SetWritePosition(0, false);
-            fsi.WriteLong(i, false, "i");
+            fsi.WriteLong(i, false);
             fsi.Close();
             fsi = new FileSystemInterface(new FileIdentification("testLong.ndb"),
                                           MultiBuffer.DefaultBufferSizeForData, new MockSession("test"));

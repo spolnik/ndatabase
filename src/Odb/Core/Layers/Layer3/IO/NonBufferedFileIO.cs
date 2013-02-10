@@ -1,4 +1,5 @@
 using System.IO;
+using NDatabase.Exceptions;
 using NDatabase.Tool;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.IO
@@ -103,7 +104,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
             }
             catch (IOException e)
             {
-                DLogger.Error(e.ToString());
+                DLogger.Error("NonBufferedFileIO" + e);
+                throw new OdbRuntimeException(NDatabaseError.InternalError.AddParameter(e.Message), e);
             }
 
             _odbWriter = null;

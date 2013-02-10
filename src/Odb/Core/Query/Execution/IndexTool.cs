@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Query.Criteria;
-using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Query.Execution
 {

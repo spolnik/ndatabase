@@ -46,7 +46,7 @@ namespace NDatabase.Btree
             {
                 obj = InternalDelete(_root, new KeyAndValue(key, value));
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 var errorMessage = string.Format("Error while deleting key='{0}' value='{1}'", key, value);
                 throw new BTreeNodeValidationException(errorMessage, e);

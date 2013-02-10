@@ -32,6 +32,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         protected IObjectReader ObjectReader;
         public abstract IObjectIntrospectionDataProvider ClassInfoProvider { get; }
 
+        protected IMetaModel GetMetaModel()
+        {
+            return GetSession().GetMetaModel();
+        }
+
         #region IStorageEngine Members
 
         public IInternalTriggerManager GetLocalTriggerManager()
@@ -74,7 +79,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 if (OdbConfiguration.IsLoggingEnabled())
                 {
                     if (j%10000 == 0)
-                        DLogger.Info(string.Concat("\n", totalNbObjects.ToString(), " objects saved."));
+                        DLogger.Info(string.Concat("\nStorageEngine: ", totalNbObjects.ToString(), " objects saved."));
                 }
 
                 j++;
@@ -90,7 +95,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             var nbObjectsAsString = totalNbObjects.ToString();
             var timeAsString = time.ToString();
 
-            DLogger.Info(string.Format("New storage {0} created with {1} objects in {2} ms.", newFileName,
+            DLogger.Info(string.Format("StorageEngine: New storage {0} created with {1} objects in {2} ms.", newFileName,
                                        nbObjectsAsString, timeAsString));
         }
 
@@ -100,45 +105,37 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             var classInfo = GetMetaModel().GetClassInfo(className, true);
 
-            if (!classInfo.HasIndex(indexName))
-                throw new OdbRuntimeException(
-                    NDatabaseError.IndexDoesNotExist.AddParameter(indexName).AddParameter(className));
-
-            var classInfoIndex = classInfo.GetIndexWithName(indexName);
+            var classInfoIndex = GetClassInfoIndex(className, indexName, classInfo);
 
             if (OdbConfiguration.IsLoggingEnabled())
-                DLogger.Info(string.Format("Deleting index {0} on class {1}", indexName, className));
+                DLogger.Info(string.Format("StorageEngine: Deleting index {0} on class {1}", indexName, className));
 
             Delete(classInfoIndex);
             classInfo.RemoveIndex(classInfoIndex);
 
             if (OdbConfiguration.IsLoggingEnabled())
-                DLogger.Info(string.Format("Index {0} deleted", indexName));
+                DLogger.Info(string.Format("StorageEngine: Index {0} deleted", indexName));
         }
 
         /// <summary>
         ///     Used to rebuild an index
         /// </summary>
-        public virtual void RebuildIndex(string className, string indexName)
+        public void RebuildIndex(string className, string indexName)
         {
             if (OdbConfiguration.IsLoggingEnabled())
-                DLogger.Info(string.Format("Rebuilding index {0} on class {1}", indexName, className));
+                DLogger.Info(string.Format("StorageEngine: Rebuilding index {0} on class {1}", indexName, className));
 
             var classInfo = GetMetaModel().GetClassInfo(className, true);
+            var classInfoIndex = GetClassInfoIndex(className, indexName, classInfo);
 
-            if (!classInfo.HasIndex(indexName))
-                throw new OdbRuntimeException(
-                    NDatabaseError.IndexDoesNotExist.AddParameter(indexName).AddParameter(className));
-
-            var classInfoIndex = classInfo.GetIndexWithName(indexName);
             DeleteIndex(className, indexName);
 
             AddIndexOn(className, indexName, classInfo.GetAttributeNames(classInfoIndex.AttributeIds),
                        !classInfoIndex.IsUnique);
         }
 
-        public virtual void AddIndexOn(string className, string indexName, string[] indexFields,
-                                       bool acceptMultipleValuesForSameKey)
+        public void AddIndexOn(string className, string indexName, string[] indexFields,
+                               bool acceptMultipleValuesForSameKey)
         {
             var classInfo = GetMetaModel().GetClassInfo(className, true);
             if (classInfo.HasIndex(indexName))
@@ -169,10 +166,11 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             {
                 var numberOfObjectsAsString = classInfo.NumberOfObjects.ToString();
                 DLogger.Info(
-                    string.Format("Creating index {0} on class {1} - Class has already {2} Objects. Updating index",
-                                  indexName, className, numberOfObjectsAsString));
+                    string.Format(
+                        "StorageEngine: Creating index {0} on class {1} - Class has already {2} Objects. Updating index",
+                        indexName, className, numberOfObjectsAsString));
 
-                DLogger.Info(string.Format("{0} : loading {1} objects from database", indexName,
+                DLogger.Info(string.Format("StorageEngine: {0} : loading {1} objects from database", indexName,
                                            numberOfObjectsAsString));
             }
 
@@ -183,7 +181,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             if (OdbConfiguration.IsLoggingEnabled())
             {
                 var numberOfObjectsAsString = classInfo.NumberOfObjects.ToString();
-                DLogger.Info(string.Format("{0} : {1} objects loaded", indexName, numberOfObjectsAsString));
+                DLogger.Info(string.Format("StorageEngine: {0} : {1} objects loaded", indexName, numberOfObjectsAsString));
             }
 
             while (objects.HasNext())
@@ -194,7 +192,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             }
 
             if (OdbConfiguration.IsLoggingEnabled())
-                DLogger.Info(string.Format("{0} created!", indexName));
+                DLogger.Info(string.Format("StorageEngine: {0} created!", indexName));
         }
 
         public abstract void AddCommitListener(ICommitListener arg1);
@@ -257,6 +255,16 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         public abstract IIdManager GetIdManager();
 
+        private static ClassInfoIndex GetClassInfoIndex(string className, string indexName, ClassInfo classInfo)
+        {
+            if (!classInfo.HasIndex(indexName))
+                throw new OdbRuntimeException(
+                    NDatabaseError.IndexDoesNotExist.AddParameter(indexName).AddParameter(className));
+
+            var classInfoIndex = classInfo.GetIndexWithName(indexName);
+            return classInfoIndex;
+        }
+
         protected void RemoveLocalTriggerManager()
         {
             TriggerManagers.Remove(this);
@@ -273,15 +281,5 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         }
 
         #endregion
-
-        public IMetaModel GetMetaModel()
-        {
-            return GetSession().GetMetaModel();
-        }
-
-        public IOdbCache GetCache()
-        {
-            return GetSession().GetCache();
-        }
     }
 }

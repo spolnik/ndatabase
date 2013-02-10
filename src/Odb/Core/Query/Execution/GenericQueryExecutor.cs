@@ -9,7 +9,6 @@ using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Tool;
-using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Query.Execution
 {
@@ -208,7 +207,7 @@ namespace NDatabase.Odb.Core.Query.Execution
             var nbObjects = ClassInfo.NumberOfObjects;
 
             if (OdbConfiguration.IsLoggingEnabled())
-                DLogger.Debug(string.Format("loading {0} instance(s) of {1}", nbObjects, ClassInfo.FullClassName));
+                DLogger.Debug(string.Format("GenericQueryExecutor: loading {0} instance(s) of {1}", nbObjects, ClassInfo.FullClassName));
 
             if (ExecuteStartAndEndOfQueryAction())
                 queryResultAction.Start();
@@ -326,7 +325,7 @@ namespace NDatabase.Odb.Core.Query.Execution
             }
 
             if (OdbConfiguration.IsLoggingEnabled())
-                DLogger.Debug(string.Format("loading {0} instance(s) of {1}", nbObjects, ClassInfo.FullClassName));
+                DLogger.Debug(string.Format("GenericQueryExecutor: loading {0} instance(s) of {1}", nbObjects, ClassInfo.FullClassName));
 
             if (ExecuteStartAndEndOfQueryAction())
                 queryResultAction.Start();
@@ -390,7 +389,7 @@ namespace NDatabase.Odb.Core.Query.Execution
                                                           IMatchingObjectAction queryResultAction)
         {
             if (OdbConfiguration.IsLoggingEnabled())
-                DLogger.Debug(string.Format("loading Object with oid {0} - class {1}", Query.GetOidOfObjectToQuery(),
+                DLogger.Debug(string.Format("GenericQueryExecutor: loading Object with oid {0} - class {1}", Query.GetOidOfObjectToQuery(),
                                             ClassInfo.FullClassName));
 
             if (ExecuteStartAndEndOfQueryAction())
