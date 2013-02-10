@@ -25,7 +25,11 @@ namespace NDatabase.Odb.Core.Transaction
 
         private int _size;
 
-        internal WriteAction(long position, byte[] bytes = null)
+        internal WriteAction(long position) : this(position, null)
+        {
+        }
+
+        internal WriteAction(long position, byte[] bytes)
         {
             _position = position;
             _listOfBytes = new List<byte[]>(20);

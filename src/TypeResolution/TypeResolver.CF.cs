@@ -79,10 +79,10 @@ namespace NDatabase.TypeResolution
         {
             Type type = null;
 
-            var assembly = Assembly.Load(typeInfo.AssemblyName);
+            var assembly = Assembly.Load(typeInfo.GetAssemblyName());
 
             if (assembly != null)
-                type = assembly.GetType(typeInfo.TypeName, true);
+                type = assembly.GetType(typeInfo.GetTypeName(), true);
 
             return type;
         }
@@ -100,7 +100,7 @@ namespace NDatabase.TypeResolution
         /// </returns>
         private static Type LoadTypeByIteratingOverAllLoadedAssemblies(TypeAssemblyHolder typeInfo)
         {
-            Type type = typeof(TypeResolver).Assembly.GetType(typeInfo.TypeName, false);
+            Type type = typeof(TypeResolver).Assembly.GetType(typeInfo.GetTypeName(), false);
             return type;
         }
 

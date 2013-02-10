@@ -90,9 +90,11 @@
     <Compile Include="Odb\BaseOID.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\InstanceBuilder.CF.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\AttributeValueComparator.CF.cs" />
-    <Compile Include="Odb\Core\Layers\Layer3\Engine\NonNativeObjectWriter.CF.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\Engine\NonNativeObjectWriter.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\Engine\ObjectWriter.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IO\OdbFileStream.CF.cs" />
     <Compile Include="Odb\Core\Query\Values\AverageValueAction.CF.cs" />
+    <Compile Include="Odb\Core\Transaction\WriteAction.cs" />
     <Compile Include="Odb\OdbConfiguration.CF.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\ClassIntrospector.CF.cs" />
     <Compile Include="Odb\OdbFactory.CF.cs" />
@@ -151,7 +153,6 @@
     <Compile Include="Odb\Core\Layers\Layer3\Engine\AbstractStorageEngineReader.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\ByteArrayConverter.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\CheckMetaModelResult.cs" />
-    <Compile Include="Odb\Core\Layers\Layer3\Engine\ObjectWriter.CF.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\CurrentIdBlockInfo.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\FileMutex.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\FileSystemInterface.cs" />
@@ -257,7 +258,6 @@
     <Compile Include="Odb\Core\Query\Values\ValuesCriteriaQueryExecutor.cs" />
     <Compile Include="Odb\Core\Query\Values\ValuesQueryResultAction.cs" />
     <Compile Include="Odb\Core\Query\Values\ValuesUtil.cs" />
-    <Compile Include="Odb\Core\Transaction\WriteAction.CF.cs" />
     <Compile Include="Odb\Core\Transaction\IdInfo.cs" />
     <Compile Include="Odb\Core\Transaction\ISession.cs" />
     <Compile Include="Odb\Core\Transaction\ITransaction.cs" />
@@ -294,7 +294,6 @@
     <Compile Include="Properties\AssemblyInfo.CF.cs" />
     <Compile Include="Tool\DLogger.CF.cs" />
     <Compile Include="Tool\DictionaryExtensions.cs" />
-    <Compile Include="Tool\DisplayUtility.cs" />
     <Compile Include="Tool\ILogger.cs" />
     <Compile Include="Tool\ListExtensions.cs" />
     <Compile Include="Tool\UniqueIdGenerator.cs" />
