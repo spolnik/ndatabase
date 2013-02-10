@@ -1,6 +1,5 @@
 using System;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer3.IO;
 
 namespace NDatabase.Odb.Core.Layers.Layer3
 {
@@ -29,13 +28,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         void WriteByte(byte i, bool writeInTransaction);
 
-        void WriteByte(byte i, bool writeInTransaction, string label);
-
         byte ReadByte();
 
-        byte ReadByte(string label);
-
-        void WriteBytes(byte[] bytes, bool writeInTransaction, string label);
+        void WriteBytes(byte[] bytes, bool writeInTransaction);
 
         byte[] ReadBytes(int length);
 
@@ -43,45 +38,33 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         char ReadChar();
 
-        char ReadChar(string label);
-
         void WriteShort(short s, bool writeInTransaction);
 
         short ReadShort();
 
-        short ReadShort(string label);
-
-        void WriteInt(int i, bool writeInTransaction, string label);
+        void WriteInt(int i, bool writeInTransaction);
 
         int ReadInt();
 
-        int ReadInt(string label);
-
-        void WriteLong(long i, bool writeInTransaction, string label);
+        void WriteLong(long i, bool writeInTransaction);
 
         long ReadLong();
-
-        long ReadLong(string label);
 
         void WriteFloat(float f, bool writeInTransaction);
 
         float ReadFloat();
 
-        float ReadFloat(string label);
-
         void WriteDouble(double d, bool writeInTransaction);
 
-        double ReadDouble(string label);
+        double ReadDouble();
 
         void WriteBigDecimal(Decimal d, bool writeInTransaction);
 
         Decimal ReadBigDecimal();
 
-        Decimal ReadBigDecimal(string label);
-
         void WriteDate(DateTime d, bool writeInTransaction);
 
-        DateTime ReadDate(string label);
+        DateTime ReadDate();
 
         void WriteString(string s, bool writeInTransaction);
 
@@ -89,39 +72,29 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
         string ReadString();
 
-        string ReadString(string label);
-
         void WriteBoolean(bool b, bool writeInTransaction);
 
-        void WriteBoolean(bool b, bool writeInTransaction, string label);
-
         bool ReadBoolean();
-
-        bool ReadBoolean(string label);
 
         void Close();
 
         /// <returns> Returns the parameters. </returns>
         IDbIdentification GetFileIdentification();
 
-        IMultiBufferedFileIO GetIo();
-
         void WriteUShort(ushort s, bool writeInTransaction);
         
-        ushort ReadUShort(string label);
+        ushort ReadUShort();
         
-        void WriteUInt(uint i, bool writeInTransaction, string label);
+        void WriteUInt(uint i, bool writeInTransaction);
         
-        uint ReadUInt(string label);
+        uint ReadUInt();
         
-        void WriteULong(ulong i, bool writeInTransaction, string label);
+        void WriteULong(ulong i, bool writeInTransaction);
         
-        ulong ReadULong(string label);
+        ulong ReadULong();
         
         void WriteSByte(sbyte i, bool writeInTransaction);
         
-        void WriteSByte(sbyte i, bool writeInTransaction, string label);
-        
-        sbyte ReadSByte(string label);
+        sbyte ReadSByte();
     }
 }

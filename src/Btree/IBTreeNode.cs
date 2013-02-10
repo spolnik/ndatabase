@@ -77,7 +77,7 @@ namespace NDatabase.Btree
 
         object DeleteKeyForLeafNode(IKeyAndValue keyAndValue);
 
-        object DeleteKeyAndValueAt(int index, bool shiftChildren);
+        void DeleteKeyAndValueAt(int index, bool shiftChildren);
 
         bool HasParent();
 

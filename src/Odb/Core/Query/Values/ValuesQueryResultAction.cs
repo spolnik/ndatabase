@@ -4,7 +4,6 @@ using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Oid;
 using NDatabase.Odb.Core.Query.Execution;
 using NDatabase.Odb.Core.Query.List;
-using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Query.Values
 {

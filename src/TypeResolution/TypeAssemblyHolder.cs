@@ -11,7 +11,7 @@ namespace NDatabase.TypeResolution
         /// from the name of it's attendant <see cref="System.Reflection.Assembly"/>
         /// in an assembly qualified type name.
         /// </summary>
-        public const string TypeAssemblySeparator = ",";
+        private const string TypeAssemblySeparator = ",";
 
         private string _unresolvedAssemblyName;
         private string _unresolvedTypeName;
@@ -30,17 +30,17 @@ namespace NDatabase.TypeResolution
         /// <summary>
         /// The (unresolved) type name portion of the original type name.
         /// </summary>
-        public string TypeName
+        public string GetTypeName()
         {
-            get { return _unresolvedTypeName; }
+            return _unresolvedTypeName;
         }
 
         /// <summary>
         /// The (unresolved, possibly partial) name of the attendant assembly.
         /// </summary>
-        public string AssemblyName
+        public string GetAssemblyName()
         {
-            get { return _unresolvedAssemblyName; }
+            return _unresolvedAssemblyName;
         }
 
         /// <summary>
@@ -48,10 +48,8 @@ namespace NDatabase.TypeResolution
         /// </summary>
         public bool IsAssemblyQualified
         {
-            get { return !string.IsNullOrEmpty(AssemblyName); }
+            get { return !string.IsNullOrEmpty(GetAssemblyName()); }
         }
-
-        #region Methods
 
         private void SplitTypeAndAssemblyNames(string originalTypeName)
         {
@@ -59,8 +57,8 @@ namespace NDatabase.TypeResolution
             // Spring.Objects.TestGenericObject`2[[System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]][] , Spring.Core.Tests, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
             //
             // start searching for assembly separator after the last bracket if any
-            int typeAssemblyIndex = originalTypeName.LastIndexOf(']');
-            typeAssemblyIndex = originalTypeName.IndexOf(TypeAssemblySeparator, typeAssemblyIndex+1);
+            var typeAssemblyIndex = originalTypeName.LastIndexOf(']');
+            typeAssemblyIndex = originalTypeName.IndexOf(TypeAssemblySeparator, typeAssemblyIndex+1, System.StringComparison.Ordinal);
             if (typeAssemblyIndex < 0)
             {
                 _unresolvedTypeName = originalTypeName;
@@ -73,7 +71,5 @@ namespace NDatabase.TypeResolution
                     typeAssemblyIndex + 1).Trim();
             }
         }
-
-        #endregion
     }
 }

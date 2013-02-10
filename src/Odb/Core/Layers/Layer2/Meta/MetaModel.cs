@@ -57,12 +57,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             _allClassInfos.Add(classInfo);
         }
 
-        public void AddClasses(ClassInfoList ciList)
-        {
-            foreach (var classInfo in ciList.GetClassInfos())
-                AddClass(classInfo);
-        }
-
         public bool ExistClass(Type type)
         {
             return _existingClasses.Contains(type);

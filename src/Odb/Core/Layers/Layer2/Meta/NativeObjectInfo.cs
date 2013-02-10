@@ -15,7 +15,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// <summary>
         ///   The object being represented
         /// </summary>
-        protected object TheObject;
+        protected readonly object TheObject;
 
         protected NativeObjectInfo(object @object, int odbTypeId) : base(odbTypeId)
         {
@@ -45,11 +45,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         public override object GetObject()
         {
             return TheObject;
-        }
-
-        public override void SetObject(object @object)
-        {
-            TheObject = @object;
         }
     }
 }

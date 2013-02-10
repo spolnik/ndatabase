@@ -17,11 +17,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// </summary>
         protected readonly int OdbTypeId;
 
-        /// <summary>
-        ///   The position of the object
-        /// </summary>
-        protected long Position;
-
         protected AbstractObjectInfo(int typeId)
         {
             OdbTypeId = typeId;
@@ -48,21 +43,9 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public abstract object GetObject();
 
-        public abstract void SetObject(object @object);
-
         public int GetOdbTypeId()
         {
             return OdbTypeId;
-        }
-
-        public virtual long GetPosition()
-        {
-            return Position;
-        }
-
-        public virtual void SetPosition(long position)
-        {
-            Position = position;
         }
 
         public OdbType GetOdbType()

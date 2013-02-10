@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using NDatabase.Exceptions;
-using NDatabase.Odb;
-using NDatabase.Odb.Core;
 
 namespace NDatabase.Tool.Wrappers
 {

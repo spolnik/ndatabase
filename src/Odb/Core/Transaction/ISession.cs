@@ -28,8 +28,6 @@ namespace NDatabase.Odb.Core.Transaction
 
         IMetaModel GetMetaModel();
 
-        void SetMetaModel(IMetaModel metaModel2);
-
         string GetId();
 
         void RemoveObjectFromCache(object @object);
