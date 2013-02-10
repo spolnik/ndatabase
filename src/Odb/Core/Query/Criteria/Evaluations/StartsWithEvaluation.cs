@@ -3,7 +3,7 @@ using NDatabase.Exceptions;
 
 namespace NDatabase.Odb.Core.Query.Criteria.Evaluations
 {
-    internal class StartsWithEvaluation : AEvaluation
+    internal sealed class StartsWithEvaluation : AEvaluation
     {
         private readonly bool _isCaseSensitive;
 

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace NDatabase.Odb.Core.Query.Linq
 {
-    internal class LinqQuery<T> : ILinqQueryInternal<T>
+    internal sealed class LinqQuery<T> : ILinqQueryInternal<T>
     {
         private readonly IOdb _odb;
         private readonly IQueryBuilderRecord _record;

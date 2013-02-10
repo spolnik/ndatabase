@@ -2,7 +2,7 @@
 
 namespace NDatabase.Reflection
 {
-    internal class ByteBuffer
+    internal sealed class ByteBuffer
     {
         public ByteBuffer(byte[] buffer)
         {

@@ -4,7 +4,7 @@ using NDatabase.Exceptions;
 
 namespace NDatabase.Odb.Core.Query.Criteria.Evaluations
 {
-    internal class CollectionSizeEvaluation : AEvaluation
+    internal sealed class CollectionSizeEvaluation : AEvaluation
     {
         internal const int SizeEq = 1;
         internal const int SizeNe = 2;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NDatabase.Odb.Core.Query.Linq
 {
-    internal class PlaceHolderQuery<T> : ILinqQuery<T>
+    internal sealed class PlaceHolderQuery<T> : ILinqQuery<T>
     {
         private readonly IOdb _odb;
 

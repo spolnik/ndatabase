@@ -14,7 +14,7 @@ namespace NDatabase.TypeResolution
     ///         structures, methods, delegates, etc...
     ///     </p>
     /// </remarks>
-    internal class GenericArgumentsHolder
+    internal sealed class GenericArgumentsHolder
     {
         private static readonly Regex ClrPattern = new Regex(
             "^"

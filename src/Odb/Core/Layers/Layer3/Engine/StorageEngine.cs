@@ -87,9 +87,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             CheckMetaModelCompatibility(ClassIntrospector.Instrospect(metaModel.GetAllClasses()));
 
-            // logically locks access to the file (only for this machine)
-            FileMutex.GetInstance().OpenFile(GetStorageDeviceName());
-            
             _objectWriter.SetTriggerManager(_triggerManager);
             _introspectionCallbackForInsert = new InstrumentationCallbackForStore(_triggerManager, false);
             _introspectionCallbackForUpdate = new InstrumentationCallbackForStore(_triggerManager, true);
@@ -237,9 +234,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             IsDbClosed = true;
             ObjectReader.Close();
             _objectWriter.Close();
-            // Logically release this file (only for this machine)
-            FileMutex.GetInstance().ReleaseFile(GetStorageDeviceName());
-
+            
             lsession.Close();
 
             if (_objectIntrospector != null)
@@ -435,11 +430,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             foreach (var userClass in metaModel.GetAllClasses())
                 _objectWriter.UpdateClassInfo(userClass, true);
-        }
-
-        private string GetStorageDeviceName()
-        {
-            return DbIdentification.Id;
         }
 
         /// <summary>

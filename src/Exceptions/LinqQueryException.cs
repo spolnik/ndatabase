@@ -5,7 +5,7 @@ namespace NDatabase.Exceptions
     /// <summary>
     /// NDatabase exception raised during processing linq query
     /// </summary>
-    public class LinqQueryException : OdbRuntimeException
+    public sealed class LinqQueryException : OdbRuntimeException
     {
         internal LinqQueryException(string message)
             : base(NDatabaseError.BtreeError.AddParameter(message))

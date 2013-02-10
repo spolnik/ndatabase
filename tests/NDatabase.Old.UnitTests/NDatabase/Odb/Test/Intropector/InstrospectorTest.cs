@@ -121,7 +121,6 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
             AssertEquals(1, comparator.GetNbChanges());
-            AssertEquals(1, comparator.GetChangedAttributeActions().Count);
             
             odb.Close();
         }
@@ -175,7 +174,6 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
             AssertEquals(2, comparator.GetNbChanges());
-            AssertEquals(2, comparator.GetChangedAttributeActions().Count);
             
             odb.Close();
         }
@@ -233,7 +231,6 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
             AssertEquals(1, comparator.GetNbChanges());
-            AssertEquals(1, comparator.GetAttributeToSetToNull().Count);
             
             odb.Close();
         }
@@ -289,8 +286,6 @@ namespace Test.NDatabase.Odb.Test.Intropector
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
             AssertEquals(2, comparator.GetNbChanges());
-            AssertEquals(1, comparator.GetAttributeToSetToNull().Count);
-            AssertEquals(1, comparator.GetArrayChanges().Count);
             
             odb.Close();
         }
@@ -399,7 +394,6 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
             AssertEquals(1, comparator.GetNbChanges());
-            AssertEquals(1, comparator.GetChangedAttributeActions().Count);
             
             odb.Close();
         }
@@ -491,8 +485,6 @@ namespace Test.NDatabase.Odb.Test.Intropector
                                                                                                                 false));
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
             AssertEquals(1, comparator.GetNbChanges());
-            AssertEquals(1, comparator.GetAttributeToSetToNull().Count);
-            AssertEquals(0, comparator.GetChangedAttributeActions().Count);
 
             odb.Close();
         }
@@ -545,7 +537,6 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
             AssertEquals(1, comparator.GetNbChanges());
-            AssertEquals(1, comparator.GetChangedAttributeActions().Count);
             
             odb.Close();
         }
@@ -601,7 +592,6 @@ namespace Test.NDatabase.Odb.Test.Intropector
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
             AssertEquals(3, comparator.GetNbChanges());
-            AssertEquals(2, comparator.GetChangedAttributeActions().Count);
             
             odb.Close();
         }
@@ -649,7 +639,6 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             AssertTrue(comparator.HasChanged(instanceInfo, instanceInfo3));
             AssertEquals(1, comparator.GetNbChanges());
-            AssertEquals(0, comparator.GetChangedAttributeActions().Count);
             
             odb.Close();
         }

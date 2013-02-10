@@ -68,7 +68,7 @@ namespace NDatabase.Reflection
 
         #region Nested type: OpCodePattern
 
-        private class OpCodePattern : ILPattern
+        private sealed class OpCodePattern : ILPattern
         {
             private readonly OpCode _opcode;
 
@@ -95,7 +95,7 @@ namespace NDatabase.Reflection
 
         #region Nested type: OptionalPattern
 
-        private class OptionalPattern : ILPattern
+        private sealed class OptionalPattern : ILPattern
         {
             private readonly ILPattern _pattern;
 
@@ -114,7 +114,7 @@ namespace NDatabase.Reflection
 
         #region Nested type: SequencePattern
 
-        private class SequencePattern : ILPattern
+        private sealed class SequencePattern : ILPattern
         {
             private readonly ILPattern[] _patterns;
 

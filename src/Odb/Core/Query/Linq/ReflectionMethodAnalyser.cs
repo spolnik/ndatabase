@@ -7,7 +7,7 @@ using NDatabase.Reflection;
 
 namespace NDatabase.Odb.Core.Query.Linq
 {
-    internal class ReflectionMethodAnalyser
+    internal sealed class ReflectionMethodAnalyser
     {
         private static readonly ConcurrentDictionary<MethodInfo, FieldInfo> FieldCache =
             new ConcurrentDictionary<MethodInfo, FieldInfo>();
@@ -17,7 +17,7 @@ namespace NDatabase.Odb.Core.Query.Linq
             return new BackingFieldPattern();
         }
 
-        private class BackingFieldPattern : ILPattern
+        private sealed class BackingFieldPattern : ILPattern
         {
             public static readonly object BackingFieldKey = new object();
 
