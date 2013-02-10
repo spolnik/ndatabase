@@ -317,9 +317,8 @@
     <Compile Include="Odb\OID.cs" />
     <Compile Include="Odb\TriggerManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tool\DLogger.Portable.cs" />
+    <Compile Include="Tool\DLogger.cs" />
     <Compile Include="Tool\DictionaryExtensions.cs" />
-    <Compile Include="Tool\DisplayUtility.cs" />
     <Compile Include="Tool\Hashtable.cs" />
     <Compile Include="Tool\ILogger.cs" />
     <Compile Include="Tool\ListExtensions.cs" />

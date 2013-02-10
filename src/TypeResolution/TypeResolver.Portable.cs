@@ -48,60 +48,22 @@ namespace NDatabase.TypeResolution
             return type;
         }
 
-        /// <summary>
-        /// Uses <see cref="System.Reflection.Assembly.LoadWithPartialName(string)"/>
-        /// to load an <see cref="System.Reflection.Assembly"/> and then the attendant
-        /// <see cref="System.Type"/> referred to by the <paramref name="typeInfo"/>
-        /// parameter.
-        /// </summary>
-        /// <remarks>
-        /// <p>
-        /// <see cref="System.Reflection.Assembly.LoadWithPartialName(string)"/> is
-        /// deprecated in .NET 2.0, but is still used here (even when this class is
-        /// compiled for .NET 2.0);
-        /// <see cref="System.Reflection.Assembly.LoadWithPartialName(string)"/> will
-        /// still resolve (non-.NET Framework) local assemblies when given only the
-        /// display name of an assembly (the behavior for .NET Framework assemblies
-        /// and strongly named assemblies is documented in the docs for the
-        /// <see cref="System.Reflection.Assembly.LoadWithPartialName(string)"/> method).
-        /// </p>
-        /// </remarks>
-        /// <param name="typeInfo">
-        /// The assembly and type to be loaded.
-        /// </param>
-        /// <returns>
-        /// A <see cref="System.Type"/>, or <see lang="null"/>.
-        /// </returns>
-        /// <exception cref="System.Exception">
-        /// <see cref="System.Reflection.Assembly.LoadWithPartialName(string)"/>
-        /// </exception>
         private static Type LoadTypeDirectlyFromAssembly(TypeAssemblyHolder typeInfo)
         {
             Type type = null;
 
 
-            var assembly = Assembly.Load(typeInfo.AssemblyName);
+            var assembly = Assembly.Load(typeInfo.GetAssemblyName());
 
             if (assembly != null)
-                type = assembly.GetType(typeInfo.TypeName);
+                type = assembly.GetType(typeInfo.GetTypeName());
 
             return type;
         }
 
-        /// <summary>
-        /// Uses <see cref="M:System.AppDomain.CurrentDomain.GetAssemblies()"/>
-        /// to load the attendant <see cref="System.Type"/> referred to by 
-        /// the <paramref name="typeInfo"/> parameter.
-        /// </summary>
-        /// <param name="typeInfo">
-        /// The type to be loaded.
-        /// </param>
-        /// <returns>
-        /// A <see cref="System.Type"/>, or <see lang="null"/>.
-        /// </returns>
         private static Type LoadTypeByIteratingOverAllLoadedAssemblies(TypeAssemblyHolder typeInfo)
         {
-            return Assembly.GetExecutingAssembly().GetType(typeInfo.TypeName, false);
+            return Assembly.GetExecutingAssembly().GetType(typeInfo.GetTypeName(), false);
         }
 
         /// <summary>
