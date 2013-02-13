@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace NDatabase.Odb.Core.Query.Criteria.Evaluations
 {
-    internal class ContainsEvaluation : AEvaluation
+    internal sealed class ContainsEvaluation : AEvaluation
     {
         /// <summary>
         ///   For criteria query on objects, we use the oid of the object instead of the object itself.

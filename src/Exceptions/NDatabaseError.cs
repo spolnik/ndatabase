@@ -336,7 +336,9 @@ namespace NDatabase.Exceptions
                     var parameterIndex = sourceString.IndexOf(parameterName, System.StringComparison.Ordinal);
 
                     if (parameterIndex != -1)
-                        sourceString = OdbString.ReplaceToken(sourceString, parameterName, parameterValue, 1);
+                    {
+                        sourceString = StringErrorMessageHelper.ReplaceToken(sourceString, parameterName, parameterValue, 1);
+                    }
                 }
             }
 

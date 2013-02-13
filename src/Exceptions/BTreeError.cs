@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using NDatabase.Tool.Wrappers;
+
 
 namespace NDatabase.Exceptions
 {
@@ -85,10 +87,10 @@ namespace NDatabase.Exceptions
                 {
                     var parameterName = string.Concat("@", (i + 1).ToString());
                     var parameterValue = _parameters[i];
-                    var parameterIndex = token.IndexOf(parameterName, System.StringComparison.Ordinal);
+                    var parameterIndex = token.IndexOf(parameterName, StringComparison.Ordinal);
 
                     if (parameterIndex != -1)
-                        token = OdbString.ReplaceToken(token, parameterName, parameterValue, 1);
+                        token = StringErrorMessageHelper.ReplaceToken(token, parameterName, parameterValue, 1);
                 }
             }
 

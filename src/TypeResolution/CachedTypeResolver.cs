@@ -8,7 +8,7 @@ namespace NDatabase.TypeResolution
 	/// assembly qualified) name, and caches the <see cref="System.Type"/>
 	/// instance against the type name.
 	/// </summary>
-	internal class CachedTypeResolver : ITypeResolver
+	internal sealed class CachedTypeResolver : ITypeResolver
 	{
 		/// <summary>
 		/// The cache, mapping type names (<see cref="System.String"/> instances) against

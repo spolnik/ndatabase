@@ -14,17 +14,13 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
     {
         private const int Size = 5;
         private readonly IDictionary<NonNativeObjectInfo, int> _alreadyCheckingObjects;
-        private readonly IList<ArrayModifyElement> _arrayChanges;
-
-        private readonly IList<SetAttributeToNullAction> _attributeToSetToNull;
-
+        
         private readonly IList<NonNativeObjectInfo> _changedObjectMetaRepresentations;
 
         private readonly IList<ChangedObjectInfo> _changes;
 
-        private readonly IList<NewNonNativeObjectAction> _newObjectMetaRepresentations;
         private readonly IList<object> _newObjects;
-        private readonly IList<IChangedAttribute> _changedAttributeActions;
+        
         private int _maxObjectRecursionLevel;
 
         private int _nbChanges;
@@ -32,13 +28,9 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
         public ObjectInfoComparator()
         {
             _changedObjectMetaRepresentations = new List<NonNativeObjectInfo>(Size);
-            _attributeToSetToNull = new List<SetAttributeToNullAction>(Size);
             _alreadyCheckingObjects = new OdbHashMap<NonNativeObjectInfo, int>(Size);
             _newObjects = new List<object>(Size);
-            _newObjectMetaRepresentations = new List<NewNonNativeObjectAction>(Size);
             _changes = new List<ChangedObjectInfo>(Size);
-            _changedAttributeActions = new List<IChangedAttribute>(Size);
-            _arrayChanges = new List<ArrayModifyElement>();
             _maxObjectRecursionLevel = 0;
         }
 
@@ -49,26 +41,13 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
             return HasChanged(aoi1, aoi2, -1);
         }
 
-        public IList<IChangedAttribute> GetChangedAttributeActions()
-        {
-            return _changedAttributeActions;
-        }
-
-        public IList<SetAttributeToNullAction> GetAttributeToSetToNull()
-        {
-            return _attributeToSetToNull;
-        }
-
         public void Clear()
         {
             _changedObjectMetaRepresentations.Clear();
-            _attributeToSetToNull.Clear();
             _alreadyCheckingObjects.Clear();
             _newObjects.Clear();
-            _newObjectMetaRepresentations.Clear();
             _changes.Clear();
-            _changedAttributeActions.Clear();
-            _arrayChanges.Clear();
+            
             _maxObjectRecursionLevel = 0;
             _nbChanges = 0;
         }
@@ -76,11 +55,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
         public int GetNbChanges()
         {
             return _nbChanges;
-        }
-
-        public IList<ArrayModifyElement> GetArrayChanges()
-        {
-            return _arrayChanges;
         }
 
         #endregion
@@ -149,13 +123,13 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
                 if (value2.IsNull())
                 {
                     hasChanged = true;
-                    StoreActionSetAttributetoNull();
+                    _nbChanges++;
                     continue;
                 }
                 if (value1.IsNull() && value2.IsNonNativeObject())
                 {
                     hasChanged = true;
-                    StoreNewObjectReference();
+                    _nbChanges++;
                     continue;
                 }
                 if (!ClassAreCompatible(value1, value2))
@@ -164,7 +138,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
                     if (nativeObjectInfo != null)
                     {
                         StoreChangedObject(nnoi1, nnoi2, id, objectRecursionLevel);
-                        StoreChangedAttributeAction(new ChangedNativeAttributeAction());
+                        _nbChanges++;
                     }
                     var objectReference = value2 as ObjectReference;
                     if (objectReference != null)
@@ -174,7 +148,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
                         if (!nnoi.GetOid().Equals(oref.GetOid()))
                         {
                             StoreChangedObject(nnoi1, nnoi2, id, objectRecursionLevel);
-                            StoreChangedAttributeAction(new ChangedObjectReferenceAttributeAction());
+                            _nbChanges++;
                         }
                         else
                             continue;
@@ -186,7 +160,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
                 {
                     if (!value1.Equals(value2))
                     {
-                        StoreChangedAttributeAction(new ChangedNativeAttributeAction());
+                        _nbChanges++;
                         hasChanged = true;
                     }
                     continue;
@@ -219,7 +193,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
                     {
                         // This means that an object reference has changed.
                         hasChanged = true;
-                        StoreNewObjectReference();
+                        _nbChanges++;
                         objectRecursionLevel++;
                     }
                 }
@@ -237,26 +211,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
             else
                 _alreadyCheckingObjects.Add(nnoi2, i2);
             return hasChanged;
-        }
-
-        private void StoreNewObjectReference()
-        {
-            _newObjectMetaRepresentations.Add(new NewNonNativeObjectAction());
-            _nbChanges++;
-        }
-
-        private void StoreActionSetAttributetoNull()
-        {
-            _nbChanges++;
-            var action = new SetAttributeToNullAction();
-            _attributeToSetToNull.Add(action);
-        }
-
-        private void StoreArrayChange()
-        {
-            _nbChanges++;
-            var ame = new ArrayModifyElement();
-            _arrayChanges.Add(ame);
         }
 
         private static bool ClassAreCompatible(AbstractObjectInfo value1, AbstractObjectInfo value2)
@@ -287,7 +241,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
             else
             {
                 _newObjects.Add(aoi2.GetObject());
-                StoreNewObjectReference();
+                _nbChanges++;
             }
         }
 
@@ -338,16 +292,10 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
                 if (!localHasChanged) 
                     continue;
 
-                StoreArrayChange();
+                _nbChanges++;
                 return true;
             }
             return false;
-        }
-
-        private void StoreChangedAttributeAction(IChangedAttribute caa)
-        {
-            _nbChanges++;
-            _changedAttributeActions.Add(caa);
         }
 
         public override string ToString()

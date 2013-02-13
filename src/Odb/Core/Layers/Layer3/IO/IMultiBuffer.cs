@@ -9,7 +9,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         ///</summary>
         int[] MaxPositionInBuffer { get; }
 
-        MultiBuffer.BufferPosition[] BufferPositions { get; }
+        BufferPosition[] BufferPositions { get; }
 
         ///<summary>
         ///  The buffer size.

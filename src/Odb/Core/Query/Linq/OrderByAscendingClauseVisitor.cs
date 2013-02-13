@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace NDatabase.Odb.Core.Query.Linq
 {
-    internal class OrderByAscendingClauseVisitor : OrderByClauseVisitorBase
+    internal sealed class OrderByAscendingClauseVisitor : OrderByClauseVisitorBase
     {
         private static readonly ConcurrentDictionary<Expression, IQueryBuilderRecord> Cache =
             new ConcurrentDictionary<Expression, IQueryBuilderRecord>();

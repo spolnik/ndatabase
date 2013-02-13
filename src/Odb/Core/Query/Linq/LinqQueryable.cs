@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace NDatabase.Odb.Core.Query.Linq
 {
-    internal class LinqQueryable<TElement> : ILinqQueryable<TElement>, IQueryProvider
+    internal sealed class LinqQueryable<TElement> : ILinqQueryable<TElement>, IQueryProvider
     {
         private readonly Expression _expression;
         private readonly ILinqQuery<TElement> _query;

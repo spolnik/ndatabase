@@ -2,7 +2,7 @@ using System.Linq.Expressions;
 
 namespace NDatabase.Odb.Core.Query.Linq
 {
-    internal class ExpressionTreeNormalizer : ExpressionTransformer
+    internal sealed class ExpressionTreeNormalizer : ExpressionTransformer
     {
         protected override Expression VisitLambda(LambdaExpression lambda)
         {

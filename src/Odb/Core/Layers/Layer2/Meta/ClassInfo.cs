@@ -61,7 +61,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         {
             _underlyingType = underlyingType;
 
-            _fullClassName = OdbClassUtil.GetFullName(underlyingType);
+            _fullClassName = OdbClassNameResolver.GetFullName(underlyingType);
 
             TypeCache.GetOrAdd(_fullClassName, UnderlyingType);
         }

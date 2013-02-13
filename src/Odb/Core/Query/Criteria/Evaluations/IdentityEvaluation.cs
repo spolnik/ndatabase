@@ -3,7 +3,7 @@ using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
 namespace NDatabase.Odb.Core.Query.Criteria.Evaluations
 {
-    internal class IdentityEvaluation : AEvaluation
+    internal sealed class IdentityEvaluation : AEvaluation
     {
         /// <summary>
         ///   For criteria query on objects, we use the oid of the object instead of the object itself.

@@ -93,7 +93,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public ClassInfo GetClassInfo(Type type, bool throwExceptionIfDoesNotExist)
         {
-            var fullClassName = OdbClassUtil.GetFullName(type);
+            var fullClassName = OdbClassNameResolver.GetFullName(type);
             return GetClassInfo(fullClassName, throwExceptionIfDoesNotExist);
         }
 
@@ -168,7 +168,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         {
             var result = new List<ClassInfo>();
 
-            var fullClassName = OdbClassUtil.GetFullName(type);
+            var fullClassName = OdbClassNameResolver.GetFullName(type);
             var theClass = type;
 
             CheckList(fullClassName, result, theClass, _rapidAccessForClassesByName);

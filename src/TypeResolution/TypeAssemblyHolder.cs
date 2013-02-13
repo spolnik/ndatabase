@@ -4,7 +4,7 @@ namespace NDatabase.TypeResolution
     /// Holds data about a <see cref="System.Type"/> and it's
     /// attendant <see cref="System.Reflection.Assembly"/>.
     /// </summary>
-    internal class TypeAssemblyHolder
+    internal sealed class TypeAssemblyHolder
     {
         /// <summary>
         /// The string that separates a <see cref="System.Type"/> name

@@ -69,7 +69,7 @@ namespace NDatabase.UnitTests.Triggers
         [Test]
         public void It_should_have_set_correct_base_attributes()
         {
-            var className = OdbClassUtil.GetFullName(typeof (Person));
+            var className = OdbClassNameResolver.GetFullName(typeof (Person));
             Assert.That(_objectClassName, Is.EqualTo(className));
 
             Assert.That(_oid, Is.EqualTo(_sampleOid));

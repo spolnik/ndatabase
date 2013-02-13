@@ -28,7 +28,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         private static readonly ConcurrentDictionary<string, OdbType> CacheOfTypesByName =
             new ConcurrentDictionary<string, OdbType>();
 
-        public static readonly string DefaultArrayComponentClassName = OdbClassUtil.GetFullName(typeof (object));
+        public static readonly string DefaultArrayComponentClassName = OdbClassNameResolver.GetFullName(typeof (object));
 
         private readonly int _id;
         private readonly bool _isPrimitive;
@@ -149,9 +149,9 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         public static OdbType GetFromClass(Type clazz)
         {
             if (clazz.GetTypeInfo().IsEnum)
-                return new OdbType(Enum._isPrimitive, EnumId, OdbClassUtil.GetFullName(clazz), 0);
+                return new OdbType(Enum._isPrimitive, EnumId, OdbClassNameResolver.GetFullName(clazz), 0);
 
-            var className = OdbClassUtil.GetFullName(clazz);
+            var className = OdbClassNameResolver.GetFullName(clazz);
 
             // First check if it is a 'default type'
             OdbType odbType;
@@ -179,7 +179,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         public static bool IsNative(Type clazz)
         {
             OdbType odbType;
-            var success = TypesByName.TryGetValue(OdbClassUtil.GetFullName(clazz), out odbType);
+            var success = TypesByName.TryGetValue(OdbClassNameResolver.GetFullName(clazz), out odbType);
 
             return success || clazz.IsArray;
         }
@@ -400,89 +400,89 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// <summary>
         ///   1 byte
         /// </summary>
-        public static readonly OdbType Byte = new OdbType(true, ByteId, OdbClassUtil.GetFullName(typeof (byte)), 1);
+        public static readonly OdbType Byte = new OdbType(true, ByteId, OdbClassNameResolver.GetFullName(typeof (byte)), 1);
 
         /// <summary>
         ///   1 byte
         /// </summary>
-        public static readonly OdbType SByte = new OdbType(true, SByteId, OdbClassUtil.GetFullName(typeof(sbyte)), 1);
+        public static readonly OdbType SByte = new OdbType(true, SByteId, OdbClassNameResolver.GetFullName(typeof(sbyte)), 1);
 
         /// <summary>
         ///   2 byte
         /// </summary>
-        public static readonly OdbType Short = new OdbType(true, ShortId, OdbClassUtil.GetFullName(typeof (short)), 2);
+        public static readonly OdbType Short = new OdbType(true, ShortId, OdbClassNameResolver.GetFullName(typeof (short)), 2);
 
         /// <summary>
         ///   2 byte
         /// </summary>
-        public static readonly OdbType UShort = new OdbType(true, UShortId, OdbClassUtil.GetFullName(typeof(ushort)), 2);
+        public static readonly OdbType UShort = new OdbType(true, UShortId, OdbClassNameResolver.GetFullName(typeof(ushort)), 2);
 
         /// <summary>
         ///   4 byte
         /// </summary>
-        public static readonly OdbType Integer = new OdbType(true, IntegerId, OdbClassUtil.GetFullName(typeof (int)), 4);
+        public static readonly OdbType Integer = new OdbType(true, IntegerId, OdbClassNameResolver.GetFullName(typeof (int)), 4);
 
         /// <summary>
         ///   4 byte
         /// </summary>
-        public static readonly OdbType UInteger = new OdbType(true, UIntegerId, OdbClassUtil.GetFullName(typeof(uint)), 4);
+        public static readonly OdbType UInteger = new OdbType(true, UIntegerId, OdbClassNameResolver.GetFullName(typeof(uint)), 4);
 
         /// <summary>
         ///   16 byte
         /// </summary>
-        public static readonly OdbType Decimal = new OdbType(true, DecimalId, OdbClassUtil.GetFullName(typeof (decimal)),
+        public static readonly OdbType Decimal = new OdbType(true, DecimalId, OdbClassNameResolver.GetFullName(typeof (decimal)),
                                                              16);
 
         /// <summary>
         ///   8 bytes
         /// </summary>
-        public static readonly OdbType Long = new OdbType(true, LongId, OdbClassUtil.GetFullName(typeof (long)), 8);
+        public static readonly OdbType Long = new OdbType(true, LongId, OdbClassNameResolver.GetFullName(typeof (long)), 8);
 
         /// <summary>
         ///   8 bytes
         /// </summary>
-        public static readonly OdbType ULong = new OdbType(true, ULongId, OdbClassUtil.GetFullName(typeof(ulong)), 8);
+        public static readonly OdbType ULong = new OdbType(true, ULongId, OdbClassNameResolver.GetFullName(typeof(ulong)), 8);
 
         /// <summary>
         ///   4 byte
         /// </summary>
-        public static readonly OdbType Float = new OdbType(true, FloatId, OdbClassUtil.GetFullName(typeof (float)), 4);
+        public static readonly OdbType Float = new OdbType(true, FloatId, OdbClassNameResolver.GetFullName(typeof (float)), 4);
 
         /// <summary>
         ///   8 byte
         /// </summary>
-        public static readonly OdbType Double = new OdbType(true, DoubleId, OdbClassUtil.GetFullName(typeof (double)), 8);
+        public static readonly OdbType Double = new OdbType(true, DoubleId, OdbClassNameResolver.GetFullName(typeof (double)), 8);
 
         /// <summary>
         ///   2 byte
         /// </summary>
         public static readonly OdbType Character = new OdbType(true, CharacterId,
-                                                               OdbClassUtil.GetFullName(typeof (char)), 2);
+                                                               OdbClassNameResolver.GetFullName(typeof (char)), 2);
 
         /// <summary>
         ///   1 byte
         /// </summary>
-        public static readonly OdbType Boolean = new OdbType(true, BooleanId, OdbClassUtil.GetFullName(typeof (bool)), 1);
+        public static readonly OdbType Boolean = new OdbType(true, BooleanId, OdbClassNameResolver.GetFullName(typeof (bool)), 1);
 
         /// <summary>
         ///   8 byte
         /// </summary>
-        public static readonly OdbType Date = new OdbType(false, DateId, OdbClassUtil.GetFullName(typeof (DateTime)), 8);
+        public static readonly OdbType Date = new OdbType(false, DateId, OdbClassNameResolver.GetFullName(typeof (DateTime)), 8);
 
-        public static readonly OdbType String = new OdbType(false, StringId, OdbClassUtil.GetFullName(typeof (string)),
+        public static readonly OdbType String = new OdbType(false, StringId, OdbClassNameResolver.GetFullName(typeof (string)),
                                                             1);
 
-        public static readonly OdbType Enum = new OdbType(false, EnumId, OdbClassUtil.GetFullName(typeof (Enum)), 1);
+        public static readonly OdbType Enum = new OdbType(false, EnumId, OdbClassNameResolver.GetFullName(typeof (Enum)), 1);
 
         public static readonly OdbType Array = new OdbType(false, ArrayId, "array", 0);
 
-        public static readonly OdbType Oid = new OdbType(false, OidId, OdbClassUtil.GetFullName(typeof (OID)), 0);
+        public static readonly OdbType Oid = new OdbType(false, OidId, OdbClassNameResolver.GetFullName(typeof (OID)), 0);
 
         public static readonly OdbType ObjectOid = new OdbType(false, ObjectOidId,
-                                                               OdbClassUtil.GetFullName(typeof (ObjectOID)), 0);
+                                                               OdbClassNameResolver.GetFullName(typeof (ObjectOID)), 0);
 
         public static readonly OdbType ClassOid = new OdbType(false, ClassOidId,
-                                                              OdbClassUtil.GetFullName(typeof (ClassOID)), 0);
+                                                              OdbClassNameResolver.GetFullName(typeof (ClassOID)), 0);
 
         public static readonly OdbType NonNative = new OdbType(false, NonNativeId, "non native", 0);
 

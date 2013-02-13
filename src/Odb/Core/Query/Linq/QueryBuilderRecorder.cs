@@ -8,7 +8,7 @@ namespace NDatabase.Odb.Core.Query.Linq
         void Playback(QueryBuilderContext context);
     }
 
-    internal class NullQueryBuilderRecord : IQueryBuilderRecord
+    internal sealed class NullQueryBuilderRecord : IQueryBuilderRecord
     {
         public static readonly NullQueryBuilderRecord Instance = new NullQueryBuilderRecord();
 
@@ -43,7 +43,7 @@ namespace NDatabase.Odb.Core.Query.Linq
         #endregion
     }
 
-    internal class CompositeQueryBuilderRecord : QueryBuilderRecordImpl
+    internal sealed class CompositeQueryBuilderRecord : QueryBuilderRecordImpl
     {
         private readonly IQueryBuilderRecord _first;
         private readonly IQueryBuilderRecord _second;
@@ -64,7 +64,7 @@ namespace NDatabase.Odb.Core.Query.Linq
         }
     }
 
-    internal class ChainedQueryBuilderRecord : QueryBuilderRecordImpl
+    internal sealed class ChainedQueryBuilderRecord : QueryBuilderRecordImpl
     {
         private readonly Action<QueryBuilderContext> _action;
         private readonly IQueryBuilderRecord _next;
@@ -82,7 +82,7 @@ namespace NDatabase.Odb.Core.Query.Linq
         }
     }
 
-    internal class QueryBuilderRecorder
+    internal sealed class QueryBuilderRecorder
     {
         private IQueryBuilderRecord _last = NullQueryBuilderRecord.Instance;
 

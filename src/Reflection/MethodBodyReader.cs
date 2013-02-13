@@ -5,7 +5,7 @@ using System.Reflection.Emit;
 
 namespace NDatabase.Reflection
 {
-    internal class MethodBodyReader
+    internal sealed class MethodBodyReader
     {
         private static readonly OpCode[] OneByteOpcodes = new OpCode[0xe1];
         private static readonly OpCode[] TwoBytesOpcodes = new OpCode[0x1f];
