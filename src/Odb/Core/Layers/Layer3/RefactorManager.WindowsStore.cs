@@ -1,7 +1,6 @@
 using System;
 using System.Reflection;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Layers.Layer3
 {
@@ -23,7 +22,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
             var classInfo = _metaModel.GetClassInfo(type, true);
 
             // The real attribute id (-1) will be set in the ci.addAttribute
-            var fullClassName = OdbClassUtil.GetFullName(fieldType);
+            var fullClassName = OdbClassNameResolver.GetFullName(fieldType);
             var attributeInfo = new ClassAttributeInfo(-1, fieldName, fullClassName, classInfo);
             classInfo.AddAttribute(attributeInfo);
 
@@ -45,7 +44,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
             var classInfo = _metaModel.GetClassInfo(fullClassName, true);
 
             var fullClassNameField = classInfo.GetType().GetRuntimeField("_fullClassName");
-            var newFullClassName = OdbClassUtil.GetFullName(newType);
+            var newFullClassName = OdbClassNameResolver.GetFullName(newType);
             fullClassNameField.SetValue(classInfo, newFullClassName);
 
             var underlyingTypeField = classInfo.GetType()

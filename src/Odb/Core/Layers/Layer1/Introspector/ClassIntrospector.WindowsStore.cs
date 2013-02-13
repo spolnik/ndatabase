@@ -130,7 +130,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                                          : null;
 
                 attributes.Add(new ClassAttributeInfo(attributeId, fieldInfo.Name, fieldInfo.FieldType,
-                                                      OdbClassUtil.GetFullName(fieldInfo.FieldType), fieldClassInfo));
+                                                      OdbClassNameResolver.GetFullName(fieldInfo.FieldType), fieldClassInfo));
             }
 
             classInfo.Attributes = attributes;
@@ -231,7 +231,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                 }
 
                 attributes.Add(new ClassAttributeInfo((i + 1), field.Name, field.FieldType,
-                                                      OdbClassUtil.GetFullName(field.FieldType), classInfoByName));
+                                                      OdbClassNameResolver.GetFullName(field.FieldType), classInfoByName));
             }
 
             classInfo.Attributes = attributes;

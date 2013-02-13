@@ -1,12 +1,13 @@
 using System;
-using System.Collections.Concurrent;
+using System.Collections.Generic;
+using NDatabase.Tool;
 
-namespace NDatabase.Tool.Wrappers
+namespace NDatabase.Odb
 {
-    internal static class OdbClassUtil
+    internal static class OdbClassNameResolver
     {
-        private static readonly ConcurrentDictionary<string, string> CacheByFullClassName =
-            new ConcurrentDictionary<string, string>();
+        private static readonly Dictionary<string, string> CacheByFullClassName =
+            new Dictionary<string, string>();
 
         public static string GetClassName(string fullClassName)
         {
