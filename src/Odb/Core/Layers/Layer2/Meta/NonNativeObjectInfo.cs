@@ -152,7 +152,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                         buffer.Append(@object);
                         continue;
                     }
-                    buffer.Append("@").Append(OdbClassUtil.GetClassName(type.Name));
+                    buffer.Append("@").Append(OdbClassNameResolver.GetClassName(type.Name));
                 }
             }
 

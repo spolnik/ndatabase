@@ -1,4 +1,5 @@
-﻿using NDatabase.Odb.Core.Layers.Layer2.Meta;
+﻿using NDatabase.Odb;
+using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 
@@ -33,7 +34,7 @@ namespace NDatabase.UnitTests.Layer2
             var classInfo = new ClassInfo(typeof (Country));
             
             Assert.That(classInfo.UnderlyingType, Is.EqualTo(typeof(Country)));
-            Assert.That(classInfo.FullClassName, Is.EqualTo(OdbClassUtil.GetFullName(typeof(Country))));
+            Assert.That(classInfo.FullClassName, Is.EqualTo(OdbClassNameResolver.GetFullName(typeof(Country))));
 
             Assert.That(classInfo.Position, Is.EqualTo(-1));
             Assert.That(classInfo.MaxAttributeId, Is.EqualTo(-1));

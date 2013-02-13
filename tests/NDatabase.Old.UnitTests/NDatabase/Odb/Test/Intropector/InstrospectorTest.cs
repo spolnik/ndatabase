@@ -19,7 +19,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var user = new User("olivier smadja", "olivier@neodatis.com",
                                 new Profile("operator", new VO.Login.Function("login")));
             var classInfoList = ClassIntrospector.Introspect(user.GetType(), true);
-            AssertEquals(OdbClassUtil.GetFullName(user.GetType()), classInfoList.GetMainClassInfo().FullClassName);
+            AssertEquals(OdbClassNameResolver.GetFullName(user.GetType()), classInfoList.GetMainClassInfo().FullClassName);
             AssertEquals(3, classInfoList.GetMainClassInfo().Attributes.Count);
             AssertEquals(3, classInfoList.GetClassInfos().Count);
         }
@@ -42,7 +42,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
                 new ObjectIntrospector(storageEngine.ClassInfoProvider).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
-            AssertEquals(OdbClassUtil.GetFullName(user.GetType()), instanceInfo.GetClassInfo().FullClassName);
+            AssertEquals(OdbClassNameResolver.GetFullName(user.GetType()), instanceInfo.GetClassInfo().FullClassName);
             AssertEquals("olivier smadja", instanceInfo.GetAttributeValueFromId(ci.GetAttributeId("name")).ToString());
             AssertEquals(typeof (AtomicNativeObjectInfo),
                          instanceInfo.GetAttributeValueFromId(ci.GetAttributeId("name")).GetType());
@@ -68,7 +68,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
                 new ObjectIntrospector(storageEngine.ClassInfoProvider).GetMetaRepresentation(user, true, null,
                                                                             new InstrumentationCallbackForStore(null,
                                                                                                                 false));
-            AssertEquals(instanceInfo.GetClassInfo().FullClassName, OdbClassUtil.GetFullName(user.GetType()));
+            AssertEquals(instanceInfo.GetClassInfo().FullClassName, OdbClassNameResolver.GetFullName(user.GetType()));
             AssertEquals(instanceInfo.GetAttributeValueFromId(ci.GetAttributeId("name")).ToString(), "olivier smadja");
 
             odb.Close();

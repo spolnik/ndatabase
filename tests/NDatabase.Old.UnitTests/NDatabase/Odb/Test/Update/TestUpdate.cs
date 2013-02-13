@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using NDatabase.Odb;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Main;
 using NDatabase.Tool.Wrappers;
@@ -325,7 +326,7 @@ namespace Test.NDatabase.Odb.Test.Update
             }
             var engine = ((OdbAdapter)odb).GetStorageEngine();
 
-            var fullClassName = OdbClassUtil.GetFullName(typeof (VO.Login.Function));
+            var fullClassName = OdbClassNameResolver.GetFullName(typeof (VO.Login.Function));
 
             var ci = engine.GetSession().GetMetaModel().GetClassInfo(fullClassName, true);
             Println(ci);

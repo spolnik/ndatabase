@@ -96,8 +96,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         internal void SetFullClassName(string fullClassName)
         {
             _fullClassName = fullClassName;
-            _className = OdbClassUtil.GetClassName(fullClassName);
-            _namespace = OdbClassUtil.GetNamespace(fullClassName);
+            _className = OdbClassNameResolver.GetClassName(fullClassName);
+            _namespace = OdbClassNameResolver.GetNamespace(fullClassName);
         }
 
         public override string ToString()

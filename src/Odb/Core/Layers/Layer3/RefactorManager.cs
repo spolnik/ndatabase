@@ -23,7 +23,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
             var classInfo = _metaModel.GetClassInfo(type, true);
 
             // The real attribute id (-1) will be set in the ci.addAttribute
-            var fullClassName = OdbClassUtil.GetFullName(fieldType);
+            var fullClassName = OdbClassNameResolver.GetFullName(fieldType);
             var attributeInfo = new ClassAttributeInfo(-1, fieldName, fullClassName, classInfo);
             classInfo.AddAttribute(attributeInfo);
 
@@ -46,7 +46,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3
 
             var fullClassNameField = classInfo.GetType().GetField("_fullClassName",
                                                             BindingFlags.Instance | BindingFlags.NonPublic);
-            var newFullClassName = OdbClassUtil.GetFullName(newType);
+            var newFullClassName = OdbClassNameResolver.GetFullName(newType);
             fullClassNameField.SetValue(classInfo, newFullClassName);
 
             var underlyingTypeField = classInfo.GetType()

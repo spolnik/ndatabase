@@ -1,5 +1,6 @@
 ﻿using System;
 using Moq;
+using NDatabase.Odb;
 using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
@@ -22,7 +23,7 @@ namespace NDatabase.UnitTests.Refactor
 
             _metaModelMock = new Mock<IMetaModel>();
             _classInfo = ClassIntrospector.Introspect(typeof(TypeToRefactor), true).GetMainClassInfo();
-            var fullClassName = OdbClassUtil.GetFullName(_type);
+            var fullClassName = OdbClassNameResolver.GetFullName(_type);
             _metaModelMock.Setup(x => x.GetClassInfo(fullClassName, true)).Returns(_classInfo).Verifiable();
 
             _objectWriterMock = new Mock<IObjectWriter>();
@@ -36,14 +37,14 @@ namespace NDatabase.UnitTests.Refactor
 
         protected override void Because()
         {
-            var fullClassName = OdbClassUtil.GetFullName(_type);
+            var fullClassName = OdbClassNameResolver.GetFullName(_type);
             SubjectUnderTest.RenameClass(fullClassName, typeof(RenamedType));
         }
 
         [Test]
         public void It_should_update_class_info_with_new_attribute_name()
         {
-            var fullClassName = OdbClassUtil.GetFullName(typeof(RenamedType));
+            var fullClassName = OdbClassNameResolver.GetFullName(typeof(RenamedType));
             Assert.That(_classInfo.FullClassName, Is.EqualTo(fullClassName));
             Assert.That(_classInfo.UnderlyingType, Is.EqualTo(typeof(RenamedType)));
         }

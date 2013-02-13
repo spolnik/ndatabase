@@ -1,5 +1,6 @@
 ﻿using System;
 using Moq;
+using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3;
@@ -52,7 +53,7 @@ namespace NDatabase.UnitTests.Metadata
             Assert.That(SubjectUnderTest.GetEnumValue(), Is.EqualTo(DayOfWeek.Saturday.ToString()));
 
             var enumClassInfo = SubjectUnderTest.GetEnumClassInfo();
-            var fullName = OdbClassUtil.GetFullName(typeof(DayOfWeek));
+            var fullName = OdbClassNameResolver.GetFullName(typeof(DayOfWeek));
             Assert.That(enumClassInfo.FullClassName, Is.EqualTo(fullName));
             Assert.That(enumClassInfo.Attributes, Has.Count.EqualTo(1));
         }

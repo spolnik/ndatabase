@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Concurrent;
-using NDatabase.Odb;
 
-namespace NDatabase.Tool.Wrappers
+namespace NDatabase.Odb
 {
-    internal static class OdbClassUtil
+    internal static class OdbClassNameResolver
     {
         private static readonly ConcurrentDictionary<string, string> CacheByFullClassName =
             new ConcurrentDictionary<string, string>();

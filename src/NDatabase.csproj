@@ -300,7 +300,7 @@
     <Compile Include="Tool\Wrappers\IOdbList.cs" />
     <Compile Include="Tool\Wrappers\OdbList.cs" />
     <Compile Include="Tool\Wrappers\OdbHashMap2.cs" />
-    <Compile Include="Tool\Wrappers\OdbClassUtil.cs" />
+    <Compile Include="Odb\OdbClassNameResolver.cs" />
     <Compile Include="Odb\Core\IOdbComparable.cs" />
     <Compile Include="Tool\Wrappers\OdbRandom.cs" />
     <Compile Include="Tool\Wrappers\OdbString.cs" />

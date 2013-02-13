@@ -1,3 +1,4 @@
+using NDatabase.Odb;
 using NDatabase.Odb.Main;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
@@ -22,7 +23,7 @@ namespace Test.NDatabase.Odb.Test.Update
             odb.Store(f2);
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
             // retrieve the class info to check connected and unconnected zone
-            var fullClassName = OdbClassUtil.GetFullName(typeof (VO.Login.Function));
+            var fullClassName = OdbClassNameResolver.GetFullName(typeof (VO.Login.Function));
             var classInfo = storageEngine.GetSession().GetMetaModel().GetClassInfo(fullClassName, true);
             odb.Close();
             AssertEquals(1, classInfo.CommitedZoneInfo.GetNumberbOfObjects());
