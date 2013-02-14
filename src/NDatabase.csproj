@@ -160,7 +160,7 @@
     <Compile Include="Odb\Core\Layers\Layer3\IStorageEngine.cs" />
     <Compile Include="Exceptions\NDatabaseError.cs" />
     <Compile Include="Odb\Core\OIDFactory.cs" />
-    <Compile Include="Odb\Core\OrderByConstants.cs" />
+    <Compile Include="Common\OrderByConstants.cs" />
     <Compile Include="Odb\Core\Query\AbstractQuery.cs" />
     <Compile Include="Odb\Core\Query\ComposedCompareKey.cs" />
     <Compile Include="Odb\Core\Query\Criteria\AbstractExpression.cs" />
@@ -206,7 +206,7 @@
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\DefaultInstrumentationCallback.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\InstrumentationCallbackForStore.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\ObjectIntrospector.cs" />
-    <Compile Include="Odb\Core\NonPersistentAttribute.cs" />
+    <Compile Include="Common\NonPersistentAttribute.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\InstanceBuilder.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\AttributeValueComparator.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\ObjectInfoComparator.cs" />

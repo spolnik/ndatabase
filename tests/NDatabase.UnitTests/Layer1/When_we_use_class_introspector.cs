@@ -1,4 +1,5 @@
 ﻿using System;
+using NDatabase.Common;
 using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NUnit.Framework;

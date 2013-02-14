@@ -1,4 +1,4 @@
-namespace NDatabase.Odb.Core
+namespace NDatabase.Common
 {
     /// <summary>
     ///   Constants used for ordering queries and creating ordered collection iterators
