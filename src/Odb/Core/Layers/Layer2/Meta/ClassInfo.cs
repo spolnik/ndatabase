@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NDatabase.Exceptions;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
 using NDatabase.TypeResolution;
@@ -489,6 +490,18 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         public bool HasIndex()
         {
             return _indexes != null && !_indexes.IsEmpty();
+        }
+
+        internal ClassAttributeInfo GetAttributeInfo(int attributeId, string attributeNameToSearch)
+        {
+            if (attributeId == -1)
+            {
+                throw new OdbRuntimeException(
+                    NDatabaseError.CriteriaQueryUnknownAttribute.AddParameter(attributeNameToSearch).
+                                   AddParameter(FullClassName));
+            }
+
+            return GetAttributeInfoFromId(attributeId);
         }
     }
 }
