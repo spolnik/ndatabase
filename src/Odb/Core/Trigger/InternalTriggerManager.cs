@@ -287,27 +287,27 @@ namespace NDatabase.Odb.Core.Trigger
         private static IEnumerable<Trigger> GetListOfTriggersFor(Type type,
                                                                  IDictionary<Type, IOdbList<Trigger>> listOfTriggers)
         {
-            var listOfTriggersBuClassName = listOfTriggers[type];
+            var listOfTriggersByClassName = listOfTriggers[type];
             var listOfTriggersByAllClassTrigger = listOfTriggers[typeof (object)];
 
             if (listOfTriggersByAllClassTrigger != null)
             {
                 var size = listOfTriggersByAllClassTrigger.Count;
-                if (listOfTriggersBuClassName != null)
-                    size = size + listOfTriggersBuClassName.Count;
+                if (listOfTriggersByClassName != null)
+                    size = size + listOfTriggersByClassName.Count;
 
                 var listOfTriggersToReturn = new OdbList<Trigger>(size);
 
-                if (listOfTriggersBuClassName != null)
+                if (listOfTriggersByClassName != null)
                 {
-                    listOfTriggersToReturn.AddRange(listOfTriggersBuClassName);
+                    listOfTriggersToReturn.AddRange(listOfTriggersByClassName);
                 }
 
                 listOfTriggersToReturn.AddRange(listOfTriggersByAllClassTrigger);
                 return listOfTriggersToReturn;
             }
 
-            return listOfTriggersBuClassName;
+            return listOfTriggersByClassName;
         }
     }
 }

@@ -97,11 +97,14 @@
     <Compile Include="TestData\Person.cs" />
     <Compile Include="Base\When_we_want_store_simple_object.cs" />
     <Compile Include="Transaction\When_we_use_write_action_to_save_data.cs" />
+    <Compile Include="Triggers\Internal_trigger_manager_test_case.cs" />
+    <Compile Include="Triggers\Triggers_test_case.cs" />
     <Compile Include="Triggers\When_we_use_object_representation_as_the_wrapper_for_nnoi.cs" />
     <Compile Include="TypeResolution\TestGenericObject.cs" />
     <Compile Include="TypeResolution\TypeResolution_TestCase.cs" />
     <Compile Include="Utils\Logging_test_case.cs" />
     <Compile Include="Utils\Test_list_extensions.cs" />
+    <Compile Include="Utils\Test_order_by_constants.cs" />
     <Compile Include="Utils\When_working_with_class_utils.cs" />
     <Compile Include="Utils\When_working_with_string_utils.cs" />
   </ItemGroup>

@@ -65,21 +65,14 @@ namespace NDatabase.Common
             switch (_type)
             {
                 case OrderByAscType:
-                {
                     return "order by asc";
-                }
 
                 case OrderByDescType:
-                {
                     return "order by desc";
-                }
 
-                case OrderByNoneType:
-                {
+                default:
                     return "no order by";
-                }
             }
-            return "?";
         }
     }
 }
