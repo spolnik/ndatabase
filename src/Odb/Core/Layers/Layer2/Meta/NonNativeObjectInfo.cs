@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using NDatabase.Common;
 using NDatabase.Exceptions;
 using NDatabase.Tool.Wrappers;
 
@@ -152,7 +153,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                         buffer.Append(@object);
                         continue;
                     }
-                    buffer.Append("@").Append(OdbClassUtil.GetClassName(type.Name));
+                    buffer.Append("@").Append(OdbClassNameResolver.GetClassName(type.Name));
                 }
             }
 

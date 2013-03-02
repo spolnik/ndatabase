@@ -43,7 +43,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             _nonNativeObjectWriter = new NonNativeObjectWriter(this, _storageEngine);
 
-            FileSystemProcessor = new FileSystemProcessor();
+            FileSystemProcessor = new FileSystemWriter();
             FileSystemProcessor.BuildFileSystemInterface(engine, _session);
         }
 
@@ -65,7 +65,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             FileSystemProcessor.CreateEmptyDatabaseHeader(_storageEngine, creationDate);
         }
 
-        public IFileSystemProcessor FileSystemProcessor { get; private set; }
+        public IFileSystemWriter FileSystemProcessor { get; private set; }
 
         /// <summary>
         ///   PersistTo a single class info - This method is used by the XML Importer.

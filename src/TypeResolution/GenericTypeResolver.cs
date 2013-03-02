@@ -5,7 +5,7 @@ namespace NDatabase.TypeResolution
     /// <summary>
     ///     Resolves a generic <see cref="System.Type" /> by name.
     /// </summary>
-    internal class GenericTypeResolver : TypeResolver
+    internal sealed class GenericTypeResolver : TypeResolver
     {
         /// <summary>
         ///     Resolves the supplied generic <paramref name="typeName" /> to a

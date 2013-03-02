@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-using NDatabase.Odb;
 
-namespace NDatabase.Tool.Wrappers
+namespace NDatabase.Odb
 {
-    internal static class OdbClassUtil
+    internal static class OdbClassNameResolver
     {
         private static readonly Dictionary<string, string> CacheByFullClassName =
             new Dictionary<string, string>();

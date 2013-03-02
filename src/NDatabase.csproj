@@ -66,7 +66,10 @@
     <Compile Include="Btree\BTreeNodeSingleValuePerKey.cs" />
     <Compile Include="Btree\BTreeSingleValuePerKey.cs" />
     <Compile Include="Btree\BTreeValidator.cs" />
+    <Compile Include="Exceptions\StringErrorMessageHelper.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\IObjectIntrospectionDataProvider.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\Engine\FileSystemReader.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\Engine\IFileSystemReader.cs" />
     <Compile Include="Odb\Core\Transaction\SessionDataProvider.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\IMetaModel.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\InMemoryIdentification.cs" />
@@ -125,14 +128,8 @@
     <Compile Include="Odb\Core\Layers\Layer2\Meta\ClassInfoIndex.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\ClassInfoList.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\CommittedCIZoneInfo.cs" />
-    <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\ArrayModifyElement.cs" />
-    <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\ChangedAttribute.cs" />
-    <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\ChangedNativeAttributeAction.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\ChangedObjectInfo.cs" />
-    <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\ChangedObjectReferenceAttributeAction.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\IObjectInfoComparator.cs" />
-    <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\NewNonNativeObjectAction.cs" />
-    <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\SetAttributeToNullAction.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\EnumNativeObjectInfo.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\MetaModel.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\NativeAttributeHeader.cs" />
@@ -146,8 +143,8 @@
     <Compile Include="Odb\Core\Layers\Layer2\Meta\ODBType.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\OidInfo.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\CurrentIdBlockInfo.cs" />
-    <Compile Include="Odb\Core\Layers\Layer3\Engine\FileSystemProcessor.cs" />
-    <Compile Include="Odb\Core\Layers\Layer3\Engine\IFileSystemProcessor.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\Engine\FileSystemWriter.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\Engine\IFileSystemWriter.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\StorageEngine.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\AbstractStorageEngineReader.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\CheckMetaModelResult.cs" />
@@ -167,7 +164,7 @@
     <Compile Include="Odb\Core\Layers\Layer3\IStorageEngine.cs" />
     <Compile Include="Exceptions\NDatabaseError.cs" />
     <Compile Include="Odb\Core\OIDFactory.cs" />
-    <Compile Include="Odb\Core\OrderByConstants.cs" />
+    <Compile Include="Common\OrderByConstants.cs" />
     <Compile Include="Odb\Core\Query\AbstractQuery.cs" />
     <Compile Include="Odb\Core\Query\ComposedCompareKey.cs" />
     <Compile Include="Odb\Core\Query\Criteria\AbstractExpression.cs" />
@@ -213,7 +210,7 @@
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\DefaultInstrumentationCallback.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\InstrumentationCallbackForStore.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\ObjectIntrospector.cs" />
-    <Compile Include="Odb\Core\NonPersistentAttribute.cs" />
+    <Compile Include="Common\NonPersistentAttribute.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\InstanceBuilder.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\AttributeValueComparator.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\ObjectInfoComparator.cs" />
@@ -226,7 +223,6 @@
     <Compile Include="Odb\Core\Layers\Layer3\Engine\NonNativeObjectWriter.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\ObjectWriter.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\ByteArrayConverter.cs" />
-    <Compile Include="Odb\Core\Layers\Layer3\Engine\FileMutex.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\ObjectReader.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\PendingReading.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\StorageEngineConstant.cs" />
@@ -309,7 +305,7 @@
     <Compile Include="Tool\Wrappers\IOdbList.cs" />
     <Compile Include="Tool\Wrappers\OdbList.cs" />
     <Compile Include="Tool\Wrappers\OdbHashMap2.cs" />
-    <Compile Include="Tool\Wrappers\OdbClassUtil.cs" />
+    <Compile Include="Odb\OdbClassNameResolver.cs" />
     <Compile Include="Odb\Core\IOdbComparable.cs" />
     <Compile Include="Tool\Wrappers\OdbRandom.cs" />
     <Compile Include="Tool\Wrappers\OdbString.cs" />
@@ -341,7 +337,6 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>echo POSTBUILDSTEP for $(ProjectName)

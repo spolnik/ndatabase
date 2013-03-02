@@ -137,37 +137,34 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         }
 
         #endregion
+    }
 
-        #region Nested type: BufferPosition
+    internal struct BufferPosition
+    {
+        private readonly long _start;
+        private readonly long _end;
 
-        internal struct BufferPosition
+        public BufferPosition(long start, long end)
+            : this()
         {
-            private readonly long _start;
-            private readonly long _end;
-
-            public BufferPosition(long start, long end) : this()
-            {
-                _start = start;
-                _end = end;
-            }
-
-            ///<summary>
-            ///  The current start position of the buffer
-            ///</summary>
-            public long Start
-            {
-                get { return _start; }
-            }
-
-            ///<summary>
-            ///  The current end position of the buffer
-            ///</summary>
-            public long End
-            {
-                get { return _end; }
-            }
+            _start = start;
+            _end = end;
         }
 
-        #endregion
+        ///<summary>
+        ///  The current start position of the buffer
+        ///</summary>
+        public long Start
+        {
+            get { return _start; }
+        }
+
+        ///<summary>
+        ///  The current end position of the buffer
+        ///</summary>
+        public long End
+        {
+            get { return _end; }
+        }
     }
 }

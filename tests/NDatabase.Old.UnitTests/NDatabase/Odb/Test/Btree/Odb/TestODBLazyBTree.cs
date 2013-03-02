@@ -1,5 +1,6 @@
 using System;
 using NDatabase.Btree;
+using NDatabase.Common;
 using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.BTree;
 using NDatabase.Odb.Main;

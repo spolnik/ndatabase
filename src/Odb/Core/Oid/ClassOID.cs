@@ -1,6 +1,6 @@
 namespace NDatabase.Odb.Core.Oid
 {
-    internal class ClassOID : BaseOID
+    internal sealed class ClassOID : BaseOID
     {
         public ClassOID(long oid) : base(oid)
         {

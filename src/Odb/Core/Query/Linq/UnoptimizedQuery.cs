@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace NDatabase.Odb.Core.Query.Linq
 {
-    internal class UnoptimizedQuery<T> : ILinqQueryInternal<T>
+    internal sealed class UnoptimizedQuery<T> : ILinqQueryInternal<T>
     {
         private readonly IEnumerable<T> _result;
 

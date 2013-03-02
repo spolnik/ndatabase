@@ -4,7 +4,7 @@ using NDatabase.Odb.Core.Trigger;
 
 namespace NDatabase.Odb
 {
-    internal class TriggerManager<T> : ITriggerManager where T : class
+    internal sealed class TriggerManager<T> : ITriggerManager where T : class
     {
         private readonly IStorageEngine _storageEngine;
         private readonly Type _underlyingType;

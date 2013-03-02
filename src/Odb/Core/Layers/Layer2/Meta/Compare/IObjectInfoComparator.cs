@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
 {
     internal interface IObjectInfoComparator
@@ -9,11 +7,5 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta.Compare
         void Clear();
 
         int GetNbChanges();
-
-        IList<IChangedAttribute> GetChangedAttributeActions();
-
-        IList<ArrayModifyElement> GetArrayChanges();
-
-        IList<SetAttributeToNullAction> GetAttributeToSetToNull();
     }
 }

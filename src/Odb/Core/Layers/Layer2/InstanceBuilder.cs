@@ -245,142 +245,187 @@ namespace NDatabase.Odb.Core.Layers.Layer2
         private static object BuildOneInstance(AtomicNativeObjectInfo objectInfo)
         {
             var odbTypeId = objectInfo.GetOdbTypeId();
-            long l;
+            
 
-            switch (odbTypeId)
+            return CheckIfNull(objectInfo, odbTypeId);
+        }
+
+        private static object CheckIfNull(AbstractObjectInfo objectInfo, int odbTypeId)
+        {
+            return odbTypeId == OdbType.NullId ? null : CheckIfString(objectInfo, odbTypeId);
+        }
+
+        private static object CheckIfString(AbstractObjectInfo objectInfo, int odbTypeId)
+        {
+            return odbTypeId == OdbType.StringId ? objectInfo.GetObject() : CheckIfDate(objectInfo, odbTypeId);
+        }
+
+        private static object CheckIfDate(AbstractObjectInfo objectInfo, int odbTypeId)
+        {
+            return odbTypeId == OdbType.DateId ? objectInfo.GetObject() : CheckIfLong(objectInfo, odbTypeId);
+        }
+
+        private static object CheckIfLong(AbstractObjectInfo objectInfo, int odbTypeId)
+        {
+            if (odbTypeId == OdbType.LongId)
             {
-                case OdbType.NullId:
-                {
-                    return null;
-                }
-
-                case OdbType.StringId:
-                {
+                if (objectInfo.GetObject() is long)
                     return objectInfo.GetObject();
-                }
-
-                case OdbType.DateId:
-                {
-                    return objectInfo.GetObject();
-                }
-
-                case OdbType.LongId:
-                {
-                    if (objectInfo.GetObject() is long)
-                        return objectInfo.GetObject();
-                    return Convert.ToInt64(objectInfo.GetObject().ToString());
-                }
-
-                case OdbType.ULongId:
-                {
-                    if (objectInfo.GetObject() is ulong)
-                        return objectInfo.GetObject();
-                    return Convert.ToUInt64(objectInfo.GetObject().ToString());
-                }
-
-                case OdbType.IntegerId:
-                {
-                    if (objectInfo.GetObject() is int)
-                        return objectInfo.GetObject();
-                    return Convert.ToInt32(objectInfo.GetObject().ToString());
-                }
-
-                case OdbType.UIntegerId:
-                {
-                    if (objectInfo.GetObject() is uint)
-                        return objectInfo.GetObject();
-                    return Convert.ToUInt32(objectInfo.GetObject().ToString());
-                }
-
-                case OdbType.BooleanId:
-                {
-                    if (objectInfo.GetObject() is bool)
-                        return objectInfo.GetObject();
-                    return Convert.ToBoolean(objectInfo.GetObject().ToString());
-                }
-
-                case OdbType.ByteId:
-                {
-                    if (objectInfo.GetObject() is byte)
-                        return objectInfo.GetObject();
-                    return Convert.ToByte(objectInfo.GetObject().ToString());
-                }
-
-                case OdbType.SByteId:
-                {
-                    if (objectInfo.GetObject() is sbyte)
-                        return objectInfo.GetObject();
-                    return Convert.ToSByte(objectInfo.GetObject().ToString());
-                }
-
-                case OdbType.ShortId:
-                {
-                    if (objectInfo.GetObject() is short)
-                        return objectInfo.GetObject();
-                    return Convert.ToInt16(objectInfo.GetObject().ToString());
-                }
-
-                case OdbType.UShortId:
-                {
-                    if (objectInfo.GetObject() is ushort)
-                        return objectInfo.GetObject();
-                    return Convert.ToUInt16(objectInfo.GetObject().ToString());
-                }
-
-                case OdbType.FloatId:
-                {
-                    if (objectInfo.GetObject() is float)
-                        return objectInfo.GetObject();
-                    return Convert.ToSingle(objectInfo.GetObject().ToString());
-                }
-
-                case OdbType.DoubleId:
-                {
-                    if (objectInfo.GetObject() is double)
-                        return objectInfo.GetObject();
-                    return Convert.ToDouble(objectInfo.GetObject().ToString());
-                }
-
-                case OdbType.DecimalId:
-                {
-                    return Decimal.Parse(objectInfo.GetObject().ToString(), NumberStyles.Any);
-                }
-
-                case OdbType.CharacterId:
-                {
-                    if (objectInfo.GetObject() is char)
-                        return objectInfo.GetObject();
-                    return objectInfo.GetObject().ToString()[0];
-                }
-
-                case OdbType.ObjectOidId:
-                {
-                    if (objectInfo.GetObject() is long)
-                        l = (long) objectInfo.GetObject();
-                    else
-                    {
-                        var oid = (OID) objectInfo.GetObject();
-                        l = oid.ObjectId;
-                    }
-                    return OIDFactory.BuildObjectOID(l);
-                }
-
-                case OdbType.ClassOidId:
-                {
-                    if (objectInfo.GetObject() is long)
-                        l = (long) objectInfo.GetObject();
-                    else
-                        l = Convert.ToInt64(objectInfo.GetObject().ToString());
-                    return OIDFactory.BuildClassOID(l);
-                }
-
-                default:
-                {
-                    throw new OdbRuntimeException(
-                        NDatabaseError.InstanceBuilderNativeTypeInCollectionNotSupported.AddParameter(
-                            OdbType.GetNameFromId(odbTypeId)));
-                }
+                return Convert.ToInt64(objectInfo.GetObject().ToString());
             }
+
+            if (odbTypeId == OdbType.ULongId)
+            {
+                if (objectInfo.GetObject() is ulong)
+                    return objectInfo.GetObject();
+                return Convert.ToUInt64(objectInfo.GetObject().ToString());
+            }
+
+            return CheckIfInt(objectInfo, odbTypeId);
+        }
+
+        private static object CheckIfInt(AbstractObjectInfo objectInfo, int odbTypeId)
+        {
+            if (odbTypeId == OdbType.IntegerId)
+            {
+                if (objectInfo.GetObject() is int)
+                    return objectInfo.GetObject();
+                return Convert.ToInt32(objectInfo.GetObject().ToString());
+            }
+
+            if (odbTypeId == OdbType.UIntegerId)
+            {
+                if (objectInfo.GetObject() is uint)
+                    return objectInfo.GetObject();
+                return Convert.ToUInt32(objectInfo.GetObject().ToString());
+            }
+
+            return CheckIfBool(objectInfo, odbTypeId);
+        }
+
+        private static object CheckIfBool(AbstractObjectInfo objectInfo, int odbTypeId)
+        {
+            if (odbTypeId == OdbType.BooleanId)
+            {
+                if (objectInfo.GetObject() is bool)
+                    return objectInfo.GetObject();
+                return Convert.ToBoolean(objectInfo.GetObject().ToString());
+            }
+
+            return CheckIfByte(objectInfo, odbTypeId);
+        }
+
+        private static object CheckIfByte(AbstractObjectInfo objectInfo, int odbTypeId)
+        {
+            if (odbTypeId == OdbType.ByteId)
+            {
+                if (objectInfo.GetObject() is byte)
+                    return objectInfo.GetObject();
+                return Convert.ToByte(objectInfo.GetObject().ToString());
+            }
+
+            if (odbTypeId == OdbType.SByteId)
+            {
+                if (objectInfo.GetObject() is sbyte)
+                    return objectInfo.GetObject();
+                return Convert.ToSByte(objectInfo.GetObject().ToString());
+            }
+
+            return CheckIfShort(objectInfo, odbTypeId);
+        }
+
+        private static object CheckIfShort(AbstractObjectInfo objectInfo, int odbTypeId)
+        {
+            if (odbTypeId == OdbType.ShortId)
+            {
+                if (objectInfo.GetObject() is short)
+                    return objectInfo.GetObject();
+                return Convert.ToInt16(objectInfo.GetObject().ToString());
+            }
+
+            if (odbTypeId == OdbType.UShortId)
+            {
+                if (objectInfo.GetObject() is ushort)
+                    return objectInfo.GetObject();
+                return Convert.ToUInt16(objectInfo.GetObject().ToString());
+            }
+
+            return CheckIfFloatOrDouble(objectInfo, odbTypeId);
+        }
+
+        private static object CheckIfFloatOrDouble(AbstractObjectInfo objectInfo, int odbTypeId)
+        {
+            if (odbTypeId == OdbType.FloatId)
+            {
+                if (objectInfo.GetObject() is float)
+                    return objectInfo.GetObject();
+                return Convert.ToSingle(objectInfo.GetObject().ToString());
+            }
+
+            if (odbTypeId == OdbType.DoubleId)
+            {
+                if (objectInfo.GetObject() is double)
+                    return objectInfo.GetObject();
+                return Convert.ToDouble(objectInfo.GetObject().ToString());
+            }
+
+            return CheckIfDecimal(objectInfo, odbTypeId);
+        }
+
+        private static object CheckIfDecimal(AbstractObjectInfo objectInfo, int odbTypeId)
+        {
+            return odbTypeId == OdbType.DecimalId
+                       ? Decimal.Parse(objectInfo.GetObject().ToString(), NumberStyles.Any)
+                       : CheckIfCharacter(objectInfo, odbTypeId);
+        }
+
+        private static object CheckIfCharacter(AbstractObjectInfo objectInfo, int odbTypeId)
+        {
+            if (odbTypeId == OdbType.CharacterId)
+            {
+                if (objectInfo.GetObject() is char)
+                    return objectInfo.GetObject();
+                return objectInfo.GetObject().ToString()[0];
+            }
+
+            return CheckIfOid(objectInfo, odbTypeId);
+        }
+
+        private static object CheckIfOid(AbstractObjectInfo objectInfo, int odbTypeId)
+        {
+            long l;
+            if (odbTypeId == OdbType.ObjectOidId)
+            {
+                if (objectInfo.GetObject() is long)
+                {
+                    l = (long) objectInfo.GetObject();
+                }
+                else
+                {
+                    var oid = (OID) objectInfo.GetObject();
+                    l = oid.ObjectId;
+                }
+
+                return OIDFactory.BuildObjectOID(l);
+            }
+            
+            if (odbTypeId == OdbType.ClassOidId)
+            {
+                if (objectInfo.GetObject() is long)
+                    l = (long) objectInfo.GetObject();
+                else
+                    l = Convert.ToInt64(objectInfo.GetObject().ToString());
+                return OIDFactory.BuildClassOID(l);
+            }
+            
+            return ThrowIfNotFound(odbTypeId);
+        }
+
+        private static object ThrowIfNotFound(int odbTypeId)
+        {
+            throw new OdbRuntimeException(
+                NDatabaseError.InstanceBuilderNativeTypeInCollectionNotSupported.AddParameter(
+                    OdbType.GetNameFromId(odbTypeId)));
         }
     }
 }

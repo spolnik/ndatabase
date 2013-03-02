@@ -104,6 +104,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3
         /// <returns> The object position </returns>
         OID StoreObject(OID oid, NonNativeObjectInfo nnoi);
 
-        IFileSystemProcessor FileSystemProcessor { get; }
+        IFileSystemWriter FileSystemProcessor { get; }
     }
 }

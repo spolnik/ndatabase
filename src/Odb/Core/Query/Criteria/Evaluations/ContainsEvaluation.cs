@@ -5,7 +5,7 @@ using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
 namespace NDatabase.Odb.Core.Query.Criteria.Evaluations
 {
-    internal class ContainsEvaluation : AEvaluation
+    internal sealed class ContainsEvaluation : AEvaluation
     {
         /// <summary>
         ///   For criteria query on objects, we use the oid of the object instead of the object itself.
@@ -87,7 +87,101 @@ namespace NDatabase.Odb.Core.Query.Criteria.Evaluations
 
         private bool CheckIfCollectionContainsValue(ICollection collection)
         {
-            var typeDefinition = typeof(object);
+            var typeDefinition = GetTypeDefinition(collection);
+
+            // If the object to compared is native
+            if (IsNative())
+                return CheckIfCollectionContainsNativeValue(collection, typeDefinition);
+
+
+            return typeDefinition == typeof (AbstractObjectInfo)
+                       ? CheckIfCollectionContainsAbstractObjectInfo(collection)
+                       : CheckIfCollectionContainsItem(collection);
+        }
+
+        private bool CheckIfCollectionContainsItem(IEnumerable collection)
+        {
+            foreach (var item in collection)
+            {
+                if (item == null && TheObject == null && _oid == null)
+                    return true;
+
+                if (Equals(item, TheObject))
+                    return true;
+
+                if (_oid == null || item == null)
+                    continue;
+
+                if (!OdbType.IsNative(item.GetType()))
+                    continue;
+
+                if (Equals(item, _oid))
+                    return true;
+            }
+            return false;
+        }
+
+        private bool CheckIfCollectionContainsAbstractObjectInfo(IEnumerable collection)
+        {
+            foreach (AbstractObjectInfo abstractObjectInfo in collection)
+            {
+                if (abstractObjectInfo.IsNull() && TheObject == null && _oid == null)
+                    return true;
+
+                if (_oid == null)
+                    continue;
+
+                if (!abstractObjectInfo.IsNonNativeObject())
+                    continue;
+
+                var nnoi1 = (NonNativeObjectInfo) abstractObjectInfo;
+                var isEqual = nnoi1.GetOid() != null && _oid != null && nnoi1.GetOid().Equals(_oid);
+
+                if (isEqual)
+                    return true;
+            }
+
+            return false;
+        }
+
+        private bool CheckIfCollectionContainsNativeValue(IEnumerable collection, Type typeDefinition)
+        {
+            if (typeDefinition == typeof (AbstractObjectInfo))
+            {
+                foreach (AbstractObjectInfo abstractObjectInfo in collection)
+                {
+                    if (abstractObjectInfo == null && TheObject == null)
+                        return true;
+
+                    if (abstractObjectInfo != null && TheObject == null)
+                        return false;
+
+                    if (abstractObjectInfo != null && TheObject.Equals(abstractObjectInfo.GetObject()))
+                        return true;
+                }
+            }
+            else
+            {
+                foreach (var item in collection)
+                {
+                    if (item == null && TheObject == null)
+                        return true;
+
+                    if (item != null && TheObject == null)
+                        return false;
+
+                    if (TheObject.Equals(item))
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static Type GetTypeDefinition(ICollection collection)
+        {
+            var typeDefinition = typeof (object);
+
             if (collection.GetType().IsGenericType)
                 typeDefinition = collection.GetType().GetGenericArguments()[0];
             else
@@ -98,89 +192,10 @@ namespace NDatabase.Odb.Core.Query.Criteria.Evaluations
                     enumerator.MoveNext();
                     var abstractObjectInfo = enumerator.Current as AbstractObjectInfo;
                     if (abstractObjectInfo != null)
-                        typeDefinition = typeof(AbstractObjectInfo);
+                        typeDefinition = typeof (AbstractObjectInfo);
                 }
             }
-
-            // If the object to compared is native
-            if (IsNative())
-            {
-                if (typeDefinition == typeof(AbstractObjectInfo))
-                {
-                    foreach (AbstractObjectInfo abstractObjectInfo in collection)
-                    {
-                        if (abstractObjectInfo == null && TheObject == null)
-                            return true;
-
-                        if (abstractObjectInfo != null && TheObject == null)
-                            return false;
-
-                        if (abstractObjectInfo != null && TheObject.Equals(abstractObjectInfo.GetObject()))
-                            return true;
-                    }
-                }
-                else
-                {
-                    foreach (var item in collection)
-                    {
-                        if (item == null && TheObject == null)
-                            return true;
-
-                        if (item != null && TheObject == null)
-                            return false;
-
-                        if (TheObject.Equals(item))
-                            return true;
-                    }
-                    
-                }
-
-                return false;
-            }
-
-
-            if (typeDefinition == typeof(AbstractObjectInfo))
-            {
-                foreach (AbstractObjectInfo abstractObjectInfo in collection)
-                {
-                    if (abstractObjectInfo.IsNull() && TheObject == null && _oid == null)
-                        return true;
-
-                    if (_oid == null)
-                        continue;
-
-                    if (!abstractObjectInfo.IsNonNativeObject())
-                        continue;
-
-                    var nnoi1 = (NonNativeObjectInfo)abstractObjectInfo;
-                    var isEqual = nnoi1.GetOid() != null && _oid != null && nnoi1.GetOid().Equals(_oid);
-
-                    if (isEqual)
-                        return true;
-                }
-            }
-            else
-            {
-                foreach (var item in collection)
-                {
-                    if (item == null && TheObject == null && _oid == null)
-                        return true;
-
-                    if (Equals(item, TheObject))
-                        return true;
-
-                    if (_oid == null || item == null)
-                        continue;
-
-                    if (!OdbType.IsNative(item.GetType()))
-                        continue;
-
-                    if (Equals(item, _oid))
-                        return true;
-                }
-            }
-
-            return false;
+            return typeDefinition;
         }
 
         private bool CheckIfArrayContainsValue(object valueToMatch)

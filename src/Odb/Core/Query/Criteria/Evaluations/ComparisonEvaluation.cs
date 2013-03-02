@@ -5,7 +5,7 @@ using NDatabase.Odb.Core.Layers.Layer2.Meta.Compare;
 
 namespace NDatabase.Odb.Core.Query.Criteria.Evaluations
 {
-    internal class ComparisonEvaluation : AEvaluation
+    internal sealed class ComparisonEvaluation : AEvaluation
     {
         private readonly int _comparisonType;
 

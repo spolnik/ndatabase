@@ -79,7 +79,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
                 else
                 {
                     // Gets the type of the elements of the array
-                    var realArrayClassName = OdbClassUtil.GetFullName(o.GetType().GetElementType());
+                    var realArrayClassName = OdbClassNameResolver.GetFullName(o.GetType().GetElementType());
                     var arrayObjectInfo = recursive
                                               ? IntrospectArray(o, alreadyReadObjects, type, callback)
                                               : new ArrayObjectInfo((object[]) o);
@@ -127,7 +127,7 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
             // It happens when the attribute is an interface or superclass of the
             // real attribute class
             // In this case, ci must be updated to the real class info
-            if (classInfo != null && !classInfo.FullClassName.Equals(OdbClassUtil.GetFullName(clazz)))
+            if (classInfo != null && !classInfo.FullClassName.Equals(OdbClassNameResolver.GetFullName(clazz)))
             {
                 classInfo = GetClassInfo(clazz);
                 nnoi = null;

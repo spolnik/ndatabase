@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NDatabase.Odb.Core.Query.Linq
 {
-    internal class QueryBuilderContext
+    internal sealed class QueryBuilderContext
     {
         private readonly Stack<IConstraint> _constraints = new Stack<IConstraint>();
         private readonly Stack<IQuery> _descendStack = new Stack<IQuery>();

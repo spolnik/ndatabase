@@ -1,3 +1,4 @@
+using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.Engine
@@ -188,5 +189,28 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         // *********************************************************
         // CLASS OFFSETS
         // OBJECT OFFSETS - update this section when modifying the odb file format 
+
+        internal static void CheckDbVersionCompatibility(int version)
+        {
+            var versionIsCompatible = version == CurrentFileFormatVersion;
+
+            if (!versionIsCompatible)
+            {
+                throw new OdbRuntimeException(
+                    NDatabaseError.RuntimeIncompatibleVersion.AddParameter(version).AddParameter(
+                        CurrentFileFormatVersion));
+            }
+        }
+
+        internal static long GetIdBlockNumberOfOid(OID oid)
+        {
+            long number;
+            var objectId = oid.ObjectId;
+            if (objectId % NbIdsPerBlock == 0)
+                number = objectId / NbIdsPerBlock;
+            else
+                number = objectId / NbIdsPerBlock + 1;
+            return number;
+        }
     }
 }

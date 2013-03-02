@@ -4,7 +4,7 @@ using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Query.Criteria.Evaluations
 {
-    internal class LikeEvaluation : AEvaluation
+    internal sealed class LikeEvaluation : AEvaluation
     {
         private const string LikePattern = "(.)*{0}(.)*";
         private readonly bool _isCaseSensitive;

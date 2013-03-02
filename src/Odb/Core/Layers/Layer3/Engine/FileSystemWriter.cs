@@ -1,12 +1,13 @@
 ﻿using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3.IO;
+using NDatabase.Odb.Core.Oid;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Tool;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
-    internal sealed class FileSystemProcessor : IFileSystemProcessor
+    internal sealed class FileSystemWriter : IFileSystemWriter
     {
         public IFileSystemInterface FileSystemInterface { get; private set; }
 
@@ -37,7 +38,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
         private void WriteDatabaseId(IStorageEngine storageEngine, long creationDate)
         {
-            var databaseId = UniqueIdGenerator.GetDatabaseId(creationDate);
+            var databaseId = GetDatabaseId(creationDate);
 
             FileSystemInterface.WriteLong(databaseId.GetIds()[0], false); //database id 1/4
             FileSystemInterface.WriteLong(databaseId.GetIds()[1], false); //database id 2/4
@@ -45,6 +46,22 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             FileSystemInterface.WriteLong(databaseId.GetIds()[3], false); //database id 4/4
 
             storageEngine.SetDatabaseId(databaseId);
+        }
+
+        /// <summary>
+        ///   Returns a database id : 4 longs
+        /// </summary>
+        /// <param name="creationDate"> </param>
+        /// <returns> a 4 long array </returns>
+        private static IDatabaseId GetDatabaseId(long creationDate)
+        {
+            var id = new[]
+                         {
+                             creationDate, UniqueIdGenerator.GetRandomLongId(), UniqueIdGenerator.GetRandomLongId(),
+                             UniqueIdGenerator.GetRandomLongId()
+                         };
+
+            return new DatabaseId(id);
         }
 
         /// <summary>
