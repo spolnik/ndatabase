@@ -10,8 +10,6 @@ namespace NDatabase.Northwind.TypedDataContext
     {
         static NDatabaseNorthwindDataContext()
         {
-            OdbConfiguration.EnableLessRestrictedTypeResolutionMode();
-
             if (ConfigurationManager.AppSettings.AllKeys.Contains("DbFilePath"))
             {
                 DbName = ConfigurationManager.AppSettings["DbFilePath"];    

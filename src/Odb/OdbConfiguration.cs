@@ -23,8 +23,6 @@ namespace NDatabase.Odb
         /// </summary>
         private static int _indexBTreeDegree = DefaultIndexBTreeDegree;
 
-        private static bool _isAssemblyQualified = true;
-
         /// <summary>
         /// Enables the B tree validation.
         /// </summary>
@@ -120,32 +118,6 @@ namespace NDatabase.Odb
                 EnableLogging();
 
             DLogger.Register(logger);
-        }
-
-
-        /// <summary>
-        /// Determines whether database [is working in normal type resolution mode].
-        /// </summary>
-        /// <returns><c>true</c> if database [is working in normal type resolution mode]; otherwise, <c>false</c>.</returns>
-        internal static bool IsWorkingInNormalTypeResolutionMode()
-        {
-            return _isAssemblyQualified;
-        }
-
-        /// <summary>
-        /// Enables the normal type resolution mode.
-        /// </summary>
-        internal static void EnableNormalTypeResolutionMode()
-        {
-            _isAssemblyQualified = true;
-        }
-
-        /// <summary>
-        /// Enables the less restricted type resolution mode.
-        /// </summary>
-        public static void EnableLessRestrictedTypeResolutionMode()
-        {
-            _isAssemblyQualified = false;
         }
     }
 }
