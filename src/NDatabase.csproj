@@ -70,6 +70,8 @@
     <Compile Include="Btree\BTreeValidator.cs" />
     <Compile Include="Exceptions\StringErrorMessageHelper.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\IObjectIntrospectionDataProvider.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\Engine\FileSystemReader.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\Engine\IFileSystemReader.cs" />
     <Compile Include="Odb\Core\Transaction\SessionDataProvider.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\IMetaModel.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\InMemoryIdentification.cs" />
@@ -143,8 +145,8 @@
     <Compile Include="Odb\Core\Layers\Layer2\Meta\ODBType.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\OidInfo.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\CurrentIdBlockInfo.cs" />
-    <Compile Include="Odb\Core\Layers\Layer3\Engine\FileSystemProcessor.cs" />
-    <Compile Include="Odb\Core\Layers\Layer3\Engine\IFileSystemProcessor.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\Engine\FileSystemWriter.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\Engine\IFileSystemWriter.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\StorageEngine.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\AbstractStorageEngineReader.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\CheckMetaModelResult.cs" />
@@ -164,7 +166,7 @@
     <Compile Include="Odb\Core\Layers\Layer3\IStorageEngine.cs" />
     <Compile Include="Exceptions\NDatabaseError.cs" />
     <Compile Include="Odb\Core\OIDFactory.cs" />
-    <Compile Include="Odb\Core\OrderByConstants.cs" />
+    <Compile Include="Common\OrderByConstants.cs" />
     <Compile Include="Odb\Core\Query\AbstractQuery.cs" />
     <Compile Include="Odb\Core\Query\ComposedCompareKey.cs" />
     <Compile Include="Odb\Core\Query\Criteria\AbstractExpression.cs" />
@@ -210,7 +212,7 @@
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\DefaultInstrumentationCallback.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\InstrumentationCallbackForStore.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\ObjectIntrospector.cs" />
-    <Compile Include="Odb\Core\NonPersistentAttribute.cs" />
+    <Compile Include="Common\NonPersistentAttribute.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\InstanceBuilder.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\AttributeValueComparator.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\Compare\ObjectInfoComparator.cs" />

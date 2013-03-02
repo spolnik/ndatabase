@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NDatabase.Common;
 using NDatabase.Odb.Core;
 
 namespace Test.NDatabase.Odb.Test.Transient_attributes

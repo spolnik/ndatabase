@@ -3,7 +3,7 @@ using NDatabase.Odb.Core.Transaction;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
-    internal interface IFileSystemProcessor
+    internal interface IFileSystemWriter
     {
         void BuildFileSystemInterface(IStorageEngine storageEngine, ISession session);
 

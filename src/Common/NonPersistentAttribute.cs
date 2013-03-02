@@ -1,6 +1,6 @@
 using System;
 
-namespace NDatabase.Odb.Core
+namespace NDatabase.Common
 {
     /// <summary>
     /// Use when you don't want to serialize the field. 

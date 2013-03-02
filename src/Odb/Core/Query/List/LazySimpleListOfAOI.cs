@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using NDatabase.Common;
 using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer2;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;

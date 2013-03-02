@@ -64,6 +64,7 @@ packages/
 *.testsettings
 
 #own
+NDependOut*/
 doc/output*/
 UnitTests/*.pdb
 UnitTests/NDatabase*.dll

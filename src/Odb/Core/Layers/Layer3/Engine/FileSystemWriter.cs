@@ -7,7 +7,7 @@ using NDatabase.Tool;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
-    internal sealed class FileSystemProcessor : IFileSystemProcessor
+    internal sealed class FileSystemWriter : IFileSystemWriter
     {
         public IFileSystemInterface FileSystemInterface { get; private set; }
 

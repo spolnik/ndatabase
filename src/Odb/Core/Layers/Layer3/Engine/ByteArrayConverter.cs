@@ -214,5 +214,12 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             return BitConverter.ToUInt64(bytes, offset);
         }
+
+        internal static OID DecodeOid(byte[] bytes, int offset)
+        {
+            var oid = ByteArrayToLong(bytes, offset);
+            
+            return oid == -1 ? null : OIDFactory.BuildObjectOID(oid);
+        }
     }
 }
