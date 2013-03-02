@@ -100,6 +100,8 @@
     <Compile Include="Triggers\When_we_use_object_representation_as_the_wrapper_for_nnoi.cs" />
     <Compile Include="TypeResolution\TestGenericObject.cs" />
     <Compile Include="TypeResolution\TypeResolution_TestCase.cs" />
+    <Compile Include="Utils\Logging_test_case.cs" />
+    <Compile Include="Utils\Test_list_extensions.cs" />
     <Compile Include="Utils\When_working_with_class_utils.cs" />
     <Compile Include="Utils\When_working_with_string_utils.cs" />
   </ItemGroup>
