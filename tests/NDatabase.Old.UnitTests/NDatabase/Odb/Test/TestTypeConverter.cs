@@ -1,5 +1,4 @@
 using System;
-using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NUnit.Framework;
 
@@ -9,26 +8,7 @@ namespace Test.NDatabase.Odb.Test
     public class TestTypeConverter : ODBTest
     {
         [Test]
-        public virtual void Check_type_conversion_working_in_less_restricted_mode()
-        {
-            OdbConfiguration.EnableLessRestrictedTypeResolutionMode();
-
-            AssertEquals(OdbType.Integer, OdbType.GetFromClass(typeof (int)));
-            AssertEquals(OdbType.Boolean, OdbType.GetFromClass(typeof (bool)));
-            AssertEquals(OdbType.Byte, OdbType.GetFromClass(typeof (byte)));
-            AssertEquals(OdbType.Character, OdbType.GetFromClass(typeof (char)));
-            AssertEquals(OdbType.Double, OdbType.GetFromClass(typeof (double)));
-            AssertEquals(OdbType.Float, OdbType.GetFromClass(typeof (float)));
-            AssertEquals(OdbType.Long, OdbType.GetFromClass(typeof (long)));
-            AssertEquals(OdbType.Short, OdbType.GetFromClass(typeof (short)));
-            AssertEquals(OdbType.String, OdbType.GetFromClass(typeof (string)));
-            AssertEquals(OdbType.Decimal, OdbType.GetFromClass(typeof (Decimal)));
-            
-            OdbConfiguration.EnableNormalTypeResolutionMode();
-        }
-
-        [Test]
-        public virtual void Check_type_conversion_working_in_more_restricted_mode()
+        public void Check_type_conversion()
         {
             AssertEquals(OdbType.Integer, OdbType.GetFromClass(typeof(int)));
             AssertEquals(OdbType.Boolean, OdbType.GetFromClass(typeof(bool)));

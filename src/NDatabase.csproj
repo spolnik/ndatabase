@@ -276,6 +276,7 @@
     <Compile Include="Odb\Main\ODBAdapter.cs" />
     <Compile Include="Odb\Main\OdbExt.cs" />
     <Compile Include="Odb\Main\ODBForTrigger.cs" />
+    <Compile Include="Tool\DictionaryExtensions.cs" />
     <Compile Include="Tool\UniqueIdGenerator.cs" />
     <Compile Include="Odb\IObjectRepresentation.cs" />
     <Compile Include="Odb\IObjectSet.cs" />

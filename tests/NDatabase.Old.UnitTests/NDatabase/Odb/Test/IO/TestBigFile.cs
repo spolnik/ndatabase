@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using NDatabase.Odb;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
@@ -30,6 +31,7 @@ namespace Test.NDatabase.Odb.Test.IO
             const int size2 = 10;
 
             const string dbName = "big-file.ndb";
+            OdbFactory.Delete(dbName);
 
             using (Open(dbName))
             {

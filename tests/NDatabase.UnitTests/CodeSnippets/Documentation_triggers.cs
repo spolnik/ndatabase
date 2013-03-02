@@ -8,6 +8,8 @@ namespace NDatabase.UnitTests.CodeSnippets
 {
     public class Documentation_triggers
     {
+        private const string DbName = "inserting_trigger.ndb";
+
         public class MyTrigger : InsertTrigger
         {
             public override bool BeforeInsert(object @object)
@@ -34,7 +36,7 @@ namespace NDatabase.UnitTests.CodeSnippets
         [SetUp]
         public void SetUp()
         {
-            OdbFactory.Delete("inserting_trigger.ndb");
+            OdbFactory.Delete(DbName);
         }
 
         [Test] 
@@ -43,7 +45,7 @@ namespace NDatabase.UnitTests.CodeSnippets
             var mage = new Mage("Merlin", 3.3, 3.4);
             var myTrigger = new MyTrigger();
 
-            using (var odb = OdbFactory.Open("inserting_trigger.db"))
+            using (var odb = OdbFactory.Open(DbName))
             {
                 odb.TriggerManagerFor<Mage>().AddInsertTrigger(myTrigger);
                 odb.Store(mage);
@@ -52,7 +54,7 @@ namespace NDatabase.UnitTests.CodeSnippets
             Assert.That(myTrigger.BeforeInvoked, Is.True);
             Assert.That(myTrigger.AfterInvoked, Is.True);
 
-            using (var odb = OdbFactory.Open("inserting_trigger.db"))
+            using (var odb = OdbFactory.Open(DbName))
             {
                 var query = odb.Query<Mage>();
                 var merlin = query.Execute<Mage>().GetFirst();

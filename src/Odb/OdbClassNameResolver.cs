@@ -9,9 +9,6 @@ namespace NDatabase.Odb
         private static readonly Dictionary<string, string> CacheByFullClassName =
             new Dictionary<string, string>();
 
-        private static readonly Dictionary<Type, string> CacheByType =
-            new Dictionary<Type, string>();
-
         public static string GetClassName(string fullClassName)
         {
             return CacheByFullClassName.GetOrAdd(fullClassName, ProduceClassName);
@@ -43,24 +40,7 @@ namespace NDatabase.Odb
 
         public static string GetFullName(Type type)
         {
-            return CacheByType.GetOrAdd(type, ProduceFullName);
-        }
-
-        private static string ProduceFullName(Type type)
-        {
-            if (!OdbConfiguration.IsWorkingInNormalTypeResolutionMode())
-                return type.FullName;
-
-            var name = type.Assembly.GetName();
-            var publicKey = name.GetPublicKey();
-            var isSignedAsm = publicKey.Length > 0;
-
-            var index = type.Assembly.FullName.IndexOf(',');
-
-            var fullName = string.Format("{0},{1}", type.FullName, isSignedAsm
-                                                                       ? type.Assembly.FullName
-                                                                       : type.Assembly.FullName.Substring(0, index));
-            return fullName;
+            return type.AssemblyQualifiedName;
         }
     }
 }

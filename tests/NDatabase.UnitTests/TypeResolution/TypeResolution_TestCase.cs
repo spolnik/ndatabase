@@ -51,7 +51,6 @@ namespace NDatabase.UnitTests.TypeResolution
         }
 
         [Test]
-        [ExpectedException(typeof (TypeLoadException))]
         public void LoadTypeFromSystemAssemblySpecifyingOnlyTheAssemblyDisplayName()
         {
             var stringType = typeof (string).FullName + ", System";
