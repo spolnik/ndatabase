@@ -15,7 +15,6 @@ namespace NDatabase.TypeResolution
 		/// The cache, mapping type names (<see cref="System.String"/> instances) against
 		/// <see cref="System.Type"/> instances.
 		/// </summary>
-<<<<<<< HEAD
         private readonly Dictionary<string, Type> _typeCache = new Dictionary<string, Type>();
 
 		private readonly ITypeResolver _typeResolver;
@@ -32,24 +31,6 @@ namespace NDatabase.TypeResolution
 		/// If the supplied <paramref name="typeResolver"/> is <see langword="null"/>.
 		/// </exception>
 		public CachedTypeResolver(ITypeResolver typeResolver)
-=======
-        private readonly Dictionary<string, Type> _typeCache = new Dictionary<string, Type>();
-
-		private readonly ITypeResolver _typeResolver;
-
-		/// <summary>
-		/// Creates a new instance of the <see cref="CachedTypeResolver"/> class.
-		/// </summary>
-		/// <param name="typeResolver">
-		/// The <see cref="ITypeResolver"/> that this instance will delegate
-		/// actual <see cref="System.Type"/> resolution to if a <see cref="System.Type"/>
-		/// cannot be found in this instance's <see cref="System.Type"/> cache.
-		/// </param>
-		/// <exception cref="System.ArgumentNullException">
-		/// If the supplied <paramref name="typeResolver"/> is <see langword="null"/>.
-		/// </exception>
-		public CachedTypeResolver(ITypeResolver typeResolver)
->>>>>>> master
 		{
 		    if (typeResolver == null)
 		        throw new ArgumentNullException("typeResolver");

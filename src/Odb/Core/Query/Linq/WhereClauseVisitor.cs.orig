@@ -1,12 +1,10 @@
 ﻿using System;
-<<<<<<< HEAD
 using System.Collections.Generic;
+<<<<<<< HEAD
 =======
-using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 >>>>>>> master
 using System.Linq.Expressions;
-using NDatabase.Odb.Core.Query.Criteria;
 
 namespace NDatabase.Odb.Core.Query.Linq
 {
@@ -60,43 +58,13 @@ namespace NDatabase.Odb.Core.Query.Linq
                     return;
 
                 case "Equals":
+                    RecordConstraintApplication(c => c.Equal());
                     return;
             }
 
             CannotConvertToSoda(call);
         }
 
-<<<<<<< HEAD
-=======
-        private static bool IsCaseSensitive(ReadOnlyCollection<Expression> arguments)
-        {
-            if (arguments.Count == 1)
-                return true;
-
-            var expression = arguments[1];
-
-            if (expression.NodeType == ExpressionType.IsFalse)
-                return true;
-
-            if (expression.NodeType == ExpressionType.IsTrue)
-                return false;
-
-            if (expression.Type.IsEnum)
-            {
-                var constantExpression = expression as ConstantExpression;
-                if (constantExpression != null)
-                {
-                    if (constantExpression.Value.ToString().EndsWith("IgnoreCase"))
-                        return false;
-                }
-
-                return true;
-            }
-
-            return true;
-        }
-
->>>>>>> master
         private void RecordConstraintApplication(Func<IConstraint, IConstraint> application)
         {
             Recorder.Add(ctx => ctx.ApplyConstraint(application));
@@ -261,6 +229,7 @@ namespace NDatabase.Odb.Core.Query.Linq
             switch (b.NodeType)
             {
                 case ExpressionType.Equal:
+                    RecordConstraintApplication(c => c.Equal());
                     break;
                 case ExpressionType.NotEqual:
                     RecordConstraintApplication(c => c.Equal().Not());
