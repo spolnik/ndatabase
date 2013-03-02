@@ -1,14 +1,14 @@
-using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace NDatabase.Odb.Core.Query.Linq
 {
     internal sealed class OrderByDescendingClauseVisitor : OrderByClauseVisitorBase
     {
-        private static readonly ConcurrentDictionary<Expression, IQueryBuilderRecord> Cache =
-            new ConcurrentDictionary<Expression, IQueryBuilderRecord>();
+        private static readonly Dictionary<Expression, IQueryBuilderRecord> Cache =
+            new Dictionary<Expression, IQueryBuilderRecord>();
 
-        protected override ConcurrentDictionary<Expression, IQueryBuilderRecord> GetCachingStrategy()
+        protected override Dictionary<Expression, IQueryBuilderRecord> GetCachingStrategy()
         {
             return Cache;
         }

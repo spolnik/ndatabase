@@ -1,15 +1,13 @@
 using System;
-using System.Collections.Concurrent;
+using System.Collections.Generic;
+using NDatabase.Tool;
 
 namespace NDatabase.Odb
 {
     internal static class OdbClassNameResolver
     {
-        private static readonly ConcurrentDictionary<string, string> CacheByFullClassName =
-            new ConcurrentDictionary<string, string>();
-
-        private static readonly ConcurrentDictionary<Type, string> CacheByType =
-            new ConcurrentDictionary<Type, string>();
+        private static readonly Dictionary<string, string> CacheByFullClassName =
+            new Dictionary<string, string>();
 
         public static string GetClassName(string fullClassName)
         {
@@ -42,24 +40,7 @@ namespace NDatabase.Odb
 
         public static string GetFullName(Type type)
         {
-            return CacheByType.GetOrAdd(type, ProduceFullName);
-        }
-
-        private static string ProduceFullName(Type type)
-        {
-            if (!OdbConfiguration.IsWorkingInNormalTypeResolutionMode())
-                return type.FullName;
-
-            var name = type.Assembly.GetName();
-            var publicKey = name.GetPublicKey();
-            var isSignedAsm = publicKey.Length > 0;
-
-            var index = type.Assembly.FullName.IndexOf(',');
-
-            var fullName = string.Format("{0},{1}", type.FullName, isSignedAsm
-                                                                       ? type.Assembly.FullName
-                                                                       : type.Assembly.FullName.Substring(0, index));
-            return fullName;
+            return type.AssemblyQualifiedName;
         }
     }
 }

@@ -36,12 +36,19 @@ namespace NDatabase.TypeResolution
                      LoadTypeDirectlyFromAssembly(typeInfo) :
                      LoadTypeByIteratingOverAllLoadedAssemblies(typeInfo);
             }
-            catch (Exception ex)
+            catch
             {
-                if (ex is TypeLoadException)
-                    throw;
+                try
+                {
+                    type = LoadTypeByIteratingOverAllLoadedAssemblies(typeInfo);
+                }
+                catch (Exception ex)
+                {
+                    if (ex is TypeLoadException)
+                        throw;
 
-                throw BuildTypeLoadException(typeName, ex);
+                    throw BuildTypeLoadException(typeName, ex);
+                }
             }
             
             return type;
@@ -51,11 +58,7 @@ namespace NDatabase.TypeResolution
         {
             Type type = null;
 
-#if MONO_2_0
-            var assembly = Assembly.Load(typeInfo.AssemblyName);
-#else
-            var assembly = Assembly.LoadWithPartialName(typeInfo.GetAssemblyName());
-#endif
+            var assembly = Assembly.Load(typeInfo.GetAssemblyName());
 
             if (assembly != null)
                 type = assembly.GetType(typeInfo.GetTypeName(), true, true);

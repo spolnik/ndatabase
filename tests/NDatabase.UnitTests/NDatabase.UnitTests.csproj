@@ -45,7 +45,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base\TestCase_OdbConfiguration.cs" />
     <Compile Include="Base\When_we_use_storage_positions.cs" />
     <Compile Include="Base\When_we_store_nullable_types.cs" />
     <Compile Include="Bugs\Index\When_we_use_index_on_invariant_equal_criteria.cs" />

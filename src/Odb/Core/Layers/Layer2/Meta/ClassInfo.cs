@@ -15,7 +15,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
     /// </summary>
     internal sealed class ClassInfo
     {
-        private static readonly ConcurrentDictionary<string, Type> TypeCache = new ConcurrentDictionary<string, Type>();
+        private static readonly Dictionary<string, Type> TypeCache = new Dictionary<string, Type>();
         private readonly AttributesCache _attributesCache;
 
         /// <summary>
