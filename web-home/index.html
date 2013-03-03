@@ -12,10 +12,13 @@
     <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/ndatabase.css">
     <link rel="stylesheet" href="css/font-awesome.css">
+    <link href="css/prettify.css" type="text/css" rel="stylesheet">
     <!-- scripts -->
-    <script async="" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js"></script>
-    <script async src="js/bootstrap.min.js"></script>
-    <script async="" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js"></script>
+    <script src="js/prettify.js"></script>
+    <script src="js/run_prettify.js?lang=cs&skin=default"></script>
 </head>
 <body>
 <header class="header">
@@ -23,16 +26,20 @@
         <div class="navbar-inner">
             <div class="container">
                 <a class="brand" href="http://ndatabase.net">NDatabase</a>
+
                 <div class="nav">
                     <ul class="nav">
                         <li class="divider-vertical"></li>
-                        <li class="active"><a href="http://ndatabase.net"><i class="icon-home icon-white"></i> Home</a></li>
+                        <li class="active"><a href="http://ndatabase.net"><i class="icon-home icon-white"></i> Home</a>
+                        </li>
                         <li class="divider-vertical"></li>
-                        <li ><a href="http://doc.ndatabase.net"><i class="icon-eye-open icon-white"></i> Learn</a></li>
+                        <li><a href="http://doc.ndatabase.net"><i class="icon-eye-open icon-white"></i> Learn</a></li>
                         <li class="divider-vertical"></li>
-                        <li><a href="http://ndatabase.codeplex.com/discussions"><i class="icon-comment icon-white"></i> Discuss</a></li>
+                        <li><a href="http://ndatabase.codeplex.com/discussions"><i class="icon-comment icon-white"></i>
+                            Discuss</a></li>
                         <li class="divider-vertical"></li>
-                        <li><a href="http://ndatabase.codeplex.com/workitem/list/basic"><i class="icon-lightbulb icon-white"></i> Issue Tracker</a></li>
+                        <li><a href="http://ndatabase.codeplex.com/workitem/list/basic"><i
+                                class="icon-lightbulb icon-white"></i> Issue Tracker</a></li>
                         <li class="divider-vertical"></li>
                     </ul>
                 </div>
@@ -68,7 +75,7 @@
     </div>
 
     <!-- Example row of columns -->
-    <div class="row">
+    <div class="row first">
         <div class="span4">
             <h2>Why NDatabase</h2>
 
@@ -76,7 +83,7 @@
                 Relational worlds, give a try to NDatabase. NDatabase is a new generation Object Database: a real
                 native and transparent persistence layer for .Net. </p>
 
-            <p><a class="btn" href="#">View details >></a></p>
+            <p><a class="btn" href="http://doc.ndatabase.net/index.html?why_ndatabase_.html">View details >></a></p>
         </div>
         <div class="span4">
             <h2>Safe and Robust</h2>
@@ -85,7 +92,7 @@
                 be applied to the database even in case of hardware failure. This is done by automatic transaction
                 recovery on the next startup. </p>
 
-            <p><a class="btn" href="#">View details >></a></p>
+            <p><a class="btn" href="http://doc.ndatabase.net/index.html?features.html">View more >></a></p>
         </div>
         <div class="span4">
             <h2>Productivity</h2>
@@ -94,20 +101,126 @@
                 that must be persisted and no mapping is needed. So developers can concentrate on business logic
                 implementation instead of wasting time with the persistence layer..</p>
 
-            <p><a class="btn" href="#">View details >></a></p>
+            <p><a class="btn" href="http://doc.ndatabase.net/index.html?features.html">View more >></a></p>
+        </div>
+        <div class="spacer"></div>
+    </div>
+    <h1 id="the-basics">The Basics</h1>
+
+    <div class="row">
+        <div class="span8">
+            <div class="tabbable">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#create-cs" data-toggle="tab">Create.cs</a>
+                    </li>
+                    <li>
+                        <a href="#read-cs" data-toggle="tab">Read.cs</a>
+                    </li>
+                    <li>
+                        <a href="#update-cs" data-toggle="tab">Update.cs</a>
+                    </li>
+                    <li>
+                        <a href="#delete-cs" data-toggle="tab">Delete.cs</a>
+                    </li>
+                    <li>
+                        <a href="#sport-cs" data-toggle="tab">Sport.cs</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="create-cs">
+                        <pre class="prettyprint">
+// Create the instance be stored
+var sport = new Sport("volley-ball");
+
+// Open the database
+using (var odb = OdbFactory.Open(DbName))
+{
+    // Store the object
+    odb.Store(sport);
+}
+                        </pre>
+                    </div>
+                    <div class="tab-pane" id="read-cs">
+                        <pre class="prettyprint">
+// Open the database
+using (var odb = OdbFactory.Open(DbName))
+{
+    var sports = odb.QueryAndExecute&lt;Sport&gt;();
+
+    Assert.That(sports, Has.Count.EqualTo(1));
+}
+                        </pre>
+                    </div>
+                    <div class="tab-pane" id="update-cs">
+                        <pre class="prettyprint">
+// Open the database
+using (var odb = OdbFactory.Open(DbName))
+{
+    var firstSport = odb.QueryAndExecute&lt;Sport&gt;().GetFirst();
+
+    firstSport.Name = "new name";
+    odb.Store(firstSport);
+}
+                        </pre>
+                    </div>
+                    <div class="tab-pane" id="delete-cs">
+                        <pre class="prettyprint">
+//Open the database
+using (var odb = OdbFactory.Open(DbName))
+{
+    var first = odb.QueryAndExecute&lt;Sport&gt;().GetFirst();
+    odb.Delete(first);
+}
+
+// Open the database
+using (var odb = OdbFactory.Open(DbName))
+{
+    var sports = odb.QueryAndExecute&lt;Sport&gt;();
+
+    Assert.That(sports, Has.Count.EqualTo(0));
+}
+                        </pre>
+                    </div>
+                    <div class="tab-pane" id="sport-cs">
+                        <pre class="prettyprint">
+public sealed class Sport
+{
+    private string _name;
+
+    public Sport(string name)
+	{
+		_name = name;
+	}
+
+    public string Name
+    {
+        get { return _name; }
+        set { _name = value; }
+    }
+
+    public override string ToString() { return Name; }
+}
+                        </pre>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="spacer"></div>
     </div>
 </div>
 <footer class="footer">
     <div class="container">
-         <p class="pull-right">
-             <a href="#" target="_self">Back to top</a>
-         </p>
+        <p class="pull-right">
+            <a href="#" target="_self">Back to top</a>
+        </p>
+
         <p>Powered by NDatabase &copy;2012-2013</p>
+
         <p>Code licensed under the
             <a href="http://ndatabase.codeplex.com/license" target="_blank">The
-                LGPL License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.
+                LGPL License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC
+                BY 3.0</a>.
         </p>
     </div>
 </footer>

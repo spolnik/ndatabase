@@ -27,12 +27,39 @@ namespace NDatabase.UnitTests.CodeSnippets
             //=================================
 
             // Open the database
-            using (var odb1 = OdbFactory.Open(DbName))
+            using (var odb = OdbFactory.Open(DbName))
             {
-                var query = odb1.Query<Sport>();
-                var sports = query.Execute<Sport>();
-                // code working on sports list
+                var sports = odb.QueryAndExecute<Sport>();
+                
                 Assert.That(sports, Has.Count.EqualTo(1));
+            }
+
+            //=================================
+
+            // Open the database
+            using (var odb = OdbFactory.Open(DbName))
+            {
+                var firstSport = odb.QueryAndExecute<Sport>().GetFirst();
+
+                firstSport.Name = "new name";
+                odb.Store(firstSport);
+            }
+
+            //=================================
+
+            //Open the database
+            using (var odb = OdbFactory.Open(DbName))
+            {
+                var first = odb.QueryAndExecute<Sport>().GetFirst();
+                odb.Delete(first);
+            }
+
+            // Open the database
+            using (var odb = OdbFactory.Open(DbName))
+            {
+                var sports = odb.QueryAndExecute<Sport>();
+                
+                Assert.That(sports, Has.Count.EqualTo(0));
             }
 
             //=================================

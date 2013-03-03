@@ -4,8 +4,8 @@
     <list default="true" id="968ea520-ab0a-4e28-9ed1-bbbdf458c91a" name="Default" comment="" />
     <ignored path="bootstrap.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/index.html" changelist="968ea520-ab0a-4e28-9ed1-bbbdf458c91a" time="1362327546783" ignored="false" />
-    <file path="/ndatabase.css" changelist="968ea520-ab0a-4e28-9ed1-bbbdf458c91a" time="1362321537137" ignored="false" />
+    <file path="/index.html" changelist="968ea520-ab0a-4e28-9ed1-bbbdf458c91a" time="1362338294316" ignored="false" />
+    <file path="/ndatabase.css" changelist="968ea520-ab0a-4e28-9ed1-bbbdf458c91a" time="1362331591980" ignored="false" />
     <file path="/Dummy.txt" changelist="968ea520-ab0a-4e28-9ed1-bbbdf458c91a" time="1362322046245" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -26,7 +26,7 @@
       <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="132" selection-start="1599" selection-end="1599" vertical-scroll-proportion="0.5368421">
+            <state line="94" column="97" selection-start="4538" selection-end="4538" vertical-scroll-proportion="0.5247706">
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -35,17 +35,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="favicon.ico" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/img/favicon.ico">
-          <provider selected="true" editor-type-id="images">
-            <state />
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="ndatabase.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/css/ndatabase.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="40" column="36" selection-start="633" selection-end="633" vertical-scroll-proportion="0.0">
+            <state line="52" column="22" selection-start="801" selection-end="801" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -140,7 +133,7 @@
     <configuration default="false" name="index.html" type="JavascriptDebugSession" factoryName="Local" singleton="true" temporary="true">
       <JSDebuggerConfigurationSettings>
         <option name="engineId" value="embedded" />
-        <option name="fileUrl" value="file:///S:/workspace/web-home/bootstrap/bootstrap/index.html" />
+        <option name="fileUrl" value="file:///S:/workspace/ndatabase/web-home/index.html" />
       </JSDebuggerConfigurationSettings>
       <RunnerSettings RunnerId="JavascriptDebugRunner" />
       <ConfigurationWrapper RunnerId="JavascriptDebugRunner" />
@@ -205,8 +198,9 @@
       <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.index.html" />
     </list>
     <recent_temporary>
-      <list size="1">
+      <list size="2">
         <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.index.html" />
+        <item index="1" class="java.lang.String" itemvalue="JavaScript Debug.index.html" />
       </list>
     </recent_temporary>
   </component>
@@ -360,21 +354,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/css/ndatabase.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="52" column="22" selection-start="801" selection-end="801" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/img/favicon.ico">
       <provider selected="true" editor-type-id="images">
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/css/ndatabase.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="36" selection-start="633" selection-end="633" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="132" selection-start="1599" selection-end="1599" vertical-scroll-proportion="0.5368421">
+        <state line="94" column="97" selection-start="4538" selection-end="4538" vertical-scroll-proportion="0.5247706">
           <folding>
             <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />

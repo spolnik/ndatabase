@@ -44,3 +44,11 @@
     color: white;
     padding-bottom: 2em;
 }
+
+.example {
+    margin-top: 1em;
+}
+
+.app-source {
+    min-height: 375px;
+}
