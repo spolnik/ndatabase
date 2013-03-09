@@ -1,13 +1,12 @@
 ﻿using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Layer2
 {
     internal class When_we_use_class_info
     {
-        private class Country
+        private sealed class Country
         {
             private readonly string _name;
 
@@ -25,7 +24,7 @@ namespace NDatabase.UnitTests.Layer2
 
             public int Population { get; set; }
 
-            public virtual string Continent { get; private set; }
+            public string Continent { get; private set; }
         }
 
         [Test]

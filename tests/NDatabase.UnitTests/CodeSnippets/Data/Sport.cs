@@ -14,6 +14,8 @@ namespace NDatabase.UnitTests.CodeSnippets.Data
 	        get { return _name; }
 	    }
 
+	    public string Value { get; set; }
+
 	    public override string ToString()
 		{
 			return Name;
