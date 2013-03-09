@@ -9,13 +9,22 @@ namespace NDatabase.UnitTests.CodeSnippets
     {
         private const string DbName = "test.ndb";
 
+        [SetUp]
+        public void SetUp()
+        {
+            const string testDb = DbName;
+
+            if (File.Exists(testDb))
+                File.Delete(testDb);
+        }
+
         [Test]
         public void TheSnippet()
         {
             //=================================
 
             // Create the instance be stored
-            var sport = new Sport("volley-ball");
+            var sport = new Sport("volley-ball") {Value = "gold"};
 
             // Open the database
             using (var odb = OdbFactory.Open(DbName))
@@ -27,24 +36,42 @@ namespace NDatabase.UnitTests.CodeSnippets
             //=================================
 
             // Open the database
-            using (var odb1 = OdbFactory.Open(DbName))
+            using (var odb = OdbFactory.Open(DbName))
             {
-                var query = odb1.Query<Sport>();
-                var sports = query.Execute<Sport>();
-                // code working on sports list
+                var sports = odb.QueryAndExecute<Sport>();
+                
                 Assert.That(sports, Has.Count.EqualTo(1));
             }
 
             //=================================
-        }
 
-        [SetUp]
-        public void SetUp()
-        {
-            const string testDb = DbName;
+            // Open the database
+            using (var odb = OdbFactory.Open(DbName))
+            {
+                var firstSport = odb.QueryAndExecute<Sport>().GetFirst();
 
-            if (File.Exists(testDb))
-                File.Delete(testDb);
+                firstSport.Value = "silver";
+                odb.Store(firstSport);
+            }
+
+            //=================================
+
+            //Open the database
+            using (var odb = OdbFactory.Open(DbName))
+            {
+                var first = odb.QueryAndExecute<Sport>().GetFirst();
+                odb.Delete(first);
+            }
+
+            // Open the database
+            using (var odb = OdbFactory.Open(DbName))
+            {
+                var sports = odb.QueryAndExecute<Sport>();
+                
+                Assert.That(sports, Has.Count.EqualTo(0));
+            }
+
+            //=================================
         }
     }
 }

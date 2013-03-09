@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NDatabase.Compability;
 using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
@@ -85,7 +86,7 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
             // This forces the initialization of the meta model
             var metaModel = GetMetaModel();
 
-            CheckMetaModelCompatibility(ClassIntrospector.Instrospect(metaModel.GetAllClasses()));
+            MetaModelCompabilityChecker.Check(ClassIntrospector.Instrospect(metaModel.GetAllClasses()), GetMetaModel(), UpdateMetaModel);
 
             _objectWriter.SetTriggerManager(_triggerManager);
             _introspectionCallbackForInsert = new InstrumentationCallbackForStore(_triggerManager, false);
@@ -95,40 +96,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         public override IObjectIntrospectionDataProvider ClassInfoProvider
         {
             get { return _objectIntrospectionDataProvider; }
-        }
-
-        /// <summary>
-        ///   Receive the current class info (loaded from current classes present on runtime and check against the persisted meta model
-        /// </summary>
-        /// <param name="currentCIs"> </param>
-        private void CheckMetaModelCompatibility(IDictionary<string, ClassInfo> currentCIs)
-        {
-            ClassInfoCompareResult result;
-            var checkMetaModelResult = new CheckMetaModelResult();
-
-            foreach (var persistedCI in GetMetaModel().GetAllClasses())
-            {
-                var currentCI = currentCIs[persistedCI.FullClassName];
-                result = persistedCI.ExtractDifferences(currentCI, true);
-
-                if (!result.IsCompatible())
-                    throw new OdbRuntimeException(NDatabaseError.IncompatibleMetamodel.AddParameter(result.ToString()));
-
-                if (result.HasCompatibleChanges())
-                    checkMetaModelResult.Add(result);
-            }
-
-            for (var i = 0; i < checkMetaModelResult.Size(); i++)
-            {
-                result = checkMetaModelResult.GetResults()[i];
-                DLogger.Info(string.Format("StorageEngine: Class {0} has changed :", result.GetFullClassName()));
-                DLogger.Info("StorageEngine: " + result);
-            }
-
-            if (checkMetaModelResult.GetResults().Count == 0)
-                return;
-
-            UpdateMetaModel();
         }
 
         public override OID Store<T>(T plainObject)
