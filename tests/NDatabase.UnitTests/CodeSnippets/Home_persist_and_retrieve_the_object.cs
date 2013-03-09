@@ -9,6 +9,15 @@ namespace NDatabase.UnitTests.CodeSnippets
     {
         private const string DbName = "test.ndb";
 
+        [SetUp]
+        public void SetUp()
+        {
+            const string testDb = DbName;
+
+            if (File.Exists(testDb))
+                File.Delete(testDb);
+        }
+
         [Test]
         public void TheSnippet()
         {
@@ -63,15 +72,6 @@ namespace NDatabase.UnitTests.CodeSnippets
             }
 
             //=================================
-        }
-
-        [SetUp]
-        public void SetUp()
-        {
-            const string testDb = DbName;
-
-            if (File.Exists(testDb))
-                File.Delete(testDb);
         }
     }
 }

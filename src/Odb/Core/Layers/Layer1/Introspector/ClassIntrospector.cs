@@ -80,15 +80,15 @@ namespace NDatabase.Odb.Core.Layers.Layer1.Introspector
         ///   model currently executing in JVM. This is used b the automatic meta model refactoring
         /// </remarks>
         /// <returns> A map where the key is the class name and the key is the ClassInfo: the class meta representation </returns>
-        public static IDictionary<string, ClassInfo> Instrospect(IEnumerable<ClassInfo> classInfos)
+        public static IDictionary<Type, ClassInfo> Instrospect(IEnumerable<ClassInfo> classInfos)
         {
-            IDictionary<string, ClassInfo> classInfoSet = new Dictionary<string, ClassInfo>();
+            IDictionary<Type, ClassInfo> classInfoSet = new Dictionary<Type, ClassInfo>();
 
             foreach (var persistedClassInfo in classInfos)
             {
                 var currentClassInfo = GetClassInfo(persistedClassInfo.FullClassName, persistedClassInfo);
 
-                classInfoSet.Add(currentClassInfo.FullClassName, currentClassInfo);
+                classInfoSet.Add(currentClassInfo.UnderlyingType, currentClassInfo);
             }
 
             return classInfoSet;

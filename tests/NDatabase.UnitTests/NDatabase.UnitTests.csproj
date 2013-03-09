@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Base\When_we_use_storage_positions.cs" />
     <Compile Include="Base\When_we_store_nullable_types.cs" />
+    <Compile Include="Bugs\Compability\When_storing_the_same_class_with_different_versions.cs" />
     <Compile Include="Bugs\Index\When_we_use_index_on_invariant_equal_criteria.cs" />
     <Compile Include="Bugs\When_storing_class_which_has_reference_to_itself.cs" />
     <Compile Include="Bugs\When_storing_null_references.cs" />
