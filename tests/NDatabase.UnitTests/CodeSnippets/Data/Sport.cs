@@ -2,7 +2,7 @@ namespace NDatabase.UnitTests.CodeSnippets.Data
 {
 	public sealed class Sport
 	{
-	    private string _name;
+	    private readonly string _name;
 
 	    public Sport(string name)
 		{
@@ -12,8 +12,9 @@ namespace NDatabase.UnitTests.CodeSnippets.Data
 	    public string Name
 	    {
 	        get { return _name; }
-            set { _name = value; }
 	    }
+
+	    public string Value { get; set; }
 
 	    public override string ToString()
 		{

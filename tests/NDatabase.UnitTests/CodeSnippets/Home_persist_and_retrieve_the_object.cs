@@ -15,7 +15,7 @@ namespace NDatabase.UnitTests.CodeSnippets
             //=================================
 
             // Create the instance be stored
-            var sport = new Sport("volley-ball");
+            var sport = new Sport("volley-ball") {Value = "gold"};
 
             // Open the database
             using (var odb = OdbFactory.Open(DbName))
@@ -41,7 +41,7 @@ namespace NDatabase.UnitTests.CodeSnippets
             {
                 var firstSport = odb.QueryAndExecute<Sport>().GetFirst();
 
-                firstSport.Name = "new name";
+                firstSport.Value = "silver";
                 odb.Store(firstSport);
             }
 
