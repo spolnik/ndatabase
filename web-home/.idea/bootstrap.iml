@@ -6,6 +6,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="angular" level="application" />
     <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="lang-pascal" level="application" />
   </component>
 </module>
 
