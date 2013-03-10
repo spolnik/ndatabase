@@ -301,13 +301,8 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
             if (type1.IsNonNative() && type2.IsNonNative())
                 return (type1.GetNativeClass() == type2.GetNativeClass()) ||
-<<<<<<< HEAD
                        (type1.GetNativeClass().GetTypeInfo().IsAssignableFrom(type2.GetNativeClass().GetTypeInfo()));
-            }
-=======
-                       (type1.GetNativeClass().IsAssignableFrom(type2.GetNativeClass()));
-
->>>>>>> master
+            
             return false;
         }
 

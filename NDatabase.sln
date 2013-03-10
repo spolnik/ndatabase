@@ -432,6 +432,6 @@ Global
 		$1.ResourceNamePolicy = FileFormatDefault
 	EndGlobalSection
 	GlobalSection(NDepend) = preSolution
-		Project = ".\NDatabase.ndproj"
+		Project = ""
 	EndGlobalSection
 EndGlobal
