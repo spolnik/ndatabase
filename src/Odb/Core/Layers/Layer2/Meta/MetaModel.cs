@@ -37,11 +37,11 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         /// <summary>
         ///   A hash map to speed up the access of class info by full class name
         /// </summary>
-        private IDictionary<string, ClassInfo> _rapidAccessForClassesByName;
+        private IDictionary<Type, ClassInfo> _rapidAccessForClassesByName;
 
         public MetaModel()
         {
-            _rapidAccessForClassesByName = new OdbHashMap<string, ClassInfo>(10);
+            _rapidAccessForClassesByName = new OdbHashMap<Type, ClassInfo>(10);
             _rapidAccessForClassesByOid = new OdbHashMap<OID, ClassInfo>(10);
             _existingClasses = new List<Type>(10);
             _allClassInfos = new List<ClassInfo>();
@@ -50,9 +50,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public void AddClass(ClassInfo classInfo)
         {
-            var fullClassName = classInfo.FullClassName;
-
-            _rapidAccessForClassesByName.Add(fullClassName, classInfo);
+            _rapidAccessForClassesByName.Add(classInfo.UnderlyingType, classInfo);
             _existingClasses.Add(classInfo.UnderlyingType);
             _rapidAccessForClassesByOid.Add(classInfo.ClassInfoId, classInfo);
             _allClassInfos.Add(classInfo);
@@ -61,11 +59,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         public bool ExistClass(Type type)
         {
             return _existingClasses.Contains(type);
-        }
-
-        public override string ToString()
-        {
-            return string.Format("{0}", _rapidAccessForClassesByName.Values);
         }
 
         public IEnumerable<ClassInfo> GetAllClasses()
@@ -93,23 +86,22 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
         public ClassInfo GetClassInfo(Type type, bool throwExceptionIfDoesNotExist)
         {
-            var fullClassName = OdbClassNameResolver.GetFullName(type);
-            return GetClassInfo(fullClassName, throwExceptionIfDoesNotExist);
-        }
-
-        public ClassInfo GetClassInfo(string fullClassName, bool throwExceptionIfDoesNotExist)
-        {
             ClassInfo classInfo;
-            
-            _rapidAccessForClassesByName.TryGetValue(fullClassName, out classInfo);
+            _rapidAccessForClassesByName.TryGetValue(type, out classInfo);
             if (classInfo != null)
                 return classInfo;
 
             if (throwExceptionIfDoesNotExist)
                 throw new OdbRuntimeException(
-                    NDatabaseError.MetaModelClassNameDoesNotExist.AddParameter(fullClassName));
+                    NDatabaseError.MetaModelClassNameDoesNotExist.AddParameter(type.AssemblyQualifiedName));
 
             return null;
+        }
+
+        public ClassInfo GetClassInfo(string fullClassName, bool throwExceptionIfDoesNotExist)
+        {
+            var type = TypeResolutionUtils.ResolveType(fullClassName);
+            return GetClassInfo(type, throwExceptionIfDoesNotExist);
         }
 
         /// <returns> The Last class info </returns>
@@ -168,29 +160,20 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
         {
             var result = new List<ClassInfo>();
 
-            var fullClassName = OdbClassNameResolver.GetFullName(type);
-            var theClass = type;
-
-            CheckList(fullClassName, result, theClass, _rapidAccessForClassesByName);
-
-            return result;
-        }
-
-        private void CheckList(string fullClassName, ICollection<ClassInfo> result, Type theClass, IDictionary<string, ClassInfo> listToCheck)
-        {
-            foreach (var userClass in listToCheck.Keys)
+            foreach (var userClass in _rapidAccessForClassesByName.Keys)
             {
-                if (userClass.Equals(fullClassName))
+                if (userClass == type)
                 {
                     result.Add(GetClassInfo(userClass, true));
                 }
                 else
                 {
-                    var oneClass = TypeResolutionUtils.ResolveType(userClass);
-                    if (theClass.GetTypeInfo().IsAssignableFrom(oneClass.GetTypeInfo()))
+                    if (theClass.GetTypeInfo().IsAssignableFrom(userClass.GetTypeInfo()))
                         result.Add(GetClassInfo(userClass, true));
                 }
             }
+
+            return result;
         }
     }
 }

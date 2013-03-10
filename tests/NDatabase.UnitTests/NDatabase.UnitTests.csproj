@@ -89,6 +89,7 @@
     <Compile Include="Metadata\When_we_are_inspecting_array.cs" />
     <Compile Include="Metadata\When_we_are_inspecting_enum.cs" />
     <Compile Include="Metadata\When_we_are_inspecting_null.cs" />
+    <Compile Include="Metadata\When_we_are_using_meta_model.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Refactor\TypeToRefactor.cs" />
     <Compile Include="Refactor\When_we_are_using_refactor_manager_to_add_field.cs" />
