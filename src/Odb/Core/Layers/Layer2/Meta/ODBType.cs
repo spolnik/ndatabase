@@ -288,15 +288,20 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 
             if (type1.IsArray() && type2.IsArray())
                 return TypesAreCompatible(type1.SubType, type2.SubType);
+
             if (type1.Name.Equals(type2.Name))
                 return true;
+
+            if (type1.IsEnum() && type2.IsEnum())
+                return type1.GetNativeClass() == type2.GetNativeClass();
+
             if (type1.IsNative() && type2.IsNative())
                 return type1.IsEquivalent(type2);
+
             if (type1.IsNonNative() && type2.IsNonNative())
-            {
                 return (type1.GetNativeClass() == type2.GetNativeClass()) ||
                        (type1.GetNativeClass().IsAssignableFrom(type2.GetNativeClass()));
-            }
+
             return false;
         }
 
