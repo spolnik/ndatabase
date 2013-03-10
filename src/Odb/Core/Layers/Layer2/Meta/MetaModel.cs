@@ -60,11 +60,6 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
             return _existingClasses.Contains(type);
         }
 
-        public override string ToString()
-        {
-            return string.Format("{0}", _rapidAccessForClassesByName.Values);
-        }
-
         public IEnumerable<ClassInfo> GetAllClasses()
         {
             return _allClassInfos;
