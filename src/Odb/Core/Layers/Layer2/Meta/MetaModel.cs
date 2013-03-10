@@ -168,7 +168,7 @@ namespace NDatabase.Odb.Core.Layers.Layer2.Meta
                 }
                 else
                 {
-                    if (theClass.GetTypeInfo().IsAssignableFrom(userClass.GetTypeInfo()))
+                    if (type.GetTypeInfo().IsAssignableFrom(userClass.GetTypeInfo()))
                         result.Add(GetClassInfo(userClass, true));
                 }
             }
