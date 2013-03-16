@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 
 namespace NDatabase.Odb
 {
@@ -18,6 +20,8 @@ namespace NDatabase.Odb
         /// <returns>IOdb.</returns>
         public static IOdb Open(string fileName)
         {
+            Monitor.Enter(string.Intern(Path.GetFullPath(fileName)));
+            
             _last = fileName;
             return Main.Odb.GetInstance(fileName);
         }
@@ -28,7 +32,7 @@ namespace NDatabase.Odb
         /// <returns>IOdb.</returns>
         public static IOdb OpenLast()
         {
-            return Main.Odb.GetInstance(_last);
+            return Open(_last);
         }
 
         /// <summary>
@@ -46,10 +50,13 @@ namespace NDatabase.Odb
         /// <param name="fileName">Name of the file.</param>
         public static void Delete(string fileName)
         {
-            if (!File.Exists(fileName))
-                return;
+            lock (string.Intern(Path.GetFullPath(fileName)))
+            {
+                if (!File.Exists(fileName))
+                    return;
 
-            File.Delete(fileName);
+                File.Delete(fileName);
+            }
         }
     }
 }
