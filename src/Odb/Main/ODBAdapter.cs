@@ -1,3 +1,5 @@
+using System.IO;
+using System.Threading;
 using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer3;
@@ -154,7 +156,18 @@ namespace NDatabase.Odb.Main
 
         public void Dispose()
         {
-            Close();
+            try
+            {
+                Close();
+            }
+            finally
+            {
+                if (_storageEngine.GetBaseIdentification() is FileIdentification)
+                {
+                    var fileName = _storageEngine.GetBaseIdentification().FileName;
+                    Monitor.Exit(string.Intern(Path.GetFullPath(fileName)));    
+                }
+            }
         }
 
         #endregion

@@ -73,6 +73,7 @@
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\IObjectIntrospectionDataProvider.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\FileSystemReader.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\IFileSystemReader.cs" />
+    <Compile Include="Odb\Core\Layers\Layer3\IO\OdbFileManager.cs" />
     <Compile Include="Odb\Core\Transaction\SessionDataProvider.cs" />
     <Compile Include="Odb\Core\Layers\Layer2\Meta\IMetaModel.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\InMemoryIdentification.cs" />
