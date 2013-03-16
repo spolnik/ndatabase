@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using System.Threading;
 using NDatabase.Compability;
 using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
@@ -54,43 +56,52 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         /// </summary>
         public StorageEngine(IDbIdentification parameters)
         {
-            DbIdentification = parameters;
-            IsDbClosed = false;
+            try
+            {
+                DbIdentification = parameters;
+                IsDbClosed = false;
 
-            var isNewDatabase = DbIdentification.IsNew();
+                var isNewDatabase = DbIdentification.IsNew();
             
-            var session = BuildDefaultSession();
+                var session = BuildDefaultSession();
 
-            // Object Writer must be created before object Reader
-            _objectWriter = new ObjectWriter(this);
+                // Object Writer must be created before object Reader
+                _objectWriter = new ObjectWriter(this);
 
-            ObjectReader = new ObjectReader(this);
+                ObjectReader = new ObjectReader(this);
 
-            // Associate current session to the fsi -> all transaction writes
-            // will be applied to this FileSystemInterface
-            session.SetFileSystemInterfaceToApplyTransaction(_objectWriter.FileSystemProcessor.FileSystemInterface);
+                // Associate current session to the fsi -> all transaction writes
+                // will be applied to this FileSystemInterface
+                session.SetFileSystemInterfaceToApplyTransaction(_objectWriter.FileSystemProcessor.FileSystemInterface);
 
-            _objectIntrospectionDataProvider = new SessionDataProvider(session);
+                _objectIntrospectionDataProvider = new SessionDataProvider(session);
 
-            if (isNewDatabase)
-            {
-                _objectWriter.CreateEmptyDatabaseHeader(OdbTime.GetCurrentTimeInTicks());
+                if (isNewDatabase)
+                {
+                    _objectWriter.CreateEmptyDatabaseHeader(OdbTime.GetCurrentTimeInTicks());
+                }
+                else
+                {
+                    GetObjectReader().ReadDatabaseHeader();
+                }
+                _objectWriter.AfterInit();
+                _objectIntrospector = new ObjectIntrospector(ClassInfoProvider);
+                _triggerManager = GetLocalTriggerManager();
+                // This forces the initialization of the meta model
+                var metaModel = GetMetaModel();
+
+                MetaModelCompabilityChecker.Check(ClassIntrospector.Instrospect(metaModel.GetAllClasses()), GetMetaModel(), UpdateMetaModel);
+
+                _objectWriter.SetTriggerManager(_triggerManager);
+                _introspectionCallbackForInsert = new InstrumentationCallbackForStore(_triggerManager, false);
+                _introspectionCallbackForUpdate = new InstrumentationCallbackForStore(_triggerManager, true);
             }
-            else
+            catch
             {
-                GetObjectReader().ReadDatabaseHeader();
+                if (parameters is FileIdentification)
+                    Monitor.Exit(string.Intern(Path.GetFullPath(parameters.FileName)));
+                throw;
             }
-            _objectWriter.AfterInit();
-            _objectIntrospector = new ObjectIntrospector(ClassInfoProvider);
-            _triggerManager = GetLocalTriggerManager();
-            // This forces the initialization of the meta model
-            var metaModel = GetMetaModel();
-
-            MetaModelCompabilityChecker.Check(ClassIntrospector.Instrospect(metaModel.GetAllClasses()), GetMetaModel(), UpdateMetaModel);
-
-            _objectWriter.SetTriggerManager(_triggerManager);
-            _introspectionCallbackForInsert = new InstrumentationCallbackForStore(_triggerManager, false);
-            _introspectionCallbackForUpdate = new InstrumentationCallbackForStore(_triggerManager, true);
         }
 
         public override IObjectIntrospectionDataProvider ClassInfoProvider

@@ -6,7 +6,6 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
 {
     internal sealed class OdbFileStream : IOdbStream
     {
-        private const int DefaultBufferSize = 4096*2;
         private readonly object _lockObject = new object();
         private bool _disposed;
 
@@ -17,14 +16,16 @@ namespace NDatabase.Odb.Core.Layers.Layer3.IO
         {
             try
             {
-                _fileAccess = new FileStream(wholeFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read,
-                                             DefaultBufferSize, FileOptions.RandomAccess);
+                _fileAccess = OdbFileManager.GetStream(wholeFileName);
                 _disposed = false;
+            }
+            catch (OdbRuntimeException)
+            {
+                throw;
             }
             catch (IOException e)
             {
-                throw new OdbRuntimeException(NDatabaseError.FileNotFoundOrItIsAlreadyUsed.AddParameter(wholeFileName),
-                                              e);
+                throw new OdbRuntimeException(NDatabaseError.FileNotFoundOrItIsAlreadyUsed.AddParameter(wholeFileName), e);
             }
             catch (Exception ex)
             {

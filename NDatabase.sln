@@ -59,6 +59,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDatabase.TodoList.Domain",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDatabase.Sample.WCF.TodoListApp", "Samples\WCF\NDatabase.Sample.WCF.TodoListApp\NDatabase.Sample.WCF.TodoListApp.csproj", "{842D29F6-C9DC-4168-A655-09CFB605218A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDatabase.Multithreading.Tester", "tools\NDatabase.Multithreading.Tester\NDatabase.Multithreading.Tester.csproj", "{5AAD6E38-D132-48E1-9449-7FFF372A01D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -393,6 +395,16 @@ Global
 		{842D29F6-C9DC-4168-A655-09CFB605218A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{842D29F6-C9DC-4168-A655-09CFB605218A}.Release|x64.ActiveCfg = Release|Any CPU
 		{842D29F6-C9DC-4168-A655-09CFB605218A}.Release|x86.ActiveCfg = Release|Any CPU
+		{5AAD6E38-D132-48E1-9449-7FFF372A01D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AAD6E38-D132-48E1-9449-7FFF372A01D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AAD6E38-D132-48E1-9449-7FFF372A01D9}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5AAD6E38-D132-48E1-9449-7FFF372A01D9}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5AAD6E38-D132-48E1-9449-7FFF372A01D9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5AAD6E38-D132-48E1-9449-7FFF372A01D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AAD6E38-D132-48E1-9449-7FFF372A01D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AAD6E38-D132-48E1-9449-7FFF372A01D9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5AAD6E38-D132-48E1-9449-7FFF372A01D9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{5AAD6E38-D132-48E1-9449-7FFF372A01D9}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -408,6 +420,7 @@ Global
 		{E58257BE-7CF9-4471-9E5E-99510FF70637} = {E69C9239-6AB1-45D8-A666-ECF1425552E2}
 		{919C155D-0E1F-49BF-8659-659E391CEE9F} = {E69C9239-6AB1-45D8-A666-ECF1425552E2}
 		{54D2F3D5-A7FC-4E36-AEEB-E542C088FFBE} = {E69C9239-6AB1-45D8-A666-ECF1425552E2}
+		{5AAD6E38-D132-48E1-9449-7FFF372A01D9} = {E69C9239-6AB1-45D8-A666-ECF1425552E2}
 		{B16F02BD-F24F-40B6-AE07-E14421B7286D} = {37B33591-CDBA-4AF2-9F7F-E808FEFD43E2}
 		{5A459084-4E4A-4481-A285-842ECF8915F1} = {37B33591-CDBA-4AF2-9F7F-E808FEFD43E2}
 		{466EF1E7-9D62-4146-B9B5-E9B5AD7A04DB} = {37B33591-CDBA-4AF2-9F7F-E808FEFD43E2}
@@ -432,6 +445,6 @@ Global
 		$1.ResourceNamePolicy = FileFormatDefault
 	EndGlobalSection
 	GlobalSection(NDepend) = preSolution
-		Project = ".\NDatabase.ndproj"
+		Project = ""
 	EndGlobalSection
 EndGlobal
