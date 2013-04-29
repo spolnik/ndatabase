@@ -1,4 +1,5 @@
 ﻿using NDatabase.Client.UnitTests.Data;
+using NDatabase.Exceptions;
 using NDatabase.Odb;
 using NUnit.Framework;
 
@@ -202,6 +203,24 @@ namespace NDatabase.Client.UnitTests.Transactions
                 Assert.That(item.Name, Is.EqualTo("ghi"));
                 Assert.That(item.Value, Is.EqualTo(3));
             }
+        }
+
+        [Test]
+        public void Using_statement_doesnt_commit_stored_objects_if_rollback_2()
+        {
+            var simpleClass = new SimpleClass();
+            simpleClass.Name = "abc";
+            simpleClass.Value = 3;
+
+            Assert.That(() =>
+                            {
+                                using (var odb = OdbFactory.Open(DbName))
+                                {
+                                    odb.Store(simpleClass);
+                                    odb.Rollback();
+                                    odb.Store(simpleClass);
+                                }
+                            }, Throws.InstanceOf<OdbRuntimeException>());
         }
     }
 }

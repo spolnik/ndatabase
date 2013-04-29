@@ -45,6 +45,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -55,6 +56,7 @@
     <Compile Include="Base\When_we_store_nullable_types.cs" />
     <Compile Include="Bugs\Compability\When_storing_the_same_class_with_different_versions.cs" />
     <Compile Include="Bugs\Index\When_we_use_index_on_invariant_equal_criteria.cs" />
+    <Compile Include="Bugs\When_storing_bitmap.cs" />
     <Compile Include="Bugs\When_storing_class_which_has_reference_to_itself.cs" />
     <Compile Include="Bugs\When_storing_null_references.cs" />
     <Compile Include="Bugs\When_storing_unsigned_int_long_short_or_signed_byte.cs" />
@@ -127,6 +129,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ndatabase.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="product_box.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

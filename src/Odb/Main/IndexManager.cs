@@ -1,3 +1,4 @@
+using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3;
 
@@ -19,11 +20,19 @@ namespace NDatabase.Odb.Main
 
         public void AddUniqueIndexOn(string indexName, params string[] indexFields)
         {
+            if (indexFields.Length == 0)
+                throw new OdbRuntimeException(
+                    NDatabaseError.InternalError.AddParameter("Index has to have at least one field"));
+
             _storageEngine.AddIndexOn(_classInfo.FullClassName, indexName, indexFields, false);
         }
 
         public void AddIndexOn(string indexName, params string[] indexFields)
         {
+            if (indexFields.Length == 0)
+                throw new OdbRuntimeException(
+                    NDatabaseError.InternalError.AddParameter("Index has to have at least one field"));
+
             _storageEngine.AddIndexOn(_classInfo.FullClassName, indexName, indexFields, true);
         }
 

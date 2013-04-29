@@ -53,6 +53,7 @@
     <Compile Include="Data\Items\NoItem.cs" />
     <Compile Include="Data\Items\Sword.cs" />
     <Compile Include="Data\SimpleClass.cs" />
+    <Compile Include="Indexes\Indexes_TestCase.cs" />
     <Compile Include="InMemory\When_we_use_ndatabase_as_in_memory_db.cs" />
     <Compile Include="Misc\TestCase_OdbConfiguration.cs" />
     <Compile Include="Paging\Paging_TestCase.cs" />
