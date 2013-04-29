@@ -12,6 +12,7 @@ using NDatabase.Odb.Core.Transaction;
 using NDatabase.Odb.Core.Trigger;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
+using System.Linq;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
@@ -406,7 +407,9 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 
             var metaModel = GetMetaModel();
 
-            foreach (var userClass in metaModel.GetAllClasses())
+            var storedClasses = metaModel.GetAllClasses().ToList();
+
+            foreach (var userClass in storedClasses)
                 _objectWriter.UpdateClassInfo(userClass, true);
         }
 
