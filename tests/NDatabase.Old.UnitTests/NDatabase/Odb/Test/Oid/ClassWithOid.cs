@@ -1,3 +1,4 @@
+using NDatabase.Api;
 using NDatabase.Odb;
 
 namespace Test.NDatabase.Odb.Test.Oid

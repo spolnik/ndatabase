@@ -1,4 +1,5 @@
 using System;
+using NDatabase.Api.Query;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Query.Criteria.Evaluations;
 using NDatabase.Tool.Wrappers;

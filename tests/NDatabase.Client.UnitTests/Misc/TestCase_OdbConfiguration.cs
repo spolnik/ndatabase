@@ -1,4 +1,5 @@
-﻿using NDatabase.Odb;
+﻿using NDatabase.Api;
+using NDatabase.Odb;
 using NUnit.Framework;
 
 namespace NDatabase.Client.UnitTests.Misc

@@ -1,5 +1,7 @@
 ﻿using System;
 using Moq;
+using NDatabase.Api;
+using NDatabase.Api.Triggers;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Trigger;

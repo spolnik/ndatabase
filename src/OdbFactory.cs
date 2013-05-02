@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Threading;
+using NDatabase.Api;
 using NDatabase.Compability;
 using NDatabase.Container;
 using NDatabase.Odb;

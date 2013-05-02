@@ -1,5 +1,6 @@
 using System;
 using NDatabase;
+using NDatabase.Api.Query;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Tool.Wrappers;

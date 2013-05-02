@@ -1,3 +1,5 @@
+using NDatabase.Api;
+
 namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
     internal sealed class CurrentIdBlockInfo

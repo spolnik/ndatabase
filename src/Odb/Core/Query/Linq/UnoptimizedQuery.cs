@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using NDatabase.Api.Query;
 
 namespace NDatabase.Odb.Core.Query.Linq
 {

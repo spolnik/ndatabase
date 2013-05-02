@@ -1,4 +1,5 @@
 using System;
+using NDatabase.Api;
 using NDatabase.Odb;
 using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Oid;

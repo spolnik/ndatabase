@@ -1,5 +1,8 @@
 using System.IO;
 using System.Threading;
+using NDatabase.Api;
+using NDatabase.Api.Query;
+using NDatabase.Api.Triggers;
 using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer3;

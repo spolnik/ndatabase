@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NDatabase.Api.Query;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Tool.Wrappers;
 

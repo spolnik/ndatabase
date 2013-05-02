@@ -1,3 +1,4 @@
+using NDatabase.Api;
 using NDatabase.Odb.Core.Oid;
 
 namespace NDatabase.Odb.Core

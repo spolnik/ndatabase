@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using NDatabase.Api;
 using NDatabase.Odb;
 using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Oid;

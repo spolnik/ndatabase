@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using NDatabase.Api.Query;
 
 namespace NDatabase.Odb.Core.Query.Linq
 {

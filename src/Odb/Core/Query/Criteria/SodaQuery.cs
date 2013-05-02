@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using NDatabase.Api;
+using NDatabase.Api.Query;
 using NDatabase.Common;
 using NDatabase.Tool.Wrappers;
 

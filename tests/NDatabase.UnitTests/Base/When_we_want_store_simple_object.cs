@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using NDatabase.Api;
 using NDatabase.Odb;
 using NDatabase.UnitTests.TestData;
 using NUnit.Framework;

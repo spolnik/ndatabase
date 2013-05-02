@@ -1,4 +1,5 @@
 using System.Text;
+using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Query
 {

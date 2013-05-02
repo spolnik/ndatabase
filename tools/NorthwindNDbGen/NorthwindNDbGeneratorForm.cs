@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using NDatabase.Api;
 using NDatabase.Northwind.Domain;
 using NDatabase.Northwind.Generator.NorthwindDataSetTableAdapters;
 using NDatabase.Odb;

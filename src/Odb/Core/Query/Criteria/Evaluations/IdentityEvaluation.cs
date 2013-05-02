@@ -1,4 +1,6 @@
 using System;
+using NDatabase.Api;
+using NDatabase.Api.Query;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
 namespace NDatabase.Odb.Core.Query.Criteria.Evaluations

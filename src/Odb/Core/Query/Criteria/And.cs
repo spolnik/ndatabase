@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Text;
+using NDatabase.Api.Query;
 
 namespace NDatabase.Odb.Core.Query.Criteria
 {

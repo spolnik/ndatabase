@@ -1,4 +1,6 @@
 using System;
+using NDatabase.Api;
+using NDatabase.Api.Triggers;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Trigger;
 

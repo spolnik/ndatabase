@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using NDatabase.Api;
 using NDatabase.Btree;
 using NDatabase.Common;
 using NDatabase.Exceptions;
+using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Query.List
 {

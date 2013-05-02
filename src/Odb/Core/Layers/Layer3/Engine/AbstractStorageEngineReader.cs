@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using NDatabase.Api;
+using NDatabase.Api.Query;
+using NDatabase.Api.Triggers;
 using NDatabase.Btree;
 using NDatabase.Container;
 using NDatabase.Exceptions;

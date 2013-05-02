@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using NDatabase.Api;
+using NDatabase.Api.Triggers;
 using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3;
@@ -13,22 +15,22 @@ namespace NDatabase.Odb.Core.Trigger
         /// <summary>
         ///   key is class Name, value is the collection of triggers for the class
         /// </summary>
-        private readonly IDictionary<Type, IOdbList<Trigger>> _listOfDeleteTriggers = new OdbHashMap<Type, IOdbList<Trigger>>();
+        private readonly IDictionary<Type, IOdbList<Api.Triggers.Trigger>> _listOfDeleteTriggers = new OdbHashMap<Type, IOdbList<Api.Triggers.Trigger>>();
 
         /// <summary>
         ///   key is class Name, value is the collection of triggers for the class
         /// </summary>
-        private readonly IDictionary<Type, IOdbList<Trigger>> _listOfInsertTriggers = new OdbHashMap<Type, IOdbList<Trigger>>();
+        private readonly IDictionary<Type, IOdbList<Api.Triggers.Trigger>> _listOfInsertTriggers = new OdbHashMap<Type, IOdbList<Api.Triggers.Trigger>>();
 
         /// <summary>
         ///   key is class Name, value is the collection of triggers for the class
         /// </summary>
-        private readonly IDictionary<Type, IOdbList<Trigger>> _listOfSelectTriggers = new OdbHashMap<Type, IOdbList<Trigger>>();
+        private readonly IDictionary<Type, IOdbList<Api.Triggers.Trigger>> _listOfSelectTriggers = new OdbHashMap<Type, IOdbList<Api.Triggers.Trigger>>();
 
         /// <summary>
         ///   key is class Name, value is the collection of triggers for the class
         /// </summary>
-        private readonly IDictionary<Type, IOdbList<Trigger>> _listOfUpdateTriggers = new OdbHashMap<Type, IOdbList<Trigger>>();
+        private readonly IDictionary<Type, IOdbList<Api.Triggers.Trigger>> _listOfUpdateTriggers = new OdbHashMap<Type, IOdbList<Api.Triggers.Trigger>>();
 
         private readonly IStorageEngine _storageEngine;
 
@@ -250,42 +252,42 @@ namespace NDatabase.Odb.Core.Trigger
         }
 
         private static void AddTriggerFor<TTrigger>(Type type, TTrigger trigger,
-                                                    IDictionary<Type, IOdbList<Trigger>> listOfTriggers)
-            where TTrigger : Trigger
+                                                    IDictionary<Type, IOdbList<Api.Triggers.Trigger>> listOfTriggers)
+            where TTrigger : Api.Triggers.Trigger
         {
             var triggers = listOfTriggers[type];
 
             if (triggers == null)
             {
-                triggers = new OdbList<Trigger>();
+                triggers = new OdbList<Api.Triggers.Trigger>();
                 listOfTriggers.Add(type, triggers);
             }
 
             triggers.Add(trigger);
         }
 
-        private IEnumerable<Trigger> GetListOfDeleteTriggersFor(Type type)
+        private IEnumerable<Api.Triggers.Trigger> GetListOfDeleteTriggersFor(Type type)
         {
             return GetListOfTriggersFor(type, _listOfDeleteTriggers);
         }
 
-        private IEnumerable<Trigger> GetListOfInsertTriggersFor(Type type)
+        private IEnumerable<Api.Triggers.Trigger> GetListOfInsertTriggersFor(Type type)
         {
             return GetListOfTriggersFor(type, _listOfInsertTriggers);
         }
 
-        private IEnumerable<Trigger> GetListOfSelectTriggersFor(Type type)
+        private IEnumerable<Api.Triggers.Trigger> GetListOfSelectTriggersFor(Type type)
         {
             return GetListOfTriggersFor(type, _listOfSelectTriggers);
         }
 
-        private IEnumerable<Trigger> GetListOfUpdateTriggersFor(Type type)
+        private IEnumerable<Api.Triggers.Trigger> GetListOfUpdateTriggersFor(Type type)
         {
             return GetListOfTriggersFor(type, _listOfUpdateTriggers);
         }
 
-        private static IEnumerable<Trigger> GetListOfTriggersFor(Type type,
-                                                                 IDictionary<Type, IOdbList<Trigger>> listOfTriggers)
+        private static IEnumerable<Api.Triggers.Trigger> GetListOfTriggersFor(Type type,
+                                                                 IDictionary<Type, IOdbList<Api.Triggers.Trigger>> listOfTriggers)
         {
             var listOfTriggersByClassName = listOfTriggers[type];
             var listOfTriggersByAllClassTrigger = listOfTriggers[typeof (object)];
@@ -296,7 +298,7 @@ namespace NDatabase.Odb.Core.Trigger
                 if (listOfTriggersByClassName != null)
                     size = size + listOfTriggersByClassName.Count;
 
-                var listOfTriggersToReturn = new OdbList<Trigger>(size);
+                var listOfTriggersToReturn = new OdbList<Api.Triggers.Trigger>(size);
 
                 if (listOfTriggersByClassName != null)
                 {

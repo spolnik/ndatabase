@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using NDatabase.Api.Query;
 
 namespace NDatabase.Odb.Core.Query.Linq
 {

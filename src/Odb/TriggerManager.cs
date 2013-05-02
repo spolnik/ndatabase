@@ -1,4 +1,5 @@
 using System;
+using NDatabase.Api.Triggers;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Trigger;
 

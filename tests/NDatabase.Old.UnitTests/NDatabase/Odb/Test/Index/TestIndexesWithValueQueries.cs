@@ -1,3 +1,4 @@
+using NDatabase.Api;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Query;
 using NUnit.Framework;

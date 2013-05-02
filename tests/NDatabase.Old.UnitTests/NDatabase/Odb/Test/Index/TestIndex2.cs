@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using NDatabase;
+using NDatabase.Api.Query;
 using NDatabase.Exceptions;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Query;

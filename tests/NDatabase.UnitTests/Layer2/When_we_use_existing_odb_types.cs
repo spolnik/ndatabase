@@ -1,5 +1,5 @@
 ﻿using System;
-using NDatabase.Odb;
+using NDatabase.Api;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Oid;
 using NUnit.Framework;
@@ -276,7 +276,7 @@ namespace NDatabase.UnitTests.Layer2
             var odbType = OdbType.Oid;
 
             Assert.That(odbType.Id, Is.EqualTo(OdbType.OidId));
-            Assert.That(odbType.Name, Is.StringStarting("NDatabase.Odb.OID"));
+            Assert.That(odbType.Name, Is.StringStarting("NDatabase.Api.OID"));
             Assert.That(odbType.Size, Is.EqualTo(0));
             Assert.That(odbType.SubType, Is.Null);
             Assert.That(odbType.GetNativeClass(), Is.EqualTo(typeof (OID)));

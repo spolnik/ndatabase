@@ -1,3 +1,4 @@
+using NDatabase.Api;
 using NDatabase.Odb;
 using NUnit.Framework;
 

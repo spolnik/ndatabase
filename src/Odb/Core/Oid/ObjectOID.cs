@@ -1,3 +1,5 @@
+using NDatabase.Api;
+
 namespace NDatabase.Odb.Core.Oid
 {
     internal class ObjectOID : BaseOID

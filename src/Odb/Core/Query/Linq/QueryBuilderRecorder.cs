@@ -1,4 +1,5 @@
 using System;
+using NDatabase.Api.Query;
 
 namespace NDatabase.Odb.Core.Query.Linq
 {

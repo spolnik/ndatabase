@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using NDatabase.Api;
+using NDatabase.Api.Query;
 using NDatabase.Client.UnitTests.Data.Heroes;
 using NDatabase.Client.UnitTests.Data.Items;
 using NDatabase.Exceptions;

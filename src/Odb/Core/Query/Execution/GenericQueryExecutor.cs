@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using NDatabase.Api;
+using NDatabase.Api.Query;
 using NDatabase.Btree;
 using NDatabase.Exceptions;
 using NDatabase.Odb.Core.BTree;
@@ -9,6 +11,7 @@ using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Tool;
+using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Query.Execution
 {

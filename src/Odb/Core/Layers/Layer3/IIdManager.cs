@@ -1,3 +1,5 @@
+using NDatabase.Api;
+
 namespace NDatabase.Odb.Core.Layers.Layer3
 {
     internal interface IIdManager

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using NDatabase;
+using NDatabase.Api.Query;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer2;
 using NDatabase.Odb.Core.Query;

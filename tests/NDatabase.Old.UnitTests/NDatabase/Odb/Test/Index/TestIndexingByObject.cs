@@ -1,4 +1,6 @@
 using System;
+using NDatabase.Api;
+using NDatabase.Api.Query;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Query;

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NDatabase.Api.Query;
 using NDatabase.Odb.Core.Query.Execution;
 
 namespace NDatabase.Odb.Core.Query

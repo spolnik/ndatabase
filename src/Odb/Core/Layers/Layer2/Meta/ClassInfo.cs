@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NDatabase.Api;
 using NDatabase.Exceptions;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;

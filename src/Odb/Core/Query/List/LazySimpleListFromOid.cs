@@ -1,4 +1,5 @@
 using System;
+using NDatabase.Api;
 using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Tool.Wrappers;

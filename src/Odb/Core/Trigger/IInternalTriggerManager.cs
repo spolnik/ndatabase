@@ -1,4 +1,6 @@
 using System;
+using NDatabase.Api;
+using NDatabase.Api.Triggers;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 
 namespace NDatabase.Odb.Core.Trigger
