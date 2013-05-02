@@ -4,12 +4,14 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using NDatabase.Compability;
+using NDatabase.Container;
 using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Odb.Core.Transaction;
 using NDatabase.Odb.Core.Trigger;
+using NDatabase.Services;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
 using System.Linq;
@@ -59,6 +61,8 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
         {
             try
             {
+                var metaModelCompabilityChecker = DependencyContainer.Resolve<IMetaModelCompabilityChecker>();
+
                 DbIdentification = parameters;
                 IsDbClosed = false;
 
@@ -91,7 +95,10 @@ namespace NDatabase.Odb.Core.Layers.Layer3.Engine
                 // This forces the initialization of the meta model
                 var metaModel = GetMetaModel();
 
-                MetaModelCompabilityChecker.Check(ClassIntrospector.Instrospect(metaModel.GetAllClasses()), GetMetaModel(), UpdateMetaModel);
+                var shouldUpdate = metaModelCompabilityChecker.Check(ClassIntrospector.Instrospect(metaModel.GetAllClasses()), GetMetaModel());
+
+                if (shouldUpdate)
+                    UpdateMetaModel();
 
                 _objectWriter.SetTriggerManager(_triggerManager);
                 _introspectionCallbackForInsert = new InstrumentationCallbackForStore(_triggerManager, false);

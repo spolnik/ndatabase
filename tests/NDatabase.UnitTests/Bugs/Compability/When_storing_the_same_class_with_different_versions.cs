@@ -27,9 +27,12 @@ namespace NDatabase.UnitTests.Bugs.Compability
             var classInfo2 = new ClassInfo(key) {Attributes = new OdbList<ClassAttributeInfo>()};
             currentCIs.Add(key, classInfo2);
 
-            MetaModelCompabilityChecker.Check(currentCIs, metaModelMock.Object, Assert.Fail);
+            var shouldUpdate = new MetaModelCompabilityChecker().Check(currentCIs, metaModelMock.Object);
 
-            Assert.Pass();
+            if (shouldUpdate)
+                Assert.Fail();
+            else
+                Assert.Pass();
         }
     }
 }

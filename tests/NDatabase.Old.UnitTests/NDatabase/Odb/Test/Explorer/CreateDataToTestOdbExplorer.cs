@@ -1,4 +1,5 @@
 using System;
+using NDatabase;
 using NDatabase.Odb;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;

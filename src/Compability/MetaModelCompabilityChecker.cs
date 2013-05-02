@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;
+using NDatabase.Services;
 using NDatabase.Tool;
 
 namespace NDatabase.Compability
 {
-    internal class MetaModelCompabilityChecker
+    internal class MetaModelCompabilityChecker : IMetaModelCompabilityChecker
     {
         /// <summary>
         ///     Receive the current class info (loaded from current classes present on runtime and check against the persisted meta model
         /// </summary>
-        internal static void Check(IDictionary<Type, ClassInfo> currentCIs, IMetaModel metaModel,
-                                   Action updateMetaModel)
+        public bool Check(IDictionary<Type, ClassInfo> currentCIs, IMetaModelService metaModelService)
         {
             var checkMetaModelResult = new CheckMetaModelResult();
 
-            foreach (var persistedCI in metaModel.GetAllClasses())
+            foreach (var persistedCI in metaModelService.GetAllClasses())
                 CheckClass(currentCIs, persistedCI, checkMetaModelResult);
 
             for (var i = 0; i < checkMetaModelResult.Size(); i++)
@@ -27,10 +27,7 @@ namespace NDatabase.Compability
                 DLogger.Info("MetaModelCompabilityChecker: " + result);
             }
 
-            if (checkMetaModelResult.GetResults().Count == 0)
-                return;
-
-            updateMetaModel();
+            return checkMetaModelResult.GetResults().Count != 0;
         }
 
         private static void CheckClass(IDictionary<Type, ClassInfo> currentCIs, ClassInfo persistedCI, CheckMetaModelResult checkMetaModelResult)

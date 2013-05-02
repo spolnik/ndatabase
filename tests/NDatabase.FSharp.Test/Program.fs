@@ -9,13 +9,13 @@ type Person = { FirstName:string; LastName:string; Age:int }
 let main argv = 
     let p1 = { FirstName = "Jacek"; LastName = "Spolnik"; Age = 25 } 
 
-    let odb = NDatabase.Odb.OdbFactory.Open("fsharp.ndb")
+    let odb = NDatabase.OdbFactory.Open("fsharp.ndb")
 
     let oid = odb.Store(p1)
 
     odb.Dispose()
 
-    let odb = NDatabase.Odb.OdbFactory.Open("fsharp.ndb")
+    let odb = NDatabase.OdbFactory.Open("fsharp.ndb")
 
     let result = odb.QueryAndExecute<Person>().GetFirst()
 

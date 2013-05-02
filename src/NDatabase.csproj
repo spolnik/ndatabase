@@ -44,7 +44,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Btree\AbstractBTreeIterator.cs" />
+    <Compile Include="Services\IMetaModelService.cs" />
+    <Compile Include="Services\IMetaModelCompabilityChecker.cs" />
     <Compile Include="Compability\MetaModelCompabilityChecker.cs" />
+    <Compile Include="Container\IDependencyContainer.cs" />
     <Compile Include="Exceptions\BTreeError.cs" />
     <Compile Include="Btree\BTreeIteratorMultipleValuesPerKey.cs" />
     <Compile Include="Btree\BTreeIteratorSingleValuePerKey.cs" />
@@ -71,7 +74,6 @@
     <Compile Include="Btree\BTreeNodeSingleValuePerKey.cs" />
     <Compile Include="Btree\BTreeSingleValuePerKey.cs" />
     <Compile Include="Btree\BTreeValidator.cs" />
-    <Compile Include="Exceptions\StringErrorMessageHelper.cs" />
     <Compile Include="Odb\Core\Layers\Layer1\Introspector\IObjectIntrospectionDataProvider.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\FileSystemReader.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\IFileSystemReader.cs" />
@@ -291,7 +293,7 @@
     <Compile Include="Odb\BaseOID.cs" />
     <Compile Include="Odb\OdbConfiguration.cs" />
     <Compile Include="Odb\IOdbExt.cs" />
-    <Compile Include="Odb\OdbFactory.cs" />
+    <Compile Include="OdbFactory.cs" />
     <Compile Include="Exceptions\ODBRuntimeException.cs" />
     <Compile Include="Odb\OID.cs" />
     <Compile Include="Odb\TriggerManager.cs" />
@@ -346,6 +348,7 @@
   <ItemGroup>
     <None Include="ndatabase.snk" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>echo POSTBUILDSTEP for $(ProjectName)

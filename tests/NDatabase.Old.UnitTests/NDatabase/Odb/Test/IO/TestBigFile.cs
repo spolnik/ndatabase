@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using NDatabase;
 using NDatabase.Odb;
 using NDatabase.Odb.Core.Query;
 using NDatabase.Tool.Wrappers;

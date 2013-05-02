@@ -1,4 +1,5 @@
 using System;
+using NDatabase;
 using NDatabase.Btree;
 using NDatabase.Exceptions;
 using NDatabase.Odb;

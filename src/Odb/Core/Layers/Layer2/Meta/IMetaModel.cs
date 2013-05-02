@@ -1,15 +1,14 @@
 using System;
 using System.Collections.Generic;
+using NDatabase.Services;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta
 {
-    internal interface IMetaModel
+    internal interface IMetaModel : IMetaModelService
     {
         void AddClass(ClassInfo classInfo);
         
         bool ExistClass(Type type);
-        
-        IEnumerable<ClassInfo> GetAllClasses();
 
         int GetNumberOfClasses();
 

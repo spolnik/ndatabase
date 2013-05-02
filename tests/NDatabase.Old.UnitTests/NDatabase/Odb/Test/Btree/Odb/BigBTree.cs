@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using NDatabase;
 using NDatabase.Btree;
 using NDatabase.Common;
 using NDatabase.Odb;
