@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using NDatabase.Btree;
-using NDatabase.Compability;
 using NDatabase.Container;
 using NDatabase.Exceptions;
 using NDatabase.Odb.Core.BTree;

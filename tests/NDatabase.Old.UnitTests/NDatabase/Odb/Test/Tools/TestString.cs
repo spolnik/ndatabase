@@ -12,7 +12,7 @@ namespace Test.NDatabase.Odb.Test.Tools
         public virtual void Test4()
         {
             var s = "ola $1 ola $2";
-            s = OdbString.ReplaceToken(s, "$", "param", 1);
+            s = ExceptionsHelper.ReplaceToken(s, "$", "param", 1);
             AssertEquals("ola param1 ola $2", s);
         }
 
@@ -20,7 +20,7 @@ namespace Test.NDatabase.Odb.Test.Tools
         public virtual void Test6()
         {
             var s = "ola $1 ola $2 ola $3 ola $4";
-            s = OdbString.ReplaceToken(s, "$", "param", 2);
+            s = ExceptionsHelper.ReplaceToken(s, "$", "param", 2);
             AssertEquals("ola param1 ola param2 ola $3 ola $4", s);
         }
 

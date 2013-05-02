@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Btree\AbstractBTreeIterator.cs" />
+    <Compile Include="Exceptions\ExceptionsHelper.cs" />
     <Compile Include="Services\IMetaModelService.cs" />
     <Compile Include="Services\IMetaModelCompabilityChecker.cs" />
     <Compile Include="Compability\MetaModelCompabilityChecker.cs" />
@@ -155,7 +156,6 @@
     <Compile Include="Odb\Core\Layers\Layer3\Engine\IFileSystemWriter.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\StorageEngine.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\AbstractStorageEngineReader.cs" />
-    <Compile Include="Odb\Core\Layers\Layer3\Engine\CheckMetaModelResult.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\Engine\FileSystemInterface.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IFileSystemInterface.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IDbIdentification.cs" />

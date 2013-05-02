@@ -90,7 +90,7 @@ namespace NDatabase.Exceptions
                     var parameterIndex = token.IndexOf(parameterName, StringComparison.Ordinal);
 
                     if (parameterIndex != -1)
-                        token = OdbString.ReplaceToken(token, parameterName, parameterValue, 1);
+                        token = ExceptionsHelper.ReplaceToken(token, parameterName, parameterValue, 1);
                 }
             }
 
