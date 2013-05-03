@@ -6,6 +6,7 @@ using NDatabase.Api.Triggers;
 using NDatabase.Btree;
 using NDatabase.Core.BTree;
 using NDatabase.Core.Query.Criteria;
+using NDatabase.Core.Query.Values;
 using NDatabase.Core.Session;
 using NDatabase.Exceptions;
 using NDatabase.IO;
@@ -57,6 +58,18 @@ namespace NDatabase.Core.Engine
             triggerManager = new InternalTriggerManager(this);
             TriggerManagers[this] = triggerManager;
             return triggerManager;
+        }
+
+        public long Count(Type underlyingType, IConstraint constraint)
+        {
+            var valuesCriteriaQuery = new ValuesCriteriaQuery(underlyingType);
+            valuesCriteriaQuery.Add(constraint);
+
+            var valuesQuery = valuesCriteriaQuery.Count("count");
+            var values = GetValues((IInternalValuesQuery)valuesQuery, -1, -1);
+
+            var count = (Decimal)values.NextValues().GetByIndex(0);
+            return Decimal.ToInt64(count);
         }
 
         public virtual IInternalObjectSet<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex)

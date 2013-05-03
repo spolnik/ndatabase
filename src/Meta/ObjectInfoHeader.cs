@@ -1,6 +1,5 @@
 using System.Text;
 using NDatabase.Api;
-using NDatabase.Core.Engine;
 using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Meta

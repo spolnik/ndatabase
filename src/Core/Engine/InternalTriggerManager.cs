@@ -13,24 +13,28 @@ namespace NDatabase.Core.Engine
     internal sealed class InternalTriggerManager : IInternalTriggerManager
     {
         /// <summary>
-        ///   key is class Name, value is the collection of triggers for the class
+        ///     key is class Name, value is the collection of triggers for the class
         /// </summary>
-        private readonly IDictionary<Type, IOdbList<Api.Triggers.Trigger>> _listOfDeleteTriggers = new OdbHashMap<Type, IOdbList<Api.Triggers.Trigger>>();
+        private readonly IDictionary<Type, IOdbList<Trigger>> _listOfDeleteTriggers =
+            new OdbHashMap<Type, IOdbList<Trigger>>();
 
         /// <summary>
-        ///   key is class Name, value is the collection of triggers for the class
+        ///     key is class Name, value is the collection of triggers for the class
         /// </summary>
-        private readonly IDictionary<Type, IOdbList<Api.Triggers.Trigger>> _listOfInsertTriggers = new OdbHashMap<Type, IOdbList<Api.Triggers.Trigger>>();
+        private readonly IDictionary<Type, IOdbList<Trigger>> _listOfInsertTriggers =
+            new OdbHashMap<Type, IOdbList<Trigger>>();
 
         /// <summary>
-        ///   key is class Name, value is the collection of triggers for the class
+        ///     key is class Name, value is the collection of triggers for the class
         /// </summary>
-        private readonly IDictionary<Type, IOdbList<Api.Triggers.Trigger>> _listOfSelectTriggers = new OdbHashMap<Type, IOdbList<Api.Triggers.Trigger>>();
+        private readonly IDictionary<Type, IOdbList<Trigger>> _listOfSelectTriggers =
+            new OdbHashMap<Type, IOdbList<Trigger>>();
 
         /// <summary>
-        ///   key is class Name, value is the collection of triggers for the class
+        ///     key is class Name, value is the collection of triggers for the class
         /// </summary>
-        private readonly IDictionary<Type, IOdbList<Api.Triggers.Trigger>> _listOfUpdateTriggers = new OdbHashMap<Type, IOdbList<Api.Triggers.Trigger>>();
+        private readonly IDictionary<Type, IOdbList<Trigger>> _listOfUpdateTriggers =
+            new OdbHashMap<Type, IOdbList<Trigger>>();
 
         private readonly IStorageEngine _storageEngine;
 
@@ -80,7 +84,7 @@ namespace NDatabase.Core.Engine
                 {
                     var warning =
                         NDatabaseError.BeforeInsertTriggerHasThrownException.AddParameter(trigger.GetType().FullName)
-                            .AddParameter(e.ToString());
+                                      .AddParameter(e.ToString());
 
                     throw new OdbRuntimeException(warning, e);
                 }
@@ -105,7 +109,7 @@ namespace NDatabase.Core.Engine
                 {
                     var warning =
                         NDatabaseError.AfterInsertTriggerHasThrownException.AddParameter(trigger.GetType().FullName).
-                            AddParameter(e.ToString());
+                                       AddParameter(e.ToString());
 
                     throw new OdbRuntimeException(warning, e);
                 }
@@ -124,14 +128,14 @@ namespace NDatabase.Core.Engine
 
                 try
                 {
-                    var classInfoProvider = ((IClassInfoProvider)trigger.Odb).GetClassInfoProvider();
+                    var classInfoProvider = ((IClassInfoProvider) trigger.Odb).GetClassInfoProvider();
                     trigger.BeforeUpdate(new ObjectRepresentation(oldNnoi, classInfoProvider), newObject, oid);
                 }
                 catch (Exception e)
                 {
                     var warning =
                         NDatabaseError.BeforeUpdateTriggerHasThrownException.AddParameter(trigger.GetType().FullName)
-                            .AddParameter(e.ToString());
+                                      .AddParameter(e.ToString());
 
                     throw new OdbRuntimeException(warning, e);
                 }
@@ -150,14 +154,14 @@ namespace NDatabase.Core.Engine
 
                 try
                 {
-                    var classInfoProvider = ((IClassInfoProvider)trigger.Odb).GetClassInfoProvider();
+                    var classInfoProvider = ((IClassInfoProvider) trigger.Odb).GetClassInfoProvider();
                     trigger.AfterUpdate(new ObjectRepresentation(oldNnoi, classInfoProvider), newObject, oid);
                 }
                 catch (Exception e)
                 {
                     var warning =
                         NDatabaseError.AfterUpdateTriggerHasThrownException.AddParameter(trigger.GetType().FullName).
-                            AddParameter(e.ToString());
+                                       AddParameter(e.ToString());
 
                     throw new OdbRuntimeException(warning, e);
                 }
@@ -182,7 +186,7 @@ namespace NDatabase.Core.Engine
                 {
                     var warning =
                         NDatabaseError.BeforeDeleteTriggerHasThrownException.AddParameter(trigger.GetType().FullName)
-                            .AddParameter(e.ToString());
+                                      .AddParameter(e.ToString());
 
                     throw new OdbRuntimeException(warning, e);
                 }
@@ -207,7 +211,7 @@ namespace NDatabase.Core.Engine
                 {
                     var warning =
                         NDatabaseError.AfterDeleteTriggerHasThrownException.AddParameter(trigger.GetType().FullName).
-                            AddParameter(e.ToString());
+                                       AddParameter(e.ToString());
 
                     throw new OdbRuntimeException(warning, e);
                 }
@@ -252,42 +256,42 @@ namespace NDatabase.Core.Engine
         }
 
         private static void AddTriggerFor<TTrigger>(Type type, TTrigger trigger,
-                                                    IDictionary<Type, IOdbList<Api.Triggers.Trigger>> listOfTriggers)
-            where TTrigger : Api.Triggers.Trigger
+                                                    IDictionary<Type, IOdbList<Trigger>> listOfTriggers)
+            where TTrigger : Trigger
         {
             var triggers = listOfTriggers[type];
 
             if (triggers == null)
             {
-                triggers = new OdbList<Api.Triggers.Trigger>();
+                triggers = new OdbList<Trigger>();
                 listOfTriggers.Add(type, triggers);
             }
 
             triggers.Add(trigger);
         }
 
-        private IEnumerable<Api.Triggers.Trigger> GetListOfDeleteTriggersFor(Type type)
+        private IEnumerable<Trigger> GetListOfDeleteTriggersFor(Type type)
         {
             return GetListOfTriggersFor(type, _listOfDeleteTriggers);
         }
 
-        private IEnumerable<Api.Triggers.Trigger> GetListOfInsertTriggersFor(Type type)
+        private IEnumerable<Trigger> GetListOfInsertTriggersFor(Type type)
         {
             return GetListOfTriggersFor(type, _listOfInsertTriggers);
         }
 
-        private IEnumerable<Api.Triggers.Trigger> GetListOfSelectTriggersFor(Type type)
+        private IEnumerable<Trigger> GetListOfSelectTriggersFor(Type type)
         {
             return GetListOfTriggersFor(type, _listOfSelectTriggers);
         }
 
-        private IEnumerable<Api.Triggers.Trigger> GetListOfUpdateTriggersFor(Type type)
+        private IEnumerable<Trigger> GetListOfUpdateTriggersFor(Type type)
         {
             return GetListOfTriggersFor(type, _listOfUpdateTriggers);
         }
 
-        private static IEnumerable<Api.Triggers.Trigger> GetListOfTriggersFor(Type type,
-                                                                 IDictionary<Type, IOdbList<Api.Triggers.Trigger>> listOfTriggers)
+        private static IEnumerable<Trigger> GetListOfTriggersFor(Type type,
+                                                                 IDictionary<Type, IOdbList<Trigger>> listOfTriggers)
         {
             var listOfTriggersByClassName = listOfTriggers[type];
             var listOfTriggersByAllClassTrigger = listOfTriggers[typeof (object)];
@@ -298,7 +302,7 @@ namespace NDatabase.Core.Engine
                 if (listOfTriggersByClassName != null)
                     size = size + listOfTriggersByClassName.Count;
 
-                var listOfTriggersToReturn = new OdbList<Api.Triggers.Trigger>(size);
+                var listOfTriggersToReturn = new OdbList<Trigger>(size);
 
                 if (listOfTriggersByClassName != null)
                 {

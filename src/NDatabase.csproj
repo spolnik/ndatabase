@@ -186,7 +186,7 @@
     <Compile Include="Api\Query\IConstraint.cs" />
     <Compile Include="Core\Query\Criteria\Not.cs" />
     <Compile Include="Core\Query\Criteria\Or.cs" />
-    <Compile Include="Core\Query\Execution\GenericQueryExecutor.cs" />
+    <Compile Include="Core\Query\Criteria\GenericQueryExecutor.cs" />
     <Compile Include="Core\IMatchingObjectAction.cs" />
     <Compile Include="Core\Query\Execution\IMultiClassQueryExecutor.cs" />
     <Compile Include="Indexing\IndexTool.cs" />

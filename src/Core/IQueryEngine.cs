@@ -1,3 +1,4 @@
+using System;
 using NDatabase.Api;
 using NDatabase.Api.Query;
 
@@ -6,6 +7,8 @@ namespace NDatabase.Core
     internal interface IQueryEngine
     {
         IValues GetValues(IInternalValuesQuery query, int startIndex, int endIndex);
+
+        long Count(Type underlyingType, IConstraint constraint);
 
         IInternalObjectSet<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex);
 
