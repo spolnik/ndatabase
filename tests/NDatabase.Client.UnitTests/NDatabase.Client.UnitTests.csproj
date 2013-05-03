@@ -52,10 +52,14 @@
     <Compile Include="Data\Items\IWeapon.cs" />
     <Compile Include="Data\Items\NoItem.cs" />
     <Compile Include="Data\Items\Sword.cs" />
+    <Compile Include="Data\SimpleClass.cs" />
+    <Compile Include="Indexes\Indexes_TestCase.cs" />
     <Compile Include="InMemory\When_we_use_ndatabase_as_in_memory_db.cs" />
+    <Compile Include="Misc\Add_again_retrieved_object.cs" />
     <Compile Include="Misc\TestCase_OdbConfiguration.cs" />
     <Compile Include="Paging\Paging_TestCase.cs" />
     <Compile Include="Queries\Soda\Building_soda_queries_doc.cs" />
+    <Compile Include="Transactions\Transactions_TestCase.cs" />
     <Compile Include="Types\When_we_store_array.cs" />
     <Compile Include="Types\When_we_store_type_with_event_or_delagete.cs" />
     <Compile Include="Types\When_we_want_to_serialize_collections.cs" />

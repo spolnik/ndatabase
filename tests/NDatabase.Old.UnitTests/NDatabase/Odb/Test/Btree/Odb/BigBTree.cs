@@ -1,11 +1,11 @@
 using System;
 using System.Collections;
+using NDatabase;
 using NDatabase.Btree;
 using NDatabase.Common;
-using NDatabase.Odb;
-using NDatabase.Odb.Core;
-using NDatabase.Odb.Core.BTree;
-using NDatabase.Odb.Main;
+using NDatabase.Core;
+using NDatabase.Core.BTree;
+using NDatabase.Core.Engine;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Btree.Odb

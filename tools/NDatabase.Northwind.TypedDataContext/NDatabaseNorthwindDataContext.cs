@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using NDatabase.Northwind.Domain;
-using NDatabase.Odb;
 
 namespace NDatabase.Northwind.TypedDataContext
 {

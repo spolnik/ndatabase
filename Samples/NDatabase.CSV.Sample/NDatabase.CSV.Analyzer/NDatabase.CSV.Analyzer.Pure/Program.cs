@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
-using FileHelpers;
 using System.Linq;
-using NDatabase.Odb;
+using FileHelpers;
 
 namespace NDatabase.CSV.Analyzer.Pure
 {

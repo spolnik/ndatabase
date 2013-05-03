@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using Db4objects.Db4o;
 using NDatabase.Tutorial.Shared;
 using NDatabase.Tutorial.Shared.Heroes;
 using NDatabase.Tutorial.Shared.Items;
-using System.Linq;
 
 namespace NDatabase.Tutorial.Basic.db4o
 {

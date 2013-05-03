@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using NDatabase.Odb;
+using NDatabase.Api;
 
 namespace NDatabase.Northwind.Generator
 {

@@ -23,6 +23,7 @@ namespace Test.NDatabase.Odb.Test.IO
         }
 
         [Test]
+        [Ignore("Long running test - reopening db before throwing exception")]
         public virtual void TestReOpenWithoutClose()
         {
             DeleteBase("t111C.ndb");

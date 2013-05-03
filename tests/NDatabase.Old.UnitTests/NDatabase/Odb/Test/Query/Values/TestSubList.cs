@@ -1,10 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using NDatabase.Odb;
-using NDatabase.Odb.Core.Layers.Layer2;
-using NDatabase.Odb.Core.Query;
-using NDatabase.Odb.Main;
+using NDatabase;
+using NDatabase.Api.Query;
+using NDatabase.Core;
+using NDatabase.Core.Engine;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;

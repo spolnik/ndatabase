@@ -5,7 +5,6 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.ServiceModel;
-using NDatabase.Odb;
 using NDatabase.Sample.WCF.TodoListApp.Domain;
 using NDatabase.TodoList.Domain;
 

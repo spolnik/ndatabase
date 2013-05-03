@@ -1,6 +1,6 @@
-using NDatabase.Odb;
-using NDatabase.Odb.Main;
-using NDatabase.Tool.Wrappers;
+using NDatabase;
+using NDatabase.Core;
+using NDatabase.Meta;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Update

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Moq;
-using NDatabase.Compability;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Core;
+using NDatabase.Meta;
 using NDatabase.Tool.Wrappers;
 using NDatabase.UnitTests.TestData;
 using NUnit.Framework;
@@ -27,9 +27,12 @@ namespace NDatabase.UnitTests.Bugs.Compability
             var classInfo2 = new ClassInfo(key) {Attributes = new OdbList<ClassAttributeInfo>()};
             currentCIs.Add(key, classInfo2);
 
-            MetaModelCompabilityChecker.Check(currentCIs, metaModelMock.Object, Assert.Fail);
+            var shouldUpdate = new MetaModelCompabilityChecker().Check(currentCIs, metaModelMock.Object);
 
-            Assert.Pass();
+            if (shouldUpdate)
+                Assert.Fail();
+            else
+                Assert.Pass();
         }
     }
 }

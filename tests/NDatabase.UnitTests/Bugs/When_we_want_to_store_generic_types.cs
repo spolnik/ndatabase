@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using NDatabase.Odb;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Bugs

@@ -11,7 +11,7 @@ namespace NDatabase.UnitTests.Utils
         {
             const string input = "val%val%";
 
-            var result = StringErrorMessageHelper.ReplaceToken(input, "%", "(.)*", 1);
+            var result = ExceptionsHelper.ReplaceToken(input, "%", "(.)*", 1);
             Assert.That(result, Is.EqualTo("val(.)*val%"));
         }
 
@@ -19,7 +19,7 @@ namespace NDatabase.UnitTests.Utils
         public void It_should_throw_exception_if_we_are_looking_for_non_existing_token_with_replace_all_setting()
         {
             const string input = "val%val%";
-            Assert.That(() => StringErrorMessageHelper.ReplaceToken(input, "%", "%%", -1), Throws.Exception);
+            Assert.That(() => ExceptionsHelper.ReplaceToken(input, "%", "%%", -1), Throws.Exception);
         }
 
         [Test]

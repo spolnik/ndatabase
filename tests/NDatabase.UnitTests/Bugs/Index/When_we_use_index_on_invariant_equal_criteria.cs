@@ -1,5 +1,4 @@
-﻿using NDatabase.Odb;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Bugs.Index
 {

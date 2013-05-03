@@ -1,5 +1,6 @@
+using System;
 using System.Threading;
-using NDatabase.Odb;
+using NDatabase;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Ext
@@ -44,7 +45,7 @@ namespace Test.NDatabase.Odb.Test.Ext
                 odb = Open("extc");
                 var f = (VO.Login.Function) odb.GetObjectFromId(oid);
                 var version = odb.Ext().GetObjectVersion(oid);
-                // System.out.println("i="+i + " - v="+ version+ " - oid="+oid);
+                Console.WriteLine("i="+i + " - v="+ version+ " - oid="+oid);
                 updateDate = odb.Ext().GetObjectUpdateDate(oid);
                 creationDate = odb.Ext().GetObjectCreationDate(oid);
                 f.SetName(f.GetName() + "-" + i);
@@ -52,8 +53,8 @@ namespace Test.NDatabase.Odb.Test.Ext
                 odb.Store(f);
                 odb.Close();
                 AssertEquals(i + 1, version);
-                // System.out.println(creationDate + " - "+ updateDate+ "- "+
-                // OdbTime.getCurrentTimeInMs());
+                Console.WriteLine(creationDate + " - "+ updateDate+ "- "+ TimeSpan.FromTicks(DateTime.Now.Ticks).TotalMilliseconds);
+                
                 // in first iteration, creation & update date may be equal
                 if (i > 0)
                     AssertTrue(creationDate < updateDate);

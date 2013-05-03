@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
-using NDatabase.Tool.Wrappers;
-
 
 namespace NDatabase.Exceptions
 {
@@ -90,7 +88,7 @@ namespace NDatabase.Exceptions
                     var parameterIndex = token.IndexOf(parameterName, StringComparison.Ordinal);
 
                     if (parameterIndex != -1)
-                        token = StringErrorMessageHelper.ReplaceToken(token, parameterName, parameterValue, 1);
+                        token = ExceptionsHelper.ReplaceToken(token, parameterName, parameterValue, 1);
                 }
             }
 

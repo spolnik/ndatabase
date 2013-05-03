@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using NDatabase.Odb;
-using NDatabase.Odb.Core.Query;
+using NDatabase;
+using NDatabase.Core.Query;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;

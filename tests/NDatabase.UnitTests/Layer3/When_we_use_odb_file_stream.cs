@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using NDatabase.Exceptions;
-using NDatabase.Odb;
-using NDatabase.Odb.Core.Layers.Layer3.IO;
+using NDatabase.IO;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Layer3

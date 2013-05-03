@@ -1,6 +1,6 @@
 ﻿using System;
-using NDatabase.Odb;
-using NDatabase.Odb.Core.Trigger;
+using NDatabase.Api;
+using NDatabase.Api.Triggers;
 using NDatabase.UnitTests.CodeSnippets.Data;
 using NUnit.Framework;
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
-using NDatabase.Odb;
 using NDatabase.UnitTests.CodeSnippets.Data;
 using NUnit.Framework;
 

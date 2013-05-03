@@ -1,5 +1,4 @@
 using NDatabase.Exceptions;
-using NDatabase.Odb.Core;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Error

@@ -1,10 +1,11 @@
 using System;
-using NDatabase.Odb;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Query;
+using System.Linq;
+using NDatabase.Api;
+using NDatabase.Api.Query;
+using NDatabase.Core.Query;
+using NDatabase.Meta;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
-using System.Linq;
 
 namespace Test.NDatabase.Odb.Test.Index
 {
