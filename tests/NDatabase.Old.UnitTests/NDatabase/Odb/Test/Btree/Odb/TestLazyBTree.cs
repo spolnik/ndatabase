@@ -1,6 +1,5 @@
 using NDatabase.Btree;
 using NDatabase.Common;
-using NDatabase.Odb.Core;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Btree.Odb

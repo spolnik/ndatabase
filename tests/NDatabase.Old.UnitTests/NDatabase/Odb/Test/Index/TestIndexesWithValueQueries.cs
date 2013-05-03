@@ -1,7 +1,7 @@
-using NDatabase.Odb;
-using NDatabase.Odb.Core.Query;
-using NUnit.Framework;
 using System.Linq;
+using NDatabase.Api;
+using NDatabase.Core.Query;
+using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Index
 {

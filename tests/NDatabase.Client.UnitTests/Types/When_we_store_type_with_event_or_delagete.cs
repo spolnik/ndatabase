@@ -1,5 +1,4 @@
 ﻿using System;
-using NDatabase.Odb;
 using NUnit.Framework;
 
 namespace NDatabase.Client.UnitTests.Types

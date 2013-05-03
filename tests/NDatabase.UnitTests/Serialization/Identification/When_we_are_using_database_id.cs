@@ -1,7 +1,7 @@
-﻿using NDatabase.Odb;
-using NDatabase.Odb.Core.Oid;
+﻿using System.Linq;
+using NDatabase.Api;
+using NDatabase.Oid;
 using NUnit.Framework;
-using System.Linq;
 
 namespace NDatabase.UnitTests.Serialization.Identification
 {

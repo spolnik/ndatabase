@@ -1,5 +1,5 @@
+using System.Collections.Generic;
 using System.Text;
-using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Exceptions
 {
@@ -258,7 +258,7 @@ namespace NDatabase.Exceptions
 
         private readonly string _description;
 
-        private IOdbList<object> _parameters;
+        private IList<object> _parameters;
 
         internal NDatabaseError(int code, string description)
         {
@@ -275,7 +275,7 @@ namespace NDatabase.Exceptions
         public IError AddParameter<T>(T o) where T : class
         {
             if (_parameters == null)
-                _parameters = new OdbList<object>();
+                _parameters = new List<object>();
             _parameters.Add(o.ToString());
             return this;
         }
@@ -283,7 +283,7 @@ namespace NDatabase.Exceptions
         public IError AddParameter(string s)
         {
             if (_parameters == null)
-                _parameters = new OdbList<object>();
+                _parameters = new List<object>();
             
             _parameters.Add(s ?? "[null object]");
             return this;
@@ -292,7 +292,7 @@ namespace NDatabase.Exceptions
         public IError AddParameter(int i)
         {
             if (_parameters == null)
-                _parameters = new OdbList<object>();
+                _parameters = new List<object>();
             _parameters.Add(i);
             return this;
         }
@@ -300,7 +300,7 @@ namespace NDatabase.Exceptions
         public IError AddParameter(byte i)
         {
             if (_parameters == null)
-                _parameters = new OdbList<object>();
+                _parameters = new List<object>();
             _parameters.Add(i);
             return this;
         }
@@ -308,7 +308,7 @@ namespace NDatabase.Exceptions
         public IError AddParameter(long l)
         {
             if (_parameters == null)
-                _parameters = new OdbList<object>();
+                _parameters = new List<object>();
             _parameters.Add(l);
             return this;
         }
@@ -336,7 +336,7 @@ namespace NDatabase.Exceptions
                     var parameterIndex = sourceString.IndexOf(parameterName, System.StringComparison.Ordinal);
 
                     if (parameterIndex != -1)
-                        sourceString = StringErrorMessageHelper.ReplaceToken(sourceString, parameterName, parameterValue,
+                        sourceString = ExceptionsHelper.ReplaceToken(sourceString, parameterName, parameterValue,
                                                                              1);
                 }
             }

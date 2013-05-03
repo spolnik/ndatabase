@@ -1,5 +1,4 @@
 ﻿using System;
-using NDatabase.Odb;
 
 namespace NDatabase.Tutorial.ExceptionHandling
 {

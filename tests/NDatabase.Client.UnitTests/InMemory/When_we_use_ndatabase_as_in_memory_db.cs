@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using NDatabase.Odb;
 using NUnit.Framework;
 
 namespace NDatabase.Client.UnitTests.InMemory

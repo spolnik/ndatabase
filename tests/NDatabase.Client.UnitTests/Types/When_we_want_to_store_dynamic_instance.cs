@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Numerics;
 using NDatabase.Client.UnitTests.Data;
-using NDatabase.Odb;
 using NUnit.Framework;
 
 namespace NDatabase.Client.UnitTests.Types

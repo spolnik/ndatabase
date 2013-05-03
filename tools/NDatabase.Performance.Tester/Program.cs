@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
-using NDatabase.Odb;
-using NDatabase.Performance.Tester.Domain;
 using System.Linq;
+using NDatabase.Performance.Tester.Domain;
 
 namespace NDatabase.Performance.Tester
 {

@@ -1,10 +1,8 @@
 ﻿using System.Collections;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using NDatabase.Odb;
-using NUnit.Framework;
 using System.Linq;
+using NUnit.Framework;
 
 namespace NDatabase.Client.UnitTests.Types
 {

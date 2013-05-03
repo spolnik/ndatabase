@@ -3,7 +3,6 @@ using System.Collections;
 using System.Text;
 using NDatabase.Common;
 using NDatabase.Exceptions;
-using NDatabase.Odb.Core;
 
 namespace NDatabase.Btree
 {

@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using NDatabase.Odb;
-using NDatabase.Odb.Core;
-using NDatabase.Odb.Core.Oid;
+using NDatabase.Api;
+using NDatabase.Oid;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;

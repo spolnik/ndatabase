@@ -1,5 +1,5 @@
-using NDatabase.Odb;
-using NDatabase.Odb.Core.Trigger;
+using NDatabase.Api;
+using NDatabase.Api.Triggers;
 
 namespace Test.NDatabase.Odb.Test.Trigger
 {

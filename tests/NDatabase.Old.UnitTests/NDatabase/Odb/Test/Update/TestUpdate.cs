@@ -1,8 +1,9 @@
 using System;
 using System.Collections;
-using NDatabase.Odb;
-using NDatabase.Odb.Core.Query;
-using NDatabase.Odb.Main;
+using NDatabase;
+using NDatabase.Api.Query;
+using NDatabase.Core;
+using NDatabase.Meta;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;

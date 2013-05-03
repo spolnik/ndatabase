@@ -1,5 +1,5 @@
-﻿using NDatabase.Odb;
-using NDatabase.Tool.Wrappers;
+﻿using NDatabase.Core;
+using NDatabase.Meta;
 using NUnit.Framework;
 
 public class WithoutNamespace

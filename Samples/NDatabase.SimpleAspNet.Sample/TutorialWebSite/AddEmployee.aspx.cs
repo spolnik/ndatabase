@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web;
 using Domain;
-using NDatabase.Odb;
+using NDatabase;
 
 namespace TutorialWebSite
 {

@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
-using NDatabase.Odb;
-using NDatabase.Odb.Core.Layers.Layer2;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Query;
-using NDatabase.Odb.Core.Query.Execution;
+using NDatabase.Api;
+using NDatabase.Api.Query;
+using NDatabase.Core;
+using NDatabase.Core.Query;
+using NDatabase.Meta;
 using NDatabase.Tool.Wrappers;
 
 namespace Test.NDatabase.Odb.Test.IO

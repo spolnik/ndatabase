@@ -1,4 +1,4 @@
-using NDatabase.Odb.Core.Query;
+using NDatabase.Api.Query;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Query.Criteria

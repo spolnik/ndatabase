@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections;
-using NDatabase.Odb;
-using NDatabase.Odb.Main;
+using NDatabase;
+using NDatabase.Api;
+using NDatabase.Core;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.School;
 

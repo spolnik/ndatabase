@@ -1,5 +1,5 @@
 using System;
-using NDatabase.Odb.Core.Query;
+using NDatabase.Api.Query;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Human;
 

@@ -1,5 +1,5 @@
 using System;
-using NDatabase.Odb;
+using NDatabase.Api;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Download;
 

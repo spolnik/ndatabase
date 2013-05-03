@@ -1,6 +1,6 @@
 ﻿using System;
 using Domain;
-using NDatabase.Odb;
+using NDatabase;
 
 namespace PrepareDb
 {
