@@ -1,7 +1,7 @@
 using System;
 using System.Text;
-using NDatabase.Core.Layers.Layer2.Meta.Compare;
 using NDatabase.Exceptions;
+using NDatabase.Meta.Compare;
 
 namespace NDatabase.Core.Query.Criteria.Evaluations
 {

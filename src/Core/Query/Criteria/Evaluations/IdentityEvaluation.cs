@@ -1,7 +1,7 @@
 using System;
 using NDatabase.Api;
 using NDatabase.Api.Query;
-using NDatabase.Core.Layers.Layer2.Meta;
+using NDatabase.Meta;
 
 namespace NDatabase.Core.Query.Criteria.Evaluations
 {

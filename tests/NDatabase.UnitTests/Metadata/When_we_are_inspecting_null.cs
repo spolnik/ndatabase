@@ -1,5 +1,5 @@
-﻿using NDatabase.Core.Layers.Layer1.Introspector;
-using NDatabase.Core.Layers.Layer2.Meta;
+﻿using NDatabase.Core.Introspector;
+using NDatabase.Meta;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Metadata

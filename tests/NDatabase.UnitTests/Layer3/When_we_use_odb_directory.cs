@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using NDatabase.Core.Layers.Layer3.IO;
+using NDatabase.Core.Layer3.IO;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Layer3

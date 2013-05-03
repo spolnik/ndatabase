@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using NDatabase.Btree;
 using NDatabase.Common;
 using NDatabase.Core.BTree;
-using NDatabase.Core.Layers.Layer3;
+using NDatabase.Core.Layer3;
 
 namespace NDatabase.Core.Query.List
 {

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using NDatabase.Core.Layers.Layer2.Meta;
 using NDatabase.Core.Query.Criteria;
 using NDatabase.Exceptions;
+using NDatabase.Meta;
 using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Core.Query.Execution

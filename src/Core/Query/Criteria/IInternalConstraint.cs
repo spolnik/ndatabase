@@ -1,5 +1,5 @@
 using NDatabase.Api.Query;
-using NDatabase.Core.Layers.Layer2.Meta;
+using NDatabase.Meta;
 using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Core.Query.Criteria

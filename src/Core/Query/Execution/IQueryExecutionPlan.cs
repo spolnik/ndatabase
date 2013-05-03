@@ -1,4 +1,4 @@
-using NDatabase.Core.Layers.Layer2.Meta;
+using NDatabase.Meta;
 
 namespace NDatabase.Core.Query.Execution
 {

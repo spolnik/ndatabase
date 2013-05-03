@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NDatabase.Api;
-using NDatabase.Core.Layers.Layer2.Meta;
 using NDatabase.Core.Query.Execution;
 using NDatabase.Core.Query.List;
+using NDatabase.Meta;
 
 namespace NDatabase.Core.Query.Values
 {

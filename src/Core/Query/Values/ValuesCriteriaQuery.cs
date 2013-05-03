@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using NDatabase.Api;
 using NDatabase.Api.Query;
-using NDatabase.Core.Layers.Layer3;
+using NDatabase.Core.Layer3;
 using NDatabase.Core.Query.Criteria;
 using NDatabase.Core.Query.Execution;
 using NDatabase.Exceptions;

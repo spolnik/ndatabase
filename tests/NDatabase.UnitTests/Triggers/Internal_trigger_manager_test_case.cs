@@ -1,7 +1,7 @@
 ﻿using Moq;
 using NDatabase.Api;
 using NDatabase.Api.Triggers;
-using NDatabase.Core.Layers.Layer3;
+using NDatabase.Core.Layer3;
 using NDatabase.Core.Trigger;
 using NDatabase.Oid;
 using NDatabase.UnitTests.CodeSnippets.Data;

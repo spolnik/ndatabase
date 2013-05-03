@@ -1,7 +1,7 @@
 using NDatabase.Api.Query;
-using NDatabase.Core.Layers.Layer2.Meta;
-using NDatabase.Core.Layers.Layer3;
+using NDatabase.Core.Layer3;
 using NDatabase.Core.Query.Execution;
+using NDatabase.Meta;
 
 namespace NDatabase.Core.Query
 {

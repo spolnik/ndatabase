@@ -2,9 +2,9 @@ using System;
 using System.Text;
 using NDatabase.Api;
 using NDatabase.Common;
-using NDatabase.Core.Layers.Layer2;
-using NDatabase.Core.Layers.Layer2.Meta;
+using NDatabase.Core.Layer3;
 using NDatabase.Exceptions;
+using NDatabase.Meta;
 using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Core.Query.List

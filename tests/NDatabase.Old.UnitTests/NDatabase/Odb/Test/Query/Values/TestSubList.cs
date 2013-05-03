@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using NDatabase;
 using NDatabase.Api.Query;
 using NDatabase.Core;
-using NDatabase.Core.Layers.Layer2;
+using NDatabase.Core.Layer3;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;

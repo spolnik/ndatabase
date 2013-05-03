@@ -1,4 +1,4 @@
-using NDatabase.Core.Layers.Layer3;
+using NDatabase.Core.Layer3;
 using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Core.Transaction

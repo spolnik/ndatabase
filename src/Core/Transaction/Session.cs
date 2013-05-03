@@ -1,7 +1,7 @@
 using System;
-using NDatabase.Core.Layers.Layer2.Meta;
-using NDatabase.Core.Layers.Layer3;
+using NDatabase.Core.Layer3;
 using NDatabase.Exceptions;
+using NDatabase.Meta;
 
 namespace NDatabase.Core.Transaction
 {

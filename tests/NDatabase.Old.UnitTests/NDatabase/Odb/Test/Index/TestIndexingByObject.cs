@@ -2,8 +2,8 @@ using System;
 using System.Linq;
 using NDatabase.Api;
 using NDatabase.Api.Query;
-using NDatabase.Core.Layers.Layer2.Meta;
 using NDatabase.Core.Query;
+using NDatabase.Meta;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 

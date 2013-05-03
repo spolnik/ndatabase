@@ -1,4 +1,5 @@
 using NDatabase.Core;
+using NDatabase.Meta;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Update

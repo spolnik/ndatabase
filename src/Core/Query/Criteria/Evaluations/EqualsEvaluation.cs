@@ -2,8 +2,8 @@ using System;
 using System.Text;
 using NDatabase.Api;
 using NDatabase.Api.Query;
-using NDatabase.Core.Layers.Layer2.Meta;
-using NDatabase.Core.Layers.Layer2.Meta.Compare;
+using NDatabase.Meta;
+using NDatabase.Meta.Compare;
 
 namespace NDatabase.Core.Query.Criteria.Evaluations
 {

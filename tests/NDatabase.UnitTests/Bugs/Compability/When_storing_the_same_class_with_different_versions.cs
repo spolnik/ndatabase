@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Moq;
 using NDatabase.Core;
-using NDatabase.Core.Layers.Layer2.Meta;
+using NDatabase.Meta;
 using NDatabase.Tool.Wrappers;
 using NDatabase.UnitTests.TestData;
 using NUnit.Framework;

@@ -2,8 +2,8 @@ using System;
 using System.Collections;
 using NDatabase.Api;
 using NDatabase.Api.Query;
-using NDatabase.Core.Layers.Layer2.Meta;
 using NDatabase.Exceptions;
+using NDatabase.Meta;
 
 namespace NDatabase.Core.Query.Criteria.Evaluations
 {

@@ -5,11 +5,11 @@ using NDatabase.Api.Query;
 using NDatabase.Btree;
 using NDatabase.Container;
 using NDatabase.Core.BTree;
-using NDatabase.Core.Layers.Layer2.Meta;
-using NDatabase.Core.Layers.Layer3;
+using NDatabase.Core.Layer3;
 using NDatabase.Core.Query.Criteria;
 using NDatabase.Core.Transaction;
 using NDatabase.Exceptions;
+using NDatabase.Meta;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
 

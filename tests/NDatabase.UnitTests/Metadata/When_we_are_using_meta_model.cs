@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using NDatabase.Core.Layers.Layer2.Meta;
+using NDatabase.Meta;
 using NDatabase.Oid;
 using NUnit.Framework;
 

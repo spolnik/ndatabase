@@ -1,7 +1,7 @@
 using NDatabase.Api;
-using NDatabase.Core.Layers.Layer1.Introspector;
-using NDatabase.Core.Layers.Layer2.Meta;
+using NDatabase.Core.Introspector;
 using NDatabase.Exceptions;
+using NDatabase.Meta;
 
 namespace NDatabase.Core.Trigger
 {

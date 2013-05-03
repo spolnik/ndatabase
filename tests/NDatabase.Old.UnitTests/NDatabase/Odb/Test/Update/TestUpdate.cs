@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using NDatabase.Api.Query;
 using NDatabase.Core;
+using NDatabase.Meta;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;

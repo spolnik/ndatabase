@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using NDatabase.Api;
-using NDatabase.Core.Layers.Layer2.Meta;
-using NDatabase.Core.Layers.Layer3;
-using NDatabase.Core.Layers.Layer3.Engine;
+using NDatabase.Core.Layer3;
+using NDatabase.Core.Layer3.Engine;
 using NDatabase.Exceptions;
+using NDatabase.Meta;
 using NDatabase.Tool;
 
 namespace NDatabase.Core.Transaction

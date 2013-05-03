@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using NDatabase.Core.Layers.Layer2.Meta;
+using NDatabase.Meta;
 
 namespace NDatabase.Services
 {

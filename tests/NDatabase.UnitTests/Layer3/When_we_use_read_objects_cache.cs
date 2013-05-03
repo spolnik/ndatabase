@@ -1,6 +1,6 @@
-﻿using NDatabase.Core.Layers.Layer1.Introspector;
-using NDatabase.Core.Layers.Layer2.Meta;
-using NDatabase.Core.Layers.Layer3;
+﻿using NDatabase.Core.Introspector;
+using NDatabase.Core.Layer3;
+using NDatabase.Meta;
 using NDatabase.Oid;
 using NUnit.Framework;
 

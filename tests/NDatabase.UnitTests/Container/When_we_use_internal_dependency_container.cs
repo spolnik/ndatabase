@@ -2,7 +2,7 @@
 using NDatabase.Api;
 using NDatabase.Container;
 using NDatabase.Core;
-using NDatabase.Core.Layers.Layer3;
+using NDatabase.Core.Layer3;
 using NDatabase.Services;
 using NUnit.Framework;
 

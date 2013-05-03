@@ -1,10 +1,9 @@
 using NDatabase.Api;
 using NDatabase.Api.Query;
-using NDatabase.Core.Layers.Layer2;
-using NDatabase.Core.Layers.Layer2.Meta;
-using NDatabase.Core.Layers.Layer3;
+using NDatabase.Core.Layer3;
 using NDatabase.Core.Query.Execution;
 using NDatabase.Core.Query.List;
+using NDatabase.Meta;
 using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Core.Query.Criteria

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using NDatabase.Api;
 using NDatabase.Api.Triggers;
 using NDatabase.Container;
-using NDatabase.Core.Layers.Layer2.Meta;
-using NDatabase.Core.Layers.Layer3;
+using NDatabase.Core.Layer3;
 using NDatabase.Exceptions;
+using NDatabase.Meta;
 using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Core.Trigger

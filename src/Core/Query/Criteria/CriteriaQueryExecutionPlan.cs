@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using NDatabase.Common;
-using NDatabase.Core.Layers.Layer2.Meta;
 using NDatabase.Core.Query.Execution;
+using NDatabase.Meta;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
 

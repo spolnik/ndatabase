@@ -1,5 +1,5 @@
 using NDatabase.Api;
-using NDatabase.Core.Layers.Layer3;
+using NDatabase.Core.Layer3;
 using NDatabase.Exceptions;
 using NDatabase.Oid;
 

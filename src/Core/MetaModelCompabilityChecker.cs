@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using NDatabase.Core.Layers.Layer2.Meta;
 using NDatabase.Exceptions;
+using NDatabase.Meta;
 using NDatabase.Services;
 using NDatabase.Tool;
 
