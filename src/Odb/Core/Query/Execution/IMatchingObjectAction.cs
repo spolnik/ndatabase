@@ -1,4 +1,5 @@
 using NDatabase.Api;
+using NDatabase.Core;
 using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Query.Execution

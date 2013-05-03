@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NDatabase.Api;
 using NDatabase.Api.Query;
 using NDatabase.Api.Triggers;
+using NDatabase.Core;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3.Engine;

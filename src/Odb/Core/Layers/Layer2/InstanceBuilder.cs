@@ -7,6 +7,7 @@ using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Trigger;
+using NDatabase.Oid;
 using NDatabase.Tool;
 
 namespace NDatabase.Odb.Core.Layers.Layer2

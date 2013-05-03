@@ -171,7 +171,7 @@
     <Compile Include="Api\IRefactorManager.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IStorageEngine.cs" />
     <Compile Include="Exceptions\NDatabaseError.cs" />
-    <Compile Include="Odb\Core\OIDFactory.cs" />
+    <Compile Include="Oid\OIDFactory.cs" />
     <Compile Include="Common\OrderByConstants.cs" />
     <Compile Include="Odb\Core\Query\AbstractQuery.cs" />
     <Compile Include="Odb\Core\Query\ComposedCompareKey.cs" />
@@ -237,10 +237,10 @@
     <Compile Include="Odb\Core\Layers\Layer3\IdManager.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\IDStatus.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\RefactorManager.cs" />
-    <Compile Include="Odb\Core\Oid\DatabaseId.cs" />
-    <Compile Include="Odb\Core\Oid\ExternalObjectOID.cs" />
-    <Compile Include="Odb\Core\Oid\ClassOID.cs" />
-    <Compile Include="Odb\Core\Oid\ObjectOID.cs" />
+    <Compile Include="Oid\DatabaseId.cs" />
+    <Compile Include="Oid\ExternalObjectOID.cs" />
+    <Compile Include="Oid\ClassOID.cs" />
+    <Compile Include="Oid\ObjectOID.cs" />
     <Compile Include="Odb\Core\Query\Criteria\QueryResultAction.cs" />
     <Compile Include="Odb\Core\Query\Criteria\SodaQuery.cs" />
     <Compile Include="Odb\Core\Query\Criteria\CriteriaQueryExecutionPlan.cs" />
@@ -276,8 +276,8 @@
     <Compile Include="Odb\Core\Transaction\Session.cs" />
     <Compile Include="Odb\Core\Layers\Layer3\ReadObjectsCache.cs" />
     <Compile Include="Odb\Core\Trigger\InternalTriggerManager.cs" />
-    <Compile Include="Odb\IInternalObjectSet.cs" />
-    <Compile Include="Odb\IInternalValues.cs" />
+    <Compile Include="Core\IInternalObjectSet.cs" />
+    <Compile Include="Core\IInternalValues.cs" />
     <Compile Include="Api\Triggers\ITriggerManager.cs" />
     <Compile Include="Odb\Main\IndexManager.cs" />
     <Compile Include="Odb\Main\Odb.cs" />
@@ -290,7 +290,7 @@
     <Compile Include="Api\IObjectSet.cs" />
     <Compile Include="Api\IObjectValues.cs" />
     <Compile Include="Api\IOdb.cs" />
-    <Compile Include="Odb\BaseOID.cs" />
+    <Compile Include="Oid\BaseOID.cs" />
     <Compile Include="Api\OdbConfiguration.cs" />
     <Compile Include="Api\IOdbExt.cs" />
     <Compile Include="OdbFactory.cs" />
@@ -313,7 +313,7 @@
     <Compile Include="Tool\Wrappers\IOdbList.cs" />
     <Compile Include="Tool\Wrappers\OdbList.cs" />
     <Compile Include="Tool\Wrappers\OdbHashMap2.cs" />
-    <Compile Include="Odb\OdbClassNameResolver.cs" />
+    <Compile Include="Core\OdbClassNameResolver.cs" />
     <Compile Include="Tool\Wrappers\IOdbComparable.cs" />
     <Compile Include="Tool\Wrappers\OdbRandom.cs" />
     <Compile Include="Tool\Wrappers\OdbString.cs" />
@@ -348,7 +348,9 @@
   <ItemGroup>
     <None Include="ndatabase.snk" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Odb\Core\Oid\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>echo POSTBUILDSTEP for $(ProjectName)

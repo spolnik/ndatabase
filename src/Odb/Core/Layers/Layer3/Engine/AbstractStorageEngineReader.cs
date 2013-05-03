@@ -5,6 +5,7 @@ using NDatabase.Api.Query;
 using NDatabase.Api.Triggers;
 using NDatabase.Btree;
 using NDatabase.Container;
+using NDatabase.Core;
 using NDatabase.Exceptions;
 using NDatabase.Odb.Core.BTree;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;

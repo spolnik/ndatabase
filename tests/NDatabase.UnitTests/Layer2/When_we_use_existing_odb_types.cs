@@ -1,7 +1,7 @@
 ﻿using System;
 using NDatabase.Api;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Oid;
+using NDatabase.Oid;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Layer2
@@ -297,7 +297,7 @@ namespace NDatabase.UnitTests.Layer2
             var odbType = OdbType.ObjectOid;
 
             Assert.That(odbType.Id, Is.EqualTo(OdbType.ObjectOidId));
-            Assert.That(odbType.Name, Is.StringStarting("NDatabase.Odb.Core.Oid.ObjectOID"));
+            Assert.That(odbType.Name, Is.StringStarting("NDatabase.Oid.ObjectOID"));
             Assert.That(odbType.Size, Is.EqualTo(0));
             Assert.That(odbType.SubType, Is.Null);
             Assert.That(odbType.GetNativeClass(), Is.EqualTo(typeof (ObjectOID)));
@@ -318,7 +318,7 @@ namespace NDatabase.UnitTests.Layer2
             var odbType = OdbType.ClassOid;
 
             Assert.That(odbType.Id, Is.EqualTo(OdbType.ClassOidId));
-            Assert.That(odbType.Name, Is.StringStarting("NDatabase.Odb.Core.Oid.ClassOID"));
+            Assert.That(odbType.Name, Is.StringStarting("NDatabase.Oid.ClassOID"));
             Assert.That(odbType.Size, Is.EqualTo(0));
             Assert.That(odbType.SubType, Is.Null);
             Assert.That(odbType.GetNativeClass(), Is.EqualTo(typeof (ClassOID)));

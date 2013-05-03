@@ -1,6 +1,6 @@
 ﻿using NDatabase.Api;
 using NDatabase.Odb;
-using NDatabase.Odb.Core.Oid;
+using NDatabase.Oid;
 using NUnit.Framework;
 using System.Linq;
 

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Text;
 using NDatabase.Api;
 using NDatabase.Common;
+using NDatabase.Core;
 using NDatabase.Exceptions;
 using NDatabase.Tool.Wrappers;
 

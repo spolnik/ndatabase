@@ -1,7 +1,7 @@
 using NDatabase.Api;
 using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Oid;
+using NDatabase.Oid;
 
 namespace NDatabase.Odb.Main
 {

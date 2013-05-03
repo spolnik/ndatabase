@@ -5,6 +5,7 @@ using NDatabase.Odb;
 using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Layers.Layer3;
 using NDatabase.Odb.Core.Trigger;
+using NDatabase.Oid;
 using NDatabase.UnitTests.CodeSnippets.Data;
 using NUnit.Framework;
 

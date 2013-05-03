@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using NDatabase.Api;
+using NDatabase.Core;
 using NDatabase.Exceptions;
-using NDatabase.Odb.Core.Oid;
+using NDatabase.Oid;
 using NDatabase.Tool;
 using NDatabase.TypeResolution;
 

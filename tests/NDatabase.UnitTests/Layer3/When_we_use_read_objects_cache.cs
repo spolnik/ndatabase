@@ -1,7 +1,7 @@
 ﻿using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Oid;
+using NDatabase.Oid;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Layer3

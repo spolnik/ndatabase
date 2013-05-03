@@ -1,3 +1,5 @@
+using NDatabase.Core;
+
 namespace NDatabase.Odb.Core.Query.Execution
 {
     internal interface IQueryExecutor

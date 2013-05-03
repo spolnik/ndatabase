@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using NDatabase.Api;
 using NDatabase.Api.Query;
 using NDatabase.Btree;
+using NDatabase.Core;
 using NDatabase.Exceptions;
 using NDatabase.Odb.Core.BTree;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;

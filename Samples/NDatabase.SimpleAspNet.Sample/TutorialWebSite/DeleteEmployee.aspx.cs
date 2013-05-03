@@ -3,7 +3,7 @@ using System.Web;
 using NDatabase;
 using NDatabase.Odb;
 using NDatabase.Odb.Core;
-using NDatabase.Odb.Core.Oid;
+using NDatabase.Oid;
 
 namespace TutorialWebSite
 {

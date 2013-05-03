@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using NDatabase.Api;
 using NDatabase.Exceptions;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Oid;
+using NDatabase.Oid;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
 

@@ -1,4 +1,4 @@
-﻿using NDatabase.Odb.Core.Oid;
+﻿using NDatabase.Oid;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Serialization.Identification

@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using NDatabase.Core;
 using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Odb.Core.Layers.Layer2.Meta

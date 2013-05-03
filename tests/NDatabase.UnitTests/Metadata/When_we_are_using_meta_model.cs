@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Oid;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Metadata

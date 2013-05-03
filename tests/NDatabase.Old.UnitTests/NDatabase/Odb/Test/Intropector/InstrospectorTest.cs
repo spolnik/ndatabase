@@ -1,11 +1,13 @@
 using NDatabase;
 using NDatabase.Api;
+using NDatabase.Core;
 using NDatabase.Odb;
 using NDatabase.Odb.Core;
 using NDatabase.Odb.Core.Layers.Layer1.Introspector;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
 using NDatabase.Odb.Core.Layers.Layer2.Meta.Compare;
 using NDatabase.Odb.Main;
+using NDatabase.Oid;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Inheritance;

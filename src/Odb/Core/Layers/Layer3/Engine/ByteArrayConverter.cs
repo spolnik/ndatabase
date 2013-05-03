@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using NDatabase.Api;
 using NDatabase.Odb.Core.Layers.Layer2.Meta;
+using NDatabase.Oid;
 
 namespace NDatabase.Odb.Core.Layers.Layer3.Engine
 {
