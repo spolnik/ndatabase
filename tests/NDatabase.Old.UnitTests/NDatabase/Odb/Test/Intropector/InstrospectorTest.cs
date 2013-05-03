@@ -1,12 +1,12 @@
 using NDatabase;
 using NDatabase.Api;
 using NDatabase.Core;
-using NDatabase.Core.Introspector;
-using NDatabase.Core.Trigger;
 using NDatabase.Meta;
 using NDatabase.Meta.Compare;
+using NDatabase.Meta.Introspector;
 using NDatabase.Oid;
 using NDatabase.Tool.Wrappers;
+using NDatabase.Triggers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Inheritance;
 using Test.NDatabase.Odb.Test.VO.Login;

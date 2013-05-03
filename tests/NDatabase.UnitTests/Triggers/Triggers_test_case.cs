@@ -2,7 +2,7 @@
 using Moq;
 using NDatabase.Api;
 using NDatabase.Api.Triggers;
-using NDatabase.Core.Layer3;
+using NDatabase.Core;
 using NDatabase.Triggers;
 using NDatabase.UnitTests.CodeSnippets.Data;
 using NUnit.Framework;

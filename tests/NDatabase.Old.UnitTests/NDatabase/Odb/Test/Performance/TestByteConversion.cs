@@ -1,5 +1,5 @@
 using System;
-using NDatabase.Core.Layer3.Engine;
+using NDatabase.Core.Engine;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Performance

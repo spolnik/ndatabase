@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System.Text;
-using NDatabase.Core.Layer3.IO;
+using NDatabase.IO;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Layer3

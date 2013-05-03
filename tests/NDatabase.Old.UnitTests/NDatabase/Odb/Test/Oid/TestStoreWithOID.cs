@@ -1,3 +1,4 @@
+using NDatabase;
 using NDatabase.Core;
 using NUnit.Framework;
 

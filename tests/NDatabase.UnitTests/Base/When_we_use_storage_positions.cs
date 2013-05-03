@@ -1,4 +1,5 @@
-﻿using NDatabase.Core.Layer3.Engine;
+﻿using NDatabase.Core.Engine;
+using NDatabase.Meta;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Base

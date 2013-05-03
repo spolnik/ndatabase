@@ -1,5 +1,4 @@
-using NDatabase.Core.Layer3;
-using NDatabase.Core.Layer3.IO;
+using NDatabase.IO;
 
 namespace Test.NDatabase.Odb.Test.IO
 {

@@ -1,5 +1,7 @@
-using NDatabase.Core.Layer3;
-using NDatabase.Core.Layer3.Engine;
+using NDatabase.Cache;
+using NDatabase.Core;
+using NDatabase.Core.Engine;
+using NDatabase.Meta;
 using NDatabase.Oid;
 using NUnit.Framework;
 

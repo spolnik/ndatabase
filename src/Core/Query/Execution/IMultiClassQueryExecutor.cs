@@ -1,4 +1,3 @@
-using NDatabase.Core.Layer3;
 using NDatabase.Meta;
 
 namespace NDatabase.Core.Query.Execution

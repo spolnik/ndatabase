@@ -1,12 +1,12 @@
 ﻿using Moq;
 using NDatabase.Api;
+using NDatabase.Cache;
 using NDatabase.Core;
-using NDatabase.Core.Introspector;
-using NDatabase.Core.Layer3;
-using NDatabase.Core.Transaction;
-using NDatabase.Core.Trigger;
+using NDatabase.Core.Session;
 using NDatabase.Meta;
+using NDatabase.Meta.Introspector;
 using NDatabase.Oid;
+using NDatabase.Triggers;
 using NDatabase.UnitTests.TestData;
 using NUnit.Framework;
 

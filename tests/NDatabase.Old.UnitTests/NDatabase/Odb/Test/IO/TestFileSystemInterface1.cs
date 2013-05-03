@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Globalization;
-using NDatabase.Core.Layer3;
-using NDatabase.Core.Layer3.Engine;
-using NDatabase.Core.Layer3.IO;
+using NDatabase.Core;
+using NDatabase.Core.Engine;
+using NDatabase.IO;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.IO

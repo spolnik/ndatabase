@@ -1,8 +1,9 @@
 ﻿using System;
-using NDatabase.Core.Layer3;
-using NDatabase.Core.Layer3.Engine;
-using NDatabase.Core.Transaction;
+using NDatabase.Core;
+using NDatabase.Core.Engine;
+using NDatabase.IO;
 using NDatabase.Meta;
+using NDatabase.Transaction;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Transaction

@@ -2,7 +2,6 @@ using System;
 using NDatabase.Api;
 using NDatabase.Btree;
 using NDatabase.Common;
-using NDatabase.Core.Layer3;
 using NDatabase.Exceptions;
 
 namespace NDatabase.Core.BTree

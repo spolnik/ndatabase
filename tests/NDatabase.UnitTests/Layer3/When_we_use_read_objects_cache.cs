@@ -1,6 +1,6 @@
-﻿using NDatabase.Core.Introspector;
-using NDatabase.Core.Layer3;
+﻿using NDatabase.Cache;
 using NDatabase.Meta;
+using NDatabase.Meta.Introspector;
 using NDatabase.Oid;
 using NUnit.Framework;
 

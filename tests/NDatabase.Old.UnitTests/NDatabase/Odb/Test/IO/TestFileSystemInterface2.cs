@@ -1,6 +1,6 @@
-using NDatabase.Core.Layer3;
-using NDatabase.Core.Layer3.Engine;
-using NDatabase.Core.Layer3.IO;
+using NDatabase.Core;
+using NDatabase.Core.Engine;
+using NDatabase.IO;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 

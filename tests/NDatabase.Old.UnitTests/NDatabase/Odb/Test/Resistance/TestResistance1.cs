@@ -1,4 +1,5 @@
 using System;
+using NDatabase;
 using NDatabase.Api;
 using NDatabase.Core;
 using NDatabase.Meta;

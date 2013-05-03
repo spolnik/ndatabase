@@ -1,10 +1,9 @@
 ﻿using System;
 using Moq;
 using NDatabase.Core;
-using NDatabase.Core.Introspector;
-using NDatabase.Core.Layer3;
-using NDatabase.Core.Transaction;
+using NDatabase.Core.Session;
 using NDatabase.Meta;
+using NDatabase.Meta.Introspector;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Metadata

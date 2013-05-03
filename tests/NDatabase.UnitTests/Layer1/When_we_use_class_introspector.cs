@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NDatabase.Common;
-using NDatabase.Core.Introspector;
+using NDatabase.Meta.Introspector;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Layer1

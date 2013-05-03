@@ -4,11 +4,12 @@ using System.Threading;
 using NDatabase.Api;
 using NDatabase.Container;
 using NDatabase.Core;
-using NDatabase.Core.Layer3;
-using NDatabase.Core.Layer3.Engine;
+using NDatabase.Core.Engine;
 using NDatabase.Core.Query;
-using NDatabase.Core.Transaction;
+using NDatabase.Core.Session;
+using NDatabase.Meta;
 using NDatabase.Services;
+using NDatabase.Transaction;
 
 namespace NDatabase
 {
@@ -43,7 +44,7 @@ namespace NDatabase
             Monitor.Enter(string.Intern(Path.GetFullPath(fileName)));
             
             _last = fileName;
-            return Core.Odb.GetInstance(fileName);
+            return Odb.GetInstance(fileName);
         }
 
         /// <summary>
@@ -61,7 +62,7 @@ namespace NDatabase
         /// <returns>IOdb implementation.</returns>
         public static IOdb OpenInMemory()
         {
-            return Core.Odb.GetInMemoryInstance();
+            return Odb.GetInMemoryInstance();
         }
 
         /// <summary>

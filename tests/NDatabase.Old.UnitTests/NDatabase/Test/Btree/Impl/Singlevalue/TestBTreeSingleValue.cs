@@ -3,6 +3,7 @@ using NDatabase;
 using NDatabase.Btree;
 using NDatabase.Core;
 using NDatabase.Core.BTree;
+using NDatabase.Core.Engine;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test;

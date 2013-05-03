@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using NDatabase.Api;
 using NDatabase.Btree;
-using NDatabase.Core.Layer3;
-using NDatabase.Core.Layer3.Engine;
 using NDatabase.Exceptions;
+using NDatabase.Meta;
+using NDatabase.Services;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
 
