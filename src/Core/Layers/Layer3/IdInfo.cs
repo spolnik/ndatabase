@@ -1,4 +1,4 @@
-namespace NDatabase.Core.Transaction
+namespace NDatabase.Core.Layers.Layer3
 {
     internal sealed class IdInfo
     {

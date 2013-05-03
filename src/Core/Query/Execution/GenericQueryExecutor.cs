@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using NDatabase.Api;
@@ -158,8 +157,6 @@ namespace NDatabase.Core.Query.Execution
 
         protected abstract void PrepareQuery();
 
-        protected abstract IComparable ComputeIndexKey(ClassInfoIndex index);
-
         /// <summary>
         ///   This can be a NonNAtiveObjectInf or AttributeValuesMap
         /// </summary>
@@ -172,6 +169,19 @@ namespace NDatabase.Core.Query.Execution
         /// <param name="loadObjectInfo"> To indicate if object must loaded (when the query indicator 'in memory' is false, we do not need to load object, only ids) </param>
         /// <param name="inMemory"> To indicate if object must be actually loaded to memory </param>
         protected abstract bool MatchObjectWithOid(OID oid, bool loadObjectInfo, bool inMemory);
+
+        /// <summary>
+        ///   Take the fields of the index and take value from the query
+        /// </summary>
+        /// <param name="index"> The index </param>
+        /// <returns> The key of the index </returns>
+        protected virtual IOdbComparable ComputeIndexKey(ClassInfoIndex index)
+        {
+            var attributesNames = ClassInfo.GetAttributeNames(index.AttributeIds);
+            var constraint = Query.GetCriteria();
+            var values = ((IInternalConstraint)constraint).GetValues();
+            return IndexTool.BuildIndexKey(index.Name, values, attributesNames);
+        }
 
         /// <summary>
         ///   Query execution full scan <pre>startIndex &amp; endIndex

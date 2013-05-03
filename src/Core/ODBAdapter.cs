@@ -51,21 +51,21 @@ namespace NDatabase.Core
         public IQuery Query<T>()
         {
             var criteriaQuery = new SodaQuery(typeof(T));
-            ((IInternalQuery)criteriaQuery).SetStorageEngine(_storageEngine);
+            ((IInternalQuery)criteriaQuery).SetQueryEngine(_storageEngine);
             return criteriaQuery;
         }
 
         public IValuesQuery ValuesQuery<T>() where T : class
         {
             var criteriaQuery = new ValuesCriteriaQuery(typeof(T));
-            ((IInternalQuery)criteriaQuery).SetStorageEngine(_storageEngine);
+            ((IInternalQuery)criteriaQuery).SetQueryEngine(_storageEngine);
             return criteriaQuery;
         }
 
         public IValuesQuery ValuesQuery<T>(OID oid) where T : class
         {
             var criteriaQuery = new ValuesCriteriaQuery(typeof(T), oid);
-            ((IInternalQuery)criteriaQuery).SetStorageEngine(_storageEngine);
+            ((IInternalQuery)criteriaQuery).SetQueryEngine(_storageEngine);
             return criteriaQuery;
         }
 

@@ -1,6 +1,4 @@
-using NDatabase.Core.Layers.Layer3;
-
-namespace NDatabase.Core.Transaction
+namespace NDatabase.Core.Layers.Layer3
 {
     internal interface ITransaction
     {

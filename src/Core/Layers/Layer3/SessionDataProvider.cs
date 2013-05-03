@@ -2,7 +2,7 @@ using System;
 using NDatabase.Core.Layers.Layer1.Introspector;
 using NDatabase.Core.Layers.Layer2.Meta;
 
-namespace NDatabase.Core.Transaction
+namespace NDatabase.Core.Layers.Layer3
 {
     internal sealed class SessionDataProvider : IObjectIntrospectionDataProvider
     {

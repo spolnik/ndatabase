@@ -1,8 +1,7 @@
 using System;
 using NDatabase.Core.Layers.Layer2.Meta;
-using NDatabase.Core.Layers.Layer3;
 
-namespace NDatabase.Core.Transaction
+namespace NDatabase.Core.Layers.Layer3
 {
     internal interface ISession : IComparable
     {

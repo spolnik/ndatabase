@@ -26,7 +26,7 @@ namespace NDatabase.Core.Query
 
         protected OrderByConstants OrderByType;
 
-        [NonPersistent] private IStorageEngine _storageEngine;
+        [NonPersistent] private IQueryEngine _storageEngine;
 
         protected AbstractQuery(Type underlyingType)
         {
@@ -55,12 +55,12 @@ namespace NDatabase.Core.Query
             _executionPlan = plan;
         }
 
-        IStorageEngine IInternalQuery.GetStorageEngine()
+        IQueryEngine IInternalQuery.GetQueryEngine()
         {
             return _storageEngine;
         }
 
-        void IInternalQuery.SetStorageEngine(IStorageEngine storageEngine)
+        void IInternalQuery.SetQueryEngine(IQueryEngine storageEngine)
         {
             _storageEngine = storageEngine;
         }
@@ -118,7 +118,7 @@ namespace NDatabase.Core.Query
             valuesCriteriaQuery.Add(Constraint);
 
             var valuesQuery = valuesCriteriaQuery.Count("count");
-            var values = ((IInternalQuery) this).GetStorageEngine().GetValues((IInternalValuesQuery) valuesQuery, -1, -1);
+            var values = ((IInternalQuery) this).GetQueryEngine().GetValues((IInternalValuesQuery) valuesQuery, -1, -1);
 
             var count = (Decimal)values.NextValues().GetByIndex(0);
 

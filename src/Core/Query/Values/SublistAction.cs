@@ -48,7 +48,7 @@ namespace NDatabase.Core.Query.Values
             if (candidate is OID)
             {
                 var candidateOid = (OID)candidate;
-                candidate = _query.GetStorageEngine().GetObjectFromOid(candidateOid);
+                candidate = _query.GetQueryEngine().GetObjectFromOid(candidateOid);
             }
 
             var l = ((IEnumerable)candidate).Cast<object>().ToList();

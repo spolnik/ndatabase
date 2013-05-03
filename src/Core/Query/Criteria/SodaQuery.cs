@@ -99,17 +99,17 @@ namespace NDatabase.Core.Query.Criteria
 
         public override IObjectSet<TItem> Execute<TItem>()
         {
-            return ((IInternalQuery)this).GetStorageEngine().GetObjects<TItem>(this, true, -1, -1);
+            return ((IInternalQuery)this).GetQueryEngine().GetObjects<TItem>(this, true, -1, -1);
         }
 
         public override IObjectSet<TItem> Execute<TItem>(bool inMemory)
         {
-            return ((IInternalQuery)this).GetStorageEngine().GetObjects<TItem>(this, inMemory, -1, -1);
+            return ((IInternalQuery)this).GetQueryEngine().GetObjects<TItem>(this, inMemory, -1, -1);
         }
 
         public override IObjectSet<TItem> Execute<TItem>(bool inMemory, int startIndex, int endIndex)
         {
-            return ((IInternalQuery)this).GetStorageEngine().GetObjects<TItem>(this, inMemory, startIndex, endIndex);
+            return ((IInternalQuery)this).GetQueryEngine().GetObjects<TItem>(this, inMemory, startIndex, endIndex);
         }
 
         private string ApplyAttributeName()

@@ -30,7 +30,7 @@ namespace NDatabase.Core.Query.Criteria.Evaluations
                 return;
 
             // For non native object, we just need the oid of it
-            _oid = _query.GetStorageEngine().GetObjectId(TheObject, false);
+            _oid = _query.GetQueryEngine().GetObjectId(TheObject, false);
         }
 
         public override bool Evaluate(object candidate)
@@ -46,7 +46,7 @@ namespace NDatabase.Core.Query.Criteria.Evaluations
             if (candidate is OID)
             {
                 var oid = (OID) candidate;
-                candidate = _query.GetStorageEngine().GetObjectFromOid(oid);
+                candidate = _query.GetQueryEngine().GetObjectFromOid(oid);
             }
 
             if (candidate is IDictionary)

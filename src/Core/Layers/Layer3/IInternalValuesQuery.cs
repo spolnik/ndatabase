@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using NDatabase.Api.Query;
 using NDatabase.Core.Query.Execution;
 
-namespace NDatabase.Core.Query
+namespace NDatabase.Core.Layers.Layer3
 {
     internal interface IInternalValuesQuery : IValuesQuery
     {

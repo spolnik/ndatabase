@@ -68,20 +68,5 @@ namespace NDatabase.Core.Query.Execution
             var key = new ComposedCompareKey(keys);
             return key;
         }
-
-        /// <summary>
-        ///   Take the fields of the index and take value from the query
-        /// </summary>
-        /// <param name="ci"> The class info involved </param>
-        /// <param name="index"> The index </param>
-        /// <param name="query"> </param>
-        /// <returns> The key of the index </returns>
-        internal static IOdbComparable ComputeKey(ClassInfo ci, ClassInfoIndex index, SodaQuery query)
-        {
-            var attributesNames = ci.GetAttributeNames(index.AttributeIds);
-            var constraint = query.GetCriteria();
-            var values = ((IInternalConstraint)constraint).GetValues();
-            return BuildIndexKey(index.Name, values, attributesNames);
-        }
     }
 }

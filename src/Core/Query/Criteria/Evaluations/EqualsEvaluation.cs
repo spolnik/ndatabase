@@ -18,7 +18,7 @@ namespace NDatabase.Core.Query.Criteria.Evaluations
                 return;
 
             // For non native object, we just need the oid of it
-            _oid = ((IInternalQuery)query).GetStorageEngine().GetObjectId(theObject, false);
+            _oid = ((IInternalQuery)query).GetQueryEngine().GetObjectId(theObject, false);
         }
 
         public override bool Evaluate(object candidate)

@@ -37,7 +37,7 @@ namespace NDatabase.Core.Query.Criteria.Evaluations
             if (candidate is OID)
             {
                 var oid = (OID)candidate;
-                candidate = _query.GetStorageEngine().GetObjectFromOid(oid);
+                candidate = _query.GetQueryEngine().GetObjectFromOid(oid);
             }
 
             if (candidate == null)

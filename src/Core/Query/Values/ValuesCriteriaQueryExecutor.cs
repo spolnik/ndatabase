@@ -1,4 +1,3 @@
-using System;
 using NDatabase.Api;
 using NDatabase.Api.Query;
 using NDatabase.Core.Layers.Layer2.Meta;
@@ -30,7 +29,7 @@ namespace NDatabase.Core.Query.Values
         protected override void PrepareQuery()
         {
             _sodaQuery = Query;
-            ((IInternalQuery) _sodaQuery).SetStorageEngine(StorageEngine);
+            ((IInternalQuery) _sodaQuery).SetQueryEngine(StorageEngine);
             _involvedFields = _sodaQuery.GetAllInvolvedFields();
         }
 
@@ -53,11 +52,6 @@ namespace NDatabase.Core.Query.Values
             // Stores the next position
             NextOID = objectInfoHeader.GetNextObjectOID();
             return objectMatches;
-        }
-
-        protected override IComparable ComputeIndexKey(ClassInfoIndex index)
-        {
-            return IndexTool.ComputeKey(ClassInfo, index, Query);
         }
 
         protected override object GetCurrentObjectMetaRepresentation()

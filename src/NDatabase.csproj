@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Api\IOdbForTrigger.cs" />
     <Compile Include="Btree\AbstractBTreeIterator.cs" />
+    <Compile Include="Core\Layers\Layer3\IQueryEngine.cs" />
     <Compile Include="Core\Query\IQueryManager.cs" />
     <Compile Include="Exceptions\ExceptionsHelper.cs" />
     <Compile Include="Core\Layers\Layer3\IClassInfoProvider.cs" />
@@ -83,7 +84,7 @@
     <Compile Include="Core\Layers\Layer3\Engine\FileSystemReader.cs" />
     <Compile Include="Core\Layers\Layer3\Engine\IFileSystemReader.cs" />
     <Compile Include="Core\Layers\Layer3\IO\OdbFileManager.cs" />
-    <Compile Include="Core\Transaction\SessionDataProvider.cs" />
+    <Compile Include="Core\Layers\Layer3\SessionDataProvider.cs" />
     <Compile Include="Core\Layers\Layer2\Meta\IMetaModel.cs" />
     <Compile Include="Core\Layers\Layer3\InMemoryIdentification.cs" />
     <Compile Include="Core\Layers\Layer3\IO\OdbMemoryStream.cs" />
@@ -101,7 +102,7 @@
     <Compile Include="Core\Query\Criteria\Evaluations\StartsWithEvaluation.cs" />
     <Compile Include="Core\Query\Criteria\IInternalConstraint.cs" />
     <Compile Include="Core\Query\Criteria\QueryConstraint.cs" />
-    <Compile Include="Core\Query\IInternalValuesQuery.cs" />
+    <Compile Include="Core\Layers\Layer3\IInternalValuesQuery.cs" />
     <Compile Include="Core\Query\Linq\ExpressionQueryBuilder.cs" />
     <Compile Include="Core\Query\Linq\ExpressionTransformer.cs" />
     <Compile Include="Core\Query\Linq\ExpressionTreeNormalizer.cs" />
@@ -200,9 +201,9 @@
     <Compile Include="Core\Query\SimpleCompareKey.cs" />
     <Compile Include="Core\Query\Values\AbstractQueryFieldAction.cs" />
     <Compile Include="Core\Layers\Layer3\IOdbCache.cs" />
-    <Compile Include="Core\Transaction\ISession.cs" />
+    <Compile Include="Core\Layers\Layer3\ISession.cs" />
     <Compile Include="Core\Layers\Layer3\IReadObjectsCache.cs" />
-    <Compile Include="Core\Transaction\ITransaction.cs" />
+    <Compile Include="Core\Layers\Layer3\ITransaction.cs" />
     <Compile Include="Api\Triggers\DeleteTrigger.cs" />
     <Compile Include="Api\Triggers\InsertTrigger.cs" />
     <Compile Include="Core\Trigger\IInternalTriggerManager.cs" />
@@ -275,7 +276,7 @@
     <Compile Include="Core\Layers\Layer3\OdbCache.cs" />
     <Compile Include="Core\Transaction\OdbTransaction.cs" />
     <Compile Include="Core\Transaction\WriteAction.cs" />
-    <Compile Include="Core\Transaction\IdInfo.cs" />
+    <Compile Include="Core\Layers\Layer3\IdInfo.cs" />
     <Compile Include="Core\Transaction\LocalSession.cs" />
     <Compile Include="Core\Transaction\Session.cs" />
     <Compile Include="Core\Layers\Layer3\ReadObjectsCache.cs" />

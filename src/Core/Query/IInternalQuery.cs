@@ -13,9 +13,9 @@ namespace NDatabase.Core.Query
 
         void SetExecutionPlan(IQueryExecutionPlan plan);
 
-        IStorageEngine GetStorageEngine();
+        IQueryEngine GetQueryEngine();
 
-        void SetStorageEngine(IStorageEngine storageEngine);
+        void SetQueryEngine(IQueryEngine storageEngine);
 
         void Add(IConstraint criterion);
 

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using NDatabase.Api;
 using NDatabase.Core.Layers.Layer2;
 using NDatabase.Core.Layers.Layer2.Meta;
+using NDatabase.Core.Layers.Layer3;
 using NDatabase.Core.Query.Execution;
 using NDatabase.Core.Query.List;
 using NDatabase.Tool.Wrappers;

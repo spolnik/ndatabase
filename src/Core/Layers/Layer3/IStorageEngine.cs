@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using NDatabase.Api;
-using NDatabase.Api.Query;
 using NDatabase.Core.Layers.Layer2.Meta;
 using NDatabase.Core.Layers.Layer3.Engine;
-using NDatabase.Core.Query;
 using NDatabase.Core.Transaction;
 using NDatabase.Core.Trigger;
 using NDatabase.Tool.Wrappers;
@@ -14,7 +12,7 @@ namespace NDatabase.Core.Layers.Layer3
     /// <summary>
     ///   The interface of all that a StorageEngine (Main concept in ODB) must do.
     /// </summary>
-    internal interface IStorageEngine : ITriggersEngine, IClassInfoProvider
+    internal interface IStorageEngine : ITriggersEngine, IClassInfoProvider, IQueryEngine
     {
         OID Store<T>(OID oid, T plainObject) where T : class;
 
@@ -32,10 +30,6 @@ namespace NDatabase.Core.Layers.Layer3
 
         void Close();
 
-        IValues GetValues(IInternalValuesQuery query, int startIndex, int endIndex);
-
-        IInternalObjectSet<T> GetObjects<T>(IQuery query, bool inMemory, int startIndex, int endIndex);
-
         IObjectReader GetObjectReader();
 
         IObjectWriter GetObjectWriter();
@@ -47,10 +41,6 @@ namespace NDatabase.Core.Layers.Layer3
         void Commit();
 
         void Rollback();
-
-        OID GetObjectId<T>(T plainObject, bool throwExceptionIfDoesNotExist) where T : class;
-
-        object GetObjectFromOid(OID oid);
 
         ObjectInfoHeader GetObjectInfoHeaderFromOid(OID oid);
 

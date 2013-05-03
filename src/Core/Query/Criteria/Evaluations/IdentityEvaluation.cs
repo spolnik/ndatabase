@@ -24,7 +24,7 @@ namespace NDatabase.Core.Query.Criteria.Evaluations
                 throw new ArgumentException("Constrain object cannot be native object.");
 
             // For non native object, we just need the oid of it
-            _oid = ((IInternalQuery)query).GetStorageEngine().GetObjectId(theObject, false);
+            _oid = ((IInternalQuery)query).GetQueryEngine().GetObjectId(theObject, false);
         }
 
 

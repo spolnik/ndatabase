@@ -9,7 +9,6 @@ using NDatabase.Api.Triggers;
 using NDatabase.Container;
 using NDatabase.Core.Layers.Layer1.Introspector;
 using NDatabase.Core.Layers.Layer2.Meta;
-using NDatabase.Core.Query;
 using NDatabase.Core.Transaction;
 using NDatabase.Core.Trigger;
 using NDatabase.Exceptions;
@@ -52,7 +51,7 @@ namespace NDatabase.Core.Layers.Layer3.Engine
 
         private IDatabaseId _databaseId;
         private IObjectIntrospector _objectIntrospector;
-        private ISession _session;
+        private readonly ISession _session;
         private readonly SessionDataProvider _objectIntrospectionDataProvider;
 
         /// <summary>
@@ -68,19 +67,18 @@ namespace NDatabase.Core.Layers.Layer3.Engine
                 IsDbClosed = false;
 
                 var isNewDatabase = DbIdentification.IsNew();
-            
-                var session = BuildDefaultSession();
+
+                _session = DependencyContainer.Resolve<ISession>(this);
 
                 // Object Writer must be created before object Reader
-                _objectWriter = new ObjectWriter(this);
-
-                ObjectReader = new ObjectReader(this);
+                _objectWriter = DependencyContainer.Resolve<IObjectWriter>(this);
+                ObjectReader = DependencyContainer.Resolve<IObjectReader>(this);
 
                 // Associate current session to the fsi -> all transaction writes
                 // will be applied to this FileSystemInterface
-                session.SetFileSystemInterfaceToApplyTransaction(_objectWriter.FileSystemProcessor.FileSystemInterface);
+                _session.SetFileSystemInterfaceToApplyTransaction(_objectWriter.FileSystemProcessor.FileSystemInterface);
 
-                _objectIntrospectionDataProvider = new SessionDataProvider(session);
+                _objectIntrospectionDataProvider = new SessionDataProvider(_session);
 
                 if (isNewDatabase)
                 {
@@ -395,12 +393,6 @@ namespace NDatabase.Core.Layers.Layer3.Engine
         public override void AddUpdateTriggerFor(Type type, UpdateTrigger trigger)
         {
             _triggerManager.AddUpdateTriggerFor(type, trigger);
-        }
-
-        private ISession BuildDefaultSession()
-        {
-            _session = new LocalSession(this);
-            return _session;
         }
 
         public override ISession GetSession()

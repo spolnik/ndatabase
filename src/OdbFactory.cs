@@ -5,7 +5,9 @@ using NDatabase.Api;
 using NDatabase.Container;
 using NDatabase.Core;
 using NDatabase.Core.Layers.Layer3;
+using NDatabase.Core.Layers.Layer3.Engine;
 using NDatabase.Core.Query;
+using NDatabase.Core.Transaction;
 using NDatabase.Services;
 
 namespace NDatabase
@@ -24,6 +26,11 @@ namespace NDatabase
             DependencyContainer.Register<IQueryManager>(() => new QueryManager());
 
             DependencyContainer.Register<IOdbForTrigger>((storageEngine) => new OdbAdapter((IStorageEngine)storageEngine));
+
+            DependencyContainer.Register<IObjectWriter>((storageEngine) => new ObjectWriter((IStorageEngine)storageEngine));
+            DependencyContainer.Register<IObjectReader>((storageEngine) => new ObjectReader((IStorageEngine)storageEngine));
+
+            DependencyContainer.Register<ISession>((storageEngine) => new LocalSession((IStorageEngine)storageEngine));
         }
 
         /// <summary>

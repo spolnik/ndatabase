@@ -1,4 +1,3 @@
-using System;
 using NDatabase.Api;
 using NDatabase.Api.Query;
 using NDatabase.Core.Layers.Layer2.Meta;
@@ -84,7 +83,7 @@ namespace NDatabase.Core.Query.Criteria
             }
         }
 
-        protected override IComparable ComputeIndexKey(ClassInfoIndex index)
+        protected override IOdbComparable ComputeIndexKey(ClassInfoIndex index)
         {
             var constraint = Query.GetCriteria();
             var values = ((IInternalConstraint)constraint).GetValues();
@@ -93,7 +92,7 @@ namespace NDatabase.Core.Query.Criteria
             // the index key is then the oid and not the object itself
             return values.HasOid()
                        ? new SimpleCompareKey(values.GetOid())
-                       : IndexTool.ComputeKey(ClassInfo, index, Query);
+                       : base.ComputeIndexKey(index);
         }
 
         protected override object GetCurrentObjectMetaRepresentation()
