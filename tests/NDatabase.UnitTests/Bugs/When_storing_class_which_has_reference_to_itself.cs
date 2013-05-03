@@ -1,7 +1,5 @@
 ﻿using System;
 using NDatabase.Exceptions;
-using NDatabase.Odb;
-using NDatabase.Odb.Core;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Bugs

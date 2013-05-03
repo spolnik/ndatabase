@@ -1,15 +1,12 @@
 ﻿using Moq;
 using NDatabase.Api;
 using NDatabase.Core;
-using NDatabase.Odb;
-using NDatabase.Odb.Core;
-using NDatabase.Odb.Core.Layers.Layer1.Introspector;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Transaction;
-using NDatabase.Odb.Core.Trigger;
+using NDatabase.Core.Layers.Layer1.Introspector;
+using NDatabase.Core.Layers.Layer2.Meta;
+using NDatabase.Core.Layers.Layer3;
+using NDatabase.Core.Transaction;
+using NDatabase.Core.Trigger;
 using NDatabase.Oid;
-using NDatabase.Tool.Wrappers;
 using NDatabase.UnitTests.TestData;
 using NUnit.Framework;
 

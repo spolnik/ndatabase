@@ -1,6 +1,5 @@
-﻿using NDatabase.Odb;
+﻿using System.Linq;
 using NUnit.Framework;
-using System.Linq;
 
 namespace NDatabase.Client.UnitTests.Paging
 {

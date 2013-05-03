@@ -1,8 +1,7 @@
 using System;
 using NDatabase.Api;
-using NDatabase.Odb;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Main;
+using NDatabase.Core;
+using NDatabase.Core.Layers.Layer2.Meta;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;

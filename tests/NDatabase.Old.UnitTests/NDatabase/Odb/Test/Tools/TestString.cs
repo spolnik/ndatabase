@@ -1,5 +1,4 @@
 using NDatabase.Exceptions;
-using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Tools

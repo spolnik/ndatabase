@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using NDatabase.Api;
 using NDatabase.Api.Query;
 using NDatabase.Client.UnitTests.Data.Heroes;
-using NDatabase.Client.UnitTests.Data.Items;
-using NDatabase.Exceptions;
-using NDatabase.Odb;
-using NDatabase.Odb.Core.Query;
 using NUnit.Framework;
 
 namespace NDatabase.Client.UnitTests.Queries.Soda

@@ -6,7 +6,6 @@ using System.Linq;
 using NDatabase.Tutorial.Shared;
 using NDatabase.Tutorial.Shared.Heroes;
 using NDatabase.Tutorial.Shared.Items;
-using NDatabase.Odb;
 
 namespace NDatabase.Tutorial.Basic.NDb
 {

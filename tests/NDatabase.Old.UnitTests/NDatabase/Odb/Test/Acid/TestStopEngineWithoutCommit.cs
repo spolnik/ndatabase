@@ -1,6 +1,5 @@
 using System;
 using NDatabase.Api;
-using NDatabase.Odb;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;
 

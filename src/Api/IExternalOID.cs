@@ -1,5 +1,3 @@
-using NDatabase.Odb;
-
 namespace NDatabase.Api
 {
     /// <summary>

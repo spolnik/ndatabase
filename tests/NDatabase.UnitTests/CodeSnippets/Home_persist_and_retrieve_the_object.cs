@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using NDatabase.Odb;
 using NDatabase.UnitTests.CodeSnippets.Data;
 using NUnit.Framework;
 

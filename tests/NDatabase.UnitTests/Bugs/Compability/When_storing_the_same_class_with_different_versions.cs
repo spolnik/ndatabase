@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Moq;
-using NDatabase.Compability;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Services;
+using NDatabase.Core;
+using NDatabase.Core.Layers.Layer2.Meta;
 using NDatabase.Tool.Wrappers;
 using NDatabase.UnitTests.TestData;
 using NUnit.Framework;

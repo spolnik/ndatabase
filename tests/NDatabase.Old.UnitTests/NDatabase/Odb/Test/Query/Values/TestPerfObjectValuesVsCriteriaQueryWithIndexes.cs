@@ -1,6 +1,5 @@
 using System;
 using NDatabase.Api.Query;
-using NDatabase.Odb.Core.Query;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Login;

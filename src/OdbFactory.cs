@@ -2,9 +2,10 @@ using System;
 using System.IO;
 using System.Threading;
 using NDatabase.Api;
-using NDatabase.Compability;
 using NDatabase.Container;
-using NDatabase.Odb;
+using NDatabase.Core;
+using NDatabase.Core.Layers.Layer3;
+using NDatabase.Core.Query;
 using NDatabase.Services;
 
 namespace NDatabase
@@ -20,6 +21,9 @@ namespace NDatabase
         static OdbFactory()
         {
             DependencyContainer.Register<IMetaModelCompabilityChecker>(() => new MetaModelCompabilityChecker());
+            DependencyContainer.Register<IQueryManager>(() => new QueryManager());
+
+            DependencyContainer.Register<IOdbForTrigger>((storageEngine) => new OdbAdapter((IStorageEngine)storageEngine));
         }
 
         /// <summary>
@@ -32,7 +36,7 @@ namespace NDatabase
             Monitor.Enter(string.Intern(Path.GetFullPath(fileName)));
             
             _last = fileName;
-            return Odb.Main.Odb.GetInstance(fileName);
+            return Core.Odb.GetInstance(fileName);
         }
 
         /// <summary>
@@ -50,7 +54,7 @@ namespace NDatabase
         /// <returns>IOdb implementation.</returns>
         public static IOdb OpenInMemory()
         {
-            return Odb.Main.Odb.GetInMemoryInstance();
+            return Core.Odb.GetInMemoryInstance();
         }
 
         /// <summary>

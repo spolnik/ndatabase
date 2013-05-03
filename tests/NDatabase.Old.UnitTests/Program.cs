@@ -1,7 +1,6 @@
 ﻿using System;
 using NDatabase;
 using NDatabase.Api;
-using NDatabase.Odb;
 using NUnit.Framework;
 
 namespace Test

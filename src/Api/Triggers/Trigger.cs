@@ -8,6 +8,6 @@ namespace NDatabase.Api.Triggers
         /// <summary>
         /// Access to NDatabase interface connected with created trigger
         /// </summary>
-        public IOdb Odb { get; set; }
+        public IOdbForTrigger Odb { get; internal set; }
     }
 }

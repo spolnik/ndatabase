@@ -1,9 +1,9 @@
 using System;
 using System.Globalization;
+using System.Linq;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Attribute;
 using Test.NDatabase.Odb.Test.VO.Login;
-using System.Linq;
 
 namespace Test.NDatabase.Odb.Test.Query.Values
 {

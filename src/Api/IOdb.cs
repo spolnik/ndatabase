@@ -1,9 +1,6 @@
 using System;
 using NDatabase.Api.Query;
 using NDatabase.Api.Triggers;
-using NDatabase.Odb;
-using NDatabase.Odb.Core.Query;
-using NDatabase.Odb.Core.Query.Linq;
 
 namespace NDatabase.Api
 {
@@ -15,24 +12,6 @@ namespace NDatabase.Api
     /// </remarks>
     public interface IOdb : IDisposable
     {
-        /// <summary>
-        /// Commits all changes of the database.
-        /// </summary>
-        void Commit();
-
-        /// <summary>
-        /// Rollbacks all uncommitted changes of the database.
-        /// </summary>
-        void Rollback();
-
-        /// <summary>
-        ///   Closes the database.
-        /// </summary>
-        /// <remarks>
-        ///   Automatically commit uncommitted changes of the database.
-        /// </remarks>
-        void Close();
-
         /// <summary>
         /// Stores the specified plain object.
         /// </summary>
@@ -78,49 +57,10 @@ namespace NDatabase.Api
         object GetObjectFromId(OID id);
 
         /// <summary>
-        /// Defragments database to specified location.
-        /// </summary>
-        /// <param name="newFileName">New name of the file.</param>
-        void DefragmentTo(string newFileName);
-
-        /// <summary>
-        /// Get the indexes manager for specified object type.
-        /// </summary>
-        /// <typeparam name="T">Plain object type.</typeparam>
-        /// <returns>Index manager.</returns>
-        IIndexManager IndexManagerFor<T>() where T : class;
-
-        /// <summary>
-        /// Get the triggers manager for specified object type.
-        /// </summary>
-        /// <typeparam name="T">Plain object type.</typeparam>
-        /// <returns>Trigger manager.</returns>
-        ITriggerManager TriggerManagerFor<T>() where T : class;
-
-        /// <summary>
-        /// Gets the refactor manager.
-        /// </summary>
-        /// <remarks>
-        /// Refactor manager allows on updating database schema, when classes definition were changed.
-        /// </remarks>
-        /// <returns>Refactor manager.</returns>
-        IRefactorManager GetRefactorManager();
-
-        /// <summary>
         /// Get the extension of database interface to get the access to advanced functions
         /// </summary>
         /// <returns>Extended interface to database.</returns>
         IOdbExt Ext();
-
-        /// <summary>
-        /// Disconnects the specified plain object from the current session.
-        /// </summary>
-        /// <remarks>
-        /// The object is removed from the cache.
-        /// </remarks>
-        /// <typeparam name="T">Plain object type.</typeparam>
-        /// <param name="plainObject">The plain object.</param>
-        void Disconnect<T>(T plainObject) where T : class;
 
         /// <summary>
         /// Determines whether the database is closed.
@@ -171,5 +111,62 @@ namespace NDatabase.Api
         /// <typeparam name="T">Plain object type.</typeparam>
         /// <returns>Queryable collection</returns>
         ILinqQueryable<T> AsQueryable<T>();
+
+        /// <summary>
+        /// Commits all changes of the database.
+        /// </summary>
+        void Commit();
+
+        /// <summary>
+        /// Rollbacks all uncommitted changes of the database.
+        /// </summary>
+        void Rollback();
+
+        /// <summary>
+        ///   Closes the database.
+        /// </summary>
+        /// <remarks>
+        ///   Automatically commit uncommitted changes of the database.
+        /// </remarks>
+        void Close();
+
+        /// <summary>
+        /// Defragments database to specified location.
+        /// </summary>
+        /// <param name="newFileName">New name of the file.</param>
+        void DefragmentTo(string newFileName);
+
+        /// <summary>
+        /// Get the indexes manager for specified object type.
+        /// </summary>
+        /// <typeparam name="T">Plain object type.</typeparam>
+        /// <returns>Index manager.</returns>
+        IIndexManager IndexManagerFor<T>() where T : class;
+
+        /// <summary>
+        /// Get the triggers manager for specified object type.
+        /// </summary>
+        /// <typeparam name="T">Plain object type.</typeparam>
+        /// <returns>Trigger manager.</returns>
+        ITriggerManager TriggerManagerFor<T>() where T : class;
+
+        /// <summary>
+        /// Gets the refactor manager.
+        /// </summary>
+        /// <remarks>
+        /// Refactor manager allows on updating database schema, when classes definition were changed.
+        /// </remarks>
+        /// <returns>Refactor manager.</returns>
+        IRefactorManager GetRefactorManager();
+
+        /// <summary>
+        /// Disconnects the specified plain object from the current session.
+        /// </summary>
+        /// <remarks>
+        /// The object is removed from the cache.
+        /// </remarks>
+        /// <typeparam name="T">Plain object type.</typeparam>
+        /// <param name="plainObject">The plain object.</param>
+        void Disconnect<T>(T plainObject) where T : class;
     }
 }

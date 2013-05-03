@@ -1,6 +1,5 @@
 using System.Collections;
 using NDatabase.Api;
-using NDatabase.Odb;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.List.Update

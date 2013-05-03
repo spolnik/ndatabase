@@ -4,7 +4,6 @@ using System.Linq;
 using NDatabase.Api;
 using NDatabase.Tutorial.Shared.Heroes;
 using NDatabase.Tutorial.Shared.Items;
-using NDatabase.Odb;
 using log4net.Config;
 
 namespace NDatabase.Tutorial.Logging.log4net

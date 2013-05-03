@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using NDatabase.Common;
 using NDatabase.Exceptions;
-using NDatabase.Odb.Core;
 
 namespace NDatabase.Btree
 {

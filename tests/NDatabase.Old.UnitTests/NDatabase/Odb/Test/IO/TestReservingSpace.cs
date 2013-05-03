@@ -1,5 +1,5 @@
-using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Layers.Layer3.Engine;
+using NDatabase.Core.Layers.Layer3;
+using NDatabase.Core.Layers.Layer3.Engine;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.IO

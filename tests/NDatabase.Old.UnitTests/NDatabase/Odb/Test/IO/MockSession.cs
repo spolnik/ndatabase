@@ -1,11 +1,11 @@
 using System;
-using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Layers.Layer3.Engine;
-using NDatabase.Odb.Core.Transaction;
+using NDatabase.Core.Layers.Layer3;
+using NDatabase.Core.Layers.Layer3.Engine;
+using NDatabase.Core.Transaction;
 
 namespace Test.NDatabase.Odb.Test.IO
 {
-    internal class MockSession : global::NDatabase.Odb.Core.Transaction.Session
+    internal class MockSession : global::NDatabase.Core.Transaction.Session
     {
         public MockSession(String baseIdentification) : base("mock", baseIdentification)
         {

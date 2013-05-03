@@ -1,5 +1,8 @@
-﻿using NDatabase.Compability;
+﻿using Moq;
+using NDatabase.Api;
 using NDatabase.Container;
+using NDatabase.Core;
+using NDatabase.Core.Layers.Layer3;
 using NDatabase.Services;
 using NUnit.Framework;
 
@@ -14,6 +17,18 @@ namespace NDatabase.UnitTests.Container
 
             var checker = DependencyContainer.Resolve<IMetaModelCompabilityChecker>();
             Assert.That(checker, Is.Not.Null);
+        }
+
+        [Test]
+        public void It_should_return_registered_implementation_which_requires_argument()
+        {
+            DependencyContainer.Register<IOdbForTrigger>((storageEngine) => new OdbAdapter((IStorageEngine) storageEngine));
+
+            var mock = new Mock<IStorageEngine>();
+
+            var odbForTrigger = DependencyContainer.Resolve<IOdbForTrigger>(mock.Object);
+
+            Assert.That(odbForTrigger, Is.Not.Null);
         }
     }
 }

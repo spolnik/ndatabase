@@ -2,10 +2,8 @@ using System;
 using System.Linq;
 using NDatabase;
 using NDatabase.Api.Query;
+using NDatabase.Core.Query;
 using NDatabase.Exceptions;
-using NDatabase.Odb;
-using NDatabase.Odb.Core.Query;
-using NDatabase.Odb.Core.Query.Criteria;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 

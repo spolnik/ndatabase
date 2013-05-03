@@ -1,5 +1,4 @@
 using NDatabase.Api;
-using NDatabase.Odb;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Trigger

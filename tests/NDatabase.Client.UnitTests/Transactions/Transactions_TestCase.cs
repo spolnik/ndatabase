@@ -1,6 +1,5 @@
 ﻿using NDatabase.Client.UnitTests.Data;
 using NDatabase.Exceptions;
-using NDatabase.Odb;
 using NUnit.Framework;
 
 namespace NDatabase.Client.UnitTests.Transactions

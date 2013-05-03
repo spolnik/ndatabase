@@ -1,10 +1,9 @@
 using System;
+using System.Linq;
 using NDatabase;
-using NDatabase.Odb;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Attribute;
-using System.Linq;
 
 namespace Test.NDatabase.Odb.Test.Explorer
 {

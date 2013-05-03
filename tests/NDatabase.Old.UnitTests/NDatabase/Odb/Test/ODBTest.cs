@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using NDatabase;
 using NDatabase.Api;
-using NDatabase.Odb;
 
 namespace Test.NDatabase.Odb.Test
 {

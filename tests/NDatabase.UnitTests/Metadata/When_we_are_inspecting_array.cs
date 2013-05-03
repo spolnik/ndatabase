@@ -1,12 +1,10 @@
 ﻿using System;
 using Moq;
 using NDatabase.Core;
-using NDatabase.Odb;
-using NDatabase.Odb.Core.Layers.Layer1.Introspector;
-using NDatabase.Odb.Core.Layers.Layer2.Meta;
-using NDatabase.Odb.Core.Layers.Layer3;
-using NDatabase.Odb.Core.Transaction;
-using NDatabase.Tool.Wrappers;
+using NDatabase.Core.Layers.Layer1.Introspector;
+using NDatabase.Core.Layers.Layer2.Meta;
+using NDatabase.Core.Layers.Layer3;
+using NDatabase.Core.Transaction;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Metadata
