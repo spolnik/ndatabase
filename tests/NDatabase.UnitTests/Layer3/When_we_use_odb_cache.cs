@@ -1,6 +1,4 @@
 ﻿using NDatabase.Cache;
-using NDatabase.Core;
-using NDatabase.Core.Engine;
 using NDatabase.Meta;
 using NDatabase.Meta.Introspector;
 using NDatabase.Oid;

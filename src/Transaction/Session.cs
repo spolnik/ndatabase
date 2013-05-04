@@ -115,10 +115,7 @@ namespace NDatabase.Transaction
             _cache.RemoveObject(@object);
         }
 
-        public IObjectWriter GetObjectWriter()
-        {
-            return GetStorageEngine().GetObjectWriter();
-        }
+        public abstract IObjectWriter GetObjectWriter();
 
         #endregion
 

@@ -1,10 +1,8 @@
 using System;
 using NDatabase;
+using NDatabase.Api;
 using NDatabase.Btree;
-using NDatabase.Common;
-using NDatabase.Core;
 using NDatabase.Core.BTree;
-using NDatabase.Core.Engine;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 
@@ -18,7 +16,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
         private IBTreePersister GetPersister(string baseName)
         {
             var odb = Open(baseName);
-            return new LazyOdbBtreePersister(((OdbAdapter)odb).GetStorageEngine());
+            return new LazyOdbBtreePersister(((global::NDatabase.Odb)odb).GetStorageEngine());
         }
 
         public static void Main2(string[] args)

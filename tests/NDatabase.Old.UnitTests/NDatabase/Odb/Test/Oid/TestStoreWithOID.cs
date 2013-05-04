@@ -1,5 +1,4 @@
 using NDatabase;
-using NDatabase.Core;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Oid
@@ -18,7 +17,7 @@ namespace Test.NDatabase.Odb.Test.Oid
             odb.Close();
             odb = Open("withoid");
             var f2 = new VO.Login.Function("f2");
-            var engine = ((OdbAdapter)odb).GetStorageEngine();
+            var engine = ((global::NDatabase.Odb)odb).GetStorageEngine();
             engine.Store(oid, f2);
             odb.Close();
             odb = Open("withoid");

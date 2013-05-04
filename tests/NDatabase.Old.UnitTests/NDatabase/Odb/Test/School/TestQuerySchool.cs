@@ -1,7 +1,6 @@
 ﻿using System;
 using NDatabase;
 using NDatabase.Api;
-using NDatabase.Core;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.School;
 
@@ -60,7 +59,7 @@ namespace Test.NDatabase.Odb.Test.School
             try
             {
                 odb = Open("t-school.ndb");
-                var ci = ((OdbAdapter)odb).GetStorageEngine().GetSession().GetMetaModel().GetClassInfo(typeof(Student), true);
+                var ci = ((global::NDatabase.Odb)odb).GetStorageEngine().GetSession().GetMetaModel().GetClassInfo(typeof(Student), true);
 
                 AssertFalse(ci.HasCyclicReference());
             }

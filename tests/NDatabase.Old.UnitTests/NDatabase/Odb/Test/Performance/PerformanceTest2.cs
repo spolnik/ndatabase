@@ -100,7 +100,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             list.Add(login);
             list.Add(logout);
             var profile = new Profile("operator" + i, list);
-            var user = new User("olivier smadja" + i, "olivier@neodatis.com", profile);
+            var user = new User("olivier smadja" + i, "user@ndatabase.net", profile);
             return user;
         }
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using NDatabase;
 using NDatabase.Api;
 using NDatabase.Oid;
 using NUnit.Framework;

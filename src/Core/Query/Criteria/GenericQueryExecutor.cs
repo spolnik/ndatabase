@@ -5,8 +5,7 @@ using NDatabase.Api.Query;
 using NDatabase.Btree;
 using NDatabase.Container;
 using NDatabase.Core.BTree;
-using NDatabase.Core.Engine;
-using NDatabase.Core.Query.Criteria;
+using NDatabase.Core.Query.Execution;
 using NDatabase.Core.Session;
 using NDatabase.Exceptions;
 using NDatabase.Indexing;
@@ -14,7 +13,7 @@ using NDatabase.Meta;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
 
-namespace NDatabase.Core.Query.Execution
+namespace NDatabase.Core.Query.Criteria
 {
     /// <summary>
     ///   <p>Generic query executor</p> .

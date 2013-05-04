@@ -20,7 +20,7 @@ namespace Test.NDatabase.Odb.Test.Defragment
             DeleteBase(OdbFileName1);
             DeleteBase(OdbFileName2);
             var odb = Open(OdbFileName1);
-            var user = new User("olivier", "olivier@neodatis.com", null);
+            var user = new User("olivier", "user@ndatabase.net", null);
             odb.Store(user);
             odb.Close();
 
@@ -48,7 +48,7 @@ namespace Test.NDatabase.Odb.Test.Defragment
             var p = new Profile("profile");
             for (var i = 0; i < 500; i++)
             {
-                var user = new User("olivier " + i, "olivier@neodatis.com " + i, p);
+                var user = new User("olivier " + i, "user@ndatabase.net " + i, p);
                 odb.Store(user);
             }
             odb.Close();
@@ -73,7 +73,7 @@ namespace Test.NDatabase.Odb.Test.Defragment
             var odb = Open(OdbFileName1);
             for (var i = 0; i < 1500; i++)
             {
-                var user = new User("olivier " + i, "olivier@neodatis.com " + i, new Profile("profile" + i));
+                var user = new User("olivier " + i, "user@ndatabase.net " + i, new Profile("profile" + i));
                 odb.Store(user);
             }
             odb.Close();

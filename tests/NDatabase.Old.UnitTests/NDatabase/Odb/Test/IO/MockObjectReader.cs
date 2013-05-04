@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using NDatabase.Api;
 using NDatabase.Api.Query;
 using NDatabase.Core;
-using NDatabase.Core.Query;
 using NDatabase.Meta;
 using NDatabase.Tool.Wrappers;
 

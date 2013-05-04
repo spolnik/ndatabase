@@ -40,9 +40,11 @@ namespace NDatabase.Core.Query.List
             return _currentPosition < Count;
         }
 
-        public virtual TItem Next()
+        public TItem Next()
         {
-            return this[_currentPosition++];
+            return !HasNext() 
+                ? default(TItem) 
+                : this[_currentPosition++];
         }
 
         public virtual void Reset()

@@ -60,7 +60,7 @@ namespace Test.NDatabase.Odb.Test.Update
             list.Add(login);
             list.Add(logout);
             var profile = new Profile("operator", list);
-            var olivier = new User("olivier smadja", "olivier@neodatis.com", profile);
+            var olivier = new User("olivier smadja", "user@ndatabase.net", profile);
             var aisa = new User("A√≠sa Galv√£o Smadja", "aisa@neodRMuatis.com", profile);
             odb.Store(olivier);
             odb.Store(aisa);
@@ -145,8 +145,8 @@ namespace Test.NDatabase.Odb.Test.Update
             list.Add(login);
             list.Add(logout);
             var profile = new Profile("operator", list);
-            var olivier = new User("olivier smadja", "olivier@neodatis.com", profile);
-            var aisa = new User("A√≠sa Galv√£o Smadja", "aisa@neodatis.com", profile);
+            var olivier = new User("olivier smadja", "user@ndatabase.net", profile);
+            var aisa = new User("A√≠sa Galv√£o Smadja", "aisa@ndatabase.net", profile);
             odb.Store(olivier);
             odb.Store(profile);
             odb.Commit();
@@ -177,7 +177,7 @@ namespace Test.NDatabase.Odb.Test.Update
             list.Add(login);
             list.Add(logout);
             var profile = new Profile("operator", list);
-            var olivier = new User("olivier smadja", "olivier@neodatis.com", profile);
+            var olivier = new User("olivier smadja", "user@ndatabase.net", profile);
             odb.Store(olivier);
             odb.Close();
             Println("----------");

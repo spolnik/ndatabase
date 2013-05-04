@@ -26,7 +26,7 @@ namespace NDatabase
             DependencyContainer.Register<IMetaModelCompabilityChecker>(() => new MetaModelCompabilityChecker());
             DependencyContainer.Register<IQueryManager>(() => new QueryManager());
 
-            DependencyContainer.Register<IOdbForTrigger>((storageEngine) => new OdbAdapter((IStorageEngine)storageEngine));
+            DependencyContainer.Register<IOdbForTrigger>((storageEngine) => new Odb((IStorageEngine)storageEngine));
 
             DependencyContainer.Register<IObjectWriter>((storageEngine) => new ObjectWriter((IStorageEngine)storageEngine));
             DependencyContainer.Register<IObjectReader>((storageEngine) => new ObjectReader((IStorageEngine)storageEngine));

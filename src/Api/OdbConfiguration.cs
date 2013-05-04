@@ -1,4 +1,3 @@
-using NDatabase.Btree;
 using NDatabase.Tool;
 
 namespace NDatabase.Api
@@ -12,6 +11,7 @@ namespace NDatabase.Api
     public static class OdbConfiguration
     {
         private static bool _loggingEnabled;
+        private static bool _btreeValidationEnabled;
 
         /// <summary>
         /// Default index BTree degree - 20
@@ -31,7 +31,7 @@ namespace NDatabase.Api
         /// </remarks>
         public static void EnableBTreeValidation()
         {
-            BTreeValidator.SetOn(true);
+            _btreeValidationEnabled = true;
         }
 
 
@@ -43,7 +43,7 @@ namespace NDatabase.Api
         /// </returns>
         public static bool IsBTreeValidationEnabled()
         {
-            return BTreeValidator.IsOn();
+            return _btreeValidationEnabled;
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace NDatabase.Api
         /// </summary>
         public static void DisableBTreeValidation()
         {
-            BTreeValidator.SetOn(false);
+            _btreeValidationEnabled = false;
         }
 
         /// <summary>

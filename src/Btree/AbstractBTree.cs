@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using NDatabase.Common;
+using NDatabase.Api;
 using NDatabase.Exceptions;
 
 namespace NDatabase.Btree
@@ -123,7 +123,7 @@ namespace NDatabase.Btree
             _persister.SaveNode(rightPartTreeNode);
             _persister.SaveNode(node2Split);
 
-            if (!BTreeValidator.IsOn())
+            if (!OdbConfiguration.IsBTreeValidationEnabled())
                 return;
 
             BTreeValidator.ValidateNode(parent, parent == _root);
@@ -373,7 +373,7 @@ namespace NDatabase.Btree
                 _persister.SaveNode(child);
                 _persister.SaveNode(leftSibling);
 
-                if (BTreeValidator.IsOn())
+                if (OdbConfiguration.IsBTreeValidationEnabled())
                 {
                     BTreeValidator.ValidateNode(parent, parent == _root);
                     BTreeValidator.ValidateNode(child, false);
@@ -406,7 +406,7 @@ namespace NDatabase.Btree
                 _persister.SaveNode(child);
                 _persister.SaveNode(rightSibling);
 
-                if (BTreeValidator.IsOn())
+                if (OdbConfiguration.IsBTreeValidationEnabled())
                 {
                     BTreeValidator.ValidateNode(parent, parent == _root);
                     BTreeValidator.ValidateNode(child, false);

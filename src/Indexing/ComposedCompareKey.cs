@@ -1,4 +1,5 @@
 using System.Text;
+using NDatabase.Api;
 using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Indexing

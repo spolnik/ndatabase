@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using NDatabase.Common;
+using NDatabase.Api;
 using NDatabase.Exceptions;
 
 namespace NDatabase.Btree

@@ -18,7 +18,7 @@ namespace Test.NDatabase.Odb.Test.Commit
             list.Add(login);
             list.Add(logout);
             var profile = new Profile("operator" + i, list);
-            var user = new User("olivier" + i, "olivier@neodatis.com", profile);
+            var user = new User("olivier" + i, "user@ndatabase.net", profile);
             return user;
         }
 
