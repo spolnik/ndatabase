@@ -171,7 +171,7 @@ namespace Test.NDatabase.Odb.Test.Delete
             var idf1 = odb.GetObjectId(f1);
             var idf2 = odb.GetObjectId(f2);
             var idf3 = odb.GetObjectId(f3);
-            var storageEngine = ((OdbAdapter) odb).GetStorageEngine();
+            var storageEngine = ((global::NDatabase.Odb) odb).GetStorageEngine();
 
             var p1 = storageEngine.GetObjectReader().GetObjectPositionFromItsOid(idf1, true, false);
             var p2 = storageEngine.GetObjectReader().GetObjectPositionFromItsOid(idf2, true, false);

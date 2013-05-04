@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using NDatabase.Common;
+using NDatabase.Api;
 using NDatabase.Meta.Introspector;
 using NUnit.Framework;
 

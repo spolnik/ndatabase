@@ -1,3 +1,4 @@
+using NDatabase;
 using NDatabase.Cache;
 using NDatabase.Meta;
 using NDatabase.Oid;

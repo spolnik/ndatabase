@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using NDatabase.Common;
-
 namespace NDatabase.Api.Query
 {
     /// <summary>
@@ -116,14 +113,14 @@ namespace NDatabase.Api.Query
         IValuesQuery Sublist(string attributeName, int fromIndex, int toIndex);
 
         /// <summary>
-        /// Size of the specified attribute name (collection).
+        /// Size of the specified attribute name (collection or string).
         /// </summary>
         /// <param name="attributeName">Name of the attribute (collection).</param>
         /// <returns>Values query with size value.</returns>
         IValuesQuery Size(string attributeName);
 
         /// <summary>
-        /// Size of the specified attribute name (collection).
+        /// Size of the specified attribute name (collection or string).
         /// </summary>
         /// <param name="attributeName">Name of the attribute (collection).</param>
         /// <param name="alias">The alias for query value.</param>
@@ -160,18 +157,6 @@ namespace NDatabase.Api.Query
         /// <param name="alias">The alias for query value.</param>
         /// <returns>Values query with alias item set to min value.</returns>
         IValuesQuery Min(string fieldName, string alias);
-
-        /// <summary>
-        /// Gets the order by field names.
-        /// </summary>
-        /// <returns>The list of fields of the order by.</returns>
-        IList<string> GetOrderByFieldNames();
-
-        /// <summary>
-        /// Gets the type of the order by.
-        /// </summary>
-        /// <returns>The type of the order by - NONE, DESC or ASC</returns>
-        OrderByConstants GetOrderByType();
 
         /// <summary>
         /// Gets the values that matches the values query.

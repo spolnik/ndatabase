@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using NDatabase.Api;
-using NDatabase.Common;
 using NDatabase.Exceptions;
 
 namespace NDatabase.Meta

@@ -1,24 +1,13 @@
+using NDatabase.Api;
 using NDatabase.Exceptions;
 
 namespace NDatabase.Btree
 {
     internal static class BTreeValidator
     {
-        private static bool _on;
-
-        public static bool IsOn()
-        {
-            return _on;
-        }
-
-        public static void SetOn(bool on)
-        {
-            _on = on;
-        }
-
         public static void CheckDuplicateChildren(IBTreeNode node1, IBTreeNode node2)
         {
-            if (!_on)
+            if (!OdbConfiguration.IsBTreeValidationEnabled())
                 return;
 
             for (var i = 0; i < node1.GetNbChildren(); i++)
@@ -35,7 +24,7 @@ namespace NDatabase.Btree
 
         public static void ValidateNode(IBTreeNode node, bool isRoot)
         {
-            if (!_on)
+            if (!OdbConfiguration.IsBTreeValidationEnabled())
                 return;
 
             ValidateNode(node);
@@ -49,7 +38,7 @@ namespace NDatabase.Btree
 
         public static void ValidateNode(IBTreeNode node)
         {
-            if (!_on)
+            if (!OdbConfiguration.IsBTreeValidationEnabled())
                 return;
 
             var nbKeys = node.GetNbKeys();
@@ -105,7 +94,7 @@ namespace NDatabase.Btree
 
         private static void CheckValuesOfChild(IKeyAndValue key, IBTreeNode node)
         {
-            if (!_on)
+            if (!OdbConfiguration.IsBTreeValidationEnabled())
                 return;
 
             if (node == null)

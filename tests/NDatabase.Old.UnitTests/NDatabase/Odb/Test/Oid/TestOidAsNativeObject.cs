@@ -1,3 +1,4 @@
+using NDatabase;
 using NDatabase.Oid;
 using NUnit.Framework;
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using NDatabase.Api;
 using NDatabase.Exceptions;
 using NDatabase.Meta;
 using NDatabase.Tool.Wrappers;

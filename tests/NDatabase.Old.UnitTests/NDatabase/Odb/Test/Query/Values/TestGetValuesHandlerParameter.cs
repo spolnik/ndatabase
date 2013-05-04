@@ -6,11 +6,13 @@ namespace Test.NDatabase.Odb.Test.Query.Values
 {
     public class TestGetValuesHandlerParameter : ODBTest
     {
+        private const string DbName = "valuesA1.ndb";
+
         [Test]
-        public virtual void Test1()
+        public void Test1()
         {
-            DeleteBase("valuesA1");
-            using (var odb = Open("valuesA1"))
+            DeleteBase(DbName);
+            using (var odb = Open(DbName))
             {
                 var handler = new Handler();
 
@@ -20,7 +22,7 @@ namespace Test.NDatabase.Odb.Test.Query.Values
                 odb.Store(handler);
             }
 
-            using (var odb = Open("valuesA1"))
+            using (var odb = Open(DbName))
             {
                 var values = odb.ValuesQuery<Handler>().Field("parameters").Execute();
                 Println(values);
@@ -33,29 +35,31 @@ namespace Test.NDatabase.Odb.Test.Query.Values
         [Test]
         public void Test2()
         {
-            DeleteBase("valuesA1");
-            var odb = Open("valuesA1");
-            var handler = new Handler();
+            DeleteBase(DbName);
 
-            for (var i = 0; i < 10; i++)
-                handler.AddParameter(new Parameter("test " + i, "value" + i));
+            using (var odb = Open(DbName))
+            {
+                var handler = new Handler();
 
-            odb.Store(handler);
-            odb.Close();
-            odb = Open("valuesA1");
-            
-            try
-            {
-                odb.ValuesQuery<Handler>().Field("parameters").Execute<Handler>();
-                Fail("Should throw exception");
+                for (var i = 0; i < 10; i++)
+                    handler.AddParameter(new Parameter("test " + i, "value" + i));
+
+                odb.Store(handler);
             }
-            catch (Exception e)
+
+            using (var odb = Open(DbName))
             {
-                Console.WriteLine(e);
-                Assert.Pass();
+                try
+                {
+                    odb.ValuesQuery<Handler>().Field("parameters").Execute<Handler>();
+                    Fail("Should throw exception");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    Assert.Pass();
+                }
             }
-            
-            odb.Close();
         }
     }
 }

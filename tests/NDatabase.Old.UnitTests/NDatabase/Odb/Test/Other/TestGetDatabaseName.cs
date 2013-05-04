@@ -16,7 +16,7 @@ namespace Test.NDatabase.Odb.Test.Other
             IStorageEngine engine;
             using (var odb = Open(baseName))
             {
-                engine = ((OdbAdapter)odb).GetStorageEngine();
+                engine = ((global::NDatabase.Odb)odb).GetStorageEngine();
             }
 
             var s = engine.GetBaseIdentification().Id;

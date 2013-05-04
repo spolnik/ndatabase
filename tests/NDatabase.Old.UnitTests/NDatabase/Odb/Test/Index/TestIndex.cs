@@ -1003,7 +1003,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var size = 1300;
             var commitInterval = 10;
             var start0 = OdbTime.GetCurrentTimeInMs();
-            var engine = ((OdbAdapter)odb).GetStorageEngine();
+            var engine = ((global::NDatabase.Odb)odb).GetStorageEngine();
             for (var i = 0; i < size; i++)
             {
                 var io1 = new IndexedObject("olivier" + (i + 1), 15 + size, new DateTime());
@@ -1013,12 +1013,12 @@ namespace Test.NDatabase.Odb.Test.Index
                     odb.Commit();
                     odb.Close();
                     odb = Open(baseName);
-                    engine = ((OdbAdapter)odb).GetStorageEngine();
+                    engine = ((global::NDatabase.Odb)odb).GetStorageEngine();
                 }
                 if (io1.GetName().Equals("olivier" + size))
                     Println("Ola chico");
             }
-            engine = ((OdbAdapter)odb).GetStorageEngine();
+            engine = ((global::NDatabase.Odb)odb).GetStorageEngine();
             // println(new
             // BTreeDisplay().build(engine.getSession(true).getMetaModel().getClassInfo(IndexedObject.class.Name,
             // true).getIndex(0).getBTree(), true));
@@ -1073,7 +1073,7 @@ namespace Test.NDatabase.Odb.Test.Index
             var size = 1300;
             var commitInterval = 10;
             var start0 = OdbTime.GetCurrentTimeInMs();
-            var engine = ((OdbAdapter)@base).GetStorageEngine();
+            var engine = ((global::NDatabase.Odb)@base).GetStorageEngine();
             for (var i = 0; i < size; i++)
             {
                 var io1 = new IndexedObject("olivier" + (i + 1), 15 + size, new DateTime());
@@ -1083,12 +1083,12 @@ namespace Test.NDatabase.Odb.Test.Index
                     @base.Commit();
                     @base.Close();
                     @base = Open(baseName);
-                    engine = ((OdbAdapter)@base).GetStorageEngine();
+                    engine = ((global::NDatabase.Odb)@base).GetStorageEngine();
                 }
                 if (io1.GetName().Equals("olivier" + size))
                     Println("Ola chico");
             }
-            engine = ((OdbAdapter)@base).GetStorageEngine();
+            engine = ((global::NDatabase.Odb)@base).GetStorageEngine();
             // println(new
             // BTreeDisplay().build(engine.getSession(true).getMetaModel().getClassInfo(IndexedObject.class.Name,
             // true).getIndex(0).getBTree(), true));

@@ -386,7 +386,7 @@ namespace Test.NDatabase.Odb.Test.Resistance
             Println("re-updated");
             var query2 = odb.Query<User>();
             objects = query2.Execute<User>();
-            var engine = ((OdbAdapter)odb).GetStorageEngine();
+            var engine = ((global::NDatabase.Odb)odb).GetStorageEngine();
             var uncommited =
                 engine.GetSession().GetMetaModel().GetClassInfo(typeof (User).FullName, true).UncommittedZoneInfo;
             CIZoneInfo commited =

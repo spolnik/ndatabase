@@ -1,36 +1,37 @@
 using System.Linq;
-using NDatabase.Api;
 using NDatabase.Core.Query;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Index
 {
-    [TestFixture]
     public class TestIndexesWithValueQueries : ODBTest
     {
         [Test]
-        public virtual void Test1()
+        public void Test1()
         {
-            var baseName = GetBaseName();
             const int size = 1000;
-            IOdb odb = Open(baseName);
-            odb.IndexManagerFor<VO.Login.Function>().AddIndexOn("index1", new[] {"name"});
-            for (var i = 0; i < size; i++)
-                odb.Store(new VO.Login.Function("function " + i));
+            var baseName = GetBaseName();
 
-            odb.Close();
-            odb = Open(baseName);
-            // build a value query to retrieve only the name of the function
-            var vq =
-                odb.ValuesQuery<VO.Login.Function>().Field("name");
+            using (var odb = Open(baseName))
+            {
+                odb.IndexManagerFor<VO.Login.Function>().AddIndexOn("index1", new[] {"name"});
 
-            vq.Descend("name").Constrain((object) ("function " + (size - 1))).Equal();
+                for (var i = 0; i < size; i++)
+                    odb.Store(new VO.Login.Function("function " + i));
+            }
 
-            var values = vq.Execute();
-            AssertEquals(1, values.Count());
-            Println(((IInternalQuery)vq).GetExecutionPlan().GetDetails());
-            AssertEquals(true, ((IInternalQuery)vq).GetExecutionPlan().UseIndex());
-            odb.Close();
+            using (var odb = Open(baseName))
+            {
+                var vq = odb.ValuesQuery<VO.Login.Function>().Field("name");
+
+                vq.Descend("name").Constrain((object) ("function " + (size - 1))).Equal();
+
+                var values = vq.Execute();
+                AssertEquals(1, values.Count());
+
+                Println(((IInternalQuery)vq).GetExecutionPlan().GetDetails());
+                AssertEquals(true, ((IInternalQuery)vq).GetExecutionPlan().UseIndex());
+            }
 
             DeleteBase(baseName);
         }

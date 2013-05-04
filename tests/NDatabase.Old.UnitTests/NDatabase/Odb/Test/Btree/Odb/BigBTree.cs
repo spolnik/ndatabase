@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
 using NDatabase;
+using NDatabase.Api;
 using NDatabase.Btree;
-using NDatabase.Common;
 using NDatabase.Core.BTree;
 using NUnit.Framework;
 
@@ -19,7 +19,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
             using (var odb = OdbFactory.Open(bigbtreeTest1DbName))
             {
                 var size = 10000;
-                IBTree tree = new OdbBtreeSingle(50, new LazyOdbBtreePersister(((OdbAdapter)odb).GetStorageEngine()));
+                IBTree tree = new OdbBtreeSingle(50, new LazyOdbBtreePersister(((global::NDatabase.Odb)odb).GetStorageEngine()));
                 for (var i = 0; i < size; i++)
                 {
                     if (i % 1000 == 0)

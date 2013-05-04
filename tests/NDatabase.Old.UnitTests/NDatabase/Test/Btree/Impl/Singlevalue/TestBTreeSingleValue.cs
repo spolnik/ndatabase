@@ -16,7 +16,7 @@ namespace Test.NDatabase.Test.Btree.Impl.Singlevalue
         {
             var odb = OdbFactory.Open(GetBaseName());
 
-            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
+            var storageEngine = ((global::NDatabase.Odb)odb).GetStorageEngine();
             return new OdbBtreeSingle(degree, new LazyOdbBtreePersister(storageEngine));
         }
 

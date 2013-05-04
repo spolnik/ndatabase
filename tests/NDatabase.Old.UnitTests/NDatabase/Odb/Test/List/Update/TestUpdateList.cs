@@ -98,7 +98,7 @@ namespace Test.NDatabase.Odb.Test.List.Update
                     // println(l2);
                     var du = l2.GetFirst();
                     du.GetPublicados().Add(new Publicacao("p" + (i + 1), "Texto" + (i + 1)));
-                    odb.Store<DadosUsuario>(du);
+                    odb.Store(du);
                 }
                 finally
                 {

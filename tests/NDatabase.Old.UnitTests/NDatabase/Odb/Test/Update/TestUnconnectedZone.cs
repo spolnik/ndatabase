@@ -20,7 +20,7 @@ namespace Test.NDatabase.Odb.Test.Update
             var f2 = (VO.Login.Function) odb.GetObjectFromId(oid);
             f2.SetName("New Function");
             odb.Store(f2);
-            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
+            var storageEngine = ((global::NDatabase.Odb)odb).GetStorageEngine();
             // retrieve the class info to check connected and unconnected zone
             var fullClassName = OdbClassNameResolver.GetFullName(typeof (VO.Login.Function));
             var classInfo = storageEngine.GetSession().GetMetaModel().GetClassInfo(fullClassName, true);

@@ -1,6 +1,7 @@
 using System.Collections;
 using NDatabase.Api;
 using NDatabase.Core.Query.Execution;
+using NDatabase.Exceptions;
 using NDatabase.Meta;
 
 namespace NDatabase.Core.Query.Values
@@ -31,8 +32,20 @@ namespace NDatabase.Core.Query.Values
                 candidate = _query.GetQueryEngine().GetObjectFromOid(candidateOid);
             }
 
-            var list = (IList) candidate;
-            _size = list.Count;
+            if (!(candidate is IList || candidate is string))
+                throw new OdbRuntimeException(
+                    NDatabaseError.UnsupportedOperation.AddParameter("Size() with string or collection as the argument"));
+
+            var candidateAsString = candidate as string;
+            if (candidateAsString != null)
+            {
+                _size = candidateAsString.Length;
+            }
+            else
+            {
+                var list = (IList)candidate;
+                _size = list.Count;    
+            }
         }
 
         public override object GetValue()

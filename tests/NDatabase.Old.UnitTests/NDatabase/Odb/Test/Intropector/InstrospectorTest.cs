@@ -15,7 +15,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
     public class InstrospectorTest : ODBTest
     {
         [Test]
-        public virtual void TestClassInfo()
+        public void TestClassInfo()
         {
             var user = new User("olivier smadja", "user@ndatabase.net",
                                 new Profile("operator", new VO.Login.Function("login")));
@@ -26,7 +26,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         }
 
         [Test]
-        public virtual void TestInstanceInfo()
+        public void TestInstanceInfo()
         {
             const string dbName = "TestInstanceInfo.odb";
             DeleteBase(dbName);
@@ -36,7 +36,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
                                 new Profile("operator", new VO.Login.Function("login")));
             var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
-            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
+            var storageEngine = ((global::NDatabase.Odb)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
@@ -52,7 +52,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         }
 
         [Test]
-        public virtual void TestInstanceInfo2()
+        public void TestInstanceInfo2()
         {
             const string dbName = "TestInstanceInfo2.odb";
             DeleteBase(dbName);
@@ -62,7 +62,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
                                 new Profile("operator", new VO.Login.Function("login")));
             var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
-            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
+            var storageEngine = ((global::NDatabase.Odb)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
@@ -76,7 +76,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         }
 
         [Test]
-        public virtual void TestCompareCollection1()
+        public void TestCompareCollection1()
         {
             const string dbName = "introspectortest1.odb";
             DeleteBase(dbName);
@@ -86,7 +86,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
                                 new Profile("operator", new VO.Login.Function("login")));
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             
-            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
+            var storageEngine = ((global::NDatabase.Odb)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
@@ -127,7 +127,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         }
 
         [Test]
-        public virtual void TestCompareCollection11()
+        public void TestCompareCollection11()
         {
             const string dbName = "introspectortest2.odb";
             DeleteBase(dbName);
@@ -137,7 +137,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
                                 new Profile("operator", new VO.Login.Function("login")));
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             
-            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
+            var storageEngine = ((global::NDatabase.Odb)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
@@ -180,7 +180,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         }
 
         [Test]
-        public virtual void TestCompareCollection2()
+        public void TestCompareCollection2()
         {
             const string dbName = "introspectortest3.odb";
             DeleteBase(dbName);
@@ -191,7 +191,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             
-            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
+            var storageEngine = ((global::NDatabase.Odb)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
@@ -237,7 +237,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         }
 
         [Test]
-        public virtual void TestCompareCollection4CollectionContentChange()
+        public void TestCompareCollection4CollectionContentChange()
         {
             const string dbName = "introspectortest22.odb";
             DeleteBase(dbName);
@@ -246,7 +246,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var function = new VO.Login.Function("login");
             var user = new User("olivier smadja", "user@ndatabase.net", new Profile("operator", function));
 
-            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
+            var storageEngine = ((global::NDatabase.Odb)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
@@ -292,7 +292,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         }
 
         [Test]
-        public virtual void TestCompareCollection5()
+        public void TestCompareCollection5()
         {
             const string dbName = "introspectortest5.odb";
             DeleteBase(dbName);
@@ -303,7 +303,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var user = new User("olivier smadja", "user@ndatabase.net", profile);
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             
-            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
+            var storageEngine = ((global::NDatabase.Odb)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
@@ -344,7 +344,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         }
 
         [Test]
-        public virtual void TestCompareCollection6()
+        public void TestCompareCollection6()
         {
             const string dbName = "introspectortest6.odb";
             DeleteBase(dbName);
@@ -356,7 +356,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
-            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
+            var storageEngine = ((global::NDatabase.Odb)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
@@ -400,7 +400,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         }
 
         [Test]
-        public virtual void TestCompareCollection7()
+        public void TestCompareCollection7()
         {
             const string dbName = "introspectortest7.odb";
             DeleteBase(dbName);
@@ -411,7 +411,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var user = new User("olivier smadja", "user@ndatabase.net", profile);
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             
-            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
+            var storageEngine = ((global::NDatabase.Odb)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
@@ -453,7 +453,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         }
 
         [Test]
-        public virtual void TestCompareCollection8()
+        public void TestCompareCollection8()
         {
             const string dbName = "introspectortest8.odb";
             DeleteBase(dbName);
@@ -464,7 +464,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var user = new User("olivier smadja", "user@ndatabase.net", profile);
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             
-            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
+            var storageEngine = ((global::NDatabase.Odb)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
@@ -491,7 +491,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         }
 
         [Test]
-        public virtual void TestCompareCollection9()
+        public void TestCompareCollection9()
         {
             const string dbName = "introspectortest9.odb";
             DeleteBase(dbName);
@@ -502,7 +502,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var user = new User("olivier smadja", "user@ndatabase.net", profile);
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             
-            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
+            var storageEngine = ((global::NDatabase.Odb)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
@@ -543,7 +543,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         }
 
         [Test]
-        public virtual void TestGetAllFields()
+        public void TestGetAllFields()
         {
             var allFields = ClassIntrospector.GetAllFieldsFrom(typeof (FootballPlayer));
             AssertEquals(3, allFields.Count);
@@ -553,7 +553,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         }
 
         [Test]
-        public virtual void TestIntrospectWithNull()
+        public void TestIntrospectWithNull()
         {
             const string dbName = "TestIntrospectWithNull.odb";
             DeleteBase(dbName);
@@ -562,7 +562,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var user = new User("olivier smadja", "user@ndatabase.net", null);
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             
-            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
+            var storageEngine = ((global::NDatabase.Odb)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
@@ -598,7 +598,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         }
 
         [Test]
-        public virtual void TestIntrospectWithNull2()
+        public void TestIntrospectWithNull2()
         {
             const string dbName = "TestIntrospectWithNull2.odb";
             DeleteBase(dbName);
@@ -607,7 +607,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var user = new User("olivier smadja", "user@ndatabase.net", null);
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             
-            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
+            var storageEngine = ((global::NDatabase.Odb)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)
@@ -645,7 +645,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         }
 
         [Test]
-        public virtual void TestCopy()
+        public void TestCopy()
         {
             const string dbName = "introspectortest2.odb";
             DeleteBase(dbName);
@@ -655,7 +655,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var profile = new Profile("operator", function);
             var user = new User("olivier smadja", "olivier@ndatabase.net", profile);
             
-            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
+            var storageEngine = ((global::NDatabase.Odb)odb).GetStorageEngine();
 
             var instanceInfo =
                 (NonNativeObjectInfo)

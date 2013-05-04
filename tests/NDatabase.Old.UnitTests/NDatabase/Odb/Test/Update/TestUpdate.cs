@@ -324,7 +324,7 @@ namespace Test.NDatabase.Odb.Test.Update
                 function.SetName(function.GetName() + function.GetName() + function.GetName() + function.GetName());
                 odb.Store(function);
             }
-            var engine = ((OdbAdapter)odb).GetStorageEngine();
+            var engine = ((global::NDatabase.Odb)odb).GetStorageEngine();
 
             var fullClassName = OdbClassNameResolver.GetFullName(typeof (VO.Login.Function));
 

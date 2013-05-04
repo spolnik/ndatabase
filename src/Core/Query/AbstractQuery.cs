@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using NDatabase.Api;
 using NDatabase.Api.Query;
-using NDatabase.Common;
 using NDatabase.Core.Query.Criteria;
 using NDatabase.Exceptions;
 
