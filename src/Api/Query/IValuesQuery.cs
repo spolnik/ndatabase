@@ -172,5 +172,11 @@ namespace NDatabase.Api.Query
         /// </summary>
         /// <returns>The type of the order by - NONE, DESC or ASC</returns>
         OrderByConstants GetOrderByType();
+
+        /// <summary>
+        /// Gets the values that matches the values query.
+        /// </summary>
+        /// <returns>The list of values that matches the values query.</returns>
+        IValues Execute();
     }
 }

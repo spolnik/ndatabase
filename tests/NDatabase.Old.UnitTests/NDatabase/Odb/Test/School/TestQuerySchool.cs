@@ -1,7 +1,6 @@
 ﻿using System;
 using NDatabase;
 using NDatabase.Api;
-using NDatabase.Core;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.School;
 

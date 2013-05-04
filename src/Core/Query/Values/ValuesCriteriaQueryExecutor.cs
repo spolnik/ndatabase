@@ -1,7 +1,6 @@
 using NDatabase.Api;
 using NDatabase.Api.Query;
 using NDatabase.Core.Query.Criteria;
-using NDatabase.Core.Query.Execution;
 using NDatabase.Meta;
 using NDatabase.Tool.Wrappers;
 

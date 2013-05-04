@@ -49,7 +49,7 @@ namespace Test.NDatabase.Odb.Test.Acid
             list.Add(login);
             list.Add(logout);
             var profile = new Profile("operator", list);
-            var user = new User("olivier smadja", "olivier@neodatis.com", profile);
+            var user = new User("olivier smadja", "user@ndatabase.net", profile);
             return user;
         }
 

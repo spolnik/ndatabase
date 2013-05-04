@@ -19,7 +19,7 @@ namespace Test.NDatabase.Odb.Test.Cache
             for (var i = 0; i < NbObjects; i++)
             {
                 odb.Store(new VO.Login.Function("function " + (i + i)));
-                odb.Store(new User("olivier " + i, "olivier@neodatis.com " + i,
+                odb.Store(new User("olivier " + i, "user@ndatabase.net " + i,
                                    new Profile("profile " + i, new VO.Login.Function("inner function " + i))));
             }
             odb.Close();

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using NDatabase;
 using NDatabase.Api;
-using NDatabase.Core;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Attribute;
@@ -40,7 +39,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             list.Add(login);
             list.Add(logout);
             var profile = new Profile("operator", list);
-            var user = new User("olivier smadja", "olivier@neodatis.com", profile);
+            var user = new User("olivier smadja", "user@ndatabase.net", profile);
             return user;
         }
 

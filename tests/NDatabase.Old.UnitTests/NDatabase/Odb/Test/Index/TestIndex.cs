@@ -2,7 +2,6 @@ using System;
 using NDatabase;
 using NDatabase.Api;
 using NDatabase.Api.Query;
-using NDatabase.Core;
 using NDatabase.Core.Query;
 using NDatabase.Exceptions;
 using NDatabase.Tool.Wrappers;

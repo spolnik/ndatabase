@@ -1,5 +1,4 @@
-﻿using NDatabase.Core;
-using NDatabase.Meta;
+﻿using NDatabase.Meta;
 using NUnit.Framework;
 
 public class WithoutNamespace

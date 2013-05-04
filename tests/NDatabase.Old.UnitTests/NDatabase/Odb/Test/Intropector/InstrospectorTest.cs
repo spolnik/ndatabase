@@ -1,6 +1,5 @@
 using NDatabase;
 using NDatabase.Api;
-using NDatabase.Core;
 using NDatabase.Meta;
 using NDatabase.Meta.Compare;
 using NDatabase.Meta.Introspector;
@@ -18,7 +17,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
         [Test]
         public virtual void TestClassInfo()
         {
-            var user = new User("olivier smadja", "olivier@neodatis.com",
+            var user = new User("olivier smadja", "user@ndatabase.net",
                                 new Profile("operator", new VO.Login.Function("login")));
             var classInfoList = ClassIntrospector.Introspect(user.GetType(), true);
             AssertEquals(OdbClassNameResolver.GetFullName(user.GetType()), classInfoList.GetMainClassInfo().FullClassName);
@@ -33,7 +32,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             DeleteBase(dbName);
             var odb = OdbFactory.Open(dbName);
 
-            var user = new User("olivier smadja", "olivier@neodatis.com",
+            var user = new User("olivier smadja", "user@ndatabase.net",
                                 new Profile("operator", new VO.Login.Function("login")));
             var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
@@ -59,7 +58,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             DeleteBase(dbName);
             var odb = OdbFactory.Open(dbName);
 
-            var user = new User("olivier smadja", "olivier@neodatis.com",
+            var user = new User("olivier smadja", "user@ndatabase.net",
                                 new Profile("operator", new VO.Login.Function("login")));
             var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
@@ -83,7 +82,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             DeleteBase(dbName);
             var odb = OdbFactory.Open(dbName);
 
-            var user = new User("olivier smadja", "olivier@neodatis.com",
+            var user = new User("olivier smadja", "user@ndatabase.net",
                                 new Profile("operator", new VO.Login.Function("login")));
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             
@@ -134,7 +133,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             DeleteBase(dbName);
             var odb = OdbFactory.Open(dbName);
 
-            var user = new User("olivier smadja", "olivier@neodatis.com",
+            var user = new User("olivier smadja", "user@ndatabase.net",
                                 new Profile("operator", new VO.Login.Function("login")));
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             
@@ -161,7 +160,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             nnoiFunctions.SetOid(OIDFactory.BuildObjectOID(3));
 
             user.SetName("Olivier Smadja");
-            user.SetEmail("olivier@neodatis.org");
+            user.SetEmail("olivier@ndatabase.net");
             var instanceInfo3 =
                 (NonNativeObjectInfo)
                 new ObjectIntrospector(storageEngine.GetClassInfoProvider()).GetMetaRepresentation(user, true, null,
@@ -187,7 +186,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             DeleteBase(dbName);
             var odb = OdbFactory.Open(dbName);
 
-            var user = new User("olivier smadja", "olivier@neodatis.com",
+            var user = new User("olivier smadja", "user@ndatabase.net",
                                 new Profile("operator", new VO.Login.Function("login")));
 
             IObjectInfoComparator comparator = new ObjectInfoComparator();
@@ -245,7 +244,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var odb = OdbFactory.Open(dbName);
 
             var function = new VO.Login.Function("login");
-            var user = new User("olivier smadja", "olivier@neodatis.com", new Profile("operator", function));
+            var user = new User("olivier smadja", "user@ndatabase.net", new Profile("operator", function));
 
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 
@@ -301,7 +300,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var function = new VO.Login.Function("login");
             var profile = new Profile("operator", function);
-            var user = new User("olivier smadja", "olivier@neodatis.com", profile);
+            var user = new User("olivier smadja", "user@ndatabase.net", profile);
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
@@ -353,7 +352,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var function = new VO.Login.Function("login");
             var profile = new Profile("operator", function);
-            var user = new User("olivier smadja", "olivier@neodatis.com", profile);
+            var user = new User("olivier smadja", "user@ndatabase.net", profile);
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             var ci = ClassIntrospector.Introspect(user.GetType(), true).GetMainClassInfo();
 
@@ -409,7 +408,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var function = new VO.Login.Function("login");
             var profile = new Profile("operator", function);
-            var user = new User("olivier smadja", "olivier@neodatis.com", profile);
+            var user = new User("olivier smadja", "user@ndatabase.net", profile);
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
@@ -462,7 +461,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var function = new VO.Login.Function("login");
             var profile = new Profile("operator", function);
-            var user = new User("olivier smadja", "olivier@neodatis.com", profile);
+            var user = new User("olivier smadja", "user@ndatabase.net", profile);
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
@@ -500,7 +499,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var function = new VO.Login.Function("login");
             var profile = new Profile("operator", function);
-            var user = new User("olivier smadja", "olivier@neodatis.com", profile);
+            var user = new User("olivier smadja", "user@ndatabase.net", profile);
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
@@ -560,7 +559,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             DeleteBase(dbName);
             var odb = OdbFactory.Open(dbName);
 
-            var user = new User("olivier smadja", "olivier@neodatis.com", null);
+            var user = new User("olivier smadja", "user@ndatabase.net", null);
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
@@ -582,7 +581,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             var nnoiProfile = (NonNativeObjectInfo) o;
             nnoiProfile.SetOid(OIDFactory.BuildObjectOID(2));
             user.SetName("Olivier Smadja");
-            user.SetEmail("olivier@neodatis.org");
+            user.SetEmail("olivier@ndatabase.net");
             user.SetProfile(new Profile("pname"));
             var instanceInfo3 =
                 (NonNativeObjectInfo)
@@ -605,7 +604,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
             DeleteBase(dbName);
             var odb = OdbFactory.Open(dbName);
 
-            var user = new User("olivier smadja", "olivier@neodatis.com", null);
+            var user = new User("olivier smadja", "user@ndatabase.net", null);
             IObjectInfoComparator comparator = new ObjectInfoComparator();
             
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
@@ -654,7 +653,7 @@ namespace Test.NDatabase.Odb.Test.Intropector
 
             var function = new VO.Login.Function("login");
             var profile = new Profile("operator", function);
-            var user = new User("olivier smadja", "olivier@neodatis.org", profile);
+            var user = new User("olivier smadja", "olivier@ndatabase.net", profile);
             
             var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
 

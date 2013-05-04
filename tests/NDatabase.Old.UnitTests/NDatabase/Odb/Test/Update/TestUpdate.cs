@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using NDatabase;
 using NDatabase.Api.Query;
-using NDatabase.Core;
 using NDatabase.Meta;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
@@ -24,7 +23,7 @@ namespace Test.NDatabase.Odb.Test.Update
             for (var i = 0; i < NbObjects; i++)
             {
                 odb.Store(new VO.Login.Function("function " + (i + i)));
-                odb.Store(new User("olivier " + i, "olivier@neodatis.com " + i,
+                odb.Store(new User("olivier " + i, "user@ndatabase.net " + i,
                                    new Profile("profile " + i, new VO.Login.Function("inner function " + i))));
             }
             odb.Close();
@@ -265,7 +264,7 @@ namespace Test.NDatabase.Odb.Test.Update
             var odb = Open(FileName);
             var function = new VO.Login.Function("login");
             var profile = new Profile("operator", function);
-            var user = new User("olivier smadja", "olivier@neodatis.com", profile);
+            var user = new User("olivier smadja", "user@ndatabase.net", profile);
             odb.Store(user);
             odb.Close();
             odb = Open(FileName);
@@ -296,7 +295,7 @@ namespace Test.NDatabase.Odb.Test.Update
             var odb = Open(FileName);
             var function = new VO.Login.Function("login");
             var profile = new Profile("operator", function);
-            var user = new User("olivier smadja", "olivier@neodatis.com", profile);
+            var user = new User("olivier smadja", "user@ndatabase.net", profile);
             odb.Store(user);
             odb.Close();
             odb = Open(FileName);
@@ -348,7 +347,7 @@ namespace Test.NDatabase.Odb.Test.Update
             var odb = Open(FileName);
             var function = new VO.Login.Function("login");
             var profile = new Profile("operator", function);
-            var user = new User("olivier smadja", "olivier@neodatis.com", profile);
+            var user = new User("olivier smadja", "user@ndatabase.net", profile);
             odb.Store(user);
             odb.Close();
             var profile2 = new Profile("new operator", function);
@@ -379,7 +378,7 @@ namespace Test.NDatabase.Odb.Test.Update
             var odb = Open(FileName);
             var function = new VO.Login.Function("login");
             var profile = new Profile("operator", function);
-            var user = new User("olivier smadja", "olivier@neodatis.com", profile);
+            var user = new User("olivier smadja", "user@ndatabase.net", profile);
             odb.Store(user);
             odb.Close();
             var profile2 = new Profile("new operator", function);
@@ -416,7 +415,7 @@ namespace Test.NDatabase.Odb.Test.Update
             var odb = Open(FileName);
             var function = new VO.Login.Function("login");
             var profile = new Profile("operator", function);
-            var user = new User("olivier smadja", "olivier@neodatis.com", profile);
+            var user = new User("olivier smadja", "user@ndatabase.net", profile);
             odb.Store(user);
             odb.Close();
             var profile2 = new Profile("new operator", function);
@@ -447,7 +446,7 @@ namespace Test.NDatabase.Odb.Test.Update
             DeleteBase(FileName);
             var odb = Open(FileName);
             var function = new VO.Login.Function("login");
-            var user = new User("olivier smadja", "olivier@neodatis.com", null);
+            var user = new User("olivier smadja", "user@ndatabase.net", null);
             odb.Store(user);
             odb.Close();
             var profile2 = new Profile("new operator", function);

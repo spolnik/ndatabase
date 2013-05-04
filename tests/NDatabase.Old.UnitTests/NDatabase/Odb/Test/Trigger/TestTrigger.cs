@@ -21,7 +21,7 @@ namespace Test.NDatabase.Odb.Test.Trigger
                 var f1 = new VO.Login.Function("function1");
                 var f2 = new VO.Login.Function("function2");
                 var profile = new Profile("profile1", f1);
-                var user = new User("oli", "oli@neodatis.com", profile);
+                var user = new User("oli", "oli@ndatabase.net", profile);
                 odb.Store(user);
             }
             finally
@@ -51,7 +51,7 @@ namespace Test.NDatabase.Odb.Test.Trigger
                 var f1 = new VO.Login.Function("function1");
                 var f2 = new VO.Login.Function("function2");
                 var profile = new Profile("profile1", f1);
-                var user = new User("oli", "oli@neodatis.com", profile);
+                var user = new User("oli", "oli@ndatabase.net", profile);
                 odb.Store(user);
                 odb.Store(f2);
             }
@@ -81,7 +81,7 @@ namespace Test.NDatabase.Odb.Test.Trigger
                 var f1 = new VO.Login.Function("function1");
                 var f2 = new VO.Login.Function("function2");
                 var profile = new Profile("profile1", f1);
-                var user = new User("oli", "oli@neodatis.com", profile);
+                var user = new User("oli", "oli@ndatabase.net", profile);
                 odb.Store(user);
                 odb.Store(f2);
             }

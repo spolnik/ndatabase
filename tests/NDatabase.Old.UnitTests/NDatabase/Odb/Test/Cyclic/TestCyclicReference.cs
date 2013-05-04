@@ -1,6 +1,5 @@
 using NDatabase;
 using NDatabase.Api;
-using NDatabase.Core;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Country;
 using Test.NDatabase.Odb.Test.VO.Login;

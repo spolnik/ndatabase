@@ -21,7 +21,7 @@ namespace Test.NDatabase.Odb.Test.Insert
             IList<VO.Login.Function> list = new List<VO.Login.Function>();
             list.Add(login);
             var profile1 = new Profile("operator 1", list);
-            var user = new User("olivier smadja", "olivier@neodatis.com", profile1);
+            var user = new User("olivier smadja", "user@ndatabase.net", profile1);
             odb.Store(user);
             odb.Close();
             odb = Open("t1.ndb");
@@ -131,7 +131,7 @@ namespace Test.NDatabase.Odb.Test.Insert
             IList<VO.Login.Function> list = new List<VO.Login.Function>();
             list.Add(login);
             var profile1 = new Profile("operator 1", list);
-            var user = new User("olivier smadja", "olivier@neodatis.com", profile1);
+            var user = new User("olivier smadja", "user@ndatabase.net", profile1);
             odb.Store(user);
             odb.Close();
             odb = Open("t31.ndb");
@@ -163,8 +163,8 @@ namespace Test.NDatabase.Odb.Test.Insert
             list.Add(logout);
             var profile1 = new Profile("operator 1", list);
             var profile2 = new Profile("operator 2", list);
-            var user = new User("olivier smadja", "olivier@neodatis.com", profile1);
-            var userB = new User("A√°sa Galv√£o Smadja", "aisa@neodatis.com", profile2);
+            var user = new User("olivier smadja", "user@ndatabase.net", profile1);
+            var userB = new User("A√°sa Galv√£o Smadja", "aisa@ndatabase.net", profile2);
             odb.Store(user);
             odb.Store(userB);
             odb.Close();
@@ -206,8 +206,8 @@ namespace Test.NDatabase.Odb.Test.Insert
             list.Add(logout);
             var profile1 = new Profile("operator 1", list);
             var profile2 = new Profile("operator 2", list2);
-            var user = new User("olivier smadja", "olivier@neodatis.com", profile1);
-            var userB = new User("A√°sa Galv√£o Smadja", "aisa@neodatis.com", profile2);
+            var user = new User("olivier smadja", "user@ndatabase.net", profile1);
+            var userB = new User("A√°sa Galv√£o Smadja", "aisa@ndatabase.net", profile2);
             odb.Store(user);
             odb.Store(userB);
             odb.Commit();
@@ -246,8 +246,8 @@ namespace Test.NDatabase.Odb.Test.Insert
             list.Add(login);
             list.Add(logout);
             var profile1 = new Profile("operator 1", list);
-            var user = new User("olivier smadja", "olivier@neodatis.com", profile1);
-            var userB = new User("A√≠sa Galv√£o Smadja", "aisa@neodatis.com", profile1);
+            var user = new User("olivier smadja", "user@ndatabase.net", profile1);
+            var userB = new User("A√≠sa Galv√£o Smadja", "aisa@ndatabase.net", profile1);
             odb.Store(user);
             odb.Store(userB);
             odb.Close();
@@ -284,8 +284,8 @@ namespace Test.NDatabase.Odb.Test.Insert
             list.Add(login);
             list.Add(logout);
             var profile1 = new Profile("operator 1", list);
-            var user = new User("olivier smadja", "olivier@neodatis.com", profile1);
-            var userB = new User("A√≠sa Galv√£o Smadja", "aisa@neodatis.com", profile1);
+            var user = new User("olivier smadja", "user@ndatabase.net", profile1);
+            var userB = new User("A√≠sa Galv√£o Smadja", "aisa@ndatabase.net", profile1);
             odb.Store(user);
             odb.Store(userB);
             odb.Commit();

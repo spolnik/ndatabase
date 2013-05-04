@@ -287,6 +287,26 @@ namespace NDatabase.Core.Query.Values
             return this;
         }
 
+        public IValues Execute()
+        {
+            return ((IInternalQuery)this).GetQueryEngine().GetValues(this, -1, -1);
+        }
+
+        public override IObjectSet<TItem> Execute<TItem>()
+        {
+            throw new OdbRuntimeException(NDatabaseError.UnsupportedOperation.AddParameter("IValuesQuery.Execute()"));
+        }
+
+        public override IObjectSet<TItem> Execute<TItem>(bool inMemory)
+        {
+            throw new OdbRuntimeException(NDatabaseError.UnsupportedOperation.AddParameter("IValuesQuery.Execute()"));
+        }
+
+        public override IObjectSet<TItem> Execute<TItem>(bool inMemory, int startIndex, int endIndex)
+        {
+            throw new OdbRuntimeException(NDatabaseError.UnsupportedOperation.AddParameter("IValuesQuery.Execute()"));
+        }
+
         #endregion
 
         private void Init()

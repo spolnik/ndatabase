@@ -26,7 +26,7 @@ namespace Test.NDatabase.Odb.Test.Index
 
             vq.Descend("name").Constrain((object) ("function " + (size - 1))).Equal();
 
-            var values = odb.GetValues(vq);
+            var values = vq.Execute();
             AssertEquals(1, values.Count());
             Println(((IInternalQuery)vq).GetExecutionPlan().GetDetails());
             AssertEquals(true, ((IInternalQuery)vq).GetExecutionPlan().UseIndex());
