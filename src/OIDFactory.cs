@@ -1,6 +1,7 @@
 using NDatabase.Api;
+using NDatabase.Oid;
 
-namespace NDatabase.Oid
+namespace NDatabase
 {
     /// <summary>
     /// Factory class to create OIDs

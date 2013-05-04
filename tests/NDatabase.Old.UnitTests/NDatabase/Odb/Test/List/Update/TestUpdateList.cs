@@ -15,7 +15,7 @@ namespace Test.NDatabase.Odb.Test.List.Update
             var dadosUsuario = new DadosUsuario();
             dadosUsuario.SetNome("Olivier");
             dadosUsuario.SetLogin("olivier");
-            dadosUsuario.SetEmail("olivier@neodatis.org");
+            dadosUsuario.SetEmail("olivier@ndatabase.net");
             dadosUsuario.SetOid("oid");
             IList l = new ArrayList();
             l.Add(new Publicacao("p1", "Texto 1"));
@@ -71,7 +71,7 @@ namespace Test.NDatabase.Odb.Test.List.Update
             var dadosUsuario = new DadosUsuario();
             dadosUsuario.SetNome("Olivier");
             dadosUsuario.SetLogin("olivier");
-            dadosUsuario.SetEmail("olivier@neodatis.org");
+            dadosUsuario.SetEmail("olivier@ndatabase.net");
             dadosUsuario.SetOid("oid");
             IList l = new ArrayList();
             l.Add(new Publicacao("p0", "Texto0"));
@@ -98,7 +98,7 @@ namespace Test.NDatabase.Odb.Test.List.Update
                     // println(l2);
                     var du = l2.GetFirst();
                     du.GetPublicados().Add(new Publicacao("p" + (i + 1), "Texto" + (i + 1)));
-                    odb.Store<DadosUsuario>(du);
+                    odb.Store(du);
                 }
                 finally
                 {

@@ -1,6 +1,5 @@
+using NDatabase;
 using NDatabase.Cache;
-using NDatabase.Core;
-using NDatabase.Core.Engine;
 using NDatabase.Meta;
 using NDatabase.Oid;
 using NUnit.Framework;

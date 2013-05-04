@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NDatabase.Api;
 using NDatabase.Api.Query;
 using NDatabase.Core.Query.Execution;
 
@@ -25,5 +26,11 @@ namespace NDatabase.Core
         /// </summary>
         /// <returns> true if has an order by flag </returns>
         bool HasOrderBy();
+
+        /// <summary>
+        /// Gets the type of the order by.
+        /// </summary>
+        /// <returns>The type of the order by - NONE, DESC or ASC</returns>
+        OrderByConstants GetOrderByType();
     }
 }

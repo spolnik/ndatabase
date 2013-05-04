@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Moq;
-using NDatabase.Core;
 using NDatabase.Meta;
 using NDatabase.Tool.Wrappers;
 using NDatabase.UnitTests.TestData;

@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using NDatabase;
 using NDatabase.Btree;
-using NDatabase.Core;
 using NDatabase.Core.BTree;
-using NDatabase.Core.Engine;
 using NUnit.Framework;
 
 namespace Test.NDatabase.Odb.Test.Btree.Odb
@@ -16,7 +14,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
         {
             DeleteBase("btree45.ndb");
             var odb = Open("btree45.ndb");
-            var storageEngine = ((OdbAdapter)odb).GetStorageEngine();
+            var storageEngine = ((global::NDatabase.Odb)odb).GetStorageEngine();
             var persister = new LazyOdbBtreePersister(storageEngine);
             IBTreeMultipleValuesPerKey tree = new OdbBtreeMultiple(3, persister);
             tree.Insert(1, new MyObject("Value 1"));
@@ -39,7 +37,7 @@ namespace Test.NDatabase.Odb.Test.Btree.Odb
             AssertEquals("Value 21", valuesAsObjectAt[0].ToString());
             persister.Close();
             odb = Open("btree45.ndb");
-            storageEngine = ((OdbAdapter)odb).GetStorageEngine();
+            storageEngine = ((global::NDatabase.Odb)odb).GetStorageEngine();
             persister = new LazyOdbBtreePersister(storageEngine);
             tree = (IBTreeMultipleValuesPerKey) persister.LoadBTree(tree.GetId());
             AssertEquals(6, tree.GetSize());

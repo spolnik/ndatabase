@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Text;
 
-namespace NDatabase.Odb.Impl.Tool
+namespace NDatabase.UnitTests
 {
     public static class MemoryMonitor
     {

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using NDatabase.Api;
-using NDatabase.Core.Engine;
 using NDatabase.Core.Query.List;
 using NDatabase.Indexing;
 using NDatabase.Meta;

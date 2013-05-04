@@ -180,8 +180,8 @@
     <Compile Include="Api\IRefactorManager.cs" />
     <Compile Include="Core\IStorageEngine.cs" />
     <Compile Include="Exceptions\NDatabaseError.cs" />
-    <Compile Include="Oid\OIDFactory.cs" />
-    <Compile Include="Common\OrderByConstants.cs" />
+    <Compile Include="OIDFactory.cs" />
+    <Compile Include="Api\OrderByConstants.cs" />
     <Compile Include="Core\Query\AbstractQuery.cs" />
     <Compile Include="Indexing\ComposedCompareKey.cs" />
     <Compile Include="Core\Query\Criteria\AbstractExpression.cs" />
@@ -190,7 +190,7 @@
     <Compile Include="Api\Query\IConstraint.cs" />
     <Compile Include="Core\Query\Criteria\Not.cs" />
     <Compile Include="Core\Query\Criteria\Or.cs" />
-    <Compile Include="Core\Query\Execution\GenericQueryExecutor.cs" />
+    <Compile Include="Core\Query\Criteria\GenericQueryExecutor.cs" />
     <Compile Include="Core\IMatchingObjectAction.cs" />
     <Compile Include="Core\Query\Execution\IMultiClassQueryExecutor.cs" />
     <Compile Include="Indexing\IndexTool.cs" />
@@ -227,7 +227,7 @@
     <Compile Include="Meta\Introspector\DefaultInstrumentationCallback.cs" />
     <Compile Include="Triggers\InstrumentationCallbackForStore.cs" />
     <Compile Include="Meta\Introspector\ObjectIntrospector.cs" />
-    <Compile Include="Common\NonPersistentAttribute.cs" />
+    <Compile Include="Api\NonPersistentAttribute.cs" />
     <Compile Include="Core\Engine\InstanceBuilder.cs" />
     <Compile Include="Meta\Compare\AttributeValueComparator.cs" />
     <Compile Include="Meta\Compare\ObjectInfoComparator.cs" />
@@ -290,7 +290,6 @@
     <Compile Include="Api\Triggers\ITriggerManager.cs" />
     <Compile Include="Core\BTree\IndexManager.cs" />
     <Compile Include="Odb.cs" />
-    <Compile Include="ODBAdapter.cs" />
     <Compile Include="OdbExt.cs" />
     <Compile Include="Tool\DictionaryExtensions.cs" />
     <Compile Include="Tool\UniqueIdGenerator.cs" />
@@ -313,7 +312,7 @@
     <Compile Include="Reflection\MethodBodyReader.cs" />
     <Compile Include="Core\Query\Linq\ReflectionMethodAnalyser.cs" />
     <Compile Include="Tool\DLogger.cs" />
-    <Compile Include="Tool\ILogger.cs" />
+    <Compile Include="ILogger.cs" />
     <Compile Include="IO\MultiBuffer.cs" />
     <Compile Include="IO\OdbDirectory.cs" />
     <Compile Include="IO\OdbFileStream.cs" />
@@ -322,7 +321,7 @@
     <Compile Include="Tool\Wrappers\OdbList.cs" />
     <Compile Include="Tool\Wrappers\OdbHashMap2.cs" />
     <Compile Include="Meta\OdbClassNameResolver.cs" />
-    <Compile Include="Tool\Wrappers\IOdbComparable.cs" />
+    <Compile Include="Api\IOdbComparable.cs" />
     <Compile Include="Tool\Wrappers\OdbRandom.cs" />
     <Compile Include="Tool\Wrappers\OdbString.cs" />
     <Compile Include="Tool\Wrappers\OdbTime.cs" />

@@ -11,6 +11,9 @@ namespace NDatabase.Exceptions
     /// </remarks>
     internal sealed class NDatabaseError : IError
     {
+        internal static readonly NDatabaseError UnsupportedOperation = new NDatabaseError(99,
+                                                                                   "That's operation is unsupported. Please use @1 instead of that");
+
         internal static readonly NDatabaseError NullNextObjectOid = new NDatabaseError(100,
                                                                                    "ODB has detected an inconsistency while reading instance(of @1) #@2 over @3 with oid @4 which has a null 'next object oid'");
 

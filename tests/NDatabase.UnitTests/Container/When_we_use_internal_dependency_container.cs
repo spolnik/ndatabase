@@ -22,7 +22,7 @@ namespace NDatabase.UnitTests.Container
         [Test]
         public void It_should_return_registered_implementation_which_requires_argument()
         {
-            DependencyContainer.Register<IOdbForTrigger>((storageEngine) => new OdbAdapter((IStorageEngine) storageEngine));
+            DependencyContainer.Register<IOdbForTrigger>((storageEngine) => new Odb((IStorageEngine) storageEngine));
 
             var mock = new Mock<IStorageEngine>();
 

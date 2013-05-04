@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using NDatabase.Api;
 using NDatabase.Api.Query;
-using NDatabase.Common;
 
 namespace NDatabase.Core.Query
 {

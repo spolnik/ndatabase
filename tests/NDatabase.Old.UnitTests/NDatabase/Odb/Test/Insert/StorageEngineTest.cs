@@ -21,8 +21,8 @@ namespace Test.NDatabase.Odb.Test.Insert
             functions.Add(login);
             functions.Add(logout);
             var profile = new Profile("profile1", functions);
-            var user = new User("oliver", "olivier@neodatis.com", profile);
-            var user22 = new User("oliver2", "olivier2@neodatis.com", profile);
+            var user = new User("oliver", "user@ndatabase.net", profile);
+            var user22 = new User("oliver2", "olivier2@ndatabase.net", profile);
             odb.Store(user);
             odb.Store(user22);
             odb.Close();

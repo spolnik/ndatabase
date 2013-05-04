@@ -85,5 +85,10 @@ namespace NDatabase.Transaction
                 _transaction.Clear();
             _storageEngine = null;
         }
+
+        public override IObjectWriter GetObjectWriter()
+        {
+            return _storageEngine.GetObjectWriter();
+        }
     }
 }

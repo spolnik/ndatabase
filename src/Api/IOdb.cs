@@ -21,13 +21,6 @@ namespace NDatabase.Api
         OID Store<T>(T plainObject) where T : class;
 
         /// <summary>
-        /// Gets the values that matches the values query.
-        /// </summary>
-        /// <param name="query">The values query.</param>
-        /// <returns>The list of values that matches the values query.</returns>
-        IValues GetValues(IValuesQuery query);
-
-        /// <summary>
         /// Deletes the specified plain object.
         /// </summary>
         /// <typeparam name="T">Plain object type.</typeparam>

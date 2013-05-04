@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using NDatabase;
 using NDatabase.Api;
 using NDatabase.Oid;
 using NDatabase.Tool.Wrappers;
@@ -19,7 +20,7 @@ namespace Test.NDatabase.Odb.Test.Oid
             list.Add(login);
             list.Add(logout);
             var profile = new Profile("operator" + i, list);
-            var user = new User("kiko" + i, "olivier@neodatis.com" + i, profile);
+            var user = new User("kiko" + i, "user@ndatabase.net" + i, profile);
             return user;
         }
 

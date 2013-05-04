@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using NDatabase;
 using NDatabase.Api;
-using NDatabase.Core;
 using NDatabase.Tool.Wrappers;
 using NUnit.Framework;
 using Test.NDatabase.Odb.Test.VO.Attribute;
@@ -40,7 +39,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             list.Add(login);
             list.Add(logout);
             var profile = new Profile("operator", list);
-            var user = new User("olivier smadja", "olivier@neodatis.com", profile);
+            var user = new User("olivier smadja", "user@ndatabase.net", profile);
             return user;
         }
 
@@ -96,11 +95,11 @@ namespace Test.NDatabase.Odb.Test.Performance
                 if (i % 20000 == 0)
                 {
                     Console.Out.Write(".");
-                    Println("After insert=" + ((OdbAdapter)odb).GetStorageEngine().GetSession().GetCache().ToString());
+                    Println("After insert=" + ((global::NDatabase.Odb)odb).GetStorageEngine().GetSession().GetCache().ToString());
                 }
             }
             //
-            var engine = ((OdbAdapter)odb).GetStorageEngine();
+            var engine = ((global::NDatabase.Odb)odb).GetStorageEngine();
 
             // println("NB WA="+WriteAction.count);
             Println("NB WAs=" + engine.GetSession().GetTransaction().GetNumberOfWriteActions());
@@ -146,7 +145,7 @@ namespace Test.NDatabase.Odb.Test.Performance
                     Println("update " + k);
                     Println("after update : NB WAs=" +
                             engine.GetSession().GetTransaction().GetNumberOfWriteActions());
-                    Println("After update=" + ((OdbAdapter)odb).GetStorageEngine().GetSession().GetCache().ToString());
+                    Println("After update=" + ((global::NDatabase.Odb)odb).GetStorageEngine().GetSession().GetCache().ToString());
                 }
                 k++;
             }
@@ -202,7 +201,7 @@ namespace Test.NDatabase.Odb.Test.Performance
             t2 = OdbTime.GetCurrentTimeInTicks();
             // assertEquals(TEST_SIZE,
             // odb.getSession().getCache().getNumberOfObjects ());
-            var engine = ((OdbAdapter)odb).GetStorageEngine();
+            var engine = ((global::NDatabase.Odb)odb).GetStorageEngine();
             Println("NB WAs=" + engine.GetSession().GetTransaction().GetNumberOfWriteActions());
             odb.Commit();
             t3 = OdbTime.GetCurrentTimeInTicks();

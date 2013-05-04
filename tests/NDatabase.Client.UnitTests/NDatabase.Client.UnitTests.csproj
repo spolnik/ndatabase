@@ -62,6 +62,7 @@
     <Compile Include="Misc\TestCase_OdbConfiguration.cs" />
     <Compile Include="Paging\Paging_TestCase.cs" />
     <Compile Include="Queries\Soda\Building_soda_queries_doc.cs" />
+    <Compile Include="Queries\Values\TestCase_working_with_values_query.cs" />
     <Compile Include="Transactions\Transactions_TestCase.cs" />
     <Compile Include="Types\When_we_store_array.cs" />
     <Compile Include="Types\When_we_store_type_with_event_or_delagete.cs" />

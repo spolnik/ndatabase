@@ -37,6 +37,11 @@ namespace Test.NDatabase.Odb.Test.IO
         {
         }
 
+        public override IObjectWriter GetObjectWriter()
+        {
+            return null;
+        }
+
         public override bool TransactionIsPending()
         {
             return false;

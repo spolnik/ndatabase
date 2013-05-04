@@ -12,8 +12,8 @@ namespace Test.NDatabase.Odb.Test.Update.Nullobject
         {
             var constructor = new Constructor();
             constructor.SetCreationDate(new DateTime());
-            constructor.SetName("neodatis");
-            constructor.SetDescription("Neodatis");
+            constructor.SetName("ndatabase");
+            constructor.SetDescription("NDatabase");
             var newAt = new AT();
             newAt.SetName("AT1");
             newAt.SetConstructor(constructor);

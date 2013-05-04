@@ -1,4 +1,4 @@
-﻿using NDatabase.Common;
+﻿using NDatabase.Api;
 using NUnit.Framework;
 
 namespace NDatabase.UnitTests.Utils

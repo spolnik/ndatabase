@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using NDatabase.Api;
 using NDatabase.Api.Query;
-using NDatabase.Common;
 using NDatabase.Core.Query.Criteria;
-using NDatabase.Core.Query.Values;
 using NDatabase.Exceptions;
 using System.Reflection;
 
@@ -113,15 +111,7 @@ namespace NDatabase.Core.Query
 
         public long Count()
         {
-            var valuesCriteriaQuery = new ValuesCriteriaQuery(_underlyingType);
-            valuesCriteriaQuery.Add(Constraint);
-
-            var valuesQuery = valuesCriteriaQuery.Count("count");
-            var values = ((IInternalQuery) this).GetQueryEngine().GetValues((IInternalValuesQuery) valuesQuery, -1, -1);
-
-            var count = (Decimal)values.NextValues().GetByIndex(0);
-
-            return Decimal.ToInt64(count);
+            return ((IInternalQuery) this).GetQueryEngine().Count(_underlyingType, Constraint);
         }
 
         #endregion
