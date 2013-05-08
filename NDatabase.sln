@@ -61,6 +61,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDatabase.Sample.WCF.TodoLi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDatabase.Multithreading.Tester", "tools\NDatabase.Multithreading.Tester\NDatabase.Multithreading.Tester.csproj", "{5AAD6E38-D132-48E1-9449-7FFF372A01D9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDatabase.Studio", "src-studio\NDatabase.Studio\NDatabase.Studio.csproj", "{F9CEB0CF-6F04-46D7-BB2B-023E86DD33AB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src-Studio", "Src-Studio", "{06D3B15F-F569-4004-85E2-5E02F7B2A6FC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -313,6 +317,16 @@ Global
 		{5AAD6E38-D132-48E1-9449-7FFF372A01D9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{5AAD6E38-D132-48E1-9449-7FFF372A01D9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{5AAD6E38-D132-48E1-9449-7FFF372A01D9}.Release|x86.ActiveCfg = Release|Any CPU
+		{F9CEB0CF-6F04-46D7-BB2B-023E86DD33AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9CEB0CF-6F04-46D7-BB2B-023E86DD33AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9CEB0CF-6F04-46D7-BB2B-023E86DD33AB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F9CEB0CF-6F04-46D7-BB2B-023E86DD33AB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F9CEB0CF-6F04-46D7-BB2B-023E86DD33AB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F9CEB0CF-6F04-46D7-BB2B-023E86DD33AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9CEB0CF-6F04-46D7-BB2B-023E86DD33AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9CEB0CF-6F04-46D7-BB2B-023E86DD33AB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F9CEB0CF-6F04-46D7-BB2B-023E86DD33AB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F9CEB0CF-6F04-46D7-BB2B-023E86DD33AB}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -344,6 +358,7 @@ Global
 		{4280B7F6-82B8-47F8-8FCF-819ED477A8C8} = {5A459084-4E4A-4481-A285-842ECF8915F1}
 		{842D29F6-C9DC-4168-A655-09CFB605218A} = {5A459084-4E4A-4481-A285-842ECF8915F1}
 		{2396FB13-C271-4C2B-9DFF-938C0ED23944} = {466EF1E7-9D62-4146-B9B5-E9B5AD7A04DB}
+		{F9CEB0CF-6F04-46D7-BB2B-023E86DD33AB} = {06D3B15F-F569-4004-85E2-5E02F7B2A6FC}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = src\NDatabase2.csproj
