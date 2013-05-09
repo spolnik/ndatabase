@@ -1,0 +1,14 @@
+﻿<ContentControl x:Class="NDatabase.Studio.Modules.Query.QueryView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                Name="Queries" FontFamily="Verdana"
+                syncfusion:DockingManager.Header="Query Module"
+                syncfusion:DockingManager.State="Dock"
+                syncfusion:DockingManager.DesiredWidthInDockedMode="360"
+                syncfusion:DockingManager.SideInDockedMode="Right">
+    <Grid>
+        <syncfusion:EditControl x:Name="EditControl" Foreground="Black" DocumentLanguage="CSharp" FontFamily="Consolas" Margin="20"
+                                Grid.Row="1" DocumentSource="s:\workspace\ndatabase\tests\NDatabase.UnitTests\CodeSnippets\Home_persist_and_retrieve_the_object.cs" EnableIntellisense="True" />
+    </Grid>
+</ContentControl>

@@ -5,6 +5,9 @@ using Microsoft.Practices.Prism.UnityExtensions;
 using Microsoft.Practices.Unity;
 using NDatabase.Studio.Adapters;
 using NDatabase.Studio.Modules.Connections;
+using NDatabase.Studio.Modules.Errors;
+using NDatabase.Studio.Modules.Outputs;
+using NDatabase.Studio.Modules.Query;
 using NDatabase.Studio.Modules.Ribbon;
 using Syncfusion.Windows.Tools.Controls;
 
@@ -39,7 +42,10 @@ namespace NDatabase.Studio
         {
             var catalog = new ModuleCatalog();
             catalog.AddModule(typeof(ConnectionsModule))
-                   .AddModule(typeof(RibbonModule));
+                   .AddModule(typeof(RibbonModule))
+                   .AddModule(typeof(QueryModule))
+                   .AddModule(typeof(OutputsModule))
+                   .AddModule(typeof(ErrorsModule));
             return catalog;
         }
     }

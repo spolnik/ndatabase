@@ -1,0 +1,26 @@
+﻿<ContentControl x:Class="NDatabase.Studio.Modules.Outputs.OutputsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+            Name="Outputs" FontFamily="Verdana"
+            syncfusion:DockingManager.Header="Outputs Module"
+            syncfusion:DockingManager.DesiredWidthInDockedMode="200"
+            syncfusion:DockingManager.SideInDockedMode="Bottom">
+    <Grid>
+
+        <!-- Output dock window -->
+        <ContentControl Name="Output" syncfusion:DockingManager.CanFloatMaximize="True"
+						   syncfusion:DockingManager.Header="Output"
+						   syncfusion:DockingManager.SideInDockedMode="Tabbed"
+						   syncfusion:DockingManager.TargetNameInDockedMode="ErrorList" >
+            <syncfusion:DockingManager.Icon>
+                <ImageBrush ImageSource="..\..\Images\Output.png"/>
+            </syncfusion:DockingManager.Icon>
+            <ScrollViewer VerticalScrollBarVisibility ="Auto" Name ="Scroll">
+                <TextBlock Name="Log" >
+                </TextBlock>
+            </ScrollViewer>
+        </ContentControl>
+
+    </Grid>
+</ContentControl>

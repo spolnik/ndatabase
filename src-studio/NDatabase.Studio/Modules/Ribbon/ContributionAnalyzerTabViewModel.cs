@@ -22,7 +22,6 @@ namespace NDatabase.Studio.Modules.Ribbon
         IEventAggregator eventAggregator;
         private readonly IModuleManager moduleManager;
         private readonly IRegionManager regionManager;
-        private readonly IUnityContainer unityContainer;
         string animationlabel;
         string groupButtonLabel;
         string activate3D;
@@ -42,7 +41,6 @@ namespace NDatabase.Studio.Modules.Ribbon
             this.eventAggregator = eventAggregator;
             this.moduleManager = moduleManager;
             this.regionManager = regionManager;
-            this.unityContainer = unityContainer;
             this.AnimationLabel = "Activate Animation";
             this.Activate3DModeLabel = "Activate 3D Mode";
             this.GroupButtonLabel = "ShowGroup DropArea";
@@ -63,8 +61,6 @@ namespace NDatabase.Studio.Modules.Ribbon
             {
                 ShowWindow();
                 this.moduleManager.LoadModule("ConnectionsModule");
-//                this.moduleManager.LoadModule("PortfolioGridModule");
-//                this.moduleManager.LoadModule("CountrySectorChartModule");
                 activateView();
             }));
 
@@ -434,23 +430,32 @@ namespace NDatabase.Studio.Modules.Ribbon
         private void activateView()
         {
             IRegion ribbonRegion = regionManager.Regions[RegionNames.RibbonRegion];
+
             object dview = ribbonRegion.GetView("dashboardView");
             ribbonRegion.Deactivate(dview);
             object cview = ribbonRegion.GetView("contributionAnalyzerView");
             ribbonRegion.Activate(cview);
+
             IRegion dockingRegion = regionManager.Regions[RegionNames.DockingRegion];
-            object accountsview1 = dockingRegion.GetView("connectionsView");
-            dockingRegion.Deactivate(accountsview1);
-//            object stockview = dockingRegion.GetView("stocklistView");
-//            dockingRegion.Deactivate(stockview);
-//            object chartview1 = dockingRegion.GetView("historychartView");
-//            dockingRegion.Deactivate(chartview1);
-            object accountsview = dockingRegion.GetView("connectionsView");
-            dockingRegion.Activate(accountsview);
-//            object gridview = dockingRegion.GetView("portfoliogridView");
-//            dockingRegion.Activate(gridview);
-//            object chartview = dockingRegion.GetView("countrysectorchartView");
-//            dockingRegion.Activate(chartview);
+
+            object queryView = dockingRegion.GetView("queryView");
+            if (queryView != null)
+                dockingRegion.Deactivate(queryView);
+
+            var outputsView = dockingRegion.GetView("outputsView");
+            if (outputsView != null)
+                dockingRegion.Deactivate(outputsView);
+
+            var errorsView = dockingRegion.GetView("errorsView");
+            if (errorsView != null)
+                dockingRegion.Deactivate(errorsView);
+
+            object connectionsView = dockingRegion.GetView("connectionsView");
+            if (connectionsView != null)
+                dockingRegion.Deactivate(connectionsView);
+
+            object connectionsViewRefreshed = dockingRegion.GetView("connectionsView");
+            dockingRegion.Activate(connectionsViewRefreshed);
 
         }
         #endregion
