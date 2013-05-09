@@ -1,20 +1,23 @@
-﻿using System.ComponentModel.Composition.Hosting;
-using System.Windows;
-using Microsoft.Practices.Prism.MefExtensions;
+﻿using System.Windows;
+using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.Prism.Regions;
-using NDatabase.Studio.Infrastructure;
+using Microsoft.Practices.Prism.UnityExtensions;
+using Microsoft.Practices.Unity;
+using NDatabase.Studio.Adapters;
+using NDatabase.Studio.Modules.Connections;
+using NDatabase.Studio.Modules.Ribbon;
 using Syncfusion.Windows.Tools.Controls;
 
 namespace NDatabase.Studio
 {
-    public class Bootstrapper : MefBootstrapper
+    public class Bootstrapper : UnityBootstrapper
     {
-        protected override void ConfigureAggregateCatalog()
+        protected override DependencyObject CreateShell()
         {
-            AggregateCatalog.Catalogs.Add(new AssemblyCatalog(typeof(Bootstrapper).Assembly));
-            
-            //Modules not refered in the Shell assmebly. Just importing all modules through this directory catalog. Ensure the build o/p path set properly for module projects.
-            AggregateCatalog.Catalogs.Add(new DirectoryCatalog("../../Modules")); // add all assemblies in the modules
+            var shell = Container.Resolve<Shell>();
+            shell.Show();
+
+            return shell;
         }
 
         protected override RegionAdapterMappings ConfigureRegionAdapterMappings()
@@ -22,22 +25,22 @@ namespace NDatabase.Studio
             var mappings = base.ConfigureRegionAdapterMappings();
 
             if (mappings != null)
-                mappings.RegisterMapping(typeof (DockingManager), Container.GetExportedValue<DockingAdapter>());
+            {
+                mappings.RegisterMapping(typeof (Ribbon), Container.TryResolve<RibbonControlRegionAdapter>());
+                mappings.RegisterMapping(typeof (DockingManager), Container.TryResolve<DockingRegionAdapter>());
+                mappings.RegisterMapping(typeof (RibbonTab), Container.TryResolve<RibbonTabRegionAdapter>());
+                mappings.RegisterMapping(typeof (ApplicationMenu), Container.TryResolve<ApplicationMenuRegionAdapter>());
+            }
 
             return mappings;
         }
 
-        protected override void InitializeShell()
+        protected override IModuleCatalog CreateModuleCatalog()
         {
-            base.InitializeShell();
-
-            Application.Current.MainWindow = (Shell)Shell;
-            Application.Current.MainWindow.Show();
-        }
-
-        protected override DependencyObject CreateShell()
-        {
-            return Container.GetExportedValue<Shell>();
+            var catalog = new ModuleCatalog();
+            catalog.AddModule(typeof(ConnectionsModule))
+                   .AddModule(typeof(RibbonModule));
+            return catalog;
         }
     }
 }

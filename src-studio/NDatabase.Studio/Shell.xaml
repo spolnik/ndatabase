@@ -13,7 +13,7 @@
         
         <syncfusion:Ribbon prism:RegionManager.RegionName="RibbonRegion">
             <syncfusion:Ribbon.ApplicationMenu>
-                <syncfusion:ApplicationMenu ApplicationButtonImage="{StaticResource LogoIcon}">
+                <syncfusion:ApplicationMenu ApplicationButtonImage="App.ico">
                     <syncfusion:ApplicationMenu.MenuItems>
                         <TextBlock MinWidth="300" FontWeight="Bold">Sub Menu Items</TextBlock>
                         <Separator Padding="0"/>
@@ -49,7 +49,7 @@
             </syncfusion:Ribbon.ApplicationMenu>
         </syncfusion:Ribbon>
         
-        <syncfusion:DockingManager DockFill="True" UseDocumentContainer="True" x:Name="DockingRegion"
+        <syncfusion:DockingManager DockFill="True" UseDocumentContainer="True"
                                    prism:RegionManager.RegionName="DockingRegion" Grid.Row="1"
                                    DockStateChanged="DockingRegion_OnDockStateChanged" />
     </Grid>

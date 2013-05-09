@@ -360,6 +360,9 @@ Global
 		{2396FB13-C271-4C2B-9DFF-938C0ED23944} = {466EF1E7-9D62-4146-B9B5-E9B5AD7A04DB}
 		{F9CEB0CF-6F04-46D7-BB2B-023E86DD33AB} = {06D3B15F-F569-4004-85E2-5E02F7B2A6FC}
 	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
+	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = src\NDatabase2.csproj
 		Policies = $0

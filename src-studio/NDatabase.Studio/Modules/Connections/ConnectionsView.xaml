@@ -1,0 +1,18 @@
+﻿<ContentControl x:Class="NDatabase.Studio.Modules.Connections.ConnectionsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+            Name="Connections" FontFamily="Verdana"
+            syncfusion:DockingManager.Header="Connections Module"
+            syncfusion:DockingManager.State="Dock"
+            syncfusion:DockingManager.DesiredWidthInDockedMode="180"
+            syncfusion:DockingManager.SideInDockedMode="Left">
+    <Grid>
+        <ListBox Margin="20" x:Name="List">
+            <ListBoxItem>New York</ListBoxItem>
+            <ListBoxItem>Los Angeles</ListBoxItem>
+            <ListBoxItem>Paris</ListBoxItem>
+            <ListBoxItem>Zürich</ListBoxItem>
+        </ListBox>
+    </Grid>
+</ContentControl>
