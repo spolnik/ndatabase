@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Linq;
 
 namespace NDatabase.Services
 {
@@ -10,8 +11,8 @@ namespace NDatabase.Services
         {
             var result = new List<MemberInfo>();
 
-            result.AddRange(GetFields(type));
-            result.AddRange(GetProperties(type));
+            result.AddRange(GetFields(type).Cast<MemberInfo>());
+            result.AddRange(GetProperties(type).Cast<MemberInfo>());
 
             return result;
         }
