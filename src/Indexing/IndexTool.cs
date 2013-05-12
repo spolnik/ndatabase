@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using NDatabase.Api;
 using NDatabase.Exceptions;
 using NDatabase.Meta;
-using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Indexing
 {
@@ -15,14 +14,12 @@ namespace NDatabase.Indexing
 
             for (var i = 0; i < fieldIds.Length; i++)
             {
-                // Todo : can we assume that the object is a Comparable
                 try
                 {
                     var aoi = oi.GetAttributeValueFromId(fieldIds[i]);
                     var item = (IComparable) aoi.GetObject();
                     
-                    // If the index is on NonNativeObjectInfo, then the key is the oid 
-                    // of the object
+                    // If the index is on NonNativeObjectInfo, then the key is the oid of the object
                     if (aoi.IsNonNativeObject())
                     {
                         var nnoi = (NonNativeObjectInfo) aoi;
@@ -50,11 +47,9 @@ namespace NDatabase.Indexing
             var keys = new IOdbComparable[fields.Count];
             for (var i = 0; i < fields.Count; i++)
             {
-                // TODO : can we assume that the object is a Comparable
                 try
                 {
                     var @object = (IComparable) values[fields[i]];
-                    
                     keys[i] = new SimpleCompareKey(@object);
                 }
                 catch (Exception)
@@ -65,8 +60,7 @@ namespace NDatabase.Indexing
                 }
             }
 
-            var key = new ComposedCompareKey(keys);
-            return key;
+            return new ComposedCompareKey(keys);
         }
     }
 }

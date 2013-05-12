@@ -1,6 +1,5 @@
 using System.Text;
 using NDatabase.Api;
-using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Indexing
 {
@@ -25,7 +24,15 @@ namespace NDatabase.Indexing
 
             for (var i = 0; i < _keys.Length; i++)
             {
-                var result = _keys[i].CompareTo(ckey._keys[i]);
+                var key = _keys[i];
+
+                if (key == null && ckey._keys[i] == null)
+                    continue;
+
+                if (key == null)
+                    return -1;
+
+                var result = key.CompareTo(ckey._keys[i]);
                 if (result != 0)
                     return result;
             }
