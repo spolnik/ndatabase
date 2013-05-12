@@ -1,6 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 using NDatabase.Api;
+using NDatabase.Container;
 using NDatabase.Exceptions;
 using NDatabase.Meta;
+using System.Linq;
+using NDatabase.Services;
 
 namespace NDatabase.Core.BTree
 {
@@ -9,11 +15,14 @@ namespace NDatabase.Core.BTree
         private readonly ClassInfo _classInfo;
 
         private readonly IStorageEngine _storageEngine;
+        private readonly IReflectionService _reflectionService;
 
         internal IndexManager(IStorageEngine storageEngine, ClassInfo classInfo)
         {
             _storageEngine = storageEngine;
             _classInfo = classInfo;
+
+            _reflectionService = DependencyContainer.Resolve<IReflectionService>();
         }
 
         #region IClassRepresentation Members
@@ -24,6 +33,8 @@ namespace NDatabase.Core.BTree
                 throw new OdbRuntimeException(
                     NDatabaseError.InternalError.AddParameter("Index has to have at least one field"));
 
+            indexFields = ValidateFields(indexName, indexFields);
+
             _storageEngine.AddIndexOn(_classInfo.FullClassName, indexName, indexFields, false);
         }
 
@@ -32,6 +43,8 @@ namespace NDatabase.Core.BTree
             if (indexFields.Length == 0)
                 throw new OdbRuntimeException(
                     NDatabaseError.InternalError.AddParameter("Index has to have at least one field"));
+
+            indexFields = ValidateFields(indexName, indexFields);
 
             _storageEngine.AddIndexOn(_classInfo.FullClassName, indexName, indexFields, true);
         }
@@ -55,5 +68,34 @@ namespace NDatabase.Core.BTree
         }
 
         #endregion
+
+        private string[] ValidateFields(string indexName, IEnumerable<string> indexFields)
+        {
+            var withoutDuplicates = indexFields.Distinct().ToArray();
+
+            var members = _reflectionService.GetFieldsAndProperties(_classInfo.UnderlyingType);
+
+            foreach (var indexField in withoutDuplicates)
+            {
+                var memberInfo = members.FirstOrDefault(x => x.Name.Equals(indexField));
+
+                var memberType = memberInfo is PropertyInfo
+                                     ? ((PropertyInfo) memberInfo).PropertyType
+                                     : ((FieldInfo) memberInfo).FieldType;
+
+                if (memberInfo != null && (typeof(IComparable)).IsAssignableFrom(memberType)) 
+                    continue;
+
+                var fieldType = (memberInfo == null || memberInfo.DeclaringType == null)
+                                    ? "Field doesn't exist"
+                                    : memberType.FullName;
+
+                throw new OdbRuntimeException(NDatabaseError.IndexKeysMustImplementComparable.AddParameter(indexName)
+                                                            .AddParameter(indexField)
+                                                            .AddParameter(fieldType));
+            }
+
+            return withoutDuplicates;
+        }
     }
 }

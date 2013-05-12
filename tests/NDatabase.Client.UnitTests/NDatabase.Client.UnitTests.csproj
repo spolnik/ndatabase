@@ -56,7 +56,9 @@
     <Compile Include="Indexes\Indexes_TestCase.cs" />
     <Compile Include="InMemory\When_we_use_ndatabase_as_in_memory_db.cs" />
     <Compile Include="Misc\Add_again_retrieved_object.cs" />
+    <Compile Include="Misc\TestCase_CascadeDelete.cs" />
     <Compile Include="Misc\TestCase_OdbConfiguration.cs" />
+    <Compile Include="OID\TestCase_EnrichingClassWithOid.cs" />
     <Compile Include="Paging\Paging_TestCase.cs" />
     <Compile Include="Queries\Soda\Building_soda_queries_doc.cs" />
     <Compile Include="Queries\Values\TestCase_working_with_values_query.cs" />
