@@ -43,8 +43,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\CascadeDeleteAttribute.cs" />
     <Compile Include="Api\IOdbForTrigger.cs" />
-    <Compile Include="Api\EnrichWithOIDAttribute.cs" />
+    <Compile Include="Api\OIDAttribute.cs" />
     <Compile Include="Api\Triggers\EnrichWithOidTrigger.cs" />
     <Compile Include="Btree\AbstractBTreeIterator.cs" />
     <Compile Include="Core\IQueryEngine.cs" />

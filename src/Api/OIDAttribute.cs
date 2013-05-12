@@ -5,12 +5,13 @@ namespace NDatabase.Api
 
     /// <summary>
     /// Use when you want to enrich your class with OID.
+    /// You can apply it on fields of type: long or OID.
     /// </summary>
     /// <remarks>
-    /// You can apply it on fields of type: long or OID.
+    /// In such case, mark the attribute with <code>[OID]</code>
     /// </remarks>
     [AttributeUsage(AttributeTargets.Field)]
-    public sealed class EnrichWithOIDAttribute : Attribute
+    public sealed class OIDAttribute : Attribute
     {
     }
 }

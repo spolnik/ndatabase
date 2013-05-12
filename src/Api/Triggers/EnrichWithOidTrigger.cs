@@ -39,7 +39,7 @@ namespace NDatabase.Api.Triggers
 
             return (from fieldInfo in fields
                     let attributes = fieldInfo.GetCustomAttributes(true)
-                    let hasAttribute = attributes.OfType<EnrichWithOIDAttribute>().Any()
+                    let hasAttribute = attributes.OfType<OIDAttribute>().Any()
                     let isOidSupportedType = fieldInfo.FieldType == typeof (OID) || fieldInfo.FieldType == typeof (long)
                     where hasAttribute && isOidSupportedType
                     select fieldInfo).FirstOrDefault();

@@ -71,7 +71,7 @@ namespace NDatabase.Client.UnitTests.OID
 
     public class TestOidClassLong
     {
-        [EnrichWithOID]
+        [OID]
         private readonly long _oid;
 
         public TestOidClassLong(string value)
@@ -90,7 +90,7 @@ namespace NDatabase.Client.UnitTests.OID
 
     public class TestOidClassOID
     {
-        [EnrichWithOID]
+        [OID]
         private readonly Api.OID _oid;
 
         public TestOidClassOID(string value)
@@ -109,7 +109,7 @@ namespace NDatabase.Client.UnitTests.OID
 
     public class TestOidClassString
     {
-        [EnrichWithOID]
+        [OID]
         private readonly string _oid;
 
         public TestOidClassString(string value)
