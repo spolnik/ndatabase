@@ -124,5 +124,5 @@ namespace NDatabase.Client.UnitTests.OID
         {
             get { return _oid; }
         }
-    }
+    }                                         
 }
