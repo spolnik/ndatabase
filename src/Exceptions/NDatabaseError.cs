@@ -202,7 +202,7 @@ namespace NDatabase.Exceptions
                                                                                                                 "LikeCriteria with like expression(%) only work with String, and you passed a @1 instead");
 
         internal static readonly NDatabaseError IndexKeysMustImplementComparable = new NDatabaseError(1027,
-                                                                                                  "Unable to build index key for attribute that does not implement 'Comparable/IComparable' : Index=@1, attribute = @2 , type = @3");
+                                                                                                  "Unable to build index key for attribute that does not implement 'IComparable' nor does not exist in class: Index=@1, attribute = @2 , type = @3");
 
         internal static readonly NDatabaseError AttributeReferencesADeletedObject = new NDatabaseError(1033,
                                                                                                    "Object of type @1 with oid @2 has the attribute '@3' that references a deleted object");

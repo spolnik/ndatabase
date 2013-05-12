@@ -6,7 +6,6 @@ using NDatabase.Cache;
 using NDatabase.Exceptions;
 using NDatabase.Meta;
 using NDatabase.Meta.Introspector;
-using NDatabase.Oid;
 using NDatabase.Tool;
 using NDatabase.Triggers;
 
@@ -178,11 +177,10 @@ namespace NDatabase.Core.Engine
                 // re-Adds instance in the cache
                 cache.AddObject(objectInfo.GetOid(), o, objectInfo.GetHeader());
             }
+
             if (_triggerManager != null)
-            {
-                _triggerManager.ManageSelectTriggerAfter(objectInfo.GetClassInfo().UnderlyingType, objectInfo,
+                _triggerManager.ManageSelectTriggerAfter(objectInfo.GetClassInfo().UnderlyingType, o,
                                                          objectInfo.GetOid());
-            }
 
             return o;
         }

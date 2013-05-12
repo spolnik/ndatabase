@@ -1,6 +1,5 @@
 using System;
 using NDatabase.Api;
-using NDatabase.Tool.Wrappers;
 
 namespace NDatabase.Indexing
 {
@@ -18,10 +17,17 @@ namespace NDatabase.Indexing
 
         public int CompareTo(object o)
         {
-            if (o == null || o.GetType() != typeof (SimpleCompareKey))
+            if (o == null || !(o is SimpleCompareKey))
                 return -1;
 
             var ckey = (SimpleCompareKey) o;
+
+            if (_key == null && ckey._key == null)
+                return 0;
+
+            if (_key == null)
+                return -1;
+
             return _key.CompareTo(ckey._key);
         }
 
@@ -35,13 +41,17 @@ namespace NDatabase.Indexing
             if (o == null || !(o is SimpleCompareKey))
                 return false;
 
-            var c = (SimpleCompareKey) o;
-            return _key.Equals(c._key);
+            var ckey = (SimpleCompareKey) o;
+
+            if (_key == null && ckey._key == null)
+                return true;
+
+            return _key != null && _key.Equals(ckey._key);
         }
 
         public override int GetHashCode()
         {
-            return _key.GetHashCode();
+            return _key == null ? 0 : _key.GetHashCode();
         }
     }
 }

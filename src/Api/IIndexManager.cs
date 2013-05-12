@@ -6,11 +6,11 @@ namespace NDatabase.Api
     public interface IIndexManager
     {
         /// <param name="indexName"> The name of the index </param>
-        /// <param name="indexFields"> The list of fields of the index </param>
+        /// <param name="indexFields"> The list of fields of the index. Every field needs to implement IComparable.</param>
         void AddUniqueIndexOn(string indexName, params string[] indexFields);
 
         /// <param name="indexName"> The name of the index </param>
-        /// <param name="indexFields"> The list of fields of the index </param>
+        /// <param name="indexFields"> The list of fields of the index. Every field needs to implement IComparable.</param>
         void AddIndexOn(string indexName, params string[] indexFields);
 
         /// <summary>

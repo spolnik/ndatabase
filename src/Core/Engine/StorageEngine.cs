@@ -58,11 +58,15 @@ namespace NDatabase.Core.Engine
         private readonly ISession _session;
         private readonly SessionDataProvider _objectIntrospectionDataProvider;
 
+        private readonly IReflectionService _reflectionService;
+
         /// <summary>
         ///   The database file name
         /// </summary>
         public StorageEngine(IDbIdentification parameters)
         {
+            _reflectionService = DependencyContainer.Resolve<IReflectionService>();
+
             try
             {
                 var metaModelCompabilityChecker = DependencyContainer.Resolve<IMetaModelCompabilityChecker>();
@@ -196,12 +200,28 @@ namespace NDatabase.Core.Engine
             }
 
             _triggerManager.ManageDeleteTriggerBefore(plainObject.GetType(), plainObject, header.GetOid());
+
+            CascadeDelete(plainObject);
+
             var oid = _objectWriter.Delete(header);
             _triggerManager.ManageDeleteTriggerAfter(plainObject.GetType(), plainObject, oid);
-            // removes the object from the cache
+            
             cache.RemoveObjectByOid(header.GetOid());
 
             return oid;
+        }
+
+        private void CascadeDelete<T>(T plainObject)
+        {
+            var fields = _reflectionService.GetFields(plainObject.GetType());
+
+            fields = (from fieldInfo in fields
+                      let attributes = fieldInfo.GetCustomAttributes(true)
+                      where attributes.OfType<CascadeDeleteAttribute>().Any()
+                      select fieldInfo).ToList();
+
+            foreach (var fieldInfo in fields)
+                Delete(fieldInfo.GetValue(plainObject));
         }
 
         public override IIdManager GetIdManager()
