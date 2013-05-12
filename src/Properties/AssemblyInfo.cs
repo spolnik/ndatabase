@@ -37,9 +37,9 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 
-[assembly: AssemblyVersion("3.7.0.*")]
-[assembly: AssemblyFileVersion("3.7.0.0")]
-[assembly: AssemblyInformationalVersion("3.7.0-stable")]
+[assembly: AssemblyVersion("3.8.0.*")]
+[assembly: AssemblyFileVersion("3.8.0.0")]
+[assembly: AssemblyInformationalVersion("3.8.0-stable")]
 
 [assembly: InternalsVisibleTo("NDatabase.UnitTests, PublicKey=0024000004800000940000000602000000240000525341310004000001000100e1f1dd2c0d97ff2b0d8de4934b50d1a84644bb2c13e562843f1b41f752709abd5dd72ccb4c0dddae6f5672b62b41e81f387bca43f4f18322ad187936cdd5573a6196dbf087a8fea547ac09dc131d03372683a82ac00b2c42bc315e13446f242726b036a88d07bfe8501fcb84bcd85280216f07ab10993f65e234592cb03d2894")]
 [assembly: InternalsVisibleTo("NDatabase.Old.UnitTests, PublicKey=0024000004800000940000000602000000240000525341310004000001000100e1f1dd2c0d97ff2b0d8de4934b50d1a84644bb2c13e562843f1b41f752709abd5dd72ccb4c0dddae6f5672b62b41e81f387bca43f4f18322ad187936cdd5573a6196dbf087a8fea547ac09dc131d03372683a82ac00b2c42bc315e13446f242726b036a88d07bfe8501fcb84bcd85280216f07ab10993f65e234592cb03d2894")]
