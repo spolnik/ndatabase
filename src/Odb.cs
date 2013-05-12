@@ -24,9 +24,8 @@ namespace NDatabase
     {
         private readonly IStorageEngine _storageEngine;
         private IOdbExt _ext;
-        
 
-         /// <summary>
+        /// <summary>
         ///   protected Constructor
         /// </summary>
         private Odb(string fileName)
@@ -41,12 +40,18 @@ namespace NDatabase
 
         internal static Odb GetInstance(string fileName)
         {
-            return new Odb(fileName);
+            var odb = new Odb(fileName);
+            odb.TriggerManagerFor<object>().AddSelectTrigger(new EnrichWithOidTrigger());
+
+            return odb;
         }
 
         internal static Odb GetInMemoryInstance()
         {
-            return new Odb();
+            var odb = new Odb();
+            odb.TriggerManagerFor<object>().AddSelectTrigger(new EnrichWithOidTrigger());
+
+            return odb;
         }
 
         internal Odb(IStorageEngine storageEngine)

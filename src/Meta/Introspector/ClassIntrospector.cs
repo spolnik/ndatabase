@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using NDatabase.Api;
+using NDatabase.Container;
+using NDatabase.Services;
 using NDatabase.Tool;
 using NDatabase.Tool.Wrappers;
 using NDatabase.TypeResolution;
@@ -43,28 +45,8 @@ namespace NDatabase.Meta.Introspector
 
         private static IList<FieldInfo> GetFieldInfo(Type type)
         {
-            const int capacity = 50;
-
-            var attributesNames = new List<string>(capacity);
-            var result = new List<FieldInfo>(capacity);
-
-            var classes = GetAllClasses(type);
-
-            foreach (var class1 in classes)
-            {
-                var baseClassfields =
-                    class1.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public |
-                                     BindingFlags.DeclaredOnly);
-
-                foreach (var fieldInfo in baseClassfields)
-                {
-                    if (attributesNames.Contains(fieldInfo.Name))
-                        continue;
-
-                    result.Add(fieldInfo);
-                    attributesNames.Add(fieldInfo.Name);
-                }
-            }
+            var reflectionService = DependencyContainer.Resolve<IReflectionService>();
+            var result = reflectionService.GetFields(type);
 
             result = FilterFields(result).OrderBy(field => field.Name).ToList();
             return result;
@@ -137,21 +119,6 @@ namespace NDatabase.Meta.Introspector
             classInfo.MaxAttributeId = maxAttributeId;
 
             return classInfo;
-        }
-
-        private static IEnumerable<Type> GetAllClasses(Type type)
-        {
-            var result = new List<Type> {type};
-
-            var baseType = type.BaseType;
-
-            while (baseType != null && baseType != typeof (Object))
-            {
-                result.Add(baseType);
-                baseType = baseType.BaseType;
-            }
-
-            return result;
         }
 
         private static IEnumerable<FieldInfo> FilterFields(ICollection<FieldInfo> fields)

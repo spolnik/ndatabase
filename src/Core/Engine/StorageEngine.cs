@@ -196,9 +196,10 @@ namespace NDatabase.Core.Engine
             }
 
             _triggerManager.ManageDeleteTriggerBefore(plainObject.GetType(), plainObject, header.GetOid());
+            
             var oid = _objectWriter.Delete(header);
             _triggerManager.ManageDeleteTriggerAfter(plainObject.GetType(), plainObject, oid);
-            // removes the object from the cache
+            
             cache.RemoveObjectByOid(header.GetOid());
 
             return oid;
