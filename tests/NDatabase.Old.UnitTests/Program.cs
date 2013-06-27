@@ -95,5 +95,34 @@ namespace Test
             }
             Console.ReadLine();
         }
+
+        [Test]
+        public void test5()
+        {
+            try
+            {
+                string file = "Test.NDatabase";
+                Console.WriteLine("Oi");
+                OdbFactory.Delete(file);
+                IOdb odb = OdbFactory.Open(file);
+                OID oid = odb.Store(new Function("function: a"));
+                odb.Close();
+
+                odb = OdbFactory.Open(file);
+                var query = odb.Query<Function>();
+
+                query.Descend("name").Constrain((object)"function: a").Equal();
+
+                var functions = query.Execute<Function>();
+                Console.WriteLine(" Number of functions = " + functions.Count);
+
+                odb.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            Console.ReadLine();
+        }
     }
 }
